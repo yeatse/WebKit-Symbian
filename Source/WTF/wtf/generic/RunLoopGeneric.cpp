@@ -194,6 +194,15 @@ void RunLoop::setWakeUpCallback(WTF::Function<void()>&& function)
     RunLoop::current().m_wakeUpCallback = WTFMove(function);
 }
 
+MonotonicTime RunLoop::nextTimerFireTime()
+{
+    RunLoop& runLoop = RunLoop::current();
+    LockHolder locker(runLoop.m_loopLock);
+    if (runLoop.m_schedules.isEmpty())
+        return MonotonicTime::infinity();
+    return runLoop.m_schedules.first()->scheduledTimePoint();
+}
+
 // RunLoop operations are thread-safe. These operations can be called from outside of the RunLoop's thread.
 // For example, WorkQueue::{dispatch, dispatchAfter} call the operations of the WorkQueue thread's RunLoop
 // from the caller's thread.
