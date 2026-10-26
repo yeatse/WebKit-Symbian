@@ -50,10 +50,15 @@ _LIBCPP_BEGIN_EXPLICIT_ABI_ANNOTATIONS
 template <class Comp, class RandomAccessIterator>
 void __sort(RandomAccessIterator first, RandomAccessIterator last, Comp comp)
 {
-    // The comparator argument only selects the instantiation.
+    // As libc++'s src/algorithm.cpp: go straight to the introsort, because
+    // __sort_dispatch routes arithmetic types back to this function.
     (void)comp;
+    if (first == last)
+        return;
     __less<> less;
-    std::__sort_dispatch<_ClassicAlgPolicy>(first, last, less);
+    auto depthLimit = 2 * std::__bit_log2(std::__to_unsigned_like(last - first));
+    std::__introsort<_ClassicAlgPolicy, __less<>&, RandomAccessIterator,
+        __use_branchless_sort<__less<>, RandomAccessIterator>>(first, last, less, depthLimit);
 }
 
 template void __sort<__less<char>&, char*>(char*, char*, __less<char>&);
