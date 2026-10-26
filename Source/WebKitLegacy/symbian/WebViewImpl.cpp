@@ -763,7 +763,11 @@ void WebViewImpl::confirmComposition(Text text)
 
 void WebViewImpl::cancelComposition()
 {
-    focusedFrame().editor().cancelComposition();
+    // Editor::cancelComposition() leaves the marked text in the document; an
+    // input method that cancels expects it gone.
+    Editor& editor = focusedFrame().editor();
+    if (editor.hasComposition())
+        editor.confirmComposition(emptyString());
 }
 
 Rect WebViewImpl::caretRect() const

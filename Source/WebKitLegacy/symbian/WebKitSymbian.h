@@ -132,6 +132,7 @@ public:
     virtual void setComposition(Text, int cursor) = 0;
     // Replaces the composition with text and ends it.
     virtual void confirmComposition(Text) = 0;
+    // Removes the composition.
     virtual void cancelComposition() = 0;
     // The caret in view coordinates.
     virtual Rect caretRect() const = 0;
