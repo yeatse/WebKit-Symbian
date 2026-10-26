@@ -2798,6 +2798,16 @@ int main(int argc, char** argv)
     timeBeginPeriod(1);
 #endif
 
+#if OS(SYMBIAN)
+    // An exe started from the shell has no console, so keep stdout and stderr
+    // in a file that can be read back.
+    if (freopen("C:/Data/jsc.log", "w", stdout)) {
+        setvbuf(stdout, nullptr, _IOLBF, 0);
+        dup2(fileno(stdout), fileno(stderr));
+        setvbuf(stderr, nullptr, _IONBF, 0);
+    }
+#endif
+
 #if PLATFORM(GTK)
     if (!setlocale(LC_ALL, ""))
         WTFLogAlways("Locale not supported by C library.\n\tUsing the fallback 'C' locale.");
