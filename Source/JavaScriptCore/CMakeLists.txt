@@ -494,6 +494,7 @@ set(JavaScriptCore_PRIVATE_FRAMEWORK_HEADERS
 
     assembler/ARM64Assembler.h
     assembler/ARMAssembler.h
+    assembler/AssemblerBufferWithConstantPool.h
     assembler/ARM64Registers.h
     assembler/ARMv7Assembler.h
     assembler/ARMv7Registers.h

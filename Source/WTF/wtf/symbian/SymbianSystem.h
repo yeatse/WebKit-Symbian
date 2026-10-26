@@ -56,6 +56,9 @@ int64_t currentThreadCPUTimeMicroseconds();
 // HAL EMemoryRAM.
 size_t ramSize();
 
+// HAL EDisplayXPixels / EDisplayYPixels: the screen in its current orientation.
+bool displaySize(int& width, int& height);
+
 // Address space backed by a local RChunk. Data reservations use a
 // disconnected chunk and commit page ranges on demand; executable
 // reservations use a code chunk and are committed in full up front.

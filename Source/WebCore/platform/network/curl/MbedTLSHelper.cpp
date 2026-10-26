@@ -29,6 +29,8 @@
 #include <mbedtls/oid.h>
 #include <mbedtls/x509_crt.h>
 #include <time.h>
+#include <wtf/HexNumber.h>
+#include <wtf/text/StringBuilder.h>
 #include <wtf/text/StringConcatenateNumbers.h>
 
 namespace MbedTLS {

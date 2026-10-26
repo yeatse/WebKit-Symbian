@@ -21,7 +21,6 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 platform/ScrollAnimationKinetic.cpp
-platform/UserAgentQuirks.cpp
 
 platform/adwaita/ScrollbarThemeAdwaita.cpp
 platform/adwaita/ThemeAdwaita.cpp
@@ -33,6 +32,11 @@ platform/generic/ScrollAnimatorGeneric.cpp
 platform/graphics/opentype/OpenTypeVerticalData.cpp
 
 platform/posix/SharedBufferPOSIX.cpp
+
+platform/symbian/MIMETypeRegistrySymbian.cpp
+platform/symbian/PlatformScreenSymbian.cpp
+platform/symbian/UserAgentSymbian.cpp
+platform/symbian/WidgetSymbian.cpp
 
 platform/text/Hyphenation.cpp
 platform/text/LocaleICU.cpp

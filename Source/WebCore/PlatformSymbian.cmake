@@ -10,6 +10,7 @@ list(APPEND WebCore_UNIFIED_SOURCE_LIST_FILES
 list(APPEND WebCore_PRIVATE_INCLUDE_DIRECTORIES
     "${WEBCORE_DIR}/platform/adwaita"
     "${WEBCORE_DIR}/platform/generic"
+    "${WEBCORE_DIR}/platform/graphics/opengl"
     "${WEBCORE_DIR}/platform/graphics/opentype"
     "${WEBCORE_DIR}/platform/mediacapabilities"
     "${WEBCORE_DIR}/platform/symbian"
@@ -25,15 +26,18 @@ list(APPEND WebCore_SOURCES
     platform/network/curl/CurlSSLVerifierMbedTLS.cpp
     platform/network/curl/MbedTLSHelper.cpp
 )
-# FIXME: libpsl for the public suffix list.
 list(REMOVE_ITEM WebCore_LIBRARIES
-    LibPSL::LibPSL
     OpenSSL::SSL
 )
 
 list(APPEND WebCore_USER_AGENT_STYLE_SHEETS
     ${WEBCORE_DIR}/css/themeAdwaita.css
 )
+
+set(WebCore_USER_AGENT_SCRIPTS
+    ${WEBCORE_DIR}/Modules/mediacontrols/mediaControlsAdwaita.js
+)
+set(WebCore_USER_AGENT_SCRIPTS_DEPENDENCIES ${WEBCORE_DIR}/rendering/RenderThemeAdwaita.cpp)
 
 list(APPEND WebCore_PRIVATE_INCLUDE_DIRECTORIES
     ${MBEDTLS_INCLUDE_DIR}

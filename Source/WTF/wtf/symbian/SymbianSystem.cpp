@@ -130,6 +130,17 @@ static RChunk chunkContaining(const void* address, TInt& offset, bool& executabl
     return chunk;
 }
 
+bool displaySize(int& width, int& height)
+{
+    TInt x = 0;
+    TInt y = 0;
+    if (HAL::Get(HAL::EDisplayXPixels, x) != KErrNone || HAL::Get(HAL::EDisplayYPixels, y) != KErrNone)
+        return false;
+    width = x;
+    height = y;
+    return true;
+}
+
 void* reserve(size_t bytes, bool executable)
 {
     RChunk chunk;

@@ -42,9 +42,9 @@ struct MbedTLSFunctions {
     static void finalize(Context* context, uint8_t* output) { finish(context, output); }
 };
 
-using SHA1 = MbedTLSFunctions<mbedtls_sha1_context, mbedtls_sha1_init, mbedtls_sha1_free, mbedtls_sha1_update, mbedtls_sha1_finish>;
-using SHA256 = MbedTLSFunctions<mbedtls_sha256_context, mbedtls_sha256_init, mbedtls_sha256_free, mbedtls_sha256_update, mbedtls_sha256_finish>;
-using SHA512 = MbedTLSFunctions<mbedtls_sha512_context, mbedtls_sha512_init, mbedtls_sha512_free, mbedtls_sha512_update, mbedtls_sha512_finish>;
+using MbedSHA1 = MbedTLSFunctions<mbedtls_sha1_context, mbedtls_sha1_init, mbedtls_sha1_free, mbedtls_sha1_update, mbedtls_sha1_finish>;
+using MbedSHA256 = MbedTLSFunctions<mbedtls_sha256_context, mbedtls_sha256_init, mbedtls_sha256_free, mbedtls_sha256_update, mbedtls_sha256_finish>;
+using MbedSHA512 = MbedTLSFunctions<mbedtls_sha512_context, mbedtls_sha512_init, mbedtls_sha512_free, mbedtls_sha512_update, mbedtls_sha512_finish>;
 
 int startSHA1(mbedtls_sha1_context* context, int) { return mbedtls_sha1_starts(context); }
 
@@ -106,19 +106,19 @@ std::unique_ptr<CryptoDigest> CryptoDigest::create(CryptoDigest::Algorithm algor
 
     switch (algorithm) {
     case CryptoDigest::Algorithm::SHA_1:
-        digest->m_context = makeUnique<CryptoDigestContextImpl<SHA1, startSHA1, 0, 20>>();
+        digest->m_context = makeUnique<CryptoDigestContextImpl<MbedSHA1, startSHA1, 0, 20>>();
         return digest;
     case CryptoDigest::Algorithm::SHA_224:
-        digest->m_context = makeUnique<CryptoDigestContextImpl<SHA256, mbedtls_sha256_starts, 1, 28>>();
+        digest->m_context = makeUnique<CryptoDigestContextImpl<MbedSHA256, mbedtls_sha256_starts, 1, 28>>();
         return digest;
     case CryptoDigest::Algorithm::SHA_256:
-        digest->m_context = makeUnique<CryptoDigestContextImpl<SHA256, mbedtls_sha256_starts, 0, 32>>();
+        digest->m_context = makeUnique<CryptoDigestContextImpl<MbedSHA256, mbedtls_sha256_starts, 0, 32>>();
         return digest;
     case CryptoDigest::Algorithm::SHA_384:
-        digest->m_context = makeUnique<CryptoDigestContextImpl<SHA512, mbedtls_sha512_starts, 1, 48>>();
+        digest->m_context = makeUnique<CryptoDigestContextImpl<MbedSHA512, mbedtls_sha512_starts, 1, 48>>();
         return digest;
     case CryptoDigest::Algorithm::SHA_512:
-        digest->m_context = makeUnique<CryptoDigestContextImpl<SHA512, mbedtls_sha512_starts, 0, 64>>();
+        digest->m_context = makeUnique<CryptoDigestContextImpl<MbedSHA512, mbedtls_sha512_starts, 0, 64>>();
         return digest;
     }
 
