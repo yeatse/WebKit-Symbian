@@ -1337,7 +1337,9 @@ bool AbstractInterpreter<AbstractStateType>::executeEffects(unsigned clobberLimi
     }
             
     case ArithSqrt:
-        executeDoubleUnaryOpEffects(node, sqrt);
+        // Not sqrt itself: on Symbian it is a libm.dll import, and the E32
+        // converter cannot relocate its address in code.
+        executeDoubleUnaryOpEffects(node, [](double value) -> double { return sqrt(value); });
         break;
 
     case ArithFRound:
