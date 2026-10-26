@@ -67,6 +67,10 @@ void release(void*);
 // User::IMB_Range.
 void flushInstructionCache(void*, size_t);
 
+// User::CommandLine as UTF-8 (truncated to capacity - 1, NUL-terminated).
+// Returns the length written.
+size_t commandLine(char*, size_t capacity);
+
 // Math::Random, which Symbian^3 draws from the kernel's secure generator.
 void randomBytes(unsigned char*, size_t);
 

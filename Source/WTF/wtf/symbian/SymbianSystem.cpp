@@ -197,6 +197,51 @@ void flushInstructionCache(void* address, size_t bytes)
     User::IMB_Range(address, static_cast<TUint8*>(address) + bytes);
 }
 
+size_t commandLine(char* buffer, size_t capacity)
+{
+    if (!capacity)
+        return 0;
+    size_t written = 0;
+    HBufC* line = HBufC::New(User::CommandLineLength());
+    if (line) {
+        TPtr16 text = line->Des();
+        User::CommandLine(text);
+        for (TInt i = 0; i < text.Length(); ++i) {
+            uint32_t c = text[i];
+            if (c >= 0xD800 && c < 0xDC00 && i + 1 < text.Length() && text[i + 1] >= 0xDC00 && text[i + 1] < 0xE000)
+                c = 0x10000 + ((c - 0xD800) << 10) + (text[++i] - 0xDC00);
+            unsigned char bytes[4];
+            size_t count;
+            if (c < 0x80) {
+                bytes[0] = c;
+                count = 1;
+            } else if (c < 0x800) {
+                bytes[0] = 0xC0 | (c >> 6);
+                bytes[1] = 0x80 | (c & 0x3F);
+                count = 2;
+            } else if (c < 0x10000) {
+                bytes[0] = 0xE0 | (c >> 12);
+                bytes[1] = 0x80 | ((c >> 6) & 0x3F);
+                bytes[2] = 0x80 | (c & 0x3F);
+                count = 3;
+            } else {
+                bytes[0] = 0xF0 | (c >> 18);
+                bytes[1] = 0x80 | ((c >> 12) & 0x3F);
+                bytes[2] = 0x80 | ((c >> 6) & 0x3F);
+                bytes[3] = 0x80 | (c & 0x3F);
+                count = 4;
+            }
+            if (written + count >= capacity)
+                break;
+            memcpy(buffer + written, bytes, count);
+            written += count;
+        }
+        delete line;
+    }
+    buffer[written] = 0;
+    return written;
+}
+
 void randomBytes(unsigned char* buffer, size_t length)
 {
     while (length) {

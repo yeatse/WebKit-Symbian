@@ -131,6 +131,10 @@
 #include <wtf/linux/ProcessMemoryFootprint.h>
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
 #if OS(DARWIN) || OS(LINUX)
 struct MemoryFootprint : ProcessMemoryFootprint {
     MemoryFootprint(const ProcessMemoryFootprint& src)
@@ -2805,6 +2809,31 @@ int main(int argc, char** argv)
         setvbuf(stdout, nullptr, _IOLBF, 0);
         dup2(fileno(stdout), fileno(stderr));
         setvbuf(stderr, nullptr, _IONBF, 0);
+    }
+
+    // The startup code passes only the program name; the arguments are in
+    // the process command line.
+    static char commandLine[1024];
+    static char* symbianArgv[64];
+    if (argc <= 1) {
+        WTF::SymbianSystem::commandLine(commandLine, sizeof(commandLine));
+        int count = 0;
+        symbianArgv[count++] = argc ? argv[0] : const_cast<char*>("jsc");
+        for (char* p = commandLine; *p && count < 63;) {
+            while (*p == ' ')
+                ++p;
+            if (!*p)
+                break;
+            char quote = *p == '"' ? *p++ : 0;
+            symbianArgv[count++] = p;
+            while (*p && (quote ? *p != quote : *p != ' '))
+                ++p;
+            if (*p)
+                *p++ = 0;
+        }
+        symbianArgv[count] = nullptr;
+        argc = count;
+        argv = symbianArgv;
     }
 #endif
 
