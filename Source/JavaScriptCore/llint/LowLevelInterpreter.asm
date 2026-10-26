@@ -826,11 +826,11 @@ macro preserveCalleeSavesUsedByLLInt()
     # emitRestoreCalleeSavesFor restores registers in order instead of by name.
     # However, ARMv7 and MIPS differ in the order in which registers are assigned
     # to metadataTable and PB, therefore they can also not have the same saving
-    # order.
-    elsif ARMv7 or ARM
+    # order. ARM (ARMv6) keeps metadataTable in r7, below PB in r10, as MIPS does.
+    elsif ARMv7
         storep metadataTable, -4[cfr]
         storep PB, -8[cfr]
-    elsif MIPS
+    elsif MIPS or ARM
         storep PB, -4[cfr]
         storep metadataTable, -8[cfr]
     elsif ARM64 or ARM64E
@@ -856,10 +856,10 @@ macro restoreCalleeSavesUsedByLLInt()
         loadp -PtrSize[cfr], metadataTable
     # To understand why ARMv7 and MIPS differ in restore order,
     # see comment in preserveCalleeSavesUsedByLLInt
-    elsif ARMv7 or ARM
+    elsif ARMv7
         loadp -4[cfr], metadataTable
         loadp -8[cfr], PB
-    elsif MIPS
+    elsif MIPS or ARM
         loadp -4[cfr], PB
         loadp -8[cfr], metadataTable
     elsif ARM64 or ARM64E
