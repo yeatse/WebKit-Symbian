@@ -135,7 +135,13 @@ static InlineCacheAction actionForCell(VM& vm, JSCell* cell)
 
 static bool forceICFailure(JSGlobalObject*)
 {
+#if CPU(ARM_TRADITIONAL)
+    // As in WebKit 2.22's ARM_TRADITIONAL backend: inline caching stays off
+    // until https://bugs.webkit.org/show_bug.cgi?id=159759 is resolved.
+    return true;
+#else
     return Options::forceICFailure();
+#endif
 }
 
 ALWAYS_INLINE static void fireWatchpointsAndClearStubIfNeeded(VM& vm, StructureStubInfo& stubInfo, CodeBlock* codeBlock, AccessGenerationResult& result)
