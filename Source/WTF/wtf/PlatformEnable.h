@@ -580,8 +580,8 @@
 #define ENABLE_WEBASSEMBLY 0
 #undef ENABLE_WEBASSEMBLY_B3JIT
 #define ENABLE_WEBASSEMBLY_B3JIT 0
-#if (CPU(ARM_THUMB2) || CPU(MIPS)) && OS(LINUX)
-/* On ARMv7 and MIPS on Linux the JIT is enabled unless explicitly disabled. */
+#if ((CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL) || CPU(MIPS)) && OS(LINUX)) || (CPU(ARM_TRADITIONAL) && OS(SYMBIAN))
+/* On ARMv7, ARMv6 and MIPS on Linux, and on Symbian, the JIT is enabled unless explicitly disabled. */
 #if !defined(ENABLE_JIT)
 #define ENABLE_JIT 1
 #endif
