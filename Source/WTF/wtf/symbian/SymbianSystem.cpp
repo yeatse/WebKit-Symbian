@@ -236,7 +236,7 @@ size_t commandLine(char* buffer, size_t capacity)
             memcpy(buffer + written, bytes, count);
             written += count;
         }
-        delete line;
+        User::Free(line); // From the user heap; the global delete is mimalloc's.
     }
     buffer[written] = 0;
     return written;
