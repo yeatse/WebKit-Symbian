@@ -59,7 +59,9 @@ else ()
     set(ENABLE_API_TESTS ON)
 endif ()
 
-if (WTF_CPU_ARM OR WTF_CPU_MIPS)
+# On Symbian the disassembler is left out: capstone's allocator table holds
+# libc function addresses, which the E32 converter cannot relocate.
+if ((WTF_CPU_ARM OR WTF_CPU_MIPS) AND NOT SYMBIAN)
     SET_AND_EXPOSE_TO_BUILD(USE_CAPSTONE TRUE)
 endif ()
 
