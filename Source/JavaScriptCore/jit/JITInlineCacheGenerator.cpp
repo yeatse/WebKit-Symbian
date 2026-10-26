@@ -90,6 +90,11 @@ void JITByIdGenerator::finalize(LinkBuffer& fastPath, LinkBuffer& slowPath)
 
 void JITByIdGenerator::generateFastCommon(MacroAssembler& jit, size_t inlineICSize)
 {
+#if CPU(ARM_TRADITIONAL)
+    // The region is rewritten when the IC is, so a constant pool flushed
+    // inside it would lose constants that code before it still loads.
+    jit.m_assembler.buffer().ensureSpace(inlineICSize, sizeof(uint32_t));
+#endif
     m_start = jit.label();
     size_t startSize = jit.m_assembler.buffer().codeSize();
     m_slowPathJump = jit.jump();
