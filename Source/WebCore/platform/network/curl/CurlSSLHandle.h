@@ -27,7 +27,9 @@
 #pragma once
 
 #include "CertificateInfo.h"
+#if !USE(MBEDTLS)
 #include <openssl/crypto.h>
+#endif
 #include <wtf/HashMap.h>
 #include <wtf/HashSet.h>
 #include <wtf/NeverDestroyed.h>
@@ -35,7 +37,7 @@
 #include <wtf/text/StringHash.h>
 
 // all version of LibreSSL and OpenSSL prior to 1.1.0 need thread support
-#if defined(LIBRESSL_VERSION_NUMBER) || (defined(OPENSSL_VERSION_NUMBER) && OPENSSL_VERSION_NUMBER < 0x1010000fL)
+#if !USE(MBEDTLS) && (defined(LIBRESSL_VERSION_NUMBER) || (defined(OPENSSL_VERSION_NUMBER) && OPENSSL_VERSION_NUMBER < 0x1010000fL))
 #define NEED_OPENSSL_THREAD_SUPPORT 1
 #else
 #define NEED_OPENSSL_THREAD_SUPPORT 0

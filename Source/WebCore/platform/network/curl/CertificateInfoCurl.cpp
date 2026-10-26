@@ -28,9 +28,14 @@
 
 #if USE(CURL)
 
+#include <wtf/CrossThreadCopier.h>
+
+#if USE(MBEDTLS)
+#include "MbedTLSHelper.h"
+#else
 #include "OpenSSLHelper.h"
 #include <openssl/ssl.h>
-#include <wtf/CrossThreadCopier.h>
+#endif
 
 namespace WebCore {
 
@@ -47,7 +52,11 @@ CertificateInfo CertificateInfo::isolatedCopy() const
 
 String CertificateInfo::verificationErrorDescription() const
 {
+#if USE(MBEDTLS)
+    return MbedTLS::verificationErrorDescription(m_verificationError);
+#else
     return X509_verify_cert_error_string(m_verificationError);
+#endif
 }
 
 CertificateInfo::Certificate CertificateInfo::makeCertificate(const uint8_t* buffer, size_t size)
@@ -62,7 +71,11 @@ Optional<CertificateSummary> CertificateInfo::summary() const
     if (!m_certificateChain.size())
         return WTF::nullopt;
 
+#if USE(MBEDTLS)
+    return MbedTLS::createSummaryInfo(m_certificateChain.at(0));
+#else
     return OpenSSL::createSummaryInfo(m_certificateChain.at(0));
+#endif
 }
 
 }

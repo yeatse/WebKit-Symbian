@@ -27,7 +27,11 @@
 #pragma once
 
 #include "CertificateInfo.h"
+#if USE(MBEDTLS)
+struct mbedtls_x509_crt;
+#else
 #include "OpenSSLHelper.h"
+#endif
 #include <wtf/Noncopyable.h>
 #include <wtf/text/WTFString.h>
 
@@ -53,8 +57,16 @@ public:
     const CertificateInfo& certificateInfo() const { return m_certificateInfo; }
 
 private:
+#if USE(MBEDTLS)
+    static int verifyCallback(void*, mbedtls_x509_crt*, int depth, uint32_t* flags);
+    void finishChain();
+
+    CertificateInfo::CertificateChain m_chain;
+    uint32_t m_chainErrors { 0 };
+#else
     static int verifyCallback(int, X509_STORE_CTX*);
     void collectInfo(X509_STORE_CTX*);
+#endif
 
 #if ENABLE(TLS_DEBUG)
     static void infoCallback(const SSL*, int, int);

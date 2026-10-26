@@ -39,6 +39,7 @@ if (NOT HAS_RUN_WEBKIT_COMMON)
         JSCOnly
         Mac
         PlayStation
+        Symbian
         WPE
         WinCairo
     )
