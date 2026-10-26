@@ -29,7 +29,9 @@
 
 #include <stdlib.h>
 
-#if !OS(DARWIN) && !OS(FUCHSIA) && OS(UNIX)
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#elif !OS(DARWIN) && !OS(FUCHSIA) && OS(UNIX)
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -50,7 +52,7 @@
 
 namespace WTF {
 
-#if !OS(DARWIN) && !OS(FUCHSIA) && OS(UNIX)
+#if !OS(DARWIN) && !OS(FUCHSIA) && OS(UNIX) && !OS(SYMBIAN)
 NEVER_INLINE NO_RETURN_DUE_TO_CRASH static void crashUnableToOpenURandom()
 {
     CRASH();
@@ -62,7 +64,7 @@ NEVER_INLINE NO_RETURN_DUE_TO_CRASH static void crashUnableToReadFromURandom()
 }
 #endif
 
-#if !OS(DARWIN) && !OS(FUCHSIA) && !OS(WINDOWS)
+#if !OS(DARWIN) && !OS(FUCHSIA) && !OS(WINDOWS) && !OS(SYMBIAN)
 RandomDevice::RandomDevice()
 {
     int ret = 0;
@@ -75,7 +77,7 @@ RandomDevice::RandomDevice()
 }
 #endif
 
-#if !OS(DARWIN) && !OS(FUCHSIA) && !OS(WINDOWS)
+#if !OS(DARWIN) && !OS(FUCHSIA) && !OS(WINDOWS) && !OS(SYMBIAN)
 RandomDevice::~RandomDevice()
 {
     close(m_fd);
@@ -90,6 +92,8 @@ void RandomDevice::cryptographicallyRandomValues(unsigned char* buffer, size_t l
     RELEASE_ASSERT(!CCRandomGenerateBytes(buffer, length));
 #elif OS(FUCHSIA)
     zx_cprng_draw(buffer, length);
+#elif OS(SYMBIAN)
+    SymbianSystem::randomBytes(buffer, length);
 #elif OS(UNIX)
     ssize_t amountRead = 0;
     while (static_cast<size_t>(amountRead) < length) {

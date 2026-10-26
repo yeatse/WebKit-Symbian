@@ -67,5 +67,8 @@ void release(void*);
 // User::IMB_Range.
 void flushInstructionCache(void*, size_t);
 
+// Math::Random, which Symbian^3 draws from the kernel's secure generator.
+void randomBytes(unsigned char*, size_t);
+
 } // namespace SymbianSystem
 } // namespace WTF

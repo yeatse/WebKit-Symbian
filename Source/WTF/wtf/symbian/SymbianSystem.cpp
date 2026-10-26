@@ -25,9 +25,11 @@
 // Deliberately free of config.h / WTF headers: see SymbianSystem.h.
 #include "SymbianSystem.h"
 
+#include <e32math.h>
 #include <e32std.h>
 #include <hal.h>
 #include <pthread.h>
+#include <string.h>
 
 namespace WTF {
 namespace SymbianSystem {
@@ -193,6 +195,17 @@ void release(void* base)
 void flushInstructionCache(void* address, size_t bytes)
 {
     User::IMB_Range(address, static_cast<TUint8*>(address) + bytes);
+}
+
+void randomBytes(unsigned char* buffer, size_t length)
+{
+    while (length) {
+        TUint32 word = Math::Random();
+        size_t count = length < sizeof(word) ? length : sizeof(word);
+        memcpy(buffer, &word, count);
+        buffer += count;
+        length -= count;
+    }
 }
 
 } // namespace SymbianSystem
