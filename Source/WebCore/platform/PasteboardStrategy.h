@@ -90,7 +90,7 @@ public:
     virtual void clearClipboard(const String& pasteboardName) = 0;
 #endif // PLATFORM(GTK)
 
-#if USE(LIBWPE)
+#if USE(LIBWPE) || OS(SYMBIAN)
     virtual void getTypes(Vector<String>& types) = 0;
     virtual void writeToPasteboard(const PasteboardWebContent&) = 0;
     virtual void writeToPasteboard(const String& pasteboardType, const String&) = 0;

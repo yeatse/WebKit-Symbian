@@ -41,6 +41,12 @@ extern "C" float log2f(float x)
     return static_cast<float>(log2(x));
 }
 
+// The SDK runtime has the other EABI float/int64 conversions, but not this one.
+extern "C" long long __aeabi_f2lz(float value)
+{
+    return static_cast<long long>(static_cast<double>(value));
+}
+
 _LIBCPP_BEGIN_NAMESPACE_STD
 _LIBCPP_BEGIN_EXPLICIT_ABI_ANNOTATIONS
 

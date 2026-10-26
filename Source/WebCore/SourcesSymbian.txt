@@ -20,6 +20,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+editing/libwpe/EditorLibWPE.cpp
+
 platform/ScrollAnimationKinetic.cpp
 
 platform/adwaita/ScrollbarThemeAdwaita.cpp
@@ -31,12 +33,17 @@ platform/generic/ScrollAnimatorGeneric.cpp
 
 platform/graphics/opentype/OpenTypeVerticalData.cpp
 
+platform/libwpe/PasteboardLibWPE.cpp
+
 platform/posix/SharedBufferPOSIX.cpp
 
+platform/symbian/CurlSSLHandleSymbian.cpp
+platform/symbian/GraphicsLayerSymbian.cpp
 platform/symbian/MIMETypeRegistrySymbian.cpp
+platform/symbian/NetworkStateNotifierSymbian.cpp
+platform/symbian/PlatformKeyboardEventSymbian.cpp
 platform/symbian/PlatformScreenSymbian.cpp
 platform/symbian/UserAgentSymbian.cpp
-platform/symbian/WidgetSymbian.cpp
 
 platform/text/Hyphenation.cpp
 platform/text/LocaleICU.cpp

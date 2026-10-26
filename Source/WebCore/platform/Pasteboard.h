@@ -97,7 +97,7 @@ struct PasteboardWebContent {
     String text;
     String markup;
 #endif
-#if USE(LIBWPE)
+#if USE(LIBWPE) || OS(SYMBIAN)
     String text;
     String markup;
 #endif

@@ -26,7 +26,7 @@
 #include "config.h"
 #include "Editor.h"
 
-#if USE(LIBWPE)
+#if USE(LIBWPE) || OS(SYMBIAN)
 
 #include "DocumentFragment.h"
 #include "Frame.h"
@@ -93,4 +93,4 @@ void Editor::pasteWithPasteboard(Pasteboard* pasteboard, OptionSet<PasteOption> 
 
 } // namespace WebCore
 
-#endif // USE(LIBWPE)
+#endif // USE(LIBWPE) || OS(SYMBIAN)

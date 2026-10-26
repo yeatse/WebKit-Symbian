@@ -23,52 +23,19 @@
  */
 
 #include "config.h"
-#include "Widget.h"
+#include "CurlSSLHandle.h"
 
-#include "FrameView.h"
-#include "HostWindow.h"
-#include "NotImplemented.h"
+#include <stdlib.h>
 
 namespace WebCore {
 
-// WebCore draws every frame view itself; there are no native child widgets.
+// Trusted roots in PEM, installed with the browser; CURL_CA_BUNDLE overrides.
+static const char* defaultCACertPath = "C:/resource/webkit/cacert.pem";
 
-Widget::~Widget()
+void CurlSSLHandle::platformInitialize()
 {
-    ASSERT(!parent());
-}
-
-void Widget::setFrameRect(const IntRect& rect)
-{
-    m_frame = rect;
-}
-
-void Widget::paint(GraphicsContext&, const IntRect&, SecurityOriginPaintPolicy, EventRegionContext*)
-{
-}
-
-void Widget::setFocus(bool)
-{
-}
-
-void Widget::setCursor(const Cursor& cursor)
-{
-    FrameView* view = root();
-    if (!view)
-        return;
-    view->hostWindow()->setCursor(cursor);
-}
-
-void Widget::show()
-{
-}
-
-void Widget::hide()
-{
-}
-
-void Widget::setIsSelected(bool)
-{
+    const char* path = getenv("CURL_CA_BUNDLE");
+    setCACertPath(String::fromUTF8(path && *path ? path : defaultCACertPath));
 }
 
 } // namespace WebCore
