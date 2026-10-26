@@ -149,10 +149,21 @@ void InlineAccess::dumpCacheSizesAndCrash()
 }
 
 
+// ARM_TRADITIONAL keeps constants (including branch targets) in a pool after
+// the code, which must fit in the inline region too. The code falls through to
+// the end of the region, so the pool goes behind a branch.
+static size_t codeSizeWithConstantPool(CCallHelpers& jit)
+{
+#if CPU(ARM_TRADITIONAL)
+    jit.m_assembler.buffer().flushConstantPool(true);
+#endif
+    return jit.m_assembler.buffer().codeSize();
+}
+
 template <typename Function>
 ALWAYS_INLINE static bool linkCodeInline(const char* name, CCallHelpers& jit, StructureStubInfo& stubInfo, const Function& function)
 {
-    if (jit.m_assembler.buffer().codeSize() <= stubInfo.inlineSize()) {
+    if (codeSizeWithConstantPool(jit) <= stubInfo.inlineSize()) {
         bool needsBranchCompaction = true;
         LinkBuffer linkBuffer(jit, stubInfo.start, stubInfo.inlineSize(), JITCompilationMustSucceed, needsBranchCompaction);
         ASSERT(linkBuffer.isValid());
@@ -381,6 +392,12 @@ bool InlineAccess::generateSelfInAccess(StructureStubInfo& stubInfo, Structure* 
 
 void InlineAccess::rewireStubAsJump(StructureStubInfo& stubInfo, CodeLocationLabel<JITStubRoutinePtrTag> target)
 {
+#if CPU(ARM_TRADITIONAL)
+    // The inline region can be a single patchable jump, too small for a jump
+    // through the constant pool. JIT memory is within reach of a direct branch.
+    RELEASE_ASSERT(stubInfo.inlineSize() >= sizeof(uint32_t));
+    MacroAssembler::replaceWithJump(stubInfo.start, target);
+#else
     CCallHelpers jit;
 
     auto jump = jit.jump();
@@ -392,6 +409,7 @@ void InlineAccess::rewireStubAsJump(StructureStubInfo& stubInfo, CodeLocationLab
     linkBuffer.link(jump, target);
 
     FINALIZE_CODE(linkBuffer, NoPtrTag, "InlineAccess: linking constant jump");
+#endif
 }
 
 } // namespace JSC
