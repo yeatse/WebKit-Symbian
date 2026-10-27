@@ -164,6 +164,33 @@ void fastAlignedFree(void* p)
     _aligned_free(p);
 }
 
+#elif OS(SYMBIAN)
+
+// Open C has no posix_memalign; the SDK runtime's mimalloc provides aligned
+// allocation with its own free.
+extern "C" void* mi_malloc_aligned(size_t, size_t);
+extern "C" void mi_free(void*);
+
+void* fastAlignedMalloc(size_t alignment, size_t size)
+{
+    ASSERT_IS_WITHIN_LIMIT(size);
+    void* p = mi_malloc_aligned(size, alignment);
+    if (UNLIKELY(!p))
+        CRASH();
+    return p;
+}
+
+void* tryFastAlignedMalloc(size_t alignment, size_t size)
+{
+    FAIL_IF_EXCEEDS_LIMIT(size);
+    return mi_malloc_aligned(size, alignment);
+}
+
+void fastAlignedFree(void* p)
+{
+    mi_free(p);
+}
+
 #else
 
 void* fastAlignedMalloc(size_t alignment, size_t size) 

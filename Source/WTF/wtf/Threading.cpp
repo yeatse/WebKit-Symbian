@@ -39,6 +39,10 @@
 #include <bmalloc/bmalloc.h>
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
 namespace WTF {
 
 static Optional<size_t> stackSize(ThreadType threadType)
@@ -136,6 +140,10 @@ const char* Thread::normalizeThreadName(const char* threadName)
 
 void Thread::initializeInThread()
 {
+#if OS(SYMBIAN)
+    if (!m_platformThread)
+        m_platformThread = SymbianSystem::openCurrentThread();
+#endif
     if (m_stack.isEmpty())
         m_stack = StackBounds::currentThreadStackBounds();
     m_savedLastStackTop = stack().origin();

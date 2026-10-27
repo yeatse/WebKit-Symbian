@@ -26,7 +26,7 @@
 #include "config.h"
 #include <wtf/threads/Signals.h>
 
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
 
 #if HAVE(MACH_EXCEPTIONS)
 extern "C" {

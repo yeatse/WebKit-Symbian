@@ -29,6 +29,10 @@
 
 #include <windows.h>
 
+#elif OS(SYMBIAN)
+
+#include <wtf/symbian/SymbianSystem.h>
+
 #elif OS(UNIX)
 
 #include <pthread.h>
@@ -69,6 +73,17 @@ StackBounds StackBounds::currentThreadStackBoundsInternal()
         return StackBounds { origin, bound };
     }
     return newThreadStackBounds(pthread_self());
+}
+
+#elif OS(SYMBIAN)
+
+StackBounds StackBounds::currentThreadStackBoundsInternal()
+{
+    void* origin = nullptr;
+    void* bound = nullptr;
+    bool result = SymbianSystem::currentThreadStack(origin, bound);
+    RELEASE_ASSERT(result);
+    return StackBounds { origin, bound };
 }
 
 #elif OS(UNIX)

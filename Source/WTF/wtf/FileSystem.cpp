@@ -339,6 +339,9 @@ bool MappedFileData::mapFileHandle(PlatformFileHandle handle, FileOpenMode openM
 #endif
     }
 
+#if !defined(MAP_FILE)
+#define MAP_FILE 0
+#endif
     void* data = mmap(0, size, pageProtection, MAP_FILE | (mapMode == MappedFileMode::Shared ? MAP_SHARED : MAP_PRIVATE), fd, 0);
 
     if (data == MAP_FAILED) {

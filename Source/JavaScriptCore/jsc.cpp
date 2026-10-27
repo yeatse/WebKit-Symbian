@@ -173,6 +173,8 @@ NO_RETURN_WITH_VALUE static void jscExit(int status)
         for (;;) {
 #if OS(WINDOWS)
             Sleep(1000);
+#elif OS(SYMBIAN)
+            sleep(1);
 #else
             pause();
 #endif
@@ -3211,7 +3213,7 @@ void CommandLine::parseArguments(int argc, char** argv)
             continue;
         }
         if (!strcmp(arg, "-s")) {
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
             SignalAction (*exit)(Signal, SigInfo&, PlatformRegisters&) = [] (Signal, SigInfo&, PlatformRegisters&) {
                 dataLogLn("Signal handler hit. Exiting with status 0");
                 _exit(0);

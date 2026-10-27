@@ -146,7 +146,11 @@ if (NOT HAS_RUN_WEBKIT_COMMON)
     set(WebKit_LIBRARY_TYPE SHARED)
     set(WebCoreTestSupport_LIBRARY_TYPE STATIC)
 
-    set(CMAKE_POSITION_INDEPENDENT_CODE True)
+    # Symbian images are relocated by the loader; the E32 converter accepts
+    # only a small local GOT.
+    if (NOT SYMBIAN)
+        set(CMAKE_POSITION_INDEPENDENT_CODE True)
+    endif ()
 
     # -----------------------------------------------------------------------------
     # Install JavaScript shell

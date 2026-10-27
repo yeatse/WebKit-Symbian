@@ -75,7 +75,7 @@ struct Config {
     bool isThreadSuspendResumeSignalConfigured;
     int sigThreadSuspendResume;
 #endif
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
     SignalHandlers signalHandlers;
 #endif
     PtrTagLookup* ptrTagLookupHead;

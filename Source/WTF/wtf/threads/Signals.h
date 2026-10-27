@@ -25,7 +25,8 @@
 
 #pragma once
 
-#if OS(UNIX)
+// Symbian: no ucontext, no per-thread signal delivery.
+#if OS(UNIX) && !OS(SYMBIAN)
 
 #include <signal.h>
 #include <tuple>

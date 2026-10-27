@@ -70,7 +70,8 @@
     || OS(FUCHSIA)             \
     || OS(OPENBSD)             \
     || OS(HPUX)                \
-    || OS(NETBSD)
+    || OS(NETBSD)              \
+    || OS(SYMBIAN)
     // ELF platform
 #define HIDE_SYMBOL(name) ".hidden " #name
 #else
@@ -88,6 +89,7 @@
     || OS(OPENBSD)             \
     || OS(HURD)                \
     || OS(NETBSD)              \
+    || OS(SYMBIAN)             \
     || COMPILER(MINGW)
     // GNU as-compatible syntax.
 #define LOCAL_LABEL_STRING(name) ".L" #name

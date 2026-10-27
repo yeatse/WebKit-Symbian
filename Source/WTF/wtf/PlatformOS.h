@@ -120,6 +120,11 @@
 #endif
 
 
+/* OS(SYMBIAN) - Symbian OS (EKA2, with the Open C POSIX layer) */
+#if defined(__SYMBIAN32__)
+#define WTF_OS_SYMBIAN 1
+#endif
+
 /* OS(UNIX) - Any Unix-like system */
 #if    OS(AIX)              \
     || OS(DARWIN)           \
@@ -131,7 +136,8 @@
     || OS(OPENBSD)          \
     || defined(unix)        \
     || defined(__unix)      \
-    || defined(__unix__)
+    || defined(__unix__)    \
+    || OS(SYMBIAN)
 #define WTF_OS_UNIX 1
 #endif
 

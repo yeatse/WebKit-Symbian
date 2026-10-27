@@ -32,11 +32,17 @@
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
+#if !OS(SYMBIAN)
 #include <fnmatch.h>
+#endif
+#if !OS(SYMBIAN)
 #include <libgen.h>
+#endif
 #include <stdio.h>
 #include <sys/stat.h>
+#if !OS(SYMBIAN)
 #include <sys/statvfs.h>
+#endif
 #include <sys/types.h>
 #include <unistd.h>
 #include <wtf/EnumTraits.h>
@@ -45,7 +51,30 @@
 #include <wtf/text/StringBuilder.h>
 #include <wtf/text/WTFString.h>
 
+#if OS(SYMBIAN) && !defined(PATH_MAX)
+#define PATH_MAX 256 // KMaxFileName
+#endif
+
 namespace WTF {
+
+#if OS(SYMBIAN)
+// Open C has no fnmatch(); '*' and '?' are all listDirectory() filters use.
+static bool matchesFilter(const char* pattern, const char* name)
+{
+    if (!*pattern)
+        return !*name;
+    if (*pattern == '*')
+        return matchesFilter(pattern + 1, name) || (*name && matchesFilter(pattern, name + 1));
+    if (*name && (*pattern == '?' || *pattern == *name))
+        return matchesFilter(pattern + 1, name + 1);
+    return false;
+}
+#else
+static bool matchesFilter(const char* pattern, const char* name)
+{
+    return !fnmatch(pattern, name, 0);
+}
+#endif
 
 namespace FileSystemImpl {
 
@@ -370,7 +399,16 @@ String directoryName(const String& path)
     if (!fsRep.data() || fsRep.data()[0] == '\0')
         return String();
 
+#if OS(SYMBIAN)
+    // Open C has no <libgen.h>.
+    const char* data = fsRep.data();
+    const char* slash = strrchr(data, '/');
+    if (!slash)
+        return "."_s;
+    return String::fromUTF8(data, slash == data ? 1 : slash - data);
+#else
     return String::fromUTF8(dirname(fsRep.mutableData()));
+#endif
 }
 
 Vector<String> listDirectory(const String& path, const String& filter)
@@ -385,7 +423,7 @@ Vector<String> listDirectory(const String& path, const String& filter)
             const char* name = dp->d_name;
             if (!strcmp(name, ".") || !strcmp(name, ".."))
                 continue;
-            if (fnmatch(cfilter.data(), name, 0))
+            if (!matchesFilter(cfilter.data(), name))
                 continue;
             char filePath[PATH_MAX];
             if (static_cast<int>(sizeof(filePath) - 1) < snprintf(filePath, sizeof(filePath), "%s/%s", cpath.data(), name))
@@ -434,12 +472,19 @@ bool moveFile(const String& oldPath, const String& newPath)
 
 bool getVolumeFreeSpace(const String& path, uint64_t& freeSpace)
 {
+#if OS(SYMBIAN)
+    // Open C has no statvfs (RFs::Volume would be the native API).
+    UNUSED_PARAM(path);
+    UNUSED_PARAM(freeSpace);
+    return false;
+#else
     struct statvfs fileSystemStat;
     if (!statvfs(fileSystemRepresentation(path).data(), &fileSystemStat)) {
         freeSpace = fileSystemStat.f_bavail * fileSystemStat.f_frsize;
         return true;
     }
     return false;
+#endif
 }
 
 String openTemporaryFile(const String& prefix, PlatformFileHandle& handle, const String& suffix)

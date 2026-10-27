@@ -48,7 +48,7 @@
 #include <wtf/WordLock.h>
 #include <wtf/text/AtomStringTable.h>
 
-#if USE(PTHREADS) && !OS(DARWIN)
+#if USE(PTHREADS) && !OS(DARWIN) && !OS(SYMBIAN)
 #include <signal.h>
 #endif
 
@@ -267,7 +267,7 @@ protected:
     void establishPlatformSpecificHandle(PlatformThreadHandle, ThreadIdentifier);
 #endif
 
-#if USE(PTHREADS) && !OS(DARWIN)
+#if USE(PTHREADS) && !OS(DARWIN) && !OS(SYMBIAN)
     static void signalHandlerSuspendResume(int, siginfo_t*, void* ucontext);
 #endif
 
@@ -348,6 +348,9 @@ protected:
     ThreadIdentifier m_id { 0 };
 #elif OS(DARWIN)
     mach_port_t m_platformThread { MACH_PORT_NULL };
+#elif OS(SYMBIAN)
+    // Process-owned RThread handle, opened by the thread itself.
+    int m_platformThread { 0 };
 #elif USE(PTHREADS)
 #if OS(LINUX)
     ThreadIdentifier m_id { 0 };

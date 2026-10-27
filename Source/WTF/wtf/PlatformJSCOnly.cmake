@@ -31,18 +31,32 @@ else ()
     list(APPEND WTF_SOURCES
         generic/MainThreadGeneric.cpp
 
-        posix/OSAllocatorPOSIX.cpp
         posix/ThreadingPOSIX.cpp
 
         text/unix/TextBreakIteratorInternalICUUnix.cpp
 
         unix/LanguageUnix.cpp
     )
+    if (SYMBIAN)
+        list(APPEND WTF_SOURCES
+            symbian/CPUTimeSymbian.cpp
+            symbian/LibcxxSupport.cpp
+            symbian/OSAllocatorSymbian.cpp
+            symbian/SymbianSystem.cpp
+        )
+        list(APPEND WTF_PUBLIC_HEADERS
+            symbian/SymbianSystem.h
+        )
+    else ()
+        list(APPEND WTF_SOURCES
+            posix/OSAllocatorPOSIX.cpp
+        )
+    endif ()
     if (WTF_OS_FUCHSIA)
         list(APPEND WTF_SOURCES
             fuchsia/CPUTimeFuchsia.cpp
         )
-    else ()
+    elseif (NOT SYMBIAN)
         list(APPEND WTF_SOURCES
             unix/CPUTimeUnix.cpp
         )
@@ -90,7 +104,7 @@ elseif (APPLE)
     list(APPEND WTF_PUBLIC_HEADERS
         spi/darwin/ProcessMemoryFootprint.h
     )
-elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" AND NOT SYMBIAN)
     list(APPEND WTF_SOURCES
         linux/CurrentProcessMemoryStatus.cpp
         linux/MemoryFootprintLinux.cpp

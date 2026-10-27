@@ -52,7 +52,7 @@ constexpr unsigned urlBytesBufferLength = 2048;
 //    WebKit was compiled.
 // This is only really important for platforms that load an external IDN allowed script list.
 // Not important for the compiled-in one.
-constexpr auto scriptCodeLimit = static_cast<UScriptCode>(256);
+constexpr int scriptCodeLimit = 256;
 
 static uint32_t allowedIDNScriptBits[(scriptCodeLimit + 31) / 32];
 
