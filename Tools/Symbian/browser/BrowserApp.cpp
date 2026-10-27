@@ -2,7 +2,9 @@
 // softkeys, the menus (popup lists) and the address field (an edwin) are
 // created in code.
 
+#include "BrowserLog.h"
 #include "NativeDeclarations.h"
+#include "NetworkConnection.h"
 #include "RunLoopDriver.h"
 #include "WebContainer.h"
 
@@ -40,6 +42,46 @@ enum TBrowserCommand {
 
 // Shows a list of items in an AVKON popup and waits for a choice. Returns
 // the chosen index, or -1 if the list was cancelled.
+// Whether a URL needs the network connection: anything but a local file or
+// a page the engine makes itself.
+TBool IsNetworkUrl(const TDesC& aUrl)
+{
+    if (aUrl.Length() >= 2 && aUrl[1] == ':' && TChar(aUrl[0]).IsAlpha())
+        return EFalse; // A drive path, C:/Data/...
+    _LIT(KFile, "file:");
+    _LIT(KAbout, "about:");
+    _LIT(KData, "data:");
+    _LIT(KJavaScript, "javascript:");
+    const TDesC* local[] = { &KFile, &KAbout, &KData, &KJavaScript };
+    for (const TDesC* scheme : local) {
+        if (aUrl.Left(scheme->Length()).CompareF(*scheme) == 0)
+            return EFalse;
+    }
+    return ETrue;
+}
+
+// UTF-16 to UTF-8, for the engine and the log.
+HBufC8* ToUtf8LC(const TDesC& aText)
+{
+    HBufC8* utf8 = HBufC8::NewLC(aText.Length() * 3 + 1);
+    TPtr8 utf8Ptr = utf8->Des();
+    for (TInt i = 0; i < aText.Length(); ++i) {
+        TUint c = aText[i];
+        if (c < 0x80)
+            utf8Ptr.Append(c);
+        else if (c < 0x800) {
+            utf8Ptr.Append(0xC0 | (c >> 6));
+            utf8Ptr.Append(0x80 | (c & 0x3F));
+        } else {
+            utf8Ptr.Append(0xE0 | (c >> 12));
+            utf8Ptr.Append(0x80 | ((c >> 6) & 0x3F));
+            utf8Ptr.Append(0x80 | (c & 0x3F));
+        }
+    }
+    utf8Ptr.ZeroTerminate();
+    return utf8;
+}
+
 TInt ShowPopupListL(const TDesC& aTitle, const MDesCArray& aItems, TInt aSelected)
 {
     CAknSinglePopupMenuStyleListBox* list = new (ELeave) CAknSinglePopupMenuStyleListBox;
@@ -153,7 +195,7 @@ private:
     TInt iProgress { 0 };
 };
 
-class CBrowserAppUi : public CAknAppUi, public MWebContainerObserver {
+class CBrowserAppUi : public CAknAppUi, public MWebContainerObserver, public MNetworkConnectionObserver {
 public:
     void ConstructL();
     ~CBrowserAppUi();
@@ -174,7 +216,15 @@ private:
     void WebProgressChanged(TBool aLoading, TInt aPercent);
     TInt WebSelectPopupL(const Text* aItems, TInt aCount, TInt aSelected);
 
+    // MNetworkConnectionObserver
+    void NetworkConnectionReady(TInt aError);
+
+    void LoadNowL(const TDesC& aUrl);
+
     CRunLoopDriver* iRunLoop { nullptr };
+    CNetworkConnection* iNetwork { nullptr };
+    // A network URL that waits for the connection.
+    HBufC* iPendingUrl { nullptr };
     CEikButtonGroupContainer* iSoftkeys { nullptr };
     CUrlBar* iUrlBar { nullptr };
     CWebContainer* iWebContainer { nullptr };
@@ -209,7 +259,15 @@ void CBrowserAppUi::ConstructL()
     BaseConstructL(EAknEnableSkin | ENoAppResourceFile | EAknTouchCompatible | EAknSingleClickCompatible);
 
     WebView::initializeProcess(KDataDirectory);
+    BrowserLogOpen(KDataDirectory);
+    BrowserLog("WebKit Browser starting");
     iRunLoop = CRunLoopDriver::NewL();
+    // Start the connection now, so the system's access point prompt (if
+    // any) comes up once, while the first page is being typed.
+    iNetwork = CNetworkConnection::NewL(*this);
+    TRAPD(error, iNetwork->StartL());
+    if (error)
+        BrowserLog("network: cannot start (%d)", error);
 
     iSoftkeys = CEikButtonGroupContainer::NewL(CEikButtonGroupContainer::ECba,
         CEikButtonGroupContainer::EHorizontal, this, 0);
@@ -250,6 +308,9 @@ CBrowserAppUi::~CBrowserAppUi()
     delete iUrlBar;
     delete iSoftkeys;
     delete iRunLoop;
+    delete iPendingUrl;
+    delete iNetwork;
+    BrowserLog("WebKit Browser exiting");
 }
 
 void CBrowserAppUi::LayoutControls()
@@ -273,23 +334,37 @@ void CBrowserAppUi::HandleResourceChangeL(TInt aType)
 
 void CBrowserAppUi::LoadUrlL(const TDesC& aUrl)
 {
-    HBufC8* utf8 = HBufC8::NewLC(aUrl.Length() * 3 + 1);
-    TPtr8 utf8Ptr = utf8->Des();
-    for (TInt i = 0; i < aUrl.Length(); ++i) {
-        TUint c = aUrl[i];
-        if (c < 0x80)
-            utf8Ptr.Append(c);
-        else if (c < 0x800) {
-            utf8Ptr.Append(0xC0 | (c >> 6));
-            utf8Ptr.Append(0x80 | (c & 0x3F));
-        } else {
-            utf8Ptr.Append(0xE0 | (c >> 12));
-            utf8Ptr.Append(0x80 | ((c >> 6) & 0x3F));
-            utf8Ptr.Append(0x80 | (c & 0x3F));
-        }
+    if (!IsNetworkUrl(aUrl) || iNetwork->IsReady()) {
+        LoadNowL(aUrl);
+        return;
     }
-    iWebContainer->WebView().load(reinterpret_cast<const char*>(utf8Ptr.PtrZ()));
+    // Load once the connection is up, or has failed (the page then shows
+    // the error).
+    HBufC* url = aUrl.AllocL();
+    delete iPendingUrl;
+    iPendingUrl = url;
+    iUrlBar->SetUrlL(aUrl);
+    iUrlBar->SetProgress(ETrue, 5);
+    iNetwork->StartL();
+}
+
+void CBrowserAppUi::LoadNowL(const TDesC& aUrl)
+{
+    HBufC8* utf8 = ToUtf8LC(aUrl);
+    BrowserLog("load %s", reinterpret_cast<const char*>(utf8->Ptr()));
+    iWebContainer->WebView().load(reinterpret_cast<const char*>(utf8->Ptr()));
     CleanupStack::PopAndDestroy(utf8);
+}
+
+void CBrowserAppUi::NetworkConnectionReady(TInt)
+{
+    if (!iPendingUrl)
+        return;
+    HBufC* url = iPendingUrl;
+    iPendingUrl = nullptr;
+    CleanupStack::PushL(url);
+    LoadNowL(*url);
+    CleanupStack::PopAndDestroy(url);
 }
 
 void CBrowserAppUi::FocusUrlBarL()

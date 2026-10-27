@@ -6,8 +6,9 @@
 #                           programs read it, and the installer does not let
 #                           two packages own one file; install it first.
 #   jsc.sis                 jsc.exe and the test scripts in C:\Data
-#   browser.sis             browser.exe with its menu registration and
-#                           C:\Data\WebKit\test.html
+#   browser.sis             browser.exe with its menu registration,
+#                           C:\Data\WebKit\test.html and the trusted roots
+#                           for HTTPS, C:\resource\webkit\cacert.pem
 #
 # Packages are unsigned. SIS_CERTIFICATE and SIS_KEY name a PEM certificate
 # and RSA key to sign them with instead; updating an installed package then
@@ -20,6 +21,9 @@ vendor=symbian-webkit
 icu=$ICU_DIR/install/share/icu/icudt63l.dat
 jsc=$E32_BUILD/e32/jsc.exe
 browser=$BROWSER_BUILD/e32
+# Mozilla's trusted roots, as curl's maintainers extract them.
+cacert=$WORK/downloads/cacert-2026-09-25.pem
+cacert_sha256=a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505
 
 sign=()
 if [ -n "${SIS_CERTIFICATE:-}" ] || [ -n "${SIS_KEY:-}" ]; then
@@ -41,10 +45,17 @@ if [ -f "$jsc" ]; then
 fi
 
 if [ -f "$browser/browser.exe" ]; then
+  if [ ! -f "$cacert" ]; then
+    mkdir -p "$(dirname "$cacert")"
+    curl -sSfL -o "$cacert.tmp" "https://curl.se/ca/$(basename "$cacert")"
+    echo "$cacert_sha256  $cacert.tmp" | sha256sum -c --quiet
+    mv "$cacert.tmp" "$cacert"
+  fi
   make_sis --uid 0xE1A5C012 --name "WebKit Browser" --output "$out/browser.sis" \
     --file "$browser/browser.exe=!:\\sys\\bin\\browser.exe" \
     --file "$browser/browser_reg.rsc=!:\\private\\10003a3f\\import\\apps\\browser_reg.rsc" \
     --file "$browser/browser_loc.rsc=!:\\resource\\apps\\browser_loc.rsc" \
-    --file "$REPO/browser/test.html=c:\\data\\webkit\\test.html"
+    --file "$REPO/browser/test.html=c:\\data\\webkit\\test.html" \
+    --file "$cacert=c:\\resource\\webkit\\cacert.pem"
 fi
 ls -l "$out"/*.sis

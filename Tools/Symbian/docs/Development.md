@@ -283,7 +283,7 @@ A further commit fixes constant-expression errors from current Clang.
 * **Networking**: curl with mbedTLS (the SDK's 3.4.1).
   * `CurlSSLVerifierMbedTLS.cpp` collects the certificate chain and maps mbedTLS verification flags to WebKit's certificate errors.
   * `MbedTLSHelper` provides certificate summaries and error descriptions.
-  * Root certificates are read from `C:\resource\webkit\cacert.pem`, or from `CURL_CA_BUNDLE` if set.
+  * Root certificates are read from `C:\resource\webkit\cacert.pem`, or from `CURL_CA_BUNDLE` if set. `browser.sis` installs Mozilla's roots there, as curl's maintainers extract them (`scripts/package-sis.sh` downloads a pinned, checksummed release).
   * PAL's digests (SHA-1/256/384/512) also use mbedTLS.
   * Public suffixes come from libpsl.
 * **Theme**: Adwaita.
@@ -347,6 +347,9 @@ Results:
   * a `CAknEdwinState` per field type (password, number, e-mail, URL…)
   * `CAknExtendedInputCapabilities` for the touch keyboard
   * The FEP's inline text becomes WebCore's composition (underlined in the field), and a commit confirms it.
+  * Fields ask for partial screen input (`EAknEditorFlagEnablePartialScreen`): the touch keyboard covers the lower part of the screen rather than opening a full screen editor. While it is open (`KAknSplitInputEnabled`), the page is scrolled to keep the caret above it.
+* **Network connection** (`NetworkConnection.cpp`): curl's resolver and transfers run in their own threads on Open C's sockets, which cannot ask for an access point there; host names then fail to resolve. The shell starts the connection at launch with `RConnection::Start()` (the system asks for an access point if its settings say to) and makes that access point Open C's default interface (`setdefaultif()`). A network URL typed before the connection is up waits for it.
+* **Log**: `C:\Data\WebKit\log.txt` gets the shell's messages (loads, the connection), failed loads, the page's console messages and anything else the engine writes to stderr. The previous run's log is kept as `log.old.txt`.
 * Its AppArc registration (`browser_reg.rsc`) is required: `CEikApplication` asks AppArc about the application at start.
 * `browser.exe` is 31 MB:
   * The image is not limited to 32 MB of code. Calls beyond an ARM `BL`'s ±32 MB (a Thumb `BL`'s ±4 MB) go through position-independent LLD thunks (`--pic-veneer`): they need no relocation, and the E32 converter follows them to the import table (`Tools/Symbian/patches/symbian-native/0002`). A test image with 34 MB of padding before WebKit's code converts and runs in EKA2L1.
@@ -373,7 +376,7 @@ Tested in EKA2L1 with the Nokia X7 firmware:
 Not tested yet:
 
 * **Real input methods** (the touch keyboard, handwriting, Chinese input): EKA2L1 shows no touch keyboard even for a stock edwin, and passes no host keys to a touch phone.
-* **Networking**: EKA2L1 resolves no host names for the browser; on a phone it should work through Open C's sockets.
+* **Networking**: EKA2L1 resolves no host names and never completes `RConnection::Start()`; local pages do not wait for it.
 * **Anything on a real phone.**
 
 ### Toolchain and E32 notes
@@ -396,20 +399,16 @@ WebKit's own files keep their licenses (BSD-2-Clause / LGPL-2.1); the new `wtf/s
 
 ## Status and next steps
 
-* **Running on a phone**: run `jsc.exe` on an S^3 phone (N8, E7, C7, X7 and so on). EKA2L1 does not emulate these, so a real phone has the final word:
-  * whether `RThread::Context` returns the full user register set of a suspended thread in the same process (the GC depends on it)
-  * execute permission on code chunks, and `IMB_Range`
-  * whether VFP is usable in user threads
-  * whether the 1 MB main-thread stack and the 128 MB heap limit can be obtained
+* **Running on a phone**: `jsc.exe` runs `es2020.js` on a phone with the JIT, and its output matches EKA2L1's line for line. So the GC's thread register reads, executable code chunks, VFP in user threads and the large stack and heap all work there.
 * **Tests**: all of `JSTests/stress`, and the ES2020 part of test262.
 * **Performance**: on tests that recurse until stack overflow, such as `regress-179355`, the JIT without inline caching is several times slower than the LLInt (137 s vs 20 s); the cause is not known yet.
 * **Threads**: the concurrent JIT works in EKA2L1; the concurrent GC is off on 32-bit platforms anyway.
 * **EKA2L1**: `--installdevice <rom> <rpkg>` (installing firmware from the command line) is a local addition, kept in `Tools/Symbian/patches/eka2l1/` and not yet submitted upstream. Firmware can also be installed from EKA2L1's GUI.
-* **Browser**: renders pages and takes touch input in EKA2L1; real input methods, networking and the phone itself are untested (see above).
+* **Browser**: renders pages and takes touch input in EKA2L1, and opens local pages on a phone. The first phone run could not resolve host names (no access point); the shell now starts the connection itself.
 * **Next**:
-  * testing on the phone: input methods, networking, memory with a 31 MB image
-  * the speed of the `-Os` build on the phone
-  * AVKON-skinned form controls (`RenderTheme`)
+  * testing on the phone: HTTP and HTTPS, the partial screen input, memory with a 31 MB image
+  * the address bar: history and bookmarks
   * zoom and a viewport for desktop pages
-  * a root certificate bundle
+  * AVKON-skinned form controls (`RenderTheme`)
+  * the speed of the `-Os` build on the phone: measure first, then scroll blitting and selective `-O2`
   * following the connection manager for the online state

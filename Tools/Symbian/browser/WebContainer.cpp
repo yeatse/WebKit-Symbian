@@ -25,6 +25,14 @@ enum {
 // A drag of this many pixels is a scroll, not a tap.
 const TInt KTapSlop = 8;
 
+// Resource change events for the partial screen input (Symbian^3 and
+// later), which the SDK's headers do not have.
+const TInt KAknSplitInputEnabled = 0x2001E2C0;
+const TInt KAknSplitInputDisabled = 0x2001E2C1;
+// The part of the screen, from the top, that the split input leaves.
+const TInt KSplitInputVisibleNumerator = 2;
+const TInt KSplitInputVisibleDenominator = 5;
+
 TPtrC ToDesC(Text aText)
 {
     return TPtrC(reinterpret_cast<const TText*>(aText.characters), aText.length);
@@ -271,6 +279,9 @@ void CWebContainer::UpdateEditorStateL()
         default:
             break;
         }
+        // The input UI over the lower part of the screen, the page still
+        // visible above it, rather than a full screen editor.
+        flags |= EAknEditorFlagEnablePartialScreen;
         state->SetFlags(flags);
         state->SetDefaultInputMode(defaultMode);
         state->SetCurrentInputMode(defaultMode);
@@ -335,9 +346,36 @@ void CWebContainer::didChangeEditingState()
 
 void CWebContainer::didChangeSelection()
 {
+    if (iSplitInput && iEditable)
+        RevealCaretAboveSplitInput();
     if (iUpdatingForFep || !iEditable)
         return;
     TRAP_IGNORE(ReportEditorEventL(MAknEdStateObserver::EAknSyncEdwinState));
+}
+
+void CWebContainer::HandleResourceChange(TInt aType)
+{
+    CCoeControl::HandleResourceChange(aType);
+    if (aType == KAknSplitInputEnabled) {
+        iSplitInput = ETrue;
+        if (iEditable)
+            RevealCaretAboveSplitInput();
+    } else if (aType == KAknSplitInputDisabled)
+        iSplitInput = EFalse;
+}
+
+// The page does not know about the input covering the lower part of the
+// screen, so it is scrolled to keep the caret in the part above it.
+void CWebContainer::RevealCaretAboveSplitInput()
+{
+    WebKitSymbian::Rect caret = iWebView->caretRect();
+    TInt screenHeight = iCoeEnv->ScreenDevice()->SizeInPixels().iHeight;
+    TInt visibleBottom = screenHeight * KSplitInputVisibleNumerator / KSplitInputVisibleDenominator
+        - PositionRelativeToScreen().iY;
+    const TInt margin = 16;
+    if (caret.y >= margin && caret.y + caret.height <= visibleBottom - margin)
+        return;
+    iWebView->scrollBy(0, caret.y - Max(margin, (visibleBottom - caret.height) / 2));
 }
 
 void CWebContainer::runJavaScriptAlert(Text aMessage)

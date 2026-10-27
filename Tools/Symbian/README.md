@@ -38,11 +38,14 @@ Start **WebKit Browser** from the applications menu. **Options → Go to address
 
 This is an early port. It has been tested in the [EKA2L1](https://github.com/EKA2L1/EKA2L1) emulator with Nokia X7 firmware, where local pages, touch, menus and form controls work. On real phones:
 
-* it has only begun to be tested; reports are welcome
-* networking (HTTP and HTTPS through curl and mbedTLS) is built in but not yet tested
+* JavaScriptCore with its JIT runs and passes the bundled tests
+* the browser opens local pages; HTTP and HTTPS (curl and mbedTLS, with Mozilla's root certificates) are being tested
+* the browser asks for an access point when it starts, if the phone's connection settings say to ask
 * the browser is about 30 MB, so it needs a phone with enough free memory
 
-Not supported: video and audio, WebGL, Web Audio, Web Crypto, service workers, XSLT. Still to come: zoom and a viewport for desktop pages, form controls in the phone's own style, root certificates for HTTPS.
+When reporting a problem, attach `C:\Data\WebKit\log.txt` (the previous run's is `log.old.txt`).
+
+Not supported: video and audio, WebGL, Web Audio, Web Crypto, service workers, XSLT. Still to come: history and bookmarks, zoom and a viewport for desktop pages, form controls in the phone's own style.
 
 ## Development
 

@@ -49,6 +49,7 @@ private:
     void SizeChanged();
     void FocusChanged(TDrawNow aDrawNow);
     void HandlePointerEventL(const TPointerEvent& aPointerEvent);
+    void HandleResourceChange(TInt aType);
     TTypeUid::Ptr MopSupplyObject(TTypeUid aId);
 
     // WebKitSymbian::WebViewClient
@@ -98,6 +99,7 @@ private:
     void ReportEditorEventL(TInt aEvent);
     void RequestTouchInputL();
     void EnsureBitmapL();
+    void RevealCaretAboveSplitInput();
 
     MWebContainerObserver& iObserver;
     WebKitSymbian::WebView* iWebView { nullptr };
@@ -114,6 +116,9 @@ private:
     TBool iInlineEditing { EFalse };
     // When the FEP replaces text itself, didChangeSelection() is ours.
     TBool iUpdatingForFep { EFalse };
+    // The partial screen (split view) input is open over the lower part of
+    // the screen.
+    TBool iSplitInput { EFalse };
 
     TPoint iPointerDown;
     CAsyncCallBack* iSelfTest { nullptr };

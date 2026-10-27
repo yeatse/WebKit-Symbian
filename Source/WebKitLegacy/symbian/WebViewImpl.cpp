@@ -367,6 +367,8 @@ void WebViewImpl::progressChanged()
 
 void WebViewImpl::loadErrorPage(const ResourceError& error)
 {
+    WTFLogAlways("load failed: %s: %s (%d)", error.failingURL().string().utf8().data(),
+        error.localizedDescription().utf8().data(), error.errorCode());
     StringBuilder html;
     html.appendLiteral("<!DOCTYPE html><meta name=viewport content='width=device-width'>"
         "<title>Problem loading page</title><body style='font-family:sans-serif;margin:16px'>"
