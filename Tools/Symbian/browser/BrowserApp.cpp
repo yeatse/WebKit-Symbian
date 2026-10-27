@@ -14,6 +14,8 @@
 #include <aknlists.h>
 #include <aknPopup.h>
 #include <badesca.h>
+#include <bautils.h>
+#include <stdlib.h>
 #include <avkon.hrh>
 #include <eikbtgpc.h>
 #include <eikedwin.h>
@@ -82,6 +84,13 @@ HBufC8* ToUtf8LC(const TDesC& aText)
     return utf8;
 }
 
+void EnableCurlTrace()
+{
+    // Read when the engine makes its first request.
+    setenv("DEBUG_CURL", "1", 1);
+    BrowserLog("curl trace on");
+}
+
 TInt ShowPopupListL(const TDesC& aTitle, const MDesCArray& aItems, TInt aSelected)
 {
     CAknSinglePopupMenuStyleListBox* list = new (ELeave) CAknSinglePopupMenuStyleListBox;
@@ -133,6 +142,11 @@ public:
         iEdwin->SetContainerWindowL(*this);
         iEdwin->ConstructL(EEikEdwinNoWrap | EEikEdwinNoLineOrParaBreaks | EEikEdwinAutoSelection, 0, KUrlMaxLength, 1);
         iEdwin->SetObserver(this);
+        // The touch keyboard over the lower part of the screen, as for the
+        // page's fields, and addresses start in lower case.
+        iEdwin->SetAknEditorFlags(EAknEditorFlagNoT9 | EAknEditorFlagEnablePartialScreen | EAknEditorFlagSelectionVisible);
+        iEdwin->SetAknEditorCase(EAknEditorLowerCase);
+        iEdwin->SetAknEditorPermittedCaseModes(EAknEditorAllCaseModes);
         SetRect(aRect);
         ActivateL();
     }
@@ -263,6 +277,10 @@ void CBrowserAppUi::ConstructL()
     WebView::initializeProcess(KDataDirectory);
     BrowserLogOpen(KDataDirectory);
     BrowserLog("WebKit Browser starting");
+    // curl's own trace goes to the log too while C:\Data\WebKit\curl-verbose
+    // exists, or with curl-verbose on the command line.
+    if (BaflUtils::FileExists(iEikonEnv->FsSession(), _L("C:\\Data\\WebKit\\curl-verbose")))
+        EnableCurlTrace();
     iRunLoop = CRunLoopDriver::NewL();
     // Start the connection now, so the system's access point prompt (if
     // any) comes up once, while the first page is being typed.
@@ -294,6 +312,8 @@ void CBrowserAppUi::ConstructL()
     for (TPtrC token = lex.NextToken(); token.Length(); token.Set(lex.NextToken())) {
         if (token == _L("fep-selftest"))
             iWebContainer->EnableInputSelfTest();
+        else if (token == _L("curl-verbose"))
+            EnableCurlTrace();
         else
             LoadUrlL(token);
     }

@@ -238,7 +238,10 @@ build_curl() {
   sed -i 's/^#if !defined(MSDOS) \&\& !defined(WIN32) \&\& !defined(__CYGWIN__)$/& \&\& !defined(__SYMBIAN32__)/' \
     "$src/curl-7.88.1/lib/urlapi.c"
   # TLS from the SDK's mbedTLS 3.4. HTTP(S) and local files (WebKit's curl
-  # backend loads file: URLs through curl too).
+  # backend loads file: URLs through curl too). Open C has no socketpair(),
+  # and curl's stand-in (a TCP connection to itself over the loopback) fails
+  # there, which failed every host name lookup before the resolver thread
+  # started; without it the resolver thread is polled.
   cmake_build curl-7.88.1 -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF \
     -DCURL_DISABLE_DICT=ON -DCURL_DISABLE_FTP=ON -DCURL_DISABLE_GOPHER=ON \
     -DCURL_DISABLE_IMAP=ON -DCURL_DISABLE_LDAPS=ON -DCURL_DISABLE_MQTT=ON \
@@ -246,7 +249,7 @@ build_curl() {
     -DCURL_DISABLE_SMTP=ON -DCURL_DISABLE_TELNET=ON -DCURL_DISABLE_TFTP=ON \
     -DCURL_USE_OPENSSL=OFF -DCURL_USE_MBEDTLS=ON -DCURL_USE_LIBSSH2=OFF \
     -DUSE_LIBIDN2=OFF -DCURL_DISABLE_LDAP=ON -DENABLE_IPV6=OFF \
-    -DENABLE_THREADED_RESOLVER=ON -DCURL_ZLIB=ON -DCURL_BROTLI=OFF -DCURL_ZSTD=OFF \
+    -DENABLE_THREADED_RESOLVER=ON -DCURL_DISABLE_SOCKETPAIR=ON -DCURL_ZLIB=ON -DCURL_BROTLI=OFF -DCURL_ZSTD=OFF \
     -DMBEDTLS_INCLUDE_DIRS="$tls/include" -DMBEDTLS_LIBRARY="$tls/lib/libmbedtls.a" \
     -DMBEDX509_LIBRARY="$tls/lib/libmbedx509.a" -DMBEDCRYPTO_LIBRARY="$tls/lib/libmbedcrypto.a" \
     -DZLIB_INCLUDE_DIR="$sdk_portable/zlib" -DZLIB_LIBRARY="$sdk_lib/libsymbian_portable_zlib.a"
