@@ -53,7 +53,7 @@
 #include "X86_64Registers.h"
 #elif CPU(MIPS)
 #include "MIPSRegisters.h"
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
 #include "ARMv7Registers.h"
 #elif CPU(ARM64)
 #include "ARM64Registers.h"

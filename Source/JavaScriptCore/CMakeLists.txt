@@ -268,6 +268,9 @@ else ()
         set(OFFLINE_ASM_BACKEND "ARM64")
     elseif (ARM_THUMB2_DETECTED)
         set(OFFLINE_ASM_BACKEND "ARMv7")
+    elseif (ARM_TRADITIONAL_DETECTED)
+        # ARMv5/ARMv6 (ARM mode); LLIntOfflineAsmConfig.h selects it.
+        set(OFFLINE_ASM_BACKEND "ARM")
     elseif (WTF_CPU_MIPS)
         set(OFFLINE_ASM_BACKEND "MIPS")
     endif ()
@@ -490,6 +493,7 @@ set(JavaScriptCore_PRIVATE_FRAMEWORK_HEADERS
     API/OpaqueJSString.h
 
     assembler/ARM64Assembler.h
+    assembler/ARMAssembler.h
     assembler/ARM64Registers.h
     assembler/ARMv7Assembler.h
     assembler/ARMv7Registers.h
@@ -505,6 +509,7 @@ set(JavaScriptCore_PRIVATE_FRAMEWORK_HEADERS
     assembler/MIPSAssembler.h
     assembler/MIPSRegisters.h
     assembler/MacroAssembler.h
+    assembler/MacroAssemblerARM.h
     assembler/MacroAssemblerARM64.h
     assembler/MacroAssemblerARMv7.h
     assembler/MacroAssemblerCodeRef.h

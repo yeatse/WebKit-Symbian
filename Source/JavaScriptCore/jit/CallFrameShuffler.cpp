@@ -377,7 +377,7 @@ void CallFrameShuffler::prepareForTailCall()
     m_oldFrameBase = MacroAssembler::stackPointerRegister;
     m_oldFrameOffset = numLocals();
     m_newFrameBase = acquireGPR();
-#if CPU(ARM_THUMB2) || CPU(MIPS)
+#if CPU(ARM) || CPU(MIPS)
     // We load the frame pointer and link register
     // manually. We could ask the algorithm to load them for us,
     // and it would allow us to use the link register as an extra
@@ -439,7 +439,7 @@ void CallFrameShuffler::prepareForTailCall()
         m_newFrameBase);
 
     // We load the link register manually for architectures that have one
-#if CPU(ARM_THUMB2) || CPU(ARM64)
+#if CPU(ARM) || CPU(ARM64)
     m_jit.loadPtr(MacroAssembler::Address(MacroAssembler::framePointerRegister, CallFrame::returnPCOffset()),
         MacroAssembler::linkRegister);
 #if CPU(ARM64E)

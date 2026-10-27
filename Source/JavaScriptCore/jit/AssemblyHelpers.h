@@ -591,7 +591,7 @@ public:
 
 #endif // CPU(X86_64)
 
-#if CPU(ARM_THUMB2) || CPU(ARM64)
+#if CPU(ARM) || CPU(ARM64)
     static constexpr size_t prologueStackPointerDelta()
     {
         // Prologue saves the framePointerRegister and linkRegister

@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 #include <wtf/Lock.h>
-#include <wtf/text/CString.h>
 
 namespace JSC {
 

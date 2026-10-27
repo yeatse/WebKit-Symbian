@@ -74,6 +74,12 @@ ARM_EXTRA_FPRS = [SpecialRegister.new("d7")]
 ARM_SCRATCH_FPR = SpecialRegister.new("d6")
 OS_DARWIN = ((RUBY_PLATFORM =~ /darwin/i) != nil)
 
+# ARM is ARMv5/ARMv6 in ARM state (restored ARM_TRADITIONAL backend): no
+# Thumb-2, no movw/movt, no dmb, and r11 is the frame pointer.
+def isARMTraditional
+    $activeBackend == "ARM"
+end
+
 def armMoveImmediate(value, register)
     # Currently we only handle the simple cases, and fall back to mov/movt for the complex ones.
     if value.is_a? String
@@ -82,6 +88,8 @@ def armMoveImmediate(value, register)
         $asm.puts "mov #{register.armOperand}, \##{value}"
     elsif (~value) >= 0 && (~value) < 256
         $asm.puts "mvn #{register.armOperand}, \##{~value}"
+    elsif isARMTraditional
+        $asm.puts "ldr #{register.armOperand}, =#{value}"
     else
         $asm.puts "movw #{register.armOperand}, \##{value & 0xffff}"
         if (value & 0xffff0000) != 0
@@ -108,9 +116,9 @@ class RegisterID
         when "t5"
             "r9"
         when "cfr"
-            "r7"
+            isARMTraditional ? "r11" : "r7"
         when "csr0"
-            "r11"
+            isARMTraditional ? "r7" : "r11"
         when "csr1"
             "r10"
         when "lr"
@@ -163,7 +171,12 @@ end
 class BaseIndex
     def armOperand
         raise "Bad offset at #{codeOriginString}" if offset.value != 0
-        "[#{base.armOperand}, #{index.armOperand}, lsl \##{scaleShift}]"
+        if scaleShift == 0
+            # ARM-state halfword/signed byte transfers reject even "lsl #0".
+            "[#{base.armOperand}, #{index.armOperand}]"
+        else
+            "[#{base.armOperand}, #{index.armOperand}, lsl \##{scaleShift}]"
+        end
     end
 end
 
@@ -286,8 +299,18 @@ def armLowerLabelReferences(list)
 end
 
 class Sequence
+    def getModifiedListARM
+        raise unless $activeBackend == "ARM"
+        getModifiedListARMCommon
+    end
+
     def getModifiedListARMv7
         raise unless $activeBackend == "ARMv7"
+        getModifiedListARMCommon
+    end
+
+    def getModifiedListARMv7_TRADITIONAL
+        raise unless $activeBackend == "ARMv7_TRADITIONAL"
         getModifiedListARMCommon
     end
 
@@ -299,10 +322,14 @@ class Sequence
         result = armLowerLabelReferences(result)
         result = riscLowerMalformedAddresses(result) {
             | node, address |
+            # ARM-state halfword and signed byte transfers take only an 8-bit
+            # offset or an unshifted index register.
+            extraLoadStore = (isARMTraditional and node.is_a? Instruction and
+                              ["loadh", "loadhsi", "storeh", "loadbsi"].include? node.opcode)
             if address.is_a? BaseIndex
-                address.offset.value == 0
+                address.offset.value == 0 and (not extraLoadStore or address.scaleShift == 0)
             elsif address.is_a? Address
-                (-0xff..0xfff).include? address.offset.value
+                (-0xff..(extraLoadStore ? 0xff : 0xfff)).include? address.offset.value
             else
                 false
             end
@@ -389,8 +416,30 @@ def emitArmTestSet(operands, code)
 end
 
 class Instruction
+    def lowerARM
+        raise unless $activeBackend == "ARM"
+        lowerARMCommon
+        # ldr =imm literals must sit within 4KB of their loads. Unconditional
+        # jumps flush the pool; long straight-line runs branch around one.
+        $armInstructionsSinceLiteralPool = ($armInstructionsSinceLiteralPool || 0) + 1
+        if opcode == "jmp"
+            $armInstructionsSinceLiteralPool = 0
+        elsif $armInstructionsSinceLiteralPool >= 128
+            uid = $asm.newUID
+            $asm.puts "b .Loffline_asm_arm_pool_#{uid}"
+            $asm.puts ".ltorg"
+            $asm.puts ".Loffline_asm_arm_pool_#{uid}:"
+            $armInstructionsSinceLiteralPool = 0
+        end
+    end
+
     def lowerARMv7
         raise unless $activeBackend == "ARMv7"
+        lowerARMCommon
+    end
+
+    def lowerARMv7_TRADITIONAL
+        raise unless $activeBackend == "ARMv7_TRADITIONAL"
         lowerARMCommon
     end
 
@@ -454,13 +503,13 @@ class Instruction
         when "loadb"
             $asm.puts "ldrb #{armFlippedOperands(operands)}"
         when "loadbsi"
-            $asm.puts "ldrsb.w #{armFlippedOperands(operands)}"
+            $asm.puts "#{isARMTraditional ? "ldrsb" : "ldrsb.w"} #{armFlippedOperands(operands)}"
         when "storeb"
             $asm.puts "strb #{armOperands(operands)}"
         when "loadh"
             $asm.puts "ldrh #{armFlippedOperands(operands)}"
         when "loadhsi"
-            $asm.puts "ldrsh.w #{armFlippedOperands(operands)}"
+            $asm.puts "#{isARMTraditional ? "ldrsh" : "ldrsh.w"} #{armFlippedOperands(operands)}"
         when "storeh"
             $asm.puts "strh #{armOperands(operands)}"
         when "loadd"
@@ -546,8 +595,12 @@ class Instruction
                 $asm.puts "mov #{armFlippedOperands(operands)}"
             end
         when "mvlbl"
+            if isARMTraditional
+                $asm.puts "ldr #{operands[1].armOperand}, =#{operands[0].value}"
+            else
                 $asm.puts "movw #{operands[1].armOperand}, \#:lower16:#{operands[0].value}"
                 $asm.puts "movt #{operands[1].armOperand}, \#:upper16:#{operands[0].value}"
+            end
         when "nop"
             $asm.puts "nop"
         when "bieq", "bpeq", "bbeq"
@@ -606,6 +659,10 @@ class Instruction
                 $asm.puts "b #{operands[0].asmLabel}"
             else
                 $asm.puts "mov pc, #{operands[0].armOperand}"
+            end
+            if isARMTraditional
+                # Flush the literal pool of the ldr =imm loads (+-4KB reach).
+                $asm.puts ".ltorg"
             end
         when "call"
             if operands[0].label?
@@ -669,7 +726,12 @@ class Instruction
             raise "Wrong number of arguments to smull in #{self.inspect} at #{codeOriginString}" unless operands.length == 4
             $asm.puts "smull #{operands[2].armOperand}, #{operands[3].armOperand}, #{operands[0].armOperand}, #{operands[1].armOperand}"
         when "memfence"
-            $asm.puts "dmb sy"
+            if isARMTraditional
+                # ARMv6 CP15 data memory barrier (r0 is not modified).
+                $asm.puts "mcr p15, 0, r0, c7, c10, 5"
+            else
+                $asm.puts "dmb sy"
+            end
         when "clrbp"
             $asm.puts "bic #{operands[2].armOperand}, #{operands[0].armOperand}, #{operands[1].armOperand}"
         when "globaladdr"
@@ -696,6 +758,10 @@ class Instruction
             $asm.puts "#{offsetLabel}:"
             $asm.puts "add #{dest.armOperand}, pc, #{dest.armOperand}"
             $asm.puts "ldr #{dest.armOperand}, [#{dest.armOperand}, #{temp.armOperand}]"
+
+            # Symbian images are relocated by the loader: an absolute literal.
+            $asm.putStr("#elif OS(SYMBIAN)")
+            $asm.puts "ldr #{dest.armOperand}, =#{operands[0].asmLabel}"
 
             # Throw a compiler error everywhere else.
             $asm.putStr("#else")

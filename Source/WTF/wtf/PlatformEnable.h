@@ -638,6 +638,11 @@
 #define ENABLE_DFG_JIT 1
 #endif
 
+/* Enable the DFG JIT on ARMv5/ARMv6 (restored ARM_TRADITIONAL backend). */
+#if CPU(ARM_TRADITIONAL)
+#define ENABLE_DFG_JIT 1
+#endif
+
 /* Enable the DFG JIT on MIPS. */
 #if CPU(MIPS)
 #define ENABLE_DFG_JIT 1
@@ -657,7 +662,7 @@
 #define ENABLE_FAST_TLS_JIT 1
 #endif
 
-#if ENABLE(JIT) && (CPU(X86) || CPU(X86_64) || CPU(ARM_THUMB2) || CPU(ARM64) || CPU(MIPS))
+#if ENABLE(JIT) && (CPU(X86) || CPU(X86_64) || CPU(ARM_THUMB2) || CPU(ARM64) || CPU(ARM_TRADITIONAL) || CPU(MIPS))
 #define ENABLE_MASM_PROBE 1
 #endif
 

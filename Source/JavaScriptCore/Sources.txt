@@ -44,12 +44,14 @@ API/JSWeakValue.cpp
 API/MarkedJSValueRefArray.cpp
 API/OpaqueJSString.cpp
 
+assembler/ARMAssembler.cpp
 assembler/AbstractMacroAssembler.cpp
 assembler/AssemblerBuffer.cpp
 assembler/CPU.cpp
 assembler/JITOperationList.cpp
 assembler/LinkBuffer.cpp
 assembler/MacroAssembler.cpp
+assembler/MacroAssemblerARM.cpp
 assembler/MacroAssemblerARM64.cpp
 assembler/MacroAssemblerARMv7.cpp
 assembler/MacroAssemblerCodeRef.cpp

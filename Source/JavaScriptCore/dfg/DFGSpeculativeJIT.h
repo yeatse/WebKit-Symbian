@@ -962,7 +962,7 @@ public:
     
     void prepareForExternalCall()
     {
-#if !defined(NDEBUG) && !CPU(ARM_THUMB2) && !CPU(MIPS)
+#if !defined(NDEBUG) && !CPU(ARM) && !CPU(MIPS)
         // We're about to call out to a "native" helper function. The helper
         // function is expected to set topCallFrame itself with the CallFrame
         // that is passed to it.
@@ -1032,7 +1032,7 @@ public:
 #endif
     }
 
-#if CPU(ARM_THUMB2) && !CPU(ARM_HARDFP)
+#if CPU(ARM) && !CPU(ARM_HARDFP)
     JITCompiler::Call appendCallSetResult(const FunctionPtr<CFunctionPtrTag> function, FPRReg result)
     {
         JITCompiler::Call call = appendCall(function);
@@ -1040,7 +1040,7 @@ public:
             m_jit.assembler().vmov(result, GPRInfo::returnValueGPR, GPRInfo::returnValueGPR2);
         return call;
     }
-#else // CPU(X86_64) || (CPU(ARM_THUMB2) && CPU(ARM_HARDFP)) || CPU(ARM64) || CPU(MIPS)
+#else // CPU(X86_64) || (CPU(ARM) && CPU(ARM_HARDFP)) || CPU(ARM64) || CPU(MIPS)
     JITCompiler::Call appendCallSetResult(const FunctionPtr<CFunctionPtrTag> function, FPRReg result)
     {
         JITCompiler::Call call = appendCall(function);

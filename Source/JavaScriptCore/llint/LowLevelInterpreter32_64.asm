@@ -91,7 +91,7 @@ macro dispatchAfterCall(size, opcodeStruct, valueProfileName, dstVirtualRegister
 end
 
 macro cCall2(function)
-    if ARMv7 or MIPS
+    if ARM or ARMv7 or ARMv7_TRADITIONAL or MIPS
         call function
     elsif X86 or X86_WIN
         subp 8, sp
@@ -115,7 +115,7 @@ macro cCall2Void(function)
 end
 
 macro cCall4(function)
-    if ARMv7 or MIPS
+    if ARM or ARMv7 or ARMv7_TRADITIONAL or MIPS
         call function
     elsif X86 or X86_WIN
         push a3
@@ -173,7 +173,7 @@ macro doVMEntry(makeCall)
     loadi VM::disallowVMEntryCount[vm], t4
     btinz t4, .checkVMEntryPermission
 
-    if ARMv7
+    if ARMv7 or ARM
         vmEntryRecord(cfr, t3)
         move t3, sp
     else
@@ -193,11 +193,15 @@ macro doVMEntry(makeCall)
         addp CallFrameAlignSlots * SlotSize, sp, t3
         andp ~StackAlignmentMask, t3
         subp t3, CallFrameAlignSlots * SlotSize, sp
-    elsif ARMv7
+    elsif ARM or ARMv7 or ARMv7_TRADITIONAL
         addp CallFrameAlignSlots * SlotSize, sp, t3
         clrbp t3, StackAlignmentMask, t3
-        subp t3, CallFrameAlignSlots * SlotSize, t3
-        move t3, sp
+        if ARMv7 or ARM
+            subp t3, CallFrameAlignSlots * SlotSize, t3
+            move t3, sp
+        else
+            subp t3, CallFrameAlignSlots * SlotSize, sp
+        end
     end
 
     loadi ProtoCallFrame::paddedArgCount[protoCallFrame], t4
@@ -269,7 +273,7 @@ macro doVMEntry(makeCall)
 
     makeCall(entry, protoCallFrame, t3, t4)
 
-    if ARMv7
+    if ARMv7 or ARM
         vmEntryRecord(cfr, t3)
         move t3, sp
     else
@@ -282,7 +286,7 @@ macro doVMEntry(makeCall)
     loadp VMEntryRecord::m_prevTopEntryFrame[sp], t4
     storep t4, VM::topEntryFrame[t5]
 
-    if ARMv7
+    if ARMv7 or ARM
         subp cfr, CalleeRegisterSaveSize, t5
         move t5, sp
     else
@@ -299,7 +303,7 @@ macro doVMEntry(makeCall)
     move protoCallFrame, a1
     cCall2(_llint_throw_stack_overflow_error)
 
-    if ARMv7
+    if ARMv7 or ARM
         vmEntryRecord(cfr, t3)
         move t3, sp
     else
@@ -312,7 +316,7 @@ macro doVMEntry(makeCall)
     loadp VMEntryRecord::m_prevTopEntryFrame[sp], t4
     storep t4, VM::topEntryFrame[t5]
 
-    if ARMv7
+    if ARMv7 or ARM
         subp cfr, CalleeRegisterSaveSize, t5
         move t5, sp
     else
@@ -332,7 +336,7 @@ macro doVMEntry(makeCall)
     move UndefinedTag, r1
     move 0, r0
 
-    if ARMv7
+    if ARMv7 or ARM
         subp cfr, CalleeRegisterSaveSize, t3
         move t3, sp
     else
@@ -397,7 +401,7 @@ op(llint_handle_uncaught_exception, macro()
     storep 0, VM::callFrameForCatch[t3]
 
     loadp VM::topEntryFrame[t3], cfr
-    if ARMv7
+    if ARMv7 or ARM
         vmEntryRecord(cfr, t3)
         move t3, sp
     else
@@ -410,7 +414,7 @@ op(llint_handle_uncaught_exception, macro()
     loadp VMEntryRecord::m_prevTopEntryFrame[sp], t5
     storep t5, VM::topEntryFrame[t3]
 
-    if ARMv7
+    if ARMv7 or ARM
         subp cfr, CalleeRegisterSaveSize, t3
         move t3, sp
     else

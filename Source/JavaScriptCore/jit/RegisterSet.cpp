@@ -152,7 +152,7 @@ RegisterSet RegisterSet::vmCalleeSaveRegisters()
     result.set(FPRInfo::fpRegCS5);
     result.set(FPRInfo::fpRegCS6);
     result.set(FPRInfo::fpRegCS7);
-#elif CPU(ARM_THUMB2) || CPU(MIPS)
+#elif CPU(ARM) || CPU(MIPS)
     result.set(GPRInfo::regCS0);
     result.set(GPRInfo::regCS1);
 #endif
@@ -189,7 +189,7 @@ RegisterSet RegisterSet::llintBaselineCalleeSaveRegisters()
     result.set(GPRInfo::regCS5);
     result.set(GPRInfo::regCS6);
 #endif
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     result.set(GPRInfo::regCS0);
     result.set(GPRInfo::regCS1);
 #elif CPU(ARM64)
@@ -229,7 +229,7 @@ RegisterSet RegisterSet::dfgCalleeSaveRegisters()
     result.set(GPRInfo::regCS5);
     result.set(GPRInfo::regCS6);
 #endif
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     result.set(GPRInfo::regCS1);
 #elif CPU(ARM64)
     static_assert(GPRInfo::regCS8 == GPRInfo::numberTagRegister, "");

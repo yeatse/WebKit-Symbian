@@ -197,7 +197,7 @@ template<typename T> T nextID(T id) { return static_cast<T>(id + 1); }
 #if ENABLE(MASM_PROBE)
 bool isPC(MacroAssembler::RegisterID id)
 {
-#if CPU(ARM_THUMB2)
+#if CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
     return id == ARMRegisters::pc;
 #else
     UNUSED_PARAM(id);
@@ -2399,7 +2399,7 @@ void testProbeModifiesStackPointer(WTF::Function<void*(Probe::Context&)> compute
 #if CPU(X86) || CPU(X86_64)
     auto flagsSPR = X86Registers::eflags;
     uintptr_t flagsMask = 0xc5;
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
     auto flagsSPR = ARMRegisters::apsr;
     uintptr_t flagsMask = 0xf8000000;
 #elif CPU(ARM64)
@@ -2581,7 +2581,7 @@ void testProbeModifiesStackValues()
 #if CPU(X86) || CPU(X86_64)
     MacroAssembler::SPRegisterID flagsSPR = X86Registers::eflags;
     uintptr_t flagsMask = 0xc5;
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
     MacroAssembler::SPRegisterID flagsSPR = ARMRegisters::apsr;
     uintptr_t flagsMask = 0xf8000000;
 #elif CPU(ARM64)

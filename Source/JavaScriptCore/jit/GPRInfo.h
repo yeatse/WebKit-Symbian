@@ -530,7 +530,7 @@ public:
 
 #endif // CPU(X86_64)
 
-#if CPU(ARM_THUMB2)
+#if CPU(ARM)
 #define NUMBER_OF_ARGUMENT_REGISTERS 4u
 #define NUMBER_OF_CALLEE_SAVES_REGISTERS 2u
 
@@ -549,7 +549,12 @@ public:
     static constexpr GPRReg regT5 = ARMRegisters::r9;
     static constexpr GPRReg regT6 = ARMRegisters::r5;
     static constexpr GPRReg regT7 = ARMRegisters::r4;
+#if CPU(ARM_TRADITIONAL)
+    // r11 is the frame pointer in ARM state.
+    static constexpr GPRReg regCS0 = ARMRegisters::r7;
+#else
     static constexpr GPRReg regCS0 = ARMRegisters::r11;
+#endif
     static constexpr GPRReg regCS1 = ARMRegisters::r10;
     // These registers match the baseline JIT.
     static constexpr GPRReg callFrameRegister = ARMRegisters::fp;

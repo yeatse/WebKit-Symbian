@@ -45,6 +45,11 @@ namespace JSC { typedef MacroAssemblerARMv7 MacroAssemblerBase; };
 #define TARGET_MACROASSEMBLER MacroAssemblerARM64
 #include "MacroAssemblerARM64.h"
 
+#elif CPU(ARM_TRADITIONAL)
+#define TARGET_ASSEMBLER ARMAssembler
+#define TARGET_MACROASSEMBLER MacroAssemblerARM
+#include "MacroAssemblerARM.h"
+
 #elif CPU(MIPS)
 #define TARGET_ASSEMBLER MIPSAssembler
 #define TARGET_MACROASSEMBLER MacroAssemblerMIPS
@@ -139,7 +144,7 @@ public:
     using MacroAssemblerBase::and32;
     using MacroAssemblerBase::branchAdd32;
     using MacroAssemblerBase::branchMul32;
-#if CPU(ARM64) || CPU(ARM_THUMB2) || CPU(X86_64) || CPU(MIPS)
+#if CPU(ARM64) || CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL) || CPU(X86_64) || CPU(MIPS)
     using MacroAssemblerBase::branchPtr;
 #endif
     using MacroAssemblerBase::branchSub32;
@@ -437,6 +442,7 @@ public:
         return PatchableJump(branch32WithPatch(cond, left, dataLabel, initialRightValue));
     }
 
+#if !CPU(ARM_TRADITIONAL)
     PatchableJump patchableJump()
     {
         return PatchableJump(jump());
@@ -461,6 +467,7 @@ public:
     {
         return PatchableJump(branch32(cond, address, imm));
     }
+#endif
 #endif
 
     void jump(Label target)

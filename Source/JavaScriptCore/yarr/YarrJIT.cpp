@@ -75,7 +75,7 @@ MatchingContextHolder::~MatchingContextHolder()
 template<YarrJITCompileMode compileMode>
 class YarrGenerator final : public YarrJITInfo, private MacroAssembler {
 
-#if CPU(ARM_THUMB2)
+#if CPU(ARM)
     static const RegisterID input = ARMRegisters::r0;
     static const RegisterID index = ARMRegisters::r1;
     static const RegisterID length = ARMRegisters::r2;
@@ -3763,7 +3763,7 @@ class YarrGenerator final : public YarrJITInfo, private MacroAssembler {
         // The ABI doesn't guarantee the upper bits are zero on unsigned arguments, so clear them ourselves.
         zeroExtend32ToWord(index, index);
         zeroExtend32ToWord(length, length);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
         push(ARMRegisters::r4);
         push(ARMRegisters::r5);
         push(ARMRegisters::r6);
@@ -3813,7 +3813,7 @@ class YarrGenerator final : public YarrJITInfo, private MacroAssembler {
             if (!Options::useJITCage())
                 popPair(framePointerRegister, linkRegister);
         }
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
         pop(ARMRegisters::r8);
         pop(ARMRegisters::r6);
         pop(ARMRegisters::r5);
@@ -3904,7 +3904,7 @@ public:
             // matchingContext is the 5th argument, it is found on the stack.
             RegisterID matchingContext = regT1;
             loadPtr(Address(X86Registers::ebp, 7 * sizeof(void*)), matchingContext);
-#elif CPU(ARM_THUMB2) || CPU(MIPS)
+#elif CPU(ARM) || CPU(MIPS)
             // matchingContext is the 5th argument, it is found on the stack.
             RegisterID matchingContext = regT1;
             loadPtr(Address(stackPointerRegister, 4 * sizeof(void*)), matchingContext);

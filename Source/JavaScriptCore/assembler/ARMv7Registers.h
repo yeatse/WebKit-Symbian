@@ -29,6 +29,16 @@
 
 #define RegisterNames ARMRegisters
 
+// The frame pointer is r7 in Thumb-2 code and r11 in ARM-state code
+// (CPU(ARM_TRADITIONAL), ARMv5/ARMv6); the other one is a callee-save.
+#if CPU(ARM_TRADITIONAL)
+#define ARM_R7_IS_CALLEE_SAVE 1
+#define ARM_R11_IS_CALLEE_SAVE 0
+#else
+#define ARM_R7_IS_CALLEE_SAVE 0
+#define ARM_R11_IS_CALLEE_SAVE 1
+#endif
+
 #define FOR_EACH_REGISTER(macro)                \
     FOR_EACH_GP_REGISTER(macro)                 \
     FOR_EACH_FP_REGISTER(macro)
@@ -45,11 +55,11 @@
     macro(r4,  "r4",  0, 1)                     \
     macro(r5,  "r5",  0, 1)                     \
     macro(r6,  "r6",  0, 1)                     \
-    macro(r7,  "r7",  0, 0)                     \
+    macro(r7,  "r7",  0, ARM_R7_IS_CALLEE_SAVE) \
     macro(r8,  "r8",  0, 1)                     \
     macro(r9,  "r9",  0, 1)                     \
     macro(r10, "r10", 0, 1)                     \
-    macro(r11, "r11", 0, 1)                     \
+    macro(r11, "r11", 0, ARM_R11_IS_CALLEE_SAVE) \
     macro(r12, "ip",  0, 0)                     \
     macro(r13, "sp",  0, 0)                     \
     macro(r14, "lr",  1, 0)                     \
@@ -63,19 +73,25 @@
     macro(r4,  "r4",  0, 1)                     \
     macro(r5,  "r5",  0, 1)                     \
     macro(r6,  "r6",  0, 1)                     \
-    macro(r7,  "r7",  0, 0)                     \
+    macro(r7,  "r7",  0, ARM_R7_IS_CALLEE_SAVE) \
     macro(r8,  "r8",  0, 1)                     \
     macro(r9,  "r9",  0, 0)                     \
     macro(r10, "r10", 0, 1)                     \
-    macro(r11, "r11", 0, 1)                     \
+    macro(r11, "r11", 0, ARM_R11_IS_CALLEE_SAVE) \
     macro(r12, "ip",  0, 0)                     \
     macro(r13, "sp",  0, 0)                     \
     macro(r14, "lr",  1, 0)                     \
     macro(r15, "pc",  1, 0)
 #endif
 
+#if CPU(ARM_TRADITIONAL)
+#define FOR_EACH_FP_ALIAS(macro) macro(fp, "fp", r11)
+#else
+#define FOR_EACH_FP_ALIAS(macro) macro(fp, "fp", r7)
+#endif
+
 #define FOR_EACH_REGISTER_ALIAS(macro)          \
-    macro(fp, "fp", r7)                         \
+    FOR_EACH_FP_ALIAS(macro)                    \
     macro(sb, "sb", r9)                         \
     macro(sl, "sl", r10)                        \
     macro(ip, "ip", r12)                        \
