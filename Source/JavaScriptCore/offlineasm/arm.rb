@@ -596,7 +596,14 @@ class Instruction
             end
         when "mvlbl"
             if isARMTraditional
-                $asm.puts "ldr #{operands[1].armOperand}, =#{operands[0].value}"
+                # No movw/movt; GNU as cannot place a label difference in the
+                # literal pool, so emit the word inline.
+                uid = $asm.newUID
+                $asm.puts "ldr #{operands[1].armOperand}, .Loffline_asm_arm_mvlbl_#{uid}"
+                $asm.puts "b .Loffline_asm_arm_mvlbl_end_#{uid}"
+                $asm.puts ".Loffline_asm_arm_mvlbl_#{uid}:"
+                $asm.puts ".word #{operands[0].value}"
+                $asm.puts ".Loffline_asm_arm_mvlbl_end_#{uid}:"
             else
                 $asm.puts "movw #{operands[1].armOperand}, \#:lower16:#{operands[0].value}"
                 $asm.puts "movt #{operands[1].armOperand}, \#:upper16:#{operands[0].value}"
@@ -768,7 +775,8 @@ class Instruction
             $asm.putStr("#error Missing globaladdr implementation")
             $asm.putStr("#endif")
 
-            offset = 4
+            # pc reads as the instruction address + 4 in Thumb state, + 8 in ARM state.
+            offset = isARMTraditional ? 8 : 4
 
             $asm.deferNextLabelAction {
                 $asm.putStr("#if OS(DARWIN)")
