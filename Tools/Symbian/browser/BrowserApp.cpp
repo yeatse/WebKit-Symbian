@@ -230,6 +230,8 @@ private:
     CWebContainer* iWebContainer { nullptr };
     TBool iLoading { EFalse };
     TBool iShowingPopup { EFalse };
+    // The split view input is open; the page ends above it.
+    TBool iSplitInput { EFalse };
 };
 
 TKeyResponse CUrlBar::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aType)
@@ -321,6 +323,13 @@ void CBrowserAppUi::LayoutControls()
     TRect urlRect = rect;
     urlRect.SetHeight(KUrlBarHeight);
     rect.iTl.iY = urlRect.iBr.iY;
+    if (iSplitInput) {
+        // While the split view input is open, the client rectangle is the
+        // part of the screen above it.
+        TInt visibleBottom = ClientRect().iBr.iY;
+        if (visibleBottom > rect.iTl.iY)
+            rect.iBr.iY = Min(rect.iBr.iY, visibleBottom);
+    }
     iUrlBar->SetRect(urlRect);
     iWebContainer->SetRect(rect);
 }
@@ -328,7 +337,12 @@ void CBrowserAppUi::LayoutControls()
 void CBrowserAppUi::HandleResourceChangeL(TInt aType)
 {
     CAknAppUi::HandleResourceChangeL(aType);
-    if (aType == KEikDynamicLayoutVariantSwitch)
+    if (aType == KAknSplitInputEnabled || aType == KAknSplitInputDisabled) {
+        iSplitInput = aType == KAknSplitInputEnabled;
+        BrowserLog("split view input %s, client rect %d,%d-%d,%d", iSplitInput ? "open" : "closed",
+            ClientRect().iTl.iX, ClientRect().iTl.iY, ClientRect().iBr.iX, ClientRect().iBr.iY);
+        LayoutControls();
+    } else if (aType == KEikDynamicLayoutVariantSwitch)
         LayoutControls();
 }
 

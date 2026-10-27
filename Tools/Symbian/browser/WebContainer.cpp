@@ -25,13 +25,9 @@ enum {
 // A drag of this many pixels is a scroll, not a tap.
 const TInt KTapSlop = 8;
 
-// Resource change events for the partial screen input (Symbian^3 and
-// later), which the SDK's headers do not have.
-const TInt KAknSplitInputEnabled = 0x2001E2C0;
-const TInt KAknSplitInputDisabled = 0x2001E2C1;
-// The part of the screen, from the top, that the split input leaves.
-const TInt KSplitInputVisibleNumerator = 2;
-const TInt KSplitInputVisibleDenominator = 5;
+// Editor flags for the AVKON FEP of Symbian^3 and later: the partial
+// screen (split view) input, and an editor that shows its selection.
+const TInt KEditorFlags = EAknEditorFlagEnablePartialScreen | EAknEditorFlagSelectionVisible;
 
 TPtrC ToDesC(Text aText)
 {
@@ -92,6 +88,7 @@ void CWebContainer::ConstructL(const TRect& aRect)
     CAknEdwinState* state = new (ELeave) CAknEdwinState();
     iEditorState = state;
     state->SetObjectProvider(this);
+    state->SetFlags(KEditorFlags);
     iExtendedInputCapabilities = CAknExtendedInputCapabilities::NewL();
     iExtendedInputCapabilities->SetEditorType(CAknExtendedInputCapabilities::EEdwinBased);
 
@@ -126,8 +123,12 @@ void CWebContainer::EnsureBitmapL()
 void CWebContainer::SizeChanged()
 {
     TRAP_IGNORE(EnsureBitmapL());
-    if (iWebView)
-        iWebView->setSize(Size().iWidth, Size().iHeight);
+    if (!iWebView)
+        return;
+    iWebView->setSize(Size().iWidth, Size().iHeight);
+    // The split view input opened or closed: the view now ends above it.
+    if (iEditable)
+        RevealCaret();
 }
 
 void CWebContainer::Draw(const TRect& aRect) const
@@ -279,9 +280,9 @@ void CWebContainer::UpdateEditorStateL()
         default:
             break;
         }
-        // The input UI over the lower part of the screen, the page still
-        // visible above it, rather than a full screen editor.
-        flags |= EAknEditorFlagEnablePartialScreen;
+        // The touch keyboard over the lower part of the screen, the page
+        // still visible above it, rather than a full screen editor.
+        flags |= KEditorFlags;
         state->SetFlags(flags);
         state->SetDefaultInputMode(defaultMode);
         state->SetCurrentInputMode(defaultMode);
@@ -290,6 +291,10 @@ void CWebContainer::UpdateEditorStateL()
         state->SetCurrentCase(defaultCase);
         state->SetPermittedCases(EAknEditorAllCaseModes);
         state->SetNumericKeymap(EAknEditorStandardNumberModeKeymap);
+        // A FEP already attached to the page view reads the new state.
+        state->ReportAknEdStateEventL(MAknEdStateObserver::EAknEdwinStateFlagsUpdate);
+        state->ReportAknEdStateEventL(MAknEdStateObserver::EAknEdwinStateInputModeUpdate);
+        state->ReportAknEdStateEventL(MAknEdStateObserver::EAknEdwinStateCaseModeUpdate);
     }
     // The FEP asks for InputCapabilities() again.
     iCoeEnv->InputCapabilitiesChanged();
@@ -347,7 +352,7 @@ void CWebContainer::didChangeEditingState()
 void CWebContainer::didChangeSelection()
 {
     if (iSplitInput && iEditable)
-        RevealCaretAboveSplitInput();
+        RevealCaret();
     if (iUpdatingForFep || !iEditable)
         return;
     TRAP_IGNORE(ReportEditorEventL(MAknEdStateObserver::EAknSyncEdwinState));
@@ -356,26 +361,22 @@ void CWebContainer::didChangeSelection()
 void CWebContainer::HandleResourceChange(TInt aType)
 {
     CCoeControl::HandleResourceChange(aType);
-    if (aType == KAknSplitInputEnabled) {
+    if (aType == KAknSplitInputEnabled)
         iSplitInput = ETrue;
-        if (iEditable)
-            RevealCaretAboveSplitInput();
-    } else if (aType == KAknSplitInputDisabled)
+    else if (aType == KAknSplitInputDisabled)
         iSplitInput = EFalse;
 }
 
-// The page does not know about the input covering the lower part of the
-// screen, so it is scrolled to keep the caret in the part above it.
-void CWebContainer::RevealCaretAboveSplitInput()
+// Scrolls the page to bring the caret into view, as the split view input
+// opens over the lower part of the screen and the view shrinks above it.
+void CWebContainer::RevealCaret()
 {
     WebKitSymbian::Rect caret = iWebView->caretRect();
-    TInt screenHeight = iCoeEnv->ScreenDevice()->SizeInPixels().iHeight;
-    TInt visibleBottom = screenHeight * KSplitInputVisibleNumerator / KSplitInputVisibleDenominator
-        - PositionRelativeToScreen().iY;
+    TInt height = Size().iHeight;
     const TInt margin = 16;
-    if (caret.y >= margin && caret.y + caret.height <= visibleBottom - margin)
+    if (caret.y >= margin && caret.y + caret.height <= height - margin)
         return;
-    iWebView->scrollBy(0, caret.y - Max(margin, (visibleBottom - caret.height) / 2));
+    iWebView->scrollBy(0, caret.y - Max(margin, (height - caret.height) / 2));
 }
 
 void CWebContainer::runJavaScriptAlert(Text aMessage)

@@ -20,6 +20,11 @@ public:
     virtual TInt WebSelectPopupL(const WebKitSymbian::Text* aItems, TInt aCount, TInt aSelected) = 0;
 };
 
+// Resource change events for the split view input (Symbian^3 and later),
+// which the SDK's headers do not have; Qt's S60 port uses the same values.
+const TInt KAknSplitInputEnabled = 0x2001E2C0;
+const TInt KAknSplitInputDisabled = 0x2001E2C1;
+
 class CWebContainer : public CCoeControl
     , public WebKitSymbian::WebViewClient
     , public MCoeFepAwareTextEditor
@@ -99,7 +104,7 @@ private:
     void ReportEditorEventL(TInt aEvent);
     void RequestTouchInputL();
     void EnsureBitmapL();
-    void RevealCaretAboveSplitInput();
+    void RevealCaret();
 
     MWebContainerObserver& iObserver;
     WebKitSymbian::WebView* iWebView { nullptr };
@@ -116,8 +121,7 @@ private:
     TBool iInlineEditing { EFalse };
     // When the FEP replaces text itself, didChangeSelection() is ours.
     TBool iUpdatingForFep { EFalse };
-    // The partial screen (split view) input is open over the lower part of
-    // the screen.
+    // The split view input is open over the lower part of the screen.
     TBool iSplitInput { EFalse };
 
     TPoint iPointerDown;
