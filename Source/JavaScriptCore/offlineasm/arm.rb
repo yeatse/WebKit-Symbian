@@ -309,11 +309,6 @@ class Sequence
         getModifiedListARMCommon
     end
 
-    def getModifiedListARMv7_TRADITIONAL
-        raise unless $activeBackend == "ARMv7_TRADITIONAL"
-        getModifiedListARMCommon
-    end
-
     def getModifiedListARMCommon
         result = @list
         result = riscLowerSimpleBranchOps(result)
@@ -435,11 +430,6 @@ class Instruction
 
     def lowerARMv7
         raise unless $activeBackend == "ARMv7"
-        lowerARMCommon
-    end
-
-    def lowerARMv7_TRADITIONAL
-        raise unless $activeBackend == "ARMv7_TRADITIONAL"
         lowerARMCommon
     end
 

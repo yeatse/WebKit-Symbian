@@ -91,7 +91,7 @@ macro dispatchAfterCall(size, opcodeStruct, valueProfileName, dstVirtualRegister
 end
 
 macro cCall2(function)
-    if ARM or ARMv7 or ARMv7_TRADITIONAL or MIPS
+    if ARMv7 or ARM or MIPS
         call function
     elsif X86 or X86_WIN
         subp 8, sp
@@ -115,7 +115,7 @@ macro cCall2Void(function)
 end
 
 macro cCall4(function)
-    if ARM or ARMv7 or ARMv7_TRADITIONAL or MIPS
+    if ARMv7 or ARM or MIPS
         call function
     elsif X86 or X86_WIN
         push a3
@@ -193,15 +193,11 @@ macro doVMEntry(makeCall)
         addp CallFrameAlignSlots * SlotSize, sp, t3
         andp ~StackAlignmentMask, t3
         subp t3, CallFrameAlignSlots * SlotSize, sp
-    elsif ARM or ARMv7 or ARMv7_TRADITIONAL
+    elsif ARMv7 or ARM
         addp CallFrameAlignSlots * SlotSize, sp, t3
         clrbp t3, StackAlignmentMask, t3
-        if ARMv7 or ARM
-            subp t3, CallFrameAlignSlots * SlotSize, t3
-            move t3, sp
-        else
-            subp t3, CallFrameAlignSlots * SlotSize, sp
-        end
+        subp t3, CallFrameAlignSlots * SlotSize, t3
+        move t3, sp
     end
 
     loadi ProtoCallFrame::paddedArgCount[protoCallFrame], t4

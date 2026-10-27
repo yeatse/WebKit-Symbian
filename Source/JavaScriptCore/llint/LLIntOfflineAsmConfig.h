@@ -41,7 +41,6 @@
 #define OFFLINE_ASM_X86_WIN 0
 #define OFFLINE_ASM_ARM 0
 #define OFFLINE_ASM_ARMv7 0
-#define OFFLINE_ASM_ARMv7_TRADITIONAL 0
 #define OFFLINE_ASM_ARM64 0
 #define OFFLINE_ASM_ARM64E 0
 #define OFFLINE_ASM_X86_64 0
@@ -85,16 +84,10 @@
 #define OFFLINE_ASM_ARMv7 0
 #endif
 
+// ARM state on any architecture version uses the ARMv5/ARMv6 backend.
 #if CPU(ARM_TRADITIONAL)
-#if WTF_ARM_ARCH_AT_LEAST(7)
-#define OFFLINE_ASM_ARMv7_TRADITIONAL 1
-#define OFFLINE_ASM_ARM 0
-#else
 #define OFFLINE_ASM_ARM 1
-#define OFFLINE_ASM_ARMv7_TRADITIONAL 0
-#endif
 #else
-#define OFFLINE_ASM_ARMv7_TRADITIONAL 0
 #define OFFLINE_ASM_ARM 0
 #endif
 
