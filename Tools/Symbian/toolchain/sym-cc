@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# C compiler wrapper: compiles for Symbian (ARMv6, Open C + libc++). A link step
+# resolves against the SDK runtime and the OS import proxies, so configure
+# function checks are real; the result is an ELF, not an E32 image.
+. "$(dirname "$0")/sym-flags.sh"
+link=1; for a in "$@"; do case "$a" in -c|-E|-S|-M|-MM) link=0;; esac; done
+if [ $link = 1 ]; then
+  # libdl and libpthread are host library names CMake adds; Open C's are
+  # among the proxies below.
+  args=(); for a in "$@"; do case "$a" in -ldl|-lpthread|-rdynamic) ;; *) args+=("$a");; esac; done
+  P=$SDK/proxies
+  exec "$SDK/bin/clang" $SYM_ARCH $SYM_DEFS $SYM_INC "${args[@]}" -nostdlib -fuse-ld=lld \
+    -Wl,-e,main -Wl,--no-undefined -Wl,-Bdynamic -Wl,--start-group \
+    $SDK/lib/armv6/libsymbian_guest_runtime_streams.a $P/libc/libc.dso \
+    $P/libm/libm.dso $P/libpthread/libpthread.dso $P/euser/euser.dso \
+    $P/drtaeabi/drtaeabi.dso $P/hal/hal.dso $P/efsrv/efsrv.dso \
+    $P/libdl/libdl.dso -Wl,--end-group
+fi
+# Symbian images cannot use position-independent code (imported functions
+# would be reached through GOT entries the E32 converter cannot express), so
+# -fno-pic comes last and wins over a project's own -fPIC.
+exec "$SDK/bin/clang" $SYM_ARCH $SYM_DEFS $SYM_INC "$@" -fno-pic

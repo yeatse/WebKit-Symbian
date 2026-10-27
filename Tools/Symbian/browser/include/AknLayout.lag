@@ -1,0 +1,2 @@
+// Stand-in for the generated AknLayout.lag, which the SDK does not ship.
+// AknUtils.h includes it for layout macros the browser does not use.

@@ -1,0 +1,9 @@
+// Stand-in for the generated avkon.rsg, which the SDK does not ship.
+// AknUtils.h (through aknlists.h) names these four resources only as default
+// arguments of AknFind functions, which the browser does not call; the values
+// are not the firmware's and must not be used.
+#pragma once
+#define R_AVKON_POPUP_FIND_WINDOW 0
+#define R_AVKON_LIST_GEN_PANE 0
+#define R_AVKON_LIST_GEN_PANE_WITH_FIND_POPUP 0
+#define R_AVKON_MAIN_PANE_WITH_STATUS_PANE 0

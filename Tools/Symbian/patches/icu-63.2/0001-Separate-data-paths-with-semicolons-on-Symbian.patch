@@ -1,0 +1,19 @@
+diff --git a/icu4c/source/common/unicode/putil.h b/icu4c/source/common/unicode/putil.h
+index 759b136..f4211b7 100644
+--- a/icu4c/source/common/unicode/putil.h
++++ b/icu4c/source/common/unicode/putil.h
+@@ -126,6 +126,14 @@ U_INTERNAL void U_EXPORT2 u_setTimeZoneFilesDirectory(const char *path, UErrorCo
+ #   define U_FILE_SEP_STRING "\\"
+ #   define U_FILE_ALT_SEP_STRING "/"
+ #   define U_PATH_SEP_STRING ";"
++#elif defined(__SYMBIAN32__)
++    /* Symbian paths start with a drive letter, as on Windows. */
++#   define U_FILE_SEP_CHAR '/'
++#   define U_FILE_ALT_SEP_CHAR '/'
++#   define U_PATH_SEP_CHAR ';'
++#   define U_FILE_SEP_STRING "/"
++#   define U_FILE_ALT_SEP_STRING "/"
++#   define U_PATH_SEP_STRING ";"
+ #else
+ #   define U_FILE_SEP_CHAR '/'
+ #   define U_FILE_ALT_SEP_CHAR '/'

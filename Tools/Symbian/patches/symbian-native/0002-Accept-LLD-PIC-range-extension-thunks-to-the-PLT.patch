@@ -1,0 +1,102 @@
+diff --git a/cpp/symbian/e32/e32.cc b/cpp/symbian/e32/e32.cc
+index c6dc8b0..0db4344 100644
+--- a/cpp/symbian/e32/e32.cc
++++ b/cpp/symbian/e32/e32.cc
+@@ -798,8 +798,8 @@ absl::StatusOr<std::string> ConvertExecutable(
+     std::string_view elf, uint32_t uid3, uint32_t capabilities,
+     const std::vector<std::string>* absl_nullable proxies,
+     const std::string_view* absl_nullable definition = nullptr) {
+-  if (elf.size() > 64 * 1024 * 1024) {
+-    return absl::ResourceExhaustedError("ELF exceeds 64 MiB");
++  if (elf.size() > 256 * 1024 * 1024) {
++    return absl::ResourceExhaustedError("ELF exceeds 256 MiB");
+   }
+   if (uid3 < 0xe0000000 || uid3 > 0xefffffff) {
+     return absl::InvalidArgumentError("Experimental unprotected UID3 required");
+@@ -1038,8 +1038,8 @@ absl::StatusOr<std::string> ConvertPicExecutable(std::string_view elf,
+ absl::StatusOr<std::string> ConvertEka1Executable(
+     std::string_view elf, uint32_t uid3,
+     const std::vector<std::string>& proxies) {
+-  if (elf.size() > 64 * 1024 * 1024) {
+-    return absl::ResourceExhaustedError("ELF exceeds 64 MiB");
++  if (elf.size() > 256 * 1024 * 1024) {
++    return absl::ResourceExhaustedError("ELF exceeds 256 MiB");
+   }
+   if (uid3 < 0xe0000000 || uid3 > 0xefffffff) {
+     return absl::InvalidArgumentError("Experimental unprotected UID3 required");
+diff --git a/cpp/symbian/e32/imports.cc b/cpp/symbian/e32/imports.cc
+index 98ab031..f5661dc 100644
+--- a/cpp/symbian/e32/imports.cc
++++ b/cpp/symbian/e32/imports.cc
+@@ -616,14 +616,30 @@ absl::Status CheckImportCall(std::string_view elf, const Segment& code,
+       return absl::DataLossError("Thumb import instruction is unaligned");
+     }
+     const uint16_t first = Read16(elf, p), second = Read16(elf, p + 2);
+-    if ((first & 0xf800) != 0xf000 || (second & 0xf800) != 0xe800) {
++    // BLX to the PLT, or BL to an LLD Thumb range-extension thunk.
++    const bool exchange = (second & 0xf800) == 0xe800;
++    if ((first & 0xf800) != 0xf000 ||
++        (!exchange && (second & 0xf800) != 0xf800)) {
+       return absl::UnimplementedError("Requires ARMv5 Thumb BLX import call");
+     }
+     int64_t displacement = ((first & 0x7ff) << 12) | ((second & 0x7ff) << 1);
+     if (first & 0x400) {
+       displacement -= int64_t{1} << 23;
+     }
+-    target = ((location + 4) & ~uint32_t{3}) + displacement;
++    if (exchange) {
++      target = ((location + 4) & ~uint32_t{3}) + displacement;
++    } else {
++      // A Thumb thunk switches to ARM ("bx pc; nop") before the ARM thunk.
++      const int64_t thunk = location + 4 + displacement;
++      if (thunk < code.address || thunk % 4 ||
++          !Within(code.size, static_cast<uint64_t>(thunk - code.address), 4) ||
++          Read16(elf, code.offset + static_cast<size_t>(thunk - code.address)) !=
++              0x4778) {
++        return absl::UnimplementedError(
++            "Requires an LLD Thumb-to-ARM thunk for a Thumb BL import call");
++      }
++      target = thunk + 4;
++    }
+   } else {
+     return absl::UnimplementedError("Unsupported external call relocation");
+   }
+@@ -631,7 +647,22 @@ absl::Status CheckImportCall(std::string_view elf, const Segment& code,
+       !Within(code.size, static_cast<uint64_t>(target - code.address), 12)) {
+     return absl::DataLossError("Import call target outside code");
+   }
+-  const size_t t = code.offset + static_cast<size_t>(target - code.address);
++  size_t t = code.offset + static_cast<size_t>(target - code.address);
++  // A call beyond a BL's +-32 MB reaches the PLT through an LLD
++  // position-independent range-extension thunk (--pic-veneer):
++  //   ldr ip, [pc, #4]; add ip, pc, ip; bx ip; .word target - (thunk + 12)
++  // It needs no relocation, so the call may go through it.
++  if (Read32(elf, t) == 0xe59fc004 && Read32(elf, t + 4) == 0xe08fc00c &&
++      Read32(elf, t + 8) == 0xe12fff1c &&
++      Within(code.size, static_cast<uint64_t>(target - code.address), 16)) {
++    target = static_cast<int64_t>(
++        static_cast<uint32_t>(target + 12 + Read32(elf, t + 12)));
++    if (target < code.address || target % 4 ||
++        !Within(code.size, static_cast<uint64_t>(target - code.address), 12)) {
++      return absl::DataLossError("Import call thunk target outside code");
++    }
++    t = code.offset + static_cast<size_t>(target - code.address);
++  }
+   const uint32_t a = Read32(elf, t), b = Read32(elf, t + 4),
+                  c = Read32(elf, t + 8);
+   if ((a & 0xfffff000) != 0xe28fc000 || (b & 0xfffff000) != 0xe28cc000 ||
+diff --git a/cpp/symbian/tools/main.cc b/cpp/symbian/tools/main.cc
+index d625cbc..f4bd7d9 100644
+--- a/cpp/symbian/tools/main.cc
++++ b/cpp/symbian/tools/main.cc
+@@ -29,8 +29,8 @@ absl::StatusOr<std::string> Read(const fs::path& path) {
+   if (error) {
+     return absl::NotFoundError("Cannot read " + path.string());
+   }
+-  if (size > 64 * 1024 * 1024) {
+-    return absl::ResourceExhaustedError("Input exceeds 64 MiB");
++  if (size > 256 * 1024 * 1024) {
++    return absl::ResourceExhaustedError("Input exceeds 256 MiB");
+   }
+   std::ifstream stream(path, std::ios::binary);
+   if (!stream) {

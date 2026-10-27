@@ -1,5 +1,7 @@
 # WebKit
 
+> **Symbian^3 port.** This branch (`2.32.4-symbian`) ports WebKit 2.32.4 to Symbian^3 phones: JavaScriptCore with an ARMv6 JIT, WebCore, a WebKitLegacy WebView and an AVKON browser. See [Tools/Symbian/README.md](Tools/Symbian/README.md) for building, packaging and the state of the port.
+
 WebKit is a cross-platform web browser engine. On iOS and macOS, it powers Safari, Mail, iBooks, and many other applications.
 
 ## Feature Status

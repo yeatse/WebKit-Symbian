@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width"><title>WebKit on Symbian</title>
+<style>body{font-family:sans-serif;margin:12px}h1{color:#307cf0;font-size:22px}.box{background:linear-gradient(#fff,#dde);border:1px solid #99a;border-radius:8px;padding:8px}</style></head>
+<body><h1>Hello from WebKit 2.32</h1>
+<div class="box">ES2020: <span id="js">no script</span></div>
+<p>中文测试：你好，世界</p>
+<p><input id="q" placeholder="Type here" style="width:90%"></p>
+<p><select><option>One</option><option>Two</option><option>Three</option></select> <button onclick="alert('Clicked')">Alert</button></p>
+<script>document.getElementById('js').textContent = [1,2,3].map(x => x ** 2).join(',') + ' ' + (globalThis?.Symbian ?? 'ok') + ' ' + (10n ** 20n);</script>
+</body></html>

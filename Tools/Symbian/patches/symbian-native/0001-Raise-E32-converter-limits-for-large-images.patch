@@ -1,0 +1,176 @@
+diff --git a/cpp/symbian/e32/e32.cc b/cpp/symbian/e32/e32.cc
+index 5b2bfc0..c6dc8b0 100644
+--- a/cpp/symbian/e32/e32.cc
++++ b/cpp/symbian/e32/e32.cc
+@@ -20,6 +20,10 @@
+ #include "symbian/e32/imports.h"
+ 
+ namespace symbian::e32 {
++
++// E32 relocation sections count entries in 32-bit fields; large images such
++// as JavaScriptCore need far more than 64K absolute pointers.
++constexpr size_t kMaxAbsolutePointers = size_t{1} << 22;
+ namespace {
+ 
+ using analysis::internal::Put16;
+@@ -317,7 +321,7 @@ absl::Status CheckRelocations(std::string_view elf,
+                 "Imported function pointer requires its validated PLT slot");
+           }
+           auto& offsets = target_in_data ? pointers->data : pointers->code;
+-          if (offsets.size() >= 65535) {
++          if (offsets.size() >= kMaxAbsolutePointers) {
+             return absl::ResourceExhaustedError(
+                 "Too many E32 absolute pointers");
+           }
+@@ -434,7 +438,7 @@ absl::Status CheckRelocations(std::string_view elf,
+         auto& offsets = target_in_data ? pointers->data : pointers->code;
+         const uint32_t offset =
+             location - (target_in_data ? data.file.address : code.address);
+-        if (offsets.size() >= 65535) {
++        if (offsets.size() >= kMaxAbsolutePointers) {
+           return absl::ResourceExhaustedError("Too many E32 absolute pointers");
+         }
+         offsets.push_back(offset);
+@@ -538,7 +542,7 @@ absl::Status CheckRelocations(std::string_view elf,
+     }
+   }
+   for (auto* absl_nonnull offsets : {&pointers->code, &pointers->data}) {
+-    if (offsets->size() > 65535) {
++    if (offsets->size() > kMaxAbsolutePointers) {
+       return absl::ResourceExhaustedError("Too many E32 absolute pointers");
+     }
+     std::sort(offsets->begin(), offsets->end());
+diff --git a/cpp/symbian/e32/exports.cc b/cpp/symbian/e32/exports.cc
+index dd8cdb3..feeb19e 100644
+--- a/cpp/symbian/e32/exports.cc
++++ b/cpp/symbian/e32/exports.cc
+@@ -110,12 +110,15 @@ std::string ExportBitmap(const std::vector<ExportSlot>& exports) {
+   return bitmap;
+ }
+ 
++// E32 relocation sections count entries in 32-bit fields.
++constexpr size_t kMaxCodeRelocations = size_t{1} << 22;
++
+ absl::StatusOr<std::string> EncodeCodeRelocations(
+     const std::vector<uint32_t>& offsets,
+     const std::set<uint32_t>& data_targets) {
+-  if (offsets.empty() || offsets.size() > 131070) {
++  if (offsets.empty() || offsets.size() > kMaxCodeRelocations) {
+     return absl::InvalidArgumentError(
+-        "Code relocations require 1..131070 offsets");
++        "Code relocations require 1..4194304 offsets");
+   }
+   std::string bytes(8, '\0');
+   for (const auto offset : data_targets) {
+@@ -157,9 +160,9 @@ absl::StatusOr<std::string> EncodeCodeRelocations(
+ absl::StatusOr<std::vector<uint32_t>> DecodeCodeRelocations(
+     std::string_view bytes, uint32_t code_size,
+     std::set<uint32_t>* absl_nullable data_targets) {
+-  if (bytes.size() < 16 || bytes.size() > 1024 * 1024 ||
++  if (bytes.size() < 16 || bytes.size() > 64 * 1024 * 1024 ||
+       Read32(bytes, 0) != bytes.size() - 8 || bytes.size() % 4 ||
+-      Read32(bytes, 4) == 0 || Read32(bytes, 4) > 131070) {
++      Read32(bytes, 4) == 0 || Read32(bytes, 4) > kMaxCodeRelocations) {
+     return absl::DataLossError("Invalid E32 code relocation section");
+   }
+   std::vector<uint32_t> offsets;
+@@ -182,7 +185,7 @@ absl::StatusOr<std::vector<uint32_t>> DecodeCodeRelocations(
+       const auto type = word & 0xf000;
+       if ((type != 0x1000 && (type != 0x2000 || data_targets == nullptr)) ||
+           offset % 4 || !Within(code_size, offset, 4) ||
+-          offsets.size() >= 131070) {
++          offsets.size() >= kMaxCodeRelocations) {
+         return absl::DataLossError("Invalid E32 text relocation entry");
+       }
+       offsets.push_back(static_cast<uint32_t>(offset));
+diff --git a/cpp/symbian/e32/imports.cc b/cpp/symbian/e32/imports.cc
+index 26a5300..98ab031 100644
+--- a/cpp/symbian/e32/imports.cc
++++ b/cpp/symbian/e32/imports.cc
+@@ -18,6 +18,11 @@
+ namespace symbian::e32::internal {
+ namespace {
+ 
++// Upper bound on import slots and imported-data relocations per image.
++// Large UI DLLs (e.g. the S60 browser engine) exceed the former 1024/256.
++constexpr size_t kMaxImportSlots = 16384;
++
++
+ using analysis::internal::Put32;
+ using analysis::internal::Read16;
+ using analysis::internal::Read32;
+@@ -28,7 +33,8 @@ absl::StatusOr<std::string> StringAt(std::string_view table, size_t offset) {
+     return absl::DataLossError("Import string outside table");
+   }
+   const size_t end = table.find('\0', offset);
+-  if (end == std::string_view::npos || end - offset > 512) {
++  // C++ symbol names reach several kilobytes (WebCore templates).
++  if (end == std::string_view::npos || end - offset > 16384) {
+     return absl::DataLossError("Unterminated/oversized import string");
+   }
+   return std::string(table.substr(offset, end - offset));
+@@ -115,7 +121,7 @@ absl::StatusOr<ResolvedImports> ResolveImports(
+   // The project may declare more compatible proxies than this image uses.
+   // Only the ELF's needed/version records become E32 import blocks.
+   const size_t needed_count = needs.size / 32;
+-  if (symbols.size < 32 || symbols.size > 1025 * 16 ||
++  if (symbols.size < 32 || symbols.size > (kMaxImportSlots + 1) * 16 ||
+       symbols.entry_size != 16 || symbols.size % 16 ||
+       symbols.link >= sections.size() || dynamic.link != symbols.link ||
+       versions.link != indices.at(11) || needs.link != symbols.link ||
+@@ -184,7 +190,7 @@ absl::StatusOr<ResolvedImports> ResolveImports(
+   const Section& relocs = sections[result.relocation_index];
+   if (relocs.info >= sections.size() || relocs.info == 0 ||
+       relocs.flags != 0x42 || relocs.entry_size != 8 || relocs.size % 8 ||
+-      relocs.size == 0 || relocs.size > 1024 * 8) {
++      relocs.size == 0 || relocs.size > kMaxImportSlots * 8) {
+     return absl::DataLossError("Invalid import relocation table");
+   }
+   result.got_index = relocs.info;
+@@ -217,7 +223,7 @@ absl::StatusOr<ResolvedImports> ResolveImports(
+     const Section& data_relocs = sections[result.data_relocation_index];
+     if (data_relocs.flags != 2 || data_relocs.info != 0 ||
+         data_relocs.entry_size != 8 || data_relocs.size == 0 ||
+-        data_relocs.size > 256 * 8 || data_relocs.size % 8) {
++        data_relocs.size > kMaxImportSlots * 8 || data_relocs.size % 8) {
+       return absl::DataLossError("Invalid imported data relocation table");
+     }
+     expected.emplace(17, data_relocs.address);  // DT_REL
+@@ -630,7 +636,9 @@ absl::Status CheckImportCall(std::string_view elf, const Segment& code,
+                  c = Read32(elf, t + 8);
+   if ((a & 0xfffff000) != 0xe28fc000 || (b & 0xfffff000) != 0xe28cc000 ||
+       (c & 0xfffff000) != 0xe5bcf000) {
+-    return absl::UnimplementedError("Requires PC-relative ARM LLD PLT veneer");
++    return absl::UnimplementedError(absl::StrCat(
++        "Requires PC-relative ARM LLD PLT veneer: call at 0x",
++        absl::Hex(location), " targets 0x", absl::Hex(target)));
+   }
+   auto immediate = [](uint32_t instruction) {
+     const uint32_t value = instruction & 0xff;
+@@ -690,7 +698,7 @@ absl::StatusOr<std::vector<ImportBlock>> DecodeImports(std::string_view section,
+     const uint32_t slots = Read32(section, p + 4);
+     p += 8;
+     if (!DllName(*dll) || (!blocks.empty() && *dll <= blocks.back().dll) ||
+-        slots == 0 || slots > 1024 ||
++        slots == 0 || slots > kMaxImportSlots ||
+         !Within(section.size(), p, static_cast<size_t>(slots) * 4)) {
+       return absl::DataLossError("Invalid E32 import block name/count");
+     }
+@@ -698,7 +706,7 @@ absl::StatusOr<std::vector<ImportBlock>> DecodeImports(std::string_view section,
+     for (size_t j = 0; j < slots; ++j, p += 4) {
+       const uint32_t offset = Read32(section, p);
+       if (offset < 16 || offset % 4 || !Within(code.size(), offset, 4) ||
+-          !locations.insert(offset).second || locations.size() > 1024 ||
++          !locations.insert(offset).second || locations.size() > kMaxImportSlots ||
+           (!block.slots.empty() && offset <= block.slots.back().code_offset)) {
+         return absl::DataLossError("Invalid E32 import code offset");
+       }
+@@ -751,7 +759,7 @@ absl::StatusOr<std::vector<ImportBlock>> DecodePeImports(
+     const uint32_t slots = Read32(section, p + 4);
+     p += 8;
+     if (!DllName(*dll) || (!blocks.empty() && *dll <= blocks.back().dll) ||
+-        slots == 0 || slots > 1024 ||
++        slots == 0 || slots > kMaxImportSlots ||
+         !Within(section.size(), p, uint64_t{slots} * 4) ||
+         !Within(code.size(), iat, uint64_t{slots} * 4 + 4)) {
+       return absl::DataLossError("Invalid PE DLL/ordinal count");
