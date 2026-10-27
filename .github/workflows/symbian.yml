@@ -1,0 +1,216 @@
+# Builds jsc.exe and browser.exe for Symbian^3 on every push to a *-symbian
+# branch and packages them as SIS files (symbian-webkit-icu.sis, jsc.sis,
+# browser.sis), uploaded as the "sis" artifact. A pushed symbian-v* tag also
+# attaches them to a release. See Tools/Symbian/README.md.
+#
+# The packages are unsigned, versioned 0.3.<run number> so that each build
+# installs over the previous one (a symbian-vX.Y.Z tag gives version X.Y.Z).
+# The repository secrets SIS_CERTIFICATE and SIS_KEY (a PEM certificate and
+# its RSA key), if set, sign them instead.
+name: Symbian
+
+on:
+  push:
+    branches: ['*-symbian']
+    tags: ['symbian-v*']
+    paths-ignore:
+      - '**.md'
+      - '**/ChangeLog*'
+      - 'Tools/Symbian/docs/**'
+      - 'Tools/Symbian/eka2l1/**'
+      - 'Tools/Symbian/qemu/**'
+  pull_request:
+    branches: ['*-symbian']
+  workflow_dispatch:
+
+concurrency:
+  group: symbian-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SDK_VERSION: 0.3.0
+  SYMBIAN_WEBKIT_WORK: ${{ github.workspace }}/WebKitBuild/Symbian
+  SYMBIAN_SDK_PREFIX: ${{ github.workspace }}/WebKitBuild/Symbian/symbian-sdk
+  CCACHE_DIR: ${{ github.workspace }}/WebKitBuild/Symbian/ccache
+  CCACHE_BASEDIR: ${{ github.workspace }}
+  # The SDK is unpacked afresh each run: hash compilers, not their mtimes.
+  CCACHE_COMPILERCHECK: content
+  CCACHE_SLOPPINESS: pch_defines,time_macros,include_file_mtime,include_file_ctime
+  CCACHE_MAXSIZE: 3G
+  CMAKE_C_COMPILER_LAUNCHER: ccache
+  CMAKE_CXX_COMPILER_LAUNCHER: ccache
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: Tools/Symbian
+    steps:
+      # Only the parts of WebKit the Symbian build reads; the whole tree with
+      # LayoutTests is several gigabytes.
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            .github
+            PerformanceTests
+            Source/JavaScriptCore
+            Source/ThirdParty/capstone
+            Source/WTF
+            Source/WebCore
+            Source/WebKitLegacy
+            Source/bmalloc
+            Source/cmake
+            Tools/Scripts
+            Tools/Symbian
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h "$GITHUB_WORKSPACE"
+
+      - name: Install host tools
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -yq --no-install-recommends clang lld cmake ninja-build ruby perl \
+            libjson-pp-perl gperf flex bison unifdef python3 pkg-config ccache openssl \
+            autoconf automake libtool
+
+      - name: symbian-platform SDK
+        uses: actions/cache@v4
+        id: sdk
+        with:
+          path: WebKitBuild/Symbian/symbian-sdk
+          key: symbian-sdk-${{ env.SDK_VERSION }}-linux-x86_64
+      - name: Download the SDK
+        if: steps.sdk.outputs.cache-hit != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download "v$SDK_VERSION" --repo hpnkv/symbian-platform \
+            --pattern "symbian-sdk-$SDK_VERSION-linux-x86_64.tar.gz" --dir "$RUNNER_TEMP"
+          mkdir -p "$SYMBIAN_SDK_PREFIX"
+          tar -xzf "$RUNNER_TEMP/symbian-sdk-$SDK_VERSION-linux-x86_64.tar.gz" -C "$SYMBIAN_SDK_PREFIX"
+          rm "$RUNNER_TEMP"/symbian-sdk-*.tar.gz
+
+      # Inputs that change rarely: the E32 converter with its host
+      # dependencies, ICU and the WebCore libraries, each keyed on the scripts
+      # and patches that build it, and the compiler cache. Each is saved as
+      # soon as its step has run, so a later failure keeps it.
+      - name: Restore the E32 converter
+        uses: actions/cache/restore@v4
+        id: converter
+        with:
+          path: |
+            WebKitBuild/Symbian/symbian-platform
+            WebKitBuild/Symbian/symbian-native
+            WebKitBuild/Symbian/src/nlohmann-json
+          key: symbian-native-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-symbian-native.sh', 'Tools/Symbian/patches/symbian-native/**') }}
+      - name: Restore ICU
+        uses: actions/cache/restore@v4
+        id: icu
+        with:
+          path: WebKitBuild/Symbian/icu
+          key: icu-${{ hashFiles('Tools/Symbian/scripts/build-icu.sh', 'Tools/Symbian/scripts/icu-filter.py', 'Tools/Symbian/patches/icu-63.2/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**') }}
+      - name: Restore the WebCore libraries
+        uses: actions/cache/restore@v4
+        id: deps
+        with:
+          path: WebKitBuild/Symbian/deps/install
+          key: deps-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**') }}
+      - name: Restore the compiler cache
+        uses: actions/cache/restore@v4
+        with:
+          path: WebKitBuild/Symbian/ccache
+          key: ccache-${{ github.sha }}
+          restore-keys: ccache-
+
+      - name: E32 converter
+        run: scripts/build-symbian-native.sh
+      - name: Save the E32 converter
+        if: steps.converter.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            WebKitBuild/Symbian/symbian-platform
+            WebKitBuild/Symbian/symbian-native
+            WebKitBuild/Symbian/src/nlohmann-json
+          key: ${{ steps.converter.outputs.cache-primary-key }}
+
+      - name: ICU
+        run: scripts/build-icu.sh
+      - name: Save ICU
+        if: steps.icu.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: WebKitBuild/Symbian/icu
+          key: ${{ steps.icu.outputs.cache-primary-key }}
+
+      - name: JavaScriptCore
+        run: scripts/build-jsc.sh
+      - name: jsc.exe
+        run: scripts/link-e32.sh
+      - name: WebCore libraries
+        if: steps.deps.outputs.cache-hit != 'true'
+        run: scripts/build-deps.sh
+      - name: Save the WebCore libraries
+        if: steps.deps.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: WebKitBuild/Symbian/deps/install
+          key: ${{ steps.deps.outputs.cache-primary-key }}
+      - name: WebCore
+        run: scripts/build-webcore.sh
+      - name: Save the compiler cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: WebKitBuild/Symbian/ccache
+          key: ccache-${{ github.sha }}
+      - name: browser.exe
+        run: scripts/build-browser.sh
+
+      - name: SIS packages
+        env:
+          SIS_CERTIFICATE_PEM: ${{ secrets.SIS_CERTIFICATE }}
+          SIS_KEY_PEM: ${{ secrets.SIS_KEY }}
+        run: |
+          if [ -n "$SIS_CERTIFICATE_PEM" ] && [ -n "$SIS_KEY_PEM" ]; then
+            printf '%s\n' "$SIS_CERTIFICATE_PEM" > "$RUNNER_TEMP/sis.pem"
+            printf '%s\n' "$SIS_KEY_PEM" > "$RUNNER_TEMP/sis.key"
+            export SIS_CERTIFICATE=$RUNNER_TEMP/sis.pem SIS_KEY=$RUNNER_TEMP/sis.key
+          fi
+          export SIS_VERSION=0.3.$GITHUB_RUN_NUMBER
+          if [[ $GITHUB_REF == refs/tags/symbian-v* ]]; then export SIS_VERSION=${GITHUB_REF_NAME#symbian-v}; fi
+          scripts/package-sis.sh
+          rm -f "$RUNNER_TEMP/sis.key"
+          ccache -s
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sis
+          path: WebKitBuild/Symbian/sis/*.sis
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: logs
+          path: |
+            WebKitBuild/Symbian/*.log
+            WebKitBuild/Symbian/icu/*.log
+            WebKitBuild/Symbian/deps/*.log
+            WebKitBuild/Symbian/deps/src/**/config.log
+          if-no-files-found: ignore
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/symbian-v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1 \
+            || gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes
+          gh release upload "$GITHUB_REF_NAME" "$SYMBIAN_WEBKIT_WORK"/sis/*.sis --clobber
