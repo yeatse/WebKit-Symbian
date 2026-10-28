@@ -251,6 +251,11 @@ build_curl() {
   grep -q 'mbedtls-fs.h' "$vtls" || sed -i -e 's/^#ifdef MBEDTLS_FS_IO$/#if defined(MBEDTLS_FS_IO) || defined(__SYMBIAN32__)/' \
     -e 's|^#include <mbedtls/sha256.h>$|&\n#ifdef __SYMBIAN32__\n#include "mbedtls-fs.h"\n#endif|' "$vtls"
   grep -q 'mbedtls-fs.h' "$vtls"
+  # The SDK's mbedTLS verifies signatures through PSA (MBEDTLS_USE_PSA_CRYPTO),
+  # which curl 7.88 never initializes: every handshake failed with
+  # MBEDTLS_ERR_PK_BAD_INPUT_DATA (PSA_ERROR_BAD_STATE).
+  grep -q 'psa_crypto_init' "$vtls" || perl -0pi -e 's{(static int mbedtls_init\(void\)\n\{\n)}{$1#ifdef MBEDTLS_USE_PSA_CRYPTO\n  if(psa_crypto_init() != PSA_SUCCESS)\n    return 0;\n#endif\n}; s{(#include <mbedtls/sha256.h>\n)}{$1#ifdef MBEDTLS_USE_PSA_CRYPTO\n#include <psa/crypto.h>\n#endif\n}' "$vtls"
+  grep -q 'psa_crypto_init' "$vtls"
   # file: URLs name drive letters (file:///C:/Data/page.html), as on Windows.
   sed -i 's/^#if defined(WIN32) || defined(MSDOS) || defined(__EMX__)$/& || defined(__SYMBIAN32__)/' \
     "$src/curl-7.88.1/lib/file.c"
