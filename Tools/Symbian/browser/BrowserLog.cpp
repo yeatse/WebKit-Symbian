@@ -55,9 +55,18 @@ static void LogThreads()
         TPtrC shortName = name.Mid(name.Find(_L("::")) + 2).Left(16);
         TBuf8<16> shortName8;
         shortName8.Copy(shortName);
+        // How a thread ended: killed, terminated or panicked, the category
+        // (ViewSrv, KERN-EXEC, ...) and the reason.
+        char exit[48] = "";
+        if (thread.ExitType() != EExitPending) {
+            static const char* const types[] = { "killed", "terminated", "panicked" };
+            TBuf8<KMaxExitCategoryName> category;
+            category.Copy(thread.ExitCategory());
+            snprintf(exit, sizeof(exit), " %s %.*s %d", types[Min(static_cast<TInt>(thread.ExitType()), 2)],
+                category.Length(), reinterpret_cast<const char*>(category.Ptr()), thread.ExitReason());
+        }
         used += snprintf(line + used, sizeof(line) - used, " [%.*s p%d %dms%s]", shortName8.Length(),
-            reinterpret_cast<const char*>(shortName8.Ptr()), thread.Priority(), static_cast<int>(cpu.Int64() / 1000),
-            thread.ExitType() == EExitPending ? "" : " dead");
+            reinterpret_cast<const char*>(shortName8.Ptr()), thread.Priority(), static_cast<int>(cpu.Int64() / 1000), exit);
         thread.Close();
     }
     BrowserLog("%s", line);
