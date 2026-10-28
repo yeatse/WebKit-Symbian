@@ -15,6 +15,7 @@
 #include <aknPopup.h>
 #include <badesca.h>
 #include <bautils.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <avkon.hrh>
 #include <eikbtgpc.h>
@@ -82,13 +83,6 @@ HBufC8* ToUtf8LC(const TDesC& aText)
     }
     utf8Ptr.ZeroTerminate();
     return utf8;
-}
-
-void EnableCurlTrace()
-{
-    // Read when the engine makes its first request.
-    setenv("DEBUG_CURL", "1", 1);
-    BrowserLog("curl trace on");
 }
 
 TInt ShowPopupListL(const TDesC& aTitle, const MDesCArray& aItems, TInt aSelected)
@@ -234,6 +228,8 @@ private:
     void NetworkConnectionReady(TInt aError);
 
     void LoadNowL(const TDesC& aUrl);
+    void StartHeartbeatL();
+    static TInt Heartbeat(TAny* aSelf);
 
     CRunLoopDriver* iRunLoop { nullptr };
     CNetworkConnection* iNetwork { nullptr };
@@ -243,6 +239,9 @@ private:
     CUrlBar* iUrlBar { nullptr };
     CWebContainer* iWebContainer { nullptr };
     TBool iLoading { EFalse };
+    TInt iProgress { 0 };
+    // With curl's trace on, logs that the UI thread still runs.
+    CPeriodic* iHeartbeat { nullptr };
     TBool iShowingPopup { EFalse };
     // The split view input is open; the page ends above it.
     TBool iSplitInput { EFalse };
@@ -274,13 +273,25 @@ void CBrowserAppUi::ConstructL()
 {
     BaseConstructL(EAknEnableSkin | ENoAppResourceFile | EAknTouchCompatible | EAknSingleClickCompatible);
 
+    // curl's own trace goes to C:\Data\WebKit\curl.txt while
+    // C:\Data\WebKit\curl-verbose exists, or with curl-verbose on the command
+    // line. The engine reads the settings when it starts.
+    TBool curlTrace = BaflUtils::FileExists(iEikonEnv->FsSession(), _L("C:\\Data\\WebKit\\curl-verbose"));
+    HBufC* commandLine = HBufC::NewLC(User::CommandLineLength());
+    TPtr commandLinePtr = commandLine->Des();
+    User::CommandLine(commandLinePtr);
+    if (commandLinePtr.Find(_L("curl-verbose")) != KErrNotFound)
+        curlTrace = ETrue;
+    if (curlTrace) {
+        remove("C:/Data/WebKit/curl.txt");
+        setenv("DEBUG_CURL", "1", 1);
+        setenv("CURL_LOG_FILE", "C:/Data/WebKit/curl.txt", 1);
+    }
     WebView::initializeProcess(KDataDirectory);
     BrowserLogOpen(KDataDirectory);
     BrowserLog("WebKit Browser starting");
-    // curl's own trace goes to the log too while C:\Data\WebKit\curl-verbose
-    // exists, or with curl-verbose on the command line.
-    if (BaflUtils::FileExists(iEikonEnv->FsSession(), _L("C:\\Data\\WebKit\\curl-verbose")))
-        EnableCurlTrace();
+    if (curlTrace)
+        StartHeartbeatL();
     iRunLoop = CRunLoopDriver::NewL();
     // Start the connection now, so the system's access point prompt (if
     // any) comes up once, while the first page is being typed.
@@ -304,17 +315,13 @@ void CBrowserAppUi::ConstructL()
     iSoftkeys->DrawNow();
     FocusPageL();
 
-    // The command line may name a URL to load at start, and fep-selftest.
-    HBufC* commandLine = HBufC::NewLC(User::CommandLineLength());
-    TPtr commandLinePtr = commandLine->Des();
-    User::CommandLine(commandLinePtr);
+    // The command line may name a URL to load at start, fep-selftest and
+    // curl-verbose.
     TLex lex(commandLinePtr);
     for (TPtrC token = lex.NextToken(); token.Length(); token.Set(lex.NextToken())) {
         if (token == _L("fep-selftest"))
             iWebContainer->EnableInputSelfTest();
-        else if (token == _L("curl-verbose"))
-            EnableCurlTrace();
-        else
+        else if (token != _L("curl-verbose"))
             LoadUrlL(token);
     }
     CleanupStack::PopAndDestroy(commandLine);
@@ -332,7 +339,26 @@ CBrowserAppUi::~CBrowserAppUi()
     delete iRunLoop;
     delete iPendingUrl;
     delete iNetwork;
+    delete iHeartbeat;
     BrowserLog("WebKit Browser exiting");
+}
+
+void CBrowserAppUi::StartHeartbeatL()
+{
+    iHeartbeat = CPeriodic::NewL(CActive::EPriorityStandard);
+    const TInt interval = 2000000;
+    iHeartbeat->Start(interval, interval, TCallBack(Heartbeat, this));
+    BrowserLog("curl trace on, in curl.txt");
+}
+
+TInt CBrowserAppUi::Heartbeat(TAny* aSelf)
+{
+    auto* self = static_cast<CBrowserAppUi*>(aSelf);
+    if (self->iLoading)
+        BrowserLog("UI thread running, loading %d%%", self->iProgress);
+    else
+        BrowserLog("UI thread running");
+    return ETrue;
 }
 
 void CBrowserAppUi::LayoutControls()
@@ -483,6 +509,7 @@ void CBrowserAppUi::WebUrlChanged(const TDesC& aUrl)
 void CBrowserAppUi::WebProgressChanged(TBool aLoading, TInt aPercent)
 {
     iLoading = aLoading;
+    iProgress = aPercent;
     iUrlBar->SetProgress(aLoading, aPercent);
 }
 

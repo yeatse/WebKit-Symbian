@@ -32,6 +32,10 @@
 
 #include "CurlRequestSchedulerClient.h"
 
+#if OS(SYMBIAN)
+#include <unistd.h>
+#endif
+
 namespace WebCore {
 
 CurlRequestScheduler::CurlRequestScheduler(long maxConnects, long maxTotalConnections, long maxHostConnections)
@@ -178,6 +182,13 @@ void CurlRequestScheduler::workerThread()
             // have valid file descriptors before calling select.
             if (maxfd >= 0)
                 rc = ::select(maxfd + 1, &fdread, &fdwrite, &fdexcep, &timeout);
+#if OS(SYMBIAN)
+            // curl is built without socketpair() there, so a transfer that
+            // is only resolving its host name has no descriptor to wait on:
+            // wait as long as select would rather than spin.
+            else
+                ::usleep(selectTimeoutMS * 1000);
+#endif
         } while (rc == -1 && errno == EINTR);
 
         int activeCount = 0;

@@ -118,12 +118,20 @@ CurlContext::CurlContext()
 
     m_scheduler = makeUnique<CurlRequestScheduler>(maxConnects, maxTotalConnections, maxHostConnections);
 
-#ifndef NDEBUG
+// Symbian's release builds keep curl's trace, which is all a phone can report.
+#if !defined(NDEBUG) || OS(SYMBIAN)
     m_verbose = envVar.defined("DEBUG_CURL");
 
     auto logFile = envVar.read("CURL_LOG_FILE");
-    if (logFile)
+    if (logFile) {
         m_logFile = fopen(logFile, "a");
+#if OS(SYMBIAN)
+        // Phones report problems through this file: keep it current if the
+        // browser hangs or crashes.
+        if (m_logFile)
+            setvbuf(m_logFile, nullptr, _IOLBF, 0);
+#endif
+    }
 #endif
 
 #if ENABLE(TLS_DEBUG)
@@ -134,7 +142,7 @@ CurlContext::CurlContext()
 
 CurlContext::~CurlContext()
 {
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     if (m_logFile)
         fclose(m_logFile);
 #endif
@@ -292,7 +300,7 @@ CurlHandle::CurlHandle()
 
     enableProxyIfExists();
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     enableVerboseIfUsed();
     enableStdErrIfUsed();
 #endif
@@ -893,7 +901,7 @@ int CurlHandle::expectedSizeOfCurlOffT()
     return expectedSizeOfCurlOffT;
 }
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
 
 void CurlHandle::enableVerboseIfUsed()
 {

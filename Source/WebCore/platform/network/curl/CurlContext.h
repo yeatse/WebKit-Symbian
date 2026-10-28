@@ -122,7 +122,7 @@ public:
     Seconds connectTimeout() const { return m_connectTimeout; }
     Seconds defaultTimeoutInterval() const { return m_defaultTimeoutInterval; }
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     FILE* getLogFile() const { return m_logFile; }
     bool isVerbose() const { return m_verbose; }
 #endif
@@ -145,7 +145,7 @@ private:
     Seconds m_connectTimeout { 30.0 };
     Seconds m_defaultTimeoutInterval { 60.0 };
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     FILE* m_logFile { nullptr };
     bool m_verbose { false };
 #endif
@@ -309,7 +309,7 @@ public:
     CURLcode send(const uint8_t*, size_t, size_t&);
     CURLcode receive(uint8_t*, size_t, size_t&);
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     void enableVerboseIfUsed();
     void enableStdErrIfUsed();
 #endif
