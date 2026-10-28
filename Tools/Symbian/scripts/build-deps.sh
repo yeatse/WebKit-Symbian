@@ -113,6 +113,17 @@ build_sqlite() {
 static int sqliteNoFchown(int fd, uid_t uid, gid_t gid) { (void)fd; (void)uid; (void)gid; return 0; }
 #define fchown sqliteNoFchown
 EOF
+  # Paths with a drive (C:\Data\WebKit\cookies.db) are absolute; the Unix
+  # VFS put the current directory in front of them.
+  grep -q 'Symbian: a drive' "$dir/sqlite3.c" || perl -0pi - "$dir/sqlite3.c" <<'EOF'
+s{(static int mkFullPathname\(.*?int i, j;\n)}{$1  if( zPath[0] && zPath[1]==':' ){ /* Symbian: a drive path is absolute. */
+    if( nPath+1>nOut ) return SQLITE_CANTOPEN_BKPT;
+    memcpy(zOut, zPath, nPath+1);
+    return SQLITE_OK;
+  }
+}s;
+EOF
+  grep -q 'Symbian: a drive' "$dir/sqlite3.c"
   "$CC" $cflags -include "$dir/symbian-fchown.h" -DSQLITE_OMIT_LOAD_EXTENSION \
     -DSQLITE_THREADSAFE=1 -DSQLITE_MAX_MMAP_SIZE=0 -DSQLITE_OMIT_WAL -DHAVE_USLEEP=1 \
     -c "$dir/sqlite3.c" -o "$dir/sqlite3.o"
@@ -241,7 +252,10 @@ build_curl() {
   # backend loads file: URLs through curl too). Open C has no socketpair(),
   # and curl's stand-in (a TCP connection to itself over the loopback) fails
   # there, which failed every host name lookup before the resolver thread
-  # started; without it the resolver thread is polled.
+  # started; without it the resolver thread is polled. No default CA bundle
+  # or path, which curl would otherwise take from the build machine
+  # (/etc/ssl/certs, missing on phones, failed every HTTPS load); WebCore
+  # sets the bundle.
   cmake_build curl-7.88.1 -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF \
     -DCURL_DISABLE_DICT=ON -DCURL_DISABLE_FTP=ON -DCURL_DISABLE_GOPHER=ON \
     -DCURL_DISABLE_IMAP=ON -DCURL_DISABLE_LDAPS=ON -DCURL_DISABLE_MQTT=ON \
@@ -249,7 +263,8 @@ build_curl() {
     -DCURL_DISABLE_SMTP=ON -DCURL_DISABLE_TELNET=ON -DCURL_DISABLE_TFTP=ON \
     -DCURL_USE_OPENSSL=OFF -DCURL_USE_MBEDTLS=ON -DCURL_USE_LIBSSH2=OFF \
     -DUSE_LIBIDN2=OFF -DCURL_DISABLE_LDAP=ON -DENABLE_IPV6=OFF \
-    -DENABLE_THREADED_RESOLVER=ON -DCURL_DISABLE_SOCKETPAIR=ON -DCURL_ZLIB=ON -DCURL_BROTLI=OFF -DCURL_ZSTD=OFF \
+    -DENABLE_THREADED_RESOLVER=ON -DCURL_DISABLE_SOCKETPAIR=ON -DCURL_ZLIB=ON \
+    -DCURL_CA_BUNDLE=none -DCURL_CA_PATH=none -DCURL_BROTLI=OFF -DCURL_ZSTD=OFF \
     -DMBEDTLS_INCLUDE_DIRS="$tls/include" -DMBEDTLS_LIBRARY="$tls/lib/libmbedtls.a" \
     -DMBEDX509_LIBRARY="$tls/lib/libmbedx509.a" -DMBEDCRYPTO_LIBRARY="$tls/lib/libmbedcrypto.a" \
     -DZLIB_INCLUDE_DIR="$sdk_portable/zlib" -DZLIB_LIBRARY="$sdk_lib/libsymbian_portable_zlib.a"

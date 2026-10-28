@@ -362,6 +362,9 @@ To build the dependencies and the image for Symbian, the following were also nee
 * fontconfig and curl take `Z:/…` and `file:///C:/…` as absolute paths, as on Windows.
 * curl keeps the `file:` protocol, which WebKit's curl backend uses for local pages.
 * curl is built without `socketpair()` (`CURL_DISABLE_SOCKETPAIR`). Open C has none, and curl's stand-in, a TCP connection to itself over the loopback, fails there: the threaded resolver gave up before its thread started, and every host name failed with "couldn't resolve host name". Without it, curl polls the resolver thread.
+* curl has no default CA bundle or path (`CURL_CA_BUNDLE=none`, `CURL_CA_PATH=none`). Its CMake build otherwise takes them from the build machine, and the missing `/etc/ssl/certs` failed every HTTPS load with "problem with the SSL CA cert" (77).
+* SQLite treats paths with a drive as absolute. Its Unix VFS put the current directory (the app's private directory) in front of `C:\Data\WebKit\cookies.db`, so cookies were never stored.
+* WTF threads get a 128 KB stack. Open C's default is 8 KB, which curl's thread overflowed in the TLS handshake: HTTPS loads crashed the browser.
 * The E32 converter accepts symbol names longer than 512 characters (WebCore's templates), and ELF input up to 256 MB.
 
 Tested in EKA2L1 with the Nokia X7 firmware:

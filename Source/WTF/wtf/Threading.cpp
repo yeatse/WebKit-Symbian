@@ -66,6 +66,10 @@ static Optional<size_t> stackSize(ThreadType threadType)
     // on libcs other than glibc and bionic (e.g. musl) we are either unsure how big
     // the default thread stack is, or we know it's too small - pick a robust default
     return 1 * MB;
+#elif OS(SYMBIAN)
+    // Open C's threads get 8 KB by default, which curl's thread overflows in
+    // the mbedTLS handshake. The whole stack is committed, so keep it modest.
+    return 128 * KB;
 #else
     // Use the platform's default stack size
     return WTF::nullopt;
