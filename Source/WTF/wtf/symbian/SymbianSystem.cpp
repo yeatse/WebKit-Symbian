@@ -42,6 +42,11 @@ int openCurrentThread()
     return thread.Handle();
 }
 
+void lowerCurrentThreadPriority()
+{
+    RThread().SetPriority(EPriorityLess);
+}
+
 static RThread threadFromHandle(int handle)
 {
     RThread thread;

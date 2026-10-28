@@ -1,7 +1,7 @@
 /*
  * The file-loading half of mbedTLS's X.509 and PK APIs, which the SDK's
- * mbedTLS libraries leave out although its configuration declares them
- * (MBEDTLS_FS_IO). curl calls them for CA bundles, CRLs and client keys.
+ * mbedTLS leaves out (its configuration undefines MBEDTLS_FS_IO). curl calls
+ * them for CA bundles, CRLs and client keys.
  * Each reads the file into memory and hands it to the in-memory parser, as
  * mbedTLS's own implementation does.
  *
@@ -13,9 +13,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#include <mbedtls/pk.h>
-#include <mbedtls/x509_crl.h>
-#include <mbedtls/x509_crt.h>
+#include "mbedtls-fs.h"
 
 /* Reads a whole file, NUL-terminated (PEM parsing needs the terminator, and
  * the length passed on counts it, as mbedtls_pk_load_file does). */

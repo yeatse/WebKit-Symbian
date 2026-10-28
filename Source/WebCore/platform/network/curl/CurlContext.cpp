@@ -40,6 +40,12 @@
 #include <wtf/NeverDestroyed.h>
 #include <wtf/text/CString.h>
 
+#if OS(SYMBIAN)
+#include <stdarg.h>
+#include <sys/time.h>
+#include <time.h>
+#endif
+
 #if OS(WINDOWS)
 #include "WebCoreBundleWin.h"
 #include <shlobj.h>
@@ -165,6 +171,27 @@ CurlStreamScheduler& CurlContext::streamScheduler()
     static NeverDestroyed<CurlStreamScheduler> sharedInstance;
     return sharedInstance;
 }
+
+#if OS(SYMBIAN)
+void CurlContext::trace(const char* format, ...)
+{
+    if (!m_verbose || !m_logFile)
+        return;
+    char message[256];
+    va_list arguments;
+    va_start(arguments, format);
+    vsnprintf(message, sizeof(message), format, arguments);
+    va_end(arguments);
+
+    struct timeval now;
+    gettimeofday(&now, nullptr);
+    time_t seconds = now.tv_sec;
+    struct tm local;
+    localtime_r(&seconds, &local);
+    fprintf(m_logFile, "%02d:%02d:%02d.%03d WebKit: %s\n", local.tm_hour, local.tm_min, local.tm_sec,
+        static_cast<int>(now.tv_usec / 1000), message);
+}
+#endif
 
 bool CurlContext::isHttp2Enabled() const
 {
@@ -357,6 +384,9 @@ CURLcode CurlHandle::willSetupSslCtx(void* sslCtx)
     if (!sslCtx)
         return CURLE_ABORTED_BY_CALLBACK;
 
+#if OS(SYMBIAN)
+    CurlContext::singleton().trace("TLS configured for %s", m_url.host().utf8().data());
+#endif
     if (!m_sslVerifier)
         m_sslVerifier = makeUnique<CurlSSLVerifier>(sslCtx);
 

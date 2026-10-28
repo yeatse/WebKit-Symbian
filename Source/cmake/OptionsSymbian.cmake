@@ -107,3 +107,8 @@ set(MBEDTLS_INCLUDE_DIR "${SYMBIAN_SDK_PREFIX}/lib/armv6/mbedtls/include")
 set(MBEDTLS_LIBRARY "${SYMBIAN_SDK_PREFIX}/lib/armv6/mbedtls/lib/libmbedtls.a")
 set(MBEDX509_LIBRARY "${SYMBIAN_SDK_PREFIX}/lib/armv6/mbedtls/lib/libmbedx509.a")
 set(MBEDCRYPTO_LIBRARY "${SYMBIAN_SDK_PREFIX}/lib/armv6/mbedtls/lib/libmbedcrypto.a")
+# The definitions the libraries were built with: they change the layout of
+# mbedTLS's structures (see Tools/Symbian/shims/mbedtls-config.h).
+add_definitions(-DMBEDTLS_STATIC "-DMBEDTLS_USER_CONFIG_FILE=\"symbian_mbedtls/config.h\""
+    -DMBEDTLS_SSL_PROTO_TLS1_3 -DSYMBIAN_MBEDTLS_GUEST=1)
+include_directories(SYSTEM "${SYMBIAN_SDK_PREFIX}/include/abseil")

@@ -126,6 +126,10 @@ public:
     FILE* getLogFile() const { return m_logFile; }
     bool isVerbose() const { return m_verbose; }
 #endif
+#if OS(SYMBIAN)
+    // A time-stamped line in curl's trace, when it is on.
+    void trace(const char* format, ...) WTF_ATTRIBUTE_PRINTF(2, 3);
+#endif
 
 #if ENABLE(TLS_DEBUG)
     bool shouldLogTLSKey() const { return !m_tlsKeyLogFilePath.isEmpty(); }

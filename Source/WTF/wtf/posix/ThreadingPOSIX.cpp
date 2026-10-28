@@ -303,6 +303,11 @@ void Thread::initializeCurrentThreadInternal(const char* threadName)
 #else
     UNUSED_PARAM(threadName);
 #endif
+#if OS(SYMBIAN)
+    // Below the UI thread: EKA2 gives lower priorities no time while a higher
+    // one is busy, and curl's thread is busy for long in a TLS handshake.
+    SymbianSystem::lowerCurrentThreadPriority();
+#endif
     initializeCurrentThreadEvenIfNonWTFCreated();
 }
 

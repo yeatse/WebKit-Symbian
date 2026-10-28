@@ -290,8 +290,10 @@ void CBrowserAppUi::ConstructL()
     WebView::initializeProcess(KDataDirectory);
     BrowserLogOpen(KDataDirectory);
     BrowserLog("WebKit Browser starting");
-    if (curlTrace)
+    if (curlTrace) {
         StartHeartbeatL();
+        BrowserThreadWatchStart();
+    }
     iRunLoop = CRunLoopDriver::NewL();
     // Start the connection now, so the system's access point prompt (if
     // any) comes up once, while the first page is being typed.

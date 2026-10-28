@@ -20,6 +20,8 @@ mkdir -p "$src" "$P/lib" "$P/include"
 cflags="-D__LIBM_ALIASES_H__ -Dalloca=__builtin_alloca $OPTIMIZE -mfloat-abi=softfp -mfpu=vfpv2 -Wno-error=incompatible-function-pointer-types -Wno-error=int-conversion -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=cast-function-type-strict"
 sdk_portable=$SDK/include/portable
 sdk_lib=$SDK/lib/armv6
+# What code using the SDK's mbedTLS must be compiled with (shims/mbedtls-config.h).
+tls_flags="-include $REPO/shims/mbedtls-config.h -isystem $SDK/include/abseil -I$REPO/shims"
 export CC=$REPO/toolchain/sym-cc CXX=$REPO/toolchain/sym-c++
 export AR=$SDK/bin/llvm-ar RANLIB=$SDK/bin/llvm-ranlib
 export PKG_CONFIG_PATH=$P/lib/pkgconfig PKG_CONFIG_LIBDIR=$P/lib/pkgconfig
@@ -236,13 +238,19 @@ build_mbedtls_fs() {
   # The SDK's mbedTLS lacks its file-loading functions; curl needs them.
   local tls=$sdk_lib/mbedtls
   mkdir -p "$DEPS_DIR/mbedtls-fs"
-  "$CC" $cflags -I"$tls/include" -c "$REPO/shims/mbedtls-fs.c" -o "$DEPS_DIR/mbedtls-fs/mbedtls-fs.o"
+  "$CC" $cflags $tls_flags -I"$tls/include" -c "$REPO/shims/mbedtls-fs.c" -o "$DEPS_DIR/mbedtls-fs/mbedtls-fs.o"
   "$AR" rcs "$P/lib/libmbedtls_fs.a" "$DEPS_DIR/mbedtls-fs/mbedtls-fs.o"
 }
 
 build_curl() {
   fetch https://curl.se/download/curl-7.88.1.tar.xz curl-7.88.1
   local tls=$sdk_lib/mbedtls
+  # The CA bundle is read by shims/mbedtls-fs.c, the SDK's mbedTLS having no
+  # file functions (no MBEDTLS_FS_IO).
+  local vtls=$src/curl-7.88.1/lib/vtls/mbedtls.c
+  grep -q 'mbedtls-fs.h' "$vtls" || sed -i -e 's/^#ifdef MBEDTLS_FS_IO$/#if defined(MBEDTLS_FS_IO) || defined(__SYMBIAN32__)/' \
+    -e 's|^#include <mbedtls/sha256.h>$|&\n#ifdef __SYMBIAN32__\n#include "mbedtls-fs.h"\n#endif|' "$vtls"
+  grep -q 'mbedtls-fs.h' "$vtls"
   # file: URLs name drive letters (file:///C:/Data/page.html), as on Windows.
   sed -i 's/^#if defined(WIN32) || defined(MSDOS) || defined(__EMX__)$/& || defined(__SYMBIAN32__)/' \
     "$src/curl-7.88.1/lib/file.c"
@@ -256,7 +264,7 @@ build_curl() {
   # or path, which curl would otherwise take from the build machine
   # (/etc/ssl/certs, missing on phones, failed every HTTPS load); WebCore
   # sets the bundle.
-  cmake_build curl-7.88.1 -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF \
+  cflags="$cflags $tls_flags" cmake_build curl-7.88.1 -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF \
     -DCURL_DISABLE_DICT=ON -DCURL_DISABLE_FTP=ON -DCURL_DISABLE_GOPHER=ON \
     -DCURL_DISABLE_IMAP=ON -DCURL_DISABLE_LDAPS=ON -DCURL_DISABLE_MQTT=ON \
     -DCURL_DISABLE_POP3=ON -DCURL_DISABLE_RTSP=ON -DCURL_DISABLE_SMB=ON \

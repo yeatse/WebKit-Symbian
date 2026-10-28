@@ -63,6 +63,14 @@ private:
 
     CertificateInfo::CertificateChain m_chain;
     uint32_t m_chainErrors { 0 };
+#if OS(SYMBIAN)
+    // FIXME: Remove once HTTPS loads on phones. mbedTLS draws random numbers
+    // at each handshake step, so the trace shows how far one gets.
+    static int tracedRandom(void*, unsigned char*, size_t);
+    int (*m_random)(void*, unsigned char*, size_t) { nullptr };
+    void* m_randomContext { nullptr };
+    unsigned m_randomCalls { 0 };
+#endif
 #else
     static int verifyCallback(int, X509_STORE_CTX*);
     void collectInfo(X509_STORE_CTX*);

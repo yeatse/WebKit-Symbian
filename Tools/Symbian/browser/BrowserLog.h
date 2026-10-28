@@ -5,3 +5,7 @@
 
 void BrowserLogOpen(const char* aDirectory);
 void BrowserLog(const char* aFormat, ...) __attribute__((format(printf, 1, 2)));
+
+// Logs every thread of the process (priority, CPU time) every two seconds,
+// from a thread above them all, so the log shows what a hang is doing.
+void BrowserThreadWatchStart();

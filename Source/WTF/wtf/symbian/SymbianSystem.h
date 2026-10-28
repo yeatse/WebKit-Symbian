@@ -38,6 +38,10 @@ namespace SymbianSystem {
 int openCurrentThread();
 void closeThread(int handle);
 
+// Runs the calling thread below the process's normal priority, so the UI
+// thread is never starved by work in the background.
+void lowerCurrentThreadPriority();
+
 // RThread::Suspend / RThread::Resume.
 void suspendThread(int handle);
 void resumeThread(int handle);

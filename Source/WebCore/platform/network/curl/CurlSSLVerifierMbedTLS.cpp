@@ -25,6 +25,10 @@
 #include "config.h"
 #include "CurlSSLVerifier.h"
 
+#if OS(SYMBIAN)
+#include "CurlContext.h"
+#endif
+
 #if USE(CURL) && USE(MBEDTLS)
 #include <mbedtls/ssl.h>
 #include <mbedtls/x509_crt.h>
@@ -56,12 +60,33 @@ static int convertToSSLCertificateFlags(uint32_t flags)
 // certificate of the chain, from the top down to the server's (depth 0).
 CurlSSLVerifier::CurlSSLVerifier(void* sslCtx)
 {
-    mbedtls_ssl_conf_verify(static_cast<mbedtls_ssl_config*>(sslCtx), verifyCallback, this);
+    auto* config = static_cast<mbedtls_ssl_config*>(sslCtx);
+    mbedtls_ssl_conf_verify(config, verifyCallback, this);
+#if OS(SYMBIAN)
+    if (CurlContext::singleton().isVerbose()) {
+        m_random = config->MBEDTLS_PRIVATE(f_rng);
+        m_randomContext = config->MBEDTLS_PRIVATE(p_rng);
+        if (m_random)
+            mbedtls_ssl_conf_rng(config, tracedRandom, this);
+    }
+#endif
 }
+
+#if OS(SYMBIAN)
+int CurlSSLVerifier::tracedRandom(void* data, unsigned char* output, size_t length)
+{
+    auto* verifier = static_cast<CurlSSLVerifier*>(data);
+    CurlContext::singleton().trace("TLS random #%u, %u bytes", ++verifier->m_randomCalls, static_cast<unsigned>(length));
+    return verifier->m_random(verifier->m_randomContext, output, length);
+}
+#endif
 
 int CurlSSLVerifier::verifyCallback(void* data, mbedtls_x509_crt* certificate, int depth, uint32_t* flags)
 {
     auto* verifier = static_cast<CurlSSLVerifier*>(data);
+#if OS(SYMBIAN)
+    CurlContext::singleton().trace("TLS certificate at depth %d, flags %x", depth, static_cast<unsigned>(*flags));
+#endif
     if (depth < 0)
         return 0;
     if (verifier->m_chain.size() <= static_cast<size_t>(depth))
