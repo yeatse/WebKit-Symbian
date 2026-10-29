@@ -35,7 +35,7 @@ const char KHistoryFile[] = "C:/Data/WebKit/history.txt";
 const char KBookmarksFile[] = "C:/Data/WebKit/bookmarks.txt";
 const TInt KHistoryMaxCount = 100;
 const TInt KUrlBarHeight = 48;
-const TInt KSuggestionHeight = 52;
+const TInt KSuggestionMargin = 6;
 const TInt KSuggestionMaxCount = 6;
 const TInt KUrlMaxLength = 2048;
 
@@ -224,8 +224,12 @@ public:
     // empty filter matches every page.
     void SetPagesL(const CPageList& aBookmarks, const CPageList& aHistory, const TDesC& aFilter, TInt aMaxCount);
     TInt Count() const { return iUrls.Count(); }
+    // A row has the title over the address.
+    TInt RowHeight() const;
 
 private:
+    const CFont* TitleFont() const { return iEikonEnv->NormalFont(); }
+    const CFont* UrlFont() const { return iEikonEnv->AnnotationFont(); }
     void AddPageL(const CPageList& aPages, TInt aIndex, const TDesC& aFilter);
     void Draw(const TRect&) const;
     void HandlePointerEventL(const TPointerEvent& aPointerEvent);
@@ -269,6 +273,8 @@ private:
     void NetworkConnectionReady(TInt aError);
 
     void LoadNowL(const TDesC& aUrl);
+    // Sets the softkeys again: a popup list leaves Options hidden.
+    void SetSoftkeysL();
     void StartHeartbeatL();
     static TInt Heartbeat(TAny* aSelf);
 
@@ -402,6 +408,11 @@ void CUrlSuggestions::AddPageL(const CPageList& aPages, TInt aIndex, const TDesC
     CleanupStack::Pop(2, urlCopy);
 }
 
+TInt CUrlSuggestions::RowHeight() const
+{
+    return TitleFont()->HeightInPixels() + UrlFont()->HeightInPixels() + 3 * KSuggestionMargin;
+}
+
 void CUrlSuggestions::Draw(const TRect&) const
 {
     CWindowGc& gc = SystemGc();
@@ -409,10 +420,11 @@ void CUrlSuggestions::Draw(const TRect&) const
     gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
     gc.SetBrushColor(KRgbWhite);
     gc.DrawRect(Rect());
-    const CFont* titleFont = iEikonEnv->NormalFont();
-    const CFont* urlFont = iEikonEnv->DenseFont();
+    const CFont* titleFont = TitleFont();
+    const CFont* urlFont = UrlFont();
+    const TInt rowHeight = RowHeight();
     for (TInt i = 0; i < iUrls.Count(); ++i) {
-        TRect row(Rect().iTl + TPoint(0, i * KSuggestionHeight), TSize(Rect().Width(), KSuggestionHeight));
+        TRect row(Rect().iTl + TPoint(0, i * rowHeight), TSize(Rect().Width(), rowHeight));
         if (i == iPressed) {
             gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
             gc.SetBrushColor(TRgb(0xd0, 0xe0, 0xfc));
@@ -421,15 +433,15 @@ void CUrlSuggestions::Draw(const TRect&) const
         }
         gc.SetBrushStyle(CGraphicsContext::ENullBrush);
         gc.SetPenStyle(CGraphicsContext::ESolidPen);
-        // The title on the upper half, the address under it in grey.
-        TRect title(row.iTl, TSize(row.Width(), row.Height() / 2 + 2));
+        // The title, and the address under it in grey.
+        TRect title(row.iTl, TSize(row.Width(), KSuggestionMargin + titleFont->HeightInPixels()));
         gc.UseFont(titleFont);
         gc.SetPenColor(KRgbBlack);
-        gc.DrawText(*iLabels[i], title, title.Height() - 2, CGraphicsContext::ELeft, 8);
+        gc.DrawText(*iLabels[i], title, KSuggestionMargin + titleFont->AscentInPixels(), CGraphicsContext::ELeft, 2 * KSuggestionMargin);
         TRect url(TPoint(row.iTl.iX, title.iBr.iY), row.iBr);
         gc.UseFont(urlFont);
         gc.SetPenColor(TRgb(0x60, 0x60, 0x60));
-        gc.DrawText(*iUrls[i], url, urlFont->AscentInPixels() + 2, CGraphicsContext::ELeft, 8);
+        gc.DrawText(*iUrls[i], url, KSuggestionMargin + urlFont->AscentInPixels(), CGraphicsContext::ELeft, 2 * KSuggestionMargin);
         gc.SetPenColor(TRgb(0xd8, 0xd8, 0xd8));
         gc.DrawLine(TPoint(row.iTl.iX, row.iBr.iY - 1), TPoint(row.iBr.iX, row.iBr.iY - 1));
     }
@@ -438,7 +450,7 @@ void CUrlSuggestions::Draw(const TRect&) const
 
 void CUrlSuggestions::HandlePointerEventL(const TPointerEvent& aPointerEvent)
 {
-    TInt row = (aPointerEvent.iPosition.iY - Rect().iTl.iY) / KSuggestionHeight;
+    TInt row = (aPointerEvent.iPosition.iY - Rect().iTl.iY) / RowHeight();
     if (!Rect().Contains(aPointerEvent.iPosition) || row >= iUrls.Count())
         row = -1;
     if (aPointerEvent.iType == TPointerEvent::EButton1Down || aPointerEvent.iType == TPointerEvent::EDrag) {
@@ -497,8 +509,7 @@ void CBrowserAppUi::ConstructL()
 
     iSoftkeys = CEikButtonGroupContainer::NewL(CEikButtonGroupContainer::ECba,
         CEikButtonGroupContainer::EHorizontal, this, 0);
-    iSoftkeys->SetCommandL(CEikButtonGroupContainer::ELeftSoftkeyPosition, ECmdOptions, _L("Options"));
-    iSoftkeys->SetCommandL(CEikButtonGroupContainer::ERightSoftkeyPosition, ECmdBack, _L("Back"));
+    SetSoftkeysL();
 
     iUrlBar = new (ELeave) CUrlBar(*this);
     iUrlBar->ConstructL(TRect(0, 0, 1, 1));
@@ -546,6 +557,15 @@ CBrowserAppUi::~CBrowserAppUi()
     BrowserLog("WebKit Browser exiting");
 }
 
+void CBrowserAppUi::SetSoftkeysL()
+{
+    iSoftkeys->SetCommandL(CEikButtonGroupContainer::ELeftSoftkeyPosition, ECmdOptions, _L("Options"));
+    iSoftkeys->SetCommandL(CEikButtonGroupContainer::ERightSoftkeyPosition, ECmdBack, _L("Back"));
+    iSoftkeys->MakeCommandVisible(ECmdOptions, ETrue);
+    iSoftkeys->MakeCommandVisible(ECmdBack, ETrue);
+    iSoftkeys->DrawNow();
+}
+
 void CBrowserAppUi::StartHeartbeatL()
 {
     iHeartbeat = CPeriodic::NewL(CActive::EPriorityStandard);
@@ -582,7 +602,7 @@ void CBrowserAppUi::LayoutControls()
     iUrlBar->SetRect(urlRect);
     iWebContainer->SetRect(rect);
     TRect suggestionsRect = rect;
-    suggestionsRect.SetHeight(Min(rect.Height(), iSuggestions->Count() * KSuggestionHeight));
+    suggestionsRect.SetHeight(Min(rect.Height(), iSuggestions->Count() * iSuggestions->RowHeight()));
     iSuggestions->SetRect(suggestionsRect);
 }
 
@@ -590,7 +610,7 @@ void CBrowserAppUi::SuggestL(const TDesC* aFilter)
 {
     if (aFilter) {
         // As many rows as fit above the split view input, if it is open.
-        TInt fit = iWebContainer->Rect().Height() / KSuggestionHeight;
+        TInt fit = iWebContainer->Rect().Height() / iSuggestions->RowHeight();
         iSuggestions->SetPagesL(*iBookmarks, *iHistory, *aFilter, Min(fit, KSuggestionMaxCount));
     }
     TBool visible = aFilter && iSuggestions->Count();
@@ -742,7 +762,7 @@ void CBrowserAppUi::ShowOptionsMenuL()
     items->AppendL(_L("Exit"));
     commands.AppendL(ECmdExit);
     TInt index = ShowPopupListL(KNullDesC, *items, 0);
-    iSoftkeys->DrawNow();
+    SetSoftkeysL();
     TInt command = index >= 0 ? commands[index] : 0;
     CleanupStack::PopAndDestroy(2, &commands);
     if (command)
@@ -758,7 +778,7 @@ TBool CBrowserAppUi::ShowPageListL(const TDesC& aTitle, const CPageList& aPages,
     if (aExtraItem.Length())
         items->AppendL(aExtraItem);
     TInt index = ShowPopupListL(aTitle, *items, 0);
-    iSoftkeys->DrawNow();
+    SetSoftkeysL();
     CleanupStack::PopAndDestroy(items);
     if (index < 0)
         return EFalse;
@@ -815,7 +835,7 @@ TInt CBrowserAppUi::WebSelectPopupL(const Text* aItems, TInt aCount, TInt aSelec
     TInt index = -1;
     TRAPD(error, index = ShowPopupListL(KNullDesC, *items, aSelected));
     iShowingPopup = EFalse;
-    iSoftkeys->DrawNow();
+    SetSoftkeysL();
     CleanupStack::PopAndDestroy(items);
     User::LeaveIfError(error);
     return index;
