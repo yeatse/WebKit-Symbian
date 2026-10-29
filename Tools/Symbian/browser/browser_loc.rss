@@ -1,0 +1,12 @@
+// The menu caption, installed as \resource\apps\browser_loc.rsc.
+CHARACTER_SET UTF8
+#include <AppInfo.rh>
+RESOURCE LOCALISABLE_APP_INFO
+{
+  short_caption = "WebKit";
+  caption_and_icon = CAPTION_AND_ICON_INFO
+  {
+    caption = "WebKit Browser";
+    number_of_icons = 0;
+  };
+}

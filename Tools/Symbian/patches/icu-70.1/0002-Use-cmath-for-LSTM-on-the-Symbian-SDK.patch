@@ -1,0 +1,13 @@
+diff --git a/icu4c/source/common/lstmbe.cpp b/icu4c/source/common/lstmbe.cpp
+index 3793abc..440d01e 100644
+--- a/icu4c/source/common/lstmbe.cpp
++++ b/icu4c/source/common/lstmbe.cpp
+@@ -2,7 +2,7 @@
+ // License & terms of use: http://www.unicode.org/copyright.html
+ 
+ #include <utility>
+-#include <ctgmath>
++#include <cmath>
+ 
+ #include "unicode/utypes.h"
+ 
