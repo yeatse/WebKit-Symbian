@@ -1,0 +1,9 @@
+16:02:18.936 WebKit Browser starting
+16:02:18.951 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+16:02:20.549 load file:///C:/Data/WebKit/idna.html
+Symbian compositor: native EGL/GLES2 presented 360x532
+16:02:21.066 network: connected through "Host network"
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS ASCII host
+CRASH: /workspace/WebKit-Symbian-graphics/Source/WTF/wtf/URLParser.cpp:3001 (auto WTF::URLParser::internationalDomainNameTranscoder()::(lambda)::operator()() const)

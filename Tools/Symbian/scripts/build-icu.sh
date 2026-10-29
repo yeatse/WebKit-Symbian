@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# ICU 70.1 for JavaScriptCore's Intl and collation: a host build (for the data
+# ICU 70.1 for JavaScriptCore Intl/collation and browser URL processing: a host build (for the data
 # tools and the data archive), then static Symbian libraries. The data archive
-# is trimmed to what JavaScriptCore uses (see icu-filter.py and ICU_LOCALES)
+# retains UTS #46 domain-name data and selected locales (see icu-filter.py and ICU_LOCALES)
 # and either installed as icudt70l.dat for ICU to read at run time from
 # ICU_DATA_DIR (ICU_DATA=file) or linked in as libicudata.a (ICU_DATA=static).
 . "$(dirname "$0")/common.sh"

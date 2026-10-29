@@ -1,0 +1,50 @@
+{
+  "browser_sha256": "8ba0a5068a3dbd3aef616d71ae3b9f6d6b0a906c376c49fa4a9cc04685eaead5",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "test_sha256": "13def84fb19a6cf6f00cf5410781cf82ca36490c8e2701f74507135c5daf7d9d",
+  "same_browser_and_host": true,
+  "network_requests": false,
+  "original_guest_sha256": "5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f",
+  "guest_data_restored": true,
+  "final_guest_sha256": "5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f",
+  "runs": [
+    {
+      "name": "old",
+      "icu_sha256": "5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f",
+      "icu_bytes": 10202528,
+      "runner_exit": 1,
+      "guest_log_sha256": "bb99918887051dcde39e5883b9a63f4996667c8e77fb5565c7d0d5f42414120e",
+      "panic_or_access_violation": true,
+      "idna_summary": [],
+      "source_run": "browser-20261029T160217Z-velboc3b",
+      "guest_log": "guest-old.log",
+      "guest_log_bytes": 622,
+      "host_log_sha256": "e9aa8cc74ab00277154250daa10d652ef7eaffcb45691664086391b0d923a8ca",
+      "host_log_bytes": 401086,
+      "observed_failure": "CRASH URLParser.cpp:3001 internationalDomainNameTranscoder; emulator USER-EXEC 3"
+    },
+    {
+      "name": "repaired",
+      "icu_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+      "icu_bytes": 10261824,
+      "runner_exit": 0,
+      "guest_log_sha256": "667fd3cd61a6038e46eb1053f09f4a32cc9f0996ff2c487be395faf83acaa87c",
+      "panic_or_access_violation": false,
+      "idna_summary": [
+        "IDNA RESULT 9/9 PASS"
+      ],
+      "source_run": "browser-20261029T160222Z-drw_xfa7",
+      "guest_log": "guest-repaired.log",
+      "guest_log_bytes": 1165,
+      "host_log_sha256": "bb67ba34e36b1a1c6ea8afcc22b331e23af9dae98f8a77f15ead0be5f21ac0bd",
+      "host_log_bytes": 194085,
+      "screenshot": {
+        "file": "guest-repaired.png",
+        "sha256": "b54054ccf4859f70b82af3c193db4e14524cc95fee221655247da813eeeb2fe2",
+        "bytes": 49976
+      },
+      "normal_host_shutdown": true,
+      "host_exit": 0
+    }
+  ]
+}

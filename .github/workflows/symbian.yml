@@ -151,6 +151,12 @@ jobs:
 
       - name: ICU
         run: scripts/build-icu.sh
+      - name: ICU domain-name data regression
+        run: |
+          python3 tests/icu-idna/run.py \
+            --icu-root "$SYMBIAN_WEBKIT_WORK/icu" \
+            --existing-data "$SYMBIAN_WEBKIT_WORK/icu/install/share/icu/icudt70l.dat" \
+            --output "$SYMBIAN_WEBKIT_WORK/icu-idna-regression.json"
       - name: Save ICU
         if: steps.icu.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
