@@ -196,8 +196,9 @@ jobs:
           name: sis
           path: WebKitBuild/Symbian/sis/*.sis
           if-no-files-found: error
-      # The linked image, to symbolize crashes of the packaged browser.exe.
+      # Keep an ELF even when E32 conversion or packaging fails.
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: elf
           path: WebKitBuild/Symbian/build/browser/browser.elf

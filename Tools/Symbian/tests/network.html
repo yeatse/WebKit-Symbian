@@ -1,6 +1,6 @@
 <!doctype html><meta charset="utf-8"><title>Symbian network regressions</title>
 <style>body{font:16px sans-serif;max-width:50em;margin:1em}pre{white-space:pre-wrap}.fail{color:#b00}</style>
-<h1>Network regressions</h1><button id="run">Run 21 checks</button><pre id="output"></pre>
+<h1>Network regressions</h1><button id="run">Run network checks</button><pre id="output"></pre>
 <script>
 'use strict';
 const out = document.getElementById('output');
@@ -60,6 +60,8 @@ async function run() {
         ['cross-port Cookie stays host scoped', async () => { await cookie('fixture_host','yes'); const v=await json(redirect(302,other.origin+'/echo'),{credentials:'include'}); assert(v.cookie.includes('fixture_host=yes')); }],
         ['WebSocket text', () => socket()],
         ['WebSocket binary', () => socket(true)],
+        ['HTTP redirect to file rejected', async () => { let rejected=false;try { await fetch(redirect(302,'file:///C:/Data/WebKit/test.html')); } catch(e) { rejected=true; } assert(rejected); }],
+        ['redirect to forbidden port rejected', async () => { let rejected=false;try { await fetch(redirect(302,'http://localhost:25/')); } catch(e) { rejected=true; } assert(rejected); }],
         ['request works after failures', async () => assert(await text('/ok') === 'ok')],
         ['Cookie cleanup readback', async () => { await cookie('fixture_host','','/',true); assert(!(await json('/echo')).cookie.includes('fixture_host=')); }],
     ];

@@ -12,7 +12,9 @@ Updated: 2026-10-29 (Asia/Singapore).
 
 ## Current checkpoint
 
-The source port is being reconstructed. ICU 70.1 and all third-party target dependencies have compiled. JSC and WebCore CMake configurations succeed; full builds and Legacy API adaptation are in progress. No new JSC or browser runtime pass is claimed at this checkpoint.
+The source port is being reconstructed. ICU 70.1 and all third-party target dependencies have compiled. JSC has compiled, linked and converted to E32: `jsc.exe` is 14,305,772 bytes, SHA256 `77a73defd8f84e260455d9416e6b191f803f7a128912d43d5baf297780aa3b02`. ICU data SHA256 is `5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f`. No guest runtime pass is claimed yet.
+
+WebCore configuration succeeds and PAL has compiled and archived. The AVKON shell's 11 ARM objects have compiled; 21 WebCore/PAL platform and crypto translation units and 6 Legacy embedding translation units pass actual ARM/C++23 syntax checks. Full WebCore/Legacy archives, final browser ELF/E32, SIS and guest execution are still pending.
 
 The E32 converter's 47 host regression tests pass, including a valid exception index larger than 64 KiB, malformed table/descriptor rejection and strict single-branch ARM import thunks. Clean sequential patch application, reverse checks and repeated cached builds pass. Converter SHA256: `6639323282ca92f09c823a9ea7178b318c2198cfdf27c5e0bb9e50cef6d5f27d`. This does not establish full-browser E32 conversion.
 

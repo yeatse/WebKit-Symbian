@@ -2,7 +2,7 @@
 
 Run `python3 Tools/Symbian/tests/serve-network-tests.py --reports /path/to/results` and load `http://localhost:8765/network.html?autorun=1` in the emulator browser. Two HTTP ports, 8765/8766, test origin boundaries. The emulator's socket bridge connects to host loopback. The server defaults to loopback and needs no external service.
 
-The page logs 21 named outcomes and a `PASS: network 21/21` summary, and POSTs a JSON report to the server. Tests cover fetch, async/sync XHR, chunked/data responses, POST redirect rules, async/sync 401 refusal, cancellation, cookie paths/recalculation/deletion, cross-port authorization and cookies, WebSocket text/binary, and recovery after failure. A frozen synchronous XHR requires a host-side timeout; a JavaScript timeout cannot interrupt it. Require all outcomes from the current browser run and scan the emulator for guest panics/access violations. Server-side fixture smoke tests are not browser validation.
+The page logs 23 named outcomes and a `PASS: network 23/23` summary, and POSTs a JSON report to the server. Tests cover fetch, async/sync XHR, chunked/data responses, POST redirect rules, async/sync 401 refusal, cancellation, cookie paths/recalculation/deletion, cross-port authorization and cookies, WebSocket text/binary, HTTP-to-local/forbidden-port redirect rejection, and recovery after failure. A frozen synchronous XHR requires a host-side timeout; a JavaScript timeout cannot interrupt it. Require all outcomes from the current browser run and scan the emulator for guest panics/access violations. Server-side fixture smoke tests are not browser validation.
 
 ## TLS fixtures
 
