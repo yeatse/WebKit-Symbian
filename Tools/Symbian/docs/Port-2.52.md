@@ -7,7 +7,7 @@ Updated: 2026-10-29 (Asia/Singapore).
 - Base: WebKitGTK `webkitgtk-2.52.6`, `4fb33923db2f945803df49546f75867980365c08`.
 - Reference: `2.32.4-symbian`, `165777485aca391b73583d12d45edb230d3c4216`; reference upstream `a81ec020d36acabbe870529ac29582c954c91852`.
 - The reference now includes later crypto/media commits after the supplied handoff's `4dca1b91`. Media stays disabled on this branch.
-- Emulator: `yeatse/EKA2L1`, `webkit-symbian`, `5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a`. CLI firmware installation and panic diagnostics are local validation changes only. Browser validation also uses two local shutdown fixes: message-window animations observe canvas destruction, and property subscriptions do not signal already-destroyed request semaphores during kernel wipeout. These EKA changes are not pushed. The final browser-validation emulator SHA256 is `94bcad8b14b1ac7d6b78ddaa33f717cfcc432ca008d556af6631cbe21da3eb7f`.
+- Emulator: `yeatse/EKA2L1`, `webkit-symbian`, `5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a`. CLI firmware installation and panic diagnostics are local validation changes only. Browser validation also uses two local shutdown fixes: message-window animations observe canvas destruction, and property subscriptions do not signal already-destroyed request semaphores during kernel wipeout. All four validation patches are preserved under `patches/eka2l1` in this WebKit repository for reproduction; none is committed or pushed to the EKA repository. The final browser-validation emulator SHA256 is `94bcad8b14b1ac7d6b78ddaa33f717cfcc432ca008d556af6631cbe21da3eb7f`.
 - SDK: symbian-platform 0.3.0, Clang 23.1.2. Release archive SHA256 `9be830884a5fd1b9315ea1c11571810f7a50fa673851fa392bb397c6759fec3d`.
 
 ## Current checkpoint

@@ -1,0 +1,51 @@
+diff --git a/src/emu/services/include/services/window/classes/plugins/anim/clock/messagewin.h b/src/emu/services/include/services/window/classes/plugins/anim/clock/messagewin.h
+index 9fabb2720..748d0e053 100644
+--- a/src/emu/services/include/services/window/classes/plugins/anim/clock/messagewin.h
++++ b/src/emu/services/include/services/window/classes/plugins/anim/clock/messagewin.h
+@@ -20,13 +20,16 @@
+ #pragma once
+ 
+ #include <services/window/classes/plugins/animdll.h>
++#include <services/window/classes/winuser.h>
+ 
+ namespace eka2l1::epoc {
+-    struct messagewin_anim_executor: public anim_executor {
++    struct messagewin_anim_executor: public anim_executor, public canvas_observer {
+     public:
+         explicit messagewin_anim_executor(canvas_base *canvas);
+         std::int32_t handle_request(const std::int32_t opcode, void *args) override;
++        void on_window_size_changed(canvas_interface *) override { }
++        void on_window_destroyed(canvas_interface *) override { canvas_ = nullptr; }
+ 
+         ~messagewin_anim_executor();
+     };
+-}
+\ No newline at end of file
++}
+diff --git a/src/emu/services/src/window/classes/plugins/anim/clock/messagewin.cpp b/src/emu/services/src/window/classes/plugins/anim/clock/messagewin.cpp
+index a413fa5a3..bd05b7210 100644
+--- a/src/emu/services/src/window/classes/plugins/anim/clock/messagewin.cpp
++++ b/src/emu/services/src/window/classes/plugins/anim/clock/messagewin.cpp
+@@ -26,6 +26,7 @@
+ namespace eka2l1::epoc {
+     messagewin_anim_executor::messagewin_anim_executor(canvas_base *canvas)
+         : anim_executor(canvas) {
++        canvas->add_canvas_observer(this);
+         canvas->set_visible(false);
+     }
+ 
+@@ -35,6 +36,11 @@ namespace eka2l1::epoc {
+     }
+ 
+     messagewin_anim_executor::~messagewin_anim_executor() {
+-        canvas_->set_visible(true);
++        // A client can destroy its canvas before the animation DLL, including
++        // when all of its objects are cleared during emulator shutdown.
++        if (canvas_) {
++            canvas_->remove_canvas_observer(this);
++            canvas_->set_visible(true);
++        }
+     }
+-}
+\ No newline at end of file
++}
