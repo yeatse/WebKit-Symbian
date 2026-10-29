@@ -129,6 +129,8 @@ private:
 
     void scrollRectIntoView(const WebCore::IntRect&) const final { }
 
+    void dispatchViewportPropertiesDidChange(const WebCore::ViewportArguments&) const final;
+
     void attachRootGraphicsLayer(WebCore::Frame&, WebCore::GraphicsLayer*) final { }
     void attachViewOverlayGraphicsLayer(WebCore::GraphicsLayer*) final { }
     void setNeedsOneShotDrawingSynchronization() final { }

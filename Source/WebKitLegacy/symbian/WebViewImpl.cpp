@@ -278,6 +278,7 @@ WebView* WebView::create(WebViewClient& client, int width, int height)
 WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
     : m_client(client)
     , m_size(width, height)
+    , m_scaleTimer(*this, &WebViewImpl::updateScale)
 {
     auto storageProvider = PageStorageSessionProvider::create();
     auto frameLoaderClient = makeUniqueRef<SymbianFrameLoaderClient>(*this);
@@ -390,10 +391,74 @@ void WebViewImpl::loadErrorPage(const ResourceError& error)
 
 void WebViewImpl::setSize(int width, int height)
 {
+    bool widthChanged = width != m_size.width();
     m_size = IntSize(width, height);
     if (FrameView* view = m_page->mainFrame().view())
         view->resize(m_size);
+    // The split view keyboard changes only the height, and keeps the zoom.
+    if (widthChanged)
+        updateLayoutSize();
     invalidate(IntRect(IntPoint(), m_size));
+}
+
+// Viewport.
+
+static const int desktopWidth = 980;
+
+void WebViewImpl::viewportChanged(const ViewportArguments& arguments)
+{
+    // Each new document starts with implicit arguments, before its
+    // <meta name=viewport> if it has one.
+    m_viewportArguments = arguments;
+    updateLayoutSize();
+}
+
+ViewportAttributes WebViewImpl::viewportAttributes() const
+{
+    ViewportAttributes attributes = computeViewportAttributes(m_viewportArguments, desktopWidth, m_size.width(), m_size.height(), 1, m_size);
+    restrictMinimumScaleFactorToViewportSize(attributes, m_size, 1);
+    restrictScaleFactorToInitialScaleIfNotUserScalable(attributes);
+    attributes.initialScale = clampTo(attributes.initialScale, attributes.minimumScale, attributes.maximumScale);
+    return attributes;
+}
+
+void WebViewImpl::updateLayoutSize()
+{
+    FrameView* view = m_page->mainFrame().view();
+    if (!view || m_size.isEmpty())
+        return;
+    ViewportAttributes attributes = viewportAttributes();
+    view->setFixedLayoutSize(roundedIntSize(attributes.layoutSize));
+    view->setUseFixedLayout(true);
+    m_initialScale = attributes.initialScale;
+    m_minimumScale = attributes.minimumScale;
+    m_maximumScale = attributes.maximumScale;
+    // Scaling restyles the whole page, so it waits until the document that
+    // asked for it has settled in.
+    m_scaleTimer.startOneShot(0_s);
+}
+
+void WebViewImpl::updateScale()
+{
+    if (m_page->mainFrame().document())
+        m_page->setPageScaleFactor(m_initialScale, IntPoint());
+}
+
+// Toggles between the initial scale and one where text is readable, keeping
+// the point under the finger.
+void WebViewImpl::zoomAt(const IntPoint& point)
+{
+    FrameView* view = m_page->mainFrame().view();
+    if (!view || !m_page->mainFrame().document())
+        return;
+    float scale = m_page->pageScaleFactor();
+    float zoomed = scale > m_initialScale * 1.01f ? m_initialScale : std::max(1.f, m_initialScale * 2);
+    zoomed = clampTo(zoomed, m_minimumScale, m_maximumScale);
+    if (zoomed == scale)
+        return;
+    FloatPoint documentPoint = view->scrollPosition() + toIntSize(point);
+    documentPoint.scale(zoomed / scale);
+    m_page->setPageScaleFactor(zoomed, roundedIntPoint(documentPoint) - toIntSize(point));
 }
 
 void WebViewImpl::paint(uint8_t* pixels, int stride, const Rect& area)
@@ -495,10 +560,30 @@ void WebViewImpl::handlePointer(PointerEvent event, int x, int y)
         break;
     case PointerEvent::Up:
         if (m_pointerDown && !m_pointerScrolling)
-            click(m_pointerStart);
+            tap(m_pointerStart);
         m_pointerDown = false;
         break;
     }
+}
+
+static const Seconds doubleTapInterval = 400_ms;
+static const int doubleTapSlop = 24;
+
+void WebViewImpl::tap(const IntPoint& point)
+{
+    MonotonicTime now = MonotonicTime::now();
+    IntSize moved = point - m_lastTap;
+    bool doubleTap = now - m_lastTapTime < doubleTapInterval
+        && std::abs(moved.width()) <= doubleTapSlop && std::abs(moved.height()) <= doubleTapSlop;
+    m_lastTap = point;
+    // A third tap starts over.
+    m_lastTapTime = doubleTap ? MonotonicTime() : now;
+    // The first tap has clicked already; the second zooms instead, on pages
+    // that can zoom.
+    if (doubleTap && m_maximumScale > m_minimumScale)
+        zoomAt(point);
+    else
+        click(point);
 }
 
 void WebViewImpl::click(const IntPoint& point)

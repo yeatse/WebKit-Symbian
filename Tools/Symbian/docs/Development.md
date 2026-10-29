@@ -337,6 +337,7 @@ Results:
 * Clients: chrome, frame loader, editor, progress tracking; platform strategies with an in-process pasteboard; an error page for failed loads.
 * Painting: WebCore paints with cairo straight into the application's `CFbsBitmap` (`EColor16MU` has cairo's RGB24 layout).
 * Touch: a tap becomes a click; a drag scrolls whatever is under the finger, overflow areas included.
+* Viewport: the page lays out at the width its `<meta name=viewport>` asks for, or at 980 pixels without one, as other phone browsers do, and starts scaled to fit the view (`FrameView` fixed layout and the page scale factor, which WebCore applies as a transform on the root without compositing). A double tap toggles between that scale and a readable one (1, or twice the initial scale for pages that are already 1), keeping the point under the finger; `user-scalable=no` turns it off. The first tap of the two has clicked already. Only a change of width starts the page over at its initial scale, so the split view input keeps the zoom.
 * Event loop: WTF's generic `RunLoop` runs from the application's active scheduler. `RunLoop::nextTimerFireTime()` (added to WTF) tells the application when to wake it.
 * Editing for input methods: composition, selection and surrounding text of the focused field, counted in the field's own characters.
 
@@ -417,7 +418,6 @@ WebKit's own files keep their licenses (BSD-2-Clause / LGPL-2.1); the new `wtf/s
 * **Browser**: renders pages and takes touch input in EKA2L1, and opens local pages on a phone. The first phone runs could not resolve host names: there was no access point, which the shell now starts itself, and then curl's resolver failed on `socketpair()`, which curl is now built without.
 * **Next**:
   * testing on the phone: HTTP and HTTPS, the partial screen input, memory with a 31 MB image
-  * zoom and a viewport for desktop pages
   * AVKON-skinned form controls (`RenderTheme`)
   * the speed of the `-Os` build on the phone: measure first, then scroll blitting and selective `-O2`
   * following the connection manager for the online state

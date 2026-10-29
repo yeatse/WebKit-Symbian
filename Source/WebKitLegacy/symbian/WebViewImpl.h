@@ -28,6 +28,8 @@
 #include <WebCore/IntPoint.h>
 #include <WebCore/IntRect.h>
 #include <WebCore/IntSize.h>
+#include <WebCore/Timer.h>
+#include <WebCore/ViewportArguments.h>
 #include <memory>
 #include <wtf/Vector.h>
 #include <wtf/text/WTFString.h>
@@ -70,6 +72,7 @@ public:
     void urlChanged();
     void progressChanged();
     void loadErrorPage(const WebCore::ResourceError&);
+    void viewportChanged(const WebCore::ViewportArguments&);
 
 private:
     // WebView
@@ -99,6 +102,11 @@ private:
 
     WebCore::Frame& focusedFrame() const;
     WebCore::Element* editableRoot() const;
+    WebCore::ViewportAttributes viewportAttributes() const;
+    void updateLayoutSize();
+    void updateScale();
+    void tap(const WebCore::IntPoint&);
+    void zoomAt(const WebCore::IntPoint&);
     void click(const WebCore::IntPoint&);
     void scrollAt(const WebCore::IntPoint&, const WebCore::IntSize& delta);
 
@@ -106,11 +114,22 @@ private:
     std::unique_ptr<WebCore::Page> m_page;
     WebCore::IntSize m_size;
 
+    // Pages lay out at the width their viewport asks for, 980 pixels for
+    // those without one, and start scaled to fit the view.
+    WebCore::ViewportArguments m_viewportArguments;
+    WebCore::Timer m_scaleTimer;
+    float m_initialScale { 1 };
+    float m_minimumScale { 1 };
+    float m_maximumScale { 1 };
+
     // Touch: a press that moves further than the tap slop scrolls.
     bool m_pointerDown { false };
     bool m_pointerScrolling { false };
     WebCore::IntPoint m_pointerStart;
     WebCore::IntPoint m_pointerLast;
+    // A second tap close to the first zooms.
+    MonotonicTime m_lastTapTime;
+    WebCore::IntPoint m_lastTap;
 };
 
 } // namespace WebKitSymbian

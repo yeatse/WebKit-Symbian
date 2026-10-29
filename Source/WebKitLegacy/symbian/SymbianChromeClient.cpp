@@ -184,6 +184,11 @@ void SymbianChromeClient::showShareSheet(ShareDataWithParsedURL&, CompletionHand
     completionHandler(false);
 }
 
+void SymbianChromeClient::dispatchViewportPropertiesDidChange(const ViewportArguments& arguments) const
+{
+    m_view.viewportChanged(arguments);
+}
+
 void SymbianChromeClient::triggerRenderingUpdate()
 {
     // No compositing: an update runs animation frames and layout, and the
