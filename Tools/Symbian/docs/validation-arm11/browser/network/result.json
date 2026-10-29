@@ -1,0 +1,15 @@
+{
+  "image_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+  "emulator_sha256": "c6c98382236bb8e83f31ae545c3e11edb126dd5d61f87e5b4ff07a22cd92fb1c",
+  "suite": "network",
+  "run": "810ab43649e54b34bd2cb502b2058d35",
+  "passed": 23,
+  "failed": 0,
+  "observation_seconds": 60,
+  "host_exit": 0,
+  "normal_window_close": true,
+  "panic_or_access_violation": false,
+  "report": "report.json",
+  "guest_log": "log.txt",
+  "screenshot": "browser.png"
+}

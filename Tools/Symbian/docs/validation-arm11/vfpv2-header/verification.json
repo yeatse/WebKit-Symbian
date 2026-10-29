@@ -1,0 +1,40 @@
+{
+  "browser": {
+    "before_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+    "after_sha256": "8bdfedccfe9daac342603733f7d714d11987af39f83a9da7d54af7e3e8e1cacd",
+    "payload_sha256": "503e4cb1ecb007c61e560142ea890726ae02d6202cecb4fad33c0f2aec04bfdb",
+    "bytes": 53337952,
+    "code_offset": 156,
+    "changed_offsets": [
+      20,
+      21,
+      22,
+      23,
+      46
+    ],
+    "flags": "0x12100028",
+    "independent_crc": "PASS",
+    "default_preserves_flags": "PASS",
+    "idempotent": "PASS",
+    "unsupported_fpu_rejected": "PASS"
+  },
+  "jsc": {
+    "before_sha256": "86fc45d8ccf82c39c3519366f8633c5d1465aeb742dd3ee1404ad8dea5c448a7",
+    "after_sha256": "f6358eda691be2cc92cfa63a900d7cc42f8f9b2965ae1ad0c06cb4de6ebba6dd",
+    "payload_sha256": "870cdc293ad8f8c4b140517e0bfb067f981eab1ea6d2cdd62ebee51428501d3f",
+    "bytes": 18842640,
+    "code_offset": 156,
+    "changed_offsets": [
+      20,
+      21,
+      22,
+      23,
+      46
+    ],
+    "flags": "0x12100028",
+    "independent_crc": "PASS",
+    "default_preserves_flags": "PASS",
+    "idempotent": "PASS",
+    "unsupported_fpu_rejected": "PASS"
+  }
+}

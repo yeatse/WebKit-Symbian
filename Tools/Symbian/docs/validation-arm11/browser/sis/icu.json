@@ -1,0 +1,9 @@
+{
+  "sis_sha256": "9bca263c767e2095b5835340a2bc5a7a953a95e9a9a2082e5bd7c60c46b88bb8",
+  "sis_bytes": 4744200,
+  "matches_previously_installed_package": true,
+  "fresh_installation": false,
+  "installed_data_sha256": "5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f",
+  "installed_data_bytes": 10202528,
+  "installed_data_matches": true
+}

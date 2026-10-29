@@ -1,0 +1,169 @@
+{
+  "upstream_commit": "4fb33923db2f945803df49546f75867980365c08",
+  "tests": [
+    {
+      "original_path": "JSTests/stress/arity-mismatch-arguments-length.js",
+      "group": "arguments-varargs-tailcalls",
+      "sha256": "ea17fe650c185fc4b0aacec971fcf2131f28d4875515af77dd7e6790f8542e26",
+      "git_blob": "3282222fc34a82564d46aaa9759df1555a40c92b",
+      "bytes": 1048,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/varargs-simple.js",
+      "group": "arguments-varargs-tailcalls",
+      "sha256": "a56210e8a91061e74bf1bd9dbec62b159d76ff5f8149a5b409faad41635f2cd4",
+      "git_blob": "cbd8b9ff045a5ab5be0147e044d6b87eed15e629",
+      "bytes": 307,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/call-varargs-from-inlined-code-with-odd-number-of-arguments.js",
+      "group": "arguments-varargs-tailcalls",
+      "sha256": "2751830dafdc3d002023eac4f9f3b717010651a360eb5ddee151850cc440c1e7",
+      "git_blob": "8480032b184161cd6f5e9ef7cf6ad5d8a2b0fb43",
+      "bytes": 1122,
+      "directives": [
+        "//@ if $hostOS == \"linux\" then defaultNoSamplingProfilerRun else defaultRun end"
+      ]
+    },
+    {
+      "original_path": "JSTests/stress/recursive-tail-call-with-different-argument-count.js",
+      "group": "arguments-varargs-tailcalls",
+      "sha256": "ffda30b87292d1fc9eac30a1658e08ea1f923cb3f5894446eca4b863c54255ab",
+      "git_blob": "ae9fb054ea3e26b775426ee95a207a5c6acc96e1",
+      "bytes": 541,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/tail-calls-dont-overwrite-live-stack.js",
+      "group": "arguments-varargs-tailcalls",
+      "sha256": "70fe147eecf4feb32ee0e6d621c1cddebe81ada7024e01d0f2bf318434fbcc96",
+      "git_blob": "176f3e06a8ce5ee5c1712d1807382a36dcea9e1a",
+      "bytes": 795,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/arguments-copy-register-array-backing-store.js",
+      "group": "arguments-varargs-tailcalls",
+      "sha256": "7fff16193a5dadf143568d46e3f73d66e4612181c4a5670a53a4029643efa043",
+      "git_blob": "2bfb54087a0dc7598b54bd32acaef60df1c2d77f",
+      "bytes": 727,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/to-number-basics.js",
+      "group": "objects-array-conversions",
+      "sha256": "59b83cd3ba39ef2d6f729f1c713f2ab6f0ed88da72e40079e27b543332f97062",
+      "git_blob": "438b21660da0201bdb7af5f1131231fb4f4b5553",
+      "bytes": 437,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/to-number-object.js",
+      "group": "objects-array-conversions",
+      "sha256": "c6013465337a4b32d73c25c0788002ff1c9604076fff05b073f8b9ef847c73cb",
+      "git_blob": "689249a4df515cc05762530034413bc76f89a692",
+      "bytes": 1535,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/array-indexof-structure-change-convert.js",
+      "group": "objects-array-conversions",
+      "sha256": "df889e6284a574d4c20447b8c24f5f7543ac8e53eadc062ca896bcac506a0079",
+      "git_blob": "7d77f9bc7b2867254dc3f82d3172b120fc680c0e",
+      "bytes": 712,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/int32array-transition-on-nan.js",
+      "group": "objects-array-conversions",
+      "sha256": "3a6b5ed01f85516a5b8ff88f7084b0a812c3293754e583281ef0c9374174c1b0",
+      "git_blob": "5db2a66f95004698474a5702699877ca20c6a89f",
+      "bytes": 2145,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/regexp-sticky-tests.js",
+      "group": "regexp-semantics",
+      "sha256": "f0ad8835256f93f16a3d5d9d5f4f219429b847675f677f68bb710f4a6e180089",
+      "git_blob": "1cf303f267c3d8fa45d7d56abd6337ff13024c7f",
+      "bytes": 2461,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/regexp-exec-test-effectful-last-index.js",
+      "group": "regexp-semantics",
+      "sha256": "07ad6956a6c4a12e2258254a61f4416a89b9cf63a633a6155f17dfb061a0decd",
+      "git_blob": "815c0e47b7eeb65b7c5cc6d1000da983669e2c4c",
+      "bytes": 847,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/regexp-lookbehind-greedy-backreference.js",
+      "group": "regexp-semantics",
+      "sha256": "dab37d03ac0396075e81449e4a9b1abcc27c8058e5c4a3502eeb9d86c0991393",
+      "git_blob": "ac96365c0a226387bdc0dab69ba708467e944c14",
+      "bytes": 1817,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/regexp-named-capture-groups.js",
+      "group": "regexp-semantics",
+      "sha256": "d3f55d58a67ec29e6ab60454c15b8249100c43b6b37cbd239516f580e45b952e",
+      "git_blob": "bf89ee4d8fa5d8913acbe5028fe76d766e5145f5",
+      "bytes": 8193,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/math-clz32-basics.js",
+      "group": "division-modulo-clz",
+      "sha256": "5702535603f74d4564ce26a27c33707736b585fa7cbd0981f3af020232e7d651",
+      "git_blob": "e2b6ae799953be192d2edef9206b99961c762bd1",
+      "bytes": 6176,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/arith-clz32-effects.js",
+      "group": "division-modulo-clz",
+      "sha256": "c9ecaf2606f11e09f237dc6672536b7a02bf602b121e8de428f5147bc65fd609",
+      "git_blob": "a7ffadf5c18124d62c4b561a5073a2d46a884950",
+      "bytes": 562,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/arith-modulo-node-behaviors.js",
+      "group": "division-modulo-clz",
+      "sha256": "cff9ad7dfd84b35859781c4513d5533a7412fcfbcc67282c786f59d7a5ecdb24",
+      "git_blob": "16b9863b360247f27cab023105ac1002ab1a7f6c",
+      "bytes": 4009,
+      "directives": [
+        "//@ skip if $hostOS == \"windows\""
+      ]
+    },
+    {
+      "original_path": "JSTests/stress/arith-modulo-power-of-two-int32.js",
+      "group": "division-modulo-clz",
+      "sha256": "04258019886c009e332c32ee87bf358421267a2cabe031d93e01fd09d5a05e07",
+      "git_blob": "35d1097169c07420fe869c3eba943d0cee49789e",
+      "bytes": 10007,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/new-array-with-size-div.js",
+      "group": "division-modulo-clz",
+      "sha256": "bf0b2abd8030d03977e585c9de653461c289e16b2d5f776263d2084be033c431",
+      "git_blob": "f0d113f92d9c31458b54163e7788075b9b19a2a9",
+      "bytes": 442,
+      "directives": []
+    },
+    {
+      "original_path": "JSTests/stress/floating-point-div-to-mul.js",
+      "group": "division-modulo-clz",
+      "sha256": "4058dd256f599cfa88637e88e7cd1a48526f45799852e788b9886f627eeb968c",
+      "git_blob": "6ce0503e0353945675737f8912a4f82231124ef0",
+      "bytes": 9396,
+      "directives": []
+    }
+  ]
+}
