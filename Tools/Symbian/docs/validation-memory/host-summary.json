@@ -1,0 +1,39 @@
+{
+  "result": "PASS",
+  "baseline_commit": "17cf20e6748e87a1749f11b1bf018cf2304eb392",
+  "baseline_source_sha256": "ceb027d840c6db115d6140da988e2d082ee7f97a3b228ba3b4175afc9c39f63c",
+  "production_sha256": {
+    "Source/WTF/wtf/FastMalloc.cpp": "be63d14dbb1f67ad7ea17303b339e745ca85dd79ce4dc4529938cba2f9ed7556",
+    "Source/WTF/wtf/symbian/SymbianSystem.cpp": "2396e250d9b4ab8adfe8032c05b409a11f94afbeebb2a6f7350f27e933f7823c",
+    "Source/WTF/wtf/symbian/MemoryDiagnostics.h": "2304fe7161e33dd50cb4ae17391e2cbb2782d0e22cbb1fe4b70b4c6c9717cb9d",
+    "Tools/Symbian/tests/native-memory/aligned-pool.cpp": "2d6f3b04519e692990846f52a40fe2ca11b9da039cf29fe8b6eed95daef22104",
+    "Tools/Symbian/tests/native-memory/aligned-pool-limit.cpp": "02a95b3db9bd76ca3c862f9fbcfab6548813dba2571c92de6668521febf11383",
+    "Tools/Symbian/tests/native-memory/run-aligned-pool.py": "0d6c2d955787526b1d44ea5a3bc1afb3b363441f4ac38e3a084d1d0bba157a64"
+  },
+  "checks": {
+    "fixed_pool_64MiB": "4096 aligned 16KiB blocks; next request fails before kernel, independent reservation succeeds",
+    "fixed_pool_8MiB": "512 blocks after native reservation size downgrade",
+    "growth": "65MiB live across 9 regions of 8MiB, then all extra regions reclaimed",
+    "failure_injection": [
+      "metadata allocation",
+      "native reserve",
+      "first commit of new region",
+      "commit in existing region without growth",
+      "partial page rollback"
+    ],
+    "other": [
+      "overflow",
+      "invalid alignment",
+      "foreign pointer",
+      "fragmentation",
+      "zero-on-reuse",
+      "middle/tail region reclaim",
+      "4 simultaneous allocating/freeing threads with retained patterns"
+    ],
+    "arm_syntax": [
+      "FastMalloc.cpp PASS",
+      "SymbianSystem.cpp PASS"
+    ]
+  },
+  "limits": "Production AlignedPool source and bridge compiled; native RChunk/HAL/entropy and metadata allocator fault injection are host shims. Not a real-phone address-space or free-RAM test."
+}

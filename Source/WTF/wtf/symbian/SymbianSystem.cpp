@@ -24,13 +24,16 @@
 
 // Deliberately free of config.h / WTF headers: see SymbianSystem.h.
 #include "SymbianSystem.h"
+#include "MemoryDiagnostics.h"
 
 #include <limits.h>
 #include <stdlib.h>
 #include <e32std.h>
 #include <hal.h>
 #include <pthread.h>
+#include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 namespace WTF {
 namespace SymbianSystem {
@@ -117,6 +120,44 @@ static constexpr int maxReservations = 256;
 static Reservation reservations[maxReservations];
 static pthread_mutex_t reservationLock = PTHREAD_MUTEX_INITIALIZER;
 
+void reportMemoryFailure(const char* reason, size_t bytes, size_t alignment, size_t poolReserved, size_t poolUsed, size_t poolLargestFree, int nativeError)
+{
+    unsigned count = 0;
+    size_t reserved = 0;
+    size_t committed = 0;
+    pthread_mutex_lock(&reservationLock);
+    for (const auto& reservation : reservations) {
+        if (!reservation.handle)
+            continue;
+        ++count;
+        reserved += reservation.size;
+        for (size_t page = 0; page < reservation.size / memoryPageSize; ++page)
+            committed += !!reservation.committed[page] * memoryPageSize;
+    }
+    pthread_mutex_unlock(&reservationLock);
+    TInt freeRAM = -1;
+    if (HAL::Get(HALData::EMemoryRAMFree, freeRAM) != KErrNone)
+        freeRAM = -1;
+    // Only integer/string formatting into a fixed stack buffer. Do not use
+    // WTF strings or buffered FILE I/O while reporting an allocation failure.
+    char message[384];
+    int length = snprintf(message, sizeof(message),
+        "WTF memory failure: reason=%s request=%zu alignment=%zu pool-reserved=%zu pool-used=%zu pool-largest-free=%zu chunk-error=%d chunks=%u/256 chunk-reserved=%zu chunk-committed=%zu system-free=%d\n",
+        reason, bytes, alignment, poolReserved, poolUsed, poolLargestFree,
+        nativeError, count, reserved, committed, freeRAM);
+    if (length > 0) {
+        size_t remaining = static_cast<size_t>(length) < sizeof(message) ? static_cast<size_t>(length) : sizeof(message) - 1;
+        const char* cursor = message;
+        while (remaining) {
+            ssize_t written = write(STDERR_FILENO, cursor, remaining);
+            if (written <= 0)
+                break;
+            cursor += written;
+            remaining -= written;
+        }
+    }
+}
+
 // Caller holds reservationLock through each kernel operation and its accounting.
 static Reservation* reservationContaining(const void* address, size_t bytes)
 {
@@ -156,14 +197,17 @@ void* reserve(size_t bytes, bool executable, size_t alignment, unsigned guardPag
         return nullptr;
     size_t total = bytes + extra + 2 * guards;
     auto* committed = static_cast<unsigned char*>(calloc(bytes / memoryPageSize, 1));
-    if (!committed)
+    if (!committed) {
+        reportMemoryFailure("chunk-metadata", bytes, alignment);
         return nullptr;
+    }
     RChunk chunk;
     TInt error = executable
         ? chunk.CreateLocalCode(static_cast<TInt>(total), static_cast<TInt>(total), EOwnerProcess)
         : chunk.CreateDisconnectedLocal(0, 0, static_cast<TInt>(total), EOwnerProcess);
     if (error != KErrNone) {
         free(committed);
+        reportMemoryFailure(executable ? "code-chunk-create" : "data-chunk-create", total, alignment, 0, 0, 0, error);
         return nullptr;
     }
     uintptr_t chunkBase = reinterpret_cast<uintptr_t>(chunk.Base());
@@ -179,6 +223,7 @@ void* reserve(size_t bytes, bool executable, size_t alignment, unsigned guardPag
     pthread_mutex_unlock(&reservationLock);
     chunk.Close();
     free(committed);
+    reportMemoryFailure("chunk-table-full", bytes, alignment);
     return nullptr;
 }
 
@@ -197,10 +242,11 @@ bool commit(void* address, size_t bytes, bool executable)
     size_t first = (reinterpret_cast<uintptr_t>(address) - reinterpret_cast<uintptr_t>(reservation->base)) / memoryPageSize;
     size_t end = first + bytes / memoryPageSize;
     bool success = true;
+    TInt error = KErrNone;
     for (size_t page = first; page < end; ++page) {
         if (reservation->committed[page])
             continue;
-        if (!reservation->executable && chunk.Commit(reservation->offset + page * memoryPageSize, memoryPageSize) != KErrNone) {
+        if (!reservation->executable && (error = chunk.Commit(reservation->offset + page * memoryPageSize, memoryPageSize)) != KErrNone) {
             success = false;
             break;
         }
@@ -215,6 +261,8 @@ bool commit(void* address, size_t bytes, bool executable)
         reservation->committed[page] = success ? 1 : 0;
     }
     pthread_mutex_unlock(&reservationLock);
+    if (!success)
+        reportMemoryFailure("chunk-commit", bytes, memoryPageSize, 0, 0, 0, error);
     return success;
 }
 

@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "command": "python3 Tools/Symbian/tests/native-memory/run-aligned-pool.py",
+  "groups": 4,
+  "sources": {
+    "Source/WTF/wtf/FastMalloc.cpp": "7a9f1ba61b5d12b6fdf66ed568ee7576757c49d04e3038a7637711d705523f16",
+    "Source/WTF/wtf/symbian/SymbianSystem.cpp": "2396e250d9b4ab8adfe8032c05b409a11f94afbeebb2a6f7350f27e933f7823c",
+    "Tools/Symbian/tests/native-memory/run-aligned-pool.py": "0d6c2d955787526b1d44ea5a3bc1afb3b363441f4ac38e3a084d1d0bba157a64",
+    "Tools/Symbian/tests/native-memory/aligned-pool.cpp": "2d6f3b04519e692990846f52a40fe2ca11b9da039cf29fe8b6eed95daef22104"
+  },
+  "log": {
+    "file": "host-pool-stackfix.log",
+    "bytes": 3939,
+    "sha256": "a95e5090437dd187a51a33ba61bd5b7646a73793079f14bfb7362d09c8c8ad40"
+  },
+  "scope": "Final stack-reset allocator source, real allocator and bridge with host kernel/fault shims; complements default-8KiB-pthread native final run."
+}

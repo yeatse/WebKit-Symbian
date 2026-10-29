@@ -29,12 +29,22 @@ inline unsigned commitCalls = 0;
 inline unsigned decommitCalls = 0;
 inline int entropyMode = 0;
 inline unsigned entropyCalls = 0;
+inline size_t maximumReservation = SIZE_MAX;
+inline int reservationsBeforeFailure = -1;
+inline unsigned reservationCalls = 0;
 }
 
 class RChunk {
 public:
     TInt CreateDisconnectedLocal(TInt, TInt, TInt size, TInt)
     {
+        ++FakeKernel::reservationCalls;
+        if (!FakeKernel::reservationsBeforeFailure)
+            return -4;
+        if (FakeKernel::reservationsBeforeFailure > 0)
+            --FakeKernel::reservationsBeforeFailure;
+        if (static_cast<size_t>(size) > FakeKernel::maximumReservation)
+            return -4;
         void* base = mmap(nullptr, size, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
         if (base == MAP_FAILED)
             return -4;
@@ -42,6 +52,8 @@ public:
         FakeKernel::chunks.emplace(m_handle, FakeKernel::Chunk { base, static_cast<size_t>(size), std::vector<bool>(size / FakeKernel::pageSize) });
         return 0;
     }
+    // Executable chunks are outside this data-memory host fixture's scope.
+    TInt CreateLocalCode(TInt, TInt, TInt) { return -5; }
     TInt Handle() const { return m_handle; }
     void SetHandle(TInt handle) { m_handle = handle; }
     TUint8* Base() { return static_cast<TUint8*>(FakeKernel::chunks.at(m_handle).base); }

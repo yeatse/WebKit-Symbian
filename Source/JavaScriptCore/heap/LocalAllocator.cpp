@@ -34,6 +34,11 @@
 #include "ResourceExhaustion.h"
 #include "SuperSampler.h"
 
+#if OS(SYMBIAN)
+#include <stdio.h>
+#include <unistd.h>
+#endif
+
 namespace JSC {
 
 LocalAllocator::LocalAllocator(BlockDirectory* directory)
@@ -147,6 +152,23 @@ void* LocalAllocator::allocateSlowCase(JSC::Heap& heap, size_t cellSize, GCDefer
     ASSERT_WITH_MESSAGE(cellSize == m_directory->cellSize(), "non-preciseOnly allocations should match allocator's the size class");
     MarkedBlock::Handle* block = m_directory->tryAllocateBlock(heap);
     if (!block) [[unlikely]] {
+#if OS(SYMBIAN)
+        // Only use existing names/counters and a fixed stack buffer here. An
+        // allocation failure must not allocate logging objects or iterate the
+        // heap, and a deferred allocation cannot introduce a new GC policy.
+        char message[384];
+        int length = snprintf(message, sizeof(message),
+            "Symbian JSC block allocation failure: subspace=%s cell=%zu block=%zu objectCapacity=%zu gcDeferred=%d deferralContext=%d gcEnabled=%d lastFullBefore=%zu lastFullAfter=%zu\n",
+            subspace->name(), cellSize, MarkedBlock::blockSize, heap.objectSpace().capacity(),
+            heap.isDeferred(), !!deferralContext, Options::useGC(),
+            heap.sizeBeforeLastFullCollection(), heap.sizeAfterLastFullCollection());
+        if (length > 0) {
+            size_t bytes = static_cast<size_t>(length);
+            if (bytes >= sizeof(message))
+                bytes = sizeof(message) - 1;
+            (void)write(STDERR_FILENO, message, bytes);
+        }
+#endif
         RELEASE_ASSERT_RESOURCE_AVAILABLE(failureMode != AllocationFailureMode::Assert, MemoryExhaustion, "Crash intentionally because memory is exhausted.");
         return nullptr;
     }

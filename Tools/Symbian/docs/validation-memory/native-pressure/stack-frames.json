@@ -1,0 +1,39 @@
+{
+  "compiler": "Symbian SDK Clang 23.1.2 ARMv6",
+  "productionFlags": [
+    "-Os",
+    "-fno-builtin",
+    "-marm",
+    "-mfloat-abi=softfp",
+    "-mfpu=vfpv2"
+  ],
+  "function": "WTF::tryFastAlignedMalloc",
+  "before": {
+    "pushBytes": 36,
+    "subtractions": [
+      28,
+      34816
+    ],
+    "staticFrameBytes": 34880
+  },
+  "after": {
+    "pushBytes": 36,
+    "subtractions": [
+      4
+    ],
+    "staticFrameBytes": 40
+  },
+  "nativeProbe": {
+    "flags": [
+      "-O3",
+      "-fno-builtin",
+      "-marm",
+      "-mfloat-abi=soft"
+    ],
+    "function": "AlignedPool::allocateLocked",
+    "beforeStaticFrameBytes": 34912,
+    "afterStaticFrameBytes": 72,
+    "pthreadStackBytes": 8192
+  },
+  "scope": "Static frame sizes exclude callees. Before frames came from the real compiled objects; after production size also matches Clang -fstack-usage."
+}

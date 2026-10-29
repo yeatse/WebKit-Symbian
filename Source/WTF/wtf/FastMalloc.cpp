@@ -32,6 +32,7 @@
 #if OS(SYMBIAN)
 #include <pthread.h>
 #include <wtf/NotFound.h>
+#include "symbian/MemoryDiagnostics.h"
 #include <wtf/symbian/SymbianSystem.h>
 #endif
 
@@ -196,9 +197,12 @@ void fastAlignedFree(void* p)
 // allocation, but on complex pages it starts failing page-aligned requests
 // (JSC's 16 KB MarkedBlocks) while it still serves ordinary ones, so the
 // first JS allocation that needs a new block crashes. Page-aligned requests
-// therefore come from a pool of their own: one disconnected chunk whose
-// pages are committed per allocation and decommitted on free. Everything
-// else, and anything the pool can't fit, goes to mimalloc.
+// therefore come from a pool of their own: disconnected chunks whose pages
+// are committed per allocation and decommitted on free. Add a region when
+// existing ones cannot fit an allocation, and reclaim empty extra regions.
+// Each reservation still starts at most 64 MiB and shrinks on failure. Everything
+// else goes to mimalloc. Page-aligned requests cannot fall back to mimalloc:
+// fastCommitAlignedMemory/fastDecommitAlignedMemory require a native reservation.
 extern "C" void* mi_malloc_aligned(size_t, size_t);
 extern "C" void mi_free(void*);
 
@@ -207,8 +211,6 @@ namespace {
 class AlignedPool {
 public:
     static constexpr size_t pageSize = 4096;
-
-    // Constant-initialized, so it is usable before dynamic initializers run.
     constexpr AlignedPool() = default;
 
     void* allocate(size_t alignment, size_t size)
@@ -222,84 +224,178 @@ public:
         return result;
     }
 
-    bool free(void* p)
+    bool free(void* pointer)
     {
-        uint8_t* address = static_cast<uint8_t*>(p);
         pthread_mutex_lock(&m_lock);
-        uintptr_t offset = reinterpret_cast<uintptr_t>(p) - reinterpret_cast<uintptr_t>(m_base);
-        if (!m_base || offset >= m_pageCount * pageSize) {
-            pthread_mutex_unlock(&m_lock);
-            return false;
-        }
-        freeLocked(address);
-        pthread_mutex_unlock(&m_lock);
-        return true;
-    }
-
-private:
-    void* allocateLocked(size_t pages, size_t alignPages)
-    {
-        if (!ensureReserved() || pages > maxRun)
-            return nullptr;
-        size_t index = find(pages, alignPages, m_hint);
-        if (index == notFound && m_hint)
-            index = find(pages, alignPages, 0);
-        if (index == notFound)
-            return nullptr;
-        void* result = m_base + index * pageSize;
-        if (!SymbianSystem::commit(result, pages * pageSize))
-            return nullptr;
-        for (size_t i = index; i < index + pages; ++i)
-            setUsed(i, true);
-        m_runPages[index] = pages;
-        m_hint = index + pages;
-        return result;
-    }
-
-    void freeLocked(uint8_t* address)
-    {
-        size_t index = (address - m_base) / pageSize;
-        size_t pages = m_runPages[index];
-        RELEASE_ASSERT(pages && address == m_base + index * pageSize);
-        SymbianSystem::decommit(address, pages * pageSize);
-        for (size_t i = index; i < index + pages; ++i)
-            setUsed(i, false);
-        m_runPages[index] = 0;
-        if (index < m_hint)
-            m_hint = index;
-    }
-
-    static constexpr size_t maxPages = 64 * 1024 * 1024 / pageSize;
-    static constexpr size_t maxRun = 0xffff;
-
-    bool ensureReserved()
-    {
-        if (m_base)
-            return true;
-        if (m_reserveFailed)
-            return false;
-        // Halve the request until the kernel finds the address space.
-        for (size_t pages = maxPages; pages >= maxPages / 8; pages /= 2) {
-            if (void* base = SymbianSystem::reserve(pages * pageSize, false)) {
-                m_base = static_cast<uint8_t*>(base);
-                m_pageCount = pages;
-                return true;
+        Region* previous = nullptr;
+        for (Region* region = &m_first; region; previous = region, region = region->next) {
+            uintptr_t offset = reinterpret_cast<uintptr_t>(pointer) - reinterpret_cast<uintptr_t>(region->base);
+            if (!region->base || offset >= region->pageCount * pageSize)
+                continue;
+            size_t index = offset / pageSize;
+            size_t pages = region->runPages[index];
+            RELEASE_ASSERT(pages && !(offset % pageSize));
+            if (previous && pages == region->usedPages) {
+                // Reclaim an empty additional reservation and its metadata.
+                // The first region stays reserved for future allocations.
+                previous->next = region->next;
+                SymbianSystem::release(region->base);
+                ::free(region);
+            } else {
+                RELEASE_ASSERT(SymbianSystem::decommit(pointer, pages * pageSize));
+                for (size_t page = index; page < index + pages; ++page)
+                    setUsed(*region, page, false);
+                region->runPages[index] = 0;
+                region->usedPages -= pages;
+                if (index < region->hint)
+                    region->hint = index;
             }
+            pthread_mutex_unlock(&m_lock);
+            return true;
         }
-        m_reserveFailed = true;
+        pthread_mutex_unlock(&m_lock);
         return false;
     }
 
-    // First fit at or after start whose address is a multiple of the alignment.
-    size_t find(size_t pages, size_t alignPages, size_t start)
+private:
+    static constexpr size_t maxPages = 64 * 1024 * 1024 / pageSize;
+    static constexpr size_t minimumRegionPages = maxPages / 8;
+    struct Region {
+        Region* next { nullptr };
+        uint8_t* base { nullptr };
+        size_t pageCount { 0 };
+        size_t usedPages { 0 };
+        size_t hint { 0 };
+        uint32_t used[maxPages / 32] { };
+        uint16_t runPages[maxPages] { };
+    };
+
+    bool reserveRegion(Region& region, size_t neededPages, size_t alignPages)
     {
-        size_t misalignment = (reinterpret_cast<uintptr_t>(m_base) / pageSize) % alignPages;
+        size_t minimum = neededPages > minimumRegionPages ? neededPages : minimumRegionPages;
+        size_t pages = m_preferredPages > minimum ? m_preferredPages : minimum;
+        for (;;) {
+            if (void* base = SymbianSystem::reserve(pages * pageSize, false, alignPages * pageSize)) {
+                region.base = static_cast<uint8_t*>(base);
+                region.pageCount = pages;
+                // Remember address-space pressure rather than retrying every
+                // rejected large reservation when another region is needed.
+                if (pages < m_preferredPages)
+                    m_preferredPages = pages;
+                return true;
+            }
+            if (pages == minimum)
+                break;
+            pages /= 2;
+            if (pages < minimum)
+                pages = minimum;
+        }
+        m_preferredPages = minimumRegionPages;
+        return false;
+    }
+
+    void* allocateLocked(size_t pages, size_t alignPages)
+    {
+        // The metadata describes at most 64 MiB per reservation. Growth adds
+        // regions, it does not make oversized individual requests valid.
+        if (pages > maxPages) {
+            reportFailure("aligned-size-limit", pages, alignPages);
+            return nullptr;
+        }
+        Region* last = &m_first;
+        for (Region* region = &m_first; region; last = region, region = region->next) {
+            if (!region->base)
+                continue;
+            size_t index = find(*region, pages, alignPages, region->hint);
+            if (index == notFound && region->hint)
+                index = find(*region, pages, alignPages, 0);
+            if (index != notFound)
+                return commitAllocation(*region, index, pages, alignPages);
+        }
+
+        Region* region = &m_first;
+        if (m_first.base) {
+            region = static_cast<Region*>(::calloc(1, sizeof(Region)));
+            if (!region) {
+                reportFailure("aligned-region-metadata", pages, alignPages);
+                return nullptr;
+            }
+        }
+        if (!reserveRegion(*region, pages, alignPages)) {
+            if (region != &m_first)
+                ::free(region);
+            reportFailure("aligned-reserve", pages, alignPages);
+            return nullptr;
+        }
+        // reserveRegion aligns the new region's base to this allocation.
+        void* result = commitAllocation(*region, 0, pages, alignPages);
+        if (!result) {
+            SymbianSystem::release(region->base);
+            if (region == &m_first) {
+                // First commitment failed before publishing any allocation or
+                // next region. Only reserveRegion changed these two fields.
+                // Do not assign a temporary Region: on ARM that puts its
+                // 34 KiB bitmap on every allocation's small pthread stack.
+                m_first.base = nullptr;
+                m_first.pageCount = 0;
+            } else
+                ::free(region);
+            return nullptr;
+        }
+        // Publish only after native reservation AND first commit succeed.
+        if (region != &m_first)
+            last->next = region;
+        return result;
+    }
+
+    void* commitAllocation(Region& region, size_t index, size_t pages, size_t alignPages)
+    {
+        void* result = region.base + index * pageSize;
+        if (!SymbianSystem::commit(result, pages * pageSize)) {
+            // A physical commitment failure must not allocate more regions.
+            reportFailure("aligned-commit", pages, alignPages);
+            return nullptr;
+        }
+        for (size_t page = index; page < index + pages; ++page)
+            setUsed(region, page, true);
+        region.runPages[index] = pages;
+        region.usedPages += pages;
+        region.hint = index + pages;
+        return result;
+    }
+
+    void reportFailure(const char* reason, size_t pages, size_t alignPages) const
+    {
+        size_t reserved = 0;
+        size_t used = 0;
+        size_t largestFree = 0;
+        for (const Region* region = &m_first; region; region = region->next) {
+            reserved += region->pageCount;
+            used += region->usedPages;
+            size_t freeRun = 0;
+            for (size_t index = 0; index < region->pageCount; ++index) {
+                if (isUsed(*region, index))
+                    freeRun = 0;
+                else {
+                    ++freeRun;
+                    if (freeRun > largestFree)
+                        largestFree = freeRun;
+                }
+            }
+        }
+        SymbianSystem::reportMemoryFailure(reason, pages * pageSize, alignPages * pageSize,
+            reserved * pageSize, used * pageSize, largestFree * pageSize);
+    }
+
+    static size_t find(const Region& region, size_t pages, size_t alignPages, size_t start)
+    {
+        size_t misalignment = (reinterpret_cast<uintptr_t>(region.base) / pageSize) % alignPages;
         size_t index = start + (alignPages - (start + misalignment) % alignPages) % alignPages;
-        while (index + pages <= m_pageCount) {
+        while (index + pages <= region.pageCount) {
             size_t used = notFound;
-            for (size_t i = index; i < index + pages; ++i) {
-                if (isUsed(i)) {
-                    used = i;
+            for (size_t page = index; page < index + pages; ++page) {
+                if (isUsed(region, page)) {
+                    used = page;
                     break;
                 }
             }
@@ -311,23 +407,20 @@ private:
         return notFound;
     }
 
-    bool isUsed(size_t i) const { return m_used[i / 32] & (1u << (i % 32)); }
-    void setUsed(size_t i, bool used)
+    static bool isUsed(const Region& region, size_t index) { return region.used[index / 32] & (1u << (index % 32)); }
+    static void setUsed(Region& region, size_t index, bool used)
     {
         if (used)
-            m_used[i / 32] |= 1u << (i % 32);
+            region.used[index / 32] |= 1u << (index % 32);
         else
-            m_used[i / 32] &= ~(1u << (i % 32));
+            region.used[index / 32] &= ~(1u << (index % 32));
     }
 
     pthread_mutex_t m_lock = PTHREAD_MUTEX_INITIALIZER;
-    uint8_t* m_base { nullptr };
-    size_t m_pageCount { 0 };
-    size_t m_hint { 0 };
-    bool m_reserveFailed { false };
-    uint32_t m_used[maxPages / 32] { };
-    uint16_t m_runPages[maxPages] { };
+    Region m_first;
+    size_t m_preferredPages { maxPages };
 };
+
 
 // Never destroyed: blocks are freed during and after static destruction.
 AlignedPool alignedPoolStorage;

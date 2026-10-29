@@ -1,0 +1,9 @@
+WTF memory failure: reason=chunk-commit request=16384 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=1/256 chunk-reserved=67108864 chunk-committed=0 system-free=-1
+PASS 67108864-byte pool exhausted after 4096 aligned blocks; independent native reservation still succeeds
+PASS fragmentation, failed-commit rollback, free/reuse and zero-on-recommit
+WTF memory failure: reason=data-chunk-create request=67108864 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=data-chunk-create request=33554432 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=data-chunk-create request=16777216 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=chunk-commit request=16384 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=1/256 chunk-reserved=8388608 chunk-committed=0 system-free=-1
+PASS 8388608-byte pool exhausted after 512 aligned blocks; independent native reservation still succeeds
+PASS fragmentation, failed-commit rollback, free/reuse and zero-on-recommit

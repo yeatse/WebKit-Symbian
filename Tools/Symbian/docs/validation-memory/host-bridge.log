@@ -1,0 +1,6 @@
+WTF memory failure: reason=code-chunk-create request=4096 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-5 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=chunk-commit request=16384 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=1/256 chunk-reserved=16384 chunk-committed=4096 system-free=-1
+WTF memory failure: reason=chunk-table-full request=4096 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=0 chunks=256/256 chunk-reserved=1048576 chunk-committed=0 system-free=-1
+PASS alignment, guards, overlapping commit, partial failure rollback, zero-on-recommit
+PASS reservation limit, failed reservation cleanup, slot reuse
+PASS entropy chunking, short-fill and error wipe, empty request

@@ -1,0 +1,21 @@
+WTF memory failure: reason=data-chunk-create request=67121152 alignment=16384 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=data-chunk-create request=33566720 alignment=16384 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=data-chunk-create request=16789504 alignment=16384 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=data-chunk-create request=8400896 alignment=16384 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=aligned-reserve request=16384 alignment=16384 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=0 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=data-chunk-create request=8400896 alignment=16384 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=aligned-reserve request=16384 alignment=16384 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=0 chunks=0/256 chunk-reserved=0 chunk-committed=0 system-free=-1
+WTF memory failure: reason=chunk-commit request=16384 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=1/256 chunk-reserved=8388608 chunk-committed=0 system-free=-1
+WTF memory failure: reason=aligned-commit request=16384 alignment=16384 pool-reserved=8388608 pool-used=0 pool-largest-free=8388608 chunk-error=0 chunks=1/256 chunk-reserved=8388608 chunk-committed=0 system-free=-1
+WTF memory failure: reason=aligned-region-metadata request=16384 alignment=16384 pool-reserved=8388608 pool-used=8388608 pool-largest-free=0 chunk-error=0 chunks=1/256 chunk-reserved=8388608 chunk-committed=8388608 system-free=-1
+WTF memory failure: reason=data-chunk-create request=8400896 alignment=16384 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=1/256 chunk-reserved=8388608 chunk-committed=8388608 system-free=-1
+WTF memory failure: reason=aligned-reserve request=16384 alignment=16384 pool-reserved=8388608 pool-used=8388608 pool-largest-free=0 chunk-error=0 chunks=1/256 chunk-reserved=8388608 chunk-committed=8388608 system-free=-1
+WTF memory failure: reason=chunk-commit request=16384 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=2/256 chunk-reserved=16777216 chunk-committed=8388608 system-free=-1
+WTF memory failure: reason=aligned-commit request=16384 alignment=16384 pool-reserved=8388608 pool-used=8388608 pool-largest-free=0 chunk-error=0 chunks=2/256 chunk-reserved=16777216 chunk-committed=8388608 system-free=-1
+WTF memory failure: reason=chunk-commit request=16384 alignment=4096 pool-reserved=0 pool-used=0 pool-largest-free=0 chunk-error=-4 chunks=1/256 chunk-reserved=8388608 chunk-committed=8372224 system-free=-1
+WTF memory failure: reason=aligned-commit request=16384 alignment=16384 pool-reserved=8388608 pool-used=8372224 pool-largest-free=16384 chunk-error=0 chunks=1/256 chunk-reserved=8388608 chunk-committed=8372224 system-free=-1
+WTF memory failure: reason=aligned-size-limit request=67112960 alignment=4096 pool-reserved=8388608 pool-used=0 pool-largest-free=8388608 chunk-error=0 chunks=1/256 chunk-reserved=8388608 chunk-committed=0 system-free=-1
+PASS multi-region growth, middle/tail reclaim, metadata/reserve/commit failure rollback, zero-on-reuse
+PASS overflow/alignment/foreign-owner rejection and fragmentation-driven growth
+PASS 65MiB live allocations across nine 8MiB regions after native-size downgrade, followed by reclaim
+PASS concurrent region ownership, patterns and final extra-region reclaim
