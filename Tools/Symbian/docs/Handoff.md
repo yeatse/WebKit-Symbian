@@ -8,7 +8,7 @@
 
 * 用中文回复。
 * WebKit：直接推到 `2.32.4-symbian`，不开 PR（用户明确要求时除外）。
-* EKA2L1：在 yeatse/EKA2L1 上开发。之前“永远不推 EKA2L1”的规定是针对上游的，现在作废。分支用会话指定的开发分支。
+* EKA2L1：在 yeatse/EKA2L1 上开发。之前“永远不推 EKA2L1”的规定是针对上游的，现在作废。工作分支是 `webkit-symbian`，不用 `master`。
 * 提交信息里不写模型 ID。结尾加会话给出的 `Co-Authored-By` / `Claude-Session` 两行。
 * 没有确认之前，不要推 `symbian-v0.3.0` 标签。
 
@@ -22,25 +22,21 @@
 | `2fb286a7` | 页对齐分配（JSC 的 16 KB MarkedBlock）改用一块独立的 64 MB disconnected chunk（`FastMalloc.cpp` 的 `AlignedPool`）。SDK 的 mimalloc 在复杂页面上，提交量才 16 MB 左右时 `mi_malloc_aligned(16384, 16384)` 就返回空，导致 `RELEASE_ASSERT` 触发 USER-EXEC 3。调小 `mi_option_arena_reserve` 没用：SDK 启动时就保留了 48 MB |
 | `8807f545`, `9c03b2fb`, `79fb433f` | 线程结束方式写进日志；curl 里初始化 PSA crypto；TLS 握手跟踪 |
 
-## 新会话的第一件事：把 EKA2L1 补丁推到 fork
+## EKA2L1 补丁
 
-`Tools/Symbian/patches/eka2l1/` 里有 5 个补丁，基于 fork 的 master `4b17803db`，按顺序 `git am` 能干净应用（已验证）：
+原来的 `0002`–`0004`（esock 两种 `RSocket::Send` 参数布局、16 位描述符不再被当成 handle、`Math::Random(TDes8&)`）已经提交到 yeatse/EKA2L1 的 `webkit-symbian` 分支（`b2221fe`、`bac9ece`、`5bbc043`），并从这里删掉了。`0003` 影响面大（services 里有 81 处调用），只用浏览器验证过。
+
+`Tools/Symbian/patches/eka2l1/` 里还剩两个，基于 `webkit-symbian` 分支 `5bbc043`，按顺序 `git am` 能干净应用（已验证）：
 
 | 补丁 | 处理 |
 | --- | --- |
 | `0001` `--installdevice` | 命令行安装固件。没提交给上游；推不推到 fork 由用户决定，本地搭环境要用 |
-| `0002` esock：两种 `RSocket::Send` 参数布局都接受 | 推。新版 ESock 是 `TIpcArgs(flags, &len, &data)`，原来只认旧布局，导致 curl 报 "Send failure: Invalid argument" |
-| `0003` services：16 位描述符不再被当成 handle | 推。`ipc_arg_type::handle` 和 `flag_16b` 都是 1，`get_argument_(max_)data_size` 对所有 TDes16 都返回 4，`RConnection::GetDesSetting` 读 IAP 名时报溢出。这个改动影响面大（services 里有 81 处调用），只用浏览器验证过 |
-| `0004` kernel：`Math::Random(TDes8&)`（exec 0x109） | 推。mbedTLS 用它播种 |
 | `0005` kernel：*-EXEC panic 时转储寄存器和栈 | **只在本地用**，不推。见“查崩溃” |
 
 ```sh
-git checkout -b <开发分支> origin/master
-git am /path/to/WebKit-Symbian/Tools/Symbian/patches/eka2l1/000{2,3,4}-*.patch
-git push -u origin <开发分支>
+git checkout -b local origin/webkit-symbian
+git am /path/to/WebKit-Symbian/Tools/Symbian/patches/eka2l1/000{1,5}-*.patch
 ```
-
-推上去以后，`0002`–`0004` 就可以从 WebKit-Symbian 里删掉了（`Development.md` 的 Status 一节也提到了它们）。
 
 ## 本地环境（容器重建后要重新搭）
 
@@ -95,11 +91,10 @@ git push -u origin <开发分支>
 
 ## 待办
 
-1. 推 EKA2L1 补丁（见上）。
-2. 删掉诊断代码：`CurlSSLVerifier.h` 里的 RNG 跟踪（FIXME：“Remove once HTTPS loads on phones”）、`browser/NetworkConnection.cpp` 里的解析器探测（FIXME：“Remove once host names resolve on phones”）。HTTPS 和域名解析在手机上都已经正常了。
-3. 地址栏：历史和书签。
-4. 桌面页面的 viewport 和缩放。
-5. AVKON 风格的表单控件（`RenderTheme`）。
-6. 手机上的速度：先测量，再考虑滚动 blit 和局部 `-O2`。
-7. 可以优化：每个 curl 连接都会重新解析约 220 KB 的 `cacert.pem`，各连接可以共享 CA 链来省内存。手机上看到的 `mbedTLS -0x2880` 当时就是内存不足导致的。
-8. 远期：基于 GLES2 TextureMapper 的硬件合成。N8 有 OpenGL ES 2.0 和 EGL，但 GPU 内存和纹理上传都是瓶颈，GOOM 会杀进程，所以要单独评估。
+1. 删掉诊断代码：`CurlSSLVerifier.h` 里的 RNG 跟踪（FIXME：“Remove once HTTPS loads on phones”）、`browser/NetworkConnection.cpp` 里的解析器探测（FIXME：“Remove once host names resolve on phones”）。HTTPS 和域名解析在手机上都已经正常了。
+2. 地址栏：历史和书签。
+3. 桌面页面的 viewport 和缩放。
+4. AVKON 风格的表单控件（`RenderTheme`）。
+5. 手机上的速度：先测量，再考虑滚动 blit 和局部 `-O2`。
+6. 可以优化：每个 curl 连接都会重新解析约 220 KB 的 `cacert.pem`，各连接可以共享 CA 链来省内存。手机上看到的 `mbedTLS -0x2880` 当时就是内存不足导致的。
+7. 远期：基于 GLES2 TextureMapper 的硬件合成。N8 有 OpenGL ES 2.0 和 EGL，但 GPU 内存和纹理上传都是瓶颈，GOOM 会杀进程，所以要单独评估。
