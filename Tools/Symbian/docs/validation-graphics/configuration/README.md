@@ -1,0 +1,13 @@
+# Feature wiring checks
+
+2026-10-29: isolated browser CMake configurations and actual ARM shell object compilation passed for all four `ENABLE_VIDEO` / `ENABLE_WEBGL` combinations, plus the stub engine. The matrix copied the generated engine configuration, changed only these feature definitions, and used the existing engine/dependency archives. It checked generated compile definitions, native-leave flags, source selection and link commands; it did not rebuild or link four complete engines.
+
+The real shell sets `SYMBIAN_BROWSER_MEDIA` from `ENABLE_VIDEO` and compiles/links `MediaPlayers.cpp` and MMF imports only when enabled. It adds ANGLE/GLESv2 archives only for WebGL. Native compositor linkage includes `SymbianEGLBridge` and firmware EGL/GLES proxies. All engine graphics archives occur inside the static linker group. The small bridge archive is a thin archive with 21 defined bridge symbols, not an empty library.
+
+Each non-stub case compiled `WebContainer.cpp`; VIDEO-enabled cases also compiled `MediaPlayers.cpp`. The stub case compiled `WebContainer.cpp` and `StubWebView.cpp`, with media and compositing macros disabled. Shell native-leave compilation consistently retained `SYMBIAN_NATIVE_LEAVES=1`, exceptions, and no RTTI.
+
+A missing VIDEO-disabled definition of the public `WebView::setMediaPlayerFactory` was corrected to a no-op. The complete `WebViewImpl.cpp` then compiled to a real ARM object with VIDEO and WebGL disabled. `llvm-nm -C` confirmed a defined `WebKitSymbian::WebView::setMediaPlayerFactory` symbol and no `MediaPlayerPrivateSymbian` references. This is a compile/symbol check, not an execution result.
+
+The browser creates `Page` directly, so it receives WebCore's `webGLEnabled=false` default rather than the separate WebKitLegacy preferences default. `WebViewImpl` explicitly enables this setting when `ENABLE(WEBGL)` is compiled in. Without that step, `HTMLCanvasElement::shouldEnableWebGL` rejects context creation before reaching ANGLE. The existing requirement for successfully enabled native compositing remains; the ChromeClient base implementation already forwards context creation to the platform backend. This change does not enable WebGL2.
+
+`USE_TEXTURE_MAPPER` and `USE_GRAPHICS_LAYER_TEXTURE_MAPPER` are enabled by the port configuration. They are not a supported CMake OFF matrix. EGL/context/draw failure instead causes runtime software fallback. A separate [context check](../context/) records preprocessing boundaries and resource failure tests. Successful shell matrix checks do not prove accelerated presentation, playback, or physical-device GPU support.

@@ -122,10 +122,13 @@ private:
 
 void MediaPlayerPrivateSymbian::registerMediaEngine(const String& directory)
 {
-    mediaDirectory() = FileSystem::pathByAppendingComponent(directory, "Media"_s);
-    // Files left by a previous run.
-    for (auto& name : FileSystem::listDirectory(mediaDirectory()))
-        FileSystem::deleteFile(FileSystem::pathByAppendingComponent(mediaDirectory(), name));
+    mediaDirectory() = FileSystem::pathByAppendingComponent(directory, "MediaCache"_s);
+    // Clean only files owned by this download cache. A folder named Media
+    // may contain local source files and must never be swept at startup.
+    for (auto& name : FileSystem::listDirectory(mediaDirectory())) {
+        if (name.startsWith("webkit-media-"_s))
+            FileSystem::deleteFile(FileSystem::pathByAppendingComponent(mediaDirectory(), name));
+    }
     MediaPlayerFactorySupport::callRegisterMediaEngine([](MediaEngineRegistrar registrar) {
         registrar(makeUnique<MediaPlayerFactorySymbian>());
     });
@@ -299,7 +302,7 @@ void MediaPlayerPrivateSymbian::startLoading()
 
     // Keep the extension, which the MMF uses in choosing a plug-in.
     static unsigned fileNumber;
-    String name = makeString(++fileNumber);
+    String name = makeString("webkit-media-"_s, ++fileNumber);
     auto lastComponent = m_url.lastPathComponent().toString();
     size_t dot = lastComponent.reverseFind('.');
     if (dot != notFound && lastComponent.length() - dot <= 5)

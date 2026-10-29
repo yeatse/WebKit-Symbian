@@ -309,6 +309,10 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
 
     Settings& settings = m_page->settings();
     settings.setScriptEnabled(true);
+#if ENABLE(WEBGL)
+    // This port creates Page directly; WebCore defaults WebGL to disabled.
+    settings.setWebGLEnabled(true);
+#endif
     settings.setServiceWorkersEnabled(false);
     settings.setSharedWorkerEnabled(false);
     settings.setCacheAPIEnabled(false);
