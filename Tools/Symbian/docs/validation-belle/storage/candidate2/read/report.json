@@ -1,0 +1,1 @@
+{"suite":"belle-storage","run":"66931730b3394d8e802d907ee8691000","phase":"read","origin":"http://localhost:8780","status":"PASS","cases":[{"name":"localStorage survives browser restart","status":"PASS"},{"name":"sessionStorage does not survive browser restart","status":"PASS"},{"name":"persistent removal","status":"PASS"}],"elapsed_ms":0}

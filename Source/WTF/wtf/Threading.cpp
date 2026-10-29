@@ -115,6 +115,12 @@ static std::optional<size_t> stackSize(ThreadType threadType)
 #if PLATFORM(PLAYSTATION)
     if (threadType == ThreadType::JavaScript)
         return 512 * KB;
+#elif OS(SYMBIAN)
+    // JSC reserves 128 KiB below its soft stack limit. Giving a JavaScript
+    // worker the ordinary 128 KiB stack leaves no room to execute even its
+    // first script. Keep the reserve intact and size only JS threads for it.
+    if (threadType == ThreadType::JavaScript)
+        return 512 * KB;
 #elif OS(DARWIN) && (ASAN_ENABLED || ASSERT_ENABLED)
     if (threadType == ThreadType::Compiler)
         return 1 * MB; // ASan / Debug build needs more stack space.

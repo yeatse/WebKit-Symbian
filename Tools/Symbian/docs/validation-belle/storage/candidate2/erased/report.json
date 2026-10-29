@@ -1,0 +1,1 @@
+{"suite":"belle-storage","run":"66931730b3394d8e802d907ee8691000","phase":"erased","origin":"http://localhost:8780","status":"PASS","cases":[{"name":"removal survives browser restart","status":"PASS"}],"elapsed_ms":1}

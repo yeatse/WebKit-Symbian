@@ -36,6 +36,7 @@
 #include "SymbianEditorClient.h"
 #include "SymbianFrameLoaderClient.h"
 #include "SymbianPlatformStrategies.h"
+#include "WebBroadcastChannelRegistry.h"
 #include "WebDatabaseProvider.h"
 #include "WebStorageNamespaceProvider.h"
 #include <JavaScriptCore/InitializeThreading.h>
@@ -303,6 +304,7 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
     configuration.databaseProvider = &WebDatabaseProvider::singleton();
     configuration.storageNamespaceProvider = WebKit::WebStorageNamespaceProvider::create(
         FileSystem::pathByAppendingComponent(dataDirectory(), "LocalStorage"_s));
+    configuration.broadcastChannelRegistry = WebBroadcastChannelRegistry::getOrCreate(configuration.sessionID.isEphemeral());
     configuration.visitedLinkStore = SymbianVisitedLinkStore::create();
 
     m_page = Page::create(WTF::move(configuration));
@@ -310,6 +312,10 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
 
     Settings& settings = m_page->settings();
     settings.setScriptEnabled(true);
+    // Direct Page construction uses WebCore's disabled storage defaults,
+    // even though the Legacy storage namespace is supplied above.
+    settings.setLocalStorageEnabled(true);
+    settings.setSessionStorageEnabled(true);
 #if ENABLE(WEBGL)
     // This port creates Page directly; WebCore defaults WebGL to disabled.
     settings.setWebGLEnabled(true);

@@ -1,0 +1,2 @@
+Excerpt from the original launcher log; no guest capability result:
+import: unable to open X server `:95' @ error/import.c/ImportImageCommand/348.

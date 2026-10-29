@@ -1,0 +1,7 @@
+Selected native thread creation messages; host source paths removed.
+Thread 12681d38d324b98c created with start pc = 0x856e6241, stack size = 0x20000
+Thread 12681eb049ad1b21 created with start pc = 0x856e6241, stack size = 0x20000
+Thread 1268243875f0178e created with start pc = 0x856e6241, stack size = 0x20000
+Thread 12682590151242fa created with start pc = 0x856e6241, stack size = 0x20000
+Thread 126830787e0f4bcd created with start pc = 0x856e6241, stack size = 0x20000
+Thread 126831e0408623de created with start pc = 0x856e6241, stack size = 0x80000

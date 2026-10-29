@@ -1,0 +1,33 @@
+{
+  "status": "FAIL",
+  "suite": "belle-storage",
+  "run": "5aa8603bc12c46a0a2ff8d1c32209851",
+  "phases": [],
+  "origin": "http://localhost:8780",
+  "started": "2026-10-29T18:16:55.172388+00:00",
+  "browser_sha256": "7b841e5478789d4509aa667c4e64da063ffa09f38c6b15a04b1664ad6a98b530",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "fixtures_sha256": {
+    "belle-storage/peer.html": "e56e95e1f1aaf5ff1ba33175d060ed0fed0bd92d10432a849724c6bc863e887b",
+    "belle-storage/index.html": "49c26a0ce90b39712338e36ae94a67588fc900a863053841d323697e10e8b40a",
+    "belle-storage/worker.js": "e936bbdba1f6c3ca31544aed2226882ce0de46502f044d2ce5365b0b6f1c2c66",
+    "belle-storage/suite.js": "863c9b0568e0cb86bc678f33accd05115c9730a9ca538da40d290c32b268eee2",
+    "belle-storage/peer.js": "3b560dfdc6b28ba4037e019cf529d8958f2472962d366e40d938ffc222c09d3a",
+    "belle-storage/contract.py": "6c025f32cbeea8f99512594eb85835b6e1a54c33d64c597f75c7940516cb198b",
+    "belle-storage/verify-reports.py": "df4ff677306b83d3084fb36adc85e4b3cfe5a5364baebd1fecfba0e059254eef",
+    "belle-storage/server.py": "8053f770a8fd42cab7b3c1cced37f8c4aa824ef12b33e7e988d0c7592f984b92",
+    "belle-storage/run.py": "faf44fd01376fd2b1cbc54fd4946dca567ce58307d3061466a8fba2c7c593422",
+    "belle-storage/check-host.py": "c4a79d4baa8e27506356a48ec09e350b26d091fd7dd02fc8300b5eec6caadc44",
+    "belle-storage/test-contract.py": "3212455e617ed557a226be9880a4682b10c6186cd9923cf1a0264471473a3375"
+  },
+  "error": "SessionStorage setting disabled; JavaScript worker effective stack smaller than 128 KiB soft reserved zone",
+  "finished": "2026-10-29T18:17:46.301334+00:00",
+  "driver_exit": 1,
+  "host_exit": 0,
+  "panic_or_access_violation": false,
+  "raw_run_name": "browser-20261029T181655Z-ipz_vw3o",
+  "guest_log_sha256": "51199e67fd71ff91b382b3bfeed14468dafe0421779013c0a80721cb8512b007",
+  "raw_runner_result_sha256": "edd73718246ca6e6e30c5f29f5185170af89b5c7480b599bbb4cd8fa1b0e0681",
+  "source_base_commit": "d4128dc23d3c89549c5c3c55d1216f84c03a3e10",
+  "source_patch_sha256": "e0a2a81e426b713811c56aee925f83647d99d9565b2600ef710ccebcf6995e04"
+}

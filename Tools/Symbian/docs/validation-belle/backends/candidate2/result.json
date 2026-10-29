@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "suite": "belle-backends",
+  "run": "9e4a3e8b14fd42ccae7cc37f5cef2807",
+  "phases": [
+    {
+      "phase": "write",
+      "passed": 14,
+      "driver_exit": 0,
+      "logs": "write/guest.log.gz",
+      "report": "write/report.json",
+      "raw_run_name": "browser-20261029T183653Z-otz_ftpi",
+      "guest_log_sha256": "d201b4a0ca1a5bed612c8fbad4fa05d5c2e837d3163ca42c26e767c90991042b",
+      "host_exit": 0,
+      "panic_or_access_violation": false
+    },
+    {
+      "phase": "read",
+      "passed": 2,
+      "driver_exit": 0,
+      "logs": "read/guest.log.gz",
+      "report": "read/report.json",
+      "raw_run_name": "browser-20261029T183754Z-ht65wq4_",
+      "guest_log_sha256": "0a04bbf16719f1869e343a96983926e1157c508fe8c04ba1f3eeef288da2a4ae",
+      "host_exit": 0,
+      "panic_or_access_violation": false
+    },
+    {
+      "phase": "erased",
+      "passed": 1,
+      "driver_exit": 0,
+      "logs": "erased/guest.log.gz",
+      "report": "erased/report.json",
+      "raw_run_name": "browser-20261029T183810Z-4t2uya45",
+      "guest_log_sha256": "67f71df83c6a5a24597bb65d15d1dcac2bda82faec9c5779364ad122c08785f9",
+      "host_exit": 0,
+      "panic_or_access_violation": false
+    }
+  ],
+  "origin": "http://localhost:8784",
+  "started": "2026-10-29T18:36:53.687939+00:00",
+  "browser_sha256": "91cf3692692f07b39ab495d32c6a4efa8270a66918ada79c681b2dbb446d0168",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "fixtures_sha256": {
+    "belle-backends/peer.html": "381a75fbb1788db6eb6ee13f6c3f63f82f75b449b042bd81d3fa6a8bcede31f3",
+    "belle-backends/index.html": "6095141461b34600bdffd4177a71acdd594e7ecf944e511001b34b3a7614058a",
+    "belle-backends/worker.js": "94e5f7057b071f8a65d472c086eaecbfdb011bc41c78b117a10733750c92241d",
+    "belle-backends/suite.js": "591fc25762f2d7794e8023309c7ec28cd482268f0265f14bb05d805332d447c5",
+    "belle-backends/peer.js": "7c8c562cc52c31fa0d7f82a0df9c15664a6a6a639ae971f3d1c0dac3e5b883a5",
+    "belle-storage/contract.py": "6c025f32cbeea8f99512594eb85835b6e1a54c33d64c597f75c7940516cb198b",
+    "belle-storage/verify-reports.py": "df4ff677306b83d3084fb36adc85e4b3cfe5a5364baebd1fecfba0e059254eef",
+    "belle-storage/server.py": "8053f770a8fd42cab7b3c1cced37f8c4aa824ef12b33e7e988d0c7592f984b92",
+    "belle-storage/run.py": "faf44fd01376fd2b1cbc54fd4946dca567ce58307d3061466a8fba2c7c593422",
+    "belle-storage/check-host.py": "c4a79d4baa8e27506356a48ec09e350b26d091fd7dd02fc8300b5eec6caadc44",
+    "belle-storage/test-contract.py": "3212455e617ed557a226be9880a4682b10c6186cd9923cf1a0264471473a3375"
+  },
+  "finished": "2026-10-29T18:38:26.439181+00:00",
+  "raw_runner_result_sha256": "fdae464fe51f2862f590b342b5fdebebad817996635df8c48c8e74d8127eb045",
+  "source_identity": "../../candidate2-identities.json"
+}

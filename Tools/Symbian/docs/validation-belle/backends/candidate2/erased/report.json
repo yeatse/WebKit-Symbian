@@ -1,0 +1,1 @@
+{"suite":"belle-backends","run":"9e4a3e8b14fd42ccae7cc37f5cef2807","phase":"erased","origin":"http://localhost:8784","status":"PASS","cases":[{"name":"IndexedDB deletion survives browser restart","status":"PASS"}],"elapsed_ms":1}

@@ -1,0 +1,19 @@
+{
+  "status": "FAIL",
+  "suite": "belle-backends",
+  "run": "7ba69c4800da4e259b1db611dadeb816",
+  "browser_sha256": "7b841e5478789d4509aa667c4e64da063ffa09f38c6b15a04b1664ad6a98b530",
+  "observed": "6 successful IDB checks; DedicatedWorker RangeError; BELLE_BACKENDS_FAIL write 6/7; required 14/14 absent",
+  "outer_runner_exit": null,
+  "outer_runner_status": "interrupted before result persistence; recovered evidence only",
+  "read_and_erased_run": false,
+  "recovered_at": "2026-10-29T18:34:00.379918+00:00",
+  "files": {
+    "log.txt": "ebe727b57d2eea7098a30fb109a690f2d24ba6cf9ed52cd176eba0041560601b",
+    "emulator.log": "3f33534871c4641731efbd10c10074c0a44afeb4493172daede865ea2058d406",
+    "write-launcher.log": "34e744ea6aca817879a9ebe66f5e6b9f0a2242aae5813bda9036dde3ab255ba4",
+    "write-report.json": "e33b615b9009a8c647dd2e6e7a8f78d9ee7c082b2366774551abae969a35a506"
+  },
+  "original_run_name": "browser-20261029T181901Z-d8gfxq6m",
+  "original_result_sha256": "650f81d3e1efd3e25174e186d97096d0ef99ff203cf5f76cc2bdb9a4c3c716e6"
+}
