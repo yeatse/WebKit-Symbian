@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "regression_before_fix": {
+    "exit": 0,
+    "header_changed": false,
+    "output": "Skipped patch 'cpp/symbian/runtime/mimalloc_port.h'.\n"
+  },
+  "real_checkout_root": "/workspace/WebKit-Symbian-graphics",
+  "nested_work": "/workspace/WebKit-Symbian-graphics/WebKitBuild/Symbian/sdk-runtime-clean-regression/work",
+  "input_sdk_archive_sha256": "a3311f88e8fb328e0db5fdadffa3734cf9bd4c171ed9b3a4bf057eca2c83612c",
+  "rebuilt_archive_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+  "patched_header_sha256": "741cdeef92f9bc0c4877ec1153926317e7a2a101c95b7205165e8c875fa5cf23",
+  "verification_sha256": "92ad28a033576614c177b1ed66510aeb63c429f27a0355c9306d88431224253c",
+  "script_sha256": "262d6054171e58234d77f05f844d2a0686c55c83226180f47ead0b969933ee3e",
+  "test_sha256": "8dd015d4fa558e6b40f5f8082e9dcca475eceaaf0195a61219029942a08fba87",
+  "host_test_count": 13,
+  "installed_shared_sdk_untouched": true,
+  "shared_installed_archive_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26"
+}

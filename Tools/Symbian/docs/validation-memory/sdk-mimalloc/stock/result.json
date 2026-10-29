@@ -1,0 +1,19 @@
+{
+  "mode": "stock",
+  "status": "PASS",
+  "failure": null,
+  "image_sha256": "1ecfcb931e6422d02f4d62431fa79a98f6ff1ef416a1d8f8c280b3d5161bb855",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "host_exit": 0,
+  "result": {
+    "mode": "stock",
+    "failures": 0,
+    "small": 4096,
+    "aligned": 128,
+    "first_blocks": 63,
+    "reuse_blocks": 63,
+    "block_bytes": 262144,
+    "budget": 67108864
+  },
+  "guest_log_sha256": "4274dfb11d25e12256674ba9dc87c62d25e6d6e8cad75d0babf686f0abf42578"
+}

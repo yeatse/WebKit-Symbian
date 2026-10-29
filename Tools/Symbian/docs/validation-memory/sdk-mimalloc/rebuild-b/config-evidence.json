@@ -1,0 +1,11 @@
+{
+  "pointer_bytes": 4,
+  "arena_slice_bytes": 32768,
+  "arena_min_bytes": 8388608,
+  "arena_alignment_bytes": 32768,
+  "separated_metadata": 0,
+  "flat_page_map": 1,
+  "page_max_overalloc_alignment": 32768,
+  "stats_level": 1,
+  "compile_commands_sha256": "a4de74f3a05d16ac825a76f6798aae3fc541c962f6f7f9f585c574e3b7d5cadd"
+}

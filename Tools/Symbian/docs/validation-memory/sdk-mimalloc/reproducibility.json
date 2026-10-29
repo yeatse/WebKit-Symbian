@@ -1,0 +1,28 @@
+{
+  "first": {
+    "archive_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+    "member_count": 103,
+    "script_sha256": "4aef89c0aad3c19217f934ef2083af63b2dc3691638a5ce9586e7102ba43cddf",
+    "verification_sha256": "066a545416b95f8042236389bee1f37e351b9717eef6d3d7a25914b0a4e5fa12",
+    "installed": true
+  },
+  "second_workdir": {
+    "archive_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+    "member_count": 103,
+    "script_sha256": "703d67af922162d25abead374be9b0deba9abf3815f1c88c18810c50bf3e93a0",
+    "verification_sha256": "2775978bf03b420f8c2e56f7f95e8d7d19f9787431a3071c8ca7ff1051a5d192",
+    "installed": false
+  },
+  "isolated_install_twice": {
+    "archive_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+    "member_count": 103,
+    "script_sha256": "4aef89c0aad3c19217f934ef2083af63b2dc3691638a5ce9586e7102ba43cddf",
+    "verification_sha256": "881378104138c97b20ef6c797790be1830e106256b8b3ae9e43517272d3d52cd",
+    "installed": true
+  },
+  "status": "PASS",
+  "same_output_across_work_directories": true,
+  "isolated_install_repeated": true,
+  "production_installed_archive_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+  "production_install_repeated": true
+}

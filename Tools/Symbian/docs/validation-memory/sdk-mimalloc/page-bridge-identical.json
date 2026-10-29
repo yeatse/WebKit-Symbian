@@ -1,0 +1,14 @@
+[
+  {
+    "mode": "stock",
+    "page_bridge_sha256": "531bd4d94d8b3d1167e42c108539de4a1a7e62d2b4c6f78fc45534ef265be6c7"
+  },
+  {
+    "mode": "rebuild-a",
+    "page_bridge_sha256": "531bd4d94d8b3d1167e42c108539de4a1a7e62d2b4c6f78fc45534ef265be6c7"
+  },
+  {
+    "mode": "rebuild-b",
+    "page_bridge_sha256": "531bd4d94d8b3d1167e42c108539de4a1a7e62d2b4c6f78fc45534ef265be6c7"
+  }
+]

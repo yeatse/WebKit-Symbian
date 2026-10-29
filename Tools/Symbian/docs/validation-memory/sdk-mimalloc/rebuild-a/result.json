@@ -1,0 +1,19 @@
+{
+  "mode": "rebuild-a",
+  "status": "PASS",
+  "failure": null,
+  "image_sha256": "325260cfbeac7035d008ba613f1ad0c3474d498ebead14f7f7070671846545e8",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "host_exit": 0,
+  "result": {
+    "mode": "rebuild-a",
+    "failures": 0,
+    "small": 4096,
+    "aligned": 128,
+    "first_blocks": 63,
+    "reuse_blocks": 63,
+    "block_bytes": 262144,
+    "budget": 67108864
+  },
+  "guest_log_sha256": "60450a5d5363ab08315d328f2a5caa8a8d4b2e7d34fd462f23f13d27dc22fe88"
+}

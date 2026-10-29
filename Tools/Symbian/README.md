@@ -18,4 +18,6 @@ The WebCrypto backend registers SHA-1/256/384/512, HMAC, HKDF, PBKDF2 and AES-CB
 
 Before a local build, run `python3 Tools/Symbian/scripts/apply-sdk-patches.py --sdk "$SYMBIAN_SDK_PREFIX"` from the checkout root. This restores the SDK 0.3.0 release's missing Symbian^3 video/surface headers from its own pinned official sources, with source revision and content hash checks; differing installed files cause an error. CI runs it after restoring the SDK cache. Provenance is recorded in [patches/sdk-0.3.0](patches/sdk-0.3.0/README.md).
 
+Also run `python3 Tools/Symbian/scripts/rebuild-sdk-runtime.py --sdk "$SYMBIAN_SDK_PREFIX" --install` before building. This reproducibly repairs the ARMv6 SDK allocator's 32-bit reservation overhead while retaining its 64 MiB budget. It checks the exact SDK/source/archive hashes, preserves every non-mimalloc object and validates the public ABI and ARM attributes. CI runs the same rebuild; [allocator evidence](docs/validation-memory/sdk-mimalloc/README.md) distinguishes this fix from WebKit's separate JSC aligned pool.
+
 See [Development.md](docs/Development.md) for builds and [Handoff-2.52.md](docs/Handoff-2.52.md) for the reconstruction requirements. [Development-2.32.md](docs/Development-2.32.md) and [Handoff.md](docs/Handoff.md) are historical reference material.

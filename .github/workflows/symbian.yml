@@ -80,12 +80,17 @@ jobs:
       - name: Install host tools
         run: |
           sudo apt-get update -q
-          sudo apt-get install -yq --no-install-recommends clang lld cmake ninja-build ruby perl \
+          sudo apt-get install -yq --no-install-recommends clang lld cmake ninja-build ruby perl binutils \
             libjson-pp-perl gperf flex bison unifdef python3 pkg-config ccache openssl \
             autoconf automake libtool
 
+      - name: Symbian memory allocation regression
+        run: |
+          tests/native-memory/run.sh
+          python3 tests/native-memory/run-aligned-pool.py
+
       - name: symbian-platform SDK
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         id: sdk
         with:
           path: WebKitBuild/Symbian/symbian-sdk
@@ -100,6 +105,14 @@ jobs:
           mkdir -p "$SYMBIAN_SDK_PREFIX"
           tar -xzf "$RUNNER_TEMP/symbian-sdk-$SDK_VERSION-linux-x86_64.tar.gz" -C "$SYMBIAN_SDK_PREFIX"
           rm "$RUNNER_TEMP"/symbian-sdk-*.tar.gz
+
+      # Save the release before applying local headers/runtime patches.
+      - name: Save the original SDK
+        if: steps.sdk.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: WebKitBuild/Symbian/symbian-sdk
+          key: ${{ steps.sdk.outputs.cache-primary-key }}
 
       # Run on cache hits too: the SDK release omits these official S^3 headers.
       - name: Restore Symbian^3 SDK media headers
@@ -148,6 +161,25 @@ jobs:
             WebKitBuild/Symbian/symbian-native
             WebKitBuild/Symbian/src/nlohmann-json
           key: ${{ steps.converter.outputs.cache-primary-key }}
+
+      - name: Restore the SDK runtime sources
+        uses: actions/cache/restore@v4
+        id: runtime
+        with:
+          path: WebKitBuild/Symbian/sdk-runtime
+          key: sdk-runtime-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/rebuild-sdk-runtime.py', 'Tools/Symbian/patches/sdk-0.3.0/mimalloc-runtime.json', 'Tools/Symbian/patches/sdk-0.3.0/0001-mimalloc-32bit-pagemap.patch') }}
+      - name: Rebuild and verify the 32-bit SDK allocator
+        run: |
+          python3 scripts/rebuild-sdk-runtime.py \
+            --platform-source "$SYMBIAN_WEBKIT_WORK/symbian-platform" --install
+          python3 tests/sdk-runtime/test-runtime-rebuild.py \
+            --work "$SYMBIAN_WEBKIT_WORK/sdk-runtime"
+      - name: Save the SDK runtime sources
+        if: steps.runtime.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: WebKitBuild/Symbian/sdk-runtime
+          key: ${{ steps.runtime.outputs.cache-primary-key }}
 
       - name: ICU
         run: scripts/build-icu.sh

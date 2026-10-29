@@ -1,0 +1,41 @@
+{
+  "status": "BUILT_NOT_RUN",
+  "images": [
+    {
+      "mode": "stock",
+      "upstream": "d4881d338125e1cb7c47ba4cfb398d6f7c0c8d45",
+      "free_use_pagemap": null,
+      "budget_bytes": 67108864,
+      "stock_archive_sha256": "a3311f88e8fb328e0db5fdadffa3734cf9bd4c171ed9b3a4bf057eca2c83612c",
+      "archive_sha256": "a3311f88e8fb328e0db5fdadffa3734cf9bd4c171ed9b3a4bf057eca2c83612c",
+      "image": "/workspace/symbian-memory-work/stock/build/e32/allocator_probe.exe",
+      "image_sha256": "1ecfcb931e6422d02f4d62431fa79a98f6ff1ef416a1d8f8c280b3d5161bb855",
+      "image_bytes": 102268,
+      "native_page_bridge": "Unchanged original sdk_mimalloc_pages.cc.obj from installed ARMv6 runtime"
+    },
+    {
+      "mode": "rebuild-a",
+      "upstream": "d4881d338125e1cb7c47ba4cfb398d6f7c0c8d45",
+      "free_use_pagemap": 0,
+      "budget_bytes": 67108864,
+      "stock_archive_sha256": "a3311f88e8fb328e0db5fdadffa3734cf9bd4c171ed9b3a4bf057eca2c83612c",
+      "archive_sha256": "7d496b0f9a19cfa77013c0ad58d06580e3ac993c9c8d109272f4f88e608ba95c",
+      "image": "/workspace/symbian-memory-work/rebuild-a/build/e32/allocator_probe.exe",
+      "image_sha256": "325260cfbeac7035d008ba613f1ad0c3474d498ebead14f7f7070671846545e8",
+      "image_bytes": 77248,
+      "native_page_bridge": "Unchanged original sdk_mimalloc_pages.cc.obj from installed ARMv6 runtime"
+    },
+    {
+      "mode": "rebuild-b",
+      "upstream": "d4881d338125e1cb7c47ba4cfb398d6f7c0c8d45",
+      "free_use_pagemap": 1,
+      "budget_bytes": 67108864,
+      "stock_archive_sha256": "a3311f88e8fb328e0db5fdadffa3734cf9bd4c171ed9b3a4bf057eca2c83612c",
+      "archive_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+      "image": "/workspace/symbian-memory-work/rebuild-b/build/e32/allocator_probe.exe",
+      "image_sha256": "c6b7472c94aaa9ee0a030b00714f17b361e40ceb75df7cad0b3710f3106f43ec",
+      "image_bytes": 75244,
+      "native_page_bridge": "Unchanged original sdk_mimalloc_pages.cc.obj from installed ARMv6 runtime"
+    }
+  ]
+}

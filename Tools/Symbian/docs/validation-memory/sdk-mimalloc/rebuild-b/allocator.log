@@ -1,0 +1,39 @@
+ALLOCATOR BEGIN mode=rebuild-b pointer_bytes=4 version=30503
+ALLOCATOR phase=baseline blocks=0 requested=0 chunks=1 reserved=135168 committed=131072 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=small blocks=4096 requested=262144 chunks=2 reserved=16945152 committed=458752 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=collected blocks=0 requested=0 chunks=2 reserved=16945152 committed=163840 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=mi-aligned-16k blocks=128 requested=2097152 chunks=2 reserved=16945152 committed=5144576 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=collected blocks=0 requested=0 chunks=2 reserved=16945152 committed=163840 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=16 requested=4194304 chunks=2 reserved=16945152 committed=4882432 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=32 requested=8388608 chunks=2 reserved=16945152 committed=9601024 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=48 requested=12582912 chunks=2 reserved=16945152 committed=14319616 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=64 requested=16777216 chunks=3 reserved=33755136 committed=19070976 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=80 requested=20971520 chunks=3 reserved=33755136 committed=23789568 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=96 requested=25165824 chunks=3 reserved=33755136 committed=28508160 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=112 requested=29360128 chunks=3 reserved=33755136 committed=33226752 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=128 requested=33554432 chunks=4 reserved=50565120 committed=37978112 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=144 requested=37748736 chunks=4 reserved=50565120 committed=42696704 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=160 requested=41943040 chunks=4 reserved=50565120 committed=47415296 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=176 requested=46137344 chunks=12 reserved=53186560 committed=52133888 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=192 requested=50331648 chunks=28 reserved=58429440 committed=56852480 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=208 requested=54525952 chunks=44 reserved=63672320 committed=61571072 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=218 requested=57147392 chunks=54 reserved=66949120 committed=64520192 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=collected blocks=0 requested=0 chunks=4 reserved=50565120 committed=229376 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=16 requested=4194304 chunks=4 reserved=50565120 committed=4947968 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=32 requested=8388608 chunks=4 reserved=50565120 committed=9666560 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=48 requested=12582912 chunks=4 reserved=50565120 committed=14385152 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=64 requested=16777216 chunks=4 reserved=50565120 committed=19103744 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=80 requested=20971520 chunks=4 reserved=50565120 committed=23822336 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=96 requested=25165824 chunks=4 reserved=50565120 committed=28540928 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=112 requested=29360128 chunks=4 reserved=50565120 committed=33259520 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=128 requested=33554432 chunks=4 reserved=50565120 committed=37978112 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=144 requested=37748736 chunks=4 reserved=50565120 committed=42696704 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=160 requested=41943040 chunks=4 reserved=50565120 committed=47415296 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=176 requested=46137344 chunks=12 reserved=53186560 committed=52133888 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=192 requested=50331648 chunks=28 reserved=58429440 committed=56852480 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=208 requested=54525952 chunks=44 reserved=63672320 committed=61571072 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=218 requested=57147392 chunks=54 reserved=66949120 committed=64520192 budget=67108864 errors=2 last_error=12
+ALLOCATOR phase=collected blocks=0 requested=0 chunks=4 reserved=50565120 committed=229376 budget=67108864 errors=2 last_error=12
+ALLOCATOR phase=over-budget-rejected blocks=0 requested=0 chunks=4 reserved=50565120 committed=229376 budget=67108864 errors=3 last_error=12
+ALLOCATOR RESULT {"mode":"rebuild-b","failures":0,"small":4096,"aligned":128,"first_blocks":218,"reuse_blocks":218,"block_bytes":262144,"budget":67108864}
+ALLOCATOR exiting 0

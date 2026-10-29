@@ -1,0 +1,19 @@
+ALLOCATOR BEGIN mode=rebuild-a pointer_bytes=4 version=30503
+ALLOCATOR phase=baseline blocks=0 requested=0 chunks=1 reserved=40960 committed=36864 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=small blocks=4096 requested=262144 chunks=2 reserved=50376704 committed=462848 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=collected blocks=0 requested=0 chunks=2 reserved=50376704 committed=167936 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=mi-aligned-16k blocks=128 requested=2097152 chunks=2 reserved=50376704 committed=4362240 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=collected blocks=0 requested=0 chunks=2 reserved=50376704 committed=167936 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=16 requested=4194304 chunks=2 reserved=50376704 committed=4362240 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=32 requested=8388608 chunks=2 reserved=50376704 committed=8556544 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=48 requested=12582912 chunks=2 reserved=50376704 committed=12750848 budget=67108864 errors=0 last_error=0
+ALLOCATOR phase=large-first blocks=63 requested=16515072 chunks=2 reserved=50376704 committed=16683008 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=collected blocks=0 requested=0 chunks=2 reserved=50376704 committed=167936 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=16 requested=4194304 chunks=2 reserved=50376704 committed=4362240 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=32 requested=8388608 chunks=2 reserved=50376704 committed=8556544 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=48 requested=12582912 chunks=2 reserved=50376704 committed=12750848 budget=67108864 errors=1 last_error=12
+ALLOCATOR phase=large-reuse blocks=63 requested=16515072 chunks=2 reserved=50376704 committed=16683008 budget=67108864 errors=2 last_error=12
+ALLOCATOR phase=collected blocks=0 requested=0 chunks=2 reserved=50376704 committed=167936 budget=67108864 errors=2 last_error=12
+ALLOCATOR phase=over-budget-rejected blocks=0 requested=0 chunks=2 reserved=50376704 committed=167936 budget=67108864 errors=3 last_error=12
+ALLOCATOR RESULT {"mode":"rebuild-a","failures":0,"small":4096,"aligned":128,"first_blocks":63,"reuse_blocks":63,"block_bytes":262144,"budget":67108864}
+ALLOCATOR exiting 0

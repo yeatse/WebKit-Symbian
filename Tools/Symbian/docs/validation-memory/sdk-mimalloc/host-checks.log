@@ -1,0 +1,15 @@
+test_added_external_dependency (__main__.RuntimeChecks.test_added_external_dependency) ... ok
+test_changed_abi_flags (__main__.RuntimeChecks.test_changed_abi_flags) ... ok
+test_duplicate_member (__main__.RuntimeChecks.test_duplicate_member) ... ok
+test_missing_member (__main__.RuntimeChecks.test_missing_member) ... ok
+test_real_archive (__main__.RuntimeChecks.test_real_archive) ... ok
+test_truncated_archive (__main__.RuntimeChecks.test_truncated_archive) ... ok
+test_unknown_internal_symbol_change (__main__.RuntimeChecks.test_unknown_internal_symbol_change) ... ok
+test_unrecognized_base_archive (__main__.RuntimeChecks.test_unrecognized_base_archive) ... ok
+test_unsupported_sdk_version (__main__.RuntimeChecks.test_unsupported_sdk_version) ... ok
+test_untouched_bridge_must_match (__main__.RuntimeChecks.test_untouched_bridge_must_match) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.032s
+
+OK

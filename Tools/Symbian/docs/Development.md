@@ -1,6 +1,6 @@
 # Building the Symbian 2.52.6 port
 
-Use symbian-platform SDK 0.3.0 (Clang 23.1.2), CMake, Ninja, host Clang/LLD, Ruby with ERB/JSON, Perl, gperf, flex, bison, Python, pkg-config and autotools. The build uses C++23, ARMv6 with VFPv2 and softfp, ARM LLInt/Baseline/DFG, and ICU 70.1. [ARM11-JIT.md](ARM11-JIT.md) documents the execution tiers, validation and the `SYMBIAN_JSC_MODE=cloop` fallback.
+Use symbian-platform SDK 0.3.0 (Clang 23.1.2), CMake, Ninja, host Clang/LLD, binutils (`readelf`), Ruby with ERB/JSON, Perl, gperf, flex, bison, Python, pkg-config and autotools. The build uses C++23, ARMv6 with VFPv2 and softfp, ARM LLInt/Baseline/DFG, and ICU 70.1. [ARM11-JIT.md](ARM11-JIT.md) documents the execution tiers, validation and the `SYMBIAN_JSC_MODE=cloop` fallback.
 
 The sparse checkout must contain `Source/JavaScriptCore`, `Source/WTF`, `Source/WebCore`, `Source/WebKitLegacy`, `Source/bmalloc`, `Source/cmake`, `Source/ThirdParty/ANGLE`, `Source/ThirdParty/unifdef`, `Tools/Scripts` and `Tools/Symbian`.
 
@@ -10,6 +10,7 @@ export SYMBIAN_WEBKIT_WORK=/path/to/work
 export JOBS=4
 python3 Tools/Symbian/scripts/apply-sdk-patches.py
 Tools/Symbian/scripts/build-symbian-native.sh
+python3 Tools/Symbian/scripts/rebuild-sdk-runtime.py --platform-source "$SYMBIAN_WEBKIT_WORK/symbian-platform" --install
 Tools/Symbian/scripts/build-icu.sh
 Tools/Symbian/scripts/build-jsc.sh
 Tools/Symbian/scripts/link-e32.sh
@@ -20,6 +21,8 @@ Tools/Symbian/scripts/package-sis.sh
 ```
 
 `build-webcore.sh` builds `WebCore WebKitLegacy`. `STUB=1` builds only the browser shell and does not validate the engine. Build logs and artifacts stay under `SYMBIAN_WEBKIT_WORK`; do not commit SDKs, firmware, generated objects or private test trust stores.
+
+The runtime step verifies SDK 0.3.0 and its fixed source/archive hashes, rebuilds the ARMv6 allocator with its 32-bit page map, and retains the 64 MiB native budget. It must precede JSC/browser linking. Its original-archive backup and per-object/ABI verification stay in `$SYMBIAN_WEBKIT_WORK/sdk-runtime`; see [SDK patch provenance](../patches/sdk-0.3.0/README.md).
 
 ICU installs `icudt70l.dat` into `C:/resource/icu`; its SIS uses UID `0xE1A5C013`, separate from ICU63. Compiler wrappers resolve configure checks against real SDK import proxies, including libm. Dependencies and patches live under `Tools/Symbian`; changes to upstream sources are scoped to the platform port.
 
