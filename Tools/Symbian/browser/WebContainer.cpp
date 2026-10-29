@@ -165,6 +165,7 @@ void CWebContainer::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     TPoint point = aPointerEvent.iPosition - Rect().iTl;
     switch (aPointerEvent.iType) {
     case TPointerEvent::EButton1Down:
+        iObserver.WebPointerDownL();
         iPointerDown = point;
         iWebView->handlePointer(PointerEvent::Down, point.iX, point.iY);
         break;

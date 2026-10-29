@@ -18,6 +18,8 @@ public:
     virtual void WebUrlChanged(const TDesC& aUrl) = 0;
     virtual void WebProgressChanged(TBool aLoading, TInt aPercent) = 0;
     virtual TInt WebSelectPopupL(const WebKitSymbian::Text* aItems, TInt aCount, TInt aSelected) = 0;
+    // The page was touched, before the engine gets the event.
+    virtual void WebPointerDownL() = 0;
 };
 
 // Resource change events for the split view input (Symbian^3 and later),

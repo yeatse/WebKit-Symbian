@@ -35,6 +35,8 @@ const char KHistoryFile[] = "C:/Data/WebKit/history.txt";
 const char KBookmarksFile[] = "C:/Data/WebKit/bookmarks.txt";
 const TInt KHistoryMaxCount = 100;
 const TInt KUrlBarHeight = 48;
+const TInt KSuggestionHeight = 52;
+const TInt KSuggestionMaxCount = 6;
 const TInt KUrlMaxLength = 2048;
 
 enum TBrowserCommand {
@@ -106,14 +108,18 @@ class CBrowserAppUi;
 
 // The address field above the page: an edwin over a plain background, with
 // the load progress as a line along its bottom edge.
-class CUrlBar : public CCoeControl, public MCoeControlObserver {
+class CUrlBar : public CCoeControl, public MCoeControlObserver, public MEikEdwinObserver {
 public:
     CUrlBar(CBrowserAppUi& aAppUi)
         : iAppUi(aAppUi)
     {
     }
 
-    ~CUrlBar() { delete iEdwin; }
+    ~CUrlBar()
+    {
+        delete iEdwin;
+        User::Free(iText);
+    }
 
     void ConstructL(const TRect& aRect)
     {
@@ -122,6 +128,7 @@ public:
         iEdwin->SetContainerWindowL(*this);
         iEdwin->ConstructL(EEikEdwinNoWrap | EEikEdwinNoLineOrParaBreaks | EEikEdwinAutoSelection, 0, KUrlMaxLength, 1);
         iEdwin->SetObserver(this);
+        iEdwin->SetEdwinObserver(this);
         // The touch keyboard over the lower part of the screen, as for the
         // page's fields, and addresses start in lower case.
         iEdwin->SetAknEditorFlags(EAknEditorFlagNoT9 | EAknEditorFlagEnablePartialScreen | EAknEditorFlagSelectionVisible);
@@ -144,15 +151,17 @@ public:
         DrawDeferred();
     }
 
-    void StartEditingL()
-    {
-        SetFocus(ETrue);
-        iEdwin->SelectAllL();
-    }
+    // Takes the focus with the address selected, so typing replaces it.
+    void StartEditingL();
 
     TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aType);
 
 private:
+    // What the suggestions are filtered by: the text typed, or nothing
+    // while the address shown is still all selected.
+    TPtrC FilterL();
+    void SuggestL();
+
     TInt CountComponentControls() const { return 1; }
     CCoeControl* ComponentControl(TInt) const { return iEdwin; }
 
@@ -163,7 +172,7 @@ private:
         iEdwin->SetRect(rect);
     }
 
-    void FocusChanged(TDrawNow aDrawNow) { iEdwin->SetFocus(IsFocused(), aDrawNow); }
+    void FocusChanged(TDrawNow aDrawNow);
 
     void Draw(const TRect&) const
     {
@@ -183,10 +192,49 @@ private:
 
     void HandlePointerEventL(const TPointerEvent& aPointerEvent);
     void HandleControlEventL(CCoeControl*, TCoeEvent) { }
+    void HandleEdwinEventL(CEikEdwin*, TEdwinEvent aEventType);
 
     CBrowserAppUi& iAppUi;
     CEikEdwin* iEdwin { nullptr };
+    HBufC* iText { nullptr };
     TInt iProgress { 0 };
+};
+
+// Pages from the bookmarks and the history that match what is typed in the
+// address bar, in a list under it; a tap loads one. It never takes the
+// focus, so typing goes on in the address bar.
+class CUrlSuggestions : public CCoeControl {
+public:
+    CUrlSuggestions(CBrowserAppUi& aAppUi)
+        : iAppUi(aAppUi)
+    {
+    }
+
+    ~CUrlSuggestions();
+
+    void ConstructL()
+    {
+        CreateWindowL();
+        EnableDragEvents();
+        MakeVisible(EFalse);
+        ActivateL();
+    }
+
+    // Bookmarks first, then the most recent pages, up to aMaxCount. An
+    // empty filter matches every page.
+    void SetPagesL(const CPageList& aBookmarks, const CPageList& aHistory, const TDesC& aFilter, TInt aMaxCount);
+    TInt Count() const { return iUrls.Count(); }
+
+private:
+    void AddPageL(const CPageList& aPages, TInt aIndex, const TDesC& aFilter);
+    void Draw(const TRect&) const;
+    void HandlePointerEventL(const TPointerEvent& aPointerEvent);
+
+    CBrowserAppUi& iAppUi;
+    RPointerArray<HBufC> iUrls;
+    RPointerArray<HBufC> iLabels;
+    // The row under the finger, drawn highlighted.
+    TInt iPressed { -1 };
 };
 
 class CBrowserAppUi : public CAknAppUi, public MWebContainerObserver, public MNetworkConnectionObserver {
@@ -197,6 +245,9 @@ public:
     void LoadUrlL(const TDesC& aUrl);
     void FocusUrlBarL();
     void FocusPageL();
+    // Shows the pages matching aFilter under the address bar, or hides
+    // them for a null filter.
+    void SuggestL(const TDesC* aFilter);
 
 private:
     void HandleCommandL(TInt aCommand);
@@ -212,6 +263,7 @@ private:
     void WebUrlChanged(const TDesC& aUrl);
     void WebProgressChanged(TBool aLoading, TInt aPercent);
     TInt WebSelectPopupL(const Text* aItems, TInt aCount, TInt aSelected);
+    void WebPointerDownL();
 
     // MNetworkConnectionObserver
     void NetworkConnectionReady(TInt aError);
@@ -227,6 +279,7 @@ private:
     CEikButtonGroupContainer* iSoftkeys { nullptr };
     CUrlBar* iUrlBar { nullptr };
     CWebContainer* iWebContainer { nullptr };
+    CUrlSuggestions* iSuggestions { nullptr };
     CPageList* iHistory { nullptr };
     CPageList* iBookmarks { nullptr };
     // The page shown, for the history and the bookmarks.
@@ -261,6 +314,150 @@ void CUrlBar::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     if (aPointerEvent.iType == TPointerEvent::EButton1Down && !IsFocused())
         iAppUi.FocusUrlBarL();
     CCoeControl::HandlePointerEventL(aPointerEvent);
+}
+
+TPtrC CUrlBar::FilterL()
+{
+    User::Free(iText);
+    iText = nullptr;
+    iText = HBufC::NewL(iEdwin->TextLength());
+    TPtr text = iText->Des();
+    iEdwin->GetText(text);
+    text.Trim();
+    if (iEdwin->SelectionLength() == iEdwin->TextLength())
+        return TPtrC();
+    return text;
+}
+
+void CUrlBar::StartEditingL()
+{
+    SetFocus(ETrue);
+    iEdwin->SelectAllL();
+    SuggestL();
+}
+
+void CUrlBar::SuggestL()
+{
+    TPtrC filter = FilterL();
+    iAppUi.SuggestL(&filter);
+}
+
+void CUrlBar::FocusChanged(TDrawNow aDrawNow)
+{
+    iEdwin->SetFocus(IsFocused(), aDrawNow);
+    if (!IsFocused())
+        TRAP_IGNORE(iAppUi.SuggestL(nullptr));
+}
+
+void CUrlBar::HandleEdwinEventL(CEikEdwin*, TEdwinEvent aEventType)
+{
+    if (aEventType == EEventTextUpdate && IsFocused())
+        SuggestL();
+}
+
+CUrlSuggestions::~CUrlSuggestions()
+{
+    for (TInt i = 0; i < iUrls.Count(); ++i) {
+        User::Free(iUrls[i]);
+        User::Free(iLabels[i]);
+    }
+    iUrls.Close();
+    iLabels.Close();
+}
+
+void CUrlSuggestions::SetPagesL(const CPageList& aBookmarks, const CPageList& aHistory, const TDesC& aFilter, TInt aMaxCount)
+{
+    while (iUrls.Count()) {
+        TInt last = iUrls.Count() - 1;
+        User::Free(iUrls[last]);
+        User::Free(iLabels[last]);
+        iUrls.Remove(last);
+        iLabels.Remove(last);
+    }
+    iPressed = -1;
+    for (TInt i = 0; i < aBookmarks.Count() && iUrls.Count() < aMaxCount; ++i)
+        AddPageL(aBookmarks, i, aFilter);
+    for (TInt i = 0; i < aHistory.Count() && iUrls.Count() < aMaxCount; ++i)
+        AddPageL(aHistory, i, aFilter);
+}
+
+void CUrlSuggestions::AddPageL(const CPageList& aPages, TInt aIndex, const TDesC& aFilter)
+{
+    const TDesC& url = aPages.Url(aIndex);
+    const TDesC& label = aPages.Label(aIndex);
+    if (aFilter.Length() && url.FindF(aFilter) == KErrNotFound && label.FindF(aFilter) == KErrNotFound)
+        return;
+    for (TInt i = 0; i < iUrls.Count(); ++i) {
+        if (*iUrls[i] == url)
+            return;
+    }
+    HBufC* urlCopy = url.AllocLC();
+    HBufC* labelCopy = label.AllocLC();
+    iUrls.AppendL(urlCopy);
+    TRAPD(error, iLabels.AppendL(labelCopy));
+    if (error) {
+        iUrls.Remove(iUrls.Count() - 1);
+        User::Leave(error);
+    }
+    CleanupStack::Pop(2, urlCopy);
+}
+
+void CUrlSuggestions::Draw(const TRect&) const
+{
+    CWindowGc& gc = SystemGc();
+    gc.SetPenStyle(CGraphicsContext::ENullPen);
+    gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+    gc.SetBrushColor(KRgbWhite);
+    gc.DrawRect(Rect());
+    const CFont* titleFont = iEikonEnv->NormalFont();
+    const CFont* urlFont = iEikonEnv->DenseFont();
+    for (TInt i = 0; i < iUrls.Count(); ++i) {
+        TRect row(Rect().iTl + TPoint(0, i * KSuggestionHeight), TSize(Rect().Width(), KSuggestionHeight));
+        if (i == iPressed) {
+            gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+            gc.SetBrushColor(TRgb(0xd0, 0xe0, 0xfc));
+            gc.SetPenStyle(CGraphicsContext::ENullPen);
+            gc.DrawRect(row);
+        }
+        gc.SetBrushStyle(CGraphicsContext::ENullBrush);
+        gc.SetPenStyle(CGraphicsContext::ESolidPen);
+        // The title on the upper half, the address under it in grey.
+        TRect title(row.iTl, TSize(row.Width(), row.Height() / 2 + 2));
+        gc.UseFont(titleFont);
+        gc.SetPenColor(KRgbBlack);
+        gc.DrawText(*iLabels[i], title, title.Height() - 2, CGraphicsContext::ELeft, 8);
+        TRect url(TPoint(row.iTl.iX, title.iBr.iY), row.iBr);
+        gc.UseFont(urlFont);
+        gc.SetPenColor(TRgb(0x60, 0x60, 0x60));
+        gc.DrawText(*iUrls[i], url, urlFont->AscentInPixels() + 2, CGraphicsContext::ELeft, 8);
+        gc.SetPenColor(TRgb(0xd8, 0xd8, 0xd8));
+        gc.DrawLine(TPoint(row.iTl.iX, row.iBr.iY - 1), TPoint(row.iBr.iX, row.iBr.iY - 1));
+    }
+    gc.DiscardFont();
+}
+
+void CUrlSuggestions::HandlePointerEventL(const TPointerEvent& aPointerEvent)
+{
+    TInt row = (aPointerEvent.iPosition.iY - Rect().iTl.iY) / KSuggestionHeight;
+    if (!Rect().Contains(aPointerEvent.iPosition) || row >= iUrls.Count())
+        row = -1;
+    if (aPointerEvent.iType == TPointerEvent::EButton1Down || aPointerEvent.iType == TPointerEvent::EDrag) {
+        if (row != iPressed) {
+            iPressed = row;
+            DrawNow();
+        }
+    } else if (aPointerEvent.iType == TPointerEvent::EButton1Up) {
+        iPressed = -1;
+        if (row < 0) {
+            DrawNow();
+            return;
+        }
+        // Loading changes the history, and with it the list.
+        HBufC* url = iUrls[row]->AllocLC();
+        iAppUi.FocusPageL();
+        iAppUi.LoadUrlL(*url);
+        CleanupStack::PopAndDestroy(url);
+    }
 }
 
 void CBrowserAppUi::ConstructL()
@@ -306,6 +503,9 @@ void CBrowserAppUi::ConstructL()
     iUrlBar = new (ELeave) CUrlBar(*this);
     iUrlBar->ConstructL(TRect(0, 0, 1, 1));
     iWebContainer = CWebContainer::NewL(TRect(0, 0, 1, 1), *this);
+    // Over the page: a window made later is in front.
+    iSuggestions = new (ELeave) CUrlSuggestions(*this);
+    iSuggestions->ConstructL();
     LayoutControls();
     AddToStackL(iUrlBar);
     AddToStackL(iWebContainer);
@@ -331,6 +531,7 @@ CBrowserAppUi::~CBrowserAppUi()
         RemoveFromStack(iWebContainer);
     if (iUrlBar)
         RemoveFromStack(iUrlBar);
+    delete iSuggestions;
     delete iWebContainer;
     delete iUrlBar;
     delete iSoftkeys;
@@ -380,6 +581,25 @@ void CBrowserAppUi::LayoutControls()
     }
     iUrlBar->SetRect(urlRect);
     iWebContainer->SetRect(rect);
+    TRect suggestionsRect = rect;
+    suggestionsRect.SetHeight(Min(rect.Height(), iSuggestions->Count() * KSuggestionHeight));
+    iSuggestions->SetRect(suggestionsRect);
+}
+
+void CBrowserAppUi::SuggestL(const TDesC* aFilter)
+{
+    if (aFilter) {
+        // As many rows as fit above the split view input, if it is open.
+        TInt fit = iWebContainer->Rect().Height() / KSuggestionHeight;
+        iSuggestions->SetPagesL(*iBookmarks, *iHistory, *aFilter, Min(fit, KSuggestionMaxCount));
+    }
+    TBool visible = aFilter && iSuggestions->Count();
+    if (visible)
+        LayoutControls();
+    if (visible != iSuggestions->IsVisible())
+        iSuggestions->MakeVisible(visible);
+    if (visible)
+        iSuggestions->DrawNow();
 }
 
 void CBrowserAppUi::HandleResourceChangeL(TInt aType)
@@ -599,6 +819,13 @@ TInt CBrowserAppUi::WebSelectPopupL(const Text* aItems, TInt aCount, TInt aSelec
     CleanupStack::PopAndDestroy(items);
     User::LeaveIfError(error);
     return index;
+}
+
+void CBrowserAppUi::WebPointerDownL()
+{
+    // Touching the page leaves the address bar and its suggestions.
+    if (iUrlBar->IsFocused())
+        FocusPageL();
 }
 
 class CBrowserDocument : public CAknDocument {
