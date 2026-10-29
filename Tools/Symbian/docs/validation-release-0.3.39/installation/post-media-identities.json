@@ -1,0 +1,73 @@
+{
+  "status": "PASS",
+  "after": "formal host patch 0017 native video and complete HTTP/TLS media runs",
+  "installed_sis_payloads_all_11_unchanged": true,
+  "files": [
+    {
+      "path": "c/resource/icu/icudt70l.dat",
+      "bytes": 10261824,
+      "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "e/sys/bin/jsc.exe",
+      "bytes": 18846844,
+      "sha256": "d26cf9cad3c4e47a0d3a559598bd16ba2bfad772dabeb21c17cb8eb211b44bcc",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/es2020.js",
+      "bytes": 2587,
+      "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/intl.js",
+      "bytes": 1462,
+      "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/basic.js",
+      "bytes": 186,
+      "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/resizable-arraybuffer.js",
+      "bytes": 2715,
+      "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "e/sys/bin/browser.exe",
+      "bytes": 58398088,
+      "sha256": "2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "e/private/10003a3f/import/apps/browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "e/resource/apps/browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/webkit/test.html",
+      "bytes": 2254,
+      "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/resource/webkit/cacert.pem",
+      "bytes": 188900,
+      "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+      "matches_sis_payload": true
+    }
+  ]
+}
