@@ -163,8 +163,11 @@ build_harfbuzz() {
 
 build_libxml2() {
   fetch https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.12.tar.xz libxml2-2.9.12
-  # The release tarball's CMake micro version is stale (2.9.1).
-  sed -i 's/set(LIBXML2_MICRO_VERSION 1)/set(LIBXML2_MICRO_VERSION 12)/' "$src/libxml2-2.9.12/CMakeLists.txt"
+  # The tarball has stale CMake metadata and concatenates a two-digit patch
+  # version incorrectly. WebCore selects APIs using the resulting headers.
+  sed -i -e 's/project(libxml2 VERSION 2.9.10 /project(libxml2 VERSION 2.9.12 /' \
+    -e 's/set(LIBXML_VERSION ${LIBXML_MAJOR_VERSION}0${LIBXML_MINOR_VERSION}0${LIBXML_MICRO_VERSION})/math(EXPR LIBXML_VERSION "${LIBXML_MAJOR_VERSION} * 10000 + ${LIBXML_MINOR_VERSION} * 100 + ${LIBXML_MICRO_VERSION}")/' \
+    "$src/libxml2-2.9.12/CMakeLists.txt"
   cmake_build libxml2-2.9.12 -DLIBXML2_WITH_ICONV=OFF -DLIBXML2_WITH_ICU=OFF \
     -DLIBXML2_WITH_LZMA=OFF -DLIBXML2_WITH_PYTHON=OFF -DLIBXML2_WITH_PROGRAMS=OFF \
     -DLIBXML2_WITH_TESTS=OFF -DLIBXML2_WITH_HTTP=OFF -DLIBXML2_WITH_FTP=OFF \

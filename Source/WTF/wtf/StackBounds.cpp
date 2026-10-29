@@ -29,6 +29,10 @@
 
 #include <windows.h>
 
+#elif OS(SYMBIAN)
+
+#include <wtf/symbian/SymbianSystem.h>
+
 #elif OS(UNIX) || OS(HAIKU)
 
 #include <pthread.h>
@@ -79,6 +83,16 @@ WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
         return StackBounds { origin, bound };
     }
     return newThreadStackBounds(pthread_self());
+}
+
+#elif OS(SYMBIAN)
+
+StackBounds StackBounds::currentThreadStackBoundsInternal()
+{
+    void* origin = nullptr;
+    void* bound = nullptr;
+    RELEASE_ASSERT(SymbianSystem::currentThreadStack(origin, bound));
+    return StackBounds { origin, bound };
 }
 
 #elif OS(QNX)

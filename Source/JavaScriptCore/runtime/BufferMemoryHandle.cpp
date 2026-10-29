@@ -267,9 +267,11 @@ BufferMemoryHandle::~BufferMemoryHandle()
                     ASSERT(!m_size);
                     return;
                 }
+#if !OS(SYMBIAN)
                 constexpr bool readable = true;
                 constexpr bool writable = true;
                 OSAllocator::protect(memory, m_mappedCapacity, readable, writable);
+#endif
                 BufferMemoryManager::singleton().freeGrowableBoundsCheckingMemory(memory, m_mappedCapacity);
                 break;
             }

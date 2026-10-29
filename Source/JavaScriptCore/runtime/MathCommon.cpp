@@ -604,7 +604,7 @@ JSC_DEFINE_NOEXCEPT_JIT_OPERATION(f64_nearest, double, (double operand))
     return std::nearbyint(operand);
 }
 
-#if (OS(LINUX) && !defined(__GLIBC__)) || OS(HAIKU)
+#if (OS(LINUX) && !defined(__GLIBC__)) || OS(HAIKU) || OS(SYMBIAN)
 static inline float roundevenf(float operand)
 {
     float rounded = roundf(operand);

@@ -70,7 +70,8 @@
     || OS(HPUX)                \
     || OS(NETBSD)              \
     || OS(OPENBSD)             \
-    || OS(QNX)
+    || OS(QNX)                \
+    || OS(SYMBIAN)
     // ELF platform
 #define HIDE_SYMBOL(name) ".hidden " #name
 #else
@@ -88,6 +89,7 @@
     || OS(OPENBSD)             \
     || OS(HAIKU)               \
     || OS(HURD)                \
+    || OS(SYMBIAN)             \
     || OS(NETBSD)              \
     || OS(QNX)                 \
     || OS(WINDOWS)

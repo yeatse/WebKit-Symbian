@@ -28,6 +28,10 @@
 
 #include <mutex>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
 #if OS(WINDOWS)
 #include <windows.h>
 #elif USE(SYSTEM_MALLOC)
@@ -59,6 +63,8 @@ static size_t computeRAMSize()
     if (!result)
         return ramSizeGuess;
     return status.ullTotalPhys;
+#elif OS(SYMBIAN)
+    return SymbianSystem::ramSize();
 #elif USE(SYSTEM_MALLOC)
 #if OS(LINUX) || OS(FREEBSD)
     struct sysinfo si;

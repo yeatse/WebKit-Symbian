@@ -195,7 +195,6 @@ void WebView::runPendingWork() { }
 
 int64_t WebView::microsecondsUntilNextTimer() { return -1; }
 
-void WebView::setMediaPlayerFactory(MediaPlayerFactory, void*) { }
 
 WebView* WebView::create(WebViewClient& client, int width, int height)
 {

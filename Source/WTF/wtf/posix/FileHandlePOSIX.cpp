@@ -39,6 +39,10 @@
 #include <wtf/MallocSpan.h>
 #include <wtf/MappedFileData.h>
 
+#if OS(SYMBIAN) && !defined(MAP_FILE)
+#define MAP_FILE 0
+#endif
+
 namespace WTF::FileSystemImpl {
 
 std::optional<uint64_t> FileHandle::read(std::span<uint8_t> data)

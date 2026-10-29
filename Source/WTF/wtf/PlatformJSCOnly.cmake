@@ -2,7 +2,10 @@ list(APPEND WTF_SOURCES
     generic/WorkQueueGeneric.cpp
 )
 
-if (WIN32)
+if (SYMBIAN)
+    include(PlatformSymbian.cmake)
+    list(REMOVE_ITEM WTF_SOURCES generic/RunLoopGeneric.cpp generic/WorkQueueGeneric.cpp)
+elseif (WIN32)
     list(APPEND WTF_SOURCES
         text/win/StringWin.cpp
         text/win/TextBreakIteratorInternalICUWin.cpp
@@ -89,7 +92,7 @@ elseif (APPLE)
         ${WTF_DERIVED_SOURCES_DIR}/mach_excServer.c
         ${WTF_DERIVED_SOURCES_DIR}/mach_excUser.c
     )
-elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" AND NOT SYMBIAN)
     list(APPEND WTF_SOURCES
         linux/CurrentProcessMemoryStatus.cpp
         linux/MemoryFootprintLinux.cpp

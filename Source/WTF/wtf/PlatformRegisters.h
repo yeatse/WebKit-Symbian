@@ -35,6 +35,8 @@
 #include <signal.h>
 #elif OS(WINDOWS)
 #include <windows.h>
+#elif OS(SYMBIAN)
+#include <stdint.h>
 #elif OS(OPENBSD)
 typedef ucontext_t mcontext_t;
 #elif OS(QNX)
@@ -71,6 +73,15 @@ inline PlatformRegisters& registersFromUContext(ucontext_t* ucontext)
 #elif OS(WINDOWS)
 
 using PlatformRegisters = CONTEXT;
+
+#elif OS(SYMBIAN)
+
+// RThread::Context of a suspended thread (r0-r15, cpsr, ...). The GC scans
+// the whole structure conservatively.
+struct PlatformRegisters {
+    void* stackPointer;
+    uintptr_t context[31];
+};
 
 #elif HAVE(MACHINE_CONTEXT)
 

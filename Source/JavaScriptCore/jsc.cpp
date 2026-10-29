@@ -166,6 +166,10 @@
 #include <wtf/linux/ProcessMemoryFootprint.h>
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
 WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
 
 #if OS(DARWIN) || OS(LINUX)
@@ -3465,7 +3469,7 @@ JSC_DEFINE_HOST_FUNCTION(functionFuzzilli, (JSGlobalObject* globalObject, CallFr
 #define EXCEPT(x)
 #endif
 
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
 static BinarySemaphore waitToExit;
 #endif
 
@@ -3610,6 +3614,58 @@ int main(int argc, char** argv)
     timeBeginPeriod(1);
 #endif
 
+#if OS(SYMBIAN)
+    // Native applications have no console; retain diagnostics on the system drive.
+    if (freopen("C:/Data/jsc.log", "w", stdout)) {
+        setvbuf(stdout, nullptr, _IOLBF, 0);
+        dup2(fileno(stdout), fileno(stderr));
+        setvbuf(stderr, nullptr, _IONBF, 0);
+    }
+
+    // The SDK startup passes only argv[0]; recover the native command line.
+    static char commandLine[4096];
+    static char* symbianArgv[64];
+    if (argc <= 1) {
+        WTF::SymbianSystem::commandLine(commandLine, sizeof(commandLine));
+        int count = 0;
+        symbianArgv[count++] = argc ? argv[0] : const_cast<char*>("jsc");
+        char* source = commandLine;
+        while (*source) {
+            while (*source == ' ' || *source == '\t')
+                ++source;
+            if (!*source)
+                break;
+            if (count == 63) {
+                fprintf(stderr, "Too many command line arguments\n");
+                return EXIT_FAILURE;
+            }
+            char* destination = source;
+            symbianArgv[count++] = destination;
+            bool quoted = false;
+            while (*source && (quoted || (*source != ' ' && *source != '\t'))) {
+                if (*source == '"') {
+                    quoted = !quoted;
+                    ++source;
+                } else if (quoted && *source == '\\' && (source[1] == '"' || source[1] == '\\')) {
+                    ++source;
+                    *destination++ = *source++;
+                } else
+                    *destination++ = *source++;
+            }
+            if (quoted) {
+                fprintf(stderr, "Unterminated command line quote\n");
+                return EXIT_FAILURE;
+            }
+            if (*source)
+                ++source;
+            *destination = 0;
+        }
+        symbianArgv[count] = nullptr;
+        argc = count;
+        argv = symbianArgv;
+    }
+#endif
+
 #if PLATFORM(GTK)
     if (!setlocale(LC_ALL, ""))
         WTFLogAlways("Locale not supported by C library.\n\tUsing the fallback 'C' locale.");
@@ -3633,7 +3689,7 @@ int main(int argc, char** argv)
     }
 #endif
 
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
     if (getenv("JS_SHELL_WAIT_FOR_SIGUSR2_TO_EXIT")) {
         addSignalHandler(Signal::Usr, SignalHandler([&] (Signal, SigInfo&, PlatformRegisters&) {
             dataLogLn("Signal handler hit, we can exit now.");
@@ -3658,7 +3714,7 @@ int main(int argc, char** argv)
         getc(stdin);
     }
 
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
     if (getenv("JS_SHELL_WAIT_FOR_SIGUSR2_TO_EXIT")) {
         WTF::fastDisableScavenger();
         fprintf(stdout, "\njs shell waiting for `kill -USR2 [pid]` to exit\n");
@@ -4004,7 +4060,7 @@ static void runInteractive(GlobalObject* globalObject)
     fprintf(stderr, "  -p <file>  Outputs profiling data to a file\n");
     fprintf(stderr, "  -x         Output exit code before terminating\n");
     fprintf(stderr, "\n");
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
     fprintf(stderr, "  --signal-expected          Installs signal handlers that exit on a crash (Unix platforms only, lldb will not work with this option) \n");
 #endif
     fprintf(stderr, "  --sample                   Collects and outputs sampling profiler data\n");
@@ -4151,7 +4207,7 @@ void CommandLine::parseArguments(int argc, char** argv, int start)
             continue;
         }
         if (!strcmp(arg, "--signal-expected")) {
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
             SignalAction (*exit)(Signal, SigInfo&, PlatformRegisters&) = [] (Signal signal, SigInfo&, PlatformRegisters&) {
                 dataLogLn("Signal handler for ", ScopedEnumDump(signal), " hit. Exiting with status 137");
                 // Deliberate exit with a SIGKILL code greater than 130.

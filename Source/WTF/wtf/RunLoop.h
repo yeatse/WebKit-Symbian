@@ -34,6 +34,7 @@
 #include <wtf/Forward.h>
 #include <wtf/FunctionDispatcher.h>
 #include <wtf/HashMap.h>
+#include <wtf/MonotonicTime.h>
 #include <wtf/Lock.h>
 #include <wtf/Observer.h>
 #include <wtf/RetainPtr.h>
@@ -143,6 +144,12 @@ public:
 
 #if USE(GENERIC_EVENT_LOOP) || USE(WINDOWS_EVENT_LOOP)
     WTF_EXPORT_PRIVATE static void setWakeUpCallback(WTF::Function<void()>&&);
+#endif
+
+#if USE(GENERIC_EVENT_LOOP)
+    // When the current RunLoop's earliest timer is due, for an embedder that
+    // calls iterate() from its own event loop; infinity if none is scheduled.
+    WTF_EXPORT_PRIVATE static MonotonicTime nextTimerFireTime();
 #endif
 
 #if USE(WINDOWS_EVENT_LOOP)

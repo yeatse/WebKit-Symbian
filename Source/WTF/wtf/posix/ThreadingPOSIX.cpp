@@ -43,6 +43,10 @@
 #include <wtf/WTFConfig.h>
 #include <wtf/WordLock.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
 #if OS(HAIKU)
 #include <OS.h>
 #endif
@@ -81,9 +85,14 @@
 
 namespace WTF {
 
-Thread::~Thread() = default;
+Thread::~Thread()
+{
+#if OS(SYMBIAN)
+    SymbianSystem::closeThread(m_platformThread);
+#endif
+}
 
-#if !OS(DARWIN)
+#if !OS(DARWIN) && !OS(SYMBIAN)
 class Semaphore final {
     WTF_MAKE_NONCOPYABLE(Semaphore);
     WTF_DEPRECATED_MAKE_FAST_ALLOCATED(Semaphore);
@@ -174,10 +183,14 @@ void Thread::signalHandlerSuspendResume(int, siginfo_t*, void* ucontext)
     globalSemaphoreForSuspendResume->post();
 }
 
-#endif // !OS(DARWIN)
+#endif // !OS(DARWIN) && !OS(SYMBIAN)
 
 void Thread::initializePlatformThreading()
 {
+#if OS(SYMBIAN)
+    // EKA2 suspends threads directly (RThread::Suspend); no signal is used.
+    g_wtfConfig.isThreadSuspendResumeSignalConfigured = true;
+#else
     if (!g_wtfConfig.isUserSpecifiedThreadSuspendResumeSignalConfigured) {
         g_wtfConfig.sigThreadSuspendResume = SIGUSR1;
         if (const char* string = getenv("JSC_SIGNAL_FOR_GC")) {
@@ -190,7 +203,7 @@ WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
     }
     g_wtfConfig.isThreadSuspendResumeSignalConfigured = true;
 
-#if !OS(DARWIN)
+#if !OS(DARWIN) && !OS(SYMBIAN)
     globalSemaphoreForSuspendResume.construct(0);
 
     // Signal handlers are process global configuration.
@@ -220,6 +233,7 @@ WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
     bool signalIsInstalled = attemptToSetSignal(g_wtfConfig.sigThreadSuspendResume);
     RELEASE_ASSERT(signalIsInstalled);
 #endif
+#endif // OS(SYMBIAN)
 }
 
 #if OS(LINUX)
@@ -231,7 +245,7 @@ ThreadIdentifier Thread::currentID()
 
 void Thread::initializeCurrentThreadEvenIfNonWTFCreated()
 {
-#if !OS(DARWIN)
+#if !OS(DARWIN) && !OS(SYMBIAN)
     RELEASE_ASSERT(g_wtfConfig.isThreadSuspendResumeSignalConfigured);
     sigset_t mask;
     sigemptyset(&mask);
@@ -357,6 +371,11 @@ void Thread::initializeCurrentThreadInternal(const char* threadName)
 #else
     UNUSED_PARAM(threadName);
 #endif
+#if OS(SYMBIAN)
+    // Below the UI thread: EKA2 gives lower priorities no time while a higher
+    // one is busy, and curl's thread is busy for long in a TLS handshake.
+    SymbianSystem::lowerCurrentThreadPriority();
+#endif
     initializeCurrentThreadEvenIfNonWTFCreated();
 }
 
@@ -450,8 +469,13 @@ bool Thread::signal(int signalNumber)
     Locker locker { m_mutex };
     if (hasExited())
         return false;
+#if OS(SYMBIAN)
+    UNUSED_PARAM(signalNumber);
+    return false;
+#else
     int errNo = pthread_kill(m_handle, signalNumber);
     return !errNo; // A 0 errNo means success.
+#endif
 }
 
 auto Thread::suspend(const ThreadSuspendLocker&) -> Expected<void, PlatformSuspendError>
@@ -461,6 +485,9 @@ auto Thread::suspend(const ThreadSuspendLocker&) -> Expected<void, PlatformSuspe
     kern_return_t result = thread_suspend(m_platformThread);
     if (result != KERN_SUCCESS)
         return makeUnexpected(result);
+    return { };
+#elif OS(SYMBIAN)
+    SymbianSystem::suspendThread(m_platformThread);
     return { };
 #else
     if (!m_suspendCount) {
@@ -488,6 +515,8 @@ void Thread::resume(const ThreadSuspendLocker&)
 {
 #if OS(DARWIN)
     thread_resume(m_platformThread);
+#elif OS(SYMBIAN)
+    SymbianSystem::resumeThread(m_platformThread);
 #else
     if (m_suspendCount == 1) {
         // When allowing sigThreadSuspendResume interrupt in the signal handler by sigsuspend and SigThreadSuspendResume is actually issued,
@@ -551,6 +580,12 @@ size_t Thread::getRegisters(const ThreadSuspendLocker&, PlatformRegisters& regis
         CRASH_WITH_INFO(result, KERN_SUCCESS);
     }
     return metadata.userCount * sizeof(uintptr_t);
+#elif OS(SYMBIAN)
+    registers = { };
+    size_t words = SymbianSystem::threadContext(m_platformThread, registers.context, std::size(registers.context));
+    RELEASE_ASSERT(words > 13);
+    registers.stackPointer = reinterpret_cast<void*>(registers.context[13]);
+    return sizeof(PlatformRegisters);
 #else
     ASSERT_WITH_MESSAGE(m_suspendCount, "We can get registers only if the thread is suspended.");
     ASSERT(m_platformRegisters);

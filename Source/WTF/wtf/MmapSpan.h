@@ -39,7 +39,12 @@ template<typename T> class MmapSpan : public AllocSpanMixin<T> {
 public:
     static MmapSpan tryAlloc(size_t sizeInBytes)
     {
+#if OS(SYMBIAN)
+        UNUSED_PARAM(sizeInBytes);
+        return { };
+#else
         return mmap(nullptr, sizeInBytes, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1);
+#endif
     }
 
     static MmapSpan mmap(void* addr, size_t size, int pageProtection, int options, int fileDescriptor)

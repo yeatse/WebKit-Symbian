@@ -371,8 +371,10 @@ void finalizeMappedFileData(MappedFileData& mappedFileData, size_t bytesSize)
     VirtualProtect(map, bytesSize, FILE_MAP_READ, &oldProtection);
     FlushViewOfFile(map, bytesSize);
 #else
+#if !OS(SYMBIAN)
     // Drop the write permission.
     mprotect(map, bytesSize, PROT_READ);
+#endif
 
     // Flush (asynchronously) to file, turning this into clean memory.
     msync(map, bytesSize, MS_ASYNC);

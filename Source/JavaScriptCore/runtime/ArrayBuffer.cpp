@@ -523,7 +523,15 @@ Expected<int64_t, GrowFailReason> ArrayBuffer::resize(VM& vm, size_t newByteLeng
                 dataLogLnIf(ArrayBufferInternal::verbose, "Marking memory's ", RawPointer(memory), " as read+write in range [", RawPointer(startAddress), ", ", RawPointer(startAddress + bytesToAdd), ")");
                 constexpr bool readable = true;
                 constexpr bool writable = true;
+#if OS(SYMBIAN)
+                // Committing RChunk pages can fail even after reserving the address range.
+                if (!OSAllocator::tryProtect(startAddress, bytesToAdd, readable, writable)) {
+                    BufferMemoryManager::singleton().freePhysicalBytes(bytesToAdd);
+                    return makeUnexpected(GrowFailReason::OutOfMemory);
+                }
+#else
                 OSAllocator::protect(startAddress, bytesToAdd, readable, writable);
+#endif
             } else {
                 size_t bytesToSubtract = memoryHandle->size() - desiredSize;
                 ASSERT(bytesToSubtract);
@@ -632,7 +640,14 @@ Expected<int64_t, GrowFailReason> SharedArrayBufferContents::grow(const Abstract
         dataLogLnIf(ArrayBufferInternal::verbose, "Marking memory's ", RawPointer(memory), " as read+write in range [", RawPointer(startAddress), ", ", RawPointer(startAddress + extraBytes), ")");
         constexpr bool readable = true;
         constexpr bool writable = true;
+#if OS(SYMBIAN)
+        if (!OSAllocator::tryProtect(startAddress, extraBytes, readable, writable)) {
+            BufferMemoryManager::singleton().freePhysicalBytes(extraBytes);
+            return makeUnexpected(GrowFailReason::OutOfMemory);
+        }
+#else
         OSAllocator::protect(startAddress, extraBytes, readable, writable);
+#endif
         memoryHandle->updateSize(desiredSize);
     }
 

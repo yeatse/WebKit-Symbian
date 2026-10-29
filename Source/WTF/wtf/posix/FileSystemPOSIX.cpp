@@ -32,12 +32,12 @@
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <fnmatch.h>
-#include <libgen.h>
 #include <stdio.h>
 #include <sys/file.h>
 #include <sys/stat.h>
+#if !OS(SYMBIAN)
 #include <sys/statvfs.h>
+#endif
 #include <sys/types.h>
 #include <unistd.h>
 #include <wtf/EnumTraits.h>
@@ -66,7 +66,11 @@ FileHandle openFile(const String& path, FileOpenMode mode, FileAccessPermission 
     if (fsRep.isNull())
         return { };
 
+#if OS(SYMBIAN)
+    int platformFlag = 0;
+#else
     int platformFlag = O_CLOEXEC;
+#endif
     switch (mode) {
     case FileOpenMode::Read:
         platformFlag |= O_RDONLY;
@@ -131,11 +135,16 @@ bool fileIDsAreEqual(std::optional<PlatformFileID> a, std::optional<PlatformFile
 
 std::optional<uint32_t> volumeFileBlockSize(const String& path)
 {
+#if OS(SYMBIAN)
+    UNUSED_PARAM(path);
+    return std::nullopt;
+#else
     struct statvfs fileStat;
     if (!statvfs(fileSystemRepresentation(path).data(), &fileStat))
         return fileStat.f_frsize;
 
     return std::nullopt;
+#endif
 }
 
 #if !USE(CF)
@@ -156,7 +165,9 @@ CString fileSystemRepresentation(const String& path)
 #if !PLATFORM(COCOA)
 static const char* temporaryFileDirectory()
 {
-#if USE(GLIB)
+#if OS(SYMBIAN)
+    return "C:/Data/WebKit/tmp";
+#elif USE(GLIB)
     return g_get_tmp_dir();
 #else
     if (auto* tmpDir = getenv("TMPDIR"))
@@ -181,7 +192,13 @@ std::pair<String, FileHandle> openTemporaryFile(StringView prefix, StringView su
     snprintf(buffer.mutableSpan().data(), length, "%s/%s-XXXXXX", directory, prefixUTF8.data());
     IGNORE_CLANG_WARNINGS_END
 
+#if OS(SYMBIAN)
+    if (!suffix.isEmpty() || !makeAllDirectories(String::fromUTF8(directory)))
+        return { String(), FileHandle() };
+    auto handle = FileHandle::adopt(mkstemp(buffer.mutableSpan().data()));
+#else
     auto handle = FileHandle::adopt(mkostemp(buffer.mutableSpan().data(), O_CLOEXEC));
+#endif
     if (!handle)
         return { String(), FileHandle() };
 

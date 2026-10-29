@@ -20,7 +20,6 @@ option(BROWSER_STUB_ENGINE "Link the stand-in engine instead of WebKit" OFF)
 set(shell_sources
   BrowserApp.cpp
   BrowserLog.cpp
-  MediaPlayers.cpp
   NetworkConnection.cpp
   PageList.cpp
   RunLoopDriver.cpp
@@ -33,7 +32,7 @@ else ()
 endif ()
 
 target_include_directories(browser PRIVATE "${WEBKIT_SOURCE_DIR}/Source/WebKitLegacy/symbian")
-target_compile_features(browser PRIVATE cxx_std_17)
+target_compile_features(browser PRIVATE cxx_std_23)
 # Leaves (exceptions) cross the AVKON framework, but no typeinfo: the FEP
 # interfaces' type information lives in fepbase.dll, which has no proxy.
 symbian_enable_native_leaves(browser SOURCES ${shell_sources})
@@ -49,8 +48,7 @@ target_include_directories(browser SYSTEM PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/i
 # extensions make __wchar_t a keyword, which Open C's sys/_types.h declares.
 target_compile_options(browser PRIVATE -fms-extensions -Wno-microsoft-extra-qualification)
 target_compile_definitions(browser PRIVATE __wchar_t=__symbian_wchar_t)
-foreach (dll avkon cone eikcore eikcoctl eikctl apparc apgrfx bafl efsrv fbscli bitgdi gdi ws32 etext form esock
-    mediaclientaudio mediaclientvideo)
+foreach (dll avkon cone eikcore eikcoctl eikctl apparc apgrfx bafl efsrv fbscli bitgdi gdi ws32 etext form esock)
   target_link_libraries(browser PRIVATE "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
 endforeach ()
 

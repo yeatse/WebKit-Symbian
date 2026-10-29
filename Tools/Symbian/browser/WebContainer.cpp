@@ -1,6 +1,5 @@
 #include "WebContainer.h"
 
-#include "MediaPlayers.h"
 #include "NativeDeclarations.h"
 
 #include <aknedsts.h>
@@ -96,7 +95,6 @@ void CWebContainer::ConstructL(const TRect& aRect)
     // The page leaves holes (alpha 0) where video plays in the window's
     // background, so the window keeps the bitmap's alpha.
     Window().SetRequiredDisplayMode(EColor16MA);
-    WebView::setMediaPlayerFactory(CreateMediaPlayer, static_cast<RWindowBase*>(DrawableWindow()));
     iWebView = WebView::create(*this, Size().iWidth, Size().iHeight);
     ActivateL();
 }

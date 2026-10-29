@@ -119,7 +119,7 @@
 #endif
 
 #if !defined(HAVE_STD_FILESYSTEM)
-#if __has_include(<filesystem>)
+#if !OS(SYMBIAN) && __has_include(<filesystem>)
 #define HAVE_STD_FILESYSTEM 1
 #else
 #define HAVE_STD_FILESYSTEM 0
@@ -127,7 +127,7 @@
 #endif
 
 #if !defined(HAVE_STD_EXPERIMENTAL_FILESYSTEM)
-#if __has_include(<experimental/filesystem>)
+#if !OS(SYMBIAN) && __has_include(<experimental/filesystem>)
 #define STD_EXPERIMENTAL_FILESYSTEM 1
 #else
 #define STD_EXPERIMENTAL_FILESYSTEM 0
@@ -420,11 +420,11 @@
 #define HAVE_URL_FORMATTING 1
 #endif
 
-#if !OS(WINDOWS) && !OS(QNX)
+#if !OS(WINDOWS) && !OS(QNX) && !OS(SYMBIAN)
 #define HAVE_STACK_BOUNDS_FOR_NEW_THREAD 1
 #endif
 
-#if !OS(WINDOWS) && !PLATFORM(PLAYSTATION)
+#if !OS(WINDOWS) && !PLATFORM(PLAYSTATION) && !OS(SYMBIAN)
 #define HAVE_MEMMEM 1
 #endif
 
