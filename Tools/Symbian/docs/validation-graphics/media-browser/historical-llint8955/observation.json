@@ -1,0 +1,130 @@
+{
+  "status": "FAIL",
+  "failure": null,
+  "browser_sha256": "89558145663060cdb1fd21f7547b9f201a948f3e4cc5e96d3ea9a79a9973bd66",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "icu_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+  "suite": "http",
+  "driver_exit": 1,
+  "api_status": "FAIL",
+  "audio": {
+    "file": null,
+    "format": "s16le/48000Hz/stereo",
+    "bytes": 34805468,
+    "sha256": "8f1ad5528f093295611b003a9ad34ba1ba24b137c2bd2fcbf5a1a5dc7d6855f0",
+    "capture_timing": {
+      "recorder_start_monotonic": 28959.617135161,
+      "first_pcm_ready_monotonic": 28960.281664175,
+      "ready_bytes": 19200,
+      "driver_launch_monotonic": 28960.283389829,
+      "driver_exit_observed_monotonic": 29141.24981486,
+      "tail_start_bytes": 34767068,
+      "tail_ready_monotonic": 29141.451041721,
+      "tail_bytes": 38400,
+      "capture_end_monotonic": 29141.452267008
+    },
+    "semantic_analysis": "pending; capture presence is not tone/pause/mute proof",
+    "archived_here": false
+  },
+  "events": [
+    {
+      "label": "audio.wav playing",
+      "observed_monotonic": 28968.380878005,
+      "console_line": 512
+    },
+    {
+      "label": "audio.wav paused",
+      "observed_monotonic": 28969.386253362,
+      "console_line": 513
+    },
+    {
+      "label": "audio.wav muted",
+      "observed_monotonic": 28972.353241361,
+      "console_line": 514
+    },
+    {
+      "label": "audio.wav unmuted",
+      "observed_monotonic": 28973.365271048,
+      "console_line": 515
+    },
+    {
+      "label": "video.mp4 playing",
+      "observed_monotonic": 28978.398416446,
+      "console_line": 519
+    },
+    {
+      "label": "video.mp4 paused",
+      "observed_monotonic": 28979.436076016,
+      "console_line": 520
+    },
+    {
+      "label": "video.mp4 muted",
+      "observed_monotonic": 28982.38478982,
+      "console_line": 521
+    },
+    {
+      "label": "video.mp4 unmuted",
+      "observed_monotonic": 28983.357350092,
+      "console_line": 522
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "video-01.png",
+      "label": "video.mp4 playing",
+      "start_monotonic": 28978.398630641,
+      "end_monotonic": 28978.513063968,
+      "sha256": "33e1a4863c89bfb4bc7142d2a127f102363db83b6b1afbada5253aa0a9b174e8",
+      "archived_here": false
+    },
+    {
+      "file": "video-02.png",
+      "label": "video.mp4 playing second frame",
+      "start_monotonic": 28978.764600109,
+      "end_monotonic": 28978.879750541,
+      "sha256": "32e3f5ef88a7644cd70be8a7fa291ffca008fa9a801d5df63a75f0cebe7c4d14",
+      "archived_here": false
+    },
+    {
+      "file": "video-03.png",
+      "label": "video.mp4 paused",
+      "start_monotonic": 28979.436295448,
+      "end_monotonic": 28979.554915408,
+      "sha256": "6c1b287a52dd458977d11343325004e2bc437a73f85675febf41d7156a86c227",
+      "archived_here": false
+    },
+    {
+      "file": "video-04.png",
+      "label": "video.mp4 paused second frame",
+      "start_monotonic": 28979.806428948,
+      "end_monotonic": 28979.92072244,
+      "sha256": "6107ef94877b3a394a0fb1d23643277592d21250d2eaa13f7071fb03d1e45a26",
+      "archived_here": false
+    },
+    {
+      "file": "video-05.png",
+      "label": "video.mp4 muted",
+      "start_monotonic": 28982.385010224,
+      "end_monotonic": 28982.502390399,
+      "sha256": "4f4ab147a6f75b6e0757946787e4245926fbeda48ded1f03cb60361f5ded8586",
+      "archived_here": false
+    },
+    {
+      "file": "video-06.png",
+      "label": "video.mp4 unmuted",
+      "start_monotonic": 28983.357576284,
+      "end_monotonic": 28983.473982869,
+      "sha256": "f671c3bdb25e7405f000122cb35421b87922157ec7b2ae9dea4478c53e51ad4a",
+      "archived_here": false
+    },
+    {
+      "file": "video-07.png",
+      "label": "video.mp4 unmuted second frame",
+      "start_monotonic": 28983.725456164,
+      "end_monotonic": 28983.842358648,
+      "sha256": "90a11cc98903ee458bb21235279e93a39e494384912b5335553c051e70f7bf62",
+      "archived_here": false
+    }
+  ],
+  "event_clock_note": "Console first-observed host timestamps are upper bounds affected by flush and polling; guest performance.now trace is retained in the strict API report. No exact synchronization latency is claimed."
+}

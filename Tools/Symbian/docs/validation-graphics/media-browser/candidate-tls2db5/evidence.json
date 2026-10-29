@@ -1,0 +1,83 @@
+{
+  "status": "FAIL",
+  "scope": "17 functional groups and decoded video movement/pause pass; 7/8 named PCM control windows pass. Complete media presentation is FAIL due to an interior audio dropout.",
+  "source_run": "browser-20261029T171835Z-680b1evf",
+  "browser_sha256": "2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "icu_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+  "fixture_page_sha256": "e46cf9432c9a26d8394ee59dab6b69590664d1b87135f33bfcbc29de87a070e8",
+  "run_token": "e014b57e7b724f90b7d0c3b4c92f95fa",
+  "groups": 17,
+  "passed": 17,
+  "driver_exit": 0,
+  "access_violation_or_kern_exec_in_host_log": false,
+  "native_dlls": {
+    "verification": "operator_verified: eka_setup checked prelaunch sha256sum output; not automatically included by the runner",
+    "audio_sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+    "video_sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+  },
+  "pixel_comparison": {
+    "box_ltrb": [
+      274,
+      137,
+      390,
+      185
+    ],
+    "unit": "RGB pixels with any differing channel",
+    "pixels": 5568,
+    "playing_different_pixels": 1410,
+    "paused_different_pixels": 0,
+    "resumed_different_pixels": 2058,
+    "note": "Independently inspected original images, comparing decoded picture interior only. The operator video-observation.json uses a different recorded ROI and counts channels."
+  },
+  "test_ca_restored": true,
+  "original_files_sha256": {
+    "result": "b122726334a1c8b50a799dbfa00538ebd21706462b1f9b89bc5a019ec518ab30",
+    "page_report": "f350bb3dd24d3bd9a61a89c36ef1f753a3e353a54c12a69dc5fb6ba8ecc4f063",
+    "observation": "469c1f1ab32a467e54482a90d3cb84a605a7588e76827f4c390847e274d4a52b",
+    "emulator_log": "8e23c72d018eaf617b253315857afd69592b8ca927f8d74f4dc0845e9fe959aa",
+    "console": "41245f1b09fe86fd2d79ca255dd6dcda42689cbbf88d1239d3de24369f4e268c",
+    "audio_flac_verification": "23c5d63f3650ba5c1e376b906f2378c30cccbb1370368f497df7b34e5754c6cc"
+  },
+  "artifacts": {
+    "audio-flac-verification.json": "22ee783807618c8f6a8a15e3b4cf2902eae681d4db38b0b2983135edc71db430",
+    "console.log": "41245f1b09fe86fd2d79ca255dd6dcda42689cbbf88d1239d3de24369f4e268c",
+    "page-report.json": "f350bb3dd24d3bd9a61a89c36ef1f753a3e353a54c12a69dc5fb6ba8ecc4f063",
+    "audio.flac": "c69ba418df8b2efb90bb9d16e6ff2a7dd475ef26387ea4826750913452df5cde",
+    "result.json": "6d43cb5881b70afbc593fbecfe58fea98928986d80b1081a8e988b92da1ae9ee",
+    "video-03.png": "f16f5a088a7befedc9f6e68c92c6bfea2f126dd1b2967f7fabfe096cee00434e",
+    "video-04.png": "313da422c6fc390756e609a109e4b5631228f66a1680d72843ca08dc79784d3d",
+    "video-observation.json": "1e5d3e85070812249ac88c74f18380d62744720760a45004c2c471476b85f44f",
+    "video-06.png": "5354a9da14c52e46544ed43295485bed549fd577580d794c9b2040d7bdb3ecf6",
+    "audio-mp3-observation.json": "feda7dcf5bc478dd44514c36ade45ef44c22b55a0e9858d649dfe2d024ed6ee3",
+    "audio-control-analysis.json": "9bfc325531aa8ff2bac2dc9d04de5e0a7b46b4b6df414b9d2dec74396e8f7c8a",
+    "observation.json": "5c8a35e10bb6cd13a24ef68d71044dfaff73af33a3e447ab97b34924729bf4aa",
+    "video-01.png": "c1325e6847ae5641cca305df0c311272a1a6806a086d86e2921d1a19eee7d6e0",
+    "browser-final.png": "72355ecb26b274a002452adf9cea8b189e4438958a6f5e1628b8c2f47cb59291",
+    "video-02.png": "8bb9c7389aedb0ddacca65b19f24c8d75d1938ab60d426481c71f6a6d7291a40",
+    "video-05.png": "bf3d982a9b8f149ac2f4bf9304f28169357b851de1e94b0b2f79832057f343e3",
+    "video-07.png": "b0e52b8c7863da1f3beda8d6c41f26f3b2a44d7a54a4063891befdc45f349c37",
+    "README.md": "877d0652996869a8c349103d1def8ed18780f75dcf10b3e0a9b202ac064ff94b"
+  },
+  "acceptance": {
+    "api": "PASS",
+    "pixels": "PASS",
+    "named_pcm_windows": "FAIL",
+    "mp3_tone": "PASS"
+  },
+  "pcm": {
+    "named_windows_passed": 7,
+    "named_windows_total": 8,
+    "raw_sha256": "5156240bea1c262ca2e7c3ba9b036cbc9e80915154ca1b77d6b842a4f61f2c3c",
+    "scope": "Named controls only; no global continuity claim across expected stalls/source changes. Entire original PCM including any failure is preserved as lossless FLAC.",
+    "interior_video_gaps": [
+      {
+        "start_s": 21.745020833333335,
+        "end_s": 21.7789375,
+        "duration_ms": 33.916666666666664,
+        "seconds_after_audible_start": 1.3877708333333345,
+        "seconds_of_audio_after_gap": 0.4562708333333312
+      }
+    ]
+  }
+}

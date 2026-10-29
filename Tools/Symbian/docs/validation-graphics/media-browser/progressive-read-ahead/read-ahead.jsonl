@@ -1,0 +1,8 @@
+{"case":"old-growing","initial_bytes":65536,"decode_inside_reader":false,"append_after_first_cycle":true,"first_video_packets":18,"first_audio_packets":49,"first_decoded_samples":0,"corrupt_packets":1,"errors":1,"video_frames":17,"cycles":18}
+{"case":"scheduled-growing","initial_bytes":65536,"decode_inside_reader":true,"append_after_first_cycle":true,"first_video_packets":8,"first_audio_packets":0,"first_decoded_samples":22528,"corrupt_packets":0,"errors":0,"video_frames":180,"cycles":181}
+{"case":"scheduled-truncated","initial_bytes":65536,"decode_inside_reader":true,"append_after_first_cycle":false,"first_video_packets":8,"first_audio_packets":0,"first_decoded_samples":22528,"corrupt_packets":1,"errors":1,"video_frames":17,"cycles":18}
+{"case":"old-growing","initial_bytes":81699,"decode_inside_reader":false,"append_after_first_cycle":true,"first_video_packets":23,"first_audio_packets":64,"first_decoded_samples":0,"corrupt_packets":1,"errors":1,"video_frames":22,"cycles":23}
+{"case":"scheduled-growing","initial_bytes":81699,"decode_inside_reader":true,"append_after_first_cycle":true,"first_video_packets":8,"first_audio_packets":0,"first_decoded_samples":22528,"corrupt_packets":0,"errors":0,"video_frames":180,"cycles":181}
+{"case":"scheduled-truncated","initial_bytes":81699,"decode_inside_reader":true,"append_after_first_cycle":false,"first_video_packets":8,"first_audio_packets":0,"first_decoded_samples":22528,"corrupt_packets":1,"errors":1,"video_frames":22,"cycles":23}
+{"case":"scheduled-complete","initial_bytes":710764,"decode_inside_reader":true,"append_after_first_cycle":false,"first_video_packets":8,"first_audio_packets":0,"first_decoded_samples":22528,"corrupt_packets":0,"errors":0,"video_frames":180,"cycles":181}
+{"summary":"PASS"}

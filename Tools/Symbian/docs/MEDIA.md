@@ -73,7 +73,9 @@ before they can keep using a removed surface. The default crop is the full
 decoded frame. Callback guards handle observers that reenter Close, remove a
 registration or delete the utility.
 
-Apply EKA patch `0010` after patches `0001`, `0005`–`0009`. Rebuilding only the
+Apply the ordered EKA patches `0001`, `0005`–`0017`. Patch `0010` supplies the
+native media bridge; `0017` restores the intended half-second decoded-audio
+prefetch bound for growing files. Rebuilding only the
 host is insufficient: its default build copies old prebuilt guest patch DLLs.
 Use [native-media-patches](../eka2l1/native-media-patches/README.md) to rebuild
 and deploy both media DLLs with the official SDK headers, preserved ordinal
@@ -100,8 +102,8 @@ The checks are deliberately separated:
 | Host URL helper | 13 requests in 5 groups pass, including verified TLS success, hostname/root rejection, cancellation, protocol restrictions and cleanup. |
 | Native WAV | Clean-host native-only DLL playback passes 8/8 with 440 Hz PCM, pause/resume/stop silence and continuity. HTTPS WAV also passes the independent analysis. Earlier HTTP evidence remains separately identified. |
 | Native MP3 | Clean-host native-only DLL playback passes 8/8 and independent 660 Hz PCM analysis with monitor PCM ready before launch. Cold-Pulse failures are preserved. |
-| Native Utility2 video | Clean host passes API/surface 16/16 and 880 Hz AAC PCM analysis. Decoded frames change from 5.267 s / frame 79 to 7.400 s / frame 111; Close leaves no stale frame. |
-| Browser page | The Page-ID fix advances the JIT HTTP candidate through 11 passing groups and shows real video through the software fallback, but an access violation after progressive cleanup and a 30.75 ms interior PCM dropout leave the run failed. A separate LLInt diagnostic reaches all 14 groups without that crash; its 13/14 result exposed an ended-event test race. The fixture now waits for the queued event with the same deadline and strict count. Fresh JIT HTTP/TLS runs are still required. |
+| Native Utility2 video | Updated host `12c275e7...` passes API/surface 16/16 and strict 880 Hz AAC PCM analysis. Decoded frames change from 5.333 s / frame 80 to 7.400 s / frame 111; Close leaves no stale frame. |
+| Browser page | Candidate `2db5f849...` with host `12c275e7...` passes HTTP 14/14 and TLS 17/17, normal shutdown, verified certificate rejection/restoration, actual video motion/pause and all eight named PCM control windows in each run. Separate MP3 660 Hz checks also pass. Earlier host `ff218...` dropouts remain archived failures. |
 
 The [native-only DLL build evidence](validation-graphics/media-native/native-build/README.md)
 and [lossless PCM captures](validation-graphics/media-native/audio/README.md)
@@ -111,18 +113,28 @@ uses the earlier DLL package and is not attributed to the newer package.
 The [first HTML integration failure](validation-graphics/media-browser/first-failure/README.md)
 is retained with its original identities and failure status.
 
-These observations do not constitute a complete media acceptance result.
-The [host evidence](validation-graphics/media-host/README.md) includes the
-fixture hashes and a Chromium sanity run. Chromium passes 13/14 groups but
-waits on the deliberately truncated response; the Symbian curl path must
-still propagate that partial-transfer failure. This requirement is not waived.
+Acceptance covers the listed fixtures and controls on the recorded emulator
+and browser images. The [host evidence](validation-graphics/media-host/README.md)
+includes fixture hashes and the earlier Chromium sanity run, which passed
+13/14 but waited on the deliberately truncated response. Both completed
+Symbian suites now verify that the curl path reports this partial-transfer
+failure; the requirement was not waived.
 
-The [clean-host Utility2 evidence](validation-graphics/media-native/video-clean/evidence.json)
+The [updated Utility2 evidence](validation-graphics/media-native/video-prefetch12c275/evidence.json)
 records the real surface callbacks, changing pixels and removal. The
 [native URL checks](validation-graphics/media-native/url-clean/README.md)
 record precise HTTP/TLS errors and a successful three-second post-Close
 cancellation observation, covering the delayed response.
-Browser integration remains a separate outstanding check. The [audio startup investigation](validation-graphics/audio-startup/README.md)
+The [HTTP candidate](validation-graphics/media-browser/candidate-http2db5-12c275/README.md)
+and [TLS candidate](validation-graphics/media-browser/candidate-tls2db5-12c275/README.md)
+retain exact identities, fresh reports, unmodified screenshots and complete
+lossless captures. Earlier JIT crashes and the LLInt 13/14 ended-event fixture
+failure remain historical failures; the later fixture correction does not
+rewrite their results. The [prefetch investigation](validation-graphics/media-browser/progressive-read-ahead/README.md)
+reproduces the old short-packet failure and verifies that decoding audio inside
+the reader loop enforces its existing bound. Permanent truncations still fail;
+the real stalled-transfer recovery remains covered by both page suites.
+The [audio startup investigation](validation-graphics/audio-startup/README.md)
 retains the same-image cold-sink failures and PCM-ready success. The private
 Pulse null sink renders a two-second idle block, so validation waits for actual
 monitor PCM before launching the guest. This establishes the measurement

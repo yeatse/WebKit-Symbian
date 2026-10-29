@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "failure": null,
+  "probe": "mmf",
+  "image_sha256": "5fb5a4af823a406a12e5992d47332816bbf665964484498570f38a25c26895cc",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "emulator_patch_assets": {
+    "mediaclientaudio_general.dll": {
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+      "bytes": 72620
+    },
+    "mediaclientaudio.dll.map": {
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "bytes": 48796
+    },
+    "mediaclientvideo_v100.dll": {
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+      "bytes": 52556
+    },
+    "mediaclientvideo.dll.map": {
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "bytes": 11393
+    }
+  },
+  "arguments": [
+    "video",
+    "file",
+    "C:/Data/native-mmf-fixtures/video.mp4",
+    "10000",
+    "--surface-events"
+  ],
+  "host_exit": 0,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "native-mmf",
+    "version": 1,
+    "mode": "video",
+    "transport": "file",
+    "passed": 16,
+    "failed": 0,
+    "openCallbacks": 1,
+    "prepareCallbacks": 1,
+    "playCallbacks": 0,
+    "resourceCallbacks": 0,
+    "positionAdvances": 2,
+    "cancelled": false
+  },
+  "guest_log": "mmf-probe.log",
+  "screenshots": [
+    "screenshot-1.png",
+    "screenshot-2.png"
+  ],
+  "audio": "audio.flac",
+  "final_screenshot": "screenshot-final.png",
+  "audio_format": "s16le/48000Hz/stereo",
+  "audio_capture_timing": {
+    "recorder_start_monotonic": 31802.851284204,
+    "first_pcm_ready_monotonic": 31804.283960352,
+    "ready_bytes": 19200,
+    "emulator_launch_monotonic": 31804.283961294,
+    "host_exit_observed_monotonic": 31816.078125952,
+    "tail_start_bytes": 2280312,
+    "tail_ready_monotonic": 31816.259580887,
+    "tail_bytes": 38400,
+    "capture_end_monotonic": 31816.260794464
+  },
+  "audio_archive_note": "Lossless archive; original decoded PCM format and hash recorded separately."
+}

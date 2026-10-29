@@ -3,3 +3,4 @@ browser-final/*/emulator.log -text -whitespace
 browser-installed/*/emulator.log -text -whitespace
 compositing-text/*/emulator.log -text -whitespace
 media-browser/partial-http-d844/crash-excerpt.log -text -whitespace
+media-browser/historical-icfix86877/crash-excerpt.log -text -whitespace

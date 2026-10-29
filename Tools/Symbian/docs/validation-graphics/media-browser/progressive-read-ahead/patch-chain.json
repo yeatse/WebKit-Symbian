@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "base_commit": "5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a",
+  "patches": [
+    {
+      "patch": "0001-qt-Add-installdevice-to-install-a-device-from-the-co.patch",
+      "sha256": "0c318c8cd5f9a2d8f4ac5b5db632ff47a8bdb82c54589b58451cf846fedb79aa",
+      "status": "PASS"
+    },
+    {
+      "patch": "0005-kernel-dump-registers-and-stack-of-threads-that-pani.patch",
+      "sha256": "9a380025f1b03949dae9a1eac4c3ceffe937c4c6e8d15b656b27f888fef98cd9",
+      "status": "PASS"
+    },
+    {
+      "patch": "0006-Observe-message-window-canvas-destruction.patch",
+      "sha256": "c436e0f8ed23b0bc8d916f17b034d4513c047ba3ed655b50f8483906351d6005",
+      "status": "PASS"
+    },
+    {
+      "patch": "0007-Avoid-property-notifications-during-kernel-wipeout.patch",
+      "sha256": "8abad9f2defb476ac273b5621534266499453fdd4fc46dc904ad5e0b5c04a31d",
+      "status": "PASS"
+    },
+    {
+      "patch": "0008-Make-RFile-writes-visible-to-file-metadata-queries.patch",
+      "sha256": "0ba2faed1a01feb0b3fb6db8e84aebe99caf8d926a9adf98a634795d5d16e47e",
+      "status": "PASS"
+    },
+    {
+      "patch": "0009-Implement-EGL-GLES2-queries-and-program-validation.patch",
+      "sha256": "907519155ebe44a757c98c9c0fcfb1d2aa5aafb492a8ab46a6426a1a1d26cb96",
+      "status": "PASS"
+    },
+    {
+      "patch": "0010-Implement-asynchronous-MMF-URL-media-and-surface-lifetimes.patch",
+      "sha256": "4ef7ac65bb0f42ed18b3f67561996183bcf2fb1012ae3ac53e58928e77497bec",
+      "status": "PASS"
+    },
+    {
+      "patch": "0011-Load-native-desktop-GL-shader-precision-functions.patch",
+      "sha256": "aeb303b87da282c8d8cf8bf12bf02dc085067c62dc032720e2e66b7e6ce2b869",
+      "status": "PASS"
+    },
+    {
+      "patch": "0012-Retain-generated-GLES-guest-object-names.patch",
+      "sha256": "434e99fe86df4c258d374cbbba750f0fe98fcda06a37a00e45caab6dbb16c848",
+      "status": "PASS"
+    },
+    {
+      "patch": "0013-Avoid-invalid-object-lookup-for-default-framebuffer-reads.patch",
+      "sha256": "a44d70d23dae071ab6c890cdaa358e81acc1d7fcb3aeadf7aafe1efd05b3d2b8",
+      "status": "PASS"
+    },
+    {
+      "patch": "0014-Query-current-GLES-viewport-in-guest-coordinates.patch",
+      "sha256": "1810f339294fc538ed4b2a46c9701c286a4648b3924d1eff46e43c0ce24e7a54",
+      "status": "PASS"
+    },
+    {
+      "patch": "0015-Make-audio-pause-state-and-position-accounting-thread-safe.patch",
+      "sha256": "8dca4815876caf77488499c3459b1f0641fd319c7711b23e4be954c40c64f06d",
+      "status": "PASS"
+    },
+    {
+      "patch": "0016-Support-depth-only-framebuffers-and-attachment-detach.patch",
+      "sha256": "61cf4a190e8f5bee785d23ddb13aacc4ca286a5cec6c99e3b1446b61b3ed539f",
+      "status": "PASS"
+    },
+    {
+      "patch": "0017-Fill-decoded-audio-while-reading-video-packets.patch",
+      "sha256": "3f2e57338948271b251d7d3c1d3ae71557f5a9b44ccc2eea06d731d191f67ad3",
+      "status": "PASS"
+    }
+  ],
+  "patched_video_source_sha256": "200229c34d160fb434f589f522a4831ffcf5267981e017ded2d1cd78165cbe51",
+  "source_matches_live_tree": true
+}

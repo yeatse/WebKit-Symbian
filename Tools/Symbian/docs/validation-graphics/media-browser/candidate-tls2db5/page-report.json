@@ -1,0 +1,1199 @@
+{
+  "suite": "media",
+  "run": "e014b57e7b724f90b7d0c3b4c92f95fa",
+  "mode": "http-tls",
+  "results": [
+    {
+      "name": "format rejection",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "WAV playback controls",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "MP3 playback",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "MP4 video controls",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "natural end notification",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "invalid media error",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTP redirect playback",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTP missing media error",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "source replacement during open",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cancel pending open",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "progressive playback before completion",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "stalled download resumes playback",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "tail index waits for complete file",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "truncated HTTP media error",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTPS trusted playback",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTPS wrong hostname rejected",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTPS untrusted root rejected",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "trace": [
+    {
+      "event": "emptied",
+      "at": 3000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 3999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 4000,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 4000,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/audio.wav",
+        "ready": 4,
+        "network": 1,
+        "paused": true,
+        "seeking": false,
+        "time": 0,
+        "duration": 11.989415986780582,
+        "error": 0
+      },
+      "at": 4999
+    },
+    {
+      "event": "playing",
+      "at": 4999,
+      "time": 0.109818,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/audio.wav",
+        "ready": 4,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 0.112562,
+        "duration": 11.989415986780582,
+        "error": 0
+      },
+      "at": 4999
+    },
+    {
+      "event": "pause",
+      "at": 6999,
+      "time": 1.984058,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "seeking",
+      "at": 7999,
+      "time": 4.001632,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "seeked",
+      "at": 7999,
+      "time": 4.001632,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/audio.wav",
+        "ready": 4,
+        "network": 1,
+        "paused": true,
+        "seeking": false,
+        "time": 4.001632,
+        "duration": 11.989415986780582,
+        "error": 0
+      },
+      "at": 8999
+    },
+    {
+      "event": "playing",
+      "at": 8999,
+      "time": 4.01687,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/audio.wav",
+        "ready": 4,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 4.019523,
+        "duration": 11.989415986780582,
+        "error": 0
+      },
+      "at": 8999
+    },
+    {
+      "event": "emptied",
+      "at": 12000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 12000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 12000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 12000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 12000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/audio.mp3",
+        "ready": 3,
+        "network": 1,
+        "paused": true,
+        "seeking": false,
+        "time": 0,
+        "duration": 12.043209307155621,
+        "error": 0
+      },
+      "at": 12999
+    },
+    {
+      "event": "playing",
+      "at": 12999,
+      "time": 0.017732,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/audio.mp3",
+        "ready": 3,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 0.019795,
+        "duration": 12.043209307155621,
+        "error": 0
+      },
+      "at": 12999
+    },
+    {
+      "event": "emptied",
+      "at": 16000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 16000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 16000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 16000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 16000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/video.mp4",
+        "ready": 3,
+        "network": 2,
+        "paused": true,
+        "seeking": false,
+        "time": 0,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 16999
+    },
+    {
+      "event": "playing",
+      "at": 17000,
+      "time": 0.2,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/video.mp4",
+        "ready": 3,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 0.2,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 17000
+    },
+    {
+      "event": "waiting",
+      "at": 18000,
+      "time": 1.066667,
+      "ready": 2,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 18000,
+      "time": 1.066667,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 18000,
+      "time": 1.133333,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "pause",
+      "at": 18999,
+      "time": 1.533333,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "seeking",
+      "at": 19999,
+      "time": 4,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "seeked",
+      "at": 19999,
+      "time": 4,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/video.mp4",
+        "ready": 4,
+        "network": 1,
+        "paused": true,
+        "seeking": false,
+        "time": 4,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 20999
+    },
+    {
+      "event": "playing",
+      "at": 20999,
+      "time": 4.066667,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/video.mp4",
+        "ready": 4,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 4.066667,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 20999
+    },
+    {
+      "event": "emptied",
+      "at": 24000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 24000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 24000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 24000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 24000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "seeking",
+      "at": 24999,
+      "time": 11,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "seeked",
+      "at": 24999,
+      "time": 11,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/video.mp4",
+        "ready": 3,
+        "network": 1,
+        "paused": true,
+        "seeking": false,
+        "time": 11,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 25999
+    },
+    {
+      "event": "playing",
+      "at": 25999,
+      "time": 11.266667,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/video.mp4",
+        "ready": 3,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 11.266667,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 25999
+    },
+    {
+      "event": "pause",
+      "at": 26000,
+      "time": 12,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "ended",
+      "at": 26000,
+      "time": 12,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 26999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 26999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 26999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 27000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "error",
+      "at": 27000,
+      "time": 0,
+      "ready": 0,
+      "error": 4
+    },
+    {
+      "event": "emptied",
+      "at": 27999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 27999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 28000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 28000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 28000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/redirect-video.mp4",
+        "ready": 3,
+        "network": 1,
+        "paused": true,
+        "seeking": false,
+        "time": 0,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 28999
+    },
+    {
+      "event": "playing",
+      "at": 28999,
+      "time": 0.066667,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/redirect-video.mp4",
+        "ready": 3,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 0.066667,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 28999
+    },
+    {
+      "event": "emptied",
+      "at": 30000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 30000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 30000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 30000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "error",
+      "at": 30000,
+      "time": 0,
+      "ready": 0,
+      "error": 4
+    },
+    {
+      "event": "emptied",
+      "at": 31000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 31000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 31000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 31999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 31999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 31999,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 31999,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/audio.mp3",
+        "ready": 3,
+        "network": 1,
+        "paused": true,
+        "seeking": false,
+        "time": 0,
+        "duration": 12.043209307155621,
+        "error": 0
+      },
+      "at": 32999
+    },
+    {
+      "event": "playing",
+      "at": 32999,
+      "time": 0.073333,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/audio.mp3",
+        "ready": 3,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 0.075714,
+        "duration": 12.043209307155621,
+        "error": 0
+      },
+      "at": 32999
+    },
+    {
+      "event": "emptied",
+      "at": 37000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 37000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 37000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 37999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 41000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 41000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 41000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 41999,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 41999,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/slow-video.mp4?token=e014b57e7b724f90b7d0c3b4c92f95fa-progressive",
+        "ready": 3,
+        "network": 2,
+        "paused": true,
+        "seeking": false,
+        "time": 0,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 42999
+    },
+    {
+      "event": "playing",
+      "at": 42999,
+      "time": 0.066667,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/slow-video.mp4?token=e014b57e7b724f90b7d0c3b4c92f95fa-progressive",
+        "ready": 3,
+        "network": 2,
+        "paused": false,
+        "seeking": false,
+        "time": 0.066667,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 42999
+    },
+    {
+      "progressive": {
+        "started": true,
+        "sent": 245760,
+        "total": 710764,
+        "complete": false,
+        "cancelled": false,
+        "stalling": false
+      },
+      "position": 1.133333
+    },
+    {
+      "event": "emptied",
+      "at": 43999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 43999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 44000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 44000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 44000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/stall-video.mp4?token=e014b57e7b724f90b7d0c3b4c92f95fa-stall",
+        "ready": 3,
+        "network": 2,
+        "paused": true,
+        "seeking": false,
+        "time": 0,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 44999
+    },
+    {
+      "event": "playing",
+      "at": 44999,
+      "time": 0.066667,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/stall-video.mp4?token=e014b57e7b724f90b7d0c3b4c92f95fa-stall",
+        "ready": 3,
+        "network": 2,
+        "paused": false,
+        "seeking": false,
+        "time": 0.066667,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 44999
+    },
+    {
+      "event": "waiting",
+      "at": 46999,
+      "time": 2.066667,
+      "ready": 2,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 50999,
+      "time": 2.066666,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 50999,
+      "time": 2.133333,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "stallPosition": 2.066667,
+      "resumedPosition": 3.066667,
+      "waiting": 1
+    },
+    {
+      "event": "emptied",
+      "at": 52000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 52000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 52000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 59999,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 59999,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "http://localhost:8775/slow-video-tail-index.mp4?token=e014b57e7b724f90b7d0c3b4c92f95fa-tail",
+        "ready": 4,
+        "network": 1,
+        "paused": true,
+        "seeking": false,
+        "time": 0,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 60999
+    },
+    {
+      "event": "playing",
+      "at": 60999,
+      "time": 0.066667,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "http://localhost:8775/slow-video-tail-index.mp4?token=e014b57e7b724f90b7d0c3b4c92f95fa-tail",
+        "ready": 4,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 0.066667,
+        "duration": 12,
+        "error": 0
+      },
+      "at": 60999
+    },
+    {
+      "event": "emptied",
+      "at": 61999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 61999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 61999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 62000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 62000,
+      "time": 0.066667,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 62000,
+      "time": 0.066667,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 62000,
+      "time": 0.066667,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "error",
+      "at": 62000,
+      "time": 0,
+      "ready": 3,
+      "error": 2
+    },
+    {
+      "event": "emptied",
+      "at": 62999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 62999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 63000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 63000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 63000,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playRequested": {
+        "source": "https://localhost:8776/audio.wav",
+        "ready": 3,
+        "network": 1,
+        "paused": true,
+        "seeking": false,
+        "time": 0,
+        "duration": 11.986597924987793,
+        "error": 0
+      },
+      "at": 63999
+    },
+    {
+      "event": "playing",
+      "at": 63999,
+      "time": 0.089773,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "playResolved": {
+        "source": "https://localhost:8776/audio.wav",
+        "ready": 3,
+        "network": 1,
+        "paused": false,
+        "seeking": false,
+        "time": 0.091473,
+        "duration": 11.986597924987793,
+        "error": 0
+      },
+      "at": 63999
+    },
+    {
+      "event": "emptied",
+      "at": 65000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 65000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 65000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 65000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "error",
+      "at": 65000,
+      "time": 0,
+      "ready": 0,
+      "error": 4
+    },
+    {
+      "event": "emptied",
+      "at": 65999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 65999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 65999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 66000,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "error",
+      "at": 66000,
+      "time": 0,
+      "ready": 0,
+      "error": 4
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "fixture": {
+    "name": "video.mp4",
+    "bytes": 710764,
+    "sha256": "8e1a6daf8220ce796b29e6cf5db328e1362186c3d5df42974bb1828c2cb8cb85"
+  },
+  "ffmpeg_commit": "569633bfe198554354afefa59859a871ee28e551",
+  "libraries": {
+    "libavformat.a": "259daa2cc775c135e7bf1485d91a6265c2766c596494d13baf8fc1d2f7b443ab",
+    "libavcodec.a": "f9c2fc441fcb7907c3086296fa1ccb56794a47f301d736d208b9a059bf17cc68",
+    "libavutil.a": "b913c82c0a2335fb19c06de0a4fe66dc00c677802634a3670f9e8cf494e6070e"
+  },
+  "opencore_amrnb_sha256": "05bafe80364fb2424a243d0369c7ff2065063b8f093cb9c25399e7dd3d947356",
+  "sources_and_evidence_sha256": {
+    "read-ahead-ffmpeg.log": "a922649af36ccff9ba301e847a3d4301d50973661c4a48a35da3dde5050c8f3a",
+    "run-host-probes.sh": "61172fca3cd09abbfb6edc9cab7f6830878161601aa7d721f2d10459f85bf7b1",
+    "partial-packet.c": "a7095a32a3a7d004178e02aec889ace19dd37106db3efcec9c9e799820beb8e2",
+    "README.md": "41fe4640f26d73b570483468c75bd2581fa9181a52f2947f7981f6c2f9496482",
+    "read-ahead.jsonl": "6582e80a22e65026b35b6f1015dcb31638c8811b33dc76e2306cf8686342c261",
+    "partial-packet-ffmpeg.log": "7a32096788213bd4ba0c5eaf6817bb510b85e53b44d13247efdf7be20a81c254",
+    "read-ahead.cpp": "2b586c62a3199c5bde54070d6eca583582b68430b8cfb065a2e0f1b667df5084",
+    "patch-chain.json": "e062297ae5e77a530c993008eace57ed971cdbff6968fb8567ed5a856e419441",
+    "partial-packet.jsonl": "6dc58a970afdbb39cebeb03b95059b25aa3561261ffa7499e61531830788b63d"
+  },
+  "limits": "Deterministic host demux/decode model; realtime guest PCM still requires emulator verification."
+}

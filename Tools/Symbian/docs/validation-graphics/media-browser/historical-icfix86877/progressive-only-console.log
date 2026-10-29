@@ -1,0 +1,170 @@
+16:57:35.603 WebKit Browser starting
+16:57:35.619 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+16:57:37.259 load file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10
+Symbian compositor: native EGL/GLES2 presented 360x532
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG BEGIN run=progressive-icfix-ten-20261029 iterations=10
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+16:57:41.588 network: connected through "Host network"
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+Symbian compositor: native video window requires software painting
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 event playing {"ready":3,"network":2,"paused":false,"time":0.266667,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 play resolved {"ready":3,"network":2,"paused":false,"time":0.266667,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 progressive {"ready":3,"network":2,"paused":false,"time":1.4,"error":0} {"started":true,"sent":196608,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 0 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 event playing {"ready":3,"network":2,"paused":false,"time":0.2,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 play resolved {"ready":3,"network":2,"paused":false,"time":0.2,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 progressive {"ready":3,"network":2,"paused":false,"time":1.133333,"error":0} {"started":true,"sent":212992,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 1 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 event playing {"ready":3,"network":2,"paused":false,"time":0.266667,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 play resolved {"ready":3,"network":2,"paused":false,"time":0.266667,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 progressive {"ready":3,"network":2,"paused":false,"time":1.266667,"error":0} {"started":true,"sent":229376,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 2 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 event playing {"ready":3,"network":2,"paused":false,"time":0.133333,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 play resolved {"ready":3,"network":2,"paused":false,"time":0.133333,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 progressive {"ready":3,"network":2,"paused":false,"time":1.133333,"error":0} {"started":true,"sent":229376,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 3 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 event playing {"ready":3,"network":2,"paused":false,"time":0.133333,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 play resolved {"ready":3,"network":2,"paused":false,"time":0.133333,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 progressive {"ready":3,"network":2,"paused":false,"time":1.133333,"error":0} {"started":true,"sent":245760,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 4 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 event playing {"ready":3,"network":2,"paused":false,"time":0.2,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 play resolved {"ready":3,"network":2,"paused":false,"time":0.2,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 progressive {"ready":3,"network":2,"paused":false,"time":1.066667,"error":0} {"started":true,"sent":245760,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 5 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 event playing {"ready":3,"network":2,"paused":false,"time":0.133333,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 play resolved {"ready":3,"network":2,"paused":false,"time":0.133333,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 progressive {"ready":3,"network":2,"paused":false,"time":1,"error":0} {"started":true,"sent":180224,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 6 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 event playing {"ready":3,"network":2,"paused":false,"time":0.133333,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 play resolved {"ready":3,"network":2,"paused":false,"time":0.133333,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 progressive {"ready":3,"network":2,"paused":false,"time":1.066667,"error":0} {"started":true,"sent":163840,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 7 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 event playing {"ready":3,"network":2,"paused":false,"time":0.2,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 play resolved {"ready":3,"network":2,"paused":false,"time":0.2,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 progressive {"ready":3,"network":2,"paused":false,"time":1.133333,"error":0} {"started":true,"sent":262144,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 create
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 8 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 event loadstart {"ready":0,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 event loadedmetadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 event canplay {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 metadata {"ready":3,"network":2,"paused":true,"time":0,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 event playing {"ready":3,"network":2,"paused":false,"time":0.2,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 play resolved {"ready":3,"network":2,"paused":false,"time":0.2,"error":0}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 progressive {"ready":3,"network":2,"paused":false,"time":1.133333,"error":0} {"started":true,"sent":245760,"total":710764,"complete":false,"cancelled":false,"stalling":false}
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 cleanup pause before
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 cleanup pause after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 cleanup remove-src after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 cleanup load after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 cleanup remove-node after
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 iteration returned
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG PASS progressive-cleanup 10/10
+console: file:///C:/Data/WebKit/media-progressive-diagnostic.html?run=progressive-icfix-ten-20261029&iterations=10:13: MEDIA-DIAG 9 event emptied {"ready":0,"network":3,"paused":true,"time":0,"error":0}

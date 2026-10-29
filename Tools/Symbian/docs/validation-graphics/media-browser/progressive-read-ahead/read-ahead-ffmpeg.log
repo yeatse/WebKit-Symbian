@@ -1,0 +1,27 @@
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0x561b32cb7780] Packet corrupt (stream = 0, dts = 17408).
+[h264 @ 0x561b32d54680] Invalid NAL unit size (2437 > 813).
+[h264 @ 0x561b32d54680] missing picture in access unit with size 817
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0x561b32cb7780] stream 1, offset 0x10658: partial file
+[h264 @ 0x561b32cc7f80] Invalid NAL unit size (2437 > 813).
+[h264 @ 0x561b32cc7f80] Error splitting the input into NAL units.
+[aac @ 0x561b32cc7f80] Could not update timestamps for discarded samples.
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0x561b32cb7780] Packet corrupt (stream = 0, dts = 17408).
+[h264 @ 0x561b32cc7f80] Invalid NAL unit size (2437 > 813).
+[h264 @ 0x561b32cc7f80] missing picture in access unit with size 817
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0x561b32cb7780] stream 1, offset 0x10658: partial file
+[h264 @ 0x561b32d10680] Invalid NAL unit size (2437 > 813).
+[h264 @ 0x561b32d10680] Error splitting the input into NAL units.
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0x561b32cb7780] Packet corrupt (stream = 0, dts = 22528).
+[h264 @ 0x561b32d54680] Invalid NAL unit size (2162 > 1561).
+[h264 @ 0x561b32d54680] missing picture in access unit with size 1565
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0x561b32cb7780] stream 1, offset 0x1417c: partial file
+[h264 @ 0x561b32cc7f80] Invalid NAL unit size (2162 > 1561).
+[h264 @ 0x561b32cc7f80] Error splitting the input into NAL units.
+[aac @ 0x561b32cc7f80] Could not update timestamps for discarded samples.
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0x561b32cb7780] Packet corrupt (stream = 0, dts = 22528).
+[h264 @ 0x561b32cc7f80] Invalid NAL unit size (2162 > 1561).
+[h264 @ 0x561b32cc7f80] missing picture in access unit with size 1565
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0x561b32cb7780] stream 1, offset 0x1417c: partial file
+[h264 @ 0x561b32d10680] Invalid NAL unit size (2162 > 1561).
+[h264 @ 0x561b32d10680] Error splitting the input into NAL units.
+[aac @ 0x561b32d10680] Could not update timestamps for discarded samples.

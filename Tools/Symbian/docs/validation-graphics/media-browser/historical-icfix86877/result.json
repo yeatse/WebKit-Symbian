@@ -1,0 +1,92 @@
+{
+  "status": "FAIL",
+  "started": "2026-10-29T16:58:44.903390+00:00",
+  "browser_sha256": "86877e0a4c5671f87b49777034dd9f4d3e5a16597f5c0c69ac987369ef338d72",
+  "fixtures": {
+    "version": 1,
+    "durationSeconds": 12,
+    "audioFrequenciesHz": {
+      "audio.wav": 440,
+      "audio.mp3": 660,
+      "video.mp4": 880
+    },
+    "files": {
+      "audio.mp3": {
+        "bytes": 144866,
+        "sha256": "71add7033502a35665ea6c00a066ede3d4f710b2459b805125a49aee7a4cfc29",
+        "streams": [
+          {
+            "codec_name": "mp3",
+            "codec_type": "audio",
+            "sample_rate": "44100",
+            "channels": 1
+          }
+        ],
+        "duration": "12.042449"
+      },
+      "audio.wav": {
+        "bytes": 1058478,
+        "sha256": "4c8c2c6042664865a4ca8deca7c8887e54672c07a04378e116559fb4f8e8eee0",
+        "streams": [
+          {
+            "codec_name": "pcm_s16le",
+            "codec_type": "audio",
+            "sample_rate": "44100",
+            "channels": 1
+          }
+        ],
+        "duration": "12.000000"
+      },
+      "unsupported.mp4": {
+        "bytes": 44,
+        "sha256": "2d31f7a223d03e7a98813f6a7f9b4babdf80940500d9123012d530da3de8a107"
+      },
+      "video-tail-index.mp4": {
+        "bytes": 710764,
+        "sha256": "a654869a7f0a5597576c54d34dfe6e8f4b72b2a93bb1bdf6e14a83e6cf05c7f5",
+        "streams": [
+          {
+            "codec_name": "h264",
+            "profile": "Constrained Baseline",
+            "codec_type": "video",
+            "width": 320,
+            "height": 180
+          },
+          {
+            "codec_name": "aac",
+            "profile": "LC",
+            "codec_type": "audio",
+            "sample_rate": "44100",
+            "channels": 1
+          }
+        ],
+        "duration": "12.000000"
+      },
+      "video.mp4": {
+        "bytes": 710764,
+        "sha256": "8e1a6daf8220ce796b29e6cf5db328e1362186c3d5df42974bb1828c2cb8cb85",
+        "streams": [
+          {
+            "codec_name": "h264",
+            "profile": "Constrained Baseline",
+            "codec_type": "video",
+            "width": 320,
+            "height": 180
+          },
+          {
+            "codec_name": "aac",
+            "profile": "LC",
+            "codec_type": "audio",
+            "sample_rate": "44100",
+            "channels": 1
+          }
+        ],
+        "duration": "12.000000"
+      }
+    }
+  },
+  "presentation_verified": false,
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "error": "media: browser driver exited 1; see launcher.log",
+  "finished": "2026-10-29T16:59:31.653173+00:00"
+}

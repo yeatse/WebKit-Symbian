@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "browser_sha256": "2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd",
+  "source": "unmodified screenshots; fixed video-only interior selected before this run",
+  "rectangle_xyxy": [
+    274,
+    136,
+    390,
+    190
+  ],
+  "pairs": [
+    {
+      "phase": "playing",
+      "images": [
+        "video-01.png",
+        "video-02.png"
+      ],
+      "different_rgb_channels": 3940,
+      "expected_change": true,
+      "pass": true
+    },
+    {
+      "phase": "paused",
+      "images": [
+        "video-03.png",
+        "video-04.png"
+      ],
+      "different_rgb_channels": 0,
+      "expected_change": false,
+      "pass": true
+    },
+    {
+      "phase": "unmuted",
+      "images": [
+        "video-06.png",
+        "video-07.png"
+      ],
+      "different_rgb_channels": 6193,
+      "expected_change": true,
+      "pass": true
+    }
+  ],
+  "visual_review": "Actual color bars and moving fixture timestamp visible in full screenshot; paused pair is byte-identical in video interior. Native video uses software-painted browser alpha hole, not simultaneous GPU page composition."
+}

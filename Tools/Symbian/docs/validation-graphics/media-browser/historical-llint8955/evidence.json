@@ -1,0 +1,28 @@
+{
+  "status": "FAIL",
+  "source_run": "browser-20261029T164803Z-i6vwoxf2",
+  "source_output": "browser-media-http-llint8955-ff218",
+  "original_files_sha256": {
+    "console": "f3269bee7cca65a89a59fbd227a3ac3ce251b96902104bbb3933ba1c8ad71048",
+    "emulator": "76cc3fa80d1c66a0c0c0a41826333f395c9680cd7a3b0b74d566a061a5758c00",
+    "launcher": "10f44f2eba7679810e1a8c740d627eebbee64a8fa53077f66f9244092af01469",
+    "result": "f2347ec311cae375d2711e077bdaa12003fda17f610a27193e35e830026174a3",
+    "observation": "29f43244406fe540e2e2e7bf24c2ba58e72cf1139fa904477cb92204f19b8030"
+  },
+  "artifacts": {
+    "console.log": "f3269bee7cca65a89a59fbd227a3ac3ce251b96902104bbb3933ba1c8ad71048",
+    "page-report.json": "d9ee63000c77c869c1ab4c4a57d133990b61a7e4498c58b54ad37008aadb647e",
+    "result.json": "8099a5ffee2ec7d150fda577c62a39ed78e66f95aef0be41bf01fde3e6a0b317",
+    "launcher.log": "c5ed22891818acaf7a63955508592670b15bbf040565c43d7a2131fc1d1f0931",
+    "audio-control-analysis.json": "7b3a7e3eaeb99b58e92f9b1f7b977e78d6017ee85d2f78eae8c9887fbe6ed405",
+    "observation.json": "23a7e237d71e0597133ee7fc41bb63e880620bdf10fc2dd433dcdf8d71c4d33e",
+    "README.md": "8e1e14fca7608aa0e4ec0a6f981c2ff328c53455da401fe8285928b71974e7c5"
+  },
+  "scope": "All 14 groups reached; original natural-end fixture fails and overall result remains FAIL. LLInt diagnostic only, not JIT acceptance.",
+  "page_groups": 14,
+  "page_passed": 13,
+  "jit": false,
+  "access_violation_in_log": false,
+  "fixture": "Original ended-property polling; no launch-time fixture SHA was recorded. The later event-wait fix does not retroactively pass this run.",
+  "pcm": "All 8 named control windows pass unchanged analysis; does not override overall suite failure."
+}

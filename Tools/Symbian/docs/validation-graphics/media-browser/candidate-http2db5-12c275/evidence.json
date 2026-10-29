@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "scope": "HTTP14, real video motion/pause and all 8 named PCM controls plus MP3 tone pass with prefetch fix 0017.",
+  "source_run": "browser-20261029T173607Z-6si599_t",
+  "browser_sha256": "2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "icu_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+  "fixture_page_sha256": "e46cf9432c9a26d8394ee59dab6b69590664d1b87135f33bfcbc29de87a070e8",
+  "run_token": "0a7e5313968f411ea85f356aa082997a",
+  "groups": 14,
+  "passed": 14,
+  "driver_exit": 0,
+  "access_violation_or_kern_exec_in_host_log": false,
+  "native_dlls": {
+    "verification": "operator_verified: eka_setup checked prelaunch sha256sum output; not automatically included by the runner",
+    "audio_sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+    "video_sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+  },
+  "acceptance": {
+    "api": "PASS",
+    "pixels": "PASS",
+    "named_pcm_windows": "PASS",
+    "mp3_tone": "PASS"
+  },
+  "pixel_comparison": {
+    "box_ltrb": [
+      274,
+      137,
+      390,
+      185
+    ],
+    "pixels": 5568,
+    "unit": "RGB pixels with any differing channel",
+    "playing_different_pixels": 1142,
+    "paused_different_pixels": 0,
+    "resumed_different_pixels": 2140
+  },
+  "pcm": {
+    "named_windows_passed": 8,
+    "named_windows_total": 8,
+    "raw_sha256": "eecc9a1795b49fc1e9839814230f9b8528c995be3a23950ec4a157199b475a3d",
+    "interior_video_gaps": [],
+    "scope": "Named control windows only; full capture preserved, including expected stalls/source changes/idle."
+  },
+  "original_files_sha256": {
+    "result": "c36b3caabc4d77a7b442cc52cfa2122d71e07a44ead8dd16b9931ef92ada9890",
+    "observation": "4a1df8ab3e5143cea493d92c38b715de499733d532a44127a41f51a93459fb04",
+    "emulator_log": "55a19df407714b78b394e016f485381320fa925054de77b780931242de7deaeb",
+    "audio_flac_verification": "076667c749ba83b712dc31f60b4f2196675be68290130e44c473e6143c5d77d7"
+  },
+  "artifacts": {
+    "audio-flac-verification.json": "c999e31fa0dea49a8b41bd6d008e36e24654e7a7b33fc74d881b1bc3a143ae08",
+    "console.log": "be673229d446bfd4cebd80d0ddf8624a98dd878a82367f2dffa7fbcc463aac9b",
+    "page-report.json": "74e2dc503834b5afa677d68ac3da335392fa48797a4603bac32e5e67d6b135a6",
+    "audio.flac": "4808eae13b76101d08ea0911b94c346c16b3eefe0baf9e8e042314095f5fe34e",
+    "result.json": "c97b3d890dec8425daab81257145c47cb41d07db799dc9bd8a34886efc853ffd",
+    "video-03.png": "e703843f743ce6bb463ca7b3c687c6242a06f7f100689a4565aa3126cbdc50fd",
+    "video-04.png": "943de305570bef015481efebf873818d19523fac3c39c4b8648be479a9ccd386",
+    "video-06.png": "fa69324d78722911cac6cbbbb8f63716029a0c5bd4406eadc3f737cfe7325e83",
+    "audio-mp3-observation.json": "f40e92ac5e5cc18e14872a29db9fce41f7f075eec0b66971599b96147f8abf96",
+    "audio-control-analysis.json": "7d8b7ad5b945e7d6edf0ef076767f0031f65507096c5f1918782ef1badb4a951",
+    "observation.json": "3574b5557764de8a1c2c937059d2716ad54de0a7b4173505ca07b7b17d366692",
+    "video-01.png": "e23fc396b7c5951514df48426e07293b67c5e7d6483541f484d90d4a3821df0e",
+    "browser-final.png": "831fa0842f8bb34f0afc20a79deebd6b65f094301c6727e5ac8cbf92680d3532",
+    "video-02.png": "f28c5a752d948655cd0f92863aac97d1c8f5822055a03f7ec4064b3a4b9a2c3c",
+    "video-05.png": "2ea35074b3135926c3ccfd550da953fcada4d774b3afc100940c6186cb6d35ca",
+    "video-07.png": "a91084bd29a515d1a19b727a5dcb707b802ecc14d8840a32305809be8b6406be",
+    "README.md": "8de249e8e2ef63aa643bbe15e870c1ccbef64b886f8fedd9377b6d3976b75b8a"
+  }
+}

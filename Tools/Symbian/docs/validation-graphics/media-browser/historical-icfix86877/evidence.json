@@ -1,0 +1,37 @@
+{
+  "status": "FAIL",
+  "source_run": "browser-20261029T165845Z-6csx503g",
+  "source_output": "browser-media-http-icfix8687-ff218",
+  "original_files_sha256": {
+    "console": "c9a40ff92c4a217d143d9c912221270a07a83da6de922baabe79695a5b743d24",
+    "emulator": "fe5d33341c1eb06206e93d808cf7cde340813d6875d370af37383b70ec1c6843",
+    "launcher": "d966f3ca1a2f3055b1d8b17d4b5e8aae57584cd6706f3112e41d47577727b20a",
+    "result": "04d9d274ac0ebf9a556869c90777b327eff16b97fecc0cefa49c4ea1489e9fbb",
+    "observation": "40ad1303aea666b169dbdfb41d02e7cccccfff2b15963b249e9bc7a705de26d4"
+  },
+  "artifacts": {
+    "console.log": "c9a40ff92c4a217d143d9c912221270a07a83da6de922baabe79695a5b743d24",
+    "progressive-only-console.log": "05835965ad1648d7bd3eb0610f5c5ef3f02d822d89e6bd41b24bcb737488a663",
+    "result.json": "c362e36d21a91bd41509fa44adca34f70619f7a656695c1512a82ba5010a4c72",
+    "launcher.log": "d86d213b55a15668dc4e3ac17d323218f098017429a45bec411bfa6e43ada963",
+    "crash-excerpt.log": "79739b507ce171bb76eefb4e86d9c905c90cc9526d0c57b52d937da068274d0c",
+    "observation.json": "834ef47e420d8260e15bac38e4555604a3613a4cd04a3c8730be84bfe7a110eb",
+    "README.md": "d8cdb9185ddadc55251cb2ff85103d63d6acd42b0c0c9ce12e36d0cba8e83054"
+  },
+  "scope": "First inline-cache candidate still crashes after 11 console groups, before the full HTTP14 report.",
+  "page_passed_before_crash": 11,
+  "access_violation": "0xE1A00000",
+  "pc": "0x1bb3b600",
+  "lr": "0x1ba139f8",
+  "fixture_sha256": "e46cf9432c9a26d8394ee59dab6b69590664d1b87135f33bfcbc29de87a070e8",
+  "pcm": "Capture hash retained; no semantic PCM success claimed for this run.",
+  "progressive_only": {
+    "source_run": "browser-20261029T165734Z-4p5mhb_p",
+    "status": "PASS",
+    "completed": 10,
+    "requested": 10,
+    "original_console_sha256": "05835965ad1648d7bd3eb0610f5c5ef3f02d822d89e6bd41b24bcb737488a663",
+    "original_emulator_sha256": "5cf0849bb5b59333e0afe37bd0a3dadc667c39615fea78515345940f6a1c8938",
+    "scope": "Independent limited diagnostic passed; the subsequent complete HTTP suite still failed."
+  }
+}

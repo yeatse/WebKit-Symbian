@@ -1,0 +1,5 @@
+[mov,mp4,m4a,3gp,3g2,mj2 @ 0x55a43d8b7040] Packet corrupt (stream = 0, dts = 22528).
+[h264 @ 0x55a43d8c7ac0] Invalid NAL unit size (2162 > 1561).
+[h264 @ 0x55a43d8c7ac0] missing picture in access unit with size 1565
+[h264 @ 0x55a43d9542c0] Invalid NAL unit size (2162 > 1561).
+[h264 @ 0x55a43d9542c0] Error splitting the input into NAL units.

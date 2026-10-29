@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "source_run": "mmf-20261029T173525Z-1tg0t3z7",
+  "scope": "16 native Utility2 API/surface checks, actual video movement and removal, and strict 880 Hz PCM controls/continuity on host with patch 0017.",
+  "probe_sha256": "5fb5a4af823a406a12e5992d47332816bbf665964484498570f38a25c26895cc",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "native_dlls": {
+    "mediaclientaudio_general.dll": {
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+      "bytes": 72620
+    },
+    "mediaclientaudio.dll.map": {
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "bytes": 48796
+    },
+    "mediaclientvideo_v100.dll": {
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+      "bytes": 52556
+    },
+    "mediaclientvideo.dll.map": {
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "bytes": 11393
+    }
+  },
+  "pixel_observations": {
+    "first": "00:00:05.333 / frame 80",
+    "second": "00:00:07.400 / frame 111",
+    "closed": "Black video region, white border and no remaining frame."
+  },
+  "audio_raw_sha256": "279b99bf7bbfd7a016813a0a4af802712dcdc5cda6a08ae67ec37c2a2793c8c8",
+  "audio_reproduced": true,
+  "original_files_sha256": {
+    "result.json": "da0e11926ea78d3fd635fbb5f42a29c3b0df681df26f2d415835efb0d47ade3f",
+    "emulator.log": "e2abd431db9ede25aeabc43db47f366d941c65045cf7ff8dcace285c78116e5d",
+    "audio-analysis.json": "ebeb607c5d2a3e71865d7ff344fdf87d8f7c609c2027334ae4954b0429963d63",
+    "audio-flac-verification.json": "5f06a114d8ba641e68c0d399ed7472a80f37e7fb4f34e9bd0cf798d527210168"
+  },
+  "artifacts": {
+    "audio-flac-verification.json": "04a210fbd74e3b2d14956f03ace37f366e1e1e806b7bc1e7f6fcf2e29ef6ecdd",
+    "audio.flac": "1f99d67fecf53582b0d7e07b03dafb4c5389fcac808ceade64bd7565011350f3",
+    "result.json": "73350d38d5d9ecb5a7bd370b321d3df3a6493e63d6bd7b3896f2be0407c4e810",
+    "screenshot-final.png": "351b314334cc0e34e142e9ab66c81cbd7f9eee925579a1ffee291aca2373b422",
+    "mmf-probe.log": "9aaea5c3c4c1d4c39d823bcc3061253541b90702b871d9defea73ab388b35638",
+    "audio-analysis.json": "60ab851b46de5c2e0ccff364af224f7426b5bd1b6efc27fc2cafed6c45d7443f",
+    "screenshot-1.png": "2683927552f0da424d7945890577cefb9044e49763a4847bf0fd101f1ffa124e",
+    "screenshot-2.png": "2c38171278bf957e844ab660e81b68129b9e946cc28682cfa19f9f87af55507c",
+    "README.md": "1819425ea14a52ec2de4ee3c55858a365d97eb118d424c9425f3de8137a82a90"
+  }
+}

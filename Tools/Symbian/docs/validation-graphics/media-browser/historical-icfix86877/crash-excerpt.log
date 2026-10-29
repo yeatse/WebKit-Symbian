@@ -1,0 +1,44 @@
+I EKA2L1/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:44 [Driver.Audio]: cubeb: cubeb_pulse.c:1032:Output buffer attributes maxlength 4194304, tlength 1652, prebuf 1104, minreq 550, fragsize 551
+I EKA2L1/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:44 [Driver.Audio]: cubeb: cubeb_pulse.c:1049:Cubeb stream (0x7f100b2acdc0) init successful.
+I EKA2L1/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:44 [Driver.Audio]: cubeb: cubeb_pulse.c:1115:Cubeb stream (0x7f100b2acdc0) started successfully.
+I EKA2L1/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db-journal
+I EKA2L1/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db.lock\
+E EKA2L1/src/emu/services/src/socket/socket.cpp:46 [Service.Esock]: Unhandled base option family 1 (id 2048)
+E EKA2L1/src/emu/services/src/socket/socket.cpp:229 [Service.Esock]: Fail to set value of socket option!
+W EKA2L1/src/emu/services/include/services/context.h:100 [Service.Track]: Getting packed struct with mismatch size (12 vs 32), size to get will be automatically clamped
+T EKA2L1/src/emu/services/src/internet/protocols/socket.cpp:1164 [Service.Internet]: Send data with non-zero flags, please notice! (flag=131072)
+I EKA2L1/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:44 [Driver.Audio]: cubeb: cubeb_pulse.c:1131:Cubeb stream (0x7f100b2acdc0) stopped successfully.
+I EKA2L1/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:44 [Driver.Audio]: cubeb: cubeb_pulse.c:1082:Cubeb stream (0x7f100b2acdc0) destroyed successfully.
+I EKA2L1/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\MediaCache\webkit-media-11.mp4
+E EKA2L1/src/emu/kernel/src/kernel.cpp:384 [Kernel]: Access violation reading address 0xE1A00000 in thread WebKit
+T EKA2L1/src/emu/kernel/src/kernel.cpp:229 [Kernel]: Last instruction: str lr, [sp, #-4]! (0xe52de004)
+T EKA2L1/src/emu/kernel/src/kernel.cpp:239 [Kernel]: LR instruction: mvn r6, #0x47 (0xe3e06047)
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:35 [CPU]: CPU context: 
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:36 [CPU]: pc: 0x1bb3b600
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:37 [CPU]: lr: 0x1ba139f8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:38 [CPU]: sp: 0x57cec8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:39 [CPU]: cpsr: 0x0
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r0: 0x1faad360
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r1: 0x57ce20
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r2: 0x90227d8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r3: 0x1faad360
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r4: 0x1bb3b600
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r5: 0x1fbd59e0
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r6: 0xe1a00000
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r7: 0x8f5d744
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r8: 0x1faad360
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r9: 0x2
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r10: 0x8eb06a8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r11: 0x57cec8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r12: 0x200
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r13: 0x57cec8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r14: 0x1ba139f8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r15: 0x1bb3b600
+T EKA2L1/src/emu/kernel/src/thread.cpp:560 [Kernel]: Thread WebKit terminated peacefully with category: KERN-EXEC and exit code: 3
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x10009793: changes saved
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876E: changes saved
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876D: changes saved
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876F: changes saved
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x2001844B: changes saved
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x10272618: changes saved
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876D: changes saved

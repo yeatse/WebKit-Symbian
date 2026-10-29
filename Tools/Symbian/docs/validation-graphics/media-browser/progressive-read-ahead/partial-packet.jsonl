@@ -1,0 +1,7 @@
+{"case":"full-before-open","phase":"queued","file_size":710764,"position":80134,"dts":22528,"size":2166,"flags":0}
+{"case":"full-before-open","phase":"consume","file_size":710764,"size":2166,"flags":0,"send_result":0}
+{"case":"append-after-clone","phase":"queued","file_size":81699,"position":80134,"dts":22528,"size":1565,"flags":2}
+{"case":"append-after-clone","phase":"consume","file_size":710764,"size":1565,"flags":2,"send_result":-1094995529}
+{"case":"reopen-completed-file","phase":"queued","file_size":710764,"position":80134,"dts":22528,"size":2166,"flags":0}
+{"case":"reopen-completed-file","phase":"consume","file_size":710764,"size":2166,"flags":0,"send_result":0}
+{"summary":"PASS","full":1,"cached_short":1,"reopened":1}

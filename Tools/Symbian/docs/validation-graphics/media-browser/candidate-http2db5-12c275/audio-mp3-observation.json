@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "scope": "First MP3 playback ordered between WAV controls and video controls; PCM observation only",
+  "pcm_sha256": "eecc9a1795b49fc1e9839814230f9b8528c995be3a23950ec4a157199b475a3d",
+  "audible_range_s": [
+    16.02,
+    17.0
+  ],
+  "expected_frequency_hz": 660,
+  "windows": [
+    {
+      "start_s": 16.25,
+      "end_s": 16.5,
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999999031441731,
+        0.9999999031441731
+      ],
+      "rms_s16": [
+        2751.468384956779,
+        2751.468384956779
+      ]
+    },
+    {
+      "start_s": 16.5,
+      "end_s": 16.75,
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999999270558555,
+        0.9999999270558555
+      ],
+      "rms_s16": [
+        2751.5199703527505,
+        2751.5199703527505
+      ]
+    }
+  ],
+  "checks": {
+    "at_least_two_windows": true,
+    "660hz_per_channel": true,
+    "no_interior_exact_zero_at_least_1ms": true
+  },
+  "longest_interior_zero_frames": 1,
+  "script_sha256": "63439fe1c206158690c9043649f69befec36eb92c8821f3bf84e9056309271ca"
+}

@@ -1,0 +1,180 @@
+{
+  "status": "PASS",
+  "started": "2026-10-29T17:39:21.043828+00:00",
+  "browser_sha256": "2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd",
+  "fixtures": {
+    "version": 1,
+    "durationSeconds": 12,
+    "audioFrequenciesHz": {
+      "audio.wav": 440,
+      "audio.mp3": 660,
+      "video.mp4": 880
+    },
+    "files": {
+      "audio.mp3": {
+        "bytes": 144866,
+        "sha256": "71add7033502a35665ea6c00a066ede3d4f710b2459b805125a49aee7a4cfc29",
+        "streams": [
+          {
+            "codec_name": "mp3",
+            "codec_type": "audio",
+            "sample_rate": "44100",
+            "channels": 1
+          }
+        ],
+        "duration": "12.042449"
+      },
+      "audio.wav": {
+        "bytes": 1058478,
+        "sha256": "4c8c2c6042664865a4ca8deca7c8887e54672c07a04378e116559fb4f8e8eee0",
+        "streams": [
+          {
+            "codec_name": "pcm_s16le",
+            "codec_type": "audio",
+            "sample_rate": "44100",
+            "channels": 1
+          }
+        ],
+        "duration": "12.000000"
+      },
+      "unsupported.mp4": {
+        "bytes": 44,
+        "sha256": "2d31f7a223d03e7a98813f6a7f9b4babdf80940500d9123012d530da3de8a107"
+      },
+      "video-tail-index.mp4": {
+        "bytes": 710764,
+        "sha256": "a654869a7f0a5597576c54d34dfe6e8f4b72b2a93bb1bdf6e14a83e6cf05c7f5",
+        "streams": [
+          {
+            "codec_name": "h264",
+            "profile": "Constrained Baseline",
+            "codec_type": "video",
+            "width": 320,
+            "height": 180
+          },
+          {
+            "codec_name": "aac",
+            "profile": "LC",
+            "codec_type": "audio",
+            "sample_rate": "44100",
+            "channels": 1
+          }
+        ],
+        "duration": "12.000000"
+      },
+      "video.mp4": {
+        "bytes": 710764,
+        "sha256": "8e1a6daf8220ce796b29e6cf5db328e1362186c3d5df42974bb1828c2cb8cb85",
+        "streams": [
+          {
+            "codec_name": "h264",
+            "profile": "Constrained Baseline",
+            "codec_type": "video",
+            "width": 320,
+            "height": 180
+          },
+          {
+            "codec_name": "aac",
+            "profile": "LC",
+            "codec_type": "audio",
+            "sample_rate": "44100",
+            "channels": 1
+          }
+        ],
+        "duration": "12.000000"
+      }
+    }
+  },
+  "presentation_verified": false,
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "tls_preflight": [
+    {
+      "check": "trusted endpoint",
+      "host": "localhost",
+      "port": 8776,
+      "server_hostname": "localhost",
+      "certificate": "good.crt",
+      "trust": "ca.crt",
+      "status": "PASS",
+      "certificate_sha256": "b2cf6d54caea8fcc29d34d61e61b1ffdb64988d644ad541a66365c9b07faf8de",
+      "subject_alt_names": [
+        [
+          "DNS",
+          "localhost"
+        ]
+      ],
+      "protocol": "TLSv1.3",
+      "http_status": 200
+    },
+    {
+      "check": "wrong-host endpoint identity",
+      "host": "localhost",
+      "port": 8777,
+      "server_hostname": "wrong.invalid",
+      "certificate": "wrong.crt",
+      "trust": "ca.crt",
+      "status": "PASS",
+      "certificate_sha256": "87899b62acbdc0390029f9f06e70a69447bdec0d2117bdea431f6167c8739b64",
+      "subject_alt_names": [
+        [
+          "DNS",
+          "wrong.invalid"
+        ]
+      ],
+      "protocol": "TLSv1.3",
+      "http_status": 200
+    },
+    {
+      "check": "untrusted endpoint identity",
+      "host": "localhost",
+      "port": 8778,
+      "server_hostname": "localhost",
+      "certificate": "untrusted.crt",
+      "trust": "untrusted.crt",
+      "status": "PASS",
+      "certificate_sha256": "3b88438bbbd23b31b5a176ebced9f89102f8de15f14c5d4b00605b7c5acfaf45",
+      "subject_alt_names": [
+        [
+          "DNS",
+          "localhost"
+        ]
+      ],
+      "protocol": "TLSv1.3",
+      "http_status": 200
+    },
+    {
+      "check": "hostname rejection",
+      "host": "localhost",
+      "port": 8777,
+      "server_hostname": "localhost",
+      "certificate": "wrong.crt",
+      "trust": "ca.crt",
+      "status": "PASS",
+      "error_type": "SSLCertVerificationError",
+      "verify_code": 62,
+      "verify_message": "Hostname mismatch, certificate is not valid for 'localhost'."
+    },
+    {
+      "check": "untrusted-root rejection",
+      "host": "localhost",
+      "port": 8778,
+      "server_hostname": "localhost",
+      "certificate": "untrusted.crt",
+      "trust": "ca.crt",
+      "status": "PASS",
+      "error_type": "SSLCertVerificationError",
+      "verify_code": 18,
+      "verify_message": "self-signed certificate"
+    }
+  ],
+  "suite": {
+    "suite": "media",
+    "run": "7b9d5140277048cb9ef2266f654199a4",
+    "passed": 17,
+    "logs": "source-run:browser-20261029T173921Z-_ejwnsfy",
+    "report": "page-report.json",
+    "screenshot": "browser-final.png"
+  },
+  "test_ca_restored": true,
+  "finished": "2026-10-29T17:42:22.101901+00:00"
+}

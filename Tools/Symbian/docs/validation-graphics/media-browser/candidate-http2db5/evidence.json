@@ -1,0 +1,74 @@
+{
+  "status": "PASS",
+  "scope": "14 functional groups and decoded video movement/pause pass; 8/8 named PCM control windows pass. Complete media presentation is PASS for this run.",
+  "source_run": "browser-20261029T171517Z-y_15fjpi",
+  "browser_sha256": "2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "icu_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+  "fixture_page_sha256": "e46cf9432c9a26d8394ee59dab6b69590664d1b87135f33bfcbc29de87a070e8",
+  "run_token": "632fc9cc8dad47d18a22f8d348c0e485",
+  "http_groups": 14,
+  "http_passed": 14,
+  "driver_exit": 0,
+  "access_violation_or_kern_exec_in_host_log": false,
+  "native_dlls": {
+    "verification": "operator_verified: eka_setup checked prelaunch sha256sum output; not automatically included by the runner",
+    "audio_sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+    "video_sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+  },
+  "pixel_comparison": {
+    "box_ltrb": [
+      274,
+      137,
+      390,
+      185
+    ],
+    "unit": "RGB pixels with any differing channel",
+    "pixels": 5568,
+    "playing_different_pixels": 1142,
+    "paused_different_pixels": 0,
+    "resumed_different_pixels": 2140,
+    "note": "Independently inspected original images, comparing decoded picture interior only. The operator video-observation.json uses a different recorded ROI and counts channels."
+  },
+  "pcm": {
+    "named_windows_passed": 8,
+    "named_windows_total": 8,
+    "raw_sha256": "23b9753a4ccbff60568966f8d3f583f4fbf18c4064f59d2b620f6188b40f5168",
+    "scope": "Named controls only; no global continuity claim across expected stalls/source changes. Entire original PCM including any failure is preserved as lossless FLAC.",
+    "interior_video_gaps": []
+  },
+  "original_files_sha256": {
+    "result": "358fdef239a93bb658fd7f5023d1810d8321fc0c99285acb14d16677424eab0a",
+    "page_report": "2c6da08ecb04397c10753662e6d2d3f803c0a6ed8543186060ecfd1088854690",
+    "observation": "ced8c9de4f0954f121e1333461c5b6bcf7da3a4ed1a21d9177f97dbf2a8bc66f",
+    "emulator_log": "e1d1bd8a3a833214999a580cc501ec2212b3f52e9c0ae42cdad5c6b529d88e51",
+    "console": "7623108c0b315e46eeceef9de9a0b3f286154222c1c1143ba4bc45cf909e8528",
+    "audio_flac_verification": "d3f0ebad1417f8181819725bfe29bed33d6faa786473f22d2a7b65b99f541480"
+  },
+  "artifacts": {
+    "audio-flac-verification.json": "053880af2d03102e0624ae09e7cc9fa3f9d180f2d46151fdb2d6170f52050d9d",
+    "console.log": "7623108c0b315e46eeceef9de9a0b3f286154222c1c1143ba4bc45cf909e8528",
+    "page-report.json": "2c6da08ecb04397c10753662e6d2d3f803c0a6ed8543186060ecfd1088854690",
+    "audio.flac": "d1c223d058dc199ccf28b640ee22b86ab0651ebd81e288cc24e41a5d8b9a9d2a",
+    "README.md": "eb1b39a91d6110b9295a30fdfb08cfc727b81fff5e4406b313cc98a8e5da8f07",
+    "result.json": "370f1af0dad055070e0465a475f833245fca5731307d67c07495d74e0c7d1617",
+    "video-03.png": "78639ce8fecc7d93fab7ad4f8f48d11645668ae0abd6e9367500c9866f3a9c0b",
+    "video-04.png": "7fe134502395f66df99642da311159d754c5cee79566abe9563f89429f862dac",
+    "video-observation.json": "c8951d84c255b15f99e69e46aa3dfe79624859c47a66ee460497ece17055ac8d",
+    "video-06.png": "543d32ae133f972e60627be551d314464486e83824aa1f59a10436f2ea8c4d50",
+    "audio-mp3-observation.json": "51e34f2751d1ac38018110289f3c521997e8fa062ea484b4d74ce351c36d4b09",
+    "audio-control-analysis.json": "ff044b520c9a9440db4dc2e83d86a40442d063dfb56e1c8642fd317fb81c0ba4",
+    "observation.json": "db8e2195b5f97aeed28ce3042f34e8acb103adb06476be349108d1b87c036763",
+    "video-01.png": "ce98582d7b6e46ba0b2a3ffad6706ce89cc5abed3413536ddf4ff0b9186a569f",
+    "browser-final.png": "9f2f23a3f528de425410fe36bb037c7fa630e13c4110241f8da7bbabd60548a6",
+    "video-02.png": "1f22475d3ff5bda96c573a236bff17440f9f87b5b8c7513d113d9b054b7d9d1a",
+    "video-05.png": "feddc8a331f3cb527ffb4250ed3043f0c6ff9a9e0437295de717f3133f959f92",
+    "video-07.png": "40803b0afa0510a880237edc140fbe95e83b2f8566ed9fb7fb7ad477e17d9eba"
+  },
+  "acceptance": {
+    "api": "PASS",
+    "pixels": "PASS",
+    "named_pcm_windows": "PASS",
+    "mp3_tone": "PASS"
+  }
+}
