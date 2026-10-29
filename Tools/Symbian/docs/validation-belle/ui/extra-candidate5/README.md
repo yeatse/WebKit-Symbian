@@ -31,6 +31,14 @@ or forced process cleanup was used. This remains **FAIL**. Cancellation of the
 picker, delivery of the shutdown request, or GDB's own exit 0 is not successful
 application teardown.
 
+The historical page also logged `FAIL` merely because the picker returned
+Cancel. That page-level expectation was too strong: official `CEikShutter`
+first sends Escape to dismiss dialogs, then queues `EEikCmdExit`. The fixture
+now logs that cancellation neutrally and waits for external shutdown evidence.
+This does not change this run's FAIL verdict: host -11 and the missing final
+destructor marker independently establish unsuccessful teardown. Original
+logs and their hashes remain unchanged.
+
 The two GDB reproductions are retained in `exit-gdb/` and `exit-gdb-context/`.
 The latter identifies guest `uiklaf.dll` runtime code base `0x855ea000`.
 Its recorded PC `+0x7e2` is the start of a translated block in

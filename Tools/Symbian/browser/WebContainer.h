@@ -36,6 +36,7 @@ public:
     SYMBIAN_BROWSER_NATIVE_DELETE
     static CWebContainer* NewL(const TRect& aRect, MWebContainerObserver& aObserver);
     ~CWebContainer();
+    void PrepareForExit();
 
     WebKitSymbian::WebView& WebView() { return *iWebView; }
 
@@ -114,6 +115,7 @@ private:
 
     MWebContainerObserver& iObserver;
     WebKitSymbian::WebView* iWebView { nullptr };
+    bool iClosing { false };
     CFbsBitmap* iBitmap { nullptr };
     TInt iUiResourceOffset { -1 };
     mutable TRect iDirty;

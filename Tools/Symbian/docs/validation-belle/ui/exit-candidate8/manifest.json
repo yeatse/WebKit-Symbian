@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "files": {
+    "exit/launch.json": {
+      "sha256": "96c7d153aa4ee016fb1d76997730d5e4b4c672db3af4d61534072287b60f8e90",
+      "original_sha256": "96c7d153aa4ee016fb1d76997730d5e4b4c672db3af4d61534072287b60f8e90",
+      "original_bytes": 562
+    },
+    "exit/helper-path-entered.png": {
+      "sha256": "2a5ac95cf6fa65da506d0054dbdd69881cebd9feed6cacb6865e984a6b232f1b",
+      "original_sha256": "2a5ac95cf6fa65da506d0054dbdd69881cebd9feed6cacb6865e984a6b232f1b",
+      "original_bytes": 37533
+    },
+    "exit/log.txt.gz": {
+      "sha256": "068650e43600eb188fa3b382fd1c1f6f0a066c65d5b423f2a624ae34526fd428",
+      "original_sha256": "e4bc6d7fb680b26df9cc2e5069eef6a3c6a68812e6e483bfa27846c599f1579a",
+      "original_bytes": 1161
+    },
+    "exit/observation.json": {
+      "sha256": "5cdc219a34400b2ba3c73c2a061dae619b0248e7eb915f57d7001ef45032a54d",
+      "original_sha256": "5cdc219a34400b2ba3c73c2a061dae619b0248e7eb915f57d7001ef45032a54d",
+      "original_bytes": 688
+    },
+    "exit/previous-app-exit-request.log.gz": {
+      "sha256": "d97969cbcb18d3ae037e0fb669ea05f6e1168d4f8921e548d4bb43486f5fdd2b",
+      "original_sha256": "4947f26b58b43aeac66bbd6f59f4f3fc003dbaf270d82da0c2181b94cb6be4fb",
+      "original_bytes": 207
+    },
+    "exit/emulator.log.gz": {
+      "sha256": "e2a2638943bf0fb0b0b4543b875d823e60883ddc3a3840ff2b4adc150cab09e4",
+      "original_sha256": "b551c6f55f48f33a747375bef2ef18740c5120bee0646e91946f5473607754a9",
+      "original_bytes": 213829
+    },
+    "exit/app-exit-request.log.gz": {
+      "sha256": "d97969cbcb18d3ae037e0fb669ea05f6e1168d4f8921e548d4bb43486f5fdd2b",
+      "original_sha256": "4947f26b58b43aeac66bbd6f59f4f3fc003dbaf270d82da0c2181b94cb6be4fb",
+      "original_bytes": 207
+    },
+    "exit/picker-open.png": {
+      "sha256": "9111b54b3442713f3cde9cc7fbb5388f7a9acc9c6c9513a23406bf48a901d559",
+      "original_sha256": "9111b54b3442713f3cde9cc7fbb5388f7a9acc9c6c9513a23406bf48a901d559",
+      "original_bytes": 43259
+    },
+    "exit/validation-result.json": {
+      "sha256": "1289b632222c9f75cae5a6fc7bad04c448a214f36532ad901f174a278062c512",
+      "original_sha256": "1289b632222c9f75cae5a6fc7bad04c448a214f36532ad901f174a278062c512",
+      "original_bytes": 588
+    },
+    "exit/actions.json": {
+      "sha256": "e7f5df84697644b8dd44fb0174247b61e1c6c8bd4ad634e992ee47b2b91a331d",
+      "original_sha256": "e7f5df84697644b8dd44fb0174247b61e1c6c8bd4ad634e992ee47b2b91a331d",
+      "original_bytes": 447
+    },
+    "exit/previous-log.txt.gz": {
+      "sha256": "5e06bd5b818a75ac5c633d1c06130d7623cde82d9dfe2d30d9a6947caf2afb32",
+      "original_sha256": "a1778c8963778bb5b1e84a025efeeb21b7034b053c5a03e2e203b4511e46ca01",
+      "original_bytes": 1123
+    },
+    "exit-gdb-stack/launch.json": {
+      "sha256": "5e5b7ccf92702c3ed90a33179eb2e1c9e88609818923056b6b4f2a725d0c89b8",
+      "original_sha256": "5e5b7ccf92702c3ed90a33179eb2e1c9e88609818923056b6b4f2a725d0c89b8",
+      "original_bytes": 602
+    },
+    "exit-gdb-stack/guest-stack.bin": {
+      "sha256": "e9e1cdf1144ddaa65a134ce1060734e897bc33875175e365ff5a10bd4caf084a",
+      "original_sha256": "e9e1cdf1144ddaa65a134ce1060734e897bc33875175e365ff5a10bd4caf084a",
+      "original_bytes": 512
+    },
+    "exit-gdb-stack/helper-path-entered.png": {
+      "sha256": "2aca7cf5a45c6e8f18a3c5dbcecca311f1ec5c95e9476852dfa8979084922de8",
+      "original_sha256": "2aca7cf5a45c6e8f18a3c5dbcecca311f1ec5c95e9476852dfa8979084922de8",
+      "original_bytes": 37399
+    },
+    "exit-gdb-stack/log.txt.gz": {
+      "sha256": "aa61b437a662251dcbca42ef5ae7ff7121de6670cc12ae2b9743e51225df2518",
+      "original_sha256": "75d044f27fba12dbff7cf9d10a63c3fbcabef3bc2681df845b6d76dac05a11e6",
+      "original_bytes": 1241
+    },
+    "exit-gdb-stack/observation.json": {
+      "sha256": "2ead9003d972078f0d8c22b447b1b98f17ec16a25e202e96c29845339acf2ee8",
+      "original_sha256": "2ead9003d972078f0d8c22b447b1b98f17ec16a25e202e96c29845339acf2ee8",
+      "original_bytes": 718
+    },
+    "exit-gdb-stack/previous-app-exit-request.log.gz": {
+      "sha256": "d97969cbcb18d3ae037e0fb669ea05f6e1168d4f8921e548d4bb43486f5fdd2b",
+      "original_sha256": "4947f26b58b43aeac66bbd6f59f4f3fc003dbaf270d82da0c2181b94cb6be4fb",
+      "original_bytes": 207
+    },
+    "exit-gdb-stack/emulator.log.gz": {
+      "sha256": "883f79be6b09da1d316f9dcdf3e679b97fb64d0d9df51f5fa518b5e265337035",
+      "original_sha256": "0e7c965210444b9a0a2dd720a76b620322daaeebccef5ea6e6cb6c6cb1b999a0",
+      "original_bytes": 215472
+    },
+    "exit-gdb-stack/app-exit-request.log.gz": {
+      "sha256": "d97969cbcb18d3ae037e0fb669ea05f6e1168d4f8921e548d4bb43486f5fdd2b",
+      "original_sha256": "4947f26b58b43aeac66bbd6f59f4f3fc003dbaf270d82da0c2181b94cb6be4fb",
+      "original_bytes": 207
+    },
+    "exit-gdb-stack/picker-open.png": {
+      "sha256": "59027653b056e95611e7d4bce3d2568fa0aa2f988dd4c01420335aaf6e457c62",
+      "original_sha256": "59027653b056e95611e7d4bce3d2568fa0aa2f988dd4c01420335aaf6e457c62",
+      "original_bytes": 43156
+    },
+    "exit-gdb-stack/actions.json": {
+      "sha256": "a1c971c6b478624e47dbb72798e0bdf74202d7cf91875f634f1ba7ae17a31284",
+      "original_sha256": "a1c971c6b478624e47dbb72798e0bdf74202d7cf91875f634f1ba7ae17a31284",
+      "original_bytes": 448
+    },
+    "exit-gdb-stack/previous-log.txt.gz": {
+      "sha256": "068650e43600eb188fa3b382fd1c1f6f0a066c65d5b423f2a624ae34526fd428",
+      "original_sha256": "e4bc6d7fb680b26df9cc2e5069eef6a3c6a68812e6e483bfa27846c599f1579a",
+      "original_bytes": 1161
+    }
+  }
+}

@@ -54,7 +54,7 @@ def validate(directory, identities):
     exits = re.findall(r"^EXIT: type=(-?\d+) reason=(-?\d+) logon=(-?\d+)$", helper, re.M)
     if exits and exits != [("0", "0", "0")]:
         failures.append("helper observed an abnormal guest exit")
-    if guest.count("browser: WebKit Browser exiting") != 1:
+    if len(re.findall(r"^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]\.[0-9]{3} WebKit Browser exiting$", guest, re.M)) != 1:
         failures.append("browser destructor completion marker is missing or duplicated")
     if re.search(r"KERN-EXEC|USER-EXEC|\bPANIC\b|panicked|access violation|SIGSEGV|segmentation fault", guest + "\n" + host, re.I):
         failures.append("guest panic/access violation or host crash is present")

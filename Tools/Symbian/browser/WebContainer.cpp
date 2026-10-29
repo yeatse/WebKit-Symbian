@@ -127,6 +127,7 @@ void CWebContainer::ConstructL(const TRect& aRect)
 
 CWebContainer::~CWebContainer()
 {
+    PrepareForExit();
     if (iWebView)
         iWebView->setNativeWindow(nullptr);
     delete iWebView;
@@ -140,6 +141,13 @@ CWebContainer::~CWebContainer()
     delete iSelfTest;
     if (iUiResourceOffset >= 0)
         iCoeEnv->DeleteResourceFile(iUiResourceOffset);
+}
+
+void CWebContainer::PrepareForExit()
+{
+    iClosing = true;
+    if (iSelfTest)
+        iSelfTest->Cancel();
 }
 
 void CWebContainer::EnsureBitmapL()
@@ -158,6 +166,8 @@ void CWebContainer::EnsureBitmapL()
 
 void CWebContainer::SizeChanged()
 {
+    if (iClosing)
+        return;
     TRAP_IGNORE(EnsureBitmapL());
     if (!iWebView)
         return;
@@ -170,6 +180,8 @@ void CWebContainer::SizeChanged()
 
 void CWebContainer::Draw(const TRect& aRect) const
 {
+    if (iClosing)
+        return;
     if (iWebView && iWebView->usesAcceleratedCompositing()) {
         iWebView->renderCompositedFrame();
         if (iWebView->usesAcceleratedCompositing())
@@ -202,12 +214,14 @@ void CWebContainer::Draw(const TRect& aRect) const
 
 void CWebContainer::FocusChanged(TDrawNow)
 {
-    if (iWebView)
+    if (!iClosing && iWebView)
         iWebView->setFocused(IsFocused());
 }
 
 void CWebContainer::HandlePointerEventL(const TPointerEvent& aPointerEvent)
 {
+    if (iClosing)
+        return;
     TPoint point = aPointerEvent.iPosition - Rect().iTl;
     switch (aPointerEvent.iType) {
     case TPointerEvent::EButton1Down:
@@ -234,7 +248,7 @@ void CWebContainer::HandlePointerEventL(const TPointerEvent& aPointerEvent)
 
 TKeyResponse CWebContainer::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aType)
 {
-    if (aType != EEventKey)
+    if (iClosing || aType != EEventKey)
         return EKeyWasNotConsumed;
     TInt keyCode = WindowsKeyCode(aKeyEvent.iCode);
     TBuf<1> text;
@@ -264,7 +278,7 @@ TKeyResponse CWebContainer::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCod
 
 TCoeInputCapabilities CWebContainer::InputCapabilities() const
 {
-    if (!iEditable)
+    if (iClosing || !iEditable)
         return TCoeInputCapabilities(TCoeInputCapabilities::ENone);
     TUint capabilities = TCoeInputCapabilities::ENavigation;
     switch (iWebView->focusedInputType()) {
@@ -363,6 +377,8 @@ void CWebContainer::RequestTouchInputL()
 
 void CWebContainer::didInvalidate(const WebKitSymbian::Rect& aRect)
 {
+    if (iClosing)
+        return;
     TRect rect(TPoint(aRect.x, aRect.y), TSize(aRect.width, aRect.height));
     rect.Intersection(TRect(Size()));
     if (rect.IsEmpty())
@@ -376,21 +392,29 @@ void CWebContainer::didInvalidate(const WebKitSymbian::Rect& aRect)
 
 void CWebContainer::didChangeTitle(Text aTitle)
 {
+    if (iClosing)
+        return;
     TRAP_IGNORE(iObserver.WebTitleChanged(ToDesC(aTitle)));
 }
 
 void CWebContainer::didChangeURL(Text aUrl)
 {
+    if (iClosing)
+        return;
     TRAP_IGNORE(iObserver.WebUrlChanged(ToDesC(aUrl)));
 }
 
 void CWebContainer::didChangeProgress(bool aIsLoading, double aProgress)
 {
+    if (iClosing)
+        return;
     TRAP_IGNORE(iObserver.WebProgressChanged(aIsLoading, static_cast<TInt>(aProgress * 100)));
 }
 
 void CWebContainer::didChangeEditingState()
 {
+    if (iClosing)
+        return;
     TRAP_IGNORE(UpdateEditorStateL());
     if (iEditable && iSelfTest && !iSelfTest->IsActive())
         iSelfTest->CallBack();
@@ -398,6 +422,8 @@ void CWebContainer::didChangeEditingState()
 
 void CWebContainer::didChangeSelection()
 {
+    if (iClosing)
+        return;
     if (iSplitInput && iEditable)
         RevealCaret();
     if (iUpdatingForFep || !iEditable)
@@ -428,11 +454,15 @@ void CWebContainer::RevealCaret()
 
 void CWebContainer::runJavaScriptAlert(Text aMessage)
 {
+    if (iClosing)
+        return;
     TRAP_IGNORE(CEikonEnv::InfoWinL(ToDesC(aMessage), KNullDesC));
 }
 
 bool CWebContainer::runJavaScriptConfirm(Text aMessage)
 {
+    if (iClosing)
+        return false;
     TBool result = EFalse;
     TRAP_IGNORE(result = CEikonEnv::QueryWinL(ToDesC(aMessage), KNullDesC));
     return result;
@@ -440,6 +470,8 @@ bool CWebContainer::runJavaScriptConfirm(Text aMessage)
 
 bool CWebContainer::runJavaScriptPrompt(Text aMessage, Text aDefaultValue, TextResult& aResult)
 {
+    if (iClosing)
+        return false;
     // Keep a bounded native editor, without silently truncating the default.
     const TInt maximumLength = 4096;
     if (aDefaultValue.length > maximumLength) {
@@ -467,6 +499,8 @@ bool CWebContainer::runJavaScriptPrompt(Text aMessage, Text aDefaultValue, TextR
 
 bool CWebContainer::chooseFile(TextResult& aResult)
 {
+    if (iClosing)
+        return false;
     TBool accepted = EFalse;
     TRAPD(error, {
         TFileName path;
@@ -494,6 +528,8 @@ bool CWebContainer::chooseFile(TextResult& aResult)
 
 int CWebContainer::runSelectPopup(const Text* aItems, int aCount, int aSelected)
 {
+    if (iClosing)
+        return -1;
     TInt result = -1;
     TRAP_IGNORE(result = iObserver.WebSelectPopupL(aItems, aCount, aSelected));
     return result;

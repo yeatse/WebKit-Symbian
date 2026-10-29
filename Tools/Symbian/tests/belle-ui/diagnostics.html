@@ -36,7 +36,12 @@ pre { white-space: pre-wrap; font: 12px monospace; }
     if (!Object.prototype.hasOwnProperty.call(descriptions, mode)) { fail('unknown case'); button.disabled = true; return; }
     document.getElementById('instruction').textContent = descriptions[mode];
     input.oncancel = function () {
-        if (mode === 'exit') { fail('picker returned; application teardown was not exercised'); return; }
+        if (mode === 'exit') {
+            // CEikShutter first dismisses modal dialogs with Escape, then
+            // queues EEikCmdExit. Only the external observer proves teardown.
+            log('CANCELLED: native picker returned; awaiting external application shutdown proof');
+            return;
+        }
         if (mode === 'drive') { fail('different-drive selection was cancelled'); return; }
         if (input.files.length) { fail('cancel exposed a selected file'); return; }
         pass('native cancel event with empty file list; external stage evidence remains required');

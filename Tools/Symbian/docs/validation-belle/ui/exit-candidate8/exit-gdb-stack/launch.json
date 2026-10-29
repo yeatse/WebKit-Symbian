@@ -1,0 +1,13 @@
+{
+  "kind": "expected guest application exit while picker open",
+  "url": "http://localhost:8782/diagnostics.html?case=exit&run=extra8-exit-gdb-stack",
+  "browser_sha256": "1767da19ec00d9c823c60ff13d4f1c0a828d28cbd2abe97691f78c95ddeaca59",
+  "emulator_sha256": "71cbce0aa8a8eff9d167614a34f2870d26387df18b3940cf4818a34524933093",
+  "helper_sha256": "e668e662f15b563b71e5237b910db422f86fc265de7f6a88925b310776e7489d",
+  "wm_close_sent": false,
+  "forced_cleanup": false,
+  "status": "RUNNING",
+  "started_utc": "2026-10-29T20:01:44.985308+00:00",
+  "gdb_launcher_pid": 429326,
+  "diagnostic_gdb": true
+}

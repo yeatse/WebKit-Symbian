@@ -54,11 +54,19 @@ the 300-second observation, six assertions completed and steps seven/eight were
 not run. The strict missing-terminal check correctly failed. The fresh retry
 did not reuse its assertions or uploads.
 
-Remaining separate checks are file-list-level cancellation, removal of a
-disposable file before acceptance, another writable drive, and actual browser
-application exit while a dialog is open. Closing the emulator after the final
-page is not evidence for the last case. The dedicated diagnostic page and its
-external stage requirements are described in the
+The separate [candidate5 evidence](extra-candidate5/README.md) adds real PASS
+results for file-list-level cancellation, removal of a disposable file before
+acceptance, and another writable drive. Actual application exit with the
+picker open failed and remains under investigation; the host crash and GDB
+records are retained. [Candidate8](exit-candidate8/README.md) reports the guest
+exception correctly after the emulator fix and localizes the browser failure
+to control-stack removal during destruction. [Candidate9](exit-candidate9/README.md)
+completes the corrected browser teardown but still fails normal process exit:
+the native transition adapter waits for a policy cancellation the emulator's
+ALF service did not complete. Both timeout histories and the actual guest
+stack are preserved. Closing the emulator after the final page is not
+application-teardown evidence. The dedicated diagnostic page and its external
+stage requirements are described in the
 [fixture README](../../../tests/belle-ui/README.md).
 
 The UI currently selects one existing file per invocation, including on HTML

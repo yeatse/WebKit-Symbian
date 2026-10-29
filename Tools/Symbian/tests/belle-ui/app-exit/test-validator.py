@@ -23,9 +23,9 @@ class ExitValidatorTests(unittest.TestCase):
                            host_exit_code=0, finished_utc="2026-10-29T20:00:00Z")
         for name in ("launch.json", "observation.json"):
             self.write_record(name, self.record)
-        self.guest = ("browser: load " + self.record["url"]
+        self.guest = ("19:59:40.000 load " + self.record["url"]
                       + "\nARMED: browser application exit while native picker is open\n"
-                      + "browser: WebKit Browser exiting\n")
+                      + "19:59:50.123 WebKit Browser exiting\n")
         self.write("log.txt", self.guest)
         self.write("emulator.log", "normal main application exit\n")
         self.helper = ("BEGIN: browser-exit-request v1\n"
@@ -59,7 +59,12 @@ class ExitValidatorTests(unittest.TestCase):
         self.assertEqual(self.result(), "FAIL")
 
     def test_no_destructor_marker(self):
-        self.write("log.txt", self.guest.replace("browser: WebKit Browser exiting", ""))
+        self.write("log.txt", self.guest.replace("19:59:50.123 WebKit Browser exiting", ""))
+        self.assertEqual(self.result(), "FAIL")
+
+    def test_console_cannot_supply_destructor_marker(self):
+        self.write("log.txt", self.guest.replace("19:59:50.123 WebKit Browser exiting",
+                                                "console: page:1: 19:59:50.123 WebKit Browser exiting"))
         self.assertEqual(self.result(), "FAIL")
 
     def test_scenario_not_armed(self):
@@ -71,7 +76,7 @@ class ExitValidatorTests(unittest.TestCase):
         self.assertEqual(self.result(), "FAIL")
 
     def test_stale_page(self):
-        self.write("log.txt", "case=exit&run=old\nbrowser: WebKit Browser exiting\n")
+        self.write("log.txt", self.guest.replace("run=fresh", "run=old"))
         self.assertEqual(self.result(), "FAIL")
 
     def test_wm_close_or_force(self):

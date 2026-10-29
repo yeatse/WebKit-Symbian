@@ -1,0 +1,15 @@
+{
+  "status": "FAIL",
+  "failures": [
+    "forced_cleanup must explicitly be false",
+    "a normal direct host exit 0 is required (GDB exit 0 is insufficient)",
+    "helper reported failure"
+  ],
+  "identities": {
+    "browser_sha256": "0d6e88803e2c5ea0a3937c527f8a9141f9752666f1c6ca4752416fc444f1a6f7",
+    "emulator_sha256": "71cbce0aa8a8eff9d167614a34f2870d26387df18b3940cf4818a34524933093",
+    "helper_sha256": "e668e662f15b563b71e5237b910db422f86fc265de7f6a88925b310776e7489d"
+  },
+  "helper_exit_line_present": false,
+  "scope": "official EndTask with native picker open; no WM close or forced cleanup"
+}

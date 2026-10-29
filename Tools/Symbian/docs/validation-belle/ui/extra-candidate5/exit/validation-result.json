@@ -1,0 +1,14 @@
+{
+  "status": "FAIL",
+  "failures": [
+    "a normal direct host exit 0 is required (GDB exit 0 is insufficient)",
+    "browser destructor completion marker is missing or duplicated"
+  ],
+  "identities": {
+    "browser_sha256": "139e140d0802e9de9b202e6bb3d292ad7507415d68fbe86979f5af5f6756a7ff",
+    "emulator_sha256": "5f8704eb1c2461ceeb160eabd927a4f828765cad353e9107ae43f463127e292a",
+    "helper_sha256": "e668e662f15b563b71e5237b910db422f86fc265de7f6a88925b310776e7489d"
+  },
+  "helper_exit_line_present": false,
+  "scope": "official EndTask with native picker open; no WM close or forced cleanup"
+}

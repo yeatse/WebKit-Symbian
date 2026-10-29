@@ -58,8 +58,10 @@ record `wm_close_sent: false` and `forced_cleanup: false`. These are observation
 provenance requirements; the validator cannot establish log freshness from
 filenames alone. GDB launcher exit 0 is never accepted as a normal host exit.
 
-The 12 host fixture tests cover missing destructor completion or armed scenario, stale page URL,
+The 13 host fixture tests cover missing destructor completion or armed scenario, stale page URL,
 wrong image/target identity, unsent shutdown, guest panic, abnormal guest exit,
 host crash, forced cleanup/WM close, and the permitted absence of the helper's
 final EXIT line. The historical candidate5 runtime is correctly rejected; see
 the [extra UI evidence](../../../docs/validation-belle/ui/extra-candidate5/README.md).
+The destructor marker must be a complete timestamped `BrowserLog` line in the
+guest log, not text emitted by page JavaScript or the host's `browser:` prefix.

@@ -119,8 +119,18 @@ public:
 
     ~CUrlBar()
     {
+        PrepareForExit();
         delete iEdwin;
         User::Free(iText);
+    }
+
+    void PrepareForExit()
+    {
+        iClosing = ETrue;
+        if (iEdwin) {
+            iEdwin->SetObserver(nullptr);
+            iEdwin->SetEdwinObserver(nullptr);
+        }
     }
 
     void ConstructL(const TRect& aRect)
@@ -200,6 +210,7 @@ private:
     CEikEdwin* iEdwin { nullptr };
     HBufC* iText { nullptr };
     TInt iProgress { 0 };
+    TBool iClosing { EFalse };
 };
 
 // Pages from the bookmarks and the history that match what is typed in the
@@ -247,8 +258,8 @@ private:
 class CBrowserAppUi : public CAknAppUi, public MWebContainerObserver, public MNetworkConnectionObserver {
 public:
     SYMBIAN_BROWSER_NATIVE_DELETE
-    void ConstructL();
-    ~CBrowserAppUi();
+    void ConstructL() override;
+    ~CBrowserAppUi() override;
 
     void LoadUrlL(const TDesC& aUrl);
     void FocusUrlBarL();
@@ -258,8 +269,10 @@ public:
     void SuggestL(const TDesC* aFilter);
 
 private:
-    void HandleCommandL(TInt aCommand);
-    void HandleResourceChangeL(TInt aType);
+    void PrepareToExit() override;
+    void BeginTeardown();
+    void HandleCommandL(TInt aCommand) override;
+    void HandleResourceChangeL(TInt aType) override;
     void LayoutControls();
     void ShowOptionsMenuL();
     // Lists the pages and loads the chosen one. aExtraItem, if any, is
@@ -267,14 +280,14 @@ private:
     TBool ShowPageListL(const TDesC& aTitle, const CPageList& aPages, const TDesC& aExtraItem);
 
     // MWebContainerObserver
-    void WebTitleChanged(const TDesC& aTitle);
-    void WebUrlChanged(const TDesC& aUrl);
-    void WebProgressChanged(TBool aLoading, TInt aPercent);
-    TInt WebSelectPopupL(const Text* aItems, TInt aCount, TInt aSelected);
-    void WebPointerDownL();
+    void WebTitleChanged(const TDesC& aTitle) override;
+    void WebUrlChanged(const TDesC& aUrl) override;
+    void WebProgressChanged(TBool aLoading, TInt aPercent) override;
+    TInt WebSelectPopupL(const Text* aItems, TInt aCount, TInt aSelected) override;
+    void WebPointerDownL() override;
 
     // MNetworkConnectionObserver
-    void NetworkConnectionReady(TInt aError);
+    void NetworkConnectionReady(TInt aError) override;
 
     void LoadNowL(const TDesC& aUrl);
     // Sets the softkeys again: a popup list leaves Options hidden.
@@ -302,6 +315,10 @@ private:
     TBool iShowingPopup { EFalse };
     // The split view input is open; the page ends above it.
     TBool iSplitInput { EFalse };
+    TBool iClosing { EFalse };
+    TBool iPreparedForExit { EFalse };
+    TBool iUrlBarOnStack { EFalse };
+    TBool iWebContainerOnStack { EFalse };
 };
 
 TKeyResponse CUrlBar::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aType)
@@ -354,6 +371,8 @@ void CUrlBar::SuggestL()
 
 void CUrlBar::FocusChanged(TDrawNow aDrawNow)
 {
+    if (iClosing)
+        return;
     iEdwin->SetFocus(IsFocused(), aDrawNow);
     if (!IsFocused())
         TRAP_IGNORE(iAppUi.SuggestL(nullptr));
@@ -361,7 +380,7 @@ void CUrlBar::FocusChanged(TDrawNow aDrawNow)
 
 void CUrlBar::HandleEdwinEventL(CEikEdwin*, TEdwinEvent aEventType)
 {
-    if (aEventType == EEventTextUpdate && IsFocused())
+    if (!iClosing && aEventType == EEventTextUpdate && IsFocused())
         SuggestL();
 }
 
@@ -522,7 +541,11 @@ void CBrowserAppUi::ConstructL()
     iSuggestions = new (ELeave) CUrlSuggestions(*this);
     iSuggestions->ConstructL();
     LayoutControls();
+    // RemoveFromStack tolerates a failed insertion. Mark before AddToStackL,
+    // since the insertion's focus notification can itself leave.
+    iUrlBarOnStack = ETrue;
     AddToStackL(iUrlBar);
+    iWebContainerOnStack = ETrue;
     AddToStackL(iWebContainer);
     iSoftkeys->MakeVisible(ETrue);
     iSoftkeys->DrawNow();
@@ -542,15 +565,19 @@ void CBrowserAppUi::ConstructL()
 
 CBrowserAppUi::~CBrowserAppUi()
 {
-    if (iWebContainer)
-        RemoveFromStack(iWebContainer);
-    if (iUrlBar)
-        RemoveFromStack(iUrlBar);
+    BrowserLog("exit diagnostic: appui destructor begin");
+    BeginTeardown();
+    BrowserLog("exit diagnostic: delete suggestions");
     delete iSuggestions;
+    BrowserLog("exit diagnostic: delete web container");
     delete iWebContainer;
+    BrowserLog("exit diagnostic: delete url bar");
     delete iUrlBar;
+    BrowserLog("exit diagnostic: delete softkeys");
     delete iSoftkeys;
+    BrowserLog("exit diagnostic: delete run loop");
     delete iRunLoop;
+    BrowserLog("exit diagnostic: delete remaining app state");
     User::Free(iPendingUrl);
     delete iHistory;
     delete iBookmarks;
@@ -559,6 +586,48 @@ CBrowserAppUi::~CBrowserAppUi()
     delete iNetwork;
     delete iHeartbeat;
     BrowserLog("WebKit Browser exiting");
+}
+
+void CBrowserAppUi::PrepareToExit()
+{
+    if (iPreparedForExit)
+        return;
+    iPreparedForExit = ETrue;
+    BrowserLog("exit: prepare appui while native environment is alive");
+    BeginTeardown();
+    CAknAppUi::PrepareToExit();
+}
+
+void CBrowserAppUi::BeginTeardown()
+{
+    if (iClosing)
+        return;
+    iClosing = ETrue;
+    // Stop engine delivery before deleting clients. The fallback call from
+    // our destructor also handles a leave during ConstructL.
+    delete iRunLoop;
+    iRunLoop = nullptr;
+    if (iHeartbeat)
+        iHeartbeat->Cancel();
+    if (iNetwork)
+        iNetwork->Cancel();
+    if (iWebContainer)
+        iWebContainer->PrepareForExit();
+    if (iUrlBar)
+        iUrlBar->PrepareForExit();
+
+    // CEikonEnv releases its font array before deleting the AppUi. Removing
+    // the page from the stack can focus the URL editor and ask for fonts, so
+    // normally do this in PrepareToExit, before that environment teardown.
+    // Closing guards also suppress those callbacks on partial construction.
+    if (iWebContainerOnStack) {
+        iWebContainerOnStack = EFalse;
+        RemoveFromStack(iWebContainer);
+    }
+    if (iUrlBarOnStack) {
+        iUrlBarOnStack = EFalse;
+        RemoveFromStack(iUrlBar);
+    }
 }
 
 void CBrowserAppUi::SetSoftkeysL()
@@ -590,6 +659,8 @@ TInt CBrowserAppUi::Heartbeat(TAny* aSelf)
 
 void CBrowserAppUi::LayoutControls()
 {
+    if (iClosing)
+        return;
     TRect rect = ApplicationRect();
     iSoftkeys->SetBoundingRect(rect);
     iSoftkeys->ReduceRect(rect);
@@ -612,6 +683,8 @@ void CBrowserAppUi::LayoutControls()
 
 void CBrowserAppUi::SuggestL(const TDesC* aFilter)
 {
+    if (iClosing)
+        return;
     if (aFilter) {
         // As many rows as fit above the split view input, if it is open.
         TInt fit = iWebContainer->Rect().Height() / iSuggestions->RowHeight();
@@ -628,6 +701,8 @@ void CBrowserAppUi::SuggestL(const TDesC* aFilter)
 
 void CBrowserAppUi::HandleResourceChangeL(TInt aType)
 {
+    if (iClosing)
+        return;
     CAknAppUi::HandleResourceChangeL(aType);
     if (aType == KAknSplitInputEnabled || aType == KAknSplitInputDisabled) {
         iSplitInput = aType == KAknSplitInputEnabled;
@@ -664,7 +739,7 @@ void CBrowserAppUi::LoadNowL(const TDesC& aUrl)
 
 void CBrowserAppUi::NetworkConnectionReady(TInt)
 {
-    if (!iPendingUrl)
+    if (iClosing || !iPendingUrl)
         return;
     HBufC* url = iPendingUrl;
     iPendingUrl = nullptr;
@@ -687,6 +762,8 @@ void CBrowserAppUi::FocusPageL()
 
 void CBrowserAppUi::HandleCommandL(TInt aCommand)
 {
+    if (iClosing)
+        return;
     WebView& webView = iWebContainer->WebView();
     switch (aCommand) {
     case ECmdOptions:
@@ -726,6 +803,7 @@ void CBrowserAppUi::HandleCommandL(TInt aCommand)
     case ECmdExit:
     case EAknSoftkeyExit:
     case EEikCmdExit:
+        BrowserLog("exit diagnostic: exit command %d", aCommand);
         Exit();
         break;
     default:
@@ -797,6 +875,8 @@ TBool CBrowserAppUi::ShowPageListL(const TDesC& aTitle, const CPageList& aPages,
 
 void CBrowserAppUi::WebTitleChanged(const TDesC& aTitle)
 {
+    if (iClosing)
+        return;
     HBufC* title = aTitle.AllocL();
     User::Free(iTitle);
     iTitle = title;
@@ -806,6 +886,8 @@ void CBrowserAppUi::WebTitleChanged(const TDesC& aTitle)
 
 void CBrowserAppUi::WebUrlChanged(const TDesC& aUrl)
 {
+    if (iClosing)
+        return;
     iUrlBar->SetUrlL(aUrl);
     if (iUrl && *iUrl == aUrl)
         return;
@@ -822,6 +904,8 @@ void CBrowserAppUi::WebUrlChanged(const TDesC& aUrl)
 
 void CBrowserAppUi::WebProgressChanged(TBool aLoading, TInt aPercent)
 {
+    if (iClosing)
+        return;
     iLoading = aLoading;
     iProgress = aPercent;
     iUrlBar->SetProgress(aLoading, aPercent);
@@ -829,7 +913,7 @@ void CBrowserAppUi::WebProgressChanged(TBool aLoading, TInt aPercent)
 
 TInt CBrowserAppUi::WebSelectPopupL(const Text* aItems, TInt aCount, TInt aSelected)
 {
-    if (iShowingPopup || aCount <= 0)
+    if (iClosing || iShowingPopup || aCount <= 0)
         return -1;
     CDesCArrayFlat* items = new (ELeave) CDesCArrayFlat(aCount);
     CleanupStack::PushL(items);
