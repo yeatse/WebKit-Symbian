@@ -1,0 +1,160 @@
+Subject: [PATCH] Reject invalid Dynarmic TLB entries before direct guest memory access
+
+Apply inside EKA2L1's src/external/dynarmic submodule, not the enclosing
+EKA2L1 worktree. Base submodule revision:
+855e885288fc21a616ed07ee4437f34abe7c3922
+
+Zero is a valid page address, so it cannot also encode an empty or denied
+entry. Use an unaligned invalid tag, preserve its low bits when comparing,
+and route null host bases to the existing slow memory callbacks. Guest
+access violations are still handled by the emulator's existing callbacks.
+
+diff --git a/src/dynarmic/backend/arm64/emit_arm64_memory.cpp b/src/dynarmic/backend/arm64/emit_arm64_memory.cpp
+index 23a624b1..8cb9df33 100644
+--- a/src/dynarmic/backend/arm64/emit_arm64_memory.cpp
++++ b/src/dynarmic/backend/arm64/emit_arm64_memory.cpp
+@@ -318,12 +318,17 @@ std::pair<oaknut::XReg, oaknut::XReg> InlineTlbEmitVAddrLookup(oaknut::CodeGener
+     code.ADD(Xscratch0, Xpagetable, Xscratch0, LSL, tlb_entry_size_lshift_bits);
+ 
+     code.LDR(Xscratch1, Xscratch0, check_offset);
++    // A tag must be page-aligned before discarding its low bits. Invalid tags
++    // otherwise alias the highest page after the shift.
++    code.TST(Xscratch1, page_mask);
++    code.B(NE, *fallback);
+     code.LSR(Xscratch1, Xscratch1, page_bits);
+     code.CMP(Xscratch1, Xaddr, LSR, page_bits);
+ 
+     code.B(NE, *fallback);
+ 
+     code.LDR(Xscratch0, Xscratch0, offsetof(TLBEntry, host_base));
++    code.CBZ(Xscratch0, *fallback);
+     code.AND(Xscratch1, Xaddr, page_mask);
+ 
+     return std::make_pair(Xscratch0, Xscratch1);
+diff --git a/src/dynarmic/backend/x64/emit_x64_memory.h b/src/dynarmic/backend/x64/emit_x64_memory.h
+index 60dcf3de..cac3062c 100644
+--- a/src/dynarmic/backend/x64/emit_x64_memory.h
++++ b/src/dynarmic/backend/x64/emit_x64_memory.h
+@@ -233,8 +233,9 @@ template<>
+     EmitDetectMisalignedVAddr(code, ctx, bitsize, abort, vaddr, tmp.cvt64());
+ 
+     code.mov(tmp, vaddr.cvt32());
++    code.mov(tmp2, tmp);
++    code.and_(tmp2, ~static_cast<u32>(page_mask));
+     code.shr(tmp, static_cast<int>(page_bits));
+-    code.mov(tmp2, tmp);                /// Store page index in tmp2...
+ 
+     code.and_(tmp, (1UL << ctx.conf.tlb_index_mask_bits) - 1);
+ 
+@@ -243,12 +244,15 @@ template<>
+ 
+     code.mov(tmp, dword[entryoff + check_offset]);
+ 
+-    code.shr(tmp, static_cast<int>(page_bits));         /// Get the page index
+-    code.cmp(tmp, tmp2);                                /// Compare the page index stored.
++    // Compare the complete normalized address: shifting an invalid tag would
++    // discard its invalid low bits and alias the highest guest page.
++    code.cmp(tmp, tmp2);
+ 
+     code.jne(abort, code.T_NEAR);
+ 
+     code.mov(hostaddr, qword[entryoff + offsetof(TLBEntry, host_base)]);
++    code.test(hostaddr, hostaddr);
++    code.jz(abort, code.T_NEAR);
+ 
+     code.mov(tmp, vaddr.cvt32());
+     code.and_(tmp, static_cast<u32>(page_mask));
+@@ -287,8 +291,9 @@ template<>
+     EmitDetectMisalignedVAddr(code, ctx, bitsize, abort, vaddr, tmp);
+ 
+     code.mov(tmp, vaddr);
++    code.mov(tmp2, tmp);
++    code.and_(tmp2, ~static_cast<u32>(page_mask));
+     code.shr(tmp, static_cast<int>(page_bits));
+-    code.mov(tmp2, tmp);                /// Store page index in tmp2...
+ 
+     code.and_(tmp, (1ULL << ctx.conf.tlb_index_mask_bits) - 1);
+ 
+@@ -297,12 +302,13 @@ template<>
+ 
+     code.mov(tmp, qword[entryoff + check_offset]);
+ 
+-    code.shr(tmp, static_cast<int>(page_bits));         /// Get the page index
+-    code.cmp(tmp, tmp2);                                /// Compare the page index stored.
++    code.cmp(tmp, tmp2);
+ 
+     code.jne(abort, code.T_NEAR);
+ 
+     code.mov(hostaddr, qword[entryoff + offsetof(TLBEntry, host_base)]);
++    code.test(hostaddr, hostaddr);
++    code.jz(abort, code.T_NEAR);
+ 
+     code.mov(tmp, vaddr);
+     code.and_(tmp, static_cast<u64>(page_mask));
+diff --git a/src/dynarmic/interface/tlb.h b/src/dynarmic/interface/tlb.h
+index 0020e335..048431d3 100644
+--- a/src/dynarmic/interface/tlb.h
++++ b/src/dynarmic/interface/tlb.h
+@@ -5,6 +5,7 @@
+ 
+ #pragma once
+ 
++#include <array>
+ #include <cstdint>
+ #include <cstring>
+ #include <vector>
+@@ -34,9 +35,12 @@ constexpr MemoryPermission operator|=(MemoryPermission& result, MemoryPermission
+ }
+ 
+ struct TLBEntry {
+-    VAddr read_addr = 0;
+-    VAddr write_addr = 0;
+-    VAddr execute_addr = 0;
++    // Tags are page-aligned addresses. An unaligned sentinel cannot alias a
++    // valid page, including page zero or the highest representable page.
++    static constexpr VAddr invalid_addr = ~VAddr{0};
++    VAddr read_addr = invalid_addr;
++    VAddr write_addr = invalid_addr;
++    VAddr execute_addr = invalid_addr;
+ 
+     std::uint8_t *host_base = nullptr;
+ };
+@@ -73,19 +77,19 @@ public:
+         if ((perm & MemoryPermission::Read) == MemoryPermission::Read) {
+             entry.read_addr = addr_normed;
+         } else {
+-            entry.read_addr = 0;
++            entry.read_addr = TLBEntry::invalid_addr;
+         }
+ 
+         if ((perm & MemoryPermission::Write) == MemoryPermission::Write) {
+             entry.write_addr = addr_normed;
+         } else {
+-            entry.write_addr = 0;
++            entry.write_addr = TLBEntry::invalid_addr;
+         }
+         
+         if ((perm & MemoryPermission::Execute) == MemoryPermission::Execute) {
+             entry.execute_addr = addr_normed;
+         } else {
+-            entry.execute_addr = 0;
++            entry.execute_addr = TLBEntry::invalid_addr;
+         }
+     }
+ 
+@@ -98,7 +102,7 @@ public:
+ 
+         if ((entry.read_addr == addr_normed) || (entry.write_addr == addr_normed) ||
+             (entry.execute_addr == addr_normed)) {
+-            std::memset(&entry, 0, sizeof(TLBEntry));
++            entry = TLBEntry{};
+         }
+     }
+ 
+@@ -124,4 +128,4 @@ public:
+     }
+ };
+ 
+-}
+\ No newline at end of file
++}

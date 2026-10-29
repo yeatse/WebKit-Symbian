@@ -1,0 +1,14 @@
+{
+  "status": "host regression passed; real EndTask retry pending",
+  "patch_sha256": "7107fb7a71a385d1744f72df1a2c7cddaa807d78f60b21f8e6c0725e60dda974",
+  "old_gdb_source": "/workspace/symbian-belle-work/ui-extra-candidate5/exit-gdb-context/emulator.log",
+  "old_gdb_source_sha256": "4e9298aa8d0515f17a01b39b5e11bcea6cd12ced699a7a038a60bb24a638c043",
+  "files": {
+    "old-endtask-gdb.log": "ecc61de9d67c5dbae0a6074db6b9de2105e767684717a5a491b4637fbc62922c",
+    "README.md": "4d0dbf5fe6277d305c87617b4fafc38ed31ef01e1ff33494069bc9bce71bcb71",
+    "result.json": "5aae40c17f2c70e01d2a05e66b5a93e8bedb6c8f9b238541982a0079e92eca3d",
+    "regression.log": "68d776ef852a51a338f954b67907472c5059e83f4c5d7661b66d9f9d391193b4",
+    "build-manifest.json": "de9fc87c3243fa98192c0fc5e0fdf0d61184af1c7cf7b026cecf54675ff87669",
+    "arm64-syntax.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

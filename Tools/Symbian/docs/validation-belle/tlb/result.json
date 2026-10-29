@@ -1,0 +1,471 @@
+{
+  "passed": true,
+  "results": {
+    "old": [
+      {
+        "case": "cold-read",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "cold-write",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "cold-byte-read",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "cold-byte-write",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "cold-half-read",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "cold-half-write",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "cold-thumb-read",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "cold-thumb-write",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "flush-read",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "flush-write",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "dirty-read",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "dirty-write",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "null-base-read",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "null-base-write",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "null-base-highest-read",
+        "returncode": -11,
+        "expected": -11,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "case": "denied-read",
+        "returncode": 1,
+        "expected": 1,
+        "stdout": "FAIL denied-read callbacks=0/0 address=0000000000000000 result=87654321\n",
+        "stderr": ""
+      },
+      {
+        "case": "denied-write",
+        "returncode": 1,
+        "expected": 1,
+        "stdout": "FAIL denied-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "collision-denied-read",
+        "returncode": 1,
+        "expected": 1,
+        "stdout": "FAIL collision-denied-read callbacks=0/0 address=0000000000000000 result=87654321\n",
+        "stderr": ""
+      },
+      {
+        "case": "collision-denied-write",
+        "returncode": 1,
+        "expected": 1,
+        "stdout": "FAIL collision-denied-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-read callbacks=0/0 address=0000000000000000 result=87654321\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-byte-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-byte-read callbacks=0/0 address=0000000000000000 result=00000021\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-byte-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-byte-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-half-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-half-read callbacks=0/0 address=0000000000000000 result=00004321\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-half-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-half-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-thumb-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-thumb-read callbacks=0/0 address=0000000000000000 result=87654321\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-thumb-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-thumb-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "highest-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS highest-read callbacks=1/0 address=00000000fffff004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "highest-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS highest-write callbacks=0/1 address=00000000fffff004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-highest-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-highest-read callbacks=0/0 address=0000000000000000 result=87654321\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-highest-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-highest-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "highest-denied-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS highest-denied-read callbacks=1/0 address=00000000fffff004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "highest-denied-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS highest-denied-write callbacks=0/1 address=00000000fffff004 result=aabbccdd\n",
+        "stderr": ""
+      }
+    ],
+    "corrected": [
+      {
+        "case": "cold-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS cold-read callbacks=1/0 address=0000000000000004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "cold-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS cold-write callbacks=0/1 address=0000000000000004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "cold-byte-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS cold-byte-read callbacks=1/0 address=0000000000000004 result=00000078\n",
+        "stderr": ""
+      },
+      {
+        "case": "cold-byte-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS cold-byte-write callbacks=0/1 address=0000000000000004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "cold-half-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS cold-half-read callbacks=1/0 address=0000000000000004 result=00005678\n",
+        "stderr": ""
+      },
+      {
+        "case": "cold-half-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS cold-half-write callbacks=0/1 address=0000000000000004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "cold-thumb-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS cold-thumb-read callbacks=1/0 address=0000000000000004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "cold-thumb-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS cold-thumb-write callbacks=0/1 address=0000000000000004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "flush-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS flush-read callbacks=1/0 address=0000000000000004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "flush-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS flush-write callbacks=0/1 address=0000000000000004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "dirty-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS dirty-read callbacks=1/0 address=0000000000000004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "dirty-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS dirty-write callbacks=0/1 address=0000000000000004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "null-base-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS null-base-read callbacks=1/0 address=0000000000000004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "null-base-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS null-base-write callbacks=0/1 address=0000000000000004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "null-base-highest-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS null-base-highest-read callbacks=1/0 address=00000000fffff004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "denied-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS denied-read callbacks=1/0 address=0000000000000004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "denied-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS denied-write callbacks=0/1 address=0000000000000004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "collision-denied-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS collision-denied-read callbacks=1/0 address=0000000000000004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "collision-denied-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS collision-denied-write callbacks=0/1 address=0000000000000004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-read callbacks=0/0 address=0000000000000000 result=87654321\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-byte-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-byte-read callbacks=0/0 address=0000000000000000 result=00000021\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-byte-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-byte-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-half-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-half-read callbacks=0/0 address=0000000000000000 result=00004321\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-half-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-half-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-thumb-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-thumb-read callbacks=0/0 address=0000000000000000 result=87654321\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-thumb-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-thumb-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "highest-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS highest-read callbacks=1/0 address=00000000fffff004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "highest-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS highest-write callbacks=0/1 address=00000000fffff004 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-highest-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-highest-read callbacks=0/0 address=0000000000000000 result=87654321\n",
+        "stderr": ""
+      },
+      {
+        "case": "valid-highest-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS valid-highest-write callbacks=0/0 address=0000000000000000 result=aabbccdd\n",
+        "stderr": ""
+      },
+      {
+        "case": "highest-denied-read",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS highest-denied-read callbacks=1/0 address=00000000fffff004 result=12345678\n",
+        "stderr": ""
+      },
+      {
+        "case": "highest-denied-write",
+        "returncode": 0,
+        "expected": 0,
+        "stdout": "PASS highest-denied-write callbacks=0/1 address=00000000fffff004 result=aabbccdd\n",
+        "stderr": ""
+      }
+    ]
+  }
+}

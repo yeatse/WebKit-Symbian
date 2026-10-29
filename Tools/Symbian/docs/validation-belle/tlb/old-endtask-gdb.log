@@ -1,0 +1,110 @@
+#2  0x00007ffff5b803cd in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007ffff5bf4bee in ppoll () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libc.so.6
+#4  0x00007ffff579d78c in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
+#5  0x00007ffff579de20 in g_main_context_iteration () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
+#6  0x00007ffff69e5563 in QEventDispatcherGlib::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libQt6Core.so.6
+#7  0x00007ffff67d7853 in QEventLoop::exec(QFlags<QEventLoop::ProcessEventsFlag>) () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libQt6Core.so.6
+#8  0x00007ffff68a95bc in QThread::exec() () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libQt6Core.so.6
+#9  0x00007ffff5a42f3e in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libQt6DBus.so.6
+#10 0x00007ffff692022a in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libQt6Core.so.6
+#11 0x00007ffff5b838bb in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libc.so.6
+#12 0x00007ffff5c01538 in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libc.so.6
+
+Thread 1 (Thread 0x7ffff0cb5f00 (LWP 419951) "eka2l1_qt"):
+#0  0x00007ffff5b8b72e in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007ffff5b80388 in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007ffff5b803cd in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libc.so.6
+#3  0x00007ffff5bf4bee in ppoll () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libc.so.6
+#4  0x00007ffff579d78c in ?? () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
+#5  0x00007ffff579de20 in g_main_context_iteration () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
+#6  0x00007ffff69e5563 in QEventDispatcherGlib::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libQt6Core.so.6
+#7  0x00007ffff67d7853 in QEventLoop::exec(QFlags<QEventLoop::ProcessEventsFlag>) () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libQt6Core.so.6
+#8  0x00007ffff67d914a in QCoreApplication::exec() () from /workspace/host-sysroot/usr/lib/x86_64-linux-gnu/libQt6Core.so.6
+#9  0x0000555555d65c61 in eka2l1::desktop::emulator_entry(QApplication&, eka2l1::desktop::emulator&, int, char const**) ()
+#10 0x0000555555c76abb in main ()
+rax            0x0                 0
+rbx            0x1855ea7e2         6532540386
+rcx            0x7fffd485dc40      140736758930496
+rdx            0x555557e18ae8      93825034980072
+rsi            0x7fffd0270000      140736685604864
+rdi            0x83600001          2204106753
+rbp            0x7fffd0270000      0x7fffd0270000
+rsp            0x7fffd1aef140      0x7fffd1aef140
+r8             0x555557e18ae8      93825034980072
+r9             0x0                 0
+r10            0x555557e15b48      93825034967880
+r11            0x0                 0
+r12            0x4                 4
+r13            0x4                 4
+r14            0x555557e15b48      93825034967880
+r15            0x7fffef8b0010      140737212252176
+rip            0x7fffd4830748      0x7fffd4830748
+eflags         0x10202             [ IF RF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+gs             0x0                 0
+k0             0x10000             65536
+k1             0x1                 1
+k2             0xfffeffff          4294901759
+k3             0x0                 0
+k4             0x0                 0
+k5             0x0                 0
+k6             0x800408            8389640
+k7             0x0                 0
+fs_base        0x7fffd1af06c0      140736711296704
+gs_base        0x0                 0
+   0x7fffd4830708:	mov    0x10(%r12),%r8
+   0x7fffd483070d:	lea    0x4(%eax),%r13d
+   0x7fffd4830712:	mov    %r13d,%r12d
+   0x7fffd4830715:	shr    $0xc,%r12d
+   0x7fffd4830719:	mov    %r12d,%r11d
+   0x7fffd483071c:	and    $0x1ff,%r12d
+   0x7fffd4830723:	imul   $0x20,%r12,%r10
+   0x7fffd4830727:	add    %r14,%r10
+   0x7fffd483072a:	mov    (%r10),%r12d
+   0x7fffd483072d:	shr    $0xc,%r12d
+   0x7fffd4830731:	cmp    %r11d,%r12d
+   0x7fffd4830734:	jne    0x7fffd48307fe
+   0x7fffd483073a:	mov    0x18(%r10),%r9
+   0x7fffd483073e:	mov    %r13d,%r12d
+   0x7fffd4830741:	and    $0xfff,%r12d
+=> 0x7fffd4830748:	mov    (%r9,%r12,1),%eax
+   0x7fffd483074c:	mov    %eax,0x14(%r15)
+   0x7fffd4830750:	subq   $0x7,(%rsp)
+   0x7fffd4830755:	cmpq   $0x0,(%rsp)
+   0x7fffd483075a:	jg     0x7fffd4830810
+   0x7fffd4830760:	nopl   0x0(%rax,%rax,1)
+   0x7fffd4830768:	movl   $0x855ea4e4,0x3c(%r15)
+   0x7fffd4830770:	mov    0x170(%r15),%ebx
+   0x7fffd4830777:	movabs $0x1855ea4e4,%rax
+   0x7fffd4830781:	movabs $0x7fffd4830810,%rcx
+   0x7fffd483078b:	mov    %rax,0x178(%r15,%rbx,8)
+   0x7fffd4830793:	mov    %rcx,0x1b8(%r15,%rbx,8)
+   0x7fffd483079b:	add    $0x1,%ebx
+   0x7fffd483079e:	and    $0x7,%ebx
+   0x7fffd48307a1:	mov    %ebx,0x170(%r15)
+0x7fffef8b0010:	0x00000000	0x83600001	0x83600001	0x0000000d
+0x7fffef8b0020:	0x00000000	0x0000001e	0x83600001	0x83600001
+0x7fffef8b0030:	0x00000000	0x00000000	0x00000000	0x00000000
+0x7fffef8b0040:	0x855ea7e3	0x0057d7b0	0x855ea7e9	0x855ea7e2
+0x7fffef8b0050:	0x00000001	0x00000000	0x00000000	0x00004700
+0x7fffd1aef140:	0x0000000000221b10	0x0000000000235d76
+0x7fffd1aef150:	0x41dab8e700000000	0x0000000000400083
+0x7fffd1aef160:	0x0000000000000000	0x0000000000000000
+0x7fffd1aef170:	0x0000000000001200	0x0000000000400083
+0x7fffd1aef180:	0x00007fff0057dac0	0x00000000000001b8
+0x7fffd1aef190:	0x0000000000000413	0x00007ffff5b92b7a
+0x7fffd1aef1a0:	0x0000000000579400	0x0000000000000070
+0x7fffd1aef1b0:	0x0000000000000000	0x0000000000000000
+0x7fffd1aef1c0:	0x0000000000000000	0x0000000000000060
+0x7fffd1aef1d0:	0x00007fffcc000030	0xfffffffffffffc78
+0x7fffd1aef1e0:	0x0000000000000000	0x0000000000000000
+0x7fffd1aef1f0:	0x00007fff4c6b9840	0x00007fffd1aef3a8
+0x7fffd1aef200:	0x00007fffd1aef5e0	0x00007fffef8b12f0
+0x7fffd1aef210:	0x0000000000000090	0x0000555556eb683b
+0x7fffd1aef220:	0x85bad000028b12f8	0x0000000000000000
+0x7fffd1aef230:	0x0000000000000000	0x0000555556eb6259
+process 419951
