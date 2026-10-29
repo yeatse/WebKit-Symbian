@@ -1,0 +1,32 @@
+{
+  "run_id": 40908209410,
+  "run_number": 38,
+  "head_sha": "17cf20e6748e87a1749f11b1bf018cf2304eb392",
+  "branch": "2.52.6-symbian",
+  "sis_version": "0.3.38",
+  "artifact_id": 12914250242,
+  "archive_sha256": "3488944c645e6a85695ec12dcd450ab24dd591f83b2d0947fb9d76cd261c9749",
+  "verified": true,
+  "checks": [
+    "symbian-webkit-icu.sis: OK",
+    "jsc.sis: OK",
+    "browser.sis: OK"
+  ],
+  "files": [
+    {
+      "name": "browser.sis",
+      "bytes": 20026464,
+      "sha256": "638a92b29e5c5c7f1b854a464965dd281c5e3e3b566f75ed6e9bbb5de4cd1edd"
+    },
+    {
+      "name": "jsc.sis",
+      "bytes": 6893024,
+      "sha256": "dd616e215229b57dfec8cf45125b6652811341989e29dde0529f09c2ad04bd2e"
+    },
+    {
+      "name": "symbian-webkit-icu.sis",
+      "bytes": 4768936,
+      "sha256": "0289b4c04856bc87381f48d9996dad2bcc114f49d998898cd4006b97c790164b"
+    }
+  ]
+}

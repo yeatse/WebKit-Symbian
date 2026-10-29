@@ -52,6 +52,15 @@ normally with host exit 0 and no panic. The fixture performs no network
 requests. [guest-result.json](guest-result.json) records binary/data hashes and
 the raw run locations; [guest-old.log](guest-old.log) and
 [guest-repaired.log](guest-repaired.log) retain the results. The guest's original
-data file was backed up and restored after the comparison. This establishes the
-browser behavior on EKA2L1; final SIS installation and another real-phone run
-remain separate acceptance steps.
+data file was backed up and restored after the comparison.
+
+The subsequent [SIS installation check](guest-sis-install.json) installed the
+actual 0.3.38 package, checked the registered UID/version and controller, and
+verified the installed data bytes. The browser then passed the same nine cases
+without the runner copying ICU data into the guest. The repaired data remains
+installed after this check. Host exit was 0 with no guest panic.
+
+[Package verification](package/README.md) records the successful main-branch
+CI38 and downloaded artifacts. Its ICU SIS is byte-identical to the locally
+installed hotfix. These checks establish the packaging and EKA2L1 behavior;
+another real-phone run remains outstanding.
