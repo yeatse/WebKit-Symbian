@@ -20,7 +20,7 @@ async function run(){
     const tests=[['HTTPS trusted',()=>fetchCheck(8767,true)],['HTTPS wrong hostname',()=>fetchCheck(8768,false)],['HTTPS untrusted root',()=>fetchCheck(8769,false)],['WSS trusted',()=>checkSocket('wss://localhost:8767/ws',true)],['WSS wrong hostname',()=>checkSocket('wss://localhost:8768/ws',false)],['WSS untrusted root',()=>checkSocket('wss://localhost:8769/ws',false)]];
     for(const [name,test] of tests){let status='PASS',detail='';try{await test();}catch(e){status='FAIL';detail=String(e);}results.push({name,status,detail});const line=status+': '+name+' '+detail;output.textContent+=line+'\n';console.log(line);}
     const count=results.filter(v=>v.status==='PASS').length;const summary=(count===6?'PASS':'FAIL')+': tls '+count+'/6';output.textContent+=summary;console.log(summary);document.title=summary;
-    await fetch('/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({suite:'tls',results})});document.getElementById('run').disabled=false;
+    await fetch('/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({suite:'tls',run:new URL(location.href).searchParams.get('run'),results})});document.getElementById('run').disabled=false;
 }
 document.getElementById('run').onclick=run;if(new URL(location.href).searchParams.get('autorun')==='1')run();
 </script>

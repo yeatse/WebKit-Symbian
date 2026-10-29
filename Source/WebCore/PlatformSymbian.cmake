@@ -27,6 +27,7 @@ list(REMOVE_ITEM WebCore_SOURCES
     platform/network/curl/OpenSSLHelper.cpp
 )
 list(APPEND WebCore_SOURCES
+    inspector/LegacyWebSocketInspectorInstrumentation.cpp
     platform/network/ResourceHandle.cpp
     platform/network/SynchronousLoaderClient.cpp
     platform/network/curl/ResourceHandleCurl.cpp

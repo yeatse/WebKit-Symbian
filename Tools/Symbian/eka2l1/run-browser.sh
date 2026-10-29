@@ -23,7 +23,14 @@ if len(sys.argv) < 2:
 exe=Path(sys.argv[1]).resolve()
 url=sys.argv[2] if len(sys.argv)>2 else 'file:///C:/Data/WebKit/test.html'
 data=Path(os.environ['EKA2L1_DATA']).resolve(); data.mkdir(parents=True,exist_ok=True)
-lock=(data/'.browser-run.lock').open('w')
+lockpath=data/'.browser-run.lock'
+if inherited_fd:=os.environ.get('EKA2L1_BROWSER_LOCK_FD'):
+    lock=os.fdopen(os.dup(int(inherited_fd)),'a')
+    held=os.fstat(lock.fileno());expected_lock=lockpath.stat()
+    if (held.st_dev,held.st_ino)!=(expected_lock.st_dev,expected_lock.st_ino):
+        sys.exit('Inherited browser lock does not match this emulator data directory')
+else:
+    lock=lockpath.open('a')
 fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
 work=Path(os.environ['SYMBIAN_BROWSER_WORK'])
 runs=work/'runs';runs.mkdir(parents=True,exist_ok=True)

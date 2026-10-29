@@ -23,11 +23,17 @@ Run directories are under the local work directory's `runs/`. RAB covers page gr
 
 The ICU and JSC SIS packages also install successfully in X7: each reports `Installation done!` with its matching UID and package registry; the installed EXE/data and all four test scripts match the build bytes. JSC installs to `E:/sys/bin/jsc.exe`, ICU data to `C:/resource/icu/icudt70l.dat`. The build packages are 5,189,128 bytes (`jsc.sis`) and 4,744,200 bytes (`symbian-webkit-icu.sis`). The GUI is terminated after installation evidence is captured, so its termination status is not used as the install verdict.
 
-WebCore configuration succeeds and PAL has compiled and archived. The AVKON shell's 11 ARM objects have compiled; 21 WebCore/PAL platform and crypto translation units and 6 Legacy embedding translation units pass actual ARM/C++23 syntax checks. Full WebCore/Legacy archives, final browser ELF/E32, SIS and guest execution are still pending.
+WTF, PAL, JSC, WebCore and WebKitLegacy have all compiled and archived for ARM. The complete AVKON browser has linked and converted to E32:
+
+- `browser.elf`: 91,861,652 bytes; `.ARM.exidx`: 731,808 bytes (91,476 records), successfully accepted by the patched converter.
+- `browser.exe`: 49,121,832 bytes; SHA256 `282d7dbfa7566cf3fda437b0e61c55663722987352594ce7b7c3e15dd3a1a34f`.
+- `browser.sis`: 18,355,252 bytes; SHA256 `8eebe8516eb9006d849a4ce10be160c46184288cecd8cde7d5b7f1dc4f5d2bed`.
+
+Browser installation and guest page/network execution are pending at this checkpoint.
 
 The E32 converter's 47 host regression tests pass, including a valid exception index larger than 64 KiB, malformed table/descriptor rejection and strict single-branch ARM import thunks. Clean sequential patch application, reverse checks and repeated cached builds pass. Converter SHA256: `6639323282ca92f09c823a9ea7178b318c2198cfdf27c5e0bb9e50cef6d5f27d`. This does not establish full-browser E32 conversion.
 
-Host fault injection compiles the actual `SymbianSystem.cpp` against fake kernel interfaces and passes reservation/commit rollback, data preservation, decommit/zeroing, slot limit/reuse and entropy failure/short-fill checks. Six fake-emulator runner regressions pass. These validate algorithms and harness behavior; they do not substitute for guest kernel or JSC execution.
+Host fault injection compiles the actual `SymbianSystem.cpp` against fake kernel interfaces and passes reservation/commit rollback, data preservation, decommit/zeroing, slot limit/reuse and entropy failure/short-fill checks. Six fake-emulator JSC runner regressions and twelve browser-network runner host regressions pass. These validate algorithms and harness behavior; they do not substitute for guest kernel or JSC execution.
 
 Browser fixture pages cover HTTP/WebSocket and TLS. WebCrypto vectors have supplementary host checks, but all browser fixture outcomes still need to be established in the Symbian engine.
 
@@ -35,7 +41,7 @@ Verified environment preparation: SDK compiler, linker and stock E32 converter b
 
 ## Required validation
 
-- WebCore/PAL/Legacy and browser compilation, ELF, E32 and SIS.
+- Browser SIS installation.
 - Local browser DOM/JS/Chinese rendering and input.
 - WebCrypto standard vectors and error inputs.
 - HTTP, WebSocket, HTTPS, WSS, untrusted certificates and hostname mismatch.

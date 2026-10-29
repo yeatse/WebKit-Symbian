@@ -18,3 +18,26 @@ Before testing, save the exact bytes of the emulator's own `drives/c/resource/we
 Load `https://localhost:8767/tls.html?autorun=1`. Require `PASS: tls 6/6` and six current report outcomes. Each negative WSS test requires its own error event, no open event, and closure; an HTTPS page failing to load cannot stand in for these checks. Inspect errors and server reachability to distinguish certificate rejection from unrelated connection failures.
 
 The HTTPS endpoint also serves `webcrypto.html` for a secure context. Cryptographic standard vectors and API rejection checks are separate from network and TLS results.
+
+## Automated emulator driver
+
+After firmware and browser prerequisites are installed, start the fixture server above and use the same `XDG_*`, `DISPLAY`, `EKA2L1`, `SYMBIAN_SDK_PREFIX`, and `SYMBIAN_WEBKIT_WORK` environment used for the build and emulator installation:
+
+```sh
+python3 Tools/Symbian/tests/run-browser-network-tests.py /path/to/build/browser/e32/browser.exe \
+  --reports /path/to/results --ca /path/to/new-test-tls/ca.crt
+```
+
+The Linux driver runs HTTP and TLS sequentially through `eka2l1/run-browser.sh`. `--suite network` runs only HTTP/WebSocket checks without changing trust; `--suite tls` runs only TLS. `--timeout` sets the bounded observation period per suite (180 seconds by default); an additional watchdog handles a stuck driver. Browser and JSC runs sharing the data directory are excluded while the suite holds its locks. A private process group and Linux child subreaper allow cleanup even if the driver's emulator starts a separate session.
+
+Each page reports the unique `run` query token. The driver requires exactly one new matching report, all expected names and PASS statuses, the matching fresh console lines, and no panic/access violation in current guest/host logs. It saves a result manifest with the browser SHA256, report, log and screenshot paths. TLS temporarily adds only the provided public test root to this emulator's CA file; original bytes, permissions, timestamps, or the original absent-file state are restored even on failure or interruption.
+
+Before launching the TLS page, the driver checks all three listeners against the `good.crt`, `wrong.crt`, and `untrusted.crt` files beside `--ca`. It verifies each endpoint's certificate fingerprint and `/ok` response, then requires the wrong-host connection to fail specifically with a hostname mismatch and the untrusted connection to fail specifically with an issuer/trust error under the test CA. A disposable host SSL context trusts the untrusted leaf only for its identity/reachability check; peer and hostname verification remain enabled. Ports, certificate fingerprints and verification reasons are saved in the manifest. An unavailable or misconfigured negative endpoint fails the preflight. Symlinked or hard-linked emulator CA bundles are rejected without modification.
+
+Host-only runner regressions do not start EKA2L1:
+
+```sh
+python3 Tools/Symbian/tests/test-browser-network-runner.py -v
+```
+
+They cover trust rollback, report correlation, exclusive/inherited locks, orphaned-session cleanup and TLS listener checks, including a complete driver run with a fake emulator. Their success does not establish guest network or TLS behavior.

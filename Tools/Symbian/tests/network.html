@@ -76,7 +76,7 @@ async function run() {
     const summary=(passed===tests.length?'PASS':'FAIL')+': network '+passed+'/'+tests.length;
     out.textContent += summary+'\n'; console.log(summary);
     document.title=summary;
-    try { await fetch('/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({suite:'network',results})}); } catch(error) { console.log('REPORT FAILED: '+error); }
+    try { await fetch('/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({suite:'network',run:new URL(location.href).searchParams.get('run'),results})}); } catch(error) { console.log('REPORT FAILED: '+error); }
     document.getElementById('run').disabled=false;
 }
 document.getElementById('run').onclick=run;
