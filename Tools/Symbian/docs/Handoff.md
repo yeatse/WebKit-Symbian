@@ -91,10 +91,9 @@ git am /path/to/WebKit-Symbian/Tools/Symbian/patches/eka2l1/000{1,5}-*.patch
 
 ## 待办
 
-1. 删掉诊断代码：`CurlSSLVerifier.h` 里的 RNG 跟踪（FIXME：“Remove once HTTPS loads on phones”）、`browser/NetworkConnection.cpp` 里的解析器探测（FIXME：“Remove once host names resolve on phones”）。HTTPS 和域名解析在手机上都已经正常了。
-2. 地址栏：历史和书签。
-3. 桌面页面的 viewport 和缩放。
-4. AVKON 风格的表单控件（`RenderTheme`）。
-5. 手机上的速度：先测量，再考虑滚动 blit 和局部 `-O2`。
-6. 可以优化：每个 curl 连接都会重新解析约 220 KB 的 `cacert.pem`，各连接可以共享 CA 链来省内存。手机上看到的 `mbedTLS -0x2880` 当时就是内存不足导致的。
-7. 远期：基于 GLES2 TextureMapper 的硬件合成。N8 有 OpenGL ES 2.0 和 EGL，但 GPU 内存和纹理上传都是瓶颈，GOOM 会杀进程，所以要单独评估。
+1. 地址栏：历史和书签。
+2. 桌面页面的 viewport 和缩放。
+3. AVKON 风格的表单控件（`RenderTheme`）。
+4. 手机上的速度：先测量，再考虑滚动 blit 和局部 `-O2`。
+5. 可以优化：每个 curl 连接都会重新解析约 220 KB 的 `cacert.pem`，各连接可以共享 CA 链来省内存。手机上看到的 `mbedTLS -0x2880` 当时就是内存不足导致的。
+6. 远期：基于 GLES2 TextureMapper 的硬件合成。N8 有 OpenGL ES 2.0 和 EGL，但 GPU 内存和纹理上传都是瓶颈，GOOM 会杀进程，所以要单独评估。

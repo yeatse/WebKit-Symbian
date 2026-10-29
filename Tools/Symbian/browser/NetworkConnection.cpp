@@ -5,57 +5,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <net/if.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
 #include <errno.h>
-#include <pthread.h>
 #include <string.h>
-
-namespace {
-
-// Resolves a name as curl's resolver thread does (IPv4, stream sockets)
-// and logs the result, to tell the resolver apart from the connection.
-void* ProbeResolver(void* aLabel)
-{
-    struct addrinfo hints;
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = PF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    struct addrinfo* result = nullptr;
-    errno = 0;
-    int error = getaddrinfo("example.com", "443", &hints, &result);
-    if (error)
-        BrowserLog("network: %s getaddrinfo: error %d, errno %d", static_cast<const char*>(aLabel), error, errno);
-    else {
-        char address[INET_ADDRSTRLEN] = { };
-        inet_ntop(AF_INET, &reinterpret_cast<struct sockaddr_in*>(result->ai_addr)->sin_addr, address, sizeof(address));
-        BrowserLog("network: %s getaddrinfo: %s", static_cast<const char*>(aLabel), address);
-        freeaddrinfo(result);
-    }
-    errno = 0;
-    struct hostent* host = gethostbyname("example.com");
-    if (!host || !host->h_addr_list[0])
-        BrowserLog("network: %s gethostbyname: h_errno %d, errno %d", static_cast<const char*>(aLabel), h_errno, errno);
-    else {
-        char address[INET_ADDRSTRLEN] = { };
-        inet_ntop(AF_INET, host->h_addr_list[0], address, sizeof(address));
-        BrowserLog("network: %s gethostbyname: %s", static_cast<const char*>(aLabel), address);
-    }
-    return nullptr;
-}
-
-void ProbeResolvers()
-{
-    ProbeResolver(const_cast<char*>("main thread"));
-    pthread_t thread;
-    if (!pthread_create(&thread, nullptr, ProbeResolver, const_cast<char*>("other thread")))
-        pthread_join(thread, nullptr);
-    else
-        BrowserLog("network: cannot start a thread");
-}
-
-} // namespace
 
 CNetworkConnection* CNetworkConnection::NewL(MNetworkConnectionObserver& aObserver)
 {
@@ -148,8 +99,6 @@ void CNetworkConnection::UseAccessPointL()
         BrowserLog("network: setdefaultif failed, errno %d", errno);
         User::Leave(KErrNotReady);
     }
-    // FIXME: Remove once host names resolve on phones.
-    ProbeResolvers();
 }
 
 void CNetworkConnection::DoCancel()

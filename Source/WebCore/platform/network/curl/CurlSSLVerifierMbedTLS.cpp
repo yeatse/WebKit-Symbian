@@ -62,24 +62,7 @@ CurlSSLVerifier::CurlSSLVerifier(void* sslCtx)
 {
     auto* config = static_cast<mbedtls_ssl_config*>(sslCtx);
     mbedtls_ssl_conf_verify(config, verifyCallback, this);
-#if OS(SYMBIAN)
-    if (CurlContext::singleton().isVerbose()) {
-        m_random = config->MBEDTLS_PRIVATE(f_rng);
-        m_randomContext = config->MBEDTLS_PRIVATE(p_rng);
-        if (m_random)
-            mbedtls_ssl_conf_rng(config, tracedRandom, this);
-    }
-#endif
 }
-
-#if OS(SYMBIAN)
-int CurlSSLVerifier::tracedRandom(void* data, unsigned char* output, size_t length)
-{
-    auto* verifier = static_cast<CurlSSLVerifier*>(data);
-    CurlContext::singleton().trace("TLS random #%u, %u bytes", ++verifier->m_randomCalls, static_cast<unsigned>(length));
-    return verifier->m_random(verifier->m_randomContext, output, length);
-}
-#endif
 
 int CurlSSLVerifier::verifyCallback(void* data, mbedtls_x509_crt* certificate, int depth, uint32_t* flags)
 {
