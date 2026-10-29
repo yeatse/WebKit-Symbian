@@ -1,0 +1,14 @@
+10:59:56.640 WebKit Browser starting
+10:59:56.662 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+10:59:58.460 network: connected through "Host network"
+10:59:58.475 load https://localhost:8767/tls.html?autorun=1&run=a55e0a44164f467981b92cf68f0bde1c
+console: https://localhost:8767/tls.html?autorun=1&run=a55e0a44164f467981b92cf68f0bde1c:21: PASS: HTTPS trusted 
+console: https://localhost:8767/tls.html?autorun=1&run=a55e0a44164f467981b92cf68f0bde1c:21: PASS: HTTPS wrong hostname 
+console: https://localhost:8767/tls.html?autorun=1&run=a55e0a44164f467981b92cf68f0bde1c:21: PASS: HTTPS untrusted root 
+console: https://localhost:8767/tls.html?autorun=1&run=a55e0a44164f467981b92cf68f0bde1c:21: PASS: WSS trusted 
+console: :0: WebSocket network error: SSL peer certificate or SSH remote key was not OK
+console: https://localhost:8767/tls.html?autorun=1&run=a55e0a44164f467981b92cf68f0bde1c:21: PASS: WSS wrong hostname 
+console: :0: WebSocket network error: SSL peer certificate or SSH remote key was not OK
+console: https://localhost:8767/tls.html?autorun=1&run=a55e0a44164f467981b92cf68f0bde1c:21: PASS: WSS untrusted root 
+console: https://localhost:8767/tls.html?autorun=1&run=a55e0a44164f467981b92cf68f0bde1c:22: PASS: tls 6/6

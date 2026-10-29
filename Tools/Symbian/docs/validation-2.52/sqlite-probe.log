@@ -1,0 +1,167 @@
+BEGIN: sqlite-probe version=3.35.5 threadsafe=1 logfile=open
+CONFIG_LOG rc=0
+INITIALIZE rc=0 OMIT_WAL=1
+AVAILABLE_VFS unix
+AVAILABLE_VFS unix-excl
+AVAILABLE_VFS unix-dotfile
+AVAILABLE_VFS unix-none
+POSIX open fd=4 errno=0
+POSIX fstat rc=0 errno=0 mode=100600 ino=0 dev=2
+POSIX write rc=8 errno=0
+POSIX fstat after write rc=0 size=8 errno=0
+POSIX stat after write rc=0 size=8 errno=0
+POSIX read first rc=8 value=original errno=0
+POSIX second open fd=5 errno=0
+POSIX second write rc=8 errno=0
+POSIX second fsync rc=0 errno=0
+POSIX first read after second fsync rc=8 value=changed! errno=0
+POSIX F_GETLK rc=-1 errno=22 type=1
+POSIX F_SETLK/read rc=-1 errno=78
+POSIX F_SETLK/unlock rc=0 errno=0
+POSIX O_BINARY=65536 O_BUFFERED=65536
+POSIX segmented fstat size=4612 errno=0
+POSIX segmented stat size=4612 errno=0
+POSIX segmented fsync then fstat size=4616 errno=0
+DATABASE path=C:/Data/WebKit/sqlite-probe.db requestedVFS=default
+sqlite3_open_v2 rc=0 extended=0 errmsg=not an error errno=0
+VFS rc=0 name=unix
+PRAGMA temp_store=MEMORY rc=0 extended=0 errmsg=not an error errno=0
+SQLITE_LOG code=3850 message=disk I/O error in "PRAGMA journal_mode=WAL"
+PRAGMA journal_mode=WAL rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+sqlite3_wal_checkpoint_v2 rc=0 extended=3850 errmsg=disk I/O error errno=78
+SQLITE_LOG code=3850 message=disk I/O error in "PRAGMA auto_vacuum=INCREMENTAL"
+PRAGMA auto_vacuum=INCREMENTAL rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+SQLITE_LOG code=3850 message=disk I/O error in "CREATE TABLE IF NOT EXISTS Probe (name TEXT PRIMARY KEY, value TEXT)"
+CREATE TABLE IF NOT EXISTS Probe (name TEXT PRIMARY KEY, value TEXT) rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+SQLITE_LOG code=3850 message=disk I/O error in "INSERT OR REPLACE INTO Probe VALUES ('cookie', 'persisted')"
+INSERT OR REPLACE INTO Probe VALUES ('cookie', 'persisted') rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+SQLITE_LOG code=3850 message=disk I/O error in "SELECT * FROM Probe"
+SELECT * FROM Probe rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+sqlite3_close rc=0
+sqlite3_reopen rc=0 extended=0 errmsg=not an error errno=78
+SQLITE_LOG code=3850 message=disk I/O error in "SELECT * FROM Probe"
+SELECT * FROM Probe rc=10 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+DATABASE path=C:\Data\WebKit\sqlite-probe-backslash.db requestedVFS=default
+sqlite3_open_v2 rc=0 extended=0 errmsg=not an error errno=0
+VFS rc=0 name=unix
+PRAGMA temp_store=MEMORY rc=0 extended=0 errmsg=not an error errno=0
+SQLITE_LOG code=3850 message=disk I/O error in "PRAGMA journal_mode=WAL"
+PRAGMA journal_mode=WAL rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+sqlite3_wal_checkpoint_v2 rc=0 extended=3850 errmsg=disk I/O error errno=78
+SQLITE_LOG code=3850 message=disk I/O error in "PRAGMA auto_vacuum=INCREMENTAL"
+PRAGMA auto_vacuum=INCREMENTAL rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+SQLITE_LOG code=3850 message=disk I/O error in "CREATE TABLE IF NOT EXISTS Probe (name TEXT PRIMARY KEY, value TEXT)"
+CREATE TABLE IF NOT EXISTS Probe (name TEXT PRIMARY KEY, value TEXT) rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+SQLITE_LOG code=3850 message=disk I/O error in "INSERT OR REPLACE INTO Probe VALUES ('cookie', 'persisted')"
+INSERT OR REPLACE INTO Probe VALUES ('cookie', 'persisted') rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+SQLITE_LOG code=3850 message=disk I/O error in "SELECT * FROM Probe"
+SELECT * FROM Probe rc=3850 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+sqlite3_close rc=0
+sqlite3_reopen rc=0 extended=0 errmsg=not an error errno=78
+SQLITE_LOG code=3850 message=disk I/O error in "SELECT * FROM Probe"
+SELECT * FROM Probe rc=10 extended=3850 errmsg=disk I/O error errno=78
+EXEC_MESSAGE disk I/O error
+DATABASE path=C:/Data/WebKit/sqlite-probe-dotfile.db requestedVFS=unix-dotfile
+sqlite3_open_v2 rc=0 extended=0 errmsg=not an error errno=0
+VFS rc=0 name=unix-dotfile
+PRAGMA temp_store=MEMORY rc=0 extended=0 errmsg=not an error errno=0
+ROW journal_mode=delete
+PRAGMA journal_mode=WAL rc=0 extended=0 errmsg=not an error errno=2
+sqlite3_wal_checkpoint_v2 rc=0 extended=0 errmsg=not an error errno=2
+PRAGMA auto_vacuum=INCREMENTAL rc=0 extended=0 errmsg=not an error errno=78
+CREATE TABLE IF NOT EXISTS Probe (name TEXT PRIMARY KEY, value TEXT) rc=0 extended=0 errmsg=not an error errno=2
+INSERT OR REPLACE INTO Probe VALUES ('cookie', 'persisted') rc=0 extended=0 errmsg=not an error errno=78
+ROW name=released
+ROW value=success
+ROW name=cookie
+ROW value=persisted
+SELECT * FROM Probe rc=0 extended=0 errmsg=not an error errno=2
+BEGIN EXCLUSIVE rc=0 extended=0 errmsg=not an error errno=2
+PASS: exclusive transaction begins
+contender open rc=0 extended=0 errmsg=not an error errno=2
+PASS: second connection opens
+SQLITE_LOG code=5 message=database is locked in "INSERT OR REPLACE INTO Probe VALUES ('contender', 'must-be-locked')"
+contender insert expects SQLITE_BUSY rc=5 extended=5 errmsg=database is locked errno=17
+PASS: second connection blocked while first holds lock
+COMMIT rc=0 extended=0 errmsg=not an error errno=0
+PASS: first connection releases lock
+INSERT OR REPLACE INTO Probe VALUES ('released', 'success') rc=0 extended=0 errmsg=not an error errno=78
+PASS: second connection writes after lock release
+BEGIN rc=0 extended=0 errmsg=not an error errno=0
+PASS: rollback transaction begins
+UPDATE Probe SET value='rolled-back' WHERE name='cookie' rc=0 extended=0 errmsg=not an error errno=2
+PASS: rollback transaction writes
+JOURNAL_BEFORE_ROLLBACK rc=0 size=4616
+JOURNAL_PATH_STAT rc=0 size=4616 errno=2
+ROLLBACK rc=0 extended=0 errmsg=not an error errno=0
+PASS: rollback succeeds
+VERIFY_ORIGINAL prepare=0 step=100 extended=100 value=persisted message=another row available
+PASS: rollback preserves committed value
+sqlite3_close rc=0
+sqlite3_reopen rc=0 extended=0 errmsg=not an error errno=2
+ROW name=cookie
+ROW value=persisted
+ROW name=released
+ROW value=success
+SELECT * FROM Probe rc=0 extended=0 errmsg=not an error errno=2
+VERIFY_ORIGINAL prepare=0 step=100 extended=100 value=persisted message=another row available
+PASS: close and reopen preserve committed value
+DATABASE path=C:/Data/WebKit/sqlite-probe-delete.db requestedVFS=unix-dotfile
+sqlite3_open_v2 rc=0 extended=0 errmsg=not an error errno=0
+VFS rc=0 name=unix-dotfile
+PRAGMA temp_store=MEMORY rc=0 extended=0 errmsg=not an error errno=0
+ROW journal_mode=delete
+PRAGMA journal_mode=DELETE rc=0 extended=0 errmsg=not an error errno=2
+sqlite3_wal_checkpoint_v2 rc=0 extended=0 errmsg=not an error errno=2
+PRAGMA auto_vacuum=INCREMENTAL rc=0 extended=0 errmsg=not an error errno=78
+CREATE TABLE IF NOT EXISTS Probe (name TEXT PRIMARY KEY, value TEXT) rc=0 extended=0 errmsg=not an error errno=2
+INSERT OR REPLACE INTO Probe VALUES ('cookie', 'persisted') rc=0 extended=0 errmsg=not an error errno=78
+ROW name=released
+ROW value=success
+ROW name=cookie
+ROW value=persisted
+SELECT * FROM Probe rc=0 extended=0 errmsg=not an error errno=2
+BEGIN EXCLUSIVE rc=0 extended=0 errmsg=not an error errno=2
+PASS: exclusive transaction begins
+contender open rc=0 extended=0 errmsg=not an error errno=2
+PASS: second connection opens
+SQLITE_LOG code=5 message=database is locked in "INSERT OR REPLACE INTO Probe VALUES ('contender', 'must-be-locked')"
+contender insert expects SQLITE_BUSY rc=5 extended=5 errmsg=database is locked errno=17
+PASS: second connection blocked while first holds lock
+COMMIT rc=0 extended=0 errmsg=not an error errno=0
+PASS: first connection releases lock
+INSERT OR REPLACE INTO Probe VALUES ('released', 'success') rc=0 extended=0 errmsg=not an error errno=78
+PASS: second connection writes after lock release
+BEGIN rc=0 extended=0 errmsg=not an error errno=0
+PASS: rollback transaction begins
+UPDATE Probe SET value='rolled-back' WHERE name='cookie' rc=0 extended=0 errmsg=not an error errno=2
+PASS: rollback transaction writes
+JOURNAL_BEFORE_ROLLBACK rc=0 size=4616
+JOURNAL_PATH_STAT rc=0 size=4616 errno=2
+ROLLBACK rc=0 extended=0 errmsg=not an error errno=0
+PASS: rollback succeeds
+VERIFY_ORIGINAL prepare=0 step=100 extended=100 value=persisted message=another row available
+PASS: rollback preserves committed value
+sqlite3_close rc=0
+sqlite3_reopen rc=0 extended=0 errmsg=not an error errno=2
+ROW name=cookie
+ROW value=persisted
+ROW name=released
+ROW value=success
+SELECT * FROM Probe rc=0 extended=0 errmsg=not an error errno=2
+VERIFY_ORIGINAL prepare=0 step=100 extended=100 value=persisted message=another row available
+PASS: close and reopen preserve committed value
+PASS: SQLite dotfile locking, rollback and persistence
+DONE: sqlite-probe failures=0
+sqlite-probe exiting 0

@@ -1,0 +1,44 @@
+[
+  {
+    "source": "/workspace/symbian-work/icu/install/share/icu/icudt70l.dat",
+    "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/icu/icudt70l.dat",
+    "bytes": 10202528,
+    "sha256": "5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f",
+    "identical": true
+  },
+  {
+    "source": "/workspace/symbian-work/build/e32/e32/jsc.exe",
+    "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/sys/bin/jsc.exe",
+    "bytes": 14305772,
+    "sha256": "77a73defd8f84e260455d9416e6b191f803f7a128912d43d5baf297780aa3b02",
+    "identical": true
+  },
+  {
+    "source": "/workspace/WebKit-Symbian/Tools/Symbian/tests/basic.js",
+    "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/basic.js",
+    "bytes": 186,
+    "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+    "identical": true
+  },
+  {
+    "source": "/workspace/WebKit-Symbian/Tools/Symbian/tests/es2020.js",
+    "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/es2020.js",
+    "bytes": 2587,
+    "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+    "identical": true
+  },
+  {
+    "source": "/workspace/WebKit-Symbian/Tools/Symbian/tests/intl.js",
+    "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/intl.js",
+    "bytes": 1462,
+    "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+    "identical": true
+  },
+  {
+    "source": "/workspace/WebKit-Symbian/Tools/Symbian/tests/resizable-arraybuffer.js",
+    "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/resizable-arraybuffer.js",
+    "bytes": 2715,
+    "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+    "identical": true
+  }
+]

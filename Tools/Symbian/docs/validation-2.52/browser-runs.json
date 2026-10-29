@@ -1,0 +1,36 @@
+{
+  "browser_exe": "/workspace/symbian-work/build/browser/e32/browser.exe",
+  "browser_sha256": "b9eff228efeda9fa831070440311ab4ff8d3af6c070cc3f0f70f9933712858d4",
+  "browser_bytes": 49115500,
+  "emulator_sha256": "c6c98382236bb8e83f31ae545c3e11edb126dd5d61f87e5b4ff07a22cd92fb1c",
+  "tests": [
+    {
+      "test": "local",
+      "observation_seconds": 30,
+      "runner_exit": 0,
+      "host_exit": 0,
+      "guest_panic": false,
+      "expected_marker": "PASS: browser-local",
+      "run": "/workspace/symbian-work/runs/browser-20261029T110148Z-fo37xvps",
+      "screenshot": "/workspace/symbian-work/runs/browser-20261029T110148Z-fo37xvps/browser.png",
+      "screenshot_sha256": "2866ea6325a8e99d44b7bc27253b96d137a942e2e5f70b6468eb0a0ae9741de7",
+      "log_sha256": "fe9887c312470de19ab3d13e81fe2f13d45ff740103da51eae75a4d90a57c478"
+    },
+    {
+      "test": "webcrypto",
+      "observation_seconds": 30,
+      "runner_exit": 0,
+      "host_exit": 0,
+      "guest_panic": false,
+      "expected_marker": "WEBCRYPTO DONE PASS 19/19 passed; 0 failed",
+      "run": "/workspace/symbian-work/runs/browser-20261029T110327Z-4mg9v9j3",
+      "screenshot": "/workspace/symbian-work/runs/browser-20261029T110327Z-4mg9v9j3/browser.png",
+      "screenshot_sha256": "e65ce14c2e6a3d8dc4473e5c6cf60284d3fc522b482bf787cf76a08c0ad1544f",
+      "log_sha256": "b7b98c58920b61bfeba1d8c75764f523b31e6d7410db8e44f4a8e421b0fe00dd",
+      "passed": 19,
+      "failed": 0
+    }
+  ],
+  "sis_installation_report": "/workspace/eka-validation/logs/browser-final-sis-install-verification.json",
+  "xdg_released": true
+}

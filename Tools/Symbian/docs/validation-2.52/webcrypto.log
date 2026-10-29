@@ -1,0 +1,26 @@
+11:03:28.569 WebKit Browser starting
+11:03:28.591 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+11:03:30.092 load file:///C:/Data/WebKit/webcrypto.html?autorun=1
+11:03:30.573 network: connected through "Host network"
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS SHA-1 abc
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS SHA-256 abc
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS SHA-384 abc
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS SHA-512 abc
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS HMAC SHA-256 sign and verify
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS HKDF SHA-256 RFC 5869 case 1
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS PBKDF2 SHA-256
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:59: AES-CBC and AES-CTR do not provide authentication by default, and implementing it manually can result in minor, but serious mistakes. We recommended using authenticated encryption like AES-GCM to protect against chosen-ciphertext attacks.
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS AES-CBC vector and PKCS7 round trip
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS AES-CFB-8 deprecated API rejection
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS AES-GCM NIST vector and tag rejection
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS AES-GCM authenticated data and empty input
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS AES-KW RFC 3394 and integrity rejection
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS AES key length and usage rejection
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS AES-CTR is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS RSA-PSS is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS ECDSA is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS Ed25519 is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS X25519 is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO PASS SHA-224 is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1:125: WEBCRYPTO DONE PASS 19/19 passed; 0 failed

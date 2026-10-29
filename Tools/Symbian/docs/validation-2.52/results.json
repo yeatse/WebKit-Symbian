@@ -1,0 +1,109 @@
+{
+  "date": "2026-10-29",
+  "timezone": "Asia/Singapore",
+  "engine_revision": "93fca3f63fe5ad74424d8cfaf09388f182924821",
+  "upstream_base": "4fb33923db2f945803df49546f75867980365c08",
+  "emulator_base": "5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a",
+  "emulator_patches_directory": "Tools/Symbian/patches/eka2l1",
+  "artifacts": {
+    "jsc.exe": {
+      "bytes": 14305772,
+      "sha256": "77a73defd8f84e260455d9416e6b191f803f7a128912d43d5baf297780aa3b02"
+    },
+    "browser.elf": {
+      "bytes": 91852560,
+      "sha256": "253ea4abf616a9eddbe468110557ece39d5c29ef50f6b8941eef122f1912f9cc"
+    },
+    "browser.exe": {
+      "bytes": 49115500,
+      "sha256": "b9eff228efeda9fa831070440311ab4ff8d3af6c070cc3f0f70f9933712858d4"
+    },
+    "jsc.sis": {
+      "bytes": 5189128,
+      "sha256": "e0b307c3af54e1cb03f761e083c6daf61337ac4cf52a923c536fba569cc74d59"
+    },
+    "browser.sis": {
+      "bytes": 18354312,
+      "sha256": "c8bb1c406a1fc8b1817dd1dd900fa8853dbf6a68331e35a98eb12429465a7452"
+    },
+    "symbian-webkit-icu.sis": {
+      "bytes": 4744200,
+      "sha256": "9bca263c767e2095b5835340a2bc5a7a953a95e9a9a2082e5bd7c60c46b88bb8"
+    },
+    "libsqlite3.a": {
+      "bytes": 1148182,
+      "sha256": "c2e391e20a998d85aa960ad15031884086ae8a8c965d508056626c5d6e5d7cca"
+    },
+    "eka2l1_qt": {
+      "bytes": 65316496,
+      "sha256": "c6c98382236bb8e83f31ae545c3e11edb126dd5d61f87e5b4ff07a22cd92fb1c"
+    },
+    "release-cacert.pem": {
+      "bytes": 188900,
+      "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505"
+    },
+    "sqlite_probe.exe": {
+      "bytes": 702212,
+      "sha256": "d94ef78aa7ab59a77222a27d9dec2290b674405c479b8d6f431155a4c669dbfd"
+    }
+  },
+  "jsc_runs": {
+    "basic": "jsc-20261029T091922Z-483yuvby",
+    "language": "jsc-20261029T091940Z-1qf4zvv_",
+    "intl": "jsc-20261029T091942Z-fp4lf4fw",
+    "resizable-arraybuffer": "jsc-20261029T091943Z-a6ugcdvw"
+  },
+  "network_manifest": "network-validation.json",
+  "sqlite_probe_run": "sqlite-probe-final-kmynPhy9",
+  "sqlite_probe_archive_sha256": "c2e391e20a998d85aa960ad15031884086ae8a8c965d508056626c5d6e5d7cca",
+  "limitations": [
+    "Development C_LOOP port; JIT, DFG, FTL and WebAssembly are disabled.",
+    "No physical-phone, guest OOM injection, power-loss recovery or QEMU JSC validation.",
+    "AES-CFB-8 is rejected in accordance with WebKit 2.52 API deprecation."
+  ],
+  "browser_runs": {
+    "local": "browser-20261029T110148Z-fo37xvps",
+    "webcrypto": "browser-20261029T110327Z-4mg9v9j3",
+    "local_status": "PASS",
+    "webcrypto_passed": 19,
+    "webcrypto_failed": 0,
+    "details": "browser-runs.json"
+  },
+  "sqlite_probe_status": "PASS",
+  "sqlite_probe_guest_exit": 0,
+  "sqlite_probe_host_exit": 0,
+  "sis_installation": {
+    "browser": "browser-sis-install.json",
+    "jsc_and_icu": "jsc-icu-sis-install.json",
+    "status": "PASS"
+  },
+  "host_regressions": {
+    "e32_converter": 47,
+    "native_memory_groups": 3,
+    "native_filesystem_groups": 5,
+    "jsc_runner": 6,
+    "browser_runner": 5,
+    "network_runner": 12,
+    "emulator_vfs": 8
+  },
+  "evidence_sha256": {
+    "basic.log": "6d2e09524140e7f2c1d8a348d69e237fed9067b581e0ec9d289593a06584e35e",
+    "browser-runs.json": "ab7b1b655565d430aa67a33a9471175682a2775bb622a2b6ccf8893b21997e62",
+    "browser-sis-install.json": "5b9ff5171d1ad7b9f772556dbcf1f232fc3b7877347a80f64ca6894807142bf5",
+    "intl.log": "5688a50fe18852de01e3706d71c419faab8dd7da12b530e7412b823bd8d76e30",
+    "jsc-icu-sis-install.json": "14d584898183bc297bb38697e99769f488aa99dc4de6373f25f62a7cc1095bf9",
+    "language.log": "c2d42d3126174fae034145bf4848deaf79b65fe97bd0d22543532b3b8802c9f6",
+    "local.log": "fe9887c312470de19ab3d13e81fe2f13d45ff740103da51eae75a4d90a57c478",
+    "local.png": "2866ea6325a8e99d44b7bc27253b96d137a942e2e5f70b6468eb0a0ae9741de7",
+    "network-report.json": "d41a6c1b0a9dd3b111c933bd01817e704a1e0a230a0f65d93fc4625dcc42ce58",
+    "network-validation.json": "3091f1ab9d5fe6f3180a425fd857d9fbc03e5c81aeae72e96004eefc07a1ad0c",
+    "network.log": "5f2e423dd3ac0eff3891b7b4fc7afb3445e5d67a391eaf740ab3d950f01ccc12",
+    "resizable-arraybuffer.log": "06e501ad5a0f024a4c5312b6fecf02bcc320c4cbb43d3c6c074020ed6d3db55f",
+    "sqlite-probe.log": "0364c228deb66f24d985502093c94f4fff6cd4c094de23785a35090d0a2d0356",
+    "tls-report.json": "67b7adb1d7964c9bda2891b0e9bec64fe27259e2e5a5c8aacdd90def4963ed19",
+    "tls.log": "25f51f67355edcf2b84b40348b3ab69db1b16f593084d36e5bbb04e0a40be410",
+    "webcrypto.log": "b7b98c58920b61bfeba1d8c75764f523b31e6d7410db8e44f4a8e421b0fe00dd",
+    "webcrypto.png": "e65ce14c2e6a3d8dc4473e5c6cf60284d3fc522b482bf787cf76a08c0ad1544f"
+  },
+  "sqlite_probe_source_sha256": "2c74d1232d8ea94006d034096119229e3bc8795d1e56bac66aada67b988e4b01"
+}

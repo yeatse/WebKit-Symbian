@@ -1,0 +1,60 @@
+{
+  "sis": "/workspace/symbian-work/sis/browser.sis",
+  "sis_sha256": "c8bb1c406a1fc8b1817dd1dd900fa8853dbf6a68331e35a98eb12429465a7452",
+  "sis_bytes": 18354312,
+  "previous_e_exe_sha256": "282d7dbfa7566cf3fda437b0e61c55663722987352594ce7b7c3e15dd3a1a34f",
+  "host_exit": 0,
+  "installation_marker": true,
+  "guest_panic": false,
+  "files": [
+    {
+      "source": "/workspace/symbian-work/build/browser/e32/browser.exe",
+      "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/sys/bin/browser.exe",
+      "bytes": 49115500,
+      "sha256": "b9eff228efeda9fa831070440311ab4ff8d3af6c070cc3f0f70f9933712858d4",
+      "identical": true
+    },
+    {
+      "source": "/workspace/symbian-work/build/browser/e32/browser_reg.rsc",
+      "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/private/10003a3f/import/apps/browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "identical": true
+    },
+    {
+      "source": "/workspace/symbian-work/build/browser/e32/browser_loc.rsc",
+      "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/resource/apps/browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "identical": true
+    },
+    {
+      "source": "/workspace/WebKit-Symbian/Tools/Symbian/browser/test.html",
+      "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/webkit/test.html",
+      "bytes": 2255,
+      "sha256": "3007653990b1368f132bac5e9b5919bea68a8b31dfa97cecfd1130905b1253f6",
+      "identical": true
+    },
+    {
+      "source": "/workspace/symbian-work/downloads/cacert-2026-09-25.pem",
+      "installed": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/webkit/cacert.pem",
+      "bytes": 188900,
+      "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+      "identical": true
+    }
+  ],
+  "registry": [
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/install/sisregistry/e1a5c012/00000000.reg",
+      "bytes": 640,
+      "sha256": "7b6c122ef7b6c5024c33e47f7ef7be4d42fa654804219aeebf1d5d894f108a99"
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/install/sisregistry/e1a5c012/00000000_0000.ctl",
+      "bytes": 1292,
+      "sha256": "a056623ae026f446277efbf2d6d15f680cee92b4c302d197c8eba39399ae7026"
+    }
+  ],
+  "c_exe_sha256": "b9eff228efeda9fa831070440311ab4ff8d3af6c070cc3f0f70f9933712858d4",
+  "e_exe_sha256": "b9eff228efeda9fa831070440311ab4ff8d3af6c070cc3f0f70f9933712858d4"
+}

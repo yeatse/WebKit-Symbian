@@ -1,0 +1,32 @@
+10:58:55.779 WebKit Browser starting
+10:58:55.801 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+10:58:57.595 network: connected through "Host network"
+10:58:57.609 load http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: fetch
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: async XHR
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: sync XHR
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: chunked response
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: data URI
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: 302 POST becomes GET
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: 303 POST becomes GET
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: 307 preserves POST
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: 401 async completes
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: 401 sync completes
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: XHR cancellation
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: fetch cancellation
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: Cookie Path isolation
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: redirect recalculates Cookie
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: Cookie deletion
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: cross-port Authorization removed
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: cross-port Cookie stays host scoped
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: WebSocket text
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: WebSocket binary
+console: :0: Not allowed to load local resource: file:///C:/Data/WebKit/test.html
+console: :0: Fetch API cannot load http://localhost:8765/redirect?status=302&to=file%3A%2F%2F%2FC%3A%2FData%2FWebKit%2Ftest.html due to access control checks.
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: HTTP redirect to file rejected
+console: :0: Not allowed to use restricted network port 25: http://localhost:25/
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: redirect to forbidden port rejected
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: request works after failures
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:73: PASS: Cookie cleanup readback
+console: http://localhost:8765/network.html?autorun=1&run=99cad8df78f54b8f994f3d2f3f445452:77: PASS: network 23/23

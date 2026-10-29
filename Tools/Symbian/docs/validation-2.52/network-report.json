@@ -1,0 +1,121 @@
+{
+  "suite": "network",
+  "run": "99cad8df78f54b8f994f3d2f3f445452",
+  "results": [
+    {
+      "name": "fetch",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "async XHR",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "sync XHR",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "chunked response",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "data URI",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "302 POST becomes GET",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "303 POST becomes GET",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "307 preserves POST",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "401 async completes",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "401 sync completes",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "XHR cancellation",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fetch cancellation",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Cookie Path isolation",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "redirect recalculates Cookie",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Cookie deletion",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-port Authorization removed",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-port Cookie stays host scoped",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "WebSocket text",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "WebSocket binary",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTP redirect to file rejected",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "redirect to forbidden port rejected",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "request works after failures",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Cookie cleanup readback",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}
