@@ -1,0 +1,19 @@
+{
+  "probeSHA256": "8148b8ff1b50acfc8bac5ef83b4ca37561742c3f163fc1dd27fff5c87ee19a33",
+  "probeBytes": 2538360,
+  "probeFlags": "0x12100028",
+  "guestExecution": "PASS",
+  "guestEvidence": "result.json",
+  "libraries": [
+    {
+      "name": "libANGLE.a",
+      "bytes": 1467988,
+      "sha256": "0b55d73994ec10505b443e3144a185d305469c04e96c82d58bb2785116f1f61f"
+    },
+    {
+      "name": "libGLESv2.a",
+      "bytes": 44180,
+      "sha256": "79bfd707efe1c7092e0daa4208de21dc152bc0713ba36ebaa8e06da1c1b33abb"
+    }
+  ]
+}

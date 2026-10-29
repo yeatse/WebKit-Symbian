@@ -60,6 +60,7 @@ public:
 private:
     explicit GraphicsContextGLSymbianANGLE(GraphicsContextGLAttributes);
     bool platformInitializeContext() final;
+    bool platformInitializeExtensions() final;
     bool platformInitialize() final;
 
     std::unique_ptr<SymbianWebGLLayer> m_layer;

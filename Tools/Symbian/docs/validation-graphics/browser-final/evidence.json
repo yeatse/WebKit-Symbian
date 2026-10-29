@@ -1,0 +1,17 @@
+{
+  "source_directory": "/workspace/symbian-graphics-work/graphics-final-8ba0-ff218",
+  "browser_sha256": "8ba0a5068a3dbd3aef616d71ae3b9f6d6b0a906c376c49fa4a9cc04685eaead5",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "status": "PASS",
+  "files_sha256": {
+    "compositing/browser.png": "76ba6e929958277660ee1737badaf2058d0d0857f2129c55ff03efce3e371083",
+    "compositing/emulator.log": "4c8ed55ad046d3154113a2a67949223ce99d3e7be23de8cac14fcf9699e45797",
+    "compositing/launcher.log": "1b2be686b0c3593b4ecb7c5db70ec5cd3e713d494e4d7e007e670cb86f914fd8",
+    "compositing/log.txt": "103b15a12216944ebc013075513dfe38828b04738e0a9605415dd85a13cad5cd",
+    "result.json": "52c0fc18d6cf0a1a6a6ed3132843ec9e1685e135233efa6d3e757051bbe3d609",
+    "webgl/browser.png": "3ffea71132d9344608b2e06f272d129dbfc38c308d5cfd985a749a9b34fa2e55",
+    "webgl/emulator.log": "4824b59df11ac68f09be90f79c45b13255db62c0cf456b7f9ffdab518906d6e4",
+    "webgl/launcher.log": "527a4487ca43db77cfbd65ec4606855782d2de7f633345b29e77f5cfd5c781dc",
+    "webgl/log.txt": "36bca02ed6a44e52543573d64479d319b945fa929cdada063bf06706a0581dac"
+  }
+}

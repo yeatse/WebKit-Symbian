@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "failure": null,
+  "probe": "egl",
+  "image_sha256": "bd8fce0b249e73edbe0eb9661b1d8d6a39b9adafa0b2340981e5ae1a5a1c9aa3",
+  "emulator_sha256": "e2a76526c006863894403872343abd5d1f051bce647c67d4f22b68dbe02d5704",
+  "emulator_patch_assets": {
+    "mediaclientaudio_general.dll": {
+      "sha256": "83b3412d4e84d896015ad793cfb19f0cd3886606c2d23caf5cb6ccd60e9f7bfc",
+      "bytes": 15356
+    },
+    "mediaclientaudio.dll.map": {
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "bytes": 48796
+    },
+    "mediaclientvideo_v100.dll": {
+      "sha256": "f8ae29b6bad23bfea9ed7931372565de1863827d494ef6a9b4a1966e1ae9b3a6",
+      "bytes": 10403
+    },
+    "mediaclientvideo.dll.map": {
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "bytes": 11393
+    }
+  },
+  "arguments": [
+    "--expect-es3-rejection",
+    "--hold-ms",
+    "15000"
+  ],
+  "host_exit": 0,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "egl-window-probe",
+    "version": 2,
+    "passed": 131,
+    "failed": 0,
+    "swaps": 3,
+    "pixelChecks": 9,
+    "holdMilliseconds": 15000,
+    "expectES3Rejection": true
+  },
+  "guest_log": "egl-probe.log",
+  "screenshots": [
+    "screenshot-1.png"
+  ],
+  "audio": null,
+  "audio_format": null,
+  "audio_capture_timing": null
+}

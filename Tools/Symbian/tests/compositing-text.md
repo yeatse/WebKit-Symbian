@@ -1,0 +1,7 @@
+# Compositing text comparison
+
+`compositing-text.html` is a visual diagnostic, not another PASS counter. It compares identical text without and with a `translateZ(0)` layer, before and after an 80-pixel overflow scroll. The last two rows use an integer 20-pixel line height to distinguish fractional text bounds from the normal font metrics. Two final rows contain identical alternating one-pixel black/white stripes, with only the second promoted.
+
+Capture after `READY: compositing-text`; retain its console geometry, pixel ratio, font, transform and scroll offsets. Compare an accelerated browser with the same viewport and font configuration in the software path. A soft or doubled promoted row with a sharp plain row narrows the problem to layer backing/presentation, but does not alone distinguish duplicated content, source rasterization, or texture filtering. The existing `compositing.html` remains the 10-check semantic regression.
+
+The [recorded comparison](../docs/validation-graphics/compositing-text/README.md) caught stale promoted backing scale after the meta viewport changed page scale. After the scale-change invalidation fix, all six 280 × 24 text regions match the software reference exactly, and both stripe rows have zero RGB error. `analyze-compositing-text.py --require-match` checks the unchanged screenshot's two stripe rows; it does not replace the text comparison or visual review. Coordinates are explicit and may need adjustment for a different host display layout.

@@ -1,0 +1,28 @@
+{
+  "screenshot_sha256": "3c9d0557caa26f4854dfe884772152cfabb6b261bfc66fe9e239fcae4799ef80",
+  "image_size": [
+    1280,
+    900
+  ],
+  "left": 283,
+  "width": 280,
+  "tolerance": 2,
+  "rows": {
+    "plain": {
+      "y": 406,
+      "maximum_error": 0,
+      "mean_absolute_error": 0.0,
+      "mismatched_channels": 0,
+      "one_pixel_alternation": true
+    },
+    "promoted": {
+      "y": 420,
+      "maximum_error": 0,
+      "mean_absolute_error": 0.0,
+      "mismatched_channels": 0,
+      "one_pixel_alternation": true
+    }
+  },
+  "matched": true,
+  "scope": "Checks two specified stripe rows only; text and the rest of the page require visual review."
+}

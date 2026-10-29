@@ -1,0 +1,71 @@
+{
+  "started": "2026-10-29T15:58:51.855660+00:00",
+  "status": "PASS",
+  "suites": [
+    {
+      "suite": "compositing",
+      "run": "e08bedb617eb458fb535d9f89d278224",
+      "url": "file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224",
+      "status": "PASS",
+      "launcher": "/workspace/symbian-graphics-work/graphics-final-8ba0-ff218/compositing/launcher.log",
+      "driver_exit": 0,
+      "source_run": "/workspace/symbian-graphics-work/runs/browser-20261029T155851Z-aifuo9s4",
+      "page_checks": 10,
+      "page_terminal": "RESULT: compositing-regression passed=10 failed=0 frames=4",
+      "native_renderer": "POWERVR EKA2L1",
+      "native_presentations": 1,
+      "presented_sizes": [
+        [
+          360,
+          532
+        ]
+      ],
+      "screenshot_size": [
+        1280,
+        900
+      ],
+      "logs": "/workspace/symbian-graphics-work/graphics-final-8ba0-ff218/compositing",
+      "screenshot": "/workspace/symbian-graphics-work/graphics-final-8ba0-ff218/compositing/browser.png",
+      "shutdown": "browser driver completed observation and graceful host shutdown"
+    },
+    {
+      "suite": "webgl",
+      "run": "0b38c77ba9964f188519e1d2e62ec699",
+      "url": "file:///C:/Data/WebKit/webgl.html?autorun=1&run=0b38c77ba9964f188519e1d2e62ec699",
+      "status": "PASS",
+      "launcher": "/workspace/symbian-graphics-work/graphics-final-8ba0-ff218/webgl/launcher.log",
+      "driver_exit": 0,
+      "source_run": "/workspace/symbian-graphics-work/runs/browser-20261029T155952Z-_dkoclzi",
+      "page_checks": 9,
+      "page_terminal": "WEBGL DONE PASS 9/9 passed; 0 failed",
+      "native_renderer": "POWERVR EKA2L1",
+      "native_presentations": 1,
+      "presented_sizes": [
+        [
+          360,
+          532
+        ]
+      ],
+      "screenshot_size": [
+        1280,
+        900
+      ],
+      "logs": "/workspace/symbian-graphics-work/graphics-final-8ba0-ff218/webgl",
+      "screenshot": "/workspace/symbian-graphics-work/graphics-final-8ba0-ff218/webgl/browser.png",
+      "shutdown": "browser driver completed observation and graceful host shutdown"
+    }
+  ],
+  "browser_sha256": "8ba0a5068a3dbd3aef616d71ae3b9f6d6b0a906c376c49fa4a9cc04685eaead5",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "evidence_scope": "Page checks and native EGL presentation are separate requirements. EKA dispatch and screenshots do not prove a physical GPU or a particular JIT tier.",
+  "ca_before": {
+    "exists": true,
+    "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505"
+  },
+  "ca_after": {
+    "exists": true,
+    "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505"
+  },
+  "ca_unchanged": true,
+  "finished": "2026-10-29T16:00:53.602196+00:00"
+}

@@ -48,6 +48,109 @@
         "retainedInRepository": false,
         "reason": "Contains host paths and unrelated device/media logs; strict exit and panic summary is preserved in unmodified result.json."
       }
+    },
+    {
+      "case": "depth-before",
+      "run": "angle-20261029T153610Z-r6xjwzk3",
+      "files": [
+        {
+          "file": "depth-before/result.json",
+          "uncompressedBytes": 1229,
+          "uncompressedSHA256": "e5662a44c465d669f03da2a53cc2effbecdef9730ea3aa8220d289cff8df9d4d"
+        },
+        {
+          "file": "depth-before/angle-probe.log.gz",
+          "uncompressedBytes": 2057,
+          "uncompressedSHA256": "8b75136f6825264117ba91f1eff6c5300cf9ac7b20292639968d0f759c884357"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 32782,
+        "sha256": "aca603ef23fa30c0bfb44b3945b27a6cce6ee1f4781533a2438c6fd48dcde306",
+        "retainedInRepository": false,
+        "reason": "Machine paths and unrelated media diagnostics; original strict result retained."
+      }
+    },
+    {
+      "case": "depth-only-fbo-crash",
+      "run": "angle-20261029T153749Z-xnqlx8cf",
+      "files": [
+        {
+          "file": "depth-only-fbo-crash/result.json",
+          "uncompressedBytes": 1161,
+          "uncompressedSHA256": "453e2c05052dc536f9e3e7d47d5e90ada0d3761fa293c9cdcff0f1cc0c91f05d"
+        },
+        {
+          "file": "depth-only-fbo-crash/angle-probe.log.gz",
+          "uncompressedBytes": 1975,
+          "uncompressedSHA256": "1c2fa9d4ebd518bb062fc42b96217e62da0393c05992ae88616990e63ead4556"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 32307,
+        "sha256": "1213d8dc526f3948d19a790cc747ea94fcd5833f65dc386d62b80f17a3b54afb",
+        "retainedInRepository": false,
+        "reason": "Machine paths; original strict result retained."
+      },
+      "externalDebuggerLog": {
+        "name": "angle-depth-crash-gdb.log",
+        "bytes": 51590,
+        "sha256": "8818ec24d08d09020b9321010987876e1f7e7ca418549449f912bc244e5cdafe",
+        "frames": [
+          "gles_framebuffer_object::ready_for_draw",
+          "egl_context_es2::prepare_for_clear",
+          "gl_clear_emu"
+        ],
+        "retainedInRepository": false
+      }
+    },
+    {
+      "case": "depth-after",
+      "run": "angle-20261029T154526Z-ikje9im1",
+      "files": [
+        {
+          "file": "depth-after/result.json",
+          "uncompressedBytes": 1190,
+          "uncompressedSHA256": "0f7f87bc438ec917e2cae1e7218fb47274ae66fe24213a2517e4ed9679bd4fc0"
+        },
+        {
+          "file": "depth-after/angle-probe.log.gz",
+          "uncompressedBytes": 2997,
+          "uncompressedSHA256": "89b0068cbc749657eca575a364cd7367e50f3b4bec36f408e91d172129b9b50a"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 36701,
+        "sha256": "832ee25b0d32818e7d0ac86f132b0b4e5dc08b125fe498ec49bb0dfc8224e2c4",
+        "retainedInRepository": false,
+        "reason": "Machine paths; exact original strict result retained."
+      }
+    },
+    {
+      "case": "bounded-read",
+      "run": "angle-20261029T155141Z-yfanh2nr",
+      "files": [
+        {
+          "file": "bounded-read/result.json",
+          "uncompressedBytes": 1190,
+          "uncompressedSHA256": "7ffe9fd02208627558f78c9625d1eee0b64760fb164e74fad5ca4c5fef8fe2d5"
+        },
+        {
+          "file": "bounded-read/angle-probe.log.gz",
+          "uncompressedBytes": 3251,
+          "uncompressedSHA256": "b190ba8768c2308f1ca742f7893f212a16ab1b576c4d4d827689e4cbc86335e3"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 37370,
+        "sha256": "f23f1a0778e237834eb2b0a8480b16552708b5f51b085685d4f64e8d714afc93",
+        "retainedInRepository": false,
+        "reason": "Machine paths; exact original strict result retained."
+      }
     }
   ]
 }

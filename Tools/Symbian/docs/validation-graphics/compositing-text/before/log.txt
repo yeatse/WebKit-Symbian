@@ -1,0 +1,15 @@
+15:32:16.398 WebKit Browser starting
+15:32:16.414 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+15:32:18.015 load file:///C:/Data/WebKit/compositing-text.html
+Symbian compositor: native EGL/GLES2 presented 360x532
+15:32:18.547 network: connected through "Host network"
+console: file:///C:/Data/WebKit/compositing-text.html:42: TEXT COMPARISON devicePixelRatio=1
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON plain {"x":12,"y":50,"width":280,"height":17,"lineHeight":"normal","font":"15px sans-serif","transform":"none","scrollTop":0}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON promoted {"x":12,"y":94,"width":280,"height":17,"lineHeight":"normal","font":"15px sans-serif","transform":"matrix(1, 0, 0, 1, 0, 0)","scrollTop":0}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON scrollPlain {"x":12,"y":138,"width":280,"height":17,"lineHeight":"normal","font":"15px sans-serif","transform":"none","scrollTop":80}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON scrollPromoted {"x":12,"y":182,"width":280,"height":17,"lineHeight":"normal","font":"15px sans-serif","transform":"matrix(1, 0, 0, 1, 0, 0)","scrollTop":80}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON integer {"x":12,"y":226,"width":280,"height":20,"lineHeight":"20px","font":"15px / 20px sans-serif","transform":"matrix(1, 0, 0, 1, 0, 0)","scrollTop":0}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON scrollInteger {"x":12,"y":270,"width":280,"height":20,"lineHeight":"20px","font":"15px / 20px sans-serif","transform":"matrix(1, 0, 0, 1, 0, 0)","scrollTop":80}
+console: file:///C:/Data/WebKit/compositing-text.html:52: READY: compositing-text

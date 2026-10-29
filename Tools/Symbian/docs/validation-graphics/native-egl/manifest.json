@@ -99,6 +99,64 @@
         "retainedInRepository": false,
         "reason": "Contains host paths and unrelated device/media logs; strict exit and panic summary is preserved in unmodified result.json."
       }
+    },
+    {
+      "case": "viewport-query",
+      "run": "egl-20261029T151515Z-hvkomjyx",
+      "files": [
+        {
+          "file": "viewport-query/result.json",
+          "uncompressedBytes": 1371,
+          "uncompressedSHA256": "0b671a0ccb6a42c3e1a5f2597a8ed22d939a7dbbaee9523cf4ff07e6de3936a4"
+        },
+        {
+          "file": "viewport-query/egl-probe.log.gz",
+          "uncompressedBytes": 7691,
+          "uncompressedSHA256": "534424fa3f99bb890594a7eb3a5aa093fdd25c96ecf5afd78a4f48d72d73d928"
+        },
+        {
+          "file": "viewport-query/screenshot-1.png",
+          "uncompressedBytes": 7327,
+          "uncompressedSHA256": "6a92850955224beedd39c56665075647972e9336fb127ab0bc72d0f760e13367"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 54178,
+        "sha256": "ff0151b3ef6e603b8a67cd2ecbf4c6d8097157a08f301f2bfcacf4ae48a91f47",
+        "retainedInRepository": false,
+        "reason": "Machine paths and unrelated media diagnostics; exact strict result retained."
+      },
+      "hostNote": "Host additionally includes temporary audio playback diagnostics; this is not the exact host used by the earlier 123/123 and ANGLE 34/34 runs."
+    },
+    {
+      "case": "final-clean",
+      "run": "egl-20261029T155647Z-z4uof71f",
+      "files": [
+        {
+          "file": "final-clean/result.json",
+          "uncompressedBytes": 1399,
+          "uncompressedSHA256": "2d69889aab1c3f9cfd4a10a97a5e3b2c1bc33bd194790a23e525a5c95036b3cb"
+        },
+        {
+          "file": "final-clean/egl-probe.log.gz",
+          "uncompressedBytes": 7691,
+          "uncompressedSHA256": "534424fa3f99bb890594a7eb3a5aa093fdd25c96ecf5afd78a4f48d72d73d928"
+        },
+        {
+          "file": "final-clean/screenshot-1.png",
+          "uncompressedBytes": 7327,
+          "uncompressedSHA256": "6a92850955224beedd39c56665075647972e9336fb127ab0bc72d0f760e13367"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 54172,
+        "sha256": "cd34f2a71aab4f1062e46df193e29fd53c44c9e0526d1abad0fd70d49f99c9a2",
+        "retainedInRepository": false,
+        "reason": "Machine paths and unrelated firmware diagnostics; exact strict result retained."
+      },
+      "hostNote": "Final ff218 host without temporary MMFSTART audio diagnostics; same bd8fce probe and effective arguments as viewport-query, 131/131 with nine pixels and three swaps."
     }
   ]
 }

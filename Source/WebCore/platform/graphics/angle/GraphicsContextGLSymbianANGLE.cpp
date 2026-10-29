@@ -186,6 +186,11 @@ bool GraphicsContextGLSymbianANGLE::platformInitializeContext()
     return makeContextCurrent();
 }
 
+bool GraphicsContextGLSymbianANGLE::platformInitializeExtensions()
+{
+    return enableExtensionsImpl({ "GL_ANGLE_robust_client_memory"_s });
+}
+
 bool GraphicsContextGLSymbianANGLE::platformInitialize()
 {
     m_layer = makeUnique<SymbianWebGLLayer>();

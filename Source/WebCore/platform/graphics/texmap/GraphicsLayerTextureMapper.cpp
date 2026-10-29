@@ -77,6 +77,13 @@ void GraphicsLayerTextureMapper::setNeedsDisplay()
     addRepaintRect(FloatRect(FloatPoint(), m_size));
 }
 
+void GraphicsLayerTextureMapper::deviceOrPageScaleFactorChanged()
+{
+    // The next upload must rebuild every tile at the new raster scale, even
+    // when the layer's CSS size and painted content have not changed.
+    setNeedsDisplay();
+}
+
 void GraphicsLayerTextureMapper::setContentsNeedsDisplay()
 {
     notifyChange(DisplayChange);

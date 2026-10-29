@@ -1,0 +1,12 @@
+[
+  {
+    "path": "Tools/Symbian/tests/egl-probe/probe.cpp",
+    "sha256": "0d06a76597003c5c3823dd25d9231c9d169a2b866536be12301e00e27b41c36d",
+    "bytes": 31239
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0014-Query-current-GLES-viewport-in-guest-coordinates.patch",
+    "sha256": "1810f339294fc538ed4b2a46c9701c286a4648b3924d1eff46e43c0ce24e7a54",
+    "bytes": 1717
+  }
+]

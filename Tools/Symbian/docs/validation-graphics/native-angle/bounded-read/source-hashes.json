@@ -1,0 +1,42 @@
+[
+  {
+    "path": "Tools/Symbian/tests/angle-probe/probe.cpp",
+    "sha256": "f10619647f0b619806c43be9a047fb867388e6da50619a770112e4172a7e8d84",
+    "bytes": 12976
+  },
+  {
+    "path": "Tools/Symbian/tests/angle-probe/CMakeLists.txt",
+    "sha256": "0abc9a9b4d3932f9bc8b69797ac21d3f1ddde96a7cbc346a441556eed2a933c7",
+    "bytes": 1360
+  },
+  {
+    "path": "Tools/Symbian/tests/angle-probe/build.sh",
+    "sha256": "f0df5957708598231cbffde2e9d83ae0ec6979001acb146945c36619cffc5c05",
+    "bytes": 1118
+  },
+  {
+    "path": "Source/ThirdParty/ANGLE/src/libANGLE/renderer/gl/formatutilsgl.cpp",
+    "sha256": "5fe4311dfffdd26d010a159abda4b5290d8fe5b40d23e59868dca04e07e99fb0",
+    "bytes": 90859
+  },
+  {
+    "path": "Source/WebCore/platform/graphics/angle/GraphicsContextGLANGLE.cpp",
+    "sha256": "95ca1ae6dc3c3faf56d01008bcee5ae59ed571be2c75a6e8adee263f004242fb",
+    "bytes": 118542
+  },
+  {
+    "path": "Source/WebCore/platform/graphics/angle/GraphicsContextGLSymbianANGLE.cpp",
+    "sha256": "fd10c161fc3b6d8db9f39066ad733e20670c8f79d92c20562fcebe9eed6c6d4c",
+    "bytes": 10096
+  },
+  {
+    "path": "Source/WebCore/platform/graphics/angle/GraphicsContextGLSymbianANGLE.h",
+    "sha256": "cfdf4cccacd0b8f00478c7a9cb54bfc5f7d5638b9a6c3f64f1c61a67a8dcc392",
+    "bytes": 2930
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0016-Support-depth-only-framebuffers-and-attachment-detach.patch",
+    "sha256": "61cf4a190e8f5bee785d23ddb13aacc4ca286a5cec6c99e3b1446b61b3ed539f",
+    "bytes": 6751
+  }
+]

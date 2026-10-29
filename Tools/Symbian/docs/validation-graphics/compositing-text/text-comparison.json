@@ -1,0 +1,131 @@
+{
+  "reference": "software/browser.png",
+  "reference_sha256": "3c9d0557caa26f4854dfe884772152cfabb6b261bfc66fe9e239fcae4799ef80",
+  "region_convention": "left, top, width, height; original screenshot pixels, RGB channels compared without resizing or other image changes",
+  "regions": [
+    [
+      283,
+      152,
+      280,
+      24
+    ],
+    [
+      283,
+      196,
+      280,
+      24
+    ],
+    [
+      283,
+      240,
+      280,
+      24
+    ],
+    [
+      283,
+      284,
+      280,
+      24
+    ],
+    [
+      283,
+      328,
+      280,
+      24
+    ],
+    [
+      283,
+      372,
+      280,
+      24
+    ]
+  ],
+  "cases": {
+    "before": {
+      "screenshot": "before/browser.png",
+      "screenshot_sha256": "d56d241a1cf03685af1fa7bd072e27e9e54365f58f8f0d4f1196091db6d5edf9",
+      "rows": [
+        {
+          "row": 1,
+          "maximum_error": 0,
+          "mean_absolute_error": 0.0,
+          "mismatched_channels": 0
+        },
+        {
+          "row": 2,
+          "maximum_error": 221,
+          "mean_absolute_error": 12.45406746031746,
+          "mismatched_channels": 4470
+        },
+        {
+          "row": 3,
+          "maximum_error": 0,
+          "mean_absolute_error": 0.0,
+          "mismatched_channels": 0
+        },
+        {
+          "row": 4,
+          "maximum_error": 221,
+          "mean_absolute_error": 12.45406746031746,
+          "mismatched_channels": 4470
+        },
+        {
+          "row": 5,
+          "maximum_error": 230,
+          "mean_absolute_error": 12.700992063492064,
+          "mismatched_channels": 4946
+        },
+        {
+          "row": 6,
+          "maximum_error": 230,
+          "mean_absolute_error": 12.700992063492064,
+          "mismatched_channels": 4946
+        }
+      ],
+      "exactly_matches_reference": false
+    },
+    "after": {
+      "screenshot": "after/browser.png",
+      "screenshot_sha256": "796431d8d45f2b234c6a01fec9500a4998971baa7b4fd35e27c4a06da6ffe224",
+      "rows": [
+        {
+          "row": 1,
+          "maximum_error": 0,
+          "mean_absolute_error": 0.0,
+          "mismatched_channels": 0
+        },
+        {
+          "row": 2,
+          "maximum_error": 0,
+          "mean_absolute_error": 0.0,
+          "mismatched_channels": 0
+        },
+        {
+          "row": 3,
+          "maximum_error": 0,
+          "mean_absolute_error": 0.0,
+          "mismatched_channels": 0
+        },
+        {
+          "row": 4,
+          "maximum_error": 0,
+          "mean_absolute_error": 0.0,
+          "mismatched_channels": 0
+        },
+        {
+          "row": 5,
+          "maximum_error": 0,
+          "mean_absolute_error": 0.0,
+          "mismatched_channels": 0
+        },
+        {
+          "row": 6,
+          "maximum_error": 0,
+          "mean_absolute_error": 0.0,
+          "mismatched_channels": 0
+        }
+      ],
+      "exactly_matches_reference": true
+    }
+  }
+}

@@ -354,6 +354,36 @@ private:
 
     bool verifyQueries()
     {
+        // TextureMapper saves these states before painting. Query the current
+        // viewport as well as its maximum size, including a nonzero origin.
+        GLint currentViewport[4] = { -1, -1, -1, -1 };
+        glGetIntegerv(GL_VIEWPORT, currentViewport);
+        if (!expect(currentViewport[0] == 0 && currentViewport[1] == 0 && currentViewport[2] == 32 && currentViewport[3] == 32,
+            "current FBO viewport query") || !glOK("query current viewport")) return false;
+        glViewport(3, 5, 17, 19);
+        glGetIntegerv(GL_VIEWPORT, currentViewport);
+        if (!expect(currentViewport[0] == 3 && currentViewport[1] == 5 && currentViewport[2] == 17 && currentViewport[3] == 19,
+            "viewport query preserves nonzero origin and dimensions")) return false;
+        glViewport(0, 0, 32, 32);
+        GLint previousScissor[4] = { 0, 0, 0, 0 };
+        GLint scissor[4] = { -1, -1, -1, -1 };
+        glGetIntegerv(GL_SCISSOR_BOX, previousScissor);
+        glScissor(2, 4, 10, 12);
+        glGetIntegerv(GL_SCISSOR_BOX, scissor);
+        if (!expect(scissor[0] == 2 && scissor[1] == 4 && scissor[2] == 10 && scissor[3] == 12,
+            "scissor query preserves origin and dimensions")) return false;
+        glScissor(previousScissor[0], previousScissor[1], previousScissor[2], previousScissor[3]);
+        if (!expect(!glIsEnabled(GL_SCISSOR_TEST) && !glIsEnabled(GL_DEPTH_TEST), "disabled compositor scissor and depth state")) return false;
+        glEnable(GL_SCISSOR_TEST);
+        if (!expect(glIsEnabled(GL_SCISSOR_TEST), "enabled compositor scissor state")) return false;
+        glDisable(GL_SCISSOR_TEST);
+        glDepthFunc(GL_LEQUAL);
+        GLint boundProgram = 0, boundFramebuffer = 0;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &boundProgram);
+        glGetIntegerv(GL_FRAMEBUFFER_BINDING, &boundFramebuffer);
+        if (!expect(boundProgram == static_cast<GLint>(program) && boundFramebuffer == static_cast<GLint>(framebuffer),
+            "compositor program and framebuffer state query") || !glOK("TextureMapper painting state queries")) return false;
+
         GLint viewport[2] = {0, 0};
         glGetIntegerv(GL_MAX_VIEWPORT_DIMS, viewport);
         report("INFO: max viewport=%d,%d", viewport[0], viewport[1]);

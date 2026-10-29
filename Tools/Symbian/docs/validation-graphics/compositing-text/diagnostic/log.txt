@@ -1,0 +1,153 @@
+15:47:17.798 WebKit Browser starting
+15:47:17.814 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+15:47:19.433 load file:///C:/Data/WebKit/compositing-text.html
+TM-SCALE-DIAG FRAME 1 begin view=360x532 page=1.0000 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=1 dirty=0,0 360x532
+TM-SCALE-DIAG upload layer=0x8df55c8 texture=1 allocation=360x532 bitmap=360x532 target=0,0 360x532 source=0,0 effectiveScale=1.0000
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG FRAME 1 end
+Symbian compositor: native EGL/GLES2 presented 360x532
+TM-SCALE-DIAG FRAME 2 begin view=360x532 page=1.0000 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG FRAME 2 end
+TM-SCALE-DIAG FRAME 3 begin view=360x532 page=0.3673 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 360x532
+TM-SCALE-DIAG upload layer=0x8df55c8 texture=1 allocation=360x532 bitmap=360x532 target=0,0 360x532 source=0,0 effectiveScale=1.0000
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG FRAME 3 end
+TM-SCALE-DIAG FRAME 4 begin view=360x532 page=0.3673 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG FRAME 4 end
+15:47:19.999 network: connected through "Host network"
+TM-SCALE-DIAG FRAME 5 begin view=360x532 page=0.3673 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 360x532
+TM-SCALE-DIAG upload layer=0x8df55c8 texture=1 allocation=360x532 bitmap=360x532 target=0,0 360x532 source=0,0 effectiveScale=1.0000
+TM-SCALE-DIAG layer=0x8e34100 backing=0x639650 size=280.000x17.000 page=0.3673 device=1.0000 stored=1.0000 full=1 dirty=0,0 280x17
+TM-SCALE-DIAG upload layer=0x8e34100 texture=5 allocation=102x6 bitmap=102x6 target=0,0 102x6 source=0,0 effectiveScale=0.3673
+TM-SCALE-DIAG layer=0x8e35730 backing=0x639680 size=280.000x17.000 page=0.3673 device=1.0000 stored=1.0000 full=1 dirty=0,0 280x17
+TM-SCALE-DIAG upload layer=0x8e35730 texture=6 allocation=102x6 bitmap=102x6 target=0,0 102x6 source=0,0 effectiveScale=0.3673
+TM-SCALE-DIAG layer=0x8e367d0 backing=0x6396b0 size=280.000x20.000 page=0.3673 device=1.0000 stored=1.0000 full=1 dirty=0,0 280x20
+TM-SCALE-DIAG upload layer=0x8e367d0 texture=7 allocation=102x7 bitmap=102x7 target=0,0 102x7 source=0,0 effectiveScale=0.3673
+TM-SCALE-DIAG layer=0x8e37920 backing=0x6396e0 size=280.000x20.000 page=0.3673 device=1.0000 stored=1.0000 full=1 dirty=0,0 280x20
+TM-SCALE-DIAG upload layer=0x8e37920 texture=8 allocation=102x7 bitmap=102x7 target=0,0 102x7 source=0,0 effectiveScale=0.3673
+TM-SCALE-DIAG layer=0x8e387a8 backing=0x639710 size=280.000x6.000 page=0.3673 device=1.0000 stored=1.0000 full=1 dirty=0,0 280x6
+TM-SCALE-DIAG upload layer=0x8e387a8 texture=9 allocation=102x2 bitmap=102x2 target=0,0 102x2 source=0,0 effectiveScale=0.3673
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG draw backing=0x639650 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,34.5306
+TM-SCALE-DIAG draw backing=0x639680 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,66.8571
+TM-SCALE-DIAG draw backing=0x6396b0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,83.0204
+TM-SCALE-DIAG draw backing=0x6396e0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,99.1837
+TM-SCALE-DIAG draw backing=0x639710 contents=280.000x6.000 scale=0.3673 raster=102.857x2.204 target=0,0 280x6 transform=1,1,4.40816,116.082
+TM-SCALE-DIAG FRAME 5 end
+TM-SCALE-DIAG FRAME 6 begin view=360x532 page=0.3673 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e34100 backing=0x639650 size=280.000x17.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e35730 backing=0x639680 size=280.000x17.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e367d0 backing=0x6396b0 size=280.000x20.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e37920 backing=0x6396e0 size=280.000x20.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e387a8 backing=0x639710 size=280.000x6.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG draw backing=0x639650 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,34.5306
+TM-SCALE-DIAG draw backing=0x639680 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,66.8571
+TM-SCALE-DIAG draw backing=0x6396b0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,83.0204
+TM-SCALE-DIAG draw backing=0x6396e0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,99.1837
+TM-SCALE-DIAG draw backing=0x639710 contents=280.000x6.000 scale=0.3673 raster=102.857x2.204 target=0,0 280x6 transform=1,1,4.40816,116.082
+TM-SCALE-DIAG FRAME 6 end
+TM-SCALE-DIAG FRAME 7 begin view=360x532 page=0.3673 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e34100 backing=0x639650 size=280.000x17.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e35730 backing=0x639680 size=280.000x17.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e367d0 backing=0x6396b0 size=280.000x20.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e37920 backing=0x6396e0 size=280.000x20.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e387a8 backing=0x639710 size=280.000x6.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG draw backing=0x639650 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,34.5306
+TM-SCALE-DIAG draw backing=0x639680 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,66.8571
+TM-SCALE-DIAG draw backing=0x6396b0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,83.0204
+TM-SCALE-DIAG draw backing=0x6396e0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,99.1837
+TM-SCALE-DIAG draw backing=0x639710 contents=280.000x6.000 scale=0.3673 raster=102.857x2.204 target=0,0 280x6 transform=1,1,4.40816,116.082
+TM-SCALE-DIAG FRAME 7 end
+TM-SCALE-DIAG FRAME 8 begin view=360x532 page=0.3673 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e34100 backing=0x639650 size=280.000x17.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e35730 backing=0x639680 size=280.000x17.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e367d0 backing=0x6396b0 size=280.000x20.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e37920 backing=0x6396e0 size=280.000x20.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e387a8 backing=0x639710 size=280.000x6.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG draw backing=0x639650 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,34.5306
+TM-SCALE-DIAG draw backing=0x639680 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,66.8571
+TM-SCALE-DIAG draw backing=0x6396b0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,83.0204
+TM-SCALE-DIAG draw backing=0x6396e0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,99.1837
+TM-SCALE-DIAG draw backing=0x639710 contents=280.000x6.000 scale=0.3673 raster=102.857x2.204 target=0,0 280x6 transform=1,1,4.40816,116.082
+TM-SCALE-DIAG FRAME 8 end
+TM-SCALE-DIAG FRAME 9 begin view=360x532 page=0.3673 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e34100 backing=0x639650 size=280.000x17.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e35730 backing=0x639680 size=280.000x17.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e367d0 backing=0x6396b0 size=280.000x20.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e37920 backing=0x6396e0 size=280.000x20.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e387a8 backing=0x639710 size=280.000x6.000 page=0.3673 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG draw backing=0x639650 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,34.5306
+TM-SCALE-DIAG draw backing=0x639680 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=1,1,4.40816,66.8571
+TM-SCALE-DIAG draw backing=0x6396b0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,83.0204
+TM-SCALE-DIAG draw backing=0x6396e0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=1,1,4.40816,99.1837
+TM-SCALE-DIAG draw backing=0x639710 contents=280.000x6.000 scale=0.3673 raster=102.857x2.204 target=0,0 280x6 transform=1,1,4.40816,116.082
+TM-SCALE-DIAG FRAME 9 end
+TM-SCALE-DIAG FRAME 10 begin view=360x532 page=1.0000 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 360x532
+TM-SCALE-DIAG upload layer=0x8df55c8 texture=1 allocation=360x532 bitmap=360x532 target=0,0 360x532 source=0,0 effectiveScale=1.0000
+TM-SCALE-DIAG layer=0x8e34100 backing=0x639650 size=280.000x17.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e35730 backing=0x639680 size=280.000x17.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e367d0 backing=0x6396b0 size=280.000x20.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e37920 backing=0x6396e0 size=280.000x20.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e387a8 backing=0x639710 size=280.000x6.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG draw backing=0x639650 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=2.72222,2.72222,12,94
+TM-SCALE-DIAG draw backing=0x639680 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=2.72222,2.72222,12,182
+TM-SCALE-DIAG draw backing=0x6396b0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=2.72222,2.72222,12,226
+TM-SCALE-DIAG draw backing=0x6396e0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=2.72222,2.72222,12,270
+TM-SCALE-DIAG draw backing=0x639710 contents=280.000x6.000 scale=0.3673 raster=102.857x2.204 target=0,0 280x6 transform=2.72222,2.72222,12,316
+TM-SCALE-DIAG FRAME 10 end
+console: file:///C:/Data/WebKit/compositing-text.html:42: TEXT COMPARISON devicePixelRatio=1
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON plain {"x":12,"y":50,"width":280,"height":17,"lineHeight":"normal","font":"15px sans-serif","transform":"none","scrollTop":0}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON promoted {"x":12,"y":94,"width":280,"height":17,"lineHeight":"normal","font":"15px sans-serif","transform":"matrix(1, 0, 0, 1, 0, 0)","scrollTop":0}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON scrollPlain {"x":12,"y":138,"width":280,"height":17,"lineHeight":"normal","font":"15px sans-serif","transform":"none","scrollTop":80}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON scrollPromoted {"x":12,"y":182,"width":280,"height":17,"lineHeight":"normal","font":"15px sans-serif","transform":"matrix(1, 0, 0, 1, 0, 0)","scrollTop":80}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON integer {"x":12,"y":226,"width":280,"height":20,"lineHeight":"20px","font":"15px / 20px sans-serif","transform":"matrix(1, 0, 0, 1, 0, 0)","scrollTop":0}
+console: file:///C:/Data/WebKit/compositing-text.html:46: TEXT COMPARISON scrollInteger {"x":12,"y":270,"width":280,"height":20,"lineHeight":"20px","font":"15px / 20px sans-serif","transform":"matrix(1, 0, 0, 1, 0, 0)","scrollTop":80}
+console: file:///C:/Data/WebKit/compositing-text.html:52: READY: compositing-text
+TM-SCALE-DIAG FRAME 11 begin view=360x532 page=1.0000 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=12,333 336x12
+TM-SCALE-DIAG upload layer=0x8df55c8 texture=1 allocation=360x532 bitmap=336x12 target=12,333 336x12 source=12,333 effectiveScale=1.0000
+TM-SCALE-DIAG layer=0x8e34100 backing=0x639650 size=280.000x17.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e35730 backing=0x639680 size=280.000x17.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e367d0 backing=0x6396b0 size=280.000x20.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e37920 backing=0x6396e0 size=280.000x20.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e387a8 backing=0x639710 size=280.000x6.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG draw backing=0x639650 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=2.72222,2.72222,12,94
+TM-SCALE-DIAG draw backing=0x639680 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=2.72222,2.72222,12,182
+TM-SCALE-DIAG draw backing=0x6396b0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=2.72222,2.72222,12,226
+TM-SCALE-DIAG draw backing=0x6396e0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=2.72222,2.72222,12,270
+TM-SCALE-DIAG draw backing=0x639710 contents=280.000x6.000 scale=0.3673 raster=102.857x2.204 target=0,0 280x6 transform=2.72222,2.72222,12,316
+TM-SCALE-DIAG FRAME 11 end
+TM-SCALE-DIAG FRAME 12 begin view=360x532 page=1.0000 device=1.0000
+TM-SCALE-DIAG layer=0x8df55c8 backing=0x5c6f40 size=360.000x532.000 page=1.0000 device=1.0000 stored=1.0000 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e34100 backing=0x639650 size=280.000x17.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e35730 backing=0x639680 size=280.000x17.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e367d0 backing=0x6396b0 size=280.000x20.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e37920 backing=0x6396e0 size=280.000x20.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG layer=0x8e387a8 backing=0x639710 size=280.000x6.000 page=1.0000 device=1.0000 stored=0.3673 full=0 dirty=0,0 0x0
+TM-SCALE-DIAG draw backing=0x5c6f40 contents=360.000x532.000 scale=1.0000 raster=360.000x532.000 target=0,0 360x532 transform=1,1,0,0
+TM-SCALE-DIAG draw backing=0x639650 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=2.72222,2.72222,12,94
+TM-SCALE-DIAG draw backing=0x639680 contents=280.000x17.000 scale=0.3673 raster=102.857x6.245 target=0,0 280x17 transform=2.72222,2.72222,12,182
+TM-SCALE-DIAG draw backing=0x6396b0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=2.72222,2.72222,12,226
+TM-SCALE-DIAG draw backing=0x6396e0 contents=280.000x20.000 scale=0.3673 raster=102.857x7.347 target=0,0 280x20 transform=2.72222,2.72222,12,270
+TM-SCALE-DIAG draw backing=0x639710 contents=280.000x6.000 scale=0.3673 raster=102.857x2.204 target=0,0 280x6 transform=2.72222,2.72222,12,316
+TM-SCALE-DIAG FRAME 12 end

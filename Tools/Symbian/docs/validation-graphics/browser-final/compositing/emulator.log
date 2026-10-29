@@ -1,0 +1,1403 @@
+I /workspace/EKA2L1-validation/src/emu/qt/src/state.cpp:81 [Frontend.Cmdline]: EKA2L1 v0.0.1 (local-webkit-validation-5bbc0435c)
+T /workspace/EKA2L1-validation/src/emu/kernel/src/kernel.cpp:1424 [Kernel]: Rom mapped to address: 0x7f7e95aaf000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: ROM, base (in parent): 0x80000000, max size: 0x1d50000 type: normal, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: Global static kernel data, base (in parent): 0x81d50000, max size: 0x20000 type: normal, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: DispatcherTrampolines, base (in parent): 0x81d70000, max size: 0x4000 type: normal, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: DispatcherStaticData, base (in parent): 0x81d74000, max size: 0x4000 type: normal, access: global
+I /workspace/EKA2L1-validation/src/emu/qt/src/state.cpp:132 [Frontend.Cmdline]: Device being used: X7-00 (RM-707)
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:59 [Driver.Audio]: Cubeb audio driver initialized with the pulse backend
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:476 [Kernel]: Patch scdv.dll.map has no hard requirements
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL scdv.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:560 [Kernel]: Using general DLL scdv_general.dll as patch DLL for map file scdv.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL backlightctrl.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:500 [Kernel]: Seperate section not found for epoc version 14 of patch DLL backlightctrl.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:476 [Kernel]: Patch mediaclientaudioinputstream.dll.map has no hard requirements
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL mediaclientaudioinputstream.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:500 [Kernel]: Seperate section not found for epoc version 14 of patch DLL mediaclientaudioinputstream.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:560 [Kernel]: Using general DLL qjpeg_general.dll as patch DLL for map file qjpeg.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:476 [Kernel]: Patch mediaclientvideo.dll.map has no hard requirements
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL mediaclientvideo.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:541 [Kernel]: Using dll mediaclientvideo_v100.dll as patch dll for map file mediaclientvideo.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL commdb.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:500 [Kernel]: Seperate section not found for epoc version 14 of patch DLL commdb.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:476 [Kernel]: Patch mediaclientaudiostream.dll.map has no hard requirements
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL mediaclientaudiostream.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:560 [Kernel]: Using general DLL mediaclientaudiostream_general.dll as patch DLL for map file mediaclientaudiostream.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL hwrfep.fep.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:500 [Kernel]: Seperate section not found for epoc version 14 of patch DLL hwrfep.fep.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:476 [Kernel]: Patch audiooutputrouting.dll.map has no hard requirements
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:500 [Kernel]: Seperate section not found for epoc version 14 of patch DLL audiooutputrouting.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:560 [Kernel]: Using general DLL audiooutputrouting_general.dll as patch DLL for map file audiooutputrouting.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:476 [Kernel]: Patch mediaclientaudio.dll.map has no hard requirements
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL mediaclientaudio.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:560 [Kernel]: Using general DLL mediaclientaudio_general.dll as patch DLL for map file mediaclientaudio.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:476 [Kernel]: Patch postingsurfacefactory.dll.map has no hard requirements
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL postingsurfacefactory.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:560 [Kernel]: Using general DLL postingsurfacefactory_general.dll as patch DLL for map file postingsurfacefactory.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:476 [Kernel]: Patch ecam.dll.map has no hard requirements
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL ecam.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:560 [Kernel]: Using general DLL ecam_general.dll as patch DLL for map file ecam.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:489 [Kernel]: Shared section not found for patch DLL vibractrl.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:500 [Kernel]: Seperate section not found for epoc version 14 of patch DLL vibractrl.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:500 [Kernel]: Seperate section not found for epoc version 14 of patch DLL ssl.dll.map
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:560 [Kernel]: Using general DLL ssl_general.dll as patch DLL for map file ssl.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: anonymous3920676379, base (in parent): 0x81d78000, max size: 0x6e04 type: normal, access: global, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: scdv_general.dll (UID3=0xEE000002) runtime code: 0x81d78000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: scdv_general.dll (UID3=0xEE000002) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: anonymous1808502175, base (in parent): 0x81d7f000, max size: 0xc820 type: normal, access: global, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: mediaclientvideo_v100.dll (UID3=0xEE000009) runtime code: 0x81d7f000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: mediaclientvideo_v100.dll (UID3=0xEE000009) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: anonymous2497881301, base (in parent): 0x81d8c000, max size: 0x4324 type: normal, access: global, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: mediaclientaudiostream_general.dll (UID3=0xEE000001) runtime code: 0x81d8c000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: mediaclientaudiostream_general.dll (UID3=0xEE000001) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: anonymous129405018, base (in parent): 0x81d91000, max size: 0x3e0 type: normal, access: global, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: audiooutputrouting_general.dll (UID3=0xEE000009) runtime code: 0x81d91000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: audiooutputrouting_general.dll (UID3=0xEE000009) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: anonymous2319845358, base (in parent): 0x81d92000, max size: 0x113dc type: normal, access: global, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: mediaclientaudio_general.dll (UID3=0xEE000003) runtime code: 0x81d92000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: mediaclientaudio_general.dll (UID3=0xEE000003) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: anonymous2080244783, base (in parent): 0x81da4000, max size: 0x2034 type: normal, access: global, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: postingsurfacefactory_general.dll (UID3=0xEE000007) runtime code: 0x81da4000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: postingsurfacefactory_general.dll (UID3=0xEE000007) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: anonymous424658560, base (in parent): 0x81da7000, max size: 0x5f08 type: normal, access: global, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ecam_general.dll (UID3=0xEE000006) runtime code: 0x81da7000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ecam_general.dll (UID3=0xEE000006) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: anonymous804543912, base (in parent): 0x81dad000, max size: 0x2bd0 type: normal, access: global, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ssl_general.dll (UID3=0xEE000018) runtime code: 0x81dad000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ssl_general.dll (UID3=0xEE000018) runtime data: 0x0
+W /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:284 [Kernel]: Unable to patch export 14 of ecam_general.dll due to export not exist
+W /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:284 [Kernel]: Unable to patch export 16 of ecam_general.dll due to export not exist
+I /workspace/EKA2L1-validation/src/emu/scripting/src/builtin_patches.cpp:226 [Scripting]: Applying S^3 and higher patch (native)
+I /workspace/EKA2L1-validation/src/emu/scripting/src/builtin_patches.cpp:233 [Scripting]: Built-in native game patches registered
+T /workspace/EKA2L1-validation/src/emu/kernel/src/kernel.cpp:994 [Kernel]: Spawned process: browser, entry point = 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2885663913, base (in parent): 0x81db0000, max size: 0x3660000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local496982527, base (in parent): 0x400000, max size: 0x62000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: browser.exe (UID3=0xE1A5C002) runtime code: 0x81db0000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: browser.exe (UID3=0xE1A5C002) runtime data: 0x400000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apparc.dll (UID3=0x10003A3D) runtime code: 0x813d7528
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apparc.dll (UID3=0x10003A3D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3708473480, base (in parent): 0x85410000, max size: 0xca000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3294904031, base (in parent): 0x462000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: avkon.dll (UID3=0x100056C6) runtime code: 0x85410000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: avkon.dll (UID3=0x100056C6) runtime data: 0x462000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code293556149, base (in parent): 0x854da000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aiwdialdata.dll (UID3=0x102828AB) runtime code: 0x854da000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aiwdialdata.dll (UID3=0x102828AB) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drtaeabi.dll (UID3=0x0) runtime code: 0x80450698
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drtaeabi.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: estor.dll (UID3=0x10003B0D) runtime code: 0x8051cf38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: estor.dll (UID3=0x10003B0D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: euser.dll (UID3=0x100039E5) runtime code: 0x80458f38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: euser.dll (UID3=0x100039E5) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: scppnwdl.dll (UID3=0x0) runtime code: 0x804504e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: scppnwdl.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code4164783116, base (in parent): 0x854db000, max size: 0x6000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: servicehandler.dll (UID3=0x101F865A) runtime code: 0x854db000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: servicehandler.dll (UID3=0x101F865A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3353713348, base (in parent): 0x854e1000, max size: 0x4000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknnotify.dll (UID3=0x10F9A43) runtime code: 0x854e1000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknnotify.dll (UID3=0x10F9A43) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code436103911, base (in parent): 0x854e5000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: akntransitionutils.dll (UID3=0x0) runtime code: 0x854e5000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: akntransitionutils.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: centralrepository.dll (UID3=0x101FBC70) runtime code: 0x80555bb8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: centralrepository.dll (UID3=0x101FBC70) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cone.dll (UID3=0x10003A41) runtime code: 0x80a3ee88
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cone.dll (UID3=0x10003A41) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: RomBssChunkSect7EF00000For245, base (in parent): 0x7ef00000, max size: 0x100000 type: disconnected, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: sgresource.dll (UID3=0x102872C5) runtime code: 0x805b6328
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: sgresource.dll (UID3=0x102872C5) runtime data: 0x7eff8000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libopenvg_sw.dll (UID3=0xEDE0F2F) runtime code: 0x81c911f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libopenvg_sw.dll (UID3=0xEDE0F2F) runtime data: 0x7efc4000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code4259232845, base (in parent): 0x854e6000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: gfxtrans.dll (UID3=0x102822A4) runtime code: 0x854e6000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: gfxtrans.dll (UID3=0x102822A4) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3883656327, base (in parent): 0x854e9000, max size: 0x2000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: gfxtransadapter.dll (UID3=0x102822A5) runtime code: 0x854e9000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: gfxtransadapter.dll (UID3=0x102822A5) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bafl.dll (UID3=0x10003A0F) runtime code: 0x8054b458
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bafl.dll (UID3=0x10003A0F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ecom.dll (UID3=0x10009D8E) runtime code: 0x805d2bd8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ecom.dll (UID3=0x10009D8E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: efsrv.dll (UID3=0x100039E4) runtime code: 0x804d48a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: efsrv.dll (UID3=0x100039E4) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2879490876, base (in parent): 0x854eb000, max size: 0x5b000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2981938577, base (in parent): 0x463000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikcoctl.dll (UID3=0x1000489E) runtime code: 0x854eb000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikcoctl.dll (UID3=0x1000489E) runtime data: 0x463000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3493730031, base (in parent): 0x85546000, max size: 0xa000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknicon.dll (UID3=0x1020735A) runtime code: 0x85546000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknicon.dll (UID3=0x1020735A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3605821618, base (in parent): 0x85550000, max size: 0x12000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknskinsrv.dll (UID3=0x10005A35) runtime code: 0x85550000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknskinsrv.dll (UID3=0x10005A35) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: abclient.dll (UID3=0x10202D2D) runtime code: 0x814abd08
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: abclient.dll (UID3=0x10202D2D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apgrfx.dll (UID3=0x10003A3C) runtime code: 0x813e4438
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apgrfx.dll (UID3=0x10003A3C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2102819613, base (in parent): 0x85562000, max size: 0x20000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: alfclient.dll (UID3=0x10282846) runtime code: 0x85562000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: alfclient.dll (UID3=0x10282846) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknlayout2hierarchy.dll (UID3=0x10283078) runtime code: 0x8164d3e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknlayout2hierarchy.dll (UID3=0x10283078) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2104138122, base (in parent): 0x85582000, max size: 0xc000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknskins.dll (UID3=0x10005A26) runtime code: 0x85582000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknskins.dll (UID3=0x10005A26) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1421140093, base (in parent): 0x8558e000, max size: 0x1c000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknskinrenderlib.dll (UID3=0x101F8739) runtime code: 0x8558e000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknskinrenderlib.dll (UID3=0x101F8739) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknlayout2scalable.dll (UID3=0x102040D7) runtime code: 0x8164ac78
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknlayout2scalable.dll (UID3=0x102040D7) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknlayout2.dll (UID3=0x10158C94) runtime code: 0x8164a1d8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknlayout2.dll (UID3=0x10158C94) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bitgdi.dll (UID3=0x10003B18) runtime code: 0x80b1ebf8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bitgdi.dll (UID3=0x10003B18) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cdlengine.dll (UID3=0x101F8243) runtime code: 0x81881ec8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cdlengine.dll (UID3=0x101F8243) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fbscli.dll (UID3=0x10003A15) runtime code: 0x805be4b8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fbscli.dll (UID3=0x10003A15) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: gdi.dll (UID3=0x10003B15) runtime code: 0x805383c8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: gdi.dll (UID3=0x10003B15) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: egul.dll (UID3=0x100048A2) runtime code: 0x814653e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: egul.dll (UID3=0x100048A2) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3307844675, base (in parent): 0x855aa000, max size: 0xb000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikcore.dll (UID3=0x10004892) runtime code: 0x855aa000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikcore.dll (UID3=0x10004892) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apserv.dll (UID3=0x10003A3E) runtime code: 0x813ebbf8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apserv.dll (UID3=0x10003A3E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: clock.dll (UID3=0x10003A4C) runtime code: 0x81474f38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: clock.dll (UID3=0x10003A4C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2445570148, base (in parent): 0x855b5000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eiksrvc.dll (UID3=0x100053B1) runtime code: 0x855b5000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eiksrvc.dll (UID3=0x100053B1) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: etext.dll (UID3=0x10003A1C) runtime code: 0x81430c78
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: etext.dll (UID3=0x10003A1C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: hal.dll (UID3=0x100039E8) runtime code: 0x80a8a0b8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: hal.dll (UID3=0x100039E8) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3105393817, base (in parent): 0x855b6000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: uiklaf.dll (UID3=0x1000411F) runtime code: 0x855b6000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: uiklaf.dll (UID3=0x1000411F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2945885428, base (in parent): 0x855b9000, max size: 0x2000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: akncapserverclient.dll (UID3=0x10207244) runtime code: 0x855b9000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: akncapserverclient.dll (UID3=0x10207244) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bitmaptransforms.dll (UID3=0x101F45EC) runtime code: 0x80614588
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bitmaptransforms.dll (UID3=0x101F45EC) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: caf.dll (UID3=0x0) runtime code: 0x805f3b68
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: caf.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cenrepnotifhandler.dll (UID3=0x10200C8A) runtime code: 0x80b3bdf8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cenrepnotifhandler.dll (UID3=0x10200C8A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: disknotifyhandler.dll (UID3=0x10283315) runtime code: 0x81cce9c8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: disknotifyhandler.dll (UID3=0x10283315) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3815881689, base (in parent): 0x855bb000, max size: 0xa000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmhelper.dll (UID3=0x101F8647) runtime code: 0x855bb000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmhelper.dll (UID3=0x101F8647) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cafutils.dll (UID3=0x0) runtime code: 0x805f8b68
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cafutils.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: charconv.dll (UID3=0x10003B11) runtime code: 0x805dd1f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: charconv.dll (UID3=0x10003B11) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3231847731, base (in parent): 0x855c5000, max size: 0x1d000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cmmanager.dll (UID3=0x10207376) runtime code: 0x855c5000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cmmanager.dll (UID3=0x10207376) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3259875166, base (in parent): 0x855e2000, max size: 0x5000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fontprovider.dll (UID3=0x1020509C) runtime code: 0x855e2000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fontprovider.dll (UID3=0x1020509C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: featmgr.dll (UID3=0x10005A2B) runtime code: 0x8146f098
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: featmgr.dll (UID3=0x10005A2B) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fntstr.dll (UID3=0x10003B1A) runtime code: 0x8052b578
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fntstr.dll (UID3=0x10003B1A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1182415350, base (in parent): 0x855e7000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fontutils.dll (UID3=0x1020509D) runtime code: 0x855e7000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fontutils.dll (UID3=0x1020509D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: form.dll (UID3=0x10003B27) runtime code: 0x81442af8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: form.dll (UID3=0x10003B27) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ws32.dll (UID3=0x10003B21) runtime code: 0x809945f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ws32.dll (UID3=0x10003B21) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: hwrmlightclient.dll (UID3=0x10205029) runtime code: 0x815a8068
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: hwrmlightclient.dll (UID3=0x10205029) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: dfpaeabi.dll (UID3=0x0) runtime code: 0x804542f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: dfpaeabi.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1689536231, base (in parent): 0x855e8000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ftokenclient.dll (UID3=0x102830B4) runtime code: 0x855e8000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ftokenclient.dll (UID3=0x102830B4) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3399936386, base (in parent): 0x855e9000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: goommonitor.dll (UID3=0xEE000008) runtime code: 0x855e9000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: goommonitor.dll (UID3=0xEE000008) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2585714697, base (in parent): 0x855ea000, max size: 0x7c000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2828123259, base (in parent): 0x464000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: hitchcock.dll (UID3=0xA48A362E) runtime code: 0x855ea000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: hitchcock.dll (UID3=0xA48A362E) runtime data: 0x464000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknpictograph.dll (UID3=0x10207364) runtime code: 0x8180dd38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknpictograph.dll (UID3=0x10207364) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: imageconversion.dll (UID3=0x101F45AD) runtime code: 0x805fcee8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: imageconversion.dll (UID3=0x101F45AD) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1301558508, base (in parent): 0x85666000, max size: 0x24000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local4204409123, base (in parent): 0x465000, max size: 0x10000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libc.dll (UID3=0x10207369) runtime code: 0x85666000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libc.dll (UID3=0x10207369) runtime data: 0x465000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code4048621240, base (in parent): 0x8568a000, max size: 0x17000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2155968950, base (in parent): 0x475000, max size: 0x2000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: backend.dll (UID3=0x102828D5) runtime code: 0x8568a000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: backend.dll (UID3=0x102828D5) runtime data: 0x475000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bluetooth.dll (UID3=0x0) runtime code: 0x808de8c8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bluetooth.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: c32.dll (UID3=0x10003D33) runtime code: 0x8062ff48
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: c32.dll (UID3=0x10003D33) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: commdb.dll (UID3=0x10004E1C) runtime code: 0x80d7db98
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: commdb.dll (UID3=0x10004E1C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: esock.dll (UID3=0x10003D3F) runtime code: 0x80662a78
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: esock.dll (UID3=0x10003D3F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: insock.dll (UID3=0x10003D44) runtime code: 0x8065a678
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: insock.dll (UID3=0x10003D44) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: rpipe.dll (UID3=0x102827D5) runtime code: 0x80a879c8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: rpipe.dll (UID3=0x102827D5) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2497795034, base (in parent): 0x856a1000, max size: 0x11000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1182727096, base (in parent): 0x477000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libm.dll (UID3=0x102750D2) runtime code: 0x856a1000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libm.dll (UID3=0x102750D2) runtime data: 0x477000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code50517963, base (in parent): 0x856b2000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1612480672, base (in parent): 0x478000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libpthread.dll (UID3=0x10275065) runtime code: 0x856b2000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libpthread.dll (UID3=0x10275065) runtime data: 0x478000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: tzclient.dll (UID3=0x1020383D) runtime code: 0x80b9e638
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: tzclient.dll (UID3=0x1020383D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: lookuptable.dll (UID3=0x102827C4) runtime code: 0x80b31e78
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: lookuptable.dll (UID3=0x102827C4) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3931965590, base (in parent): 0x856b5000, max size: 0x1c000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: m3gcore.dll (UID3=0x101F87E1) runtime code: 0x856b5000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: m3gcore.dll (UID3=0x101F87E1) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: estlib.dll (UID3=0x10003B0B) runtime code: 0x80a2e418
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: estlib.dll (UID3=0x10003B0B) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ezlib.dll (UID3=0x10005706) runtime code: 0x80c2acc8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ezlib.dll (UID3=0x10005706) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2432474520, base (in parent): 0x856d1000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local554732714, base (in parent): 0x479000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libegl.dll (UID3=0x10281AB8) runtime code: 0x856d1000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libegl.dll (UID3=0x10281AB8) runtime data: 0x479000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3047133956, base (in parent): 0x856d2000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local995607290, base (in parent): 0x47a000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libglesv1_cm.dll (UID3=0x102836BE) runtime code: 0x856d2000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libglesv1_cm.dll (UID3=0x102836BE) runtime data: 0x47a000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: platformenv.dll (UID3=0x101F857F) runtime code: 0x81ccdb68
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: platformenv.dll (UID3=0x101F857F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1141323872, base (in parent): 0x856d3000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: touchfeedback.dll (UID3=0x2000B491) runtime code: 0x856d3000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: touchfeedback.dll (UID3=0x2000B491) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1018397553, base (in parent): 0x856d6000, max size: 0x7000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cmmanagerdatabase.dll (UID3=0x10281BB9) runtime code: 0x856d6000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cmmanagerdatabase.dll (UID3=0x10281BB9) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: commsdat.dll (UID3=0x10204DDB) runtime code: 0x80d59a38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: commsdat.dll (UID3=0x10204DDB) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1419798342, base (in parent): 0x856dd000, max size: 0x2000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: commonengine.dll (UID3=0x100058FE) runtime code: 0x856dd000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: commonengine.dll (UID3=0x100058FE) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apfile.dll (UID3=0x10003A3B) runtime code: 0x813db938
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apfile.dll (UID3=0x10003A3B) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: etul.dll (UID3=0x102834FF) runtime code: 0x8146a418
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: etul.dll (UID3=0x102834FF) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3612747541, base (in parent): 0x856df000, max size: 0x13000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikdlg.dll (UID3=0x10004898) runtime code: 0x856df000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikdlg.dll (UID3=0x10004898) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: tactilefeedbackresolver.dll (UID3=0x2000B494) runtime code: 0x81b58398
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: tactilefeedbackresolver.dll (UID3=0x2000B494) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: xmldom.dll (UID3=0x101F9117) runtime code: 0x81407988
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: xmldom.dll (UID3=0x101F9117) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: xmlparser.dll (UID3=0x101F9118) runtime code: 0x81408eb8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: xmlparser.dll (UID3=0x101F9118) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2661384880, base (in parent): 0x856f2000, max size: 0x74000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: svgengine.dll (UID3=0x101F856E) runtime code: 0x856f2000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: svgengine.dll (UID3=0x101F856E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3924989943, base (in parent): 0x85766000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknphysics.dll (UID3=0x20021194) runtime code: 0x85766000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknphysics.dll (UID3=0x20021194) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code4256724773, base (in parent): 0x85769000, max size: 0x4000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: alfdecoderserverclient.dll (UID3=0x2001CB59) runtime code: 0x85769000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: alfdecoderserverclient.dll (UID3=0x2001CB59) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2004290317, base (in parent): 0x8576d000, max size: 0x25000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: alfappservercore.dll (UID3=0x10282848) runtime code: 0x8576d000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: alfappservercore.dll (UID3=0x10282848) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: mediaclientaudio.dll (UID3=0x10003992) runtime code: 0x809b59e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: mediaclientaudio.dll (UID3=0x10003992) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: vgrenderer.dll (UID3=0x152D27E) runtime code: 0x81b6ff18
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: vgrenderer.dll (UID3=0x152D27E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: xmlinterface.dll (UID3=0x101F9750) runtime code: 0x81bc1bc8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: xmlinterface.dll (UID3=0x101F9750) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: flogger.dll (UID3=0x10004D0A) runtime code: 0x80629de8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: flogger.dll (UID3=0x10004D0A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: surfacemanager.dll (UID3=0x10286A9D) runtime code: 0x80a98098
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: surfacemanager.dll (UID3=0x10286A9D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: surfaceupdateclient.dll (UID3=0x10282FF1) runtime code: 0x80d17188
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: surfaceupdateclient.dll (UID3=0x10282FF1) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code707530625, base (in parent): 0x85792000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikcoctllaf.dll (UID3=0x10207F62) runtime code: 0x85792000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikcoctllaf.dll (UID3=0x10207F62) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1384425607, base (in parent): 0x85795000, max size: 0x18000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikctl.dll (UID3=0x1000489C) runtime code: 0x85795000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikctl.dll (UID3=0x1000489C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fepbase.dll (UID3=0x10003B14) runtime code: 0x813f54a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fepbase.dll (UID3=0x10003B14) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: lbs.dll (UID3=0x101F97B1) runtime code: 0x80ad3a88
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: lbs.dll (UID3=0x101F97B1) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: numberconversion.dll (UID3=0x101F7800) runtime code: 0x81407348
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: numberconversion.dll (UID3=0x101F7800) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: mediatorclient.dll (UID3=0x10207448) runtime code: 0x81c25ea8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: mediatorclient.dll (UID3=0x10207448) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: jplangutil.dll (UID3=0x101F863D) runtime code: 0x819ae9b8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: jplangutil.dll (UID3=0x101F863D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: numbergrouping.dll (UID3=0x10003FD3) runtime code: 0x81ada938
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: numbergrouping.dll (UID3=0x10003FD3) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: tagma.dll (UID3=0x1000569F) runtime code: 0x8144e1d8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: tagma.dll (UID3=0x1000569F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apmime.dll (UID3=0x10003A1A) runtime code: 0x813d3c48
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apmime.dll (UID3=0x10003A1A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bmpanim.dll (UID3=0x100048F2) runtime code: 0x80a52368
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bmpanim.dll (UID3=0x100048F2) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: findutil.dll (UID3=0x10005A19) runtime code: 0x81935bb8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: findutil.dll (UID3=0x10005A19) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: hlplch.dll (UID3=0x101F423B) runtime code: 0x81946078
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: hlplch.dll (UID3=0x101F423B) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: linebreak.dll (UID3=0x101F747F) runtime code: 0x80546da8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: linebreak.dll (UID3=0x101F747F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: oommonitor.dll (UID3=0x10282DBF) runtime code: 0x81b15d48
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: oommonitor.dll (UID3=0x10282DBF) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code783150858, base (in parent): 0x857ad000, max size: 0x6000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: phoneclient.dll (UID3=0x1000084F) runtime code: 0x857ad000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: phoneclient.dll (UID3=0x1000084F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: sysutil.dll (UID3=0x10005943) runtime code: 0x80b3c558
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: sysutil.dll (UID3=0x10005943) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: dcfrep.dll (UID3=0x10205CA9) runtime code: 0x818d36a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: dcfrep.dll (UID3=0x10205CA9) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmcommon.dll (UID3=0x101F51F3) runtime code: 0x818d0438
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmcommon.dll (UID3=0x101F51F3) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmdcf.dll (UID3=0x10205CAC) runtime code: 0x818d5c18
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmdcf.dll (UID3=0x10205CAC) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmrights.dll (UID3=0x10205CAE) runtime code: 0x818d8e38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmrights.dll (UID3=0x10205CAE) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmserverinterfaces.dll (UID3=0x101F6DB5) runtime code: 0x818dc738
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmserverinterfaces.dll (UID3=0x101F6DB5) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: iclextjpegapi.dll (UID3=0x10204BF0) runtime code: 0x81c1d4b8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: iclextjpegapi.dll (UID3=0x10204BF0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: platformver.dll (UID3=0x2000B123) runtime code: 0x81cd1418
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: platformver.dll (UID3=0x2000B123) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: xmlframework.dll (UID3=0x101FADCC) runtime code: 0x814768a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: xmlframework.dll (UID3=0x101FADCC) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code925525237, base (in parent): 0x857b3000, max size: 0x6000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: nvgdecoder.dll (UID3=0x101FF461) runtime code: 0x857b3000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: nvgdecoder.dll (UID3=0x101FF461) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code393694505, base (in parent): 0x857b9000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local4002677712, base (in parent): 0x47b000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libopenvgu.dll (UID3=0x10281C47) runtime code: 0x857b9000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libopenvgu.dll (UID3=0x10281C47) runtime data: 0x47b000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3086052069, base (in parent): 0x857ba000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3344563319, base (in parent): 0x47c000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libopenvg.dll (UID3=0x10281AB9) runtime code: 0x857ba000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libopenvg.dll (UID3=0x10281AB9) runtime data: 0x47c000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: etelmm.dll (UID3=0x100064DD) runtime code: 0x807711d8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: etelmm.dll (UID3=0x100064DD) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: gsmu.dll (UID3=0x10000849) runtime code: 0x809fad98
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: gsmu.dll (UID3=0x10000849) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code4126440409, base (in parent): 0x857bb000, max size: 0xe000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ptiengine.dll (UID3=0x101F8610) runtime code: 0x857bb000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ptiengine.dll (UID3=0x101F8610) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: tacticon.dll (UID3=0x2001FE4E) runtime code: 0x81b54f68
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: tacticon.dll (UID3=0x2001FE4E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code347629114, base (in parent): 0x857c9000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1215188191, base (in parent): 0x47d000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libglesv2.dll (UID3=0x10285A7A) runtime code: 0x857c9000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libglesv2.dll (UID3=0x10285A7A) runtime data: 0x47d000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: mediaclientvideo.dll (UID3=0x101F4569) runtime code: 0x809c10e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: mediaclientvideo.dll (UID3=0x101F4569) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/process.cpp:108 [Kernel]: Process browser capabilities: NetworkSvr 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2460251005, base (in parent): 0x47e000, max size: 0x100000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2998056247, base (in parent): 0x57e000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local4117556172, base (in parent): 0x57f000, max size: 0x1000 type: normal, access: local
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_about_triggered()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_settings_triggered()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_package_manager_triggered()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_package_install_clicked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_device_install_clicked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_install_ngage_card_game_clicked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_progress_dialog_change(std::size_t,std::size_t)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_package_install_text_ask(const char*,bool)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_new_device_added()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_mount_card_clicked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_mount_zip_clicked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_recent_mount_clear_clicked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_recent_mount_card_folder_clicked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_status_bar_update(std::uint64_t)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_fullscreen_toogled(bool)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_cursor_visibility_change(bool)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_status_bar_visibility_change(bool)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_restart_requested()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_device_set_requested(int)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_app_setting_changed()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_another_rotation_triggered(QAction*)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_pause_toggled(bool)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_package_uninstalled()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_refresh_app_list_requested()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_package_install_language_choose(const int*,int)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_app_clicked(applist_widget_item*)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_relaunch_request()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_theme_change_requested(QString)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_window_title_setting_changed()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_finished_text_input(QString,bool)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_input_dialog_open_request()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_input_dialog_close_request()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_input_dialog_delay_launch_asked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_hide_system_apps_changed()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_bt_netplay_mod_friends_clicked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_btnetplay_friends_dialog_finished(int)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_mapping_editor_hidden()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_install_ngage_game_name_available(QString)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_exit_for_update_requested()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_launch_process_requested()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_btnet_friends_dialog_requested_from_conf()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_app_exited(int,int,QString)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_edit_btn_clicked(bool)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_delete_btn_clicked(bool)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_potential_current_app_changed()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_profile_delete_btn_clicked()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_tag_request_complete(QNetworkReply*)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_tag_download_link_request_complete(QNetworkReply*)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_changelog_request_complete(QNetworkReply*)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_new_update_download_progress_report(qulonglong,qulonglong)
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_new_update_download_read_ready()
+qt.core.qmetaobject.connectslotsbyname: QMetaObject::connectSlotsByName: No matching signal for on_new_update_download_finished(QNetworkReply*)
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: ScreenBuffer0, base (in parent): 0xc9200000, max size: 0x11f800 type: normal, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: ScreenBuffer1, base (in parent): 0xc9320000, max size: 0x38100 type: normal, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: WsGlobalMemChunk, base (in parent): 0xdeadbeef, max size: 0x2000 type: normal, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: WsCodeChunk, base (in parent): 0xdeadbeef, max size: 0x2000 type: normal, access: global
+E /workspace/EKA2L1-validation/src/emu/drivers/src/graphics/backend/context_glx.cpp:182 [Driver.Graphics]: Created a GLX context with version 4.5
+E /workspace/EKA2L1-validation/src/emu/drivers/src/graphics/backend/context_glx.cpp:103 [Driver.Graphics]: No support for SwapInterval (framerate clamped to monitor refresh rate).
+T /workspace/EKA2L1-validation/src/emu/drivers/src/graphics/backend/ogl/graphics_ogl.cpp:218 [Driver.Graphics]: Supported features (for optimization): ETC2Dec;AnisotrophyFiltering;ES3.1_Compability
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: $HEAP, base (in parent): 0x580000, max size: 0x11000000 type: disconnected, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local590086161, base (in parent): 0x11580000, max size: 0x2200000 type: disconnected, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local58607576, base (in parent): 0x13780000, max size: 0xa000 type: disconnected, access: local
+E /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:375 [Kernel]: Getting descriptor length of unused slot: 1
+E /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:431 [Kernel]: Parameter slot unused, error: 3
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2390 [Kernel]: Thread with last name: Main renamed to browser
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:510 [Service.Applist]: Loading app registries
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Message reader, uid: 0x10201B00
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Accessory setup, uid: 0x10207A28
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Speed dial, uid: 0x1000590A
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: , uid: 0x102824CD
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: WebKit Browser, uid: 0xE1A5C002
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: User guide, uid: 0x10005234
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Bookmarks, uid: 0x20034935
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Zip manager, uid: 0x2000023D
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Themes, uid: 0x10005A32
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Notes, uid: 0x1000599D
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: USB, uid: 0x102068E2
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: , uid: 0x10204338
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: , uid: 0x10281D15
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Dictionary, uid: 0x200159D0
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Web feeds, uid: 0x2000C4D1
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Gallery, uid: 0x200104E7
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Wi-Fi login, uid: 0x2000AFCC
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app:  , uid: 0x101F4CE5
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Music player, uid: 0x102072C3
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Photo wall, uid: 0x2003E165
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: My Nokia, uid: 0x2000F8A6
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: New alarm, uid: 0x2001CC11
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Operator services, uid: 0x101F4CE0
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Wi-Fi, uid: 0x10281CAA
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: listenservapp, uid: 0x200348D2
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Calculator, uid: 0x10005902
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: WebKit Browser, uid: 0xE1A5C002
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Phone setup, uid: 0x200122A4
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Default applications, uid: 0x10281B9C
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Mail, uid: 0x101F4CD6
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: CfmwLauncher, uid: 0x10204375
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Bluetooth, uid: 0x10005951
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Signal boost, uid: 0x20022EBD
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Save certificate, uid: 0x100059D2
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Presentat., uid: 0x101F874A
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Mail, uid: 0x101F4CE4
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Exchange ActiveSync, uid: 0x20012C9C
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: , uid: 0x10207839
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Installations, uid: 0x101F8512
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Predictive Setting, uid: 0x2001E25E
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Log, uid: 0x101F4CD5
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Device manager, uid: 0x101F6DE5
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Installer, uid: 0x101F875A
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Download, uid: 0x102072C4
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: WebAppUi, uid: 0x200346AD
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Voice commands, uid: 0x101F8543
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Telephone, uid: 0x100058B3
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Nokia Sync, uid: 0x20016C02
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Search, uid: 0x2002AE6C
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Software update, uid: 0x2000F85A
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Installer, uid: 0x2001843A
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: NOT, uid: 0x101F86A0
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: peninputserver, uid: 0x10281855
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Flash Player, uid: 0x101FD693
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Messaging, uid: 0x100058C5
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Notes, uid: 0x10005907
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Service commands, uid: 0x10005955
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: QtAppBooster, uid: 0x20034884
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Task Switcher, uid: 0x20016BF0
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Gallery, uid: 0x200009EE
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Settings, uid: 0x10005A3F
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Camera, uid: 0x101F857A
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: FM radio, uid: 0x10207A89
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Licence download, uid: 0x10008D64
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: About product, uid: 0x10005A22
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Video services, uid: 0x10281893
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Settings, uid: 0x100058EC
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Files, uid: 0x101F84EB
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Connection manager, uid: 0x101F84D0
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Clock, uid: 0x10005903
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Positioning, uid: 0x10281861
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: , uid: 0x1020781C
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Contacts, uid: 0x101F4CCE
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Home screen, uid: 0x102750F0
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Peninput Setting, uid: 0x2001959B
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: , uid: 0x10207277
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Predictive Setting, uid: 0x2001E25E
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Sync, uid: 0x101F6DE4
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Services, uid: 0x101F8532
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Download, uid: 0x10008D3F
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Multimedia, uid: 0x100058DF
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Contact card, uid: 0x200348CB
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Audio message, uid: 0x1020745A
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Video sharing, uid: 0x10282391
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Software update, uid: 0x2001FE2F
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Encryption, uid: 0x2000259A
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Phone switch, uid: 0x101FF968
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Landmarks, uid: 0x101F85C1
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Speech, uid: 0x10201AF2
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Web, uid: 0x10008D39
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app:  , uid: 0x20012425
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Voice commands, uid: 0x101F8555
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Sharing, uid: 0x200348BC
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Call mailbox, uid: 0x100058F5
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Operator messages, uid: 0x101F4CD3
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Calendar, uid: 0x10005901
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Phonebook 2, uid: 0x20026FC2
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app:  , uid: 0x2000B609
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Mail, uid: 0x2001E277
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: , uid: 0x10204339
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: exchangeengineservice, uid: 0x2003E287
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Operator menu, uid: 0x10008D5E
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Voice recorder, uid: 0x100058CA
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Videos, uid: 0x200159B2
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Text message, uid: 0x100058BD
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Contacts widget, uid: 0x200348CC
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Select mailbox, uid: 0x2002429E
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Weather, uid: 0x2003A94C
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Net settings, uid: 0x10275458
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: My Nokia, uid: 0x20022FE6
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Profiles, uid: 0x100058F8
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Download, uid: 0x10008D4A
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Settings wizard, uid: 0x10281C96
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: Message editor, uid: 0x102072D8
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app:  , uid: 0x101F85C7
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:360 [Service.Applist]: Found app: WidgetUI, uid: 0x10282822
+I /workspace/EKA2L1-validation/src/emu/services/src/applist/applist.cpp:582 [Service.Applist]: Done loading!
+T /workspace/EKA2L1-validation/src/emu/system/src/hal.cpp:353 [System]: Get 3d info (digistier info) is incomplete!
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: FbsSharedChunk, base (in parent): 0xdeadbeef, max size: 0x200000 type: normal, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: FbsLargeChunk, base (in parent): 0xdeadbeef, max size: 0x8000000 type: normal, access: global
+T /workspace/EKA2L1-validation/src/emu/services/src/fbs/impls/font.cpp:1257 [Service.Fbs]: Found font folder: Z:\Resource\Fonts\
+E /workspace/EKA2L1-validation/src/emu/services/src/fbs/adapter/freetype_font_adapter.cpp:137 [Service.Fbs]: FreeType failed to query face count from memory, error: unknown file format
+T /workspace/EKA2L1-validation/src/emu/services/src/fbs/impls/font.cpp:1241 [Service.Fbs]: Registered linked typeface NOKSCHRSANSRLF from Z:\Resource\Fonts\link.ini
+T /workspace/EKA2L1-validation/src/emu/services/src/fbs/impls/font.cpp:1241 [Service.Fbs]: Registered linked typeface NOKSCHRSANSSBLF from Z:\Resource\Fonts\link.ini
+T /workspace/EKA2L1-validation/src/emu/services/src/fbs/impls/font.cpp:1241 [Service.Fbs]: Registered linked typeface NOKSCHRSANSTTLSMBLDLF from Z:\Resource\Fonts\link.ini
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2628 [Kernel]: Property not found: category = 0x10012345, key = 0x0
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x10012345, key: 0x0
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2675 [Kernel]: Property (0x10012345, 0x0) has not been defined before, undefined behavior may rise
+I /workspace/EKA2L1-validation/src/emu/services/src/window/window.cpp:271 [Service.Window]: Create screen device.
+W /workspace/EKA2L1-validation/src/emu/services/src/window/window.cpp:235 [Service.Window]: Object handle is invalid 0
+W /workspace/EKA2L1-validation/src/emu/services/src/window/window.cpp:336 [Service.Window]: Unable to find parent for new group with ID = 0x0. Use root
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikcore.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\Resource\Uiklaf\eikcore.r01, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 65537
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikpriv.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikpriv.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikpriv.r21359
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikpriv.r879
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikpriv.r29285
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikpriv.r613
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikpriv.r25974
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikpriv.r374
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\Resource\Uiklaf\eikpriv.rsc
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\Resource\Uiklaf\eikpriv.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 131074
+W /workspace/EKA2L1-validation/src/emu/services/src/featmgr/featmgr.cpp:117 [Service.Featmgr]: Feature registration config file not present!
+E /workspace/EKA2L1-validation/src/emu/services/src/featmgr/featmgr.cpp:183 [Service.Featmgr]: Error loading feature manager server config!
+W /workspace/EKA2L1-validation/src/emu/services/include/services/context.h:100 [Service.Track]: Getting packed struct with mismatch size (72 vs 64), size to get will be automatically clamped
+I /workspace/EKA2L1-validation/src/emu/services/src/window/window.cpp:271 [Service.Window]: Create screen device.
+W /workspace/EKA2L1-validation/src/emu/services/src/window/window.cpp:235 [Service.Window]: Object handle is invalid 0
+W /workspace/EKA2L1-validation/src/emu/services/src/window/window.cpp:336 [Service.Window]: Unable to find parent for new group with ID = 0x0. Use root
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x10272618
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1266 [Kernel]: Create session to unexist server: !AknIconServer
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:116 [Service.Loader]: Trying to summon: AknIconSrv.exe
+T /workspace/EKA2L1-validation/src/emu/kernel/src/kernel.cpp:994 [Kernel]: Spawned process: AknIconSrv, entry point = 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2094604414, base (in parent): 0x857ca000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: akniconsrv.exe (UID3=0x1020735B) runtime code: 0x857ca000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: akniconsrv.exe (UID3=0x1020735B) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code226947915, base (in parent): 0x857cb000, max size: 0xa000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknicon.dll (UID3=0x1020735A) runtime code: 0x857cb000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknicon.dll (UID3=0x1020735A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3694526816, base (in parent): 0x857d5000, max size: 0x12000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknskinsrv.dll (UID3=0x10005A35) runtime code: 0x857d5000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknskinsrv.dll (UID3=0x10005A35) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: abclient.dll (UID3=0x10202D2D) runtime code: 0x814abd08
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: abclient.dll (UID3=0x10202D2D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apgrfx.dll (UID3=0x10003A3C) runtime code: 0x813e4438
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apgrfx.dll (UID3=0x10003A3C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: RomBssChunkSect7EF00000For392, base (in parent): 0x7ef00000, max size: 0x100000 type: disconnected, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: sgresource.dll (UID3=0x102872C5) runtime code: 0x805b6328
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: sgresource.dll (UID3=0x102872C5) runtime data: 0x7eff8000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libopenvg_sw.dll (UID3=0xEDE0F2F) runtime code: 0x81c911f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libopenvg_sw.dll (UID3=0xEDE0F2F) runtime data: 0x7efc4000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3246698582, base (in parent): 0x857e7000, max size: 0xca000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2195727108, base (in parent): 0x400000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: avkon.dll (UID3=0x100056C6) runtime code: 0x857e7000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: avkon.dll (UID3=0x100056C6) runtime data: 0x400000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1787903321, base (in parent): 0x858b1000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aiwdialdata.dll (UID3=0x102828AB) runtime code: 0x858b1000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aiwdialdata.dll (UID3=0x102828AB) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drtaeabi.dll (UID3=0x0) runtime code: 0x80450698
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drtaeabi.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: estor.dll (UID3=0x10003B0D) runtime code: 0x8051cf38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: estor.dll (UID3=0x10003B0D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: euser.dll (UID3=0x100039E5) runtime code: 0x80458f38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: euser.dll (UID3=0x100039E5) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: scppnwdl.dll (UID3=0x0) runtime code: 0x804504e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: scppnwdl.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code4185384549, base (in parent): 0x858b2000, max size: 0x6000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: servicehandler.dll (UID3=0x101F865A) runtime code: 0x858b2000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: servicehandler.dll (UID3=0x101F865A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2445555980, base (in parent): 0x858b8000, max size: 0x4000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknnotify.dll (UID3=0x10F9A43) runtime code: 0x858b8000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknnotify.dll (UID3=0x10F9A43) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3000650369, base (in parent): 0x858bc000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: akntransitionutils.dll (UID3=0x0) runtime code: 0x858bc000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: akntransitionutils.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: centralrepository.dll (UID3=0x101FBC70) runtime code: 0x80555bb8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: centralrepository.dll (UID3=0x101FBC70) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cone.dll (UID3=0x10003A41) runtime code: 0x80a3ee88
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cone.dll (UID3=0x10003A41) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1244182654, base (in parent): 0x858bd000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: gfxtrans.dll (UID3=0x102822A4) runtime code: 0x858bd000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: gfxtrans.dll (UID3=0x102822A4) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1445291211, base (in parent): 0x858c0000, max size: 0x2000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: gfxtransadapter.dll (UID3=0x102822A5) runtime code: 0x858c0000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: gfxtransadapter.dll (UID3=0x102822A5) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bafl.dll (UID3=0x10003A0F) runtime code: 0x8054b458
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bafl.dll (UID3=0x10003A0F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ecom.dll (UID3=0x10009D8E) runtime code: 0x805d2bd8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ecom.dll (UID3=0x10009D8E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: efsrv.dll (UID3=0x100039E4) runtime code: 0x804d48a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: efsrv.dll (UID3=0x100039E4) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3433784921, base (in parent): 0x858c2000, max size: 0x5b000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1124469737, base (in parent): 0x401000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikcoctl.dll (UID3=0x1000489E) runtime code: 0x858c2000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikcoctl.dll (UID3=0x1000489E) runtime data: 0x401000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1750103233, base (in parent): 0x8591d000, max size: 0x20000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: alfclient.dll (UID3=0x10282846) runtime code: 0x8591d000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: alfclient.dll (UID3=0x10282846) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknlayout2hierarchy.dll (UID3=0x10283078) runtime code: 0x8164d3e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknlayout2hierarchy.dll (UID3=0x10283078) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3086541571, base (in parent): 0x8593d000, max size: 0xc000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknskins.dll (UID3=0x10005A26) runtime code: 0x8593d000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknskins.dll (UID3=0x10005A26) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code277503384, base (in parent): 0x85949000, max size: 0x1c000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknskinrenderlib.dll (UID3=0x101F8739) runtime code: 0x85949000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknskinrenderlib.dll (UID3=0x101F8739) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknlayout2scalable.dll (UID3=0x102040D7) runtime code: 0x8164ac78
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknlayout2scalable.dll (UID3=0x102040D7) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknlayout2.dll (UID3=0x10158C94) runtime code: 0x8164a1d8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknlayout2.dll (UID3=0x10158C94) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bitgdi.dll (UID3=0x10003B18) runtime code: 0x80b1ebf8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bitgdi.dll (UID3=0x10003B18) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cdlengine.dll (UID3=0x101F8243) runtime code: 0x81881ec8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cdlengine.dll (UID3=0x101F8243) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fbscli.dll (UID3=0x10003A15) runtime code: 0x805be4b8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fbscli.dll (UID3=0x10003A15) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: gdi.dll (UID3=0x10003B15) runtime code: 0x805383c8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: gdi.dll (UID3=0x10003B15) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apparc.dll (UID3=0x10003A3D) runtime code: 0x813d7528
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apparc.dll (UID3=0x10003A3D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: egul.dll (UID3=0x100048A2) runtime code: 0x814653e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: egul.dll (UID3=0x100048A2) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2614258743, base (in parent): 0x85965000, max size: 0xb000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikcore.dll (UID3=0x10004892) runtime code: 0x85965000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikcore.dll (UID3=0x10004892) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apserv.dll (UID3=0x10003A3E) runtime code: 0x813ebbf8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apserv.dll (UID3=0x10003A3E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: clock.dll (UID3=0x10003A4C) runtime code: 0x81474f38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: clock.dll (UID3=0x10003A4C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1826217013, base (in parent): 0x85970000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eiksrvc.dll (UID3=0x100053B1) runtime code: 0x85970000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eiksrvc.dll (UID3=0x100053B1) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: etext.dll (UID3=0x10003A1C) runtime code: 0x81430c78
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: etext.dll (UID3=0x10003A1C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: hal.dll (UID3=0x100039E8) runtime code: 0x80a8a0b8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: hal.dll (UID3=0x100039E8) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code413196154, base (in parent): 0x85971000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: uiklaf.dll (UID3=0x1000411F) runtime code: 0x85971000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: uiklaf.dll (UID3=0x1000411F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1569825049, base (in parent): 0x85974000, max size: 0x2000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: akncapserverclient.dll (UID3=0x10207244) runtime code: 0x85974000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: akncapserverclient.dll (UID3=0x10207244) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bitmaptransforms.dll (UID3=0x101F45EC) runtime code: 0x80614588
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bitmaptransforms.dll (UID3=0x101F45EC) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: caf.dll (UID3=0x0) runtime code: 0x805f3b68
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: caf.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cenrepnotifhandler.dll (UID3=0x10200C8A) runtime code: 0x80b3bdf8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cenrepnotifhandler.dll (UID3=0x10200C8A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: disknotifyhandler.dll (UID3=0x10283315) runtime code: 0x81cce9c8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: disknotifyhandler.dll (UID3=0x10283315) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3341330657, base (in parent): 0x85976000, max size: 0xa000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmhelper.dll (UID3=0x101F8647) runtime code: 0x85976000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmhelper.dll (UID3=0x101F8647) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cafutils.dll (UID3=0x0) runtime code: 0x805f8b68
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cafutils.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: charconv.dll (UID3=0x10003B11) runtime code: 0x805dd1f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: charconv.dll (UID3=0x10003B11) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2038400225, base (in parent): 0x85980000, max size: 0x1d000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cmmanager.dll (UID3=0x10207376) runtime code: 0x85980000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cmmanager.dll (UID3=0x10207376) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fontprovider.dll (UID3=0x1020509C) runtime code: 0x855e2000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fontprovider.dll (UID3=0x1020509C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: featmgr.dll (UID3=0x10005A2B) runtime code: 0x8146f098
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: featmgr.dll (UID3=0x10005A2B) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fntstr.dll (UID3=0x10003B1A) runtime code: 0x8052b578
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fntstr.dll (UID3=0x10003B1A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fontutils.dll (UID3=0x1020509D) runtime code: 0x855e7000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fontutils.dll (UID3=0x1020509D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: form.dll (UID3=0x10003B27) runtime code: 0x81442af8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: form.dll (UID3=0x10003B27) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ws32.dll (UID3=0x10003B21) runtime code: 0x809945f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ws32.dll (UID3=0x10003B21) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: hwrmlightclient.dll (UID3=0x10205029) runtime code: 0x815a8068
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: hwrmlightclient.dll (UID3=0x10205029) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: dfpaeabi.dll (UID3=0x0) runtime code: 0x804542f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: dfpaeabi.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ftokenclient.dll (UID3=0x102830B4) runtime code: 0x855e8000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ftokenclient.dll (UID3=0x102830B4) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: goommonitor.dll (UID3=0xEE000008) runtime code: 0x855e9000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: goommonitor.dll (UID3=0xEE000008) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3055895216, base (in parent): 0x8599d000, max size: 0x7c000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local568570779, base (in parent): 0x402000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: hitchcock.dll (UID3=0xA48A362E) runtime code: 0x8599d000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: hitchcock.dll (UID3=0xA48A362E) runtime data: 0x402000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknpictograph.dll (UID3=0x10207364) runtime code: 0x8180dd38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknpictograph.dll (UID3=0x10207364) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: imageconversion.dll (UID3=0x101F45AD) runtime code: 0x805fcee8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: imageconversion.dll (UID3=0x101F45AD) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1014503783, base (in parent): 0x85a19000, max size: 0x24000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1381573025, base (in parent): 0x403000, max size: 0x10000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libc.dll (UID3=0x10207369) runtime code: 0x85a19000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libc.dll (UID3=0x10207369) runtime data: 0x403000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1657347206, base (in parent): 0x85a3d000, max size: 0x17000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1393476142, base (in parent): 0x413000, max size: 0x2000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: backend.dll (UID3=0x102828D5) runtime code: 0x85a3d000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: backend.dll (UID3=0x102828D5) runtime data: 0x413000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bluetooth.dll (UID3=0x0) runtime code: 0x808de8c8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bluetooth.dll (UID3=0x0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: c32.dll (UID3=0x10003D33) runtime code: 0x8062ff48
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: c32.dll (UID3=0x10003D33) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: commdb.dll (UID3=0x10004E1C) runtime code: 0x80d7db98
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: commdb.dll (UID3=0x10004E1C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: esock.dll (UID3=0x10003D3F) runtime code: 0x80662a78
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: esock.dll (UID3=0x10003D3F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: insock.dll (UID3=0x10003D44) runtime code: 0x8065a678
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: insock.dll (UID3=0x10003D44) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: rpipe.dll (UID3=0x102827D5) runtime code: 0x80a879c8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: rpipe.dll (UID3=0x102827D5) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code563948541, base (in parent): 0x85a54000, max size: 0x11000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local4101118512, base (in parent): 0x415000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libm.dll (UID3=0x102750D2) runtime code: 0x85a54000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libm.dll (UID3=0x102750D2) runtime data: 0x415000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code967599848, base (in parent): 0x85a65000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1888608957, base (in parent): 0x416000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libpthread.dll (UID3=0x10275065) runtime code: 0x85a65000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libpthread.dll (UID3=0x10275065) runtime data: 0x416000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: tzclient.dll (UID3=0x1020383D) runtime code: 0x80b9e638
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: tzclient.dll (UID3=0x1020383D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: lookuptable.dll (UID3=0x102827C4) runtime code: 0x80b31e78
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: lookuptable.dll (UID3=0x102827C4) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2604109695, base (in parent): 0x85a68000, max size: 0x1c000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: m3gcore.dll (UID3=0x101F87E1) runtime code: 0x85a68000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: m3gcore.dll (UID3=0x101F87E1) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: estlib.dll (UID3=0x10003B0B) runtime code: 0x80a2e418
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: estlib.dll (UID3=0x10003B0B) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ezlib.dll (UID3=0x10005706) runtime code: 0x80c2acc8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ezlib.dll (UID3=0x10005706) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2701142652, base (in parent): 0x85a84000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2607167875, base (in parent): 0x417000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libegl.dll (UID3=0x10281AB8) runtime code: 0x85a84000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libegl.dll (UID3=0x10281AB8) runtime data: 0x417000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3946924034, base (in parent): 0x85a85000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3357032230, base (in parent): 0x418000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libglesv1_cm.dll (UID3=0x102836BE) runtime code: 0x85a85000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libglesv1_cm.dll (UID3=0x102836BE) runtime data: 0x418000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: platformenv.dll (UID3=0x101F857F) runtime code: 0x81ccdb68
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: platformenv.dll (UID3=0x101F857F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2339108178, base (in parent): 0x85a86000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: touchfeedback.dll (UID3=0x2000B491) runtime code: 0x85a86000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: touchfeedback.dll (UID3=0x2000B491) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cmmanagerdatabase.dll (UID3=0x10281BB9) runtime code: 0x856d6000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cmmanagerdatabase.dll (UID3=0x10281BB9) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: commsdat.dll (UID3=0x10204DDB) runtime code: 0x80d59a38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: commsdat.dll (UID3=0x10204DDB) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code4289917129, base (in parent): 0x85a89000, max size: 0x2000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: commonengine.dll (UID3=0x100058FE) runtime code: 0x85a89000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: commonengine.dll (UID3=0x100058FE) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apfile.dll (UID3=0x10003A3B) runtime code: 0x813db938
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apfile.dll (UID3=0x10003A3B) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: etul.dll (UID3=0x102834FF) runtime code: 0x8146a418
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: etul.dll (UID3=0x102834FF) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code615487222, base (in parent): 0x85a8b000, max size: 0x13000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikdlg.dll (UID3=0x10004898) runtime code: 0x85a8b000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikdlg.dll (UID3=0x10004898) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: tactilefeedbackresolver.dll (UID3=0x2000B494) runtime code: 0x81b58398
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: tactilefeedbackresolver.dll (UID3=0x2000B494) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: xmldom.dll (UID3=0x101F9117) runtime code: 0x81407988
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: xmldom.dll (UID3=0x101F9117) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: xmlparser.dll (UID3=0x101F9118) runtime code: 0x81408eb8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: xmlparser.dll (UID3=0x101F9118) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1383589256, base (in parent): 0x85a9e000, max size: 0x74000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: svgengine.dll (UID3=0x101F856E) runtime code: 0x85a9e000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: svgengine.dll (UID3=0x101F856E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1604941279, base (in parent): 0x85b12000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: aknphysics.dll (UID3=0x20021194) runtime code: 0x85b12000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: aknphysics.dll (UID3=0x20021194) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1364417097, base (in parent): 0x85b15000, max size: 0x4000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: alfdecoderserverclient.dll (UID3=0x2001CB59) runtime code: 0x85b15000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: alfdecoderserverclient.dll (UID3=0x2001CB59) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code765452764, base (in parent): 0x85b19000, max size: 0x25000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: alfappservercore.dll (UID3=0x10282848) runtime code: 0x85b19000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: alfappservercore.dll (UID3=0x10282848) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: mediaclientaudio.dll (UID3=0x10003992) runtime code: 0x809b59e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: mediaclientaudio.dll (UID3=0x10003992) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: vgrenderer.dll (UID3=0x152D27E) runtime code: 0x81b6ff18
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: vgrenderer.dll (UID3=0x152D27E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: xmlinterface.dll (UID3=0x101F9750) runtime code: 0x81bc1bc8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: xmlinterface.dll (UID3=0x101F9750) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: flogger.dll (UID3=0x10004D0A) runtime code: 0x80629de8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: flogger.dll (UID3=0x10004D0A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: surfacemanager.dll (UID3=0x10286A9D) runtime code: 0x80a98098
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: surfacemanager.dll (UID3=0x10286A9D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: surfaceupdateclient.dll (UID3=0x10282FF1) runtime code: 0x80d17188
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: surfaceupdateclient.dll (UID3=0x10282FF1) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code4234768092, base (in parent): 0x85b3e000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikcoctllaf.dll (UID3=0x10207F62) runtime code: 0x85b3e000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikcoctllaf.dll (UID3=0x10207F62) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code4228943436, base (in parent): 0x85b41000, max size: 0x18000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikctl.dll (UID3=0x1000489C) runtime code: 0x85b41000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikctl.dll (UID3=0x1000489C) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: fepbase.dll (UID3=0x10003B14) runtime code: 0x813f54a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: fepbase.dll (UID3=0x10003B14) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: lbs.dll (UID3=0x101F97B1) runtime code: 0x80ad3a88
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: lbs.dll (UID3=0x101F97B1) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: numberconversion.dll (UID3=0x101F7800) runtime code: 0x81407348
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: numberconversion.dll (UID3=0x101F7800) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: mediatorclient.dll (UID3=0x10207448) runtime code: 0x81c25ea8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: mediatorclient.dll (UID3=0x10207448) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: jplangutil.dll (UID3=0x101F863D) runtime code: 0x819ae9b8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: jplangutil.dll (UID3=0x101F863D) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: numbergrouping.dll (UID3=0x10003FD3) runtime code: 0x81ada938
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: numbergrouping.dll (UID3=0x10003FD3) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: tagma.dll (UID3=0x1000569F) runtime code: 0x8144e1d8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: tagma.dll (UID3=0x1000569F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: apmime.dll (UID3=0x10003A1A) runtime code: 0x813d3c48
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: apmime.dll (UID3=0x10003A1A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: bmpanim.dll (UID3=0x100048F2) runtime code: 0x80a52368
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: bmpanim.dll (UID3=0x100048F2) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: findutil.dll (UID3=0x10005A19) runtime code: 0x81935bb8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: findutil.dll (UID3=0x10005A19) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: hlplch.dll (UID3=0x101F423B) runtime code: 0x81946078
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: hlplch.dll (UID3=0x101F423B) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: linebreak.dll (UID3=0x101F747F) runtime code: 0x80546da8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: linebreak.dll (UID3=0x101F747F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: oommonitor.dll (UID3=0x10282DBF) runtime code: 0x81b15d48
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: oommonitor.dll (UID3=0x10282DBF) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3493623922, base (in parent): 0x85b59000, max size: 0x6000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: phoneclient.dll (UID3=0x1000084F) runtime code: 0x85b59000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: phoneclient.dll (UID3=0x1000084F) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: sysutil.dll (UID3=0x10005943) runtime code: 0x80b3c558
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: sysutil.dll (UID3=0x10005943) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: dcfrep.dll (UID3=0x10205CA9) runtime code: 0x818d36a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: dcfrep.dll (UID3=0x10205CA9) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmcommon.dll (UID3=0x101F51F3) runtime code: 0x818d0438
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmcommon.dll (UID3=0x101F51F3) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmdcf.dll (UID3=0x10205CAC) runtime code: 0x818d5c18
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmdcf.dll (UID3=0x10205CAC) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmrights.dll (UID3=0x10205CAE) runtime code: 0x818d8e38
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmrights.dll (UID3=0x10205CAE) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: drmserverinterfaces.dll (UID3=0x101F6DB5) runtime code: 0x818dc738
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: drmserverinterfaces.dll (UID3=0x101F6DB5) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: iclextjpegapi.dll (UID3=0x10204BF0) runtime code: 0x81c1d4b8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: iclextjpegapi.dll (UID3=0x10204BF0) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: platformver.dll (UID3=0x2000B123) runtime code: 0x81cd1418
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: platformver.dll (UID3=0x2000B123) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: xmlframework.dll (UID3=0x101FADCC) runtime code: 0x814768a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: xmlframework.dll (UID3=0x101FADCC) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code488866306, base (in parent): 0x85b5f000, max size: 0x6000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: nvgdecoder.dll (UID3=0x101FF461) runtime code: 0x85b5f000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: nvgdecoder.dll (UID3=0x101FF461) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3224218220, base (in parent): 0x85b65000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local829972812, base (in parent): 0x419000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libopenvgu.dll (UID3=0x10281C47) runtime code: 0x85b65000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libopenvgu.dll (UID3=0x10281C47) runtime data: 0x419000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code1710147034, base (in parent): 0x85b66000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local899288275, base (in parent): 0x41a000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libopenvg.dll (UID3=0x10281AB9) runtime code: 0x85b66000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libopenvg.dll (UID3=0x10281AB9) runtime data: 0x41a000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: etelmm.dll (UID3=0x100064DD) runtime code: 0x807711d8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: etelmm.dll (UID3=0x100064DD) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: gsmu.dll (UID3=0x10000849) runtime code: 0x809fad98
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: gsmu.dll (UID3=0x10000849) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ptiengine.dll (UID3=0x101F8610) runtime code: 0x857bb000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ptiengine.dll (UID3=0x101F8610) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: tacticon.dll (UID3=0x2001FE4E) runtime code: 0x81b54f68
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: tacticon.dll (UID3=0x2001FE4E) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/process.cpp:108 [Kernel]: Process AknIconSrv capabilities: ReadDeviceData WriteDeviceData ProtServer SwEvent NetworkSvr LocalService ReadUserData WriteUserData Location UserEnv 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local698964884, base (in parent): 0x41b000, max size: 0x3000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3720949301, base (in parent): 0x41e000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local836077245, base (in parent): 0x41f000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: $HEAP, base (in parent): 0x420000, max size: 0x2200000 type: disconnected, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local937838160, base (in parent): 0x2620000, max size: 0x2200000 type: disconnected, access: local
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2390 [Kernel]: Thread with last name: Main renamed to !AknIconServer
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2628 [Kernel]: Property not found: category = 0x10012345, key = 0x0
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x10012345, key: 0x0
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1193 [Kernel]: Server !AknIconServer created
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x101f876e, key: 0x4, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x101f8773, key: 0x8, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x101f8773, key: 0x7, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x101f8773, key: 0x4, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x101f8773, key: 0x1, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x101f8773, key: 0x2, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x101f8773, key: 0x6, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x101f8614, key: 0x1, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x101f8615, key: 0x1, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x10207218, key: 0x4, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x10207218, key: 0x5, type: int
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x10012345, key: 0x0, type: int
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x101F876E
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876E: changes saved
+E /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1083 [Service.EFsrv]: Trying to open a non-existent file: c:\icontype.cfg while the open mode requires its availbility!
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3481440387, base (in parent): 0xca20000, max size: 0x2000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3440355607, base (in parent): 0xca22000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3249021777, base (in parent): 0xca23000, max size: 0x1000 type: normal, access: local
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread AknIconPrecache2 created with start pc = 0x857d0965, stack size = 0x2000
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\resource\akniconsrv.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 65537
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1266 [Kernel]: Create session to unexist server: !ecomserver
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:116 [Service.Loader]: Trying to summon: ecomserver
+T /workspace/EKA2L1-validation/src/emu/kernel/src/kernel.cpp:994 [Kernel]: Spawned process: ecomserver, entry point = 0x805D52B8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3290692010, base (in parent): 0x400000, max size: 0x1000 type: normal, access: local, anonymous
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: ecomserver.exe (UID3=0x10009D8F) runtime code: 0x805d52b8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: ecomserver.exe (UID3=0x10009D8F) runtime data: 0x400000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/process.cpp:108 [Kernel]: Process ecomserver capabilities: ProtServer 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1320531803, base (in parent): 0x401000, max size: 0x2000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3240120281, base (in parent): 0x403000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1132812240, base (in parent): 0x404000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: $HEAP, base (in parent): 0x405000, max size: 0x440000 type: disconnected, access: local
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2390 [Kernel]: Thread with last name: Main renamed to !ecomserver
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1193 [Kernel]: Server !ecomserver created
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x101f75b6, key: 0x102047b7
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\private\10009D8F\EComSrvr.ini
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\private\10009D8F\EComSrvr.ini
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x1020e406, key: 0x282
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\private\10009D8F\
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: Z:\private\10009D8F\ecom-*-*.s01
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:218 [Service.EFsrv]: Queried entries: 0x2
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\private\10009D8F\ecom-2-3.s01, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 196609
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2397655090, base (in parent): 0x845000, max size: 0x264 type: disconnected, access: local
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\private\10009D8F\ecom-0-1.s01, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 262145
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3189685555, base (in parent): 0x846000, max size: 0x14e0 type: disconnected, access: local
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: Z:\private\10009D8F\ecom-*-*.s21359
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:218 [Service.EFsrv]: Queried entries: 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: Z:\private\10009D8F\ecom-*-*.s879
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:218 [Service.EFsrv]: Queried entries: 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: Z:\private\10009D8F\ecom-*-*.s29285
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:218 [Service.EFsrv]: Queried entries: 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: Z:\private\10009D8F\ecom-*-*.s613
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:218 [Service.EFsrv]: Queried entries: 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: Z:\private\10009D8F\ecom-*-*.s25974
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:218 [Service.EFsrv]: Queried entries: 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: Z:\private\10009D8F\ecom-*-*.s374
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:218 [Service.EFsrv]: Queried entries: 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: Z:\private\10009D8F\ecom-*-*.spi
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:218 [Service.EFsrv]: Queried entries: 0x3
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\private\10009D8F\ecom-3-0.spi, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 786433
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1838539555, base (in parent): 0x848000, max size: 0x138 type: disconnected, access: local
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\private\10009D8F\ecom-2-0.spi, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 851969
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2323375611, base (in parent): 0x849000, max size: 0x29ac type: disconnected, access: local
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\private\10009D8F\ecom-0-0.spi, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 917505
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3079741595, base (in parent): 0x84c000, max size: 0x26da4 type: disconnected, access: local
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x10012345, key: 0x0
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\resource\akniconsrv.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 65537
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: E:\resource\plugins\*
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: D:\resource\plugins\*
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: C:\resource\plugins\*
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:827 [Service.EFsrv]: Notify requested with wildcard: C:\resource\plugins\
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:827 [Service.EFsrv]: Notify requested with wildcard: D:\resource\plugins\
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:827 [Service.EFsrv]: Notify requested with wildcard: E:\resource\plugins\
+T /workspace/EKA2L1-validation/src/emu/kernel/src/process.cpp:519 [Kernel]: Rendezvous to: browser
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1266 [Kernel]: Create session to unexist server: CdlServer
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:116 [Service.Loader]: Trying to summon: cdlserver.exe
+T /workspace/EKA2L1-validation/src/emu/kernel/src/kernel.cpp:994 [Kernel]: Spawned process: cdlserver, entry point = 0x818867A8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: cdlserver.exe (UID3=0x1027287A) runtime code: 0x818867a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: cdlserver.exe (UID3=0x1027287A) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/process.cpp:108 [Kernel]: Process cdlserver capabilities: ReadDeviceData WriteDeviceData ProtServer SwEvent NetworkSvr LocalService ReadUserData WriteUserData Location UserEnv 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3124231227, base (in parent): 0x400000, max size: 0x2000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2893627949, base (in parent): 0x402000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local221900711, base (in parent): 0x403000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: $HEAP, base (in parent): 0x404000, max size: 0x440000 type: disconnected, access: local
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2390 [Kernel]: Thread with last name: Main renamed to CdlServer
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1193 [Kernel]: Server CdlServer created
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:1618 [Kernel]: Get Info of Z:\sys\bin\101f84b9.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:1618 [Kernel]: Get Info of Z:\sys\bin\101fe2aa.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:1618 [Kernel]: Get Info of Z:\sys\bin\102827cf.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:1618 [Kernel]: Get Info of Z:\sys\bin\10283389.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:1618 [Kernel]: Get Info of Z:\sys\bin\10285d7b.dll
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\resource\cdl\101f84b9_cdl_detail.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 65537
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\resource\cdl\101fe2aa_cdl_detail.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 196609
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\resource\cdl\102827cf_cdl_detail.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 262145
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\resource\cdl\10283389_cdl_detail.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 327681
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\resource\cdl\10285d7b_cdl_detail.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 393217
+T /workspace/EKA2L1-validation/src/emu/kernel/src/process.cpp:519 [Kernel]: Rendezvous to: browser
+T /workspace/EKA2L1-validation/src/emu/services/src/ui/cap/oom_app.cpp:91 [Service.UI]: Blanking screen in AKNCAP session stubbed
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876E: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876E: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: 10283389.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: 10283389.dll (UID3=0x10283389) runtime code: 0x8166d6e8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: 10283389.dll (UID3=0x10283389) runtime data: 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: 10285d7b.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: 10285d7b.dll (UID3=0x10285D7B) runtime code: 0x817f8ab8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: 10285d7b.dll (UID3=0x10285D7B) runtime data: 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: 101fe2aa.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: 101fe2aa.dll (UID3=0x101FE2AA) runtime code: 0x8164d798
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: 101fe2aa.dll (UID3=0x101FE2AA) runtime data: 0x0
+W /workspace/EKA2L1-validation/src/emu/services/include/services/context.h:100 [Service.Track]: Getting packed struct with mismatch size (72 vs 64), size to get will be automatically clamped
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:1618 [Kernel]: Get Info of Z:\sys\bin\akninit.dll
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: akninit.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code3801857815, base (in parent): 0x85b67000, max size: 0x1000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: akninit.dll (UID3=0x100056C8) runtime code: 0x85b67000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: akninit.dll (UID3=0x100056C8) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code2297087481, base (in parent): 0x85b68000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikcdlg.dll (UID3=0x10004890) runtime code: 0x85b68000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikcdlg.dll (UID3=0x10004890) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcoctl.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\resource\eikcoctl.r01, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 196611
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\avkon.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\resource\avkon.r01, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 262148
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\aknpriv.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\aknpriv.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\aknpriv.r21359
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\aknpriv.r879
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\aknpriv.r29285
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\aknpriv.r613
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\aknpriv.r25974
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\aknpriv.r374
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\aknpriv.rsc
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\resource\aknpriv.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 327685
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikctl.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\resource\eikctl.r01, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 393222
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcdlg.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcdlg.r01
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcdlg.r21359
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcdlg.r879
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcdlg.r29285
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcdlg.r613
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcdlg.r25974
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcdlg.r374
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: z:\resource\eikcdlg.rsc
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\resource\eikcdlg.rsc, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 458759
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: c:\resource\errrd
+T /workspace/EKA2L1-validation/src/emu/services/src/window/window.cpp:2599 [Service.Window]: Screen number -2142786063 doesnt exist
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2390 [Kernel]: Thread with last name: browser renamed to WebKit
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x101F876F
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x102818E8
+I /workspace/EKA2L1-validation/src/emu/services/src/ui/skin/settings.cpp:52 [Service.UI]: Default skin UID: 0x0, timestamp: 0
+I /workspace/EKA2L1-validation/src/emu/services/src/ui/skin/settings.cpp:56 [Service.UI]: Active skin UID: 0x20034632, timestamp: 0
+I /workspace/EKA2L1-validation/src/emu/services/src/ui/skin/settings.cpp:63 [Service.UI]: Arabic/hebrew mirroring active: False
+I /workspace/EKA2L1-validation/src/emu/services/src/ui/skin/settings.cpp:64 [Service.UI]: Highlight anim enabled: True
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: AknsSrvSharedMemoryChunk, base (in parent): 0xdeadbeef, max size: 0x60000 type: normal, access: global
+E /workspace/EKA2L1-validation/src/emu/services/src/ui/skin/skn.cpp:231 [Service.UI]: Unknown class def chunk type: 12
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876F: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x101F876D
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x101f876e, key: 0x4
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x102858F2
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x102858F2: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x200159ED
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x200159ED: changes saved
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2725 [Kernel]: Define to property with category: 0x10207218, key: 0x8, type: int
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876E: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/ui/eikappui.cpp:75 [Service.UI]: GetDebugPreferences stubbed
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x100056de, key: 0x5
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2675 [Kernel]: Property (0x100056de, 0x5) has not been defined before, undefined behavior may rise
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x2001844B
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2628 [Kernel]: Property not found: category = 0x101fd657, key = 0x1
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2628 [Kernel]: Property not found: category = 0x101fd657, key = 0x1
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2628 [Kernel]: Property not found: category = 0x101fd657, key = 0xfffffff
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\resource\skins\101f84b9\series60skin.mif, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 65537
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: 101f84b9.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: 101f84b9.dll (UID3=0x101F84B9) runtime code: 0x8180e038
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: 101f84b9.dll (UID3=0x101F84B9) runtime data: 0x0
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x10207218, key: 0x10000008
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2675 [Kernel]: Property (0x10207218, 0x10000008) has not been defined before, undefined behavior may rise
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876E: changes saved
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\resource\apps\avkon2.mif, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 196609
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: 102827cf.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: 102827cf.dll (UID3=0x102827CF) runtime code: 0x8182f1a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: 102827cf.dll (UID3=0x102827CF) runtime data: 0x0
+W /workspace/EKA2L1-validation/src/emu/services/include/services/context.h:100 [Service.Track]: Getting packed struct with mismatch size (72 vs 64), size to get will be automatically clamped
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1387 [Kernel]: Leave started! Guess leave code: -5
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1402 [Kernel]: Leave trapped by trap handler.
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1387 [Kernel]: Leave started! Guess leave code: -5
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1402 [Kernel]: Leave trapped by trap handler.
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1387 [Kernel]: Leave started! Guess leave code: -5
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1402 [Kernel]: Leave trapped by trap handler.
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x10207218, key: 0x9
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2675 [Kernel]: Property (0x10207218, 0x9) has not been defined before, undefined behavior may rise
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x10200C8B
+T /workspace/EKA2L1-validation/src/emu/services/src/hwrm/light/light.cpp:65 [Service.HWRM]: Light resource's get supported targets stubbed with -1 (all permitted)
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x101f7a01, key: 0x2001
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:1618 [Kernel]: Get Info of Z:\sys\bin\hwrmuiplugin.dll
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: hwrmuiplugin.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: hwrmuiplugin.dll (UID3=0x102857B4) runtime code: 0x81990718
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: hwrmuiplugin.dll (UID3=0x102857B4) runtime data: 0x0
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x10207218, key: 0x9
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: z:\resource\apps\avkon2.mif, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 196609
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: 102827cf.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: 102827cf.dll (UID3=0x102827CF) runtime code: 0x8182f1a8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: 102827cf.dll (UID3=0x102827CF) runtime data: 0x0
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2644 [Kernel]: Property not found: category = 0x10207218, key = 0x10000008
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:44 [Driver.Audio]: cubeb: cubeb_pulse.c:921:Requested buffer attributes maxlength 4294967295, tlength 4800, prebuf 4294967295, minreq 1200, fragsize 1200
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:44 [Driver.Audio]: cubeb: cubeb_pulse.c:1032:Output buffer attributes maxlength 4194304, tlength 3600, prebuf 2404, minreq 1200, fragsize 1200
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:44 [Driver.Audio]: cubeb: cubeb_pulse.c:1049:Cubeb stream (0x7f7e7990d5b0) init successful.
+T /workspace/EKA2L1-validation/src/emu/services/src/audio/keysound/keysound.cpp:306 [Service.Keysound]: Load filename sound TODO. Please notice this
+T /workspace/EKA2L1-validation/src/emu/services/src/audio/keysound/keysound.cpp:306 [Service.Keysound]: Load filename sound TODO. Please notice this
+T /workspace/EKA2L1-validation/src/emu/services/src/audio/keysound/keysound.cpp:306 [Service.Keysound]: Load filename sound TODO. Please notice this
+T /workspace/EKA2L1-validation/src/emu/services/src/audio/keysound/keysound.cpp:306 [Service.Keysound]: Load filename sound TODO. Please notice this
+T /workspace/EKA2L1-validation/src/emu/services/src/audio/keysound/keysound.cpp:306 [Service.Keysound]: Load filename sound TODO. Please notice this
+T /workspace/EKA2L1-validation/src/emu/services/src/audio/keysound/keysound.cpp:306 [Service.Keysound]: Load filename sound TODO. Please notice this
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\curl-verbose
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1842252195, base (in parent): 0x1b9ea000, max size: 0x1000000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3613896682, base (in parent): 0x1c9ea000, max size: 0x3001000 type: disconnected, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2454064283, base (in parent): 0x1f9eb000, max size: 0x9000 type: disconnected, access: local
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: C:\Data\WebKit\MediaCache\
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:218 [Service.EFsrv]: Queried entries: 0x0
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\log.old.txt
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\log.txt
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\log.old.txt
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\log.txt
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: C:\Data\WebKit\log.txt, raw mode 262659
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 196609
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: browser: WebKit Browser starting
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\history.txt
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: C:\Data\WebKit\history.txt, raw mode 262147
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 196610
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\bookmarks.txt
+E /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1083 [Service.EFsrv]: Trying to open a non-existent file: C:\Data\WebKit\bookmarks.txt while the open mode requires its availbility!
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\bookmarks.txt
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: browser: network: starting the connection
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0xCCCCCC00
+W /workspace/EKA2L1-validation/src/emu/services/include/services/context.h:100 [Service.Track]: Getting packed struct with mismatch size (72 vs 64), size to get will be automatically clamped
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876E: changes saved
+W /workspace/EKA2L1-validation/src/emu/services/include/services/context.h:100 [Service.Track]: Getting packed struct with mismatch size (72 vs 64), size to get will be automatically clamped
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x101F8775
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F8775: changes saved
+T /workspace/EKA2L1-validation/src/emu/kernel/src/thread.cpp:554 [Kernel]: Thread AknIconPrecache2 forcefully killed with category: None and exit code: 0 
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876D: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: euser.dll
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\resource\fontconfig\fonts.conf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\C:\resource\fontconfig\conf.d
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\C:\resource\fontconfig\conf.d
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.config\fontconfig\conf.d
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.config\fontconfig\conf.d
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.config\fontconfig\conf.d
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.config\fontconfig\conf.d
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.config\fontconfig\fonts.conf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.config\fontconfig\fonts.conf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.config\fontconfig\fonts.conf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.config\fontconfig\fonts.conf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\resource\fonts, raw mode 262145
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1193 [Service.EFsrv]: Can't open file Z:\resource\fonts
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:65 [Service.EFsrv]: Opening directory: Z:\resource\fonts\
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/dirs.cpp:118 [Service.EFsrv]: UID requested: 0x0, 0x0, 0x0
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\fontconfig-cache\891ec524e23f23b7ea346974caef44ad-le32d8.cache-7
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: C:\Data\fontconfig-cache\891ec524e23f23b7ea346974caef44ad-le32d8.cache-7, raw mode 262147
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 393218
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.cache\fontconfig\891ec524e23f23b7ea346974caef44ad-le32d8.cache-7
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1065 [Service.EFsrv]: Base directory of file C:\.cache\fontconfig\891ec524e23f23b7ea346974caef44ad-le32d8.cache-7 not found
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.cache\fontconfig\891ec524e23f23b7ea346974caef44ad-le32d8.cache-7
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.cache\fontconfig\891ec524e23f23b7ea346974caef44ad-le32d8.cache-7
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.cache\fontconfig\
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.cache\
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\.uuid
+E /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1083 [Service.EFsrv]: Trying to open a non-existent file: Z:\resource\fonts\.uuid while the open mode requires its availbility!
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\.uuid
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.local\share\fonts
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\.local\share\fonts
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\usr\local\share\fonts
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\usr\local\share\fonts
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\usr\share\fonts
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\usr\share\fonts
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\resource\fonts\nosnr60.ttf, raw mode 262145
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 458754
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2196661633, base (in parent): 0x1f9f4000, max size: 0x4000000 type: disconnected, access: local
+W /workspace/EKA2L1-validation/src/emu/services/include/services/context.h:100 [Service.Track]: Getting packed struct with mismatch size (72 vs 64), size to get will be automatically clamped
+E /workspace/EKA2L1-validation/src/emu/services/src/window/classes/wingroup.cpp:335 [Service.Window]: Unimplemented window group opcode 0x2F!
+E /workspace/EKA2L1-validation/src/emu/services/src/window/classes/wingroup.cpp:335 [Service.Window]: Unimplemented window group opcode 0x2F!
+E /workspace/EKA2L1-validation/src/emu/services/src/window/classes/wingroup.cpp:335 [Service.Window]: Unimplemented window group opcode 0x2F!
+E /workspace/EKA2L1-validation/src/emu/services/src/window/classes/wingroup.cpp:335 [Service.Window]: Unimplemented window group opcode 0x30!
+W /workspace/EKA2L1-validation/src/emu/services/src/ui/cap/oom_app.cpp:151 [Service.UI]: Unimplemented opcode for OOM AKNCAP server: 0x49, fake return with epoc::error_none
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1387 [Kernel]: Leave started! Guess leave code: -1
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1402 [Kernel]: Leave trapped by trap handler.
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1387 [Kernel]: Leave started! Guess leave code: -5
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1402 [Kernel]: Leave trapped by trap handler.
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1387 [Kernel]: Leave started! Guess leave code: -5
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1402 [Kernel]: Leave trapped by trap handler.
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: Z:\resource\skins\101f84b9\series60skin.mif, raw mode 1
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 196610
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: 101f84b9.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: 101f84b9.dll (UID3=0x101F84B9) runtime code: 0x8180e038
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: 101f84b9.dll (UID3=0x101F84B9) runtime data: 0x0
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1387 [Kernel]: Leave started! Guess leave code: -2
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1402 [Kernel]: Leave trapped by trap handler.
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1387 [Kernel]: Leave started! Guess leave code: -1
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1402 [Kernel]: Leave trapped by trap handler.
+W /workspace/EKA2L1-validation/src/emu/services/src/ui/cap/oom_app.cpp:151 [Service.UI]: Unimplemented opcode for OOM AKNCAP server: 0x49, fake return with epoc::error_none
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: browser: load file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db-corrupted
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: C:\Data\WebKit\cookies.db, raw mode 262659
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 458755
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db-journal
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db.lock\
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db-journal
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db.lock\
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db-journal
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db.lock\
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db-journal
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:991 [Service.EFsrv]: Set entry of: C:\Data\WebKit\cookies.db.lock
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:991 [Service.EFsrv]: Set entry of: C:\Data\WebKit\cookies.db.lock
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db.lock\
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db-journal
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db.lock\
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db-journal
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\cookies.db.lock\
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: euser.dll
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: euser.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1942325542, base (in parent): 0x239f4000, max size: 0x20000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local563453336, base (in parent): 0x23a14000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local3049820378, base (in parent): 0x23a15000, max size: 0x1000 type: normal, access: local
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread 12681ce8bc6d6749 created with start pc = 0x856b2241, stack size = 0x20000
+W /workspace/EKA2L1-validation/src/emu/services/src/ui/view/view.cpp:72 [Service.UI]: Can't find priority set resource file for view server! Priority set to standard 0.
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Private\E1A5C002\
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2390 [Kernel]: Thread with last name: WebKit renamed to WebKit
+T /workspace/EKA2L1-validation/src/emu/services/src/ui/cap/oom_app.cpp:98 [Service.UI]: Unblanking screen in AKNCAP session stubbed
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:1618 [Kernel]: Get Info of Z:\sys\bin\avkonfep.dll
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: avkonfep.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: code831015814, base (in parent): 0x85b6b000, max size: 0x3000 type: normal, access: code 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: avkonfep.dll (UID3=0x100056DE) runtime code: 0x85b6b000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: avkonfep.dll (UID3=0x100056DE) runtime data: 0x0
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:925 [Service.CenRep]: Try to open repo 0x10009793
+W /workspace/EKA2L1-validation/src/emu/services/src/ui/cap/oom_app.cpp:151 [Service.UI]: Unimplemented opcode for OOM AKNCAP server: 0x40, fake return with epoc::error_none
+W /workspace/EKA2L1-validation/src/emu/services/src/ui/cap/oom_app.cpp:151 [Service.UI]: Unimplemented opcode for OOM AKNCAP server: 0x3F, fake return with epoc::error_none
+T /workspace/EKA2L1-validation/src/emu/kernel/src/libmanager.cpp:1618 [Kernel]: Get Info of Z:\sys\bin\alftranseffectplugin.dll
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: browser: network: connected through "Host network"
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x101f75b6, key: 0x1020762f
+W /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2675 [Kernel]: Property (0x101f75b6, 0x1020762f) has not been defined before, undefined behavior may rise
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2672 [Kernel]: Attach to property with category: 0x101f75b6, key: 0x1020762f
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0xCCCCCC00: changes saved
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\compositing.html
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: C:\Data\WebKit\compositing.html, raw mode 262147
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 524292
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\history.txt
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: C:\Data\WebKit\history.txt, raw mode 262659
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 655364
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: Z:\resource\fonts\nosnr60.ttf
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\history.txt
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: C:\Data\WebKit\history.txt, raw mode 262659
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 720900
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/fs.cpp:959 [Service.EFsrv]: Get entry of: C:\Data\WebKit\history.txt
+I /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1090 [Service.EFsrv]: Opening file: C:\Data\WebKit\history.txt, raw mode 262659
+T /workspace/EKA2L1-validation/src/emu/services/src/fs/files.cpp:1099 [Service.EFsrv]: Handle opened: 786436
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1266 [Kernel]: Create session to unexist server: !BackupServer
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:116 [Service.Loader]: Trying to summon: baksrvs
+T /workspace/EKA2L1-validation/src/emu/kernel/src/kernel.cpp:994 [Kernel]: Spawned process: baksrvs, entry point = 0x80B346F8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: baksrvs.exe (UID3=0x10004900) runtime code: 0x80b346f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: baksrvs.exe (UID3=0x10004900) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/process.cpp:108 [Kernel]: Process baksrvs capabilities: ProtServer 
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local1613127169, base (in parent): 0x400000, max size: 0x5000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local31463002, base (in parent): 0x405000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: local2957646162, base (in parent): 0x406000, max size: 0x1000 type: normal, access: local
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: $HEAP, base (in parent): 0x407000, max size: 0x440000 type: disconnected, access: local
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:2390 [Kernel]: Thread with last name: Main renamed to !BackupServer
+T /workspace/EKA2L1-validation/src/emu/services/src/loader/loader.cpp:231 [Service.Loader]: Loaded library: eikbackupsrv.dll
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: eikbackupsrv.dll (UID3=0x10004904) runtime code: 0x8141fae8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: eikbackupsrv.dll (UID3=0x10004904) runtime data: 0x0
+I /workspace/EKA2L1-validation/src/emu/kernel/src/chunk.cpp:157 [Kernel]: Chunk created: RomBssChunkSect7EF00000For753, base (in parent): 0x7ef00000, max size: 0x100000 type: disconnected, access: global
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: sgresource.dll (UID3=0x102872C5) runtime code: 0x805b6328
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: sgresource.dll (UID3=0x102872C5) runtime data: 0x7eff8000
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: libopenvg_sw.dll (UID3=0xEDE0F2F) runtime code: 0x81c911f8
+I /workspace/EKA2L1-validation/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: libopenvg_sw.dll (UID3=0xEDE0F2F) runtime data: 0x7efc4000
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1193 [Kernel]: Server !BackupServer created
+T /workspace/EKA2L1-validation/src/emu/kernel/src/process.cpp:519 [Kernel]: Rendezvous to: !ecomserver
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:1351 [Kernel]: Sending a blind sync message
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x10009793: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876E: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876D: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876F: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x2001844B: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x10272618: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876D: changes saved
+T /workspace/EKA2L1-validation/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x10272618: changes saved
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/audio_cubeb.cpp:44 [Driver.Audio]: cubeb: cubeb_pulse.c:1082:Cubeb stream (0x7f7e7990d5b0) destroyed successfully.
+W /workspace/EKA2L1-validation/src/emu/kernel/src/ipc.cpp:96 [Kernel]: Unreferencing an already-released IPC message (id 49, function 0x3)

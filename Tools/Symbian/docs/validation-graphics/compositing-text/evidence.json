@@ -1,0 +1,39 @@
+{
+  "before": {
+    "source_run": "browser-20261029T153215Z-cvj0dguf",
+    "files_sha256": {
+      "browser.png": "d56d241a1cf03685af1fa7bd072e27e9e54365f58f8f0d4f1196091db6d5edf9",
+      "emulator.log": "6f3f23c86fed92533f8e5eeab9f9893459e2b6c68fe7f2ac0ec62b4de44b14e0",
+      "log.txt": "c986da17b6ce21c0b8fc710b099269f08b1833937b52af75fc764b016cd147ad",
+      "stripe-analysis.json": "751bb5f3ba15f91621b958c9abcfbc231d95d4fdf57178f60df64661fdc43d3a"
+    }
+  },
+  "software": {
+    "source_run": "browser-20261029T153235Z-qp6rpsi5",
+    "files_sha256": {
+      "browser.png": "3c9d0557caa26f4854dfe884772152cfabb6b261bfc66fe9e239fcae4799ef80",
+      "emulator.log": "fa6bbde64b28f85ebfb6079cae54d785223a5bd9b0b964f394fe1ca8ecf470cd",
+      "log.txt": "5e69b5127fb768239f15a058544d1ccbb3907842b6f4bb0b2e75b66a2f153888",
+      "stripe-analysis.json": "6c4db5953ae8b905ab23dfbe0abf4b65490506af37bab250059650c5dbd0b2ae"
+    }
+  },
+  "diagnostic": {
+    "source_run": "browser-20261029T154716Z-hsrojmar",
+    "files_sha256": {
+      "browser.png": "ebdf6994c88d7706a1e1337fc1bf5c5fc6be095b44d0b2efdb7987972588ff1b",
+      "emulator.log": "a7c58eb7fafd323ceb26458fed6eaeca5f4fde6ec3a10bef213735624be9a9a5",
+      "log.txt": "d4c4fa5a5505013b12c1a0e99e3959a3310055d39ba7e2400a5919ab02f8843c"
+    }
+  },
+  "after": {
+    "source_run": "browser-20261029T155748Z-nqhsi_zg",
+    "browser_sha256": "8ba0a5068a3dbd3aef616d71ae3b9f6d6b0a906c376c49fa4a9cc04685eaead5",
+    "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+    "files_sha256": {
+      "browser.png": "796431d8d45f2b234c6a01fec9500a4998971baa7b4fd35e27c4a06da6ffe224",
+      "emulator.log": "31c4b4847fb61c4b0b9b672efa008d727227a5d46183f5d9b9d2a3a7132089e7",
+      "log.txt": "ffdba8b2a60c84cef54a0aa473ca4ddcc324259e29f884026b684b6055605e8c",
+      "stripe-analysis.json": "51e5bf866692fb6c3f918047520e6abc97eaa2ce65c5989a486fc3a56326b394"
+    }
+  }
+}

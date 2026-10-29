@@ -1,11 +1,25 @@
 # Symbian graphics and WebGL implementation
 
-Status recorded on 2026-10-29: the standalone native EGL/GLES2 probe passed
-123/123 checks and the real ANGLE probe passed 34/34 in EKA2L1. Both guest
-processes and the emulator exited zero, with no reported guest panic or access
-violation. Browser WebGL presentation and DOM integration are **not yet
-validated** by these results. Physical-device rendering and performance also
-remain untested.
+Status recorded on 2026-10-29: the EKA2L1 browser passed **10/10 compositing** and
+**9/9 WebGL** checks, with native EGL/GLES2 initialization and successful
+360 × 532 presentation recorded separately for each page. Both browser drivers
+completed their observation periods and normal host shutdown, with no panic or
+compositor fallback; the installed CA file was unchanged. The repaired browser's
+six promoted/plain text regions also match the software reference exactly, and
+both one-pixel stripe rows have zero RGB error. Original logs, screenshots and
+hashes are in [browser-final](validation-graphics/browser-final/README.md) and
+[compositing-text](validation-graphics/compositing-text/README.md).
+
+On the same final emulator, the standalone native EGL probe passed **131/131**
+checks (nine exact pixel checks and three swaps), and the ANGLE probe passed
+**45/45**, including real depth rendering and bounded-read rejection without
+buffer or guard writes. Both standalone guests and hosts exited zero. Earlier
+123/123 EGL and 34/34 or 40/40 ANGLE results remain separate historical records.
+
+These are EKA results, not physical-device GPU or performance measurements, a
+full WebGL conformance result, or proof of a particular JavaScript tier. Browser
+media integration remains pending; its native MMF results are documented
+separately in [MEDIA.md](MEDIA.md).
 
 ## Rendering boundaries
 
@@ -58,28 +72,36 @@ compile soft-float merely to bypass a converter error. The recorded ANGLE image
 has E32 flags `0x12100028`.
 
 The tested EKA base is `5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a`, with the
-repository's ordered patches `0001`, `0005`–`0013`. Patches `0006`–`0008`
+repository's ordered patches `0001`, `0005`–`0016`. Patches `0006`–`0008`
 cover teardown and filesystem behavior used by the runner. `0009` implements
 EGL attribute termination and real GLES capability/object queries and program
 validation. `0010` is present in the tested image for native media; an ANGLE
-probe pass does not validate its media features. `0011`–`0013` fix failures found
-by the native probe, described below. Their complete sequential application was
-checked against the fixed base. Source and patch hashes are preserved beside
-the evidence.
+probe pass does not validate its media features. `0011`–`0014` fix failures found
+by the native probe, and `0016` fixes depth-only framebuffer handling found by
+ANGLE. `0015` concerns native audio. Their complete sequential application was
+checked against the fixed base; all 13 current patch hashes match the recorded
+[patch-chain check](validation-graphics/native-angle/depth-after/patch-chain.json).
 
 | Layer | Recorded result | What it demonstrates |
 | --- | --- | --- |
-| Native EGL/GLES2 | 123/123 | Pbuffer/window contexts, real shaders, capability/precision/object queries, program validation, nine exact pixel checks, alpha blending, three swaps and surface recreation after native window resize |
-| ANGLE over firmware GLES2 | 34/34 | Real ANGLE renderer and WebGL-compatible context, exact shader pixel, virtual-context state recovery, pthread context/error isolation and invalid-call rejection |
+| Native EGL/GLES2 | 131/131 | Pbuffer/window contexts, real shaders, capability/object/current-state queries, program validation, nine exact pixel checks, alpha blending, three swaps and surface recreation after native window resize |
+| ANGLE over firmware GLES2 | 45/45 | Real renderer, WebGL-compatible context, exact shader/depth pixels, virtual-context and pthread state isolation, invalid-call rejection and bounded-read buffer/guard checks |
 | GLAD host loader regression | 7/7 | Capability-gated precision API loading, exact call forwarding, missing resolver rejection and clearing stale pointers |
-| Browser WebGL page | Pending | `tests/webgl.html` must run inside the final browser; host Chromium fixture checks are not Symbian acceptance |
+| Browser compositing page | 10/10 | Transform, opacity, clipping, scrolling, repaint, resize and animation checks, plus separate native presentation evidence |
+| Browser WebGL page | 9/9 | WebGL 1 storage, shader/texture/FBO queries, validation, resize, canvas uploads/presentation and context loss/restoration |
+| Browser text/stripe comparison | Exact match | Six 280 × 24 text regions match the software reference; both one-pixel stripe rows have zero RGB error |
 
 The final host SHA-256 is
-`1e418ff2d4af12755a62f6093b2bba79da1248c111336e760f559f50888ae42b`.
+`ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1`.
 The native image SHA-256 is
-`c9b8331f218694cc00321f5c772d735713b067cfbc19598af9f5dfedfddacaf6`;
+`bd8fce0b249e73edbe0eb9661b1d8d6a39b9adafa0b2340981e5ae1a5a1c9aa3`;
 the ANGLE image SHA-256 is
-`e098ef9b7b753f01ab787acf496e6fd877d5b1e710fd58f6ee4301dd891685b2`.
+`8148b8ff1b50acfc8bac5ef83b4ca37561742c3f163fc1dd27fff5c87ee19a33`;
+the browser image SHA-256 is
+`8ba0a5068a3dbd3aef616d71ae3b9f6d6b0a906c376c49fa4a9cc04685eaead5`.
+The final native EGL rerun is in `validation-graphics/native-egl/final-clean`;
+the host has no temporary `MMFSTART` diagnostic instrumentation. Earlier runs
+retain their original executable hashes rather than inheriting these identities.
 The guest identifies the renderer as ANGLE over EKA2L1's GLES2 device. These
 strings are diagnostic identity, not proof of physical PowerVR execution.
 
@@ -108,6 +130,41 @@ strings are diagnostic identity, not proof of physical PowerVR execution.
    rejected the backend's required platform attribute. Adding the implemented
    capability to `Display.cpp` allowed the same real backend to initialize and
    complete the 34 checks.
+5. The browser's first native TextureMapper frame produced
+   `GL_INVALID_ENUM`. `beginPainting()` queries `GL_VIEWPORT`, which EKA had
+   not implemented; the earlier native probe queried only
+   `GL_MAX_VIEWPORT_DIMS`. Patch `0014` returns the actual guest viewport state,
+   including its origin, without leaking the driver's scale or Y inversion.
+   The expanded native probe then passed 131 checks. The subsequent browser
+   frame presented successfully; WebGL canvas creation is a separate gate.
+6. Once the browser enabled WebGL, ANGLE incorrectly advertised
+   `GL_OES_depth24` on all GLES2 drivers. WebCore consequently chose a depth
+   format the native API did not support. The ANGLE format table now requires
+   GLES3 or the actual `GL_OES_depth24` extension for 24-bit renderbuffer support.
+   The native implementation's rejection was correct and was not bypassed.
+7. Real depth rendering then exposed an EKA null dereference when ANGLE cleared
+   a depth-only scratch framebuffer for robust resource initialization. Patch
+   `0016` handles creation without a color attachment and valid null attachment
+   transitions. The expanded ANGLE probe passes all 40 checks with this patch;
+   resource initialization and depth tests remain enabled.
+8. Browser readback used `ReadnPixelsRobustANGLE`, whose base command additionally
+   requires GLES3.2 or `EXT/KHR_robustness`. The GLES2 backend has no such native
+   capability. Symbian WebCore now explicitly requires
+   `GL_ANGLE_robust_client_memory` and uses `ReadPixelsRobustANGLE` for all three
+   readback entry points. This retains ANGLE's destination-size, packing, format
+   and framebuffer validation and the same underlying read operation. It does
+   not fall back to unbounded `glReadPixels`. The extended 45/45 probe verifies
+   both rejection without memory writes and successful bounded pixel output.
+9. Promoted text and one-pixel stripes were blurred even though all ten DOM and
+   geometry checks passed. A bounded diagnostic recorded page/device scale 1,
+   but promoted backings retained the initial `360 / 980` raster scale. A
+   280 × 17 layer was uploaded at 102 × 6 pixels and magnified by 2.72222.
+   TextureMapper inherited an empty scale-change callback and did not dirty
+   these otherwise unchanged layers. Its override now marks the complete layer
+   dirty, updating scale and rebuilding/rasterizing all tiles. Temporary
+   diagnostics were removed; fixture styles and texture filters are unchanged.
+   The repaired browser's six text regions and two stripe rows match the
+   software reference exactly.
 
 The failed and successful guest logs are retained, without changing their
 expected values. The first precision-crash probe predates the command-line
@@ -132,4 +189,12 @@ result records, original guest-log bytes compressed with gzip, source hashes,
 failure records and the resized native-window screenshot. No executable, SDK,
 firmware or duplicate host log is vendored. Host-log hashes and exit summaries
 identify the original runs; host logs containing machine paths are kept outside
-the repository.
+those standalone-probe archives.
+
+The [strict browser runner](../tests/browser-graphics-runner.md) separately
+requires current page results, successful native presentation, no fallback,
+fresh screenshots and normal driver completion. Its [browser evidence](validation-graphics/browser-final/README.md)
+includes original guest, host and launcher logs as well as screenshots. Browser
+native-surface resize, input-panel overlay and fallback transitions still need
+separate observations; the page's layout-resize check and the standalone EGL
+window-resize check do not establish those browser behaviors.

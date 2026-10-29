@@ -1,11 +1,35 @@
 # Native EGL evidence
 
 Recorded on 2026-10-29 with the X7-00 (RM-707) Belle firmware in EKA2L1.
-`final/result.json` is the unmodified runner record: 123/123, nine exact pixel
+The latest `final-clean/result.json` records **131/131**, nine exact pixel
+checks and three swaps on host
+`ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1`,
+without temporary `MMFSTART` audio diagnostics. It uses the unchanged probe
+`bd8fce0b249e73edbe0eb9661b1d8d6a39b9adafa0b2340981e5ae1a5a1c9aa3`,
+with effective hold 15,000 ms and ES3 rejection enabled; guest and host exits
+are zero with no reported panic/access violation. Original guest log, result
+and resized-window screenshot are preserved in that directory.
+
+The historical `final/result.json` is the unmodified runner record: 123/123, nine exact pixel
 checks, three swaps, effective hold 15,000 ms, ES3 rejection requested and
 observed, guest exit 0 and host exit 0. `final/screenshot-1.png` shows the actual
 208×272 resized purple window. This does not demonstrate physical-device GPU
 execution or browser canvas presentation.
+The separate [final browser result](../browser-final/README.md) records its own
+10/10 compositing and 9/9 WebGL checks on the same final host.
+
+The later `viewport-query/result.json` adds eight current-state checks and
+passes **131/131**, retaining all nine pixels and three swaps. It queries the
+four exact values after setting a nonzero viewport origin, restores the prior
+viewport, and checks scissor, enable, program and framebuffer state used by
+TextureMapper. Patch `0014` supplies the previously missing `GL_VIEWPORT`
+getter from the original guest coordinates, before driver scaling/Y inversion.
+The image is `bd8fce0b249e73edbe0eb9661b1d8d6a39b9adafa0b2340981e5ae1a5a1c9aa3`;
+the host is `e2a76526c006863894403872343abd5d1f051bce647c67d4f22b68dbe02d5704`.
+That host also contains temporary unrelated audio diagnostics. Its exact image,
+patch assets and runner result are recorded separately; it does not replace the
+earlier 123/123 record or change the host identity of the ANGLE 34/34 run.
+The added probe/patch hashes are in `viewport-query/source-hashes.json`.
 
 `manifest.json` maps every retained file to its original run, byte length and
 SHA-256. The `.log.gz` files decompress to the exact original guest log bytes;

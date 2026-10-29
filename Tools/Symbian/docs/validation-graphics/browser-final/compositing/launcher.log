@@ -1,0 +1,22 @@
+logs: /workspace/symbian-graphics-work/runs/browser-20261029T155851Z-aifuo9s4
+15:58:53.067 WebKit Browser starting
+15:58:53.082 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+15:58:54.633 load file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224
+Symbian compositor: native EGL/GLES2 presented 360x532
+15:58:55.179 network: connected through "Host network"
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: translated layer geometry
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: layer opacity
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: overlapping layer hit test
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: overflow clipping excludes transformed child
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: remove compositing trigger
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: ordinary root content update
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: overflow scroller position
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: layout resize retains layer geometry
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: animation reached final transform
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: multiple animation frames delivered
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: RESULT: compositing-regression passed=10 failed=0 frames=4
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=e08bedb617eb458fb535d9f89d278224:32: PASS: compositing-regression
+
+Browser observation completed; inspect screenshot and test outcomes: /workspace/symbian-graphics-work/runs/browser-20261029T155851Z-aifuo9s4/browser.png

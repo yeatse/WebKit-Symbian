@@ -2,6 +2,8 @@
 #include "libGLESv2/entry_points_egl_autogen.h"
 #include "libGLESv2/entry_points_egl_ext_autogen.h"
 #include "libGLESv2/entry_points_gles_2_0_autogen.h"
+#include "libGLESv2/entry_points_gles_ext_autogen.h"
+#include <GLES2/gl2ext.h>
 #include <e32debug.h>
 #include <atomic>
 #include <pthread.h>
@@ -112,10 +114,43 @@ static bool run()
     GL_TexImage2D(GL_TEXTURE_2D,0,GL_RGBA,8,8,0,GL_RGBA,GL_UNSIGNED_BYTE,nullptr);
     GLuint fbo; GL_GenFramebuffers(1,&fbo); GL_BindFramebuffer(GL_FRAMEBUFFER,fbo); GL_FramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,texture,0);
     if (!expect(GL_CheckFramebufferStatus(GL_FRAMEBUFFER)==GL_FRAMEBUFFER_COMPLETE,"RGBA8 framebuffer complete")) return false;
+    // Match WebCore's default depth=true/stencil=false format selection. A
+    // claimed extension must allocate real storage; do not silently retry 16.
+    const char* extensions = reinterpret_cast<const char*>(GL_GetString(GL_EXTENSIONS));
+    bool depth24 = extensions && strstr(extensions, "GL_OES_depth24");
+    GLenum depthFormat = depth24 ? GL_DEPTH_COMPONENT24_OES : GL_DEPTH_COMPONENT16;
+    report("INFO depth24=%d selected-depth-format=0x%x", depth24, depthFormat);
+    GLuint depth; GL_GenRenderbuffers(1, &depth); GL_BindRenderbuffer(GL_RENDERBUFFER, depth);
+    GL_RenderbufferStorage(GL_RENDERBUFFER, depthFormat, 8, 8);
+    if (!noError("advertised depth format storage")) return false;
+    GL_FramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth);
+    if (!expect(GL_CheckFramebufferStatus(GL_FRAMEBUFFER)==GL_FRAMEBUFFER_COMPLETE,"color plus depth framebuffer complete")) return false;
+    GLint depthBits = 0; GL_GetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_DEPTH_SIZE, &depthBits);
+    expect(depthBits >= (depth24 ? 24 : 16), "allocated depth precision matches capability");
     GL_Viewport(0,0,8,8); GL_ClearColor(0,0,0,0); GL_Clear(GL_COLOR_BUFFER_BIT); GL_DrawArrays(GL_TRIANGLE_STRIP,0,4);
     unsigned char pixel[4] = {0}; GL_ReadPixels(4,4,1,1,GL_RGBA,GL_UNSIGNED_BYTE,pixel);
     report("PIXEL %u %u %u %u",pixel[0],pixel[1],pixel[2],pixel[3]);
     expect(pixel[0]==255 && pixel[1]==0 && pixel[2]==0 && pixel[3]==255,"shader draw exact red pixel"); noError("draw and readback");
+    // Exercise the same bounded GLES2 readback used by WebCore. A rejected
+    // undersized destination must remain entirely untouched, including guards.
+    unsigned char bounded[6]; memset(bounded, 0x5a, sizeof(bounded));
+    GLsizei length = -1, columns = -1, rows = -1;
+    GL_ReadPixelsRobustANGLE(4,4,1,1,GL_RGBA,GL_UNSIGNED_BYTE,3,&length,&columns,&rows,bounded+1);
+    expect(GL_GetError()==GL_INVALID_OPERATION,"bounded read rejects three-byte RGBA destination");
+    bool untouched = true; for (unsigned char byte : bounded) untouched &= byte == 0x5a;
+    expect(untouched,"rejected bounded read leaves destination and guards untouched");
+    GL_ReadPixelsRobustANGLE(4,4,1,1,GL_RGBA,GL_UNSIGNED_BYTE,4,&length,&columns,&rows,bounded+1);
+    expect(bounded[0]==0x5a && bounded[5]==0x5a && bounded[1]==255 && bounded[2]==0 && bounded[3]==0 && bounded[4]==255,"bounded read exact pixel preserves guards");
+    expect(length==4 && columns==1 && rows==1,"bounded read reports byte length and dimensions");
+    noError("bounded GLES2 readback");
+    GL_Enable(GL_DEPTH_TEST); GL_DepthFunc(GL_LESS); GL_DepthMask(GL_TRUE);
+    GL_ClearDepthf(0); GL_Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); GL_DrawArrays(GL_TRIANGLE_STRIP,0,4);
+    GL_ReadPixels(4,4,1,1,GL_RGBA,GL_UNSIGNED_BYTE,pixel);
+    expect(pixel[0]==0 && pixel[1]==0 && pixel[2]==0 && pixel[3]==0,"depth test rejects farther fragment");
+    GL_ClearDepthf(1); GL_Clear(GL_DEPTH_BUFFER_BIT); GL_DrawArrays(GL_TRIANGLE_STRIP,0,4);
+    GL_ReadPixels(4,4,1,1,GL_RGBA,GL_UNSIGNED_BYTE,pixel);
+    expect(pixel[0]==255 && pixel[1]==0 && pixel[2]==0 && pixel[3]==255,"depth test accepts nearer fragment");
+    GL_Disable(GL_DEPTH_TEST); noError("depth storage and comparisons");
     EGLContext second = EGL_CreateContext(display,config,EGL_NO_CONTEXT,contextAttributes);
     if (!expect(second != EGL_NO_CONTEXT,"second isolated ANGLE context")) return false;
     if (!expect(EGL_MakeCurrent(display,surface,surface,second),"switch to second context")) return false;
@@ -128,7 +163,7 @@ static bool run()
     GL_BindTexture(GL_TEXTURE_2D, 0x00ffffff); expect(GL_GetError()==GL_INVALID_OPERATION,"WebGL rejects ungenerated texture name");
     GL_BindBuffer(GL_ARRAY_BUFFER,0); GL_VertexAttribPointer(0,2,GL_FLOAT,GL_FALSE,0,vertices);
     expect(GL_GetError()==GL_INVALID_OPERATION,"WebGL rejects client vertex arrays");
-    GL_DeleteFramebuffers(1,&fbo); GL_DeleteTextures(1,&texture); GL_DeleteBuffers(1,&buffer); GL_DeleteProgram(program); GL_DeleteShader(vs); GL_DeleteShader(fs);
+    GL_DeleteFramebuffers(1,&fbo); GL_DeleteRenderbuffers(1,&depth); GL_DeleteTextures(1,&texture); GL_DeleteBuffers(1,&buffer); GL_DeleteProgram(program); GL_DeleteShader(vs); GL_DeleteShader(fs);
     noError("resource deletion");
     expect(EGL_MakeCurrent(display,EGL_NO_SURFACE,EGL_NO_SURFACE,EGL_NO_CONTEXT),"unmake ANGLE context");
     expect(EGL_DestroyContext(display,context),"destroy ANGLE context"); expect(EGL_DestroySurface(display,surface),"destroy ANGLE surface");
@@ -139,7 +174,7 @@ int main()
 {
     mkdir("C:/Data",0777); mkdir("C:/Data/WebKit",0777);
     output=fopen("C:/Data/WebKit/angle-probe.log","w"); if(!output) return 2;
-    report("BEGIN: angle-probe version=1"); bool completed=run(); expect(completed,"all stages completed");
+    report("BEGIN: angle-probe version=2"); bool completed=run(); expect(completed,"all stages completed");
     report("RESULT {\"probe\":\"angle-probe\",\"passed\":%u,\"failed\":%u}",checks-failures,failures);
     report("%s: angle-probe %u/%u",failures?"FAIL":"PASS",checks-failures,checks);
     report("angle-probe exiting %d",failures?1:0); fclose(output); return failures?1:0;
