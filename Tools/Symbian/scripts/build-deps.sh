@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Static ARMv6 builds of the libraries WebCore needs beyond the SDK's own
 # (FreeType, libpng, libjpeg, zlib, mbedTLS): pixman, cairo, HarfBuzz,
-# libxml2, SQLite, fontconfig, libpsl, libwebp and curl, plus the mbedTLS
+# libxml2, libxslt, SQLite, fontconfig, libpsl, libwebp and curl, plus the mbedTLS
 # file functions the SDK leaves out (shims/mbedtls-fs.c). Installed into
 # $DEPS_DIR/install.
 #
@@ -170,6 +170,17 @@ build_libxml2() {
     -DZLIB_INCLUDE_DIR="$sdk_portable/zlib" -DZLIB_LIBRARY="$sdk_lib/libsymbian_portable_zlib.a"
 }
 
+build_libxslt() {
+  fetch https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.35.tar.xz libxslt-1.1.35
+  # XSLT for WebCore (XSLTProcessorLibxslt), with EXSLT, which it registers.
+  # The libraries only: xsltproc has no option and needs libm and libdl.
+  sed -i '/^add_executable(xsltproc/,/^install(TARGETS xsltproc/d' "$src/libxslt-1.1.35/CMakeLists.txt"
+  cmake_build libxslt-1.1.35 -DLIBXSLT_WITH_CRYPTO=OFF -DLIBXSLT_WITH_DEBUGGER=OFF \
+    -DLIBXSLT_WITH_MODULES=OFF -DLIBXSLT_WITH_PROFILER=OFF -DLIBXSLT_WITH_XSLT_DEBUG=OFF \
+    -DLIBXSLT_WITH_PYTHON=OFF -DLIBXSLT_WITH_TESTS=OFF \
+    -DZLIB_INCLUDE_DIR="$sdk_portable/zlib" -DZLIB_LIBRARY="$sdk_lib/libsymbian_portable_zlib.a"
+}
+
 build_fontconfig() {
   fetch https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.94.tar.xz fontconfig-2.13.94
   # WebCore's FreeType font code selects fonts through fontconfig. The phone's
@@ -294,7 +305,7 @@ if [ "${1:-}" = --one ]; then
   "build_$2"
   exit
 fi
-all=(pixman sqlite libxml2 fontconfig cairo harfbuzz libpsl webp mbedtls_fs curl)
+all=(pixman sqlite libxml2 libxslt fontconfig cairo harfbuzz libpsl webp mbedtls_fs curl)
 sdk_pkgconfig
 for name in "${@:-${all[@]}}"; do
   step "$name"

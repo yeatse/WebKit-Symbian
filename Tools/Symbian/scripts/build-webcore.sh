@@ -22,6 +22,7 @@ cmake -S "$WEBKIT_SRC" -B "$build" -G Ninja -DPORT=Symbian \
   -DJPEG_INCLUDE_DIR="$sdk_portable/jpeg" -DJPEG_LIBRARY="$sdk_lib/libsymbian_portable_jpeg.a" \
   -DZLIB_INCLUDE_DIR="$sdk_portable/zlib" -DZLIB_LIBRARY="$sdk_lib/libsymbian_portable_zlib.a" \
   -DLIBXML2_INCLUDE_DIR="$D/include/libxml2" -DLIBXML2_LIBRARY="$D/lib/libxml2.a" \
+  -DLIBXSLT_INCLUDE_DIR="$D/include" -DLIBXSLT_LIBRARIES="$D/lib/libxslt.a" \
   -DSQLite3_INCLUDE_DIR="$D/include" -DSQLite3_LIBRARY="$D/lib/libsqlite3.a" \
   "$@" > "$WORK/webcore-configure.log"
 ninja -C "$build" -k 0 -j"$JOBS" > "$WORK/webcore-build.log"

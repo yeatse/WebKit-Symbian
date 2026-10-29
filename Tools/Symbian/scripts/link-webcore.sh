@@ -16,7 +16,7 @@ echo 'int main() { return 0; }' > "$out/main.cpp"
   -Wl,--whole-archive "$L/libWebCore.a" -Wl,--no-whole-archive \
   "$L/libPAL.a" "$L/libJavaScriptCore.a" "$L/libWTF.a" \
   "$D/libcairo.a" "$D/libpixman-1.a" "$D/libharfbuzz-icu.a" "$D/libharfbuzz.a" \
-  "$D/libfontconfig.a" "$D/libxml2.a" "$D/libsqlite3.a" "$D/libpsl.a" \
+  "$D/libfontconfig.a" "$D/libxslt.a" "$D/libxml2.a" "$D/libsqlite3.a" "$D/libpsl.a" \
   "$D/libwebpdemux.a" "$D/libwebp.a" "$D/libcurl.a" "$D/libmbedtls_fs.a" \
   "$M/libmbedtls.a" "$M/libmbedx509.a" "$M/libmbedcrypto.a" \
   "$I/libicui18n.a" "$I/libicuuc.a" "$I/libicudata.a" \
