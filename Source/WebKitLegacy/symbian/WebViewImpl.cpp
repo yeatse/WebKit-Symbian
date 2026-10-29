@@ -312,6 +312,9 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
     settings.setLoadsImagesAutomatically(true);
     settings.setTextAreasAreResizable(false);
     settings.setDefaultTextEncodingName("UTF-8");
+    // Nothing composites layers here, so content WebCore moved into one
+    // (transforms, will-change, video) would go unpainted.
+    settings.setAcceleratedCompositingEnabled(false);
 
     m_page->mainFrame().init();
     m_page->setIsVisible(true);
