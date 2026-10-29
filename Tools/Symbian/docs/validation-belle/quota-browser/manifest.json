@@ -1,0 +1,146 @@
+[
+  {
+    "file": "result.json",
+    "bytes": 2288,
+    "sha256": "23cd9958bc3ebcb8b41b54cbf7697c90fd0879effb1c4a501b51a39882530172",
+    "source_bytes": 2288,
+    "source_sha256": "23cd9958bc3ebcb8b41b54cbf7697c90fd0879effb1c4a501b51a39882530172",
+    "gzip": false
+  },
+  {
+    "file": "write/report.json",
+    "bytes": 2653,
+    "sha256": "114e8f5339d9ae140b8df6894ba5f47b79a9fe016e1f6cd0a3221f08d65ecc9d",
+    "source_bytes": 2653,
+    "source_sha256": "114e8f5339d9ae140b8df6894ba5f47b79a9fe016e1f6cd0a3221f08d65ecc9d",
+    "gzip": false
+  },
+  {
+    "file": "write/log.txt.gz",
+    "bytes": 659,
+    "sha256": "67aa407643b3713dee03a34063ea74e5ae44928e74af465f2e5524ae2eccbf9c",
+    "source_bytes": 2466,
+    "source_sha256": "cc3d4dacebdc587553984484d499e4fc4716a85da66a749c912f1f69b961642a",
+    "gzip": true
+  },
+  {
+    "file": "write/emulator.log.gz",
+    "bytes": 103798,
+    "sha256": "72523c167bb462605a01607b7a121c4576cd0d55c313fa2b34707ccdda7dcb09",
+    "source_bytes": 8356842,
+    "source_sha256": "0758aed6cbe0471be10543799939b4d93196d580254cb7da3a7dbcbc6eb1a9fc",
+    "gzip": true
+  },
+  {
+    "file": "write/launcher.log.gz",
+    "bytes": 772,
+    "sha256": "60f38c9b0e8a45792b1c29538baaba27cc2cb4c5c6edf395837bc017d74a210d",
+    "source_bytes": 2746,
+    "source_sha256": "5bbaa5087ed1b38ccc9b5ee4a9fef4407d1c6ada64919db0546ad6fb4f90a271",
+    "gzip": true
+  },
+  {
+    "file": "read/report.json",
+    "bytes": 651,
+    "sha256": "82b8bac929d9d7b8975616c48685844a6d762a09ab49cb7c3c98e762234d57c5",
+    "source_bytes": 651,
+    "source_sha256": "82b8bac929d9d7b8975616c48685844a6d762a09ab49cb7c3c98e762234d57c5",
+    "gzip": false
+  },
+  {
+    "file": "read/log.txt.gz",
+    "bytes": 426,
+    "sha256": "7c9099f54257ca8e5661a033a4461307ea64e31c543fb854cba967f51f62bfe7",
+    "source_bytes": 996,
+    "source_sha256": "01dd2dfa84eca4601d2fd5267d5ab248762ad1f89fdc87b9588a2767882bc98c",
+    "gzip": true
+  },
+  {
+    "file": "read/emulator.log.gz",
+    "bytes": 24553,
+    "sha256": "cd1885183353d5c94cf4096ea6fd2edf0fb1300c6260f6c2c99d74576f1f54de",
+    "source_bytes": 574771,
+    "source_sha256": "855f6214ad3e4c7687b06b63869ac0c663a5e199e91dc6981410e755603e5191",
+    "gzip": true
+  },
+  {
+    "file": "read/launcher.log.gz",
+    "bytes": 543,
+    "sha256": "7480d912090b7fcebc0a504a6355b238d56be0966b4edb9f04ff2fd5c130a94e",
+    "source_bytes": 1276,
+    "source_sha256": "1d289de42505889c5a633c5fad89cfc875140c5c45dc6c958872e0fdf7984940",
+    "gzip": true
+  },
+  {
+    "file": "erased/report.json",
+    "bytes": 340,
+    "sha256": "e68f226d4e8392909f840440855ea128f304c8d2b6b219b506d5a36f880087c8",
+    "source_bytes": 340,
+    "source_sha256": "e68f226d4e8392909f840440855ea128f304c8d2b6b219b506d5a36f880087c8",
+    "gzip": false
+  },
+  {
+    "file": "erased/log.txt.gz",
+    "bytes": 379,
+    "sha256": "3cd5d13fc56e3a109363ccd4e8dac47601dca1b2d12b45f9b7b2e108b1bbe9da",
+    "source_bytes": 678,
+    "source_sha256": "8980f3b3f8c0cb22754347bbff55912eb557c591eb0d2e5a894f78566d63ad41",
+    "gzip": true
+  },
+  {
+    "file": "erased/emulator.log.gz",
+    "bytes": 23143,
+    "sha256": "1576fae30ab9ac0b884897da54aa52965618d5c870a18641e357310571a1fa2d",
+    "source_bytes": 459782,
+    "source_sha256": "b7e7acfa41f7114a3dafdd2609c9d94da305631543ebc63ee2c4630d53652454",
+    "gzip": true
+  },
+  {
+    "file": "erased/launcher.log.gz",
+    "bytes": 496,
+    "sha256": "df33cc08b56fbbf8a21c83418e3753c3d17a735dc2fa53748bbd2591aacc09f6",
+    "source_bytes": 958,
+    "source_sha256": "6eda85487c6f8ce529144c6beafb589b6467c7d4443899196cbaedfdede0287e",
+    "gzip": true
+  },
+  {
+    "file": "host-identities.json",
+    "bytes": 947,
+    "sha256": "a23f24d709d046a12216a829ccf8a7a1d9bb4535362a614d344c1f91bdd4b456",
+    "source_bytes": 947,
+    "source_sha256": "a23f24d709d046a12216a829ccf8a7a1d9bb4535362a614d344c1f91bdd4b456",
+    "gzip": false
+  },
+  {
+    "file": "browser-identities.json",
+    "bytes": 14328,
+    "sha256": "02f12e78d0fc1d726879f74b07b15b5acc30d16d17471353e3f51df247cb1b93",
+    "source_bytes": 14328,
+    "source_sha256": "02f12e78d0fc1d726879f74b07b15b5acc30d16d17471353e3f51df247cb1b93",
+    "gzip": false
+  },
+  {
+    "file": "environment-start-failure/result.json",
+    "bytes": 1462,
+    "sha256": "152f24a72a174ccfc046b1490a7500ea454edfb872e2589dfd6f007bf38a06a7",
+    "source_bytes": 1462,
+    "source_sha256": "152f24a72a174ccfc046b1490a7500ea454edfb872e2589dfd6f007bf38a06a7",
+    "gzip": false
+  },
+  {
+    "file": "environment-start-failure/launcher.log.gz",
+    "bytes": 376,
+    "sha256": "5d5dd23642588b4f594edd3fc698665aee8d709128c9e78102a8fd83b1e38967",
+    "source_bytes": 538,
+    "source_sha256": "b823c1d9c8f3068e83dd9f1467eb11602c6943dccbfda71d41c606ab789d45cf",
+    "gzip": true
+  },
+  {
+    "file": "environment-start-failure/emulator.log.gz",
+    "bytes": 289,
+    "sha256": "8fc3c7aff5a75ce708212f3daec8244d23329ddc187ae6b4c5f48f50feebb804",
+    "source_bytes": 481,
+    "source_sha256": "dea1b0a464e03171f1434f73fb94f0eabd0ea173c2b919c406cb8bb32b22235f",
+    "gzip": true
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "run": "984037a893c04f1f816dccd6d33bbc94",
+  "phase": "erased",
+  "origin": "http://localhost:8790",
+  "elapsed_ms": 1000,
+  "passed": 1,
+  "total": 1,
+  "results": [
+    {
+      "name": "second restart observes deletion and allows fresh write",
+      "pass": true,
+      "details": null,
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,334 @@
+{
+  "base_commit": "9d08234e2182c43ea006cc5ea0c0b53f3f071849",
+  "scope": "First Belle batch + two quota fix TUs; staged browser sources; all second-batch modified sources overlaid to committed baseline during incremental compilation. No full engine rebuild since candidate9.",
+  "files": {
+    "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser.exe": {
+      "bytes": 58640092,
+      "sha256": "3a2385c1bd571d51c98f58f967a8ecf499ba1dcfb86d42d58b1e7dc82dd70317"
+    },
+    "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser_ui.rsc": {
+      "bytes": 150,
+      "sha256": "70ed39945ee9853a09f190238dccff9d41fb63712de06a4f90fb163e15ba880a"
+    },
+    "/workspace/symbian-graphics-work/build/webcore/cmakeconfig.h": {
+      "bytes": 5170,
+      "sha256": "6cf1912c9a324b878bf2e84e618b57ae1b57f0f71f38538e2bbcc289ccf5e048"
+    },
+    "/workspace/symbian-sdk/bin/rcomp": {
+      "bytes": 355320,
+      "sha256": "68ec145cba746f3df36cc6893a8d830a5ca3f3273aa5e9c40be0ee07ed71d792"
+    },
+    "/workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime.a": {
+      "bytes": 628314,
+      "sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26"
+    },
+    "/workspace/symbian-sdk/lib/armv6/mbedtls/lib/libmbedcrypto.a": {
+      "bytes": 2437512,
+      "sha256": "282b081f833b6f93a8a677919bf6466725ba9bd76b6c3f03df2d9c6cf3923627"
+    },
+    "/workspace/symbian-sdk/lib/armv6/mbedtls/lib/libmbedtls.a": {
+      "bytes": 894690,
+      "sha256": "dbc050ba56a3706466673f10ea46f657c8bcdc1a18e9a48107f16f1080da4fc8"
+    },
+    "/workspace/symbian-sdk/lib/armv6/mbedtls/lib/libmbedx509.a": {
+      "bytes": 279744,
+      "sha256": "02a0781b714b0be092010321ba78bd7ffbb7db43e80b2ea3a66d4511f489a68d"
+    },
+    "/workspace/symbian-work/deps/install/lib/libbrotlicommon.a": {
+      "bytes": 136108,
+      "sha256": "563e4d3342a3921362043d4545a0cb8a19820ac8024000bcdffc4ce810b2efef"
+    },
+    "/workspace/symbian-work/deps/install/lib/libbrotlidec.a": {
+      "bytes": 58994,
+      "sha256": "2c10c7bca30547a41b28dba3fdd481dd55765f86ba37b234bbc343a5cc12b01b"
+    },
+    "/workspace/symbian-work/deps/install/lib/libcurl.a": {
+      "bytes": 835552,
+      "sha256": "49d30e8d414790f03e31a8ae706463522036f71b0b4cddf7821f445114d65b86"
+    },
+    "/workspace/symbian-work/deps/install/lib/libfontconfig.a": {
+      "bytes": 486960,
+      "sha256": "5dc8313a9970a7d85f1d61f24109f6ab221956ef1a00fbbd5ee1772cd03c4635"
+    },
+    "/workspace/symbian-work/deps/install/lib/libwoff2common.a": {
+      "bytes": 10098,
+      "sha256": "3a1c6df45a575613c880f39e327cee9788ced482f37793fcb13471e27aca58af"
+    },
+    "/workspace/symbian-work/deps/install/lib/libwoff2dec.a": {
+      "bytes": 74704,
+      "sha256": "66034d1f03776c839f3bbae03a3f0aae2124ba1139b1530c4b503e79e808ec3d"
+    },
+    "Source/WTF/wtf/FileSystem.h": {
+      "bytes": 9897,
+      "sha256": "3d4bed953f752c3ab37d139e63f705e0934d2a0e81282b6ba848cb7cf5d24b27"
+    },
+    "Source/WTF/wtf/PlatformSymbian.cmake": {
+      "bytes": 845,
+      "sha256": "510366dfbdffad991796729616fd2e0af92b32496099d74b90e652cfb9f610e2"
+    },
+    "Source/WTF/wtf/Threading.cpp": {
+      "bytes": 16968,
+      "sha256": "d38160c0bf7bccf8c801ef0437e607c261b4e69e94a42c39343c7801c96dad55"
+    },
+    "Source/WTF/wtf/generic/RunLoopGeneric.cpp": {
+      "bytes": 10423,
+      "sha256": "cc54dcdceedee0046aecf92e2af61be7afe224a83daa17206caf89ff30a8dc82"
+    },
+    "Source/WTF/wtf/symbian/FileSystemSymbian.cpp": {
+      "bytes": 15750,
+      "sha256": "ad60af085cd8a1012784da76254c3037592614f1a87324642af1af5a8d801c87"
+    },
+    "Source/WTF/wtf/symbian/FileSystemSymbianNative.cpp": {
+      "bytes": 2101,
+      "sha256": "2498f4cd546246d30d11ecbb7b0e0c6c58d32db75cb2c7cc491f8a7812ee5c51"
+    },
+    "Source/WTF/wtf/symbian/FileSystemSymbianNative.h": {
+      "bytes": 1653,
+      "sha256": "9fca4075ebcaa72efc09b9f1f521d66a28fdd4e965e7caf976e3e011f549e9f0"
+    },
+    "Source/WTF/wtf/symbian/SymbianSystem.h": {
+      "bytes": 3807,
+      "sha256": "f67673b275018e38c3779fe843b393efa8c410850bb51274d5791c237888d68c"
+    },
+    "Source/WebCore/Modules/indexeddb/server/IDBBackingStore.h": {
+      "bytes": 7475,
+      "sha256": "c2b839fa16f15a86964e395356a3c0b168d954b24014d7bae75bd6a711849e41"
+    },
+    "Source/WebCore/Modules/indexeddb/server/IDBBlobCommit.h": {
+      "bytes": 1077,
+      "sha256": "8f9ae253fdd0d9dc5fd79726653fffc2c7d50a0e3df23f756d822565850842ed"
+    },
+    "Source/WebCore/Modules/indexeddb/server/IDBServer.cpp": {
+      "bytes": 45167,
+      "sha256": "213f39b10b9e6360113538bc0ee9c1afda1475818b7c999a6354c04f49abe7c8"
+    },
+    "Source/WebCore/Modules/indexeddb/server/IDBServer.h": {
+      "bytes": 8314,
+      "sha256": "4e28643a1ea133d2f1d6980851bdfb48b631552998e94048176f9e5735fb6be4"
+    },
+    "Source/WebCore/Modules/indexeddb/server/IDBStorageQuota.h": {
+      "bytes": 9083,
+      "sha256": "3dc8ed6ae0c3660e80308a963aec42bee85132e1cc3b7a32335e24f677a68232"
+    },
+    "Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.cpp": {
+      "bytes": 143005,
+      "sha256": "571fafbb921d73993da3245ed4ec1115798559a48c0578aa826362e223a01645"
+    },
+    "Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.h": {
+      "bytes": 12304,
+      "sha256": "7771f94c5e81aeae358ee0ef56923dc4b1386b4be40428be15bf786a2ba4fdc4"
+    },
+    "Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.cpp": {
+      "bytes": 12554,
+      "sha256": "d6fdda1408974a1f4a7052bcb1269d4d87b90c8280b2531e1c3220e0378d93a2"
+    },
+    "Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.h": {
+      "bytes": 4407,
+      "sha256": "5d5f08c021548e938388014ab202357614cfea76e39b22733391a838009720a9"
+    },
+    "Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.cpp": {
+      "bytes": 76114,
+      "sha256": "a36b80c0dd5b0b40cb0d3d20999f39959f9bb7b2280c5badb40354cb9457ec91"
+    },
+    "Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.h": {
+      "bytes": 10368,
+      "sha256": "6ec4719ae3bea8a1404990e36a42faea51eec4fb3163db74bd44b39d04f99242"
+    },
+    "Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabaseManager.h": {
+      "bytes": 3435,
+      "sha256": "c499af5830af02d04b6fd35a5aafdf5205b2a64b8318cd3926f78b535784cb9c"
+    },
+    "Source/WebCore/crypto/algorithms/CryptoAlgorithmAESCTR.cpp": {
+      "bytes": 11707,
+      "sha256": "b0fa5b71c98957e8560f6e2f98763099365ffd69d69335ca6231ed40f3d6ed18"
+    },
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmAESMbedTLS.cpp": {
+      "bytes": 14345,
+      "sha256": "571bfb8e9df7beff793311c24e49cf85e441a772a7a004f13d9f7d115a54f8a1"
+    },
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmRegistryMbedTLS.cpp": {
+      "bytes": 2560,
+      "sha256": "07e5a310a5704e05da9a3f3067ab20c87cb41f0f8d421a57409041a3412042bd"
+    },
+    "Source/WebCore/crypto/mbedtls/CryptoKeyUnsupportedMbedTLS.cpp": {
+      "bytes": 6837,
+      "sha256": "6183022c6deacf554836ff2000914b5ed16d49c958a4300f69bdc1d3243f95b0"
+    },
+    "Source/WebCore/dom/Document.cpp": {
+      "bytes": 448205,
+      "sha256": "58726b3485e32fd58476f141ac869fd6f5c78d25cf8f168a6fae894f06f1eafc"
+    },
+    "Source/WebCore/loader/CookieJar.cpp": {
+      "bytes": 10055,
+      "sha256": "3af72ca4d1d4d62080ed8ff28d1e06156897f99c8133203e5d3e6156b5577604"
+    },
+    "Source/WebCore/platform/network/BlobRegistryImpl.cpp": {
+      "bytes": 18482,
+      "sha256": "3c137f22923afd2bce8fe2e0b762d6bf6c37b745314deaff4b3f126719b64c09"
+    },
+    "Source/WebCore/platform/network/curl/CookieJarDB.cpp": {
+      "bytes": 25401,
+      "sha256": "5029bb6663b441fea4a116f58eb52f4fcbfaed697685eafe87ed32ebacf06ade"
+    },
+    "Source/WebCore/platform/network/curl/CookieJarDB.h": {
+      "bytes": 4197,
+      "sha256": "b107e641381073255ae7040c5208222ea90be853d9815ad57c239cb2ab249e86"
+    },
+    "Source/WebCore/platform/network/curl/CookieSameSite.h": {
+      "bytes": 1359,
+      "sha256": "9294c2f7170f3a740f6f5fdfc2653c5db4288ae5608be68612306eafccaac009"
+    },
+    "Source/WebCore/platform/network/curl/CookieUtil.cpp": {
+      "bytes": 7749,
+      "sha256": "b9bcb5e5f91dfb7a9b2d99ed2a8ce7ed113e3f4b0c2ba889a9c4e8a8cbe7a310"
+    },
+    "Source/WebCore/platform/network/curl/CurlContext.cpp": {
+      "bytes": 29972,
+      "sha256": "4b3500f009356e36168b880c1454c2f255a72cf4238e66ddb1c6ed5c0f041002"
+    },
+    "Source/WebCore/platform/network/curl/CurlRequest.cpp": {
+      "bytes": 23604,
+      "sha256": "7bdf8a31824859cb496b31dc50ad77a5b9e352c4bb3e078485867f076ffad3a8"
+    },
+    "Source/WebCore/platform/network/curl/NetworkStorageSessionCurl.cpp": {
+      "bytes": 12285,
+      "sha256": "d744a7a989da2151362ef66b989ea2a1b87f79a7cd1ebb7027ec5f0e2d00ee55"
+    },
+    "Source/WebCore/platform/network/curl/ResourceHandleCurl.cpp": {
+      "bytes": 18268,
+      "sha256": "93ba0f0bb4eb0f190d758199e91113e791bc4884b279210fcbff4e03e63d5468"
+    },
+    "Source/WebKitLegacy/symbian/SymbianChromeClient.cpp": {
+      "bytes": 9521,
+      "sha256": "41dd5cabb60345602da929c6e59d5da46957ba52e515670ceddb74a3657dda48"
+    },
+    "Source/WebKitLegacy/symbian/SymbianChromeClient.h": {
+      "bytes": 8306,
+      "sha256": "a8d70ce8b98c39092a43d485dfc40a8759008058b117639ee44705a2f54b4a8f"
+    },
+    "Source/WebKitLegacy/symbian/WebKitSymbian.h": {
+      "bytes": 8486,
+      "sha256": "b81df092c672da472ff13f5af98d88154e1e2d3ad7b4eef94defd59161c7baa3"
+    },
+    "Source/WebKitLegacy/symbian/WebViewImpl.cpp": {
+      "bytes": 34922,
+      "sha256": "8540d06fb1f4baa853ef5d41d293ff29509a2bd5061015b3e2386ee30f4c4716"
+    },
+    "Source/cmake/OptionsSymbian.cmake": {
+      "bytes": 8038,
+      "sha256": "3b73a0c528c3ec186a9ece9761591074fcf7cfb45579c598484192bf9a7e3a3b"
+    },
+    "Tools/Symbian/browser/BrowserApp.cpp": {
+      "bytes": 31332,
+      "sha256": "01999743ee5f8bcc0e521d95be6120b0d75e5f7b368339da494b8daf4fbf047e"
+    },
+    "Tools/Symbian/browser/CMakeLists.txt": {
+      "bytes": 7975,
+      "sha256": "8cb255c80b64bcfc99eaa2f779ea5fbc8fc6845ef7b810259bd10134bea5c860"
+    },
+    "Tools/Symbian/browser/WebContainer.cpp": {
+      "bytes": 25700,
+      "sha256": "b9cd7318c829895dbed78c610e0d3312e59cf953ff77a70e8392a3722fd3e631"
+    },
+    "Tools/Symbian/browser/WebContainer.h": {
+      "bytes": 6149,
+      "sha256": "b97f80e51752d43ef6a90517cac2a1699ca85557b8bfe825207d7710f13e3ca6"
+    },
+    "Tools/Symbian/browser/browser_ui.rss": {
+      "bytes": 1065,
+      "sha256": "d5dd3aee858822fdc668ce615c61520d1e2d42559558c22275f69b17b1a6bd6e"
+    },
+    "Tools/Symbian/browser/resources/.gitattributes": {
+      "bytes": 119,
+      "sha256": "e79d78e6afbf8e74346d4d9e52333064ac794781d1478d7d4ff7eac596e4df70"
+    },
+    "Tools/Symbian/browser/resources/BrowserQuery.rh": {
+      "bytes": 1976,
+      "sha256": "2d7a31e237df342402ed2625fdedb53051e052704e8686f36179efa9884b7e43"
+    },
+    "Tools/Symbian/browser/resources/README.md": {
+      "bytes": 1541,
+      "sha256": "924cf8da3602b5710bd0b658c237fc3034cf385b9a30635e3b9cd1d0fa243490"
+    },
+    "Tools/Symbian/browser/resources/source-hashes.json": {
+      "bytes": 249,
+      "sha256": "25907aa3ed70e22aeb7307fca4608341c6c098bf12c289e2d9c84e91ce405d9f"
+    },
+    "Tools/Symbian/cmake/woff2/CMakeLists.txt": {
+      "bytes": 2632,
+      "sha256": "f4fc2b2f7ca832056267989eaa63dbf9a59f02b8a8dbbccf38a4beae57db04e0"
+    },
+    "Tools/Symbian/patches/sdk-0.3.0/mbedtls-ip/0001-strict-ip-identities.patch": {
+      "bytes": 7641,
+      "sha256": "b3818e73ca4ac8388f551b05aa1e5facbe54af84ee05077d0e5747299e97aa19"
+    },
+    "Tools/Symbian/patches/sdk-0.3.0/mbedtls-ip/README.md": {
+      "bytes": 3981,
+      "sha256": "a5a936303fdce95708b5e7bac52edca407cd23c0e7a1cc92cf4057fe8851a74c"
+    },
+    "Tools/Symbian/patches/sdk-0.3.0/mbedtls-ip/manifest.json": {
+      "bytes": 34853,
+      "sha256": "82b2417dc14b39a1332b4bb8e27ceedc8d71a7dba5aa5da0eda1c98779d5740e"
+    },
+    "Tools/Symbian/resources/fonts.conf": {
+      "bytes": 935,
+      "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+    },
+    "Tools/Symbian/scripts/build-deps.sh": {
+      "bytes": 18745,
+      "sha256": "121128fd31b900acf60fa06c7a4dba472fc8a1c29abe4bb5370dee73595fe6e1"
+    },
+    "Tools/Symbian/scripts/link-webcore.sh": {
+      "bytes": 1423,
+      "sha256": "efd75cff90574baba523450aca4c10f9587412ff893dfae2c2633ffc3510b6e8"
+    },
+    "Tools/Symbian/scripts/package-sis.sh": {
+      "bytes": 3370,
+      "sha256": "4c57262be3c5d7279542992811da00cb1587efba62c4c31a1b0016174c73b228"
+    },
+    "Tools/Symbian/scripts/patch-fontconfig-paths.py": {
+      "bytes": 3662,
+      "sha256": "69f99152206986fefe07b02dc28ee1c0a8a841b19e1744269fa87eeaf420fee0"
+    },
+    "Tools/Symbian/scripts/rebuild-sdk-mbedtls-ip.py": {
+      "bytes": 13257,
+      "sha256": "9fe19cbd8fe9c0908ec60cc0b1397b3cf85f59a56f37fccb5dc7b1f8760b4838"
+    },
+    "Tools/Symbian/scripts/rebuild-sdk-rcomp.py": {
+      "bytes": 10356,
+      "sha256": "a5c62af53ec82de94e24284e099271ff3fd6d0e00cfc7f5832d3bc65de52cbb6"
+    },
+    "Tools/Symbian/tests/idb-quota/index.html": {
+      "bytes": 310,
+      "sha256": "c710fa2d842cd58271e2868e8d7af01a9b100f290b33075aca87dc6a85102209"
+    },
+    "Tools/Symbian/tests/idb-quota/run.py": {
+      "bytes": 7558,
+      "sha256": "cb8a12f69ccc637bdfc3023636f74ccfd6d922c6aeda58c375bddf6c44899380"
+    },
+    "Tools/Symbian/tests/belle-ui/diagnostics.html": {
+      "bytes": 3838,
+      "sha256": "dd7a75147c39bbe6e89d45d54ee428868cd41b4a08208372fb193aa2a1192101"
+    },
+    "Tools/Symbian/tests/belle-ui/app-exit/validate.py": {
+      "bytes": 4299,
+      "sha256": "6098e4039eeb067e223600db5744b2d44be1bb6dff5fb8f1380b1f52f265676d"
+    },
+    "/workspace/symbian-belle-work/quota-engine.log": {
+      "bytes": 6003117,
+      "sha256": "e87395c0c4764b23b0921b2dfaf729ded96d341c52d2da7666a97e2b0bcdee52"
+    },
+    "/workspace/symbian-belle-work/quota-engine-final.log": {
+      "bytes": 5622,
+      "sha256": "05757cfb49e1766a73243ad4bb3db3335e69ffe536a695e0076e9364b303a52e"
+    },
+    "/workspace/symbian-belle-work/browser-candidate9.log": {
+      "bytes": 386,
+      "sha256": "192cd3d0b8d1a077e519e908350638daa206e9b8d4943a713118d7c8130c387a"
+    },
+    "Tools/Symbian/tests/idb-quota/page.js": {
+      "bytes": 18047,
+      "sha256": "6eafbd29ce1ff29cb01088e61de312beb045444344f7b1113336eac880f2a05b"
+    }
+  }
+}

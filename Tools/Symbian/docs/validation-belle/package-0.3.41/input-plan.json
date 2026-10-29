@@ -1,0 +1,131 @@
+{
+  "status": "PASS",
+  "kind": "Local SIS 0.3.41 input plan, candidate10 browser; artifact verification is separate and no installation is claimed",
+  "packages": {
+    "symbian-webkit-icu.sis": 1,
+    "jsc.sis": 5,
+    "browser.sis": 7
+  },
+  "payload_count": 13,
+  "inputs": [
+    {
+      "source": "/workspace/symbian-idna-work/icu/install/share/icu/icudt70l.dat",
+      "destination": "c:\\resource\\icu\\icudt70l.dat",
+      "bytes": 10261824,
+      "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+      "package": "symbian-webkit-icu.sis"
+    },
+    {
+      "source": "/workspace/symbian-graphics-work/build/jsc-icboundary/e32/jsc.exe",
+      "destination": "!:\\sys\\bin\\jsc.exe",
+      "bytes": 18846844,
+      "sha256": "d26cf9cad3c4e47a0d3a559598bd16ba2bfad772dabeb21c17cb8eb211b44bcc",
+      "package": "jsc.sis",
+      "e32": {
+        "uid3": "0xe1a5c001",
+        "capabilities": "0x0",
+        "hardware_float_type": 1
+      }
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/es2020.js",
+      "destination": "c:\\data\\es2020.js",
+      "bytes": 2587,
+      "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+      "package": "jsc.sis"
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/intl.js",
+      "destination": "c:\\data\\intl.js",
+      "bytes": 1462,
+      "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+      "package": "jsc.sis"
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/basic.js",
+      "destination": "c:\\data\\basic.js",
+      "bytes": 186,
+      "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+      "package": "jsc.sis"
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/resizable-arraybuffer.js",
+      "destination": "c:\\data\\resizable-arraybuffer.js",
+      "bytes": 2715,
+      "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+      "package": "jsc.sis"
+    },
+    {
+      "source": "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser.exe",
+      "destination": "!:\\sys\\bin\\browser.exe",
+      "bytes": 58640092,
+      "sha256": "3a2385c1bd571d51c98f58f967a8ecf499ba1dcfb86d42d58b1e7dc82dd70317",
+      "package": "browser.sis",
+      "e32": {
+        "uid3": "0xe1a5c002",
+        "capabilities": "0x2000",
+        "hardware_float_type": 1
+      }
+    },
+    {
+      "source": "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser_reg.rsc",
+      "destination": "!:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "package": "browser.sis"
+    },
+    {
+      "source": "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser_loc.rsc",
+      "destination": "!:\\resource\\apps\\browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "package": "browser.sis"
+    },
+    {
+      "source": "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser_ui.rsc",
+      "destination": "!:\\resource\\apps\\browser_ui.rsc",
+      "bytes": 150,
+      "sha256": "70ed39945ee9853a09f190238dccff9d41fb63712de06a4f90fb163e15ba880a",
+      "package": "browser.sis"
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/browser/test.html",
+      "destination": "c:\\data\\webkit\\test.html",
+      "bytes": 2254,
+      "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+      "package": "browser.sis"
+    },
+    {
+      "source": "/workspace/symbian-belle-work/release-0.3.41/downloads/cacert-2026-09-25.pem",
+      "destination": "c:\\resource\\webkit\\cacert.pem",
+      "bytes": 188900,
+      "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+      "package": "browser.sis"
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/resources/fonts.conf",
+      "destination": "c:\\resource\\fontconfig\\fonts.conf",
+      "bytes": 935,
+      "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c",
+      "package": "browser.sis"
+    }
+  ],
+  "required_environment": {
+    "ICU_DIR": "/workspace/symbian-idna-work/icu",
+    "BROWSER_BUILD": "/workspace/symbian-graphics-work/build/browser-belle10",
+    "E32_BUILD": "/workspace/symbian-graphics-work/build/jsc-icboundary",
+    "SYMBIAN_WEBKIT_WORK": "/workspace/symbian-belle-work/release-0.3.41"
+  },
+  "do_not_use_default_icu": {
+    "source": "/workspace/symbian-work/icu/install/share/icu/icudt70l.dat",
+    "sha256": "5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f",
+    "reason": "Preserved pre-IDNA negative-control data, lacks uts46.nrm"
+  },
+  "sis_version": "0.3.41",
+  "package_uids": {
+    "symbian-webkit-icu.sis": "0xe1a5c013",
+    "jsc.sis": "0xe1a5c011",
+    "browser.sis": "0xe1a5c012"
+  },
+  "expected_signature_chains": 0
+}

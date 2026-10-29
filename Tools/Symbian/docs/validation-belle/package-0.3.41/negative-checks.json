@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "meaning": "Both mismatching plans were rejected without changing SIS or source inputs.",
+  "cases": [
+    {
+      "name": "wrong-version",
+      "exit_code": 1,
+      "status": "FAIL",
+      "error": "SIS version mismatch",
+      "stdout": "{\"status\": \"FAIL\", \"expected_version\": \"0.3.42\"}",
+      "stderr": "SIS version mismatch"
+    },
+    {
+      "name": "wrong-source-hash",
+      "exit_code": 1,
+      "status": "FAIL",
+      "error": "source differs from pinned input plan",
+      "stdout": "{\"status\": \"FAIL\", \"expected_version\": \"0.3.41\"}",
+      "stderr": "source differs from pinned input plan"
+    }
+  ]
+}

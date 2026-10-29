@@ -1,0 +1,192 @@
+{
+  "status": "PASS",
+  "scope": "local package verification only; not installed or guest-tested",
+  "expected_version": "0.3.41",
+  "plan": {
+    "path": "/workspace/symbian-font-work/belle-payload-plan.json",
+    "sha256": "d0dcfd6d124851b93c36ef8c591a3057328f9a47d465fb91a19d71185b4d1c84"
+  },
+  "validator_sha256": "e5e9a67a4f9c706dc9cef8acdbae176f8c2282c97b546a3ab58c9aca64c91a22",
+  "field_parser_sha256": "9f56277436245454548d5adf1d8d761bb6a47659f173872c8f48c9d42d84beae",
+  "sis_version": "0.3.41",
+  "payload_count": 13,
+  "packages": [
+    {
+      "package": "symbian-webkit-icu.sis",
+      "path": "/workspace/symbian-belle-work/release-0.3.41/sis/symbian-webkit-icu.sis",
+      "bytes": 4768936,
+      "sha256": "5a2ad94da2911a9d586466dac58f40dd61af14c43c73a6613f44ed77a3e36692",
+      "uid3": "0xe1a5c013",
+      "version": "0.3.41",
+      "signature_chains": 0,
+      "signature_status": "unsigned",
+      "sis_header_checksum_valid": true,
+      "controller_and_data_crc_valid": true,
+      "payloads": [
+        {
+          "target": "c:\\resource\\icu\\icudt70l.dat",
+          "source": "/workspace/symbian-idna-work/icu/install/share/icu/icudt70l.dat",
+          "bytes": 10261824,
+          "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/symbian-webkit-icu/icudt70l.dat"
+        }
+      ]
+    },
+    {
+      "package": "jsc.sis",
+      "path": "/workspace/symbian-belle-work/release-0.3.41/sis/jsc.sis",
+      "bytes": 6895152,
+      "sha256": "b32d1d49befbf977c591bb25a830688cd04f3676553690432e24adcd6d3265ad",
+      "uid3": "0xe1a5c011",
+      "version": "0.3.41",
+      "signature_chains": 0,
+      "signature_status": "unsigned",
+      "sis_header_checksum_valid": true,
+      "controller_and_data_crc_valid": true,
+      "payloads": [
+        {
+          "target": "!:\\sys\\bin\\jsc.exe",
+          "source": "/workspace/symbian-graphics-work/build/jsc-icboundary/e32/jsc.exe",
+          "bytes": 18846844,
+          "sha256": "d26cf9cad3c4e47a0d3a559598bd16ba2bfad772dabeb21c17cb8eb211b44bcc",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "e32": {
+            "uid3": "0xe1a5c001",
+            "secure_id": "0xe1a5c001",
+            "flags": "0x12100028",
+            "capabilities": "0x0",
+            "hardware_float_type": 1,
+            "uid_checksum_valid": true,
+            "header_crc_valid": true
+          },
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/jsc/jsc.exe"
+        },
+        {
+          "target": "c:\\data\\es2020.js",
+          "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/es2020.js",
+          "bytes": 2587,
+          "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/jsc/es2020.js"
+        },
+        {
+          "target": "c:\\data\\intl.js",
+          "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/intl.js",
+          "bytes": 1462,
+          "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/jsc/intl.js"
+        },
+        {
+          "target": "c:\\data\\basic.js",
+          "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/basic.js",
+          "bytes": 186,
+          "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/jsc/basic.js"
+        },
+        {
+          "target": "c:\\data\\resizable-arraybuffer.js",
+          "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/resizable-arraybuffer.js",
+          "bytes": 2715,
+          "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/jsc/resizable-arraybuffer.js"
+        }
+      ]
+    },
+    {
+      "package": "browser.sis",
+      "path": "/workspace/symbian-belle-work/release-0.3.41/sis/browser.sis",
+      "bytes": 21966284,
+      "sha256": "15ea260aadeb1b8b75d9f47db26c78ad4a82d89035bd21ab935dfd9d71787710",
+      "uid3": "0xe1a5c012",
+      "version": "0.3.41",
+      "signature_chains": 0,
+      "signature_status": "unsigned",
+      "sis_header_checksum_valid": true,
+      "controller_and_data_crc_valid": true,
+      "payloads": [
+        {
+          "target": "!:\\sys\\bin\\browser.exe",
+          "source": "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser.exe",
+          "bytes": 58640092,
+          "sha256": "3a2385c1bd571d51c98f58f967a8ecf499ba1dcfb86d42d58b1e7dc82dd70317",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "e32": {
+            "uid3": "0xe1a5c002",
+            "secure_id": "0xe1a5c002",
+            "flags": "0x12100028",
+            "capabilities": "0x2000",
+            "hardware_float_type": 1,
+            "uid_checksum_valid": true,
+            "header_crc_valid": true
+          },
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/browser/browser.exe"
+        },
+        {
+          "target": "!:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+          "source": "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser_reg.rsc",
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/browser/browser_reg.rsc"
+        },
+        {
+          "target": "!:\\resource\\apps\\browser_loc.rsc",
+          "source": "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser_loc.rsc",
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/browser/browser_loc.rsc"
+        },
+        {
+          "target": "!:\\resource\\apps\\browser_ui.rsc",
+          "source": "/workspace/symbian-graphics-work/build/browser-belle10/e32/browser_ui.rsc",
+          "bytes": 150,
+          "sha256": "70ed39945ee9853a09f190238dccff9d41fb63712de06a4f90fb163e15ba880a",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/browser/browser_ui.rsc"
+        },
+        {
+          "target": "c:\\data\\webkit\\test.html",
+          "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/browser/test.html",
+          "bytes": 2254,
+          "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/browser/test.html"
+        },
+        {
+          "target": "c:\\resource\\webkit\\cacert.pem",
+          "source": "/workspace/symbian-belle-work/release-0.3.41/downloads/cacert-2026-09-25.pem",
+          "bytes": 188900,
+          "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/browser/cacert.pem"
+        },
+        {
+          "target": "c:\\resource\\fontconfig\\fonts.conf",
+          "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/resources/fonts.conf",
+          "bytes": 935,
+          "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c",
+          "sis_sha1_valid": true,
+          "source_bytes_equal": true,
+          "extracted_path": "/workspace/symbian-belle-work/release-0.3.41/verification/payloads/browser/fonts.conf"
+        }
+      ]
+    }
+  ]
+}

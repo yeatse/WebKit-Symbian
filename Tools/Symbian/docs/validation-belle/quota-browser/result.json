@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "suite": "idb-quota",
+  "run": "984037a893c04f1f816dccd6d33bbc94",
+  "phases": [
+    {
+      "phase": "write",
+      "passed": 12,
+      "driver_exit": 0,
+      "logs": "/workspace/symbian-belle-work/quota-candidate10-host0024/runs/browser-20261029T215404Z-wtichzbh",
+      "report": "/workspace/symbian-belle-work/quota-candidate10-host0024/reports/984037a893c04f1f816dccd6d33bbc94-write.json"
+    },
+    {
+      "phase": "read",
+      "passed": 3,
+      "driver_exit": 0,
+      "logs": "/workspace/symbian-belle-work/quota-candidate10-host0024/runs/browser-20261029T215815Z-q5kjc_k6",
+      "report": "/workspace/symbian-belle-work/quota-candidate10-host0024/reports/984037a893c04f1f816dccd6d33bbc94-read.json"
+    },
+    {
+      "phase": "erased",
+      "passed": 1,
+      "driver_exit": 0,
+      "logs": "/workspace/symbian-belle-work/quota-candidate10-host0024/runs/browser-20261029T215926Z-d9r65pgv",
+      "report": "/workspace/symbian-belle-work/quota-candidate10-host0024/reports/984037a893c04f1f816dccd6d33bbc94-erased.json"
+    }
+  ],
+  "origin": "http://localhost:8790",
+  "started": "2026-10-29T21:54:04.238193+00:00",
+  "browser_sha256": "3a2385c1bd571d51c98f58f967a8ecf499ba1dcfb86d42d58b1e7dc82dd70317",
+  "emulator_sha256": "3c4e27c486b696171502ff28b5577bbed48666c238c2ff85b335d79a0083467c",
+  "fixtures_sha256": {
+    "idb-quota/index.html": "c710fa2d842cd58271e2868e8d7af01a9b100f290b33075aca87dc6a85102209",
+    "idb-quota/page.js": "bd50aa06cbe79495cb782ebeb56f4faf99261914dd79c1a34eba54a950e51480",
+    "idb-quota/contract.py": "88f86d018301ae0fa501b1f22a6fcf57d886750a56e8f404a9bef0bf80fe23c6",
+    "idb-quota/server.py": "256c09dac39df266c5714c0ed2beb85acb8b5f7cb5f7301b053fae8eb736c8e7",
+    "idb-quota/run.py": "cb8a12f69ccc637bdfc3023636f74ccfd6d922c6aeda58c375bddf6c44899380",
+    "idb-quota/test-server.py": "69d458d616ec91845d360a835642a7399b81d9450d03d29501749ae8005b15b3",
+    "idb-quota/run-producer.py": "c4ae061cce98af35b9f63056749d5c5fbbb5cadbc5bc239da3679d693eda7867",
+    "idb-quota/check-syntax.py": "0e9b9844e61065d2920b5c487fcfc3ec7df5589e89d4866b96d7afdc8c47e949",
+    "idb-quota/test-contract.py": "5f2a7e3e6df3babe917e7089d5e4119f3249145c21eec60a07ea63f094a4ff01"
+  },
+  "finished": "2026-10-29T22:00:37.743025+00:00"
+}

@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "scope": "Local SIS structural/payload verification; no installation or runtime claim",
+  "payload_count": 13,
+  "files": {
+    "README.md": {
+      "bytes": 2625,
+      "sha256": "9dd8b3c5dd9143d842ae0f9538b30b52170a4a3112c66afd7cc146ec56f31ed1"
+    },
+    "SHA256SUMS": {
+      "bytes": 241,
+      "sha256": "e11403106d240bad6c0319418d86acad47bc6a1e09ce2d82902b47d579c606ce"
+    },
+    "input-plan.json": {
+      "bytes": 5092,
+      "sha256": "d0dcfd6d124851b93c36ef8c591a3057328f9a47d465fb91a19d71185b4d1c84"
+    },
+    "negative-checks.json": {
+      "bytes": 658,
+      "sha256": "3bdc60e589e96928d37e39626fc22d0c350eb33cf4b6997e58f336ae0d037eda"
+    },
+    "package-verification.json": {
+      "bytes": 8655,
+      "sha256": "3e676ca4133dce545a57f8b41c48361126da9808c32b13be59c3e836b18038fd"
+    }
+  }
+}

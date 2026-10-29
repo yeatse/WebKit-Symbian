@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "run": "984037a893c04f1f816dccd6d33bbc94",
+  "phase": "read",
+  "origin": "http://localhost:8790",
+  "elapsed_ms": 3000,
+  "passed": 3,
+  "total": 3,
+  "results": [
+    {
+      "name": "restart recovers committed array and Blob payloads",
+      "pass": true,
+      "details": null,
+      "error": null
+    },
+    {
+      "name": "restart reloads committed origin usage before granting space",
+      "pass": true,
+      "details": {
+        "addedMiB": 7
+      },
+      "error": null
+    },
+    {
+      "name": "delete committed data before second restart",
+      "pass": true,
+      "details": null,
+      "error": null
+    }
+  ]
+}

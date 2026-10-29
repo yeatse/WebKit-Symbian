@@ -20,7 +20,7 @@ SDK 0.3.0 的原生头文件/导入库，日期为 2026-10-29。系统有 API �
 | --- | --- | --- | --- |
 | P0.1 | **已接通** localStorage 和 BroadcastChannel | 真实 namespace/registry；[20 项运行检查](validation-belle/storage/README.md) | 已验证跨进程重启、localStorage 配额、来源隔离、同来源消息、关闭后不投递及 Worker 通信 |
 | P0.2 | **已接通 SameSite** 解析、落盘、迁移和发送筛选 | [两进程 28 项验收](validation-belle/cookie-samesite/README.md)；另修 curl 地址族截断及 SDK IP SAN/SNI | Strict/Lax/None、Secure、跨站导航/子资源/POST/重定向/WSS、嵌套来源、跨协议与重启均通过；旧库降级再升级保留原 24 条记录。HTTPS/WSS 原有 6 项回归通过 |
-| P0.3 | sessionStorage 已启用，Worker 栈已修；IDB 配额已实现，**运行验收中** | [17 项后端运行检查](validation-belle/backends/README.md)；[配额 host/ARM 检查](validation-quota/idb-host/README.md) | IDB 增加完整 ClientOrigin 32 MiB、全局 128 MiB、持久写准入 16 MiB 磁盘余量及 Blob 提交失败回滚；尚未完成 guest 配额验收 |
+| P0.3 | **已接通** sessionStorage、Worker 栈修复及 IDB 配额 | [17 项后端检查](validation-belle/backends/README.md)；[三次启动 16 项配额验收](validation-belle/quota-browser/README.md) | 完整 ClientOrigin 32 MiB、全局 128 MiB、持久写准入 16 MiB 磁盘余量及 Blob 回滚；20 MiB Blob 重启后逐字节读回，配额重建、删除及空间复用通过。磁盘余量为准入检查，不是物理预留 |
 | P1.1 | **已接通原生单文件上传**；下载被忽略 | [实际 UI 8 项](validation-belle/ui/README.md)；原生文件选择与 RFs/RFile | 已验证取消、Unicode 路径、实际上传字节、frame 导航/脱离；多选输入目前可选单文件。继续下载目标、进度、取消、重定向、磁盘满及原子完成 |
 | P1.2 | 实际仅 mouse/wheel，缺 DOM touch；maxTouchPoints 固定 0 | Window Server 指针事件、HAL、支持机型的高级指针 | touchstart/move/end/cancel、preventDefault、滚动、兼容 mouse 去重；按实际能力报告点数，多指需真机验收 |
 | P1.3 | **已打包字体配置并接通 WOFF2** | [字体运行证据](validation-belle-fonts/README.md)；固定版本 Brotli/WOFF2，修复 fontconfig 盘符路径 | WOFF2 7 项通过；系统字体 7 项分别在两次启动通过，包括中英/等宽字形、真实 fallback 像素与磁盘缓存复用 |

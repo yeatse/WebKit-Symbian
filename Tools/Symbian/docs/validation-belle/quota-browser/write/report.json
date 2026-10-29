@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "run": "984037a893c04f1f816dccd6d33bbc94",
+  "phase": "write",
+  "origin": "http://localhost:8790",
+  "elapsed_ms": 8999,
+  "passed": 12,
+  "total": 12,
+  "results": [
+    {
+      "name": "blob replacement and repeated put are atomic",
+      "pass": true,
+      "details": null,
+      "error": null
+    },
+    {
+      "name": "Blob clear abort preserves old committed payload",
+      "pass": true,
+      "details": null,
+      "error": null
+    },
+    {
+      "name": "Blob clear commit and put-clear release references",
+      "pass": true,
+      "details": null,
+      "error": null
+    },
+    {
+      "name": "Blob payload quota rejection preserves source and old record",
+      "pass": true,
+      "details": null,
+      "error": null
+    },
+    {
+      "name": "Blob clear commit returns quota to another database",
+      "pass": true,
+      "details": null,
+      "error": null
+    },
+    {
+      "name": "one transaction cannot exceed origin quota",
+      "pass": true,
+      "details": {
+        "acceptedBeforeAbort": 31
+      },
+      "error": null
+    },
+    {
+      "name": "parallel databases share pending origin reservations",
+      "pass": true,
+      "details": {
+        "added": [
+          16,
+          15
+        ]
+      },
+      "error": null
+    },
+    {
+      "name": "durable writes stop below 32 MiB plus SQLite metadata",
+      "pass": true,
+      "details": {
+        "stored": 31,
+        "errorName": "QuotaExceededError"
+      },
+      "error": null
+    },
+    {
+      "name": "another origin remains writable at origin quota",
+      "pass": true,
+      "details": {
+        "stored": 2,
+        "errorName": ""
+      },
+      "error": null
+    },
+    {
+      "name": "deleteDatabase returns space for subsequent writes",
+      "pass": true,
+      "details": {
+        "stored": 2,
+        "errorName": ""
+      },
+      "error": null
+    },
+    {
+      "name": "multiple origins share 128 MiB port quota",
+      "pass": true,
+      "details": {
+        "storedMiB": 127,
+        "origins": [
+          {
+            "stored": 28,
+            "errorName": ""
+          },
+          {
+            "stored": 28,
+            "errorName": ""
+          },
+          {
+            "stored": 28,
+            "errorName": ""
+          },
+          {
+            "stored": 28,
+            "errorName": ""
+          },
+          {
+            "stored": 15,
+            "errorName": "QuotaExceededError"
+          }
+        ]
+      },
+      "error": null
+    },
+    {
+      "name": "stage committed data for independent process restart",
+      "pass": true,
+      "details": null,
+      "error": null
+    }
+  ]
+}
