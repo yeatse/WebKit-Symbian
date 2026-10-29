@@ -405,6 +405,15 @@ void BlobRegistryImpl::writeBlobsToTemporaryFilesForIndexedDB(const Vector<Strin
         for (auto& blob : blobsForWriting) {
             auto [tempFilePath, file] = FileSystem::openTemporaryFile("Blob"_s);
             if (!writeFilePathsOrDataBuffersToFile(blob.filePathsOrDataBuffers, file, tempFilePath)) {
+#if OS(SYMBIAN)
+                // These are new staging copies for this request, never source
+                // File paths. Close the partial output before removing it.
+                file = { };
+                if (!tempFilePath.isEmpty())
+                    FileSystem::deleteFile(tempFilePath);
+                for (auto& path : filePaths)
+                    FileSystem::deleteFile(path);
+#endif
                 filePaths.clear();
                 break;
             }

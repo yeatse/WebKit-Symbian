@@ -1,0 +1,38 @@
+PASS first write reserves space
+PASS same transaction accumulates writes
+PASS denial does not change reservation
+PASS other database sees uncommitted reservation
+PASS rollback returns that transaction reservation
+PASS space reusable after rollback
+PASS commit reconciles actual size instead of estimate
+PASS database deletion frees actual committed usage
+PASS duplicate completion cannot restore deleted usage
+PASS parallel database reservations coexist
+PASS materialized uncommitted data is not double charged
+PASS actual index or Blob growth cannot bypass quota
+PASS commit uses real footprint and retains other reservations
+PASS one commit does not clear another database reservation
+PASS remaining reservation still constrains writes
+PASS second rollback preserves first committed data
+PASS first origin grants its own capacity
+PASS other origin accounting remains isolated
+PASS different origins share port-wide budget
+PASS port boundary permits exact total
+PASS drive headroom includes future physical writes
+PASS drive exact boundary succeeds
+PASS unknown disk availability denies positive growth
+PASS control requests remain possible without volume query
+PASS unknown projected usage fails closed
+PASS failed transaction releases reservation after actual rollback
+PASS existing over-quota data cannot grow
+PASS existing over-quota data can be read or cleaned
+PASS cleanup can commit below quota without free-space gate
+PASS capacity becomes available after real deletion
+PASS total accounting overflow denies growth
+PASS disk-reserve addition overflow fails closed
+PASS unrelated transaction holds a pending reservation
+PASS cleanup with no new physical writes is allowed despite another pending writer
+PASS cleanup that still copies a Blob must preserve disk headroom
+PASS cleanup never releases another transaction reservation
+PASS restarted ledger charges the existing committed baseline
+RESULT checks=37 failures=0 pointerBits=32

@@ -26,6 +26,11 @@
 #include "SQLiteIDBTransaction.h"
 
 #include "IDBCursorInfo.h"
+#if OS(SYMBIAN)
+#include "IDBBlobCommit.h"
+#include <algorithm>
+#include <wtf/CheckedArithmetic.h>
+#endif
 #include "IndexedDB.h"
 #include "Logging.h"
 #include "SQLiteIDBBackingStore.h"
@@ -49,6 +54,9 @@ SQLiteIDBTransaction::~SQLiteIDBTransaction()
 {
     if (inProgress())
         m_sqliteTransaction->rollback();
+#if OS(SYMBIAN)
+    deleteBlobTemporaryFiles();
+#endif
 
     // Explicitly clear cursors, as that also unregisters them from the backing store.
     clearCursors();
@@ -84,16 +92,102 @@ IDBError SQLiteIDBTransaction::commit()
     if (!m_sqliteTransaction || !m_sqliteTransaction->inProgress())
         return IDBError { ExceptionCode::UnknownError, "No SQLite transaction in progress to commit"_s };
 
+#if OS(SYMBIAN)
+    // Symbian copies Blobs (there are no filesystem hard links). Prepare every
+    // destination while SQL can still roll back; an I/O failure must not leave
+    // a successfully committed record pointing at a missing Blob.
+    Vector<String> preparedPaths;
+    auto result = commitWithPreparedIDBBlobs(m_blobTemporaryAndStoredFilenames.size(), [&](size_t index) {
+        auto& entry = m_blobTemporaryAndStoredFilenames[index];
+        if (m_blobRemovedFilenames.contains(entry.second))
+            return true; // Added and then deleted/replaced in this transaction.
+        auto target = FileSystem::pathByAppendingComponent(m_backingStore->databaseDirectory(), entry.second);
+        auto sourceSize = FileSystem::fileSize(entry.first);
+        if (!sourceSize || FileSystem::fileExists(target))
+            return false;
+        // Symbian copy uses O_EXCL and cleans its own partial destination on
+        // failure. Acquire cleanup ownership only after successful creation;
+        // otherwise a racing creator's file could be removed on rollback.
+        if (!FileSystem::hardLinkOrCopyFile(entry.first, target))
+            return false;
+        preparedPaths.append(target);
+        return FileSystem::fileSize(target) == sourceSize;
+    }, [&] {
+        for (auto& path : preparedPaths)
+            FileSystem::deleteFile(path);
+    }, [&] {
+        m_sqliteTransaction->commit();
+        return !m_sqliteTransaction->inProgress();
+    }, [&] {
+        if (m_sqliteTransaction->inProgress())
+            m_sqliteTransaction->rollback();
+    });
+
+    deleteBlobTemporaryFiles();
+    m_blobTemporaryAndStoredFilenames.clear();
+    if (result != IDBBlobCommitResult::Success) {
+        // These files belonged to the old committed state, which rollback kept.
+        m_blobRemovedFilenames.clear();
+        reset();
+        return IDBError { ExceptionCode::UnknownError, result == IDBBlobCommitResult::PrepareFailed
+            ? "Unable to prepare Blob files; SQLite transaction was rolled back"_s
+            : "Unable to commit SQLite transaction in database backend"_s };
+    }
+    deleteBlobFilesIfNecessary();
+#else
     m_sqliteTransaction->commit();
     if (m_sqliteTransaction->inProgress())
         return IDBError { ExceptionCode::UnknownError, "Unable to commit SQLite transaction in database backend"_s };
 
     deleteBlobFilesIfNecessary();
     moveBlobFilesIfNecessary();
+#endif
 
     reset();
     return IDBError { };
 }
+
+#if OS(SYMBIAN)
+void SQLiteIDBTransaction::registerBlobTemporaryFiles(const Vector<String>& paths)
+{
+    for (auto& path : paths)
+        m_blobTemporaryFiles.add(path);
+}
+
+void SQLiteIDBTransaction::releaseUnusedBlobTemporaryFiles(const Vector<String>& paths)
+{
+    for (auto& path : paths) {
+        if (std::ranges::any_of(m_blobTemporaryAndStoredFilenames, [&](auto& entry) { return entry.first == path; }))
+            continue;
+        if (m_blobTemporaryFiles.remove(path))
+            FileSystem::deleteFile(path);
+    }
+}
+
+void SQLiteIDBTransaction::deleteBlobTemporaryFiles()
+{
+    for (auto& path : m_blobTemporaryFiles)
+        FileSystem::deleteFile(path);
+    m_blobTemporaryFiles.clear();
+}
+
+std::optional<uint64_t> SQLiteIDBTransaction::pendingBlobBytes() const
+{
+    CheckedUint64 total = 0;
+    HashSet<String> destinations;
+    for (auto& entry : m_blobTemporaryAndStoredFilenames) {
+        if (m_blobRemovedFilenames.contains(entry.second) || !destinations.add(entry.second).isNewEntry)
+            continue;
+        auto size = FileSystem::fileSize(entry.first);
+        if (!size)
+            return std::nullopt;
+        total += *size;
+        if (total.hasOverflowed())
+            return std::nullopt;
+    }
+    return total.value();
+}
+#endif
 
 void SQLiteIDBTransaction::moveBlobFilesIfNecessary()
 {
@@ -134,8 +228,12 @@ IDBError SQLiteIDBTransaction::abort()
         return IDBError { };
     }
 
+#if OS(SYMBIAN)
+    deleteBlobTemporaryFiles();
+#else
     for (auto& entry : m_blobTemporaryAndStoredFilenames)
         FileSystem::deleteFile(entry.first);
+#endif
 
     m_blobTemporaryAndStoredFilenames.clear();
 
@@ -238,6 +336,9 @@ void SQLiteIDBTransaction::addBlobFile(const String& temporaryPath, const String
 {
     ASSERT(!isReadOnly());
 
+#if OS(SYMBIAN)
+    m_blobTemporaryFiles.add(temporaryPath);
+#endif
     m_blobTemporaryAndStoredFilenames.append({ temporaryPath, storedFilename });
 }
 

@@ -51,6 +51,9 @@
 #include <JavaScriptCore/StrongInlines.h>
 #include <wtf/FileSystem.h>
 #include <wtf/NeverDestroyed.h>
+#if OS(SYMBIAN)
+#include <wtf/UUID.h>
+#endif
 #include <wtf/TZoneMallocInlines.h>
 #include <wtf/text/MakeString.h>
 #include <wtf/text/StringToIntegerConversion.h>
@@ -1048,6 +1051,57 @@ uint64_t SQLiteIDBBackingStore::databasesSizeForDirectory(const String& director
     return diskUsage;
 }
 
+#if OS(SYMBIAN)
+bool SQLiteIDBBackingStore::registerBlobTemporaryFiles(const IDBResourceIdentifier& identifier, const Vector<String>& paths)
+{
+    CheckedPtr transaction = m_transactions.get(identifier);
+    if (!transaction || !transaction->inProgress())
+        return false;
+    transaction->registerBlobTemporaryFiles(paths);
+    return true;
+}
+
+void SQLiteIDBBackingStore::releaseUnusedBlobTemporaryFiles(const IDBResourceIdentifier& identifier, const Vector<String>& paths)
+{
+    if (CheckedPtr transaction = m_transactions.get(identifier))
+        transaction->releaseUnusedBlobTemporaryFiles(paths);
+}
+
+std::optional<IDBQuotaUsage> SQLiteIDBBackingStore::quotaUsage()
+{
+    if (!m_sqliteDB || !m_sqliteDB->isOpen())
+        return std::nullopt;
+    auto diskSize = FileSystem::directorySize(m_databaseDirectory);
+    auto mainFileSize = FileSystem::fileSize(fullDatabasePath());
+    // page_count includes pages in the active transaction which have not yet
+    // reached the main file. Account the projected committed footprint. DELETE
+    // journals disappear on successful commit; their current physical bytes
+    // are already excluded from volumeFreeSpace. WAL/SHM and existing Blobs,
+    // including ones awaiting deletion, remain conservatively charged.
+    auto pagerSize = m_sqliteDB->totalSize();
+    if (!diskSize || !mainFileSize || pagerSize <= 0)
+        return std::nullopt;
+    auto journalPath = makeString(fullDatabasePath(), "-journal"_s);
+    if (FileSystem::fileExists(journalPath)) {
+        auto journalSize = FileSystem::fileSize(journalPath);
+        if (!journalSize || *journalSize > *diskSize)
+            return std::nullopt;
+        *diskSize -= *journalSize;
+    }
+    CheckedUint64 pending = static_cast<uint64_t>(pagerSize) > *mainFileSize ? static_cast<uint64_t>(pagerSize) - *mainFileSize : 0;
+    for (auto& transaction : m_transactions.values()) {
+        auto blobs = transaction->pendingBlobBytes();
+        if (!blobs)
+            return std::nullopt;
+        pending += *blobs;
+    }
+    auto total = pending + *diskSize;
+    if (pending.hasOverflowed() || total.hasOverflowed())
+        return std::nullopt;
+    return IDBQuotaUsage { total.value(), pending.value() };
+}
+#endif
+
 IDBError SQLiteIDBBackingStore::beginTransaction(const IDBTransactionInfo& info)
 {
     LOG(IndexedDB, "SQLiteIDBBackingStore::beginTransaction - %s", info.identifier().loggingString().utf8().data());
@@ -1358,6 +1412,20 @@ IDBError SQLiteIDBBackingStore::clearObjectStore(const IDBResourceIdentifier& tr
             return IDBError { ExceptionCode::UnknownError, "Unable to delete index records while clearing object store"_s };
         }
     }
+
+#if OS(SYMBIAN)
+    // clear() must release the same Blob references as deleting the records
+    // individually. Keep physical files until commit so abort preserves them.
+    {
+        auto sql = cachedStatement(SQL::DeleteObjectStoreBlobRecords, "DELETE FROM BlobRecords WHERE objectStoreRow NOT IN (SELECT recordID FROM Records)"_s);
+        CheckedPtr statement = sql.get();
+        if (!statement || statement->step() != SQLITE_DONE)
+            return IDBError { ExceptionCode::UnknownError, "Unable to clear stored Blob records"_s };
+    }
+    auto blobError = deleteUnusedBlobFileRecords(*transaction);
+    if (!blobError.isNull())
+        return blobError;
+#endif
 
     transaction->notifyCursorsOfChanges(objectStoreID);
 
@@ -1922,7 +1990,9 @@ IDBError SQLiteIDBBackingStore::addRecord(const IDBResourceIdentifier& transacti
                 return IDBError { ExceptionCode::UnknownError, "Unable to record Blob record in database"_s };
             }
         }
+#if !OS(SYMBIAN)
         int64_t potentialFileNameInteger = CheckedRef { *m_sqliteDB }->lastInsertRowID();
+#endif
 
         // If we already have a file for this blobURL, nothing left to do.
         {
@@ -1945,7 +2015,14 @@ IDBError SQLiteIDBBackingStore::addRecord(const IDBResourceIdentifier& transacti
         }
 
         // We don't already have a file for this blobURL, so commit our file as a unique filename
+#if OS(SYMBIAN)
+        // BlobRecords rowids can be reused after replacing/deleting a record.
+        // The old file must survive until SQL commits, so a new Blob needs an
+        // independent destination even when its rowid is reused in this txn.
+        auto storedFilename = makeString(createVersion4UUIDString(), ".blob"_s);
+#else
         auto storedFilename = makeString(potentialFileNameInteger, ".blob"_s);
+#endif
         {
             auto sql = cachedStatement(SQL::AddBlobFilename, "INSERT INTO BlobFiles VALUES (?, ?);"_s);
             CheckedPtr statement = sql.get();

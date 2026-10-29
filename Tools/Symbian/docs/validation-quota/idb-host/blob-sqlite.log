@@ -1,0 +1,33 @@
+PASS successful Blob preparation commits both SQL records
+PASS successful commit preserves exact new payloads then removes old Blob
+PASS staging files are released after outcome
+PASS close and reopen preserves atomic SQL outcome
+PASS failure reports correct preparation or SQL stage
+PASS failed commit rolls SQL back to original record
+PASS failed commit preserves old Blob and removes prepared new file
+PASS cleanup removes partial file but never an existing destination
+PASS failed preparation never attempts SQL COMMIT
+PASS staging files are released after outcome
+PASS close and reopen preserves atomic SQL outcome
+PASS injected SQL COMMIT is genuinely BUSY with transaction active
+PASS failure reports correct preparation or SQL stage
+PASS failed commit rolls SQL back to original record
+PASS failed commit preserves old Blob and removes prepared new file
+PASS cleanup removes partial file but never an existing destination
+PASS staging files are released after outcome
+PASS close and reopen preserves atomic SQL outcome
+PASS failure reports correct preparation or SQL stage
+PASS failed commit rolls SQL back to original record
+PASS failed commit preserves old Blob and removes prepared new file
+PASS cleanup removes partial file but never an existing destination
+PASS failed preparation never attempts SQL COMMIT
+PASS staging files are released after outcome
+PASS close and reopen preserves atomic SQL outcome
+PASS failure reports correct preparation or SQL stage
+PASS failed commit rolls SQL back to original record
+PASS failed commit preserves old Blob and removes prepared new file
+PASS cleanup removes partial file but never an existing destination
+PASS failed preparation never attempts SQL COMMIT
+PASS staging files are released after outcome
+PASS close and reopen preserves atomic SQL outcome
+RESULT checks=32 failures=0

@@ -128,6 +128,7 @@ public:
     WEBCORE_EXPORT void abortActiveTransactions();
     WEBCORE_EXPORT bool tryClose();
 
+    std::optional<IDBQuotaUsage> quotaUsage();
     WEBCORE_EXPORT String filePath() const;
     WEBCORE_EXPORT std::optional<IDBDatabaseNameAndVersion> nameAndVersion() const;
     WEBCORE_EXPORT bool hasDataInMemory() const;

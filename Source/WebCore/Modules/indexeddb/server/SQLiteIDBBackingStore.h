@@ -89,6 +89,11 @@ public:
     bool supportsSimultaneousReadWriteTransactions() final { return false; }
     bool isEphemeral() final { return false; }
     String fullDatabasePath() const final;
+#if OS(SYMBIAN)
+    std::optional<IDBQuotaUsage> quotaUsage() final;
+    bool registerBlobTemporaryFiles(const IDBResourceIdentifier&, const Vector<String>&) final;
+    void releaseUnusedBlobTemporaryFiles(const IDBResourceIdentifier&, const Vector<String>&) final;
+#endif
 
     bool hasTransaction(const IDBResourceIdentifier&) const final;
 

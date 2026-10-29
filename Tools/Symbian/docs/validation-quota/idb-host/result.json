@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "scope": "host production ledger, real SQLite/file commit coordinator, actual BlobRegistry producer fault checks, ARM syntax and HTTP evidence contract; no WebCore guest quota result yet",
+  "base_commit": "94181dea8d2cf4a7a747b8d715c231e8dbe09cb8",
+  "recorded_utc": "2026-10-29T19:47:42.736081+00:00",
+  "checks": {
+    "ledger_host": 37,
+    "ledger_arm1136_pointer_bits_32": 37,
+    "blob_real_sqlite": 32,
+    "report_contract": 10,
+    "report_http": 4,
+    "blob_producer": 17
+  },
+  "source_sha256": {
+    "Source/WebCore/Modules/indexeddb/server/IDBServer.h": "4e28643a1ea133d2f1d6980851bdfb48b631552998e94048176f9e5735fb6be4",
+    "Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.h": "6ec4719ae3bea8a1404990e36a42faea51eec4fb3163db74bd44b39d04f99242",
+    "Source/WebCore/Modules/indexeddb/server/IDBServer.cpp": "213f39b10b9e6360113538bc0ee9c1afda1475818b7c999a6354c04f49abe7c8",
+    "Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.cpp": "571fafbb921d73993da3245ed4ec1115798559a48c0578aa826362e223a01645",
+    "Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.cpp": "a36b80c0dd5b0b40cb0d3d20999f39959f9bb7b2280c5badb40354cb9457ec91",
+    "Source/WebCore/Modules/indexeddb/server/IDBBlobCommit.h": "8f9ae253fdd0d9dc5fd79726653fffc2c7d50a0e3df23f756d822565850842ed",
+    "Source/WebCore/Modules/indexeddb/server/IDBBackingStore.h": "c2b839fa16f15a86964e395356a3c0b168d954b24014d7bae75bd6a711849e41",
+    "Source/WebCore/Modules/indexeddb/server/IDBStorageQuota.h": "3dc8ed6ae0c3660e80308a963aec42bee85132e1cc3b7a32335e24f677a68232",
+    "Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.h": "7771f94c5e81aeae358ee0ef56923dc4b1386b4be40428be15bf786a2ba4fdc4",
+    "Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.h": "5d5f08c021548e938388014ab202357614cfea76e39b22733391a838009720a9",
+    "Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabaseManager.h": "c499af5830af02d04b6fd35a5aafdf5205b2a64b8318cd3926f78b535784cb9c",
+    "Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.cpp": "2528c3ad76e92e184cb1b842a27cf0646b7fdabfd13dae232679886831d9acc6",
+    "Source/WTF/wtf/FileSystem.h": "3d4bed953f752c3ab37d139e63f705e0934d2a0e81282b6ba848cb7cf5d24b27",
+    "Source/WTF/wtf/symbian/FileSystemSymbian.cpp": "9b413b3299f290568b5fe909f9feeba9b1121f458cb3c5f3edb0315563d906d8",
+    "Source/WebCore/platform/network/BlobRegistryImpl.cpp": "3c137f22923afd2bce8fe2e0b762d6bf6c37b745314deaff4b3f126719b64c09"
+  },
+  "syntax": [
+    {
+      "source": "Source/WebCore/Modules/indexeddb/server/IDBServer.cpp",
+      "sha256": "213f39b10b9e6360113538bc0ee9c1afda1475818b7c999a6354c04f49abe7c8",
+      "exit": 0
+    },
+    {
+      "source": "Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.cpp",
+      "sha256": "a36b80c0dd5b0b40cb0d3d20999f39959f9bb7b2280c5badb40354cb9457ec91",
+      "exit": 0
+    },
+    {
+      "source": "Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.cpp",
+      "sha256": "571fafbb921d73993da3245ed4ec1115798559a48c0578aa826362e223a01645",
+      "exit": 0
+    },
+    {
+      "source": "Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.cpp",
+      "sha256": "2528c3ad76e92e184cb1b842a27cf0646b7fdabfd13dae232679886831d9acc6",
+      "exit": 0
+    },
+    {
+      "source": "Source/WebCore/platform/network/BlobRegistryImpl.cpp",
+      "sha256": "3c137f22923afd2bce8fe2e0b762d6bf6c37b745314deaff4b3f126719b64c09",
+      "exit": 0
+    }
+  ],
+  "sqlite": {
+    "version": "3.35.5",
+    "flags": [
+      "SQLITE_OMIT_WAL=1",
+      "SQLITE_THREADSAFE=1"
+    ],
+    "amalgamation_sha256": "fa310bb86b6bba1c6db5828d33c3d9a3c39a7a2c81acc886af2d9ebdfd8ee5f0"
+  },
+  "raw_log_sha256": {
+    "blob-producer-before.log": "132f1adf451490a66565b9cb90cb6749ed62816c0271c0c4fd9fa76d9810e9ef",
+    "blob-producer.log": "5c72c59b35f4abe5e66eb515057451b631fee4a751e7638f2faa884780221884",
+    "blob-sqlite.log": "2a395ca4154d0cc15c85c0c3d80d2074718bf56fc5381b57782082cc60d57694",
+    "ledger-arm32.log": "6c2e16587b2cb9595bd329f38f61ef769592be06c2f1c1bc04b44c3815d2f0b7",
+    "ledger-host.log": "8c8520dcc75738083cb64d17e40e89ee815dd1448d2ea55af5e5eb9734ac7772",
+    "report-contract.log": "a60e0d2d66e445b0734c0563e528ca7eae6f1b838b35a48522a62ef5a010522e",
+    "report-server.log": "1dd7c33ddc580153bc6514752087df83492ba67224a1e431c00d4462b5fdfd43",
+    "syntax.log": "ec274142d389aafed9be0c7f48c2ffdec4ae9a2297e1749e5de865ac04a2f62d"
+  },
+  "filesystem_dependency_commit": "4b1c773f260",
+  "producer_negative_control": {
+    "source_git_ref": "94181dea8d2cf4a7a747b8d715c231e8dbe09cb8",
+    "source_path": "Source/WebCore/platform/network/BlobRegistryImpl.cpp",
+    "source_sha256": "61ec444ff85307ea842eab8b5645c78d1fd8a69c309334b82c5a6dfc7f01043d",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "failure": "first partial staging file remains after injected short write"
+  },
+  "fixture_cases": {
+    "write": 12,
+    "read": 3,
+    "erased": 1
+  },
+  "fixture_sha256": {
+    "Tools/Symbian/tests/idb-quota/README.md": "94914060bb7011d770148e9c5688bcc3a6cd3b6e326de24724f2c4cd1972016b",
+    "Tools/Symbian/tests/idb-quota/blob-commit.cpp": "0d6c206c0ea200877b77f632025983fa13873520432b33861c24ffa5419e0b5d",
+    "Tools/Symbian/tests/idb-quota/blob-producer.cpp": "841846f2aa7d900cb333312ee566678c102977efa970257f20f5176ba5ea9b19",
+    "Tools/Symbian/tests/idb-quota/check-syntax.py": "0e9b9844e61065d2920b5c487fcfc3ec7df5589e89d4866b96d7afdc8c47e949",
+    "Tools/Symbian/tests/idb-quota/contract.py": "88f86d018301ae0fa501b1f22a6fcf57d886750a56e8f404a9bef0bf80fe23c6",
+    "Tools/Symbian/tests/idb-quota/index.html": "c710fa2d842cd58271e2868e8d7af01a9b100f290b33075aca87dc6a85102209",
+    "Tools/Symbian/tests/idb-quota/ledger.cpp": "f3efbeb3db0edf3c5dfa1168a390001b7e5926aa122b540fdc7eede876980ca6",
+    "Tools/Symbian/tests/idb-quota/page.js": "14cbe2a286dec002d2867167f99e115594ccaed03c6dbca70bb0035fc18bb340",
+    "Tools/Symbian/tests/idb-quota/run-blob.sh": "33d9f43d50b1fad1ce14fa9c48dff2f5b36cc856e90335f51fa456c176af7b6f",
+    "Tools/Symbian/tests/idb-quota/run-ledger.sh": "56f6a7e8ce79b8116b77566f028ac1df448e5a1460551c6824b8b96dd4deadce",
+    "Tools/Symbian/tests/idb-quota/run-producer.py": "c4ae061cce98af35b9f63056749d5c5fbbb5cadbc5bc239da3679d693eda7867",
+    "Tools/Symbian/tests/idb-quota/run.py": "cb8a12f69ccc637bdfc3023636f74ccfd6d922c6aeda58c375bddf6c44899380",
+    "Tools/Symbian/tests/idb-quota/server.py": "256c09dac39df266c5714c0ed2beb85acb8b5f7cb5f7301b053fae8eb736c8e7",
+    "Tools/Symbian/tests/idb-quota/test-contract.py": "5f2a7e3e6df3babe917e7089d5e4119f3249145c21eec60a07ea63f094a4ff01",
+    "Tools/Symbian/tests/idb-quota/test-server.py": "69d458d616ec91845d360a835642a7399b81d9450d03d29501749ae8005b15b3"
+  },
+  "syntax_log_note": "ANSI escapes removed and local checkout/build/SDK/test paths normalized; diagnostics otherwise unchanged."
+}

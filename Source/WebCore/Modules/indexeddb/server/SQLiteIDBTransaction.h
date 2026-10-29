@@ -80,6 +80,12 @@ public:
 
     void addBlobFile(const String& temporaryPath, const String& storedFilename);
     void addRemovedBlobFile(const String& removedFilename);
+#if OS(SYMBIAN)
+    std::optional<uint64_t> pendingBlobBytes() const;
+    void registerBlobTemporaryFiles(const Vector<String>&);
+    void releaseUnusedBlobTemporaryFiles(const Vector<String>&);
+    void deleteBlobTemporaryFiles();
+#endif
 
 private:
     void clearCursors();
@@ -98,6 +104,9 @@ private:
     HashSet<CheckedPtr<SQLiteIDBCursor>> m_backingStoreCursors;
     Vector<std::pair<String, String>> m_blobTemporaryAndStoredFilenames;
     MemoryCompactRobinHoodHashSet<String> m_blobRemovedFilenames;
+#if OS(SYMBIAN)
+    HashSet<String> m_blobTemporaryFiles;
+#endif
 };
 
 } // namespace IDBServer

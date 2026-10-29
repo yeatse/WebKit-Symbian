@@ -59,6 +59,11 @@ enum class IndexRecordType : bool;
 
 namespace IDBServer {
 
+struct IDBQuotaUsage {
+    uint64_t totalSize;
+    uint64_t pendingDiskSpace;
+};
+
 class IDBBackingStore : public CanMakeThreadSafeCheckedPtr<IDBBackingStore> {
     WTF_MAKE_TZONE_ALLOCATED(IDBBackingStore);
     WTF_OVERRIDE_DELETE_FOR_CHECKED_PTR(IDBBackingStore);
@@ -108,6 +113,14 @@ public:
     virtual bool supportsSimultaneousReadWriteTransactions() = 0;
     virtual bool isEphemeral() = 0;
     virtual String fullDatabasePath() const = 0;
+
+    // Includes uncommitted SQLite pages and staged Blob payloads. Only ports
+    // with a transaction-aware quota policy consume this optional information.
+    virtual std::optional<IDBQuotaUsage> quotaUsage() { return std::nullopt; }
+#if OS(SYMBIAN)
+    virtual bool registerBlobTemporaryFiles(const IDBResourceIdentifier&, const Vector<String>&) { return false; }
+    virtual void releaseUnusedBlobTemporaryFiles(const IDBResourceIdentifier&, const Vector<String>&) { }
+#endif
 
     virtual void close() = 0;
 

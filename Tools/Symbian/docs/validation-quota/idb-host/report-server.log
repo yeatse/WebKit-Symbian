@@ -1,0 +1,5 @@
+PASS six HTTP origins serve the fixture
+PASS stale run identity rejected over HTTP
+PASS incomplete case report rejected over HTTP
+PASS report is immutable and duplicate cannot replace evidence
+RESULT checks=4 failures=0

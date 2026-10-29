@@ -1,0 +1,8 @@
+source_sha256=61ec444ff85307ea842eab8b5645c78d1fd8a69c309334b82c5a6dfc7f01043d
+PASS successful producer returns both distinct staging copies
+PASS File input source path is never handed to the IDB backend
+PASS failed/consumed request leaves no partial or earlier staging files
+PASS all output handles are closed before cleanup
+PASS original File input remains byte-for-byte intact
+PASS failed producer reports no partial Blob list
+FAIL failed/consumed request leaves no partial or earlier staging files

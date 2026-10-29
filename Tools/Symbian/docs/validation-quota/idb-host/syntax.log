@@ -1,0 +1,310 @@
+Source/WebCore/Modules/indexeddb/server/IDBServer.cpp
+exit=0
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/IDBServer.cpp:26:
+In file included from <CHECKOUT>/Source/WebCore/config.h:47:
+In file included from <BUILD>/WTF/Headers/wtf/FastMalloc.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MallocCommon.h:28:
+<BUILD>/WTF/Headers/wtf/Assertions.h:398:9: warning: 'ASSERT' macro redefined [-Wmacro-redefined]
+  398 | #define ASSERT(assertion, ...) ((void)0)
+      |         ^
+<SDK>/include/platform/e32def.h:2596:9: note: previous definition is here
+ 2596 | #define ASSERT(x) __ASSERT_DEBUG(x,User::Invariant())
+      |         ^
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/IDBServer.cpp:27:
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/IDBServer.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBConnectionToClient.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBConnectionToClientDelegate.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBKeyPath.h:30:
+In file included from <BUILD>/WTF/Headers/wtf/text/WTFString.h:605:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: missing field 'iMutex' initializer [-Wmissing-field-initializers]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^
+<SDK>/include/pthread/pthread.h:104:65: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                                 ^
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/IDBServer.cpp:27:
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/IDBServer.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBConnectionToClient.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBConnectionToClientDelegate.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBKeyPath.h:30:
+In file included from <BUILD>/WTF/Headers/wtf/text/WTFString.h:605:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: suggest braces around initialization of subobject [-Wmissing-braces]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+<SDK>/include/pthread/pthread.h:104:55: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                       ^~~~~~~~~
+<SDK>/include/compiler/__stddef_null.h:21:14: note: expanded from macro 'NULL'
+   21 | #define NULL __null
+      |              ^
+3 warnings generated.
+
+Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.cpp
+exit=0
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.cpp:26:
+In file included from <CHECKOUT>/Source/WebCore/config.h:47:
+In file included from <BUILD>/WTF/Headers/wtf/FastMalloc.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MallocCommon.h:28:
+<BUILD>/WTF/Headers/wtf/Assertions.h:398:9: warning: 'ASSERT' macro redefined [-Wmacro-redefined]
+  398 | #define ASSERT(assertion, ...) ((void)0)
+      |         ^
+<SDK>/include/platform/e32def.h:2596:9: note: previous definition is here
+ 2596 | #define ASSERT(x) __ASSERT_DEBUG(x,User::Invariant())
+      |         ^
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.cpp:27:
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBBackingStore.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBDatabaseInfo.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBIndexIdentifier.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/ObjectIdentifier.h:30:
+In file included from <BUILD>/WTF/Headers/wtf/UUID.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/Hasher.h:24:
+In file included from <BUILD>/WTF/Headers/wtf/CheckedPtr.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/CheckedRef.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/SingleThreadIntegralWrapper.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/Threading.h:41:
+In file included from <BUILD>/WTF/Headers/wtf/HashSet.h:29:
+In file included from <BUILD>/WTF/Headers/wtf/RobinHoodHashTable.h:57:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringHash.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: missing field 'iMutex' initializer [-Wmissing-field-initializers]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^
+<SDK>/include/pthread/pthread.h:104:65: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                                 ^
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.cpp:27:
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/UniqueIDBDatabase.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBBackingStore.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBDatabaseInfo.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBIndexIdentifier.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/ObjectIdentifier.h:30:
+In file included from <BUILD>/WTF/Headers/wtf/UUID.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/Hasher.h:24:
+In file included from <BUILD>/WTF/Headers/wtf/CheckedPtr.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/CheckedRef.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/SingleThreadIntegralWrapper.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/Threading.h:41:
+In file included from <BUILD>/WTF/Headers/wtf/HashSet.h:29:
+In file included from <BUILD>/WTF/Headers/wtf/RobinHoodHashTable.h:57:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringHash.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: suggest braces around initialization of subobject [-Wmissing-braces]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+<SDK>/include/pthread/pthread.h:104:55: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                       ^~~~~~~~~
+<SDK>/include/compiler/__stddef_null.h:21:14: note: expanded from macro 'NULL'
+   21 | #define NULL __null
+      |              ^
+3 warnings generated.
+
+Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.cpp
+exit=0
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.cpp:26:
+In file included from <CHECKOUT>/Source/WebCore/config.h:47:
+In file included from <BUILD>/WTF/Headers/wtf/FastMalloc.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MallocCommon.h:28:
+<BUILD>/WTF/Headers/wtf/Assertions.h:398:9: warning: 'ASSERT' macro redefined [-Wmacro-redefined]
+  398 | #define ASSERT(assertion, ...) ((void)0)
+      |         ^
+<SDK>/include/platform/e32def.h:2596:9: note: previous definition is here
+ 2596 | #define ASSERT(x) __ASSERT_DEBUG(x,User::Invariant())
+      |         ^
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.cpp:27:
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.h:28:
+In file included from <BUILD>/JavaScriptCore/PrivateHeaders/JavaScriptCore/Strong.h:32:
+In file included from <BUILD>/JavaScriptCore/PrivateHeaders/JavaScriptCore/Handle.h:29:
+In file included from <BUILD>/JavaScriptCore/PrivateHeaders/JavaScriptCore/HandleTypes.h:28:
+In file included from <BUILD>/JavaScriptCore/PrivateHeaders/JavaScriptCore/JSCJSValue.h:39:
+In file included from <BUILD>/WTF/Headers/wtf/MediaTime.h:32:
+In file included from <BUILD>/WTF/Headers/wtf/JSONValues.h:39:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringHash.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: missing field 'iMutex' initializer [-Wmissing-field-initializers]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^
+<SDK>/include/pthread/pthread.h:104:65: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                                 ^
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.cpp:27:
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBBackingStore.h:28:
+In file included from <BUILD>/JavaScriptCore/PrivateHeaders/JavaScriptCore/Strong.h:32:
+In file included from <BUILD>/JavaScriptCore/PrivateHeaders/JavaScriptCore/Handle.h:29:
+In file included from <BUILD>/JavaScriptCore/PrivateHeaders/JavaScriptCore/HandleTypes.h:28:
+In file included from <BUILD>/JavaScriptCore/PrivateHeaders/JavaScriptCore/JSCJSValue.h:39:
+In file included from <BUILD>/WTF/Headers/wtf/MediaTime.h:32:
+In file included from <BUILD>/WTF/Headers/wtf/JSONValues.h:39:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringHash.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: suggest braces around initialization of subobject [-Wmissing-braces]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+<SDK>/include/pthread/pthread.h:104:55: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                       ^~~~~~~~~
+<SDK>/include/compiler/__stddef_null.h:21:14: note: expanded from macro 'NULL'
+   21 | #define NULL __null
+      |              ^
+3 warnings generated.
+
+Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.cpp
+exit=0
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.cpp:25:
+In file included from <CHECKOUT>/Source/WebCore/config.h:47:
+In file included from <BUILD>/WTF/Headers/wtf/FastMalloc.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MallocCommon.h:28:
+<BUILD>/WTF/Headers/wtf/Assertions.h:398:9: warning: 'ASSERT' macro redefined [-Wmacro-redefined]
+  398 | #define ASSERT(assertion, ...) ((void)0)
+      |         ^
+<SDK>/include/platform/e32def.h:2596:9: note: previous definition is here
+ 2596 | #define ASSERT(x) __ASSERT_DEBUG(x,User::Invariant())
+      |         ^
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.cpp:26:
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBError.h:28:
+In file included from <TEST_WORK>/include/WebCore/DOMException.h:32:
+In file included from <BUILD>/WTF/Headers/wtf/text/WTFString.h:605:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: missing field 'iMutex' initializer [-Wmissing-field-initializers]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^
+<SDK>/include/pthread/pthread.h:104:65: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                                 ^
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.cpp:26:
+In file included from <CHECKOUT>/Source/WebCore/Modules/indexeddb/server/SQLiteIDBTransaction.h:28:
+In file included from <TEST_WORK>/include/WebCore/IDBError.h:28:
+In file included from <TEST_WORK>/include/WebCore/DOMException.h:32:
+In file included from <BUILD>/WTF/Headers/wtf/text/WTFString.h:605:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: suggest braces around initialization of subobject [-Wmissing-braces]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+<SDK>/include/pthread/pthread.h:104:55: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                       ^~~~~~~~~
+<SDK>/include/compiler/__stddef_null.h:21:14: note: expanded from macro 'NULL'
+   21 | #define NULL __null
+      |              ^
+3 warnings generated.
+
+Source/WebCore/platform/network/BlobRegistryImpl.cpp
+exit=0
+In file included from <CHECKOUT>/Source/WebCore/platform/network/BlobRegistryImpl.cpp:32:
+In file included from <CHECKOUT>/Source/WebCore/config.h:47:
+In file included from <BUILD>/WTF/Headers/wtf/FastMalloc.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MallocCommon.h:28:
+<BUILD>/WTF/Headers/wtf/Assertions.h:398:9: warning: 'ASSERT' macro redefined [-Wmacro-redefined]
+  398 | #define ASSERT(assertion, ...) ((void)0)
+      |         ^
+<SDK>/include/platform/e32def.h:2596:9: note: previous definition is here
+ 2596 | #define ASSERT(x) __ASSERT_DEBUG(x,User::Invariant())
+      |         ^
+In file included from <CHECKOUT>/Source/WebCore/platform/network/BlobRegistryImpl.cpp:33:
+In file included from <CHECKOUT>/Source/WebCore/platform/network/BlobRegistryImpl.h:34:
+In file included from <TEST_WORK>/include/WebCore/BlobData.h:33:
+In file included from <TEST_WORK>/include/WebCore/BlobDataFileReference.h:30:
+In file included from <BUILD>/WTF/Headers/wtf/Markable.h:39:
+In file included from <BUILD>/WTF/Headers/wtf/Hasher.h:24:
+In file included from <BUILD>/WTF/Headers/wtf/CheckedPtr.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/CheckedRef.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/SingleThreadIntegralWrapper.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/Threading.h:41:
+In file included from <BUILD>/WTF/Headers/wtf/HashSet.h:29:
+In file included from <BUILD>/WTF/Headers/wtf/RobinHoodHashTable.h:57:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringHash.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: missing field 'iMutex' initializer [-Wmissing-field-initializers]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^
+<SDK>/include/pthread/pthread.h:104:65: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                                 ^
+In file included from <CHECKOUT>/Source/WebCore/platform/network/BlobRegistryImpl.cpp:33:
+In file included from <CHECKOUT>/Source/WebCore/platform/network/BlobRegistryImpl.h:34:
+In file included from <TEST_WORK>/include/WebCore/BlobData.h:33:
+In file included from <TEST_WORK>/include/WebCore/BlobDataFileReference.h:30:
+In file included from <BUILD>/WTF/Headers/wtf/Markable.h:39:
+In file included from <BUILD>/WTF/Headers/wtf/Hasher.h:24:
+In file included from <BUILD>/WTF/Headers/wtf/CheckedPtr.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/CheckedRef.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/SingleThreadIntegralWrapper.h:28:
+In file included from <BUILD>/WTF/Headers/wtf/Threading.h:41:
+In file included from <BUILD>/WTF/Headers/wtf/HashSet.h:29:
+In file included from <BUILD>/WTF/Headers/wtf/RobinHoodHashTable.h:57:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringHash.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/text/AtomString.h:349:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringConcatenate.h:34:
+In file included from <BUILD>/WTF/Headers/wtf/text/StringView.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/text/CString.h:33:
+In file included from <BUILD>/WTF/Headers/wtf/RefCounted.h:23:
+In file included from <BUILD>/WTF/Headers/wtf/RefCountDebugger.h:26:
+In file included from <BUILD>/WTF/Headers/wtf/MainThread.h:36:
+<BUILD>/WTF/Headers/wtf/ThreadingPrimitives.h:111:37: warning: suggest braces around initialization of subobject [-Wmissing-braces]
+  111 |     PlatformCondition m_condition = PTHREAD_COND_INITIALIZER;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+<SDK>/include/pthread/pthread.h:104:55: note: expanded from macro 'PTHREAD_COND_INITIALIZER'
+  104 | #define PTHREAD_COND_INITIALIZER { _ENeedsNormalInit, NULL,NULL }
+      |                                                       ^~~~~~~~~
+<SDK>/include/compiler/__stddef_null.h:21:14: note: expanded from macro 'NULL'
+   21 | #define NULL __null
+      |              ^
+3 warnings generated.

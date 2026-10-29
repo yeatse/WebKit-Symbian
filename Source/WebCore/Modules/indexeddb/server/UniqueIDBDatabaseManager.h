@@ -26,6 +26,7 @@
 #pragma once
 
 #include <WebCore/IDBDatabaseIdentifier.h>
+#include <WebCore/IDBError.h>
 #include <wtf/WeakPtr.h>
 
 namespace WebCore {
@@ -36,6 +37,7 @@ class UniqueIDBDatabaseManager;
 
 namespace WebCore {
 
+class IDBResourceIdentifier;
 struct ClientOrigin;
 
 namespace IDBServer {
@@ -55,6 +57,12 @@ public:
     virtual void unregisterTransaction(UniqueIDBDatabaseTransaction&) = 0;
     virtual std::unique_ptr<IDBBackingStore> createBackingStore(const IDBDatabaseIdentifier&) = 0;
     virtual void requestSpace(const ClientOrigin&, uint64_t size, CompletionHandler<void(bool)>&&) = 0;
+    virtual void requestSpaceForOpen(const IDBDatabaseIdentifier& database, uint64_t size, CompletionHandler<void(bool)>&& completion) { requestSpace(database.origin(), size, WTF::move(completion)); }
+    virtual void requestSpaceForTransaction(const IDBDatabaseIdentifier& database, const IDBResourceIdentifier&, uint64_t size, CompletionHandler<void(bool)>&& completion) { requestSpace(database.origin(), size, WTF::move(completion)); }
+    virtual IDBError checkQuotaBeforeCommit(UniqueIDBDatabaseTransaction&, IDBBackingStore&) { return IDBError { }; }
+    virtual IDBError didOpenBackingStore(const IDBDatabaseIdentifier&, IDBBackingStore&) { return IDBError { }; }
+    virtual void didDeleteBackingStore(const IDBDatabaseIdentifier&) { }
+    virtual void didFinishQuotaTransaction(UniqueIDBDatabaseTransaction&) { }
 };
 
 } // namespace IDBServer
