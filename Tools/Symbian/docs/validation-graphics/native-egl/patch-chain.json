@@ -1,0 +1,55 @@
+{
+  "base": "5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a",
+  "results": [
+    {
+      "patch": "0001-qt-Add-installdevice-to-install-a-device-from-the-co.patch",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "patch": "0005-kernel-dump-registers-and-stack-of-threads-that-pani.patch",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "patch": "0006-Observe-message-window-canvas-destruction.patch",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "patch": "0007-Avoid-property-notifications-during-kernel-wipeout.patch",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "patch": "0008-Make-RFile-writes-visible-to-file-metadata-queries.patch",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "patch": "0009-Implement-EGL-GLES2-queries-and-program-validation.patch",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "patch": "0010-Implement-asynchronous-MMF-URL-media-and-surface-lifetimes.patch",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "patch": "0011-Load-native-desktop-GL-shader-precision-functions.patch",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "patch": "0012-Retain-generated-GLES-guest-object-names.patch",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "patch": "0013-Avoid-invalid-object-lookup-for-default-framebuffer-reads.patch",
+      "exit": 0,
+      "output": ""
+    }
+  ]
+}

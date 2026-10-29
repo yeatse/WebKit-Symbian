@@ -124,20 +124,36 @@ private:
         int32_t m_maxTextureSize;
     };
 
+#if OS(SYMBIAN)
+    std::shared_ptr<SymbianGLResourceState> m_resourceState;
+#endif
     const Ref<SharedGLData> m_sharedGLData;
     HashMap<const void*, GLuint> m_vbos;
     HashMap<uint64_t, Vector<Ref<TextureMapperGPUBuffer>>> m_buffers;
 };
 
 TextureMapperGLData::TextureMapperGLData(void* platformContext)
+#if OS(SYMBIAN)
+    : m_resourceState(GLContext::current()->resourceState())
+    , m_sharedGLData(SharedGLData::currentSharedGLData(m_resourceState.get()))
+#else
     : m_sharedGLData(SharedGLData::currentSharedGLData(platformContext))
+#endif
 {
+#if OS(SYMBIAN)
+    UNUSED_PARAM(platformContext);
+#endif
 }
 
 TextureMapperGLData::~TextureMapperGLData()
 {
-    for (auto& entry : m_vbos)
+    for (auto& entry : m_vbos) {
+#if OS(SYMBIAN)
+        m_resourceState->release(SymbianGLResourceState::Type::Buffer, entry.value);
+#else
         glDeleteBuffers(1, &entry.value);
+#endif
+    }
 
     for (auto& entry : m_buffers)
         entry.value.clear();

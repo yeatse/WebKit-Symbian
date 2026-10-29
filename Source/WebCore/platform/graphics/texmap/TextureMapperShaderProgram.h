@@ -23,6 +23,9 @@
 #if USE(TEXTURE_MAPPER)
 
 #include "TextureMapperGLHeaders.h"
+#if OS(SYMBIAN)
+#include "SymbianGLResourceState.h"
+#endif
 #include "TransformationMatrix.h"
 #include <wtf/HashMap.h>
 #include <wtf/NeverDestroyed.h>
@@ -134,6 +137,9 @@ public:
 private:
     TextureMapperShaderProgram(const String& vertexShaderSource, const String& fragmentShaderSource);
 
+#if OS(SYMBIAN)
+    std::shared_ptr<SymbianGLResourceState> m_resourceState;
+#endif
     GLuint m_vertexShader;
     GLuint m_fragmentShader;
 

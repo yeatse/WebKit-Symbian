@@ -85,6 +85,10 @@ BitmapTexture::BitmapTexture(const IntSize& size, OptionSet<Flags> flags)
     , m_size(size)
     , m_pixelFormat(PixelFormat::RGBA8)
 {
+#if OS(SYMBIAN)
+    RELEASE_ASSERT(GLContext::current());
+    m_resourceState = GLContext::current()->resourceState();
+#endif
     GLint boundTexture = 0;
     glGetIntegerv(GL_TEXTURE_BINDING_2D, &boundTexture);
 
@@ -187,6 +191,9 @@ BitmapTexture::BitmapTexture(EGLImage image, OptionSet<Flags> flags)
 void BitmapTexture::swapTexture(BitmapTexture& other)
 {
     RELEASE_ASSERT(m_size == other.m_size);
+#if OS(SYMBIAN)
+    RELEASE_ASSERT(m_resourceState == other.m_resourceState);
+#endif
     RELEASE_ASSERT(!m_flags.contains(Flags::DepthBuffer));
     RELEASE_ASSERT(!other.m_flags.contains(Flags::DepthBuffer));
 
@@ -358,13 +365,13 @@ void BitmapTexture::updateContents(NativeImage* frameImage, const IntRect& targe
 #endif
 }
 
-void BitmapTexture::updateContents(GraphicsLayer* sourceLayer, const IntRect& targetRect, const IntPoint& offset, float scale)
+bool BitmapTexture::updateContents(GraphicsLayer* sourceLayer, const IntRect& targetRect, const IntPoint& offset, float scale)
 {
     // Making an unconditionally unaccelerated buffer here is OK because this code
     // isn't used by any platforms that respect the accelerated bit.
     auto imageBuffer = ImageBuffer::create(targetRect.size(), RenderingMode::Unaccelerated, RenderingPurpose::Unspecified, 1, DestinationColorSpace::SRGB(), PixelFormat::BGRA8);
     if (!imageBuffer)
-        return;
+        return false;
 
     GraphicsContext& context = imageBuffer->context();
     context.setTextDrawingMode(TextDrawingMode::Fill);
@@ -375,13 +382,22 @@ void BitmapTexture::updateContents(GraphicsLayer* sourceLayer, const IntRect& ta
     context.applyDeviceScaleFactor(scale);
     context.translate(-sourceRect.x(), -sourceRect.y());
 
-    sourceLayer->paintGraphicsLayerContents(context, sourceRect);
-
-    auto image = ImageBuffer::sinkIntoNativeImage(WTF::move(imageBuffer));
-    if (!image)
-        return;
-
-    updateContents(image.get(), targetRect, IntPoint());
+    auto paint = [&] {
+        sourceLayer->paintGraphicsLayerContents(context, sourceRect);
+    };
+    auto upload = [&] {
+        auto image = ImageBuffer::sinkIntoNativeImage(WTF::move(imageBuffer));
+        if (!image)
+            return false;
+        updateContents(image.get(), targetRect, IntPoint());
+        return true;
+    };
+#if OS(SYMBIAN)
+    return m_resourceState->paintAndUpload(paint, upload);
+#else
+    paint();
+    return upload();
+#endif
 }
 
 void BitmapTexture::initializeStencil()
@@ -465,6 +481,12 @@ void BitmapTexture::bindAsSurface()
 
 BitmapTexture::~BitmapTexture()
 {
+#if OS(SYMBIAN)
+    m_resourceState->release(SymbianGLResourceState::Type::Texture, m_id);
+    m_resourceState->release(SymbianGLResourceState::Type::Framebuffer, m_fbo);
+    m_resourceState->release(SymbianGLResourceState::Type::Renderbuffer, m_depthBufferObject);
+    m_resourceState->release(SymbianGLResourceState::Type::Renderbuffer, m_stencilBufferObject);
+#else
     glDeleteTextures(1, &m_id);
 
     if (m_fbo)
@@ -475,6 +497,7 @@ BitmapTexture::~BitmapTexture()
 
     if (m_stencilBufferObject)
         glDeleteRenderbuffers(1, &m_stencilBufferObject);
+#endif
 }
 
 void BitmapTexture::copyFromExternalTexture(GLuint sourceTextureID, const IntRect& targetRect, const IntSize& sourceOffset)

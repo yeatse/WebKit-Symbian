@@ -125,8 +125,9 @@ private:
 
     void dispatchViewportPropertiesDidChange(const WebCore::ViewportArguments&) const final;
 
-    void attachRootGraphicsLayer(WebCore::LocalFrame&, WebCore::GraphicsLayer*) final { }
-    void attachViewOverlayGraphicsLayer(WebCore::GraphicsLayer*) final { }
+    bool allowsAcceleratedCompositing() const final;
+    void attachRootGraphicsLayer(WebCore::LocalFrame&, WebCore::GraphicsLayer*) final;
+    void attachViewOverlayGraphicsLayer(WebCore::GraphicsLayer*) final;
     void setNeedsOneShotDrawingSynchronization() final { }
     void triggerRenderingUpdate() final;
 

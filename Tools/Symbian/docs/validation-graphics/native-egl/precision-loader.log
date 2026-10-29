@@ -1,0 +1,8 @@
+PASS: desktop 3.3 extension=0 available=0
+PASS: desktop 4.0 extension=0 available=0
+PASS: desktop 3.3 extension=1 available=1
+PASS: desktop 4.1 extension=0 available=1
+PASS: desktop 4.5 extension=1 available=1
+PASS: desktop 3.3 extension=0 available=0
+PASS: desktop 4.5 extension=1 available=0
+PASS: precision loader 7/7, exact forwarded values

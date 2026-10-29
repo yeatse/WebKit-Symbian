@@ -2,12 +2,13 @@
 
 Use symbian-platform SDK 0.3.0 (Clang 23.1.2), CMake, Ninja, host Clang/LLD, Ruby with ERB/JSON, Perl, gperf, flex, bison, Python, pkg-config and autotools. The build uses C++23, ARMv6 with VFPv2 and softfp, ARM LLInt/Baseline/DFG, and ICU 70.1. [ARM11-JIT.md](ARM11-JIT.md) documents the execution tiers, validation and the `SYMBIAN_JSC_MODE=cloop` fallback.
 
-The sparse checkout must contain `Source/JavaScriptCore`, `Source/WTF`, `Source/WebCore`, `Source/WebKitLegacy`, `Source/bmalloc`, `Source/cmake`, `Source/ThirdParty/unifdef`, `Tools/Scripts` and `Tools/Symbian`.
+The sparse checkout must contain `Source/JavaScriptCore`, `Source/WTF`, `Source/WebCore`, `Source/WebKitLegacy`, `Source/bmalloc`, `Source/cmake`, `Source/ThirdParty/ANGLE`, `Source/ThirdParty/unifdef`, `Tools/Scripts` and `Tools/Symbian`.
 
 ```sh
 export SYMBIAN_SDK_PREFIX=/path/to/symbian-sdk
 export SYMBIAN_WEBKIT_WORK=/path/to/work
 export JOBS=4
+python3 Tools/Symbian/scripts/apply-sdk-patches.py
 Tools/Symbian/scripts/build-symbian-native.sh
 Tools/Symbian/scripts/build-icu.sh
 Tools/Symbian/scripts/build-jsc.sh
@@ -28,7 +29,9 @@ Browser validation proceeds from local DOM/JS/text rendering to WebCrypto vector
 
 See [network-tests.md](../tests/network-tests.md) for the HTTP/TLS fixture server, exact report checks and isolated test trust setup.
 
-The recorded EKA2L1/X7 browser runs use `yeatse/EKA2L1` branch `webkit-symbian` at `5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a` with the five patches in `patches/eka2l1` applied to a separate local validation checkout. The two shutdown patches fix stale canvas access and property completion after semaphore destruction; without them a normal emulator close can crash after the guest has finished. The VFS patch makes completed RFile writes immediately visible to filesystem metadata queries, including after a resize reopens the host stream. Without it SQLite can observe a truncated rollback journal and fail to restore its cached page. The CLI installation and panic-dump patches remain validation tools. These patches are saved here for reproduction, not committed or pushed to the EKA repository.
+The recorded ARM11 JIT EKA2L1/X7 browser runs use `yeatse/EKA2L1` branch `webkit-symbian` at `5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a` with patches `0001`, `0005`, `0006`, `0007` and `0008` in `patches/eka2l1` applied to a separate local validation checkout. The two shutdown patches fix stale canvas access and property completion after semaphore destruction; without them a normal emulator close can crash after the guest has finished. The VFS patch makes completed RFile writes immediately visible to filesystem metadata queries, including after a resize reopens the host stream. Without it SQLite can observe a truncated rollback journal and fail to restore its cached page. The CLI installation and panic-dump patches remain validation tools. These patches are saved here for reproduction, not committed or pushed to the EKA repository.
+
+Graphics/media validation adds the subsequent EGL/GLES and MMF patches in numeric order. Rebuild the emulator host, then separately rebuild and deploy its native audio/video patch DLLs using [native-media-patches](../eka2l1/native-media-patches/README.md). The host build otherwise copies old prebuilt guest DLLs. SDK header restoration and converter patches are reproducible inputs; firmware, SDK binaries and private TLS test keys remain outside the repository. Native EGL/ANGLE probes and MMF callback, pixel and PCM checks are separate from browser page validation.
 
 SQLite uses directory locks and DELETE journals because Open C has no POSIX record locking. The SQLite build shim must keep `O_BINARY` zero: this SDK aliases it to write buffering, which makes incomplete journal metadata visible during rollback. See [the guest SQLite regression](../tests/sqlite-probe/README.md) for locking, rollback and persistence checks.
 

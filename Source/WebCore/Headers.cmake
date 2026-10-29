@@ -2823,6 +2823,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
 
     platform/graphics/egl/GLContext.h
     platform/graphics/egl/GLContextWrapper.h
+    platform/graphics/egl/SymbianGLResourceState.h
     platform/graphics/egl/GLDisplay.h
     platform/graphics/egl/GLFence.h
 

@@ -1,6 +1,9 @@
 #include "WebContainer.h"
 
 #include "NativeDeclarations.h"
+#if SYMBIAN_BROWSER_MEDIA
+#include "MediaPlayers.h"
+#endif
 
 #include <aknedsts.h>
 #include <aknedstsobs.h>
@@ -97,11 +100,24 @@ void CWebContainer::ConstructL(const TRect& aRect)
     Window().SetRequiredDisplayMode(EColor16MA);
     iWebView = WebView::create(*this, Size().iWidth, Size().iHeight);
     ActivateL();
+    // EGL consumes an RWindow pointer, not the window server's handle.
+    iCoeEnv->WsSession().Finish();
+#if SYMBIAN_BROWSER_MEDIA
+    WebView::setMediaPlayerFactory(CreateMediaPlayer, &Window());
+#endif
+#if SYMBIAN_BROWSER_COMPOSITING
+    iWebView->setNativeWindow(&Window());
+#endif
 }
 
 CWebContainer::~CWebContainer()
 {
+    if (iWebView)
+        iWebView->setNativeWindow(nullptr);
     delete iWebView;
+#if SYMBIAN_BROWSER_MEDIA
+    WebView::setMediaPlayerFactory(nullptr, nullptr);
+#endif
     delete iBitmap;
     delete iEditorState;
     delete iExtendedInputCapabilities;
@@ -128,6 +144,7 @@ void CWebContainer::SizeChanged()
     TRAP_IGNORE(EnsureBitmapL());
     if (!iWebView)
         return;
+    iCoeEnv->WsSession().Finish();
     iWebView->setSize(Size().iWidth, Size().iHeight);
     // The split view input opened or closed: the view now ends above it.
     if (iEditable)
@@ -136,6 +153,13 @@ void CWebContainer::SizeChanged()
 
 void CWebContainer::Draw(const TRect& aRect) const
 {
+    if (iWebView && iWebView->usesAcceleratedCompositing()) {
+        iWebView->renderCompositedFrame();
+        if (iWebView->usesAcceleratedCompositing())
+            return;
+        // A failed EGL frame disables compositing and repaints the full bitmap.
+        iDirty = TRect(Size());
+    }
     CWindowGc& gc = SystemGc();
     if (!iBitmap) {
         gc.SetBrushColor(KRgbWhite);

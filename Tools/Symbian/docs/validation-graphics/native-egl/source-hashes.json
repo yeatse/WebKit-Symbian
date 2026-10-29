@@ -1,0 +1,102 @@
+[
+  {
+    "path": "Tools/Symbian/eka2l1/run-native-probe.py",
+    "bytes": 9446,
+    "sha256": "95783b0f43c038dc3aa0b666bfa123817920a2063ce66a7573136db454bd5afc"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0001-qt-Add-installdevice-to-install-a-device-from-the-co.patch",
+    "bytes": 4018,
+    "sha256": "0c318c8cd5f9a2d8f4ac5b5db632ff47a8bdb82c54589b58451cf846fedb79aa"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0005-kernel-dump-registers-and-stack-of-threads-that-pani.patch",
+    "bytes": 1946,
+    "sha256": "9a380025f1b03949dae9a1eac4c3ceffe937c4c6e8d15b656b27f888fef98cd9"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0006-Observe-message-window-canvas-destruction.patch",
+    "bytes": 2158,
+    "sha256": "c436e0f8ed23b0bc8d916f17b034d4513c047ba3ed655b50f8483906351d6005"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0007-Avoid-property-notifications-during-kernel-wipeout.patch",
+    "bytes": 1458,
+    "sha256": "8abad9f2defb476ac273b5621534266499453fdd4fc46dc904ad5e0b5c04a31d"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0008-Make-RFile-writes-visible-to-file-metadata-queries.patch",
+    "bytes": 1530,
+    "sha256": "0ba2faed1a01feb0b3fb6db8e84aebe99caf8d926a9adf98a634795d5d16e47e"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0009-Implement-EGL-GLES2-queries-and-program-validation.patch",
+    "bytes": 43304,
+    "sha256": "907519155ebe44a757c98c9c0fcfb1d2aa5aafb492a8ab46a6426a1a1d26cb96"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0010-Implement-asynchronous-MMF-URL-media-and-surface-lifetimes.patch",
+    "bytes": 75803,
+    "sha256": "4ef7ac65bb0f42ed18b3f67561996183bcf2fb1012ae3ac53e58928e77497bec"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0011-Load-native-desktop-GL-shader-precision-functions.patch",
+    "bytes": 5104,
+    "sha256": "aeb303b87da282c8d8cf8bf12bf02dc085067c62dc032720e2e66b7e6ce2b869"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0012-Retain-generated-GLES-guest-object-names.patch",
+    "bytes": 2809,
+    "sha256": "434e99fe86df4c258d374cbbba750f0fe98fcda06a37a00e45caab6dbb16c848"
+  },
+  {
+    "path": "Tools/Symbian/patches/eka2l1/0013-Avoid-invalid-object-lookup-for-default-framebuffer-reads.patch",
+    "bytes": 1298,
+    "sha256": "a44d70d23dae071ab6c890cdaa358e81acc1d7fcb3aeadf7aafe1efd05b3d2b8"
+  },
+  {
+    "path": "Tools/Symbian/patches/symbian-native/0001-Raise-E32-converter-limits-for-large-images.patch",
+    "bytes": 17521,
+    "sha256": "e7d526647d2bcdbf919c85506226c4f77218f20d3a6bcbae6304086189fbe0d4"
+  },
+  {
+    "path": "Tools/Symbian/patches/symbian-native/0002-Accept-LLD-PIC-range-extension-thunks-to-the-PLT.patch",
+    "bytes": 8535,
+    "sha256": "47522c168093f2f72aa40733cf49f7a430a67c3a134341ec85f8f5c3e19bbe7e"
+  },
+  {
+    "path": "Tools/Symbian/patches/symbian-native/0003-Support-explicit-ARMv6-VFPv2-with-base-AAPCS.patch",
+    "bytes": 8144,
+    "sha256": "5259045f9b77cafc5344b9908b608a5a8205305e5b0b6e60031f024655639699"
+  },
+  {
+    "path": "Tools/Symbian/tests/angle-probe/CMakeLists.txt",
+    "bytes": 1360,
+    "sha256": "0abc9a9b4d3932f9bc8b69797ac21d3f1ddde96a7cbc346a441556eed2a933c7"
+  },
+  {
+    "path": "Tools/Symbian/tests/angle-probe/build.sh",
+    "bytes": 1118,
+    "sha256": "f0df5957708598231cbffde2e9d83ae0ec6979001acb146945c36619cffc5c05"
+  },
+  {
+    "path": "Tools/Symbian/tests/angle-probe/probe.cpp",
+    "bytes": 9974,
+    "sha256": "2c8100300c91f93967caaddd5c4bb53a55180d34d5f70c8ab4b49e3f249e2728"
+  },
+  {
+    "path": "Tools/Symbian/tests/egl-probe/check-precision-loader.sh",
+    "bytes": 438,
+    "sha256": "5a5a1b80152d62c71f4d42dbd1355bdfce63724d6f8dd8de8b4d31f011b6f4f7"
+  },
+  {
+    "path": "Tools/Symbian/tests/egl-probe/precision-loader.c",
+    "bytes": 2425,
+    "sha256": "c4b42c20f6604eaa6173f4b5f38cf8b4ffefc58b447ee23447eff996f5938f18"
+  },
+  {
+    "path": "Tools/Symbian/tests/egl-probe/probe.cpp",
+    "bytes": 29142,
+    "sha256": "e0ebda3217dc1ef586f1675e6e6e6b31574c3be1e8731b42112e1040d8561195"
+  }
+]

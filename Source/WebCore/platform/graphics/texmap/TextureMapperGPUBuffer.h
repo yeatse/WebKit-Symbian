@@ -28,6 +28,9 @@
 #pragma once
 
 #include "TextureMapperGLHeaders.h"
+#if OS(SYMBIAN)
+#include "SymbianGLResourceState.h"
+#endif
 #include <wtf/Ref.h>
 #include <wtf/ThreadSafeRefCounted.h>
 
@@ -64,6 +67,9 @@ private:
     GLenum m_target;
     GLenum m_usage;
 
+#if OS(SYMBIAN)
+    std::shared_ptr<SymbianGLResourceState> m_resourceState;
+#endif
     GLuint m_id { 0 };
 };
 

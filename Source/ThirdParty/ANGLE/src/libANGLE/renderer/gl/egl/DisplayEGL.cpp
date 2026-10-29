@@ -22,7 +22,11 @@
 #include "libANGLE/renderer/gl/egl/ContextEGL.h"
 #include "libANGLE/renderer/gl/egl/DeviceEGL.h"
 #include "libANGLE/renderer/gl/egl/DmaBufImageSiblingEGL.h"
-#include "libANGLE/renderer/gl/egl/FunctionsEGLDL.h"
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+#    include "libANGLE/renderer/gl/egl/FunctionsEGLSymbian.h"
+#else
+#    include "libANGLE/renderer/gl/egl/FunctionsEGLDL.h"
+#endif
 #include "libANGLE/renderer/gl/egl/ImageEGL.h"
 #include "libANGLE/renderer/gl/egl/PbufferSurfaceEGL.h"
 #include "libANGLE/renderer/gl/egl/RendererEGL.h"
@@ -312,14 +316,20 @@ egl::Error DisplayEGL::findConfig(egl::Display *display,
 egl::Error DisplayEGL::initialize(egl::Display *display)
 {
     mDisplayAttributes = display->getAttributeMap();
-    mEGL               = new FunctionsEGLDL();
-
-    void *eglHandle =
-        reinterpret_cast<void *>(mDisplayAttributes.get(EGL_PLATFORM_ANGLE_EGL_HANDLE_ANGLE, 0));
     EGLAttrib platformType =
         mDisplayAttributes.get(EGL_PLATFORM_ANGLE_NATIVE_PLATFORM_TYPE_ANGLE, 0);
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+    auto *nativeEGL = new FunctionsEGLSymbian();
+    mEGL = nativeEGL;
+    ANGLE_TRY(nativeEGL->initialize(platformType, display->getNativeDisplayId()));
+#else
+    auto *nativeEGL = new FunctionsEGLDL();
+    mEGL = nativeEGL;
+    void *eglHandle =
+        reinterpret_cast<void *>(mDisplayAttributes.get(EGL_PLATFORM_ANGLE_EGL_HANDLE_ANGLE, 0));
     ANGLE_TRY(
-        mEGL->initialize(platformType, display->getNativeDisplayId(), getEGLPath(), eglHandle));
+        nativeEGL->initialize(platformType, display->getNativeDisplayId(), getEGLPath(), eglHandle));
+#endif
 
     const gl::Version eglVersion(static_cast<uint8_t>(mEGL->majorVersion),
                                  static_cast<uint8_t>(mEGL->minorVersion));

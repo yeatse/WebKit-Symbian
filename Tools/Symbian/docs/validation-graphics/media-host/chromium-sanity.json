@@ -1,0 +1,783 @@
+{
+  "suite": "media",
+  "run": "host-range-1793283854572002200",
+  "mode": "http",
+  "results": [
+    {
+      "name": "format rejection",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "WAV playback controls",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "MP3 playback",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "MP4 video controls",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "natural end notification",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "invalid media error",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTP redirect playback",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTP missing media error",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "source replacement during open",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cancel pending open",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "progressive playback before completion",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "stalled download resumes playback",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "tail index waits for complete file",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "truncated HTTP media error",
+      "status": "FAIL",
+      "detail": "Error: timeout: expected media error"
+    }
+  ],
+  "trace": [
+    {
+      "event": "emptied",
+      "at": 179,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 181,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 214,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 254,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 284,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 284,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "pause",
+      "at": 1456,
+      "time": 1.119753,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "seeking",
+      "at": 2106,
+      "time": 4,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "seeked",
+      "at": 2109,
+      "time": 4,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 2109,
+      "time": 4,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 2157,
+      "time": 4,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 3768,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 3769,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 3769,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 3773,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 3774,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 3817,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 4194,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 4198,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 4200,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 4205,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 4208,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 4246,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "pause",
+      "at": 5449,
+      "time": 1.121233,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "seeking",
+      "at": 6101,
+      "time": 4,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "seeked",
+      "at": 6102,
+      "time": 4,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 6102,
+      "time": 4,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 6151,
+      "time": 4,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 7763,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 7764,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 7764,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 7766,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 7769,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "seeking",
+      "at": 7811,
+      "time": 11,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "seeked",
+      "at": 7813,
+      "time": 11,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 7813,
+      "time": 11,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 7861,
+      "time": 11,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "pause",
+      "at": 8976,
+      "time": 12,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "ended",
+      "at": 8976,
+      "time": 12,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 9022,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 9022,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 9023,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 9023,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "error",
+      "at": 9026,
+      "time": 0,
+      "ready": 0,
+      "error": 4
+    },
+    {
+      "event": "pause",
+      "at": 9026,
+      "time": 0,
+      "ready": 0,
+      "error": 4
+    },
+    {
+      "event": "emptied",
+      "at": 9074,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 9074,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 9076,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 9084,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 9086,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 9126,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 9530,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 9530,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 9534,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 9534,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "error",
+      "at": 9579,
+      "time": 0,
+      "ready": 0,
+      "error": 4
+    },
+    {
+      "event": "pause",
+      "at": 9579,
+      "time": 0,
+      "ready": 0,
+      "error": 4
+    },
+    {
+      "event": "emptied",
+      "at": 9581,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 9582,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 9582,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 9662,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 9664,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 9668,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 9670,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 9713,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 12417,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 12417,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 12417,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 12498,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 14999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 14999,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 15003,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 15187,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 15192,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 15201,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "progressive": {
+        "started": true,
+        "sent": 65536,
+        "total": 710764,
+        "complete": false,
+        "cancelled": false,
+        "stalling": false
+      },
+      "position": 0.322962
+    },
+    {
+      "event": "emptied",
+      "at": 15608,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 15608,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 15614,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 15644,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 15648,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 15659,
+      "time": 0,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 18015,
+      "time": 2.275771,
+      "ready": 2,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 21888,
+      "time": 2.345215,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 21888,
+      "time": 2.345215,
+      "ready": 3,
+      "error": 0
+    },
+    {
+      "stallPosition": 2.275771,
+      "resumedPosition": 2.922175,
+      "waiting": 1
+    },
+    {
+      "event": "emptied",
+      "at": 22547,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 22547,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 22552,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 30314,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 30320,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 30323,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 30732,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "emptied",
+      "at": 30732,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 30733,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadstart",
+      "at": 30733,
+      "time": 0,
+      "ready": 0,
+      "error": 0
+    },
+    {
+      "event": "loadedmetadata",
+      "at": 30736,
+      "time": 0,
+      "ready": 1,
+      "error": 0
+    },
+    {
+      "event": "canplay",
+      "at": 30745,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "playing",
+      "at": 30745,
+      "time": 0,
+      "ready": 4,
+      "error": 0
+    },
+    {
+      "event": "waiting",
+      "at": 34783,
+      "time": 3.947598,
+      "ready": 2,
+      "error": 0
+    }
+  ],
+  "environment": "Host Chromium 154.0.8037.57, no Symbian guest; no PCM/pixel acceptance",
+  "interpretation": "13/14 fixture sanity. Chromium stalls after the deliberately truncated response; Symbian curl is still required to report its partial-transfer failure."
+}

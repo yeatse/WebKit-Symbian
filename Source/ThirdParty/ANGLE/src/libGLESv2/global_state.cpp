@@ -6,6 +6,7 @@
 
 // global_state.cpp : Implements functions for querying the thread-local GL and EGL state.
 
+#include "common/tls_symbian.h"
 #include "libGLESv2/global_state.h"
 
 #include "common/debug.h"
@@ -52,7 +53,7 @@ Thread *AllocateCurrentThread()
         // Display TLS data is also intentionally leaked.
         ANGLE_SCOPED_DISABLE_LSAN();
         thread = new Thread();
-#if defined(ANGLE_PLATFORM_APPLE) || defined(ANGLE_USE_STATIC_THREAD_LOCAL_VARIABLES)
+#if defined(ANGLE_PLATFORM_APPLE) || defined(ANGLE_PLATFORM_SYMBIAN) || defined(ANGLE_USE_STATIC_THREAD_LOCAL_VARIABLES)
         SetCurrentThreadTLS(thread);
 #else
         gCurrentThread = thread;
@@ -85,7 +86,17 @@ Thread *AllocateCurrentThread()
 
 }  // anonymous namespace
 
-#if defined(ANGLE_PLATFORM_APPLE)
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+struct CurrentThreadTag;
+Thread *GetCurrentThreadTLS()
+{
+    return angle::SymbianThreadLocal<CurrentThreadTag, Thread *>();
+}
+void SetCurrentThreadTLS(Thread *thread)
+{
+    angle::SymbianThreadLocal<CurrentThreadTag, Thread *>() = thread;
+}
+#elif defined(ANGLE_PLATFORM_APPLE)
 // TODO(angleproject:6479): Due to a bug in Apple's dyld loader, `thread_local` will cause
 // excessive memory use. Temporarily avoid it by using pthread's thread
 // local storage instead.
@@ -141,7 +152,7 @@ void SetGlobalLastContext(gl::Context *context)
 // It also causes a flaky false positive in TSAN. http://crbug.com/1223970
 ANGLE_NO_SANITIZE_MEMORY ANGLE_NO_SANITIZE_THREAD Thread *GetCurrentThread()
 {
-#if defined(ANGLE_PLATFORM_APPLE) || defined(ANGLE_USE_STATIC_THREAD_LOCAL_VARIABLES)
+#if defined(ANGLE_PLATFORM_APPLE) || defined(ANGLE_PLATFORM_SYMBIAN) || defined(ANGLE_USE_STATIC_THREAD_LOCAL_VARIABLES)
     Thread *current = GetCurrentThreadTLS();
 #else
     Thread *current = gCurrentThread;
@@ -151,7 +162,7 @@ ANGLE_NO_SANITIZE_MEMORY ANGLE_NO_SANITIZE_THREAD Thread *GetCurrentThread()
 
 void SetContextCurrent(Thread *thread, gl::Context *context)
 {
-#if defined(ANGLE_PLATFORM_APPLE) || defined(ANGLE_USE_STATIC_THREAD_LOCAL_VARIABLES)
+#if defined(ANGLE_PLATFORM_APPLE) || defined(ANGLE_PLATFORM_SYMBIAN) || defined(ANGLE_USE_STATIC_THREAD_LOCAL_VARIABLES)
     Thread *currentThread = GetCurrentThreadTLS();
 #else
     Thread *currentThread = gCurrentThread;

@@ -64,6 +64,9 @@ public:
     virtual ~PlatformDisplay();
 
     enum class Type {
+#if OS(SYMBIAN)
+        Symbian,
+#endif
 #if PLATFORM(WIN)
         Windows,
 #endif

@@ -1,0 +1,103 @@
+Subject: [PATCH] Load native ES2 precision APIs on compatible desktop GL
+
+The bundled desktop GLAD loader ends at GL 3.3. The GLES precision pointer
+therefore stayed NULL even on a real GL 4.5 context, while the debug wrapper
+made the existing availability check always succeed. Load the native entry
+points for ARB_ES2_compatibility or core GL 4.1, check the underlying pointer,
+and propagate native query errors rather than manufacturing precision values.
+
+Apply after 0009 and 0010. Does not change guest query expectations.
+
+diff --git a/src/external/glad/include/glad/glad.h b/src/external/glad/include/glad/glad.h
+--- a/src/external/glad/include/glad/glad.h
++++ b/src/external/glad/include/glad/glad.h
+@@ -2675,6 +2675,10 @@
+ #define GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG 0x8C03
+ #define GL_COMPRESSED_RGBA_PVRTC_2BPPV2_IMG 0x9137
+ #define GL_COMPRESSED_RGBA_PVRTC_4BPPV2_IMG 0x9138
++#ifndef GL_ARB_ES2_compatibility
++#define GL_ARB_ES2_compatibility 1
++GLAPI int GLAD_GL_ARB_ES2_compatibility;
++#endif
+ #ifndef GL_ARB_ES3_compatibility
+ #define GL_ARB_ES3_compatibility 1
+ GLAPI int GLAD_GL_ARB_ES3_compatibility;
+diff --git a/src/external/glad/src/glad.c b/src/external/glad/src/glad.c
+--- a/src/external/glad/src/glad.c
++++ b/src/external/glad/src/glad.c
+@@ -3483,6 +3483,7 @@
+     
+ }
+ PFNGLWAITSYNCPROC glad_debug_glWaitSync = glad_debug_impl_glWaitSync;
++int GLAD_GL_ARB_ES2_compatibility = 0;
+ int GLAD_GL_ARB_ES3_compatibility = 0;
+ int GLAD_GL_ARB_draw_elements_base_vertex = 0;
+ int GLAD_GL_EXT_texture_compression_s3tc = 0;
+@@ -3903,6 +3904,23 @@
+ 	glad_glSecondaryColorP3ui = (PFNGLSECONDARYCOLORP3UIPROC)load("glSecondaryColorP3ui");
+ 	glad_glSecondaryColorP3uiv = (PFNGLSECONDARYCOLORP3UIVPROC)load("glSecondaryColorP3uiv");
+ }
++/* The generated desktop loader stops at GL 3.3. These GLES entry points are
++ * also native desktop APIs in ARB_ES2_compatibility / GL 4.1. Do not leave their
++ * debug wrappers pointing at NULL when using a supported desktop context. */
++static void load_GL_ARB_ES2_compatibility(GLADloadproc load) {
++	glad_glClearDepthf = NULL;
++	glad_glDepthRangef = NULL;
++	glad_glGetShaderPrecisionFormat = NULL;
++	glad_glReleaseShaderCompiler = NULL;
++	glad_glShaderBinary = NULL;
++	if (!GLAD_GL_ARB_ES2_compatibility && !(GLVersion.major > 4 ||
++		(GLVersion.major == 4 && GLVersion.minor >= 1))) return;
++	glad_glClearDepthf = (PFNGLCLEARDEPTHFPROC)load("glClearDepthf");
++	glad_glDepthRangef = (PFNGLDEPTHRANGEFPROC)load("glDepthRangef");
++	glad_glGetShaderPrecisionFormat = (PFNGLGETSHADERPRECISIONFORMATPROC)load("glGetShaderPrecisionFormat");
++	glad_glReleaseShaderCompiler = (PFNGLRELEASESHADERCOMPILERPROC)load("glReleaseShaderCompiler");
++	glad_glShaderBinary = (PFNGLSHADERBINARYPROC)load("glShaderBinary");
++}
+ static void load_GL_ARB_draw_elements_base_vertex(GLADloadproc load) {
+ 	if(!GLAD_GL_ARB_draw_elements_base_vertex) return;
+ 	glad_glDrawElementsBaseVertex = (PFNGLDRAWELEMENTSBASEVERTEXPROC)load("glDrawElementsBaseVertex");
+@@ -3912,6 +3930,7 @@
+ }
+ static int find_extensionsGL(void) {
+ 	if (!get_exts()) return 0;
++	GLAD_GL_ARB_ES2_compatibility = has_ext("GL_ARB_ES2_compatibility");
+ 	GLAD_GL_ARB_ES3_compatibility = has_ext("GL_ARB_ES3_compatibility");
+ 	GLAD_GL_ARB_draw_elements_base_vertex = has_ext("GL_ARB_draw_elements_base_vertex");
+ 	GLAD_GL_EXT_texture_compression_s3tc = has_ext("GL_EXT_texture_compression_s3tc");
+@@ -3994,6 +4013,7 @@
+ 	load_GL_VERSION_3_3(load);
+ 
+ 	if (!find_extensionsGL()) return 0;
++	load_GL_ARB_ES2_compatibility(load);
+ 	load_GL_ARB_draw_elements_base_vertex(load);
+ 	return GLVersion.major != 0 || GLVersion.minor != 0;
+ }
+diff --git a/src/emu/drivers/src/graphics/backend/graphics_driver_shared.cpp b/src/emu/drivers/src/graphics/backend/graphics_driver_shared.cpp
+--- a/src/emu/drivers/src/graphics/backend/graphics_driver_shared.cpp
++++ b/src/emu/drivers/src/graphics/backend/graphics_driver_shared.cpp
+@@ -1239,14 +1239,21 @@
+ 
+         case graphics_driver_get_shader_precision: {
+ #if !EKA2L1_PLATFORM(IOS)
+-            if (!glGetShaderPrecisionFormat) {
++            // The GLAD debug wrapper is always non-null, even when the actual
++            // API was unavailable. Check and call the underlying function so
++            // the debug callback cannot consume an error before we report it.
++            if (!glad_glGetShaderPrecisionFormat) {
+                 finish(cmd.status_, -1);
+                 break;
+             }
+-#endif
++            glad_glGetShaderPrecisionFormat(static_cast<GLenum>(cmd.data_[0]), static_cast<GLenum>(cmd.data_[1]),
++                reinterpret_cast<GLint *>(cmd.data_[2]), reinterpret_cast<GLint *>(cmd.data_[3]));
++            finish(cmd.status_, glad_glGetError() == GL_NO_ERROR ? 0 : -1);
++#else
+             glGetShaderPrecisionFormat(static_cast<GLenum>(cmd.data_[0]), static_cast<GLenum>(cmd.data_[1]),
+                 reinterpret_cast<GLint *>(cmd.data_[2]), reinterpret_cast<GLint *>(cmd.data_[3]));
+-            finish(cmd.status_, 0);
++            finish(cmd.status_, glGetError() == GL_NO_ERROR ? 0 : -1);
++#endif
+             break;
+         }
+ 

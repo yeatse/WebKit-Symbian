@@ -1,0 +1,1727 @@
+diff --git a/src/emu/dispatch/include/dispatch/audio.h b/src/emu/dispatch/include/dispatch/audio.h
+index 48b70a0c3..3f92b8c8f 100644
+--- a/src/emu/dispatch/include/dispatch/audio.h
++++ b/src/emu/dispatch/include/dispatch/audio.h
+@@ -29,6 +29,8 @@ namespace eka2l1::dispatch {
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_destroy, eka2l1::ptr<void> handle);
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_supply_url, eka2l1::ptr<void> handle,
+         const std::uint16_t *url, const std::uint32_t url_length, std::uint64_t *duration_us);
++    BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_poll_open_url, eka2l1::ptr<void> handle, std::uint64_t *duration_us);
++    BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_close_source, eka2l1::ptr<void> handle);
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_supply_buffer, eka2l1::ptr<void> handle, epoc::des8 *buffer,
+         std::uint64_t *duration_us);
+ 
+diff --git a/src/emu/dispatch/include/dispatch/dispatcher.h b/src/emu/dispatch/include/dispatch/dispatcher.h
+index cf117c8c0..5bc4cbdc3 100644
+--- a/src/emu/dispatch/include/dispatch/dispatcher.h
++++ b/src/emu/dispatch/include/dispatch/dispatcher.h
+@@ -19,6 +19,8 @@
+ 
+ #pragma once
+ 
++#include <drivers/media_download.h>
++
+ #include <cstdint>
+ 
+ #include <dispatch/management.h>
+@@ -145,6 +147,8 @@ namespace eka2l1::dispatch {
+     public:
+         std::unique_ptr<epoc::rw_des_stream> custom_stream_;
+         std::unique_ptr<drivers::player> impl_;
++        std::shared_ptr<drivers::media_download> download_;
++        bool opening_url_ = false;
+ 
+         std::uint32_t flags_;
+ 
+diff --git a/src/emu/dispatch/include/dispatch/video.h b/src/emu/dispatch/include/dispatch/video.h
+index 4befcd1fe..bcef824e7 100644
+--- a/src/emu/dispatch/include/dispatch/video.h
++++ b/src/emu/dispatch/include/dispatch/video.h
+@@ -23,6 +23,7 @@
+ #include <common/container.h>
+ #include <dispatch/def.h>
+ #include <drivers/video/video.h>
++#include <drivers/media_download.h>
+ #include <drivers/itc.h>
+ #include <mem/ptr.h>
+ #include <services/window/classes/winuser.h>
+@@ -52,6 +53,13 @@ namespace eka2l1::dispatch {
+         eka2l1::rect clip;
+     };
+ 
++    struct video_media_info {
++        std::int32_t has_audio;
++        std::int32_t has_video;
++        std::uint32_t audio_type;
++        char mime[64];
++    };
++
+     class epoc_video_player : public epoc::canvas_observer {
+     private:
+         std::shared_ptr<epoc::window_surface> surface_;
+@@ -60,6 +68,8 @@ namespace eka2l1::dispatch {
+         bool legacy_display_;
+         std::optional<eka2l1::rect> crop_region_;
+         drivers::video_player_instance video_player_;
++        std::shared_ptr<drivers::media_download> download_;
++        bool opening_url_ = false;
+ 
+         common::identity_container<epoc_video_posting_target> postings_;
+ 
+@@ -94,6 +104,9 @@ namespace eka2l1::dispatch {
+         bool set_volume(const std::uint32_t vol);
+ 
+         bool open_file(const std::u16string &real_path);
++        std::int32_t open_network_url(std::string url);
++        std::int32_t poll_open_url();
++        std::int32_t media_info(video_media_info &) const;
+         bool open_with_custom_stream(std::unique_ptr<common::ro_stream> &stream);
+ 
+         void set_rotation(const int rotation);
+@@ -131,6 +144,8 @@ namespace eka2l1::dispatch {
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_set_geometry, const std::uint32_t handle, const std::int32_t managed_handle, const video_window_geometry *geometry);
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_unregister_window, const std::uint32_t handle, const std::int32_t managed_handle);
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_open_file, const std::uint32_t handle, epoc::desc16 *filename);
++    BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_poll_open_url, const std::uint32_t handle);
++    BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_media_info, const std::uint32_t handle, video_media_info *info);
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_max_volume, const std::uint32_t handle);
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_current_volume, const std::uint32_t handle);
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_set_volume, const std::uint32_t handle, const std::int32_t new_vol);
+diff --git a/src/emu/dispatch/src/audio.cpp b/src/emu/dispatch/src/audio.cpp
+index 9235db1cf..244db70cb 100644
+--- a/src/emu/dispatch/src/audio.cpp
++++ b/src/emu/dispatch/src/audio.cpp
+@@ -22,6 +22,7 @@
+ #include <vfs/vfs.h>
+ 
+ #include <drivers/audio/audio.h>
++#include <drivers/media_download.h>
+ #include <system/epoc.h>
+ 
+ #include <kernel/kernel.h>
+@@ -120,6 +121,9 @@ namespace eka2l1::dispatch {
+         // a null impl_. Stop the hardware stream (waits out any callback in
+         // flight) and destroy the player while the rest of us is still alive.
+         stop_recording();
++        if (download_) {
++            download_->cancel();
++        }
+ 
+         if (impl_) {
+             impl_->stop();
+@@ -289,26 +293,7 @@ namespace eka2l1::dispatch {
+         return url_str;
+     }
+ 
+-    BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_supply_url, eka2l1::ptr<void> handle,
+-        const std::uint16_t *url, const std::uint32_t url_length, std::uint64_t *duration_us) {
+-        const std::u16string guest_url(reinterpret_cast<const char16_t *>(url), url_length);
+-        if (is_local_audio_url(guest_url) && !sys->get_io_system()->exist(guest_url)) {
+-            return epoc::error_not_found;
+-        }
+-
+-        std::u16string url_str = resolve_audio_url(sys, url, url_length);
+-
+-        // Proceed with the current URL
+-        dispatch::dispatcher *dispatcher = sys->get_dispatcher();
+-        dispatch::dsp_manager &manager = dispatcher->get_dsp_manager();
+-        dsp_epoc_player *eplayer = manager.get_object<dsp_epoc_player>(handle.ptr_address());
+-
+-        if (!eplayer) {
+-            return epoc::error_bad_handle;
+-        }
+-
+-        const std::string url_u8 = common::ucs2_to_utf8(url_str);
+-
++    static std::int32_t open_audio_source(system *sys, dsp_epoc_player *eplayer, const std::string &url_u8, std::uint64_t *duration_us) {
+         bool supplied = eplayer->impl_ && eplayer->impl_->open_url(url_u8);
+         if (!supplied) {
+             drivers::audio_driver *driver = sys->get_audio_driver();
+@@ -344,6 +329,100 @@ namespace eka2l1::dispatch {
+         return epoc::error_none;
+     }
+ 
++    BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_supply_url, eka2l1::ptr<void> handle,
++        const std::uint16_t *url, const std::uint32_t url_length, std::uint64_t *duration_us) {
++        auto &manager = sys->get_dispatcher()->get_dsp_manager();
++        auto *eplayer = manager.get_object<dsp_epoc_player>(handle.ptr_address());
++        if (!eplayer) {
++            return epoc::error_bad_handle;
++        }
++        if (!url || !url_length || url_length > 8192) {
++            return epoc::error_argument;
++        }
++        if (eplayer->download_) {
++            eplayer->download_->cancel();
++            // Release the decoder before deleting the transfer-owned file.
++            if (eplayer->impl_) {
++                eplayer->impl_->stop();
++                eplayer->impl_.reset();
++            }
++            eplayer->download_.reset();
++        }
++        eplayer->opening_url_ = false;
++        const std::u16string guest_url(reinterpret_cast<const char16_t *>(url), url_length);
++        if (!is_local_audio_url(guest_url) && guest_url.find(u"://") != std::u16string::npos) {
++            eplayer->download_ = drivers::media_download::start(common::ucs2_to_utf8(guest_url));
++            eplayer->opening_url_ = true;
++            return epoc::request_status::pending_status;
++        }
++        if (is_local_audio_url(guest_url) && !sys->get_io_system()->exist(guest_url)) {
++            return epoc::error_not_found;
++        }
++        return open_audio_source(sys, eplayer, common::ucs2_to_utf8(resolve_audio_url(sys, url, url_length)), duration_us);
++    }
++
++    BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_poll_open_url, eka2l1::ptr<void> handle, std::uint64_t *duration_us) {
++        auto &manager = sys->get_dispatcher()->get_dsp_manager();
++        auto *eplayer = manager.get_object<dsp_epoc_player>(handle.ptr_address());
++        if (!eplayer) {
++            return epoc::error_bad_handle;
++        }
++        if (!eplayer->opening_url_ || !eplayer->download_) {
++            return epoc::error_not_ready;
++        }
++        using result = drivers::media_download::result;
++        const auto status = eplayer->download_->status();
++        if (status == result::pending) {
++            return epoc::request_status::pending_status;
++        }
++        eplayer->opening_url_ = false;
++        if (status == result::complete) {
++            const auto error = open_audio_source(sys, eplayer, eplayer->download_->path(), duration_us);
++            if (error != epoc::error_none) {
++                if (eplayer->impl_) {
++                    eplayer->impl_->stop();
++                    eplayer->impl_.reset();
++                }
++                eplayer->download_.reset();
++            }
++            return error;
++        }
++        LOG_ERROR(HLE_DISPATCHER, "Native audio URL failed (HTTP {}): {}", eplayer->download_->http_status(), eplayer->download_->error());
++        const auto http_status = eplayer->download_->http_status();
++        eplayer->download_.reset();
++        switch (status) {
++        case result::cancelled: return epoc::error_cancel;
++        case result::invalid_url: return epoc::error_argument;
++        case result::timeout: return epoc::error_timed_out;
++        case result::tls_error: return epoc::error_access_denied;
++        case result::file_error: return epoc::error_write;
++        case result::resource_error: return epoc::error_no_memory;
++        case result::http_error:
++            if (http_status == 404 || http_status == 410) return epoc::error_not_found;
++            if (http_status == 401 || http_status == 403) return epoc::error_access_denied;
++            return epoc::error_general;
++        default: return epoc::error_could_not_connect;
++        }
++    }
++
++    BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_close_source, eka2l1::ptr<void> handle) {
++        auto &manager = sys->get_dispatcher()->get_dsp_manager();
++        auto *eplayer = manager.get_object<dsp_epoc_player>(handle.ptr_address());
++        if (!eplayer) {
++            return epoc::error_bad_handle;
++        }
++        eplayer->opening_url_ = false;
++        if (eplayer->download_) {
++            eplayer->download_->cancel();
++        }
++        if (eplayer->impl_) {
++            eplayer->impl_->stop();
++            eplayer->impl_.reset();
++        }
++        eplayer->download_.reset();
++        return epoc::error_none;
++    }
++
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, eaudio_player_supply_buffer, eka2l1::ptr<void> handle, epoc::des8 *buffer, std::uint64_t *duration_us) {
+         kernel::process *pr = sys->get_kernel_system()->crr_process();
+ 
+diff --git a/src/emu/dispatch/src/register.cpp b/src/emu/dispatch/src/register.cpp
+index bec6ff39b..b200348f8 100644
+--- a/src/emu/dispatch/src/register.cpp
++++ b/src/emu/dispatch/src/register.cpp
+@@ -71,6 +71,8 @@ namespace eka2l1::dispatch {
+         BRIDGE_REGISTER_DISPATCHER(0x3B, eaudio_player_get_dest_bit_rate),
+         BRIDGE_REGISTER_DISPATCHER(0x3C, eaudio_player_set_dest_bit_rate),
+         BRIDGE_REGISTER_DISPATCHER(0x3D, eaudio_player_get_supported_dest_values),
++        BRIDGE_REGISTER_DISPATCHER(0x3E, eaudio_player_poll_open_url),
++        BRIDGE_REGISTER_DISPATCHER(0x3F, eaudio_player_close_source),
+         BRIDGE_REGISTER_DISPATCHER(0x40, eaudio_dsp_out_stream_create),
+         BRIDGE_REGISTER_DISPATCHER(0x41, eaudio_dsp_out_stream_write),
+         BRIDGE_REGISTER_DISPATCHER(0x42, eaudio_dsp_stream_set_properties),
+@@ -128,6 +130,8 @@ namespace eka2l1::dispatch {
+         BRIDGE_REGISTER_DISPATCHER(0x9A, evideo_player_frame_size),
+         BRIDGE_REGISTER_DISPATCHER(0x9B, evideo_player_window_rotation),
+         BRIDGE_REGISTER_DISPATCHER(0x9C, evideo_player_surface_id),
++        BRIDGE_REGISTER_DISPATCHER(0x9D, evideo_player_poll_open_url),
++        BRIDGE_REGISTER_DISPATCHER(0x9E, evideo_player_media_info),
+         BRIDGE_REGISTER_DISPATCHER(0xA0, ehui_open_input_view),
+         BRIDGE_REGISTER_DISPATCHER(0xA1, ehui_get_stored_input_text),
+         BRIDGE_REGISTER_DISPATCHER(0xA2, ehui_close_input_view),
+diff --git a/src/emu/dispatch/src/video.cpp b/src/emu/dispatch/src/video.cpp
+index 2b5d5a7e2..4f3f694c2 100644
+--- a/src/emu/dispatch/src/video.cpp
++++ b/src/emu/dispatch/src/video.cpp
+@@ -239,7 +239,11 @@ namespace eka2l1::dispatch {
+     }
+ 
+     void epoc_video_player::close() {
++        if (download_)
++            download_->cancel();
++        opening_url_ = false;
+         video_player_->close();
++        download_.reset();
+         for (auto &posting : postings_) {
+             detach_target(posting);
+         }
+@@ -260,6 +264,66 @@ namespace eka2l1::dispatch {
+         return video_player_->open_file(common::ucs2_to_utf8(real_path));
+     }
+ 
++    std::int32_t epoc_video_player::open_network_url(std::string url) {
++        if (download_)
++            download_->cancel();
++        download_ = drivers::media_download::start(std::move(url));
++        opening_url_ = true;
++        return epoc::request_status::pending_status;
++    }
++
++    std::int32_t epoc_video_player::poll_open_url() {
++        if (!opening_url_ || !download_)
++            return epoc::error_not_ready;
++        using result = drivers::media_download::result;
++        auto status = download_->status();
++        if (status == result::pending)
++            return epoc::request_status::pending_status;
++        opening_url_ = false;
++        if (status == result::complete) {
++            // Only file decoding runs on the emulation thread. The transfer
++            // keeps its private temporary file alive until the player closes.
++            if (video_player_->open_file(download_->path()))
++                return epoc::error_none;
++            // A failed codec setup may still own decoder state even after
++            // FFmpeg closes the input. Clear it before dropping the file job.
++            video_player_->close();
++            download_.reset();
++            return epoc::error_not_supported;
++        }
++        LOG_ERROR(HLE_DISPATCHER, "Native media URL failed (HTTP {}): {}", download_->http_status(), download_->error());
++        auto http_status = download_->http_status();
++        download_.reset();
++        switch (status) {
++        case result::cancelled: return epoc::error_cancel;
++        case result::invalid_url: return epoc::error_argument;
++        case result::timeout: return epoc::error_timed_out;
++        case result::tls_error: return epoc::error_access_denied;
++        case result::file_error: return epoc::error_write;
++        case result::resource_error: return epoc::error_no_memory;
++        case result::http_error:
++            if (http_status == 404 || http_status == 410) return epoc::error_not_found;
++            if (http_status == 401 || http_status == 403) return epoc::error_access_denied;
++            return epoc::error_general;
++        default: return epoc::error_could_not_connect;
++        }
++    }
++
++    std::int32_t epoc_video_player::media_info(video_media_info &info) const {
++        if (opening_url_ || !video_player_)
++            return epoc::error_not_ready;
++        auto size = video_player_->get_video_size();
++        if ((size.x <= 0 || size.y <= 0) && !video_player_->has_audio())
++            return epoc::error_not_ready;
++        info = {};
++        info.has_video = size.x > 0 && size.y > 0;
++        info.has_audio = video_player_->has_audio();
++        info.audio_type = video_player_->audio_type();
++        auto mime = video_player_->mime_type();
++        std::copy_n(mime.c_str(), std::min(mime.size(), sizeof(info.mime) - 1), info.mime);
++        return epoc::error_none;
++    }
++
+     bool epoc_video_player::open_with_custom_stream(std::unique_ptr<common::ro_stream> &stream) {
+         if (video_player_->open_custom_io(*stream)) {
+             custom_stream_ = std::move(stream);
+@@ -567,6 +631,12 @@ namespace eka2l1::dispatch {
+         const std::u16string virtual_filename = filename->to_std_string(crr_pr);
+         LOG_TRACE(HLE_DISPATCHER, "Open a new video to play with path: {}", common::ucs2_to_utf8(virtual_filename));
+ 
++        auto source = common::ucs2_to_utf8(virtual_filename);
++        auto scheme_end = source.find("://");
++        if (scheme_end != std::string::npos) {
++            return player->open_network_url(std::move(source));
++        }
++
+         io_system *ios = sys->get_io_system();
+ 
+         if (!ios->exist(virtual_filename)) {
+@@ -596,6 +666,18 @@ namespace eka2l1::dispatch {
+         return epoc::error_none;
+     }
+ 
++    BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_poll_open_url, const std::uint32_t handle) {
++        auto *player = sys->get_dispatcher()->video_player_container_.get_object(handle);
++        return player ? player->poll_open_url() : epoc::error_bad_handle;
++    }
++
++    BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_media_info, const std::uint32_t handle, video_media_info *info) {
++        auto *player = sys->get_dispatcher()->video_player_container_.get_object(handle);
++        if (!player)
++            return epoc::error_bad_handle;
++        return info ? player->media_info(*info) : epoc::error_argument;
++    }
++
+     BRIDGE_FUNC_DISPATCHER(std::int32_t, evideo_player_play, const std::uint32_t handle, const std::uint64_t *range) {
+         dispatch::dispatcher *dispatcher = sys->get_dispatcher();
+         dispatch::epoc_video_player *player = dispatcher->video_player_container_.get_object(handle);
+diff --git a/src/emu/drivers/CMakeLists.txt b/src/emu/drivers/CMakeLists.txt
+index 145072b16..76c7d4a2e 100644
+--- a/src/emu/drivers/CMakeLists.txt
++++ b/src/emu/drivers/CMakeLists.txt
+@@ -66,6 +66,8 @@ if (EKA2L1_IOS)
+ endif ()
+ 
+ add_library(drivers
++        include/drivers/media_download.h
++        src/media_download.cpp
+         include/drivers/network/tls.h
+         src/network/tls.cpp
+         include/drivers/itc.h
+@@ -256,7 +258,10 @@ if (NOT MSVC)
+     target_compile_options(miniBAE_EMU PRIVATE -Wno-int-conversion -Wno-implicit-function-declaration)
+ endif()
+ 
+-target_link_libraries(drivers PRIVATE common glm miniBAE_EMU mbedtls)
++# MMF OpenUrl transfers run asynchronously through the host's HTTP/TLS
++# implementation, then hand a local file to the existing media decoders.
++find_package(CURL 7.85 REQUIRED)
++target_link_libraries(drivers PRIVATE common glm miniBAE_EMU mbedtls CURL::libcurl)
+ if (APPLE)
+     target_sources(drivers PRIVATE src/network/tls_trust_apple.cpp)
+     target_link_libraries(drivers PRIVATE "-framework Security" "-framework CoreFoundation")
+diff --git a/src/emu/drivers/include/drivers/video/backend/ffmpeg/video_player_ffmpeg.h b/src/emu/drivers/include/drivers/video/backend/ffmpeg/video_player_ffmpeg.h
+index 20b08fe4b..1f1b40fbd 100644
+--- a/src/emu/drivers/include/drivers/video/backend/ffmpeg/video_player_ffmpeg.h
++++ b/src/emu/drivers/include/drivers/video/backend/ffmpeg/video_player_ffmpeg.h
+@@ -96,9 +96,12 @@ namespace eka2l1::drivers {
+ 
+         std::uint32_t audio_bitrate() const override;
+         std::uint32_t video_bitrate() const override;
++        bool has_audio() const override { return audio_stream_index_ >= 0; }
++        std::string mime_type() const override;
++        std::uint32_t audio_type() const override;
+         eka2l1::vec2 get_video_size() const override;
+ 
+         std::size_t video_audio_callback(std::int16_t *output_buffer, std::size_t frames);
+         void video_audio_decode_loop();
+     };
+-}
+\ No newline at end of file
++}
+diff --git a/src/emu/drivers/include/drivers/video/video.h b/src/emu/drivers/include/drivers/video/video.h
+index 0712042d4..488b5a467 100644
+--- a/src/emu/drivers/include/drivers/video/video.h
++++ b/src/emu/drivers/include/drivers/video/video.h
+@@ -101,6 +101,9 @@ namespace eka2l1::drivers {
+ 
+         virtual std::uint32_t audio_bitrate() const = 0;
+         virtual std::uint32_t video_bitrate() const = 0;
++        virtual bool has_audio() const = 0;
++        virtual std::string mime_type() const = 0;
++        virtual std::uint32_t audio_type() const = 0;
+ 
+         void set_image_frame_available_callback(image_frame_available_callback callback, void *userdata) {
+             image_frame_available_callback_ = callback;
+@@ -116,4 +119,4 @@ namespace eka2l1::drivers {
+     using video_player_instance = std::unique_ptr<video_player>;
+ 
+     video_player_instance new_best_video_player(audio_driver *drv);
+-}
+\ No newline at end of file
++}
+diff --git a/src/emu/drivers/src/video/backend/ffmpeg/video_player_ffmpeg.cpp b/src/emu/drivers/src/video/backend/ffmpeg/video_player_ffmpeg.cpp
+index b00761ae8..79562e11c 100644
+--- a/src/emu/drivers/src/video/backend/ffmpeg/video_player_ffmpeg.cpp
++++ b/src/emu/drivers/src/video/backend/ffmpeg/video_player_ffmpeg.cpp
+@@ -31,8 +31,45 @@ extern "C" {
+ }
+ 
+ #include <deque>
++#include <cstring>
+ 
+ namespace eka2l1::drivers {
++    std::string video_player_ffmpeg::mime_type() const {
++        if (!format_ctx_ || !format_ctx_->iformat)
++            return {};
++        const char *name = format_ctx_->iformat->name;
++        if (std::strstr(name, "mov")) {
++            auto *brand = av_dict_get(format_ctx_->metadata, "major_brand", nullptr, 0);
++            if (brand && !std::strncmp(brand->value, "3g", 2))
++                return image_stream_index_ >= 0 ? "video/3gpp" : "audio/3gpp";
++            if (!brand || !std::strncmp(brand->value, "qt", 2))
++                return "video/quicktime";
++            return image_stream_index_ >= 0 ? "video/mp4" : "audio/mp4";
++        }
++        if (!std::strcmp(name, "avi")) return "video/x-msvideo";
++        if (!std::strcmp(name, "wav")) return "audio/wav";
++        if (!std::strcmp(name, "mp3")) return "audio/mpeg";
++        if (!std::strcmp(name, "aac")) return "audio/aac";
++        if (!std::strncmp(name, "amr", 3)) return "audio/amr";
++        if (format_ctx_->iformat->mime_type)
++            return format_ctx_->iformat->mime_type;
++        return "application/octet-stream";
++    }
++
++    std::uint32_t video_player_ffmpeg::audio_type() const {
++        if (!audio_codec_ctx_ || audio_stream_index_ < 0)
++            return 0;
++        // MMF FourCC values, rather than FFmpeg's private codec enum values.
++        switch (audio_codec_ctx_->codec_id) {
++        case AV_CODEC_ID_AAC: return 0x43414120;
++        case AV_CODEC_ID_MP3: return 0x33504d20;
++        case AV_CODEC_ID_AMR_NB: return 0x524d4120;
++        case AV_CODEC_ID_AMR_WB: return 0x57524d41;
++        case AV_CODEC_ID_PCM_S16LE: return 0x36315020;
++        default: return 0;
++        }
++    }
++
+     // Read-ahead bounds for the decode loop. Video packets are buffered so that
+     // reading is never throttled by the video display pacing (which used to leave
+     // less than one video frame worth of audio queued, causing audio underruns).
+diff --git a/src/patch/mediaclientaudio/inc/dispatch.h b/src/patch/mediaclientaudio/inc/dispatch.h
+index 3449fa629..38edd4d26 100644
+--- a/src/patch/mediaclientaudio/inc/dispatch.h
++++ b/src/patch/mediaclientaudio/inc/dispatch.h
+@@ -41,6 +41,8 @@ HLE_DISPATCH_FUNC(TInt, EAudioPlayerNotifyAnyDone, TAny *aInstance, TRequestStat
+ HLE_DISPATCH_FUNC(TInt, EAudioPlayerCancelNotifyAnyDone, TAny *aInstance);
+ 
+ HLE_DISPATCH_FUNC(TInt, EAudioPlayerSupplyUrl, TAny *aInstance, const TUint16 *aUrl, const TUint aUrlLength, TUint64 *aDurationUs);
++HLE_DISPATCH_FUNC(TInt, EAudioPlayerPollOpenUrl, TAny *aInstance, TUint64 *aDurationUs);
++HLE_DISPATCH_FUNC(TInt, EAudioPlayerCloseSource, TAny *aInstance);
+ 
+ HLE_DISPATCH_FUNC(TInt, EAudioPlayerGetCurrentPlayPos, TAny *aInstance, TUint64 &aPosition);
+ 
+diff --git a/src/patch/mediaclientaudio/inc/impl.h b/src/patch/mediaclientaudio/inc/impl.h
+index d0f7c7b5e..92c4f89d6 100644
+--- a/src/patch/mediaclientaudio/inc/impl.h
++++ b/src/patch/mediaclientaudio/inc/impl.h
+@@ -27,6 +27,13 @@
+ #include <e32base.h>
+ #include <e32std.h>
+ 
++// Preserve legacy SDK mangling while building against the official Symbian^3 headers.
++#ifdef EKA2L1_MODERN_MMF_HEADERS
++typedef TInt TMdaPatchPriorityPreference;
++#else
++typedef TMdaPriorityPreference TMdaPatchPriorityPreference;
++#endif
++
+ enum TMdaState {
+     EMdaStateIdle = 0,
+     EMdaStatePlay = 1,
+@@ -84,12 +91,17 @@ public:
+ struct CMMFMdaAudioUtility : public CActive {
+ protected:
+     TInt iPriority;
+-    TMdaPriorityPreference iPref;
++    TMdaPatchPriorityPreference iPref;
+     TMdaPlayType iPlayType;
+ 
+ private:
+     TMdaState iState;
+     CMMFMdaAudioOpenComplete iOpener;
++    CPeriodic *iUrlPoller;
++    TBool iOpeningUrl;
++
++    static TInt PollOpenUrlCallback(TAny *aUtility);
++    TInt PollOpenUrl();
+ 
+ protected:
+     TAny *iDispatchInstance;
+@@ -101,7 +113,7 @@ protected:
+     void ReloadRecordedClip();
+ 
+ public:
+-    CMMFMdaAudioUtility(const TInt aPriority, const TMdaPriorityPreference aPref);
++    CMMFMdaAudioUtility(const TInt aPriority, const TMdaPatchPriorityPreference aPref);
+     ~CMMFMdaAudioUtility();
+ 
+     void TransitionState(const TMdaState aNewState, const TInt aError = KErrNone);
+@@ -113,6 +125,7 @@ public:
+     void StartListeningForCompletion();
+ 
+     void SupplyUrlL(const TDesC &aUrl);
++    void SupplyRemoteUrlL(const TDesC &aUrl, TInt aIapId, const TDesC8 &aMimeType);
+     void SupplyDataL(const TDesC8 &aData);
+ 
+     // An empty clip opens as a recording destination instead of being handed to the player.
+@@ -148,6 +161,10 @@ public:
+         return iState;
+     }
+ 
++    TInt LoadingProgress() const {
++        return iOpeningUrl ? 0 : (iState == EMdaStateIdle ? KErrNotReady : 100);
++    }
++
+     void SetRepeats(const TInt aHowManyTimes, const TTimeIntervalMicroSeconds &aSilenceInterval);
+ 
+     // Base hook for devired
+@@ -159,8 +176,8 @@ private:
+     MMdaAudioPlayerCallback &iCallback;
+ 
+ public:
+-    CMMFMdaAudioPlayerUtility(MMdaAudioPlayerCallback &aCallback, const TInt aPriority, const TMdaPriorityPreference aPref);
+-    static CMMFMdaAudioPlayerUtility *NewL(MMdaAudioPlayerCallback &aCallback, const TInt aPriority, const TMdaPriorityPreference aPref);
++    CMMFMdaAudioPlayerUtility(MMdaAudioPlayerCallback &aCallback, const TInt aPriority, const TMdaPatchPriorityPreference aPref);
++    static CMMFMdaAudioPlayerUtility *NewL(MMdaAudioPlayerCallback &aCallback, const TInt aPriority, const TMdaPatchPriorityPreference aPref);
+ 
+     virtual void OnStateChanged(const TMdaState aCurrentState, const TMdaState aPreviousState, const TInt aError);
+ };
+@@ -171,8 +188,8 @@ private:
+     TUint32 iContainerFormat;
+ 
+ public:
+-    CMMFMdaAudioRecorderUtility(MMdaObjectStateChangeObserver &aObserver, const TInt aPriority, const TMdaPriorityPreference aPref);
+-    static CMMFMdaAudioRecorderUtility *NewL(MMdaObjectStateChangeObserver &aObserver, const TInt aPriority, const TMdaPriorityPreference aPref);
++    CMMFMdaAudioRecorderUtility(MMdaObjectStateChangeObserver &aObserver, const TInt aPriority, const TMdaPatchPriorityPreference aPref);
++    static CMMFMdaAudioRecorderUtility *NewL(MMdaObjectStateChangeObserver &aObserver, const TInt aPriority, const TMdaPatchPriorityPreference aPref);
+ 
+     virtual void OnStateChanged(const TMdaState aCurrentState, const TMdaState aPreviousState, const TInt aError);
+ 
+@@ -204,12 +221,12 @@ private:
+     TAny *iDispatchInstance;
+ 
+ public:
+-    CMMFMdaAudioToneUtility(MMdaAudioToneObserver &aObserver, const TInt aPriority, const TMdaPriorityPreference aPref);
++    CMMFMdaAudioToneUtility(MMdaAudioToneObserver &aObserver, const TInt aPriority, const TMdaPatchPriorityPreference aPref);
+     void ConstructL();
+ 
+     ~CMMFMdaAudioToneUtility();
+ 
+-    static CMMFMdaAudioToneUtility *NewL(MMdaAudioToneObserver &aObserver, const TInt aPriority, const TMdaPriorityPreference aPref);
++    static CMMFMdaAudioToneUtility *NewL(MMdaAudioToneObserver &aObserver, const TInt aPriority, const TMdaPatchPriorityPreference aPref);
+ 
+     TInt SetVolume(const TInt aNewVolume);
+     TInt GetVolume();
+diff --git a/src/patch/mediaclientaudio/src/dispatch.s b/src/patch/mediaclientaudio/src/dispatch.s
+index a705892e8..d0113b0dc 100644
+--- a/src/patch/mediaclientaudio/src/dispatch.s
++++ b/src/patch/mediaclientaudio/src/dispatch.s
+@@ -22,6 +22,8 @@
+ .global EAudioPlayerNewInstance
+ .global EAudioPlayerNotifyAnyDone
+ .global EAudioPlayerSupplyUrl
++.global EAudioPlayerPollOpenUrl
++.global EAudioPlayerCloseSource
+ .global EAudioPlayerSupplyData
+ .global EAudioPlayerSetVolume
+ .global EAudioPlayerGetVolume
+@@ -80,6 +82,12 @@ EAudioPlayerNotifyAnyDone:
+ EAudioPlayerSupplyUrl:
+     CallHleDispatch 0x22
+ 
++EAudioPlayerPollOpenUrl:
++    CallHleDispatch 0x3E
++
++EAudioPlayerCloseSource:
++    CallHleDispatch 0x3F
++
+ EAudioPlayerSupplyData:
+     CallHleDispatch 0x23
+ 
+diff --git a/src/patch/mediaclientaudio/src/impl.cpp b/src/patch/mediaclientaudio/src/impl.cpp
+index 7e1d9caf8..76d8c2488 100644
+--- a/src/patch/mediaclientaudio/src/impl.cpp
++++ b/src/patch/mediaclientaudio/src/impl.cpp
+@@ -138,11 +138,13 @@ void CMMFMdaAudioOpenComplete::FixupActiveStatus() {
+     }
+ }
+ 
+-CMMFMdaAudioUtility::CMMFMdaAudioUtility(const TInt aPriority, const TMdaPriorityPreference aPref)
++CMMFMdaAudioUtility::CMMFMdaAudioUtility(const TInt aPriority, const TMdaPatchPriorityPreference aPref)
+     : CActive(10000)
+     , iPriority(aPriority)
+     , iPref(aPref)
+     , iState(EMdaStateIdle)
++    , iUrlPoller(NULL)
++    , iOpeningUrl(EFalse)
+     , iDuration(0)
+     , iPosition(0)
+     , iRecordTimeAvailable(0) {
+@@ -159,6 +161,7 @@ void CMMFMdaAudioUtility::ConstructL(const TUint32 aInitFlags) {
+ 
+     CActiveScheduler::Add(&iOpener);
+     CActiveScheduler::Add(this);
++    iUrlPoller = CPeriodic::NewL(CActive::EPriorityStandard);
+ }
+ 
+ void CMMFMdaAudioUtility::TransitionState(const TMdaState aNewState, const TInt aError) {
+@@ -172,6 +175,8 @@ void CMMFMdaAudioUtility::TransitionState(const TMdaState aNewState, const TInt
+ }
+ 
+ CMMFMdaAudioUtility::~CMMFMdaAudioUtility() {
++    delete iUrlPoller;
++    iOpener.FixupActiveStatus();
+     Deque();
+     EAudioPlayerDestroy(0, iDispatchInstance);
+ }
+@@ -194,6 +199,9 @@ void CMMFMdaAudioUtility::StartListeningForCompletion() {
+ }
+ 
+ void CMMFMdaAudioUtility::SupplyUrlL(const TDesC &aFilename) {
++    if (iOpeningUrl) {
++        Close();
++    }
+     if (iState == EMdaStateReady) {
+         LogOut(KMcaCat, _L("Audio clip player must be closed using Close() function before open new audio clip!"));
+         TransitionState(iState, KErrInUse);
+@@ -213,6 +221,13 @@ void CMMFMdaAudioUtility::SupplyUrlL(const TDesC &aFilename) {
+     TUint64 localDuration = 0;
+     const TInt err = EAudioPlayerSupplyUrl(0, iDispatchInstance, aFilename.Ptr(), aFilename.Length(), &localDuration);
+ 
++    if (err == KRequestPending) {
++        iDuration = TTimeIntervalMicroSeconds(0);
++        iOpeningUrl = ETrue;
++        iUrlPoller->Start(50000, 50000, TCallBack(PollOpenUrlCallback, this));
++        return;
++    }
++
+     // MMF never leaves on an unopenable source; the error arrives through the open callback.
+     if (err != KErrNone) {
+         iDuration = TTimeIntervalMicroSeconds(0);
+@@ -231,7 +246,52 @@ void CMMFMdaAudioUtility::SupplyUrlL(const TDesC &aFilename) {
+     iOpener.Open(this);
+ }
+ 
++void CMMFMdaAudioUtility::SupplyRemoteUrlL(const TDesC &aUrl, TInt aIapId, const TDesC8 &aMimeType) {
++    if (aIapId != -1 && aIapId != 0) {
++        User::Leave(KErrNotSupported);
++    }
++    if ((aUrl.Length() < 7 || aUrl.Left(7).CompareF(_L("http://")) != 0)
++        && (aUrl.Length() < 8 || aUrl.Left(8).CompareF(_L("https://")) != 0)) {
++        User::Leave(KErrArgument);
++    }
++    // MIME is a caller hint. The downloaded bytes are still identified by the decoder.
++    LogOut(KMcaCat, _L("Opening network audio, MIME hint length %d"), aMimeType.Length());
++    SupplyUrlL(aUrl);
++}
++
++TInt CMMFMdaAudioUtility::PollOpenUrlCallback(TAny *aUtility) {
++    return static_cast<CMMFMdaAudioUtility *>(aUtility)->PollOpenUrl();
++}
++
++TInt CMMFMdaAudioUtility::PollOpenUrl() {
++    if (!iOpeningUrl) {
++        return 0;
++    }
++    TUint64 localDuration = 0;
++    const TInt error = EAudioPlayerPollOpenUrl(0, iDispatchInstance, &localDuration);
++    if (error == KRequestPending) {
++        return 1;
++    }
++    iOpeningUrl = EFalse;
++    if (error != KErrNone) {
++        iDuration = TTimeIntervalMicroSeconds(0);
++        iOpener.Complete(this, EMdaStateIdle, error);
++        return 0;
++    }
++#ifndef EKA2
++    iDuration = TTimeIntervalMicroSeconds(MakeSoftwareInt64FromHardwareUint64(localDuration));
++#else
++    iDuration = TTimeIntervalMicroSeconds(localDuration);
++#endif
++    iPlayType = EMdaPlayTypeFile;
++    iOpener.Open(this);
++    return 0;
++}
++
+ void CMMFMdaAudioUtility::SupplyDataL(const TDesC8 &aData) {
++    if (iOpeningUrl) {
++        Close();
++    }
+     if (iState == EMdaStateReady) {
+         LogOut(KMcaCat, _L("Audio clip player must be closed using Close() function before open new audio clip!"));
+         TransitionState(iState, KErrInUse);
+@@ -403,10 +463,15 @@ void CMMFMdaAudioUtility::Stop() {
+ 
+ void CMMFMdaAudioUtility::Close() {
+     // Closing also cancels a pending open, as MMF does; its result must not reach the observer.
++    if (iUrlPoller) {
++        iUrlPoller->Cancel();
++    }
++    iOpeningUrl = EFalse;
+     iOpener.FixupActiveStatus();
+     iState = EMdaStateIdle;
+     EAudioPlayerStop(0, iDispatchInstance);
+     Cancel();
++    EAudioPlayerCloseSource(0, iDispatchInstance);
+ }
+ 
+ TInt CMMFMdaAudioUtility::Pause() {
+@@ -484,12 +549,12 @@ void CMMFMdaAudioUtility::SetRepeats(const TInt aHowManyTimes, const TTimeInterv
+ }
+ 
+ ///================== AUDIO PLAYER UTILITY ======================
+-CMMFMdaAudioPlayerUtility::CMMFMdaAudioPlayerUtility(MMdaAudioPlayerCallback &aCallback, const TInt aPriority, const TMdaPriorityPreference aPref)
++CMMFMdaAudioPlayerUtility::CMMFMdaAudioPlayerUtility(MMdaAudioPlayerCallback &aCallback, const TInt aPriority, const TMdaPatchPriorityPreference aPref)
+     : CMMFMdaAudioUtility(aPriority, aPref)
+     , iCallback(aCallback) {
+ }
+ 
+-CMMFMdaAudioPlayerUtility *CMMFMdaAudioPlayerUtility::NewL(MMdaAudioPlayerCallback &aCallback, const TInt aPriority, const TMdaPriorityPreference aPref) {
++CMMFMdaAudioPlayerUtility *CMMFMdaAudioPlayerUtility::NewL(MMdaAudioPlayerCallback &aCallback, const TInt aPriority, const TMdaPatchPriorityPreference aPref) {
+     CMMFMdaAudioPlayerUtility *newUtil = new (ELeave) CMMFMdaAudioPlayerUtility(aCallback, aPriority, aPref);
+     CleanupStack::PushL(newUtil);
+     newUtil->ConstructL(0);
+@@ -524,13 +589,13 @@ void CMMFMdaAudioPlayerUtility::OnStateChanged(const TMdaState aCurrentState, co
+ }
+ 
+ ///================== AUDIO RECORDER UTILITY =======================
+-CMMFMdaAudioRecorderUtility::CMMFMdaAudioRecorderUtility(MMdaObjectStateChangeObserver &aObserver, const TInt aPriority, const TMdaPriorityPreference aPref)
++CMMFMdaAudioRecorderUtility::CMMFMdaAudioRecorderUtility(MMdaObjectStateChangeObserver &aObserver, const TInt aPriority, const TMdaPatchPriorityPreference aPref)
+     : CMMFMdaAudioUtility(aPriority, aPref)
+     , iObserver(aObserver)
+     , iContainerFormat(0) {
+ }
+ 
+-CMMFMdaAudioRecorderUtility *CMMFMdaAudioRecorderUtility::NewL(MMdaObjectStateChangeObserver &aObserver, const TInt aPriority, const TMdaPriorityPreference aPref) {
++CMMFMdaAudioRecorderUtility *CMMFMdaAudioRecorderUtility::NewL(MMdaObjectStateChangeObserver &aObserver, const TInt aPriority, const TMdaPatchPriorityPreference aPref) {
+     CMMFMdaAudioRecorderUtility *newUtil = new (ELeave) CMMFMdaAudioRecorderUtility(aObserver, aPriority, aPref);
+     CleanupStack::PushL(newUtil);
+     newUtil->ConstructL(0);
+@@ -668,7 +733,7 @@ TInt CMMFMdaAudioRecorderUtility::GetDestContainerFormat(TUint32 &aUid) {
+     return KErrNone;
+ }
+ 
+-CMMFMdaAudioToneUtility::CMMFMdaAudioToneUtility(MMdaAudioToneObserver &aObserver, const TInt aPriority, const TMdaPriorityPreference aPref)
++CMMFMdaAudioToneUtility::CMMFMdaAudioToneUtility(MMdaAudioToneObserver &aObserver, const TInt aPriority, const TMdaPatchPriorityPreference aPref)
+     : CActive(CActive::EPriorityStandard)
+     , iObserver(aObserver)
+     , iState(EMdaAudioToneUtilityNotReady)
+@@ -696,7 +761,7 @@ CMMFMdaAudioToneUtility::~CMMFMdaAudioToneUtility() {
+     ETonePlayerDestroy(0, iDispatchInstance);
+ }
+ 
+-CMMFMdaAudioToneUtility *CMMFMdaAudioToneUtility::NewL(MMdaAudioToneObserver &aObserver, const TInt aPriority, const TMdaPriorityPreference aPref) {
++CMMFMdaAudioToneUtility *CMMFMdaAudioToneUtility::NewL(MMdaAudioToneObserver &aObserver, const TInt aPriority, const TMdaPatchPriorityPreference aPref) {
+     CMMFMdaAudioToneUtility *self = new (ELeave) CMMFMdaAudioToneUtility(aObserver, aPriority, aPref);
+     CleanupStack::PushL(self);
+     self->ConstructL();
+diff --git a/src/patch/mediaclientaudio/src/player.cpp b/src/patch/mediaclientaudio/src/player.cpp
+index 438991ee3..ef2f59eff 100644
+--- a/src/patch/mediaclientaudio/src/player.cpp
++++ b/src/patch/mediaclientaudio/src/player.cpp
+@@ -36,7 +36,7 @@ CMdaAudioPlayerUtility::~CMdaAudioPlayerUtility() {
+     delete iProperties;
+ }
+ 
+-EXPORT_C CMdaAudioPlayerUtility *CMdaAudioPlayerUtility::NewL(MMdaAudioPlayerCallback &aCallback, TInt aPriority, TMdaPriorityPreference aPref) {
++EXPORT_C CMdaAudioPlayerUtility *CMdaAudioPlayerUtility::NewL(MMdaAudioPlayerCallback &aCallback, TInt aPriority, TMdaPatchPriorityPreference aPref) {
+     CMdaAudioPlayerUtility *util = new (ELeave) CMdaAudioPlayerUtility();
+     CleanupStack::PushL(util);
+     util->iProperties = CMMFMdaAudioPlayerUtility::NewL(aCallback, aPriority, aPref);
+@@ -46,7 +46,7 @@ EXPORT_C CMdaAudioPlayerUtility *CMdaAudioPlayerUtility::NewL(MMdaAudioPlayerCal
+ }
+ 
+ EXPORT_C CMdaAudioPlayerUtility *CMdaAudioPlayerUtility::NewFilePlayerL(const TDesC &aFileName,
+-    MMdaAudioPlayerCallback &aCallback, TInt aPriority, TMdaPriorityPreference aPref, CMdaServer *aServer) {
++    MMdaAudioPlayerCallback &aCallback, TInt aPriority, TMdaPatchPriorityPreference aPref, CMdaServer *aServer) {
+     CMdaAudioPlayerUtility *player = CMdaAudioPlayerUtility::NewL(aCallback, aPriority, aPref);
+     player->OpenFileL(aFileName);
+ 
+@@ -54,7 +54,7 @@ EXPORT_C CMdaAudioPlayerUtility *CMdaAudioPlayerUtility::NewFilePlayerL(const TD
+ }
+ 
+ EXPORT_C CMdaAudioPlayerUtility *CMdaAudioPlayerUtility::NewDesPlayerL(const TDesC8 &aData,
+-    MMdaAudioPlayerCallback &aCallback, TInt aPriority, TMdaPriorityPreference aPref, CMdaServer *aServer) {
++    MMdaAudioPlayerCallback &aCallback, TInt aPriority, TMdaPatchPriorityPreference aPref, CMdaServer *aServer) {
+     CMdaAudioPlayerUtility *player = CMdaAudioPlayerUtility::NewL(aCallback, aPriority, aPref);
+     player->OpenDesL(aData);
+ 
+@@ -62,7 +62,7 @@ EXPORT_C CMdaAudioPlayerUtility *CMdaAudioPlayerUtility::NewDesPlayerL(const TDe
+ }
+ 
+ EXPORT_C CMdaAudioPlayerUtility *CMdaAudioPlayerUtility::NewDesPlayerReadOnlyL(const TDesC8 &aData, MMdaAudioPlayerCallback &aCallback,
+-    TInt aPriority, TMdaPriorityPreference aPref, CMdaServer *aServer) {
++    TInt aPriority, TMdaPatchPriorityPreference aPref, CMdaServer *aServer) {
+     CMdaAudioPlayerUtility *player = CMdaAudioPlayerUtility::NewL(aCallback, aPriority, aPref);
+     player->OpenDesL(aData);
+ 
+@@ -114,8 +114,7 @@ EXPORT_C void CMdaAudioPlayerUtility::OpenDesL(const TDesC8 &aDescriptor) {
+ }
+ 
+ EXPORT_C void CMdaAudioPlayerUtility::OpenUrlL(const TDesC &aUrl, TInt aIapId, const TDesC8 &aMimeType) {
+-    // ID and MIME are ignored right now
+-    iProperties->SupplyUrlL(aUrl);
++    iProperties->SupplyRemoteUrlL(aUrl, aIapId, aMimeType);
+ }
+ 
+ EXPORT_C TInt CMdaAudioPlayerUtility::GetPosition(TTimeIntervalMicroSeconds &aPosition) {
+@@ -184,7 +183,7 @@ EXPORT_C TInt CMdaAudioPlayerUtility::GetBitRate(TUint &aBitRate) {
+ 
+ /// UNIMPLEMENT ALL THE WAY
+ #if (MCA_NEW >= 2)
+-EXPORT_C TInt CMdaAudioPlayerUtility::SetPriority(TInt aPriority, TMdaPriorityPreference aPref) {
++EXPORT_C TInt CMdaAudioPlayerUtility::SetPriority(TInt aPriority, TMdaPatchPriorityPreference aPref) {
+     LogOut(KMcaCat, _L("Unimplemented function set priority!"));
+     return KErrNotSupported;
+ }
+@@ -215,7 +214,9 @@ EXPORT_C void CMdaAudioPlayerUtility::RegisterForAudioLoadingNotification(MAudio
+ }
+ 
+ EXPORT_C void CMdaAudioPlayerUtility::GetAudioLoadingProgressL(TInt &aPercentageComplete) {
+-    aPercentageComplete = 100;
++    const TInt progress = iProperties->LoadingProgress();
++    User::LeaveIfError(progress);
++    aPercentageComplete = progress;
+ }
+ 
+ EXPORT_C const CMMFControllerImplementationInformation &CMdaAudioPlayerUtility::ControllerImplementationInformationL() {
+diff --git a/src/patch/mediaclientaudio/src/recorder.cpp b/src/patch/mediaclientaudio/src/recorder.cpp
+index 799fd61de..6a5dac712 100644
+--- a/src/patch/mediaclientaudio/src/recorder.cpp
++++ b/src/patch/mediaclientaudio/src/recorder.cpp
+@@ -48,7 +48,7 @@ static TInt ClipSize(const TDesC &aFileName) {
+ }
+ 
+ ///============ RECORDER MAIN =================
+-EXPORT_C CMdaAudioRecorderUtility *CMdaAudioRecorderUtility::NewL(MMdaObjectStateChangeObserver &aObserver, CMdaServer *aServer, TInt aPriority, TMdaPriorityPreference aPref) {
++EXPORT_C CMdaAudioRecorderUtility *CMdaAudioRecorderUtility::NewL(MMdaObjectStateChangeObserver &aObserver, CMdaServer *aServer, TInt aPriority, TMdaPatchPriorityPreference aPref) {
+     CMdaAudioRecorderUtility *util = new (ELeave) CMdaAudioRecorderUtility();
+     CleanupStack::PushL(util);
+     util->iProperties = CMMFMdaAudioRecorderUtility::NewL(aObserver, aPriority, aPref);
+@@ -212,9 +212,15 @@ TInt CMdaAudioRecorderUtility::MaxGain() {
+     return 0;
+ }
+ 
++#ifdef EKA2L1_MODERN_MMF_HEADERS
++TInt CMdaAudioRecorderUtility::SetVolume(TInt aVolume) {
++    return iProperties->SetVolume(aVolume);
++}
++#else
+ void CMdaAudioRecorderUtility::SetVolume(TInt aVolume) {
+     iProperties->SetVolume(aVolume);
+ }
++#endif
+ 
+ void CMdaAudioRecorderUtility::SetGain(TInt aGain) {
+     LogOut(KMcaCat, _L("Unimplemented function setting recorder's gain"));
+@@ -443,7 +449,7 @@ EXPORT_C void CMdaAudioRecorderUtility::ReplaceMetaDataEntryL(TInt aMetaDataInde
+     LogOut(KMcaCat, _L("Replace metadata entry unimplemented"));
+ }
+ 
+-EXPORT_C void CMdaAudioRecorderUtility::SetPriority(TInt aPriority, TMdaPriorityPreference aPref) {
++EXPORT_C void CMdaAudioRecorderUtility::SetPriority(TInt aPriority, TMdaPatchPriorityPreference aPref) {
+     LogOut(KMcaCat, _L("Set priority unimplemented!"));
+ }
+ 
+diff --git a/src/patch/mediaclientaudio/src/tone.cpp b/src/patch/mediaclientaudio/src/tone.cpp
+index f6aaa93c9..2b05979a5 100644
+--- a/src/patch/mediaclientaudio/src/tone.cpp
++++ b/src/patch/mediaclientaudio/src/tone.cpp
+@@ -40,7 +40,7 @@ EXPORT_C CMdaAudioToneUtility* CMdaAudioToneUtility::NewL(MMdaAudioToneObserver&
+     return util;    
+ }
+ 
+-EXPORT_C CMdaAudioToneUtility* CMdaAudioToneUtility::NewL(MMdaAudioToneObserver& aObserver, CMdaServer* aServer, TInt aPriority, TMdaPriorityPreference aPref) {
++EXPORT_C CMdaAudioToneUtility* CMdaAudioToneUtility::NewL(MMdaAudioToneObserver& aObserver, CMdaServer* aServer, TInt aPriority, TMdaPatchPriorityPreference aPref) {
+     CMdaAudioToneUtility *util = new (ELeave) CMdaAudioToneUtility();
+     CleanupStack::PushL(util);
+     util->iProperties = CMMFMdaAudioToneUtility::NewL(aObserver, aPriority, aPref);
+@@ -72,7 +72,7 @@ void CMdaAudioToneUtility::SetVolume(TInt aVolume) {
+     }
+ }
+ 
+-void CMdaAudioToneUtility::SetPriority(TInt aPriority, TMdaPriorityPreference aPref) {
++void CMdaAudioToneUtility::SetPriority(TInt aPriority, TMdaPatchPriorityPreference aPref) {
+     LogOut(KMcaCat, _L("CMdaAudioToneUtility::SetPriority unimplemented!"));
+ }
+ 
+diff --git a/src/patch/mediaclientvideo/inc/VideoPlayerBody.h b/src/patch/mediaclientvideo/inc/VideoPlayerBody.h
+index a1d09f68b..63f6ce147 100644
+--- a/src/patch/mediaclientvideo/inc/VideoPlayerBody.h
++++ b/src/patch/mediaclientvideo/inc/VideoPlayerBody.h
+@@ -4,7 +4,9 @@
+ #ifdef MCV_EKA1
+ #include <videoplayer.h>
+ #else
+-#include "VideoPlayer1P2.h"
++#include <videoplayer2.h>
++#include <surfaceeventhandler.h>
++#include <graphics/surface.h>
+ #endif
+ #include "dispatch.h"
+ 
+@@ -74,7 +76,26 @@ private:
+     TVideoRotation iCurrentRotation;
+     
+     CIdle *iCompleteIdle;
++    CPeriodic *iOpenPoll;
++    TInt iOpenResult;
++    TInt iPrepareResult;
++    TUint iSourceGeneration;
++    TBuf8<64> iMimeType;
+     TInt iVersion;
++    static TInt PollOpen(TAny *aSelf);
++    static TInt OpenComplete(TAny *aSelf);
++    static TInt PrepareComplete(TAny *aSelf);
++    void CompleteOpen(TInt aResult);
++
++    // Observers may delete the utility from inside a surface callback. Stack
++    // guards are invalidated before CBody's members are destroyed.
++    struct TCallbackGuard {
++        CBody *iOwner;
++        TCallbackGuard *iPrevious;
++        explicit TCallbackGuard(CBody *aOwner);
++        ~TCallbackGuard();
++    };
++    TCallbackGuard *iCallbackGuards;
+ 
+     CBody(MVideoPlayerUtilityObserver &aObserver, TInt aVersion);
+ 
+@@ -106,7 +127,12 @@ public:
+     void RemoveDisplayWindow(const RWindow &aWindow);
+ 
+     void OpenFileL(const TDesC &aPath);
++    void OpenUrlL(const TDesC &aUrl, TInt aIapId, const TDesC8 &aMimeType);
+     void OpenDesL(const TDesC8 &aContent);
++    TBool HasAudioL() const;
++    TBool HasVideoL() const;
++    TFourCC AudioTypeL() const;
++    const TDesC8 &MimeType();
+     void Close();
+ 
+     void Prepare();
+@@ -139,6 +165,13 @@ public:
+ 
+     void GetCropRegion(TRect &aCrop) const {
+         aCrop = iCropRegion;
++        // Internally an empty crop selects the whole decoded frame. The
++        // public GetCropRegionL API must expose that real rectangle.
++        if (aCrop.IsEmpty()) {
++            TSize size;
++            FrameSizeL(size);
++            aCrop = TRect(TPoint(0, 0), size);
++        }
+     }
+ };
+ 
+diff --git a/src/patch/mediaclientvideo/inc/dispatch.h b/src/patch/mediaclientvideo/inc/dispatch.h
+index e539993d3..e30c100ac 100644
+--- a/src/patch/mediaclientvideo/inc/dispatch.h
++++ b/src/patch/mediaclientvideo/inc/dispatch.h
+@@ -27,6 +27,13 @@ struct TVideoWindowGeometry {
+     TRect iClip;
+ };
+ 
++struct TVideoMediaInfo {
++    TInt iHasAudio;
++    TInt iHasVideo;
++    TUint32 iAudioType;
++    TUint8 iMime[64];
++};
++
+ #define HLE_DISPATCH_FUNC(ret, name, ARGS...) \
+     ret name(const TUint32 func_id, ##ARGS)
+ 
+@@ -38,6 +45,8 @@ HLE_DISPATCH_FUNC(TInt, EVideoPlayerRegisterWindow, TAny *aInstance, TInt aWsSsH
+ HLE_DISPATCH_FUNC(TInt, EVideoPlayerSetClipRect, TAny *aInstance, TInt aWindowManagedHandle, const TRect *aRect);
+ HLE_DISPATCH_FUNC(TInt, EVideoPlayerSetGeometry, TAny *aInstance, TInt aWindowManagedHandle, const TVideoWindowGeometry *aGeometry);
+ HLE_DISPATCH_FUNC(TInt, EVideoPlayerOpenUrl, TAny *aInstance, const TDesC *aUrl);
++HLE_DISPATCH_FUNC(TInt, EVideoPlayerPollOpenUrl, TAny *aInstance);
++HLE_DISPATCH_FUNC(TInt, EVideoPlayerMediaInfo, TAny *aInstance, TVideoMediaInfo *aInfo);
+ HLE_DISPATCH_FUNC(TInt, EVideoPlayerOpenDes, TAny *aInstance, const TDesC8 *aDescContent);
+ HLE_DISPATCH_FUNC(TInt, EVideoPlayerPlay, TAny *aInstance, const TTimeIntervalMicroSeconds *aRange);
+ HLE_DISPATCH_FUNC(TInt, EVideoPlayerPause, TAny *aInstance);
+diff --git a/src/patch/mediaclientvideo/src/VideoPlayerBody.cpp b/src/patch/mediaclientvideo/src/VideoPlayerBody.cpp
+index 816e80b44..c0b32a38f 100644
+--- a/src/patch/mediaclientvideo/src/VideoPlayerBody.cpp
++++ b/src/patch/mediaclientvideo/src/VideoPlayerBody.cpp
+@@ -63,15 +63,25 @@ CVideoPlayerUtility::CBody::CBody(MVideoPlayerUtilityObserver &aObserver, TInt a
+         , iCurrentVolume(-1)
+         , iCurrentRotation(EVideoRotationNone)
+         , iCompleteIdle(NULL)
+-        , iVersion(aVersion) {
++        , iOpenPoll(NULL)
++        , iOpenResult(KErrNone)
++        , iPrepareResult(KErrNone)
++        , iSourceGeneration(0)
++        , iVersion(aVersion)
++        , iCallbackGuards(NULL) {
+ #ifndef MCV_EKA1
+     iSurfaceId = TSurfaceId::CreateNullId();
+ #endif
+ }
+ 
+ CVideoPlayerUtility::CBody::~CBody() {
++    for (TCallbackGuard *guard = iCallbackGuards; guard; guard = guard->iPrevious)
++        guard->iOwner = NULL;
++    iCallbackGuards = NULL;
++    Close();
+     Cancel();
+     delete iCompleteIdle;
++    delete iOpenPoll;
+     iWindowInfos.Close();
+ #ifndef MCV_EKA1
+     iDisplayObservers.Close();
+@@ -81,6 +91,16 @@ CVideoPlayerUtility::CBody::~CBody() {
+     }
+ }
+ 
++CVideoPlayerUtility::CBody::TCallbackGuard::TCallbackGuard(CBody *aOwner)
++    : iOwner(aOwner), iPrevious(aOwner->iCallbackGuards) {
++    aOwner->iCallbackGuards = this;
++}
++
++CVideoPlayerUtility::CBody::TCallbackGuard::~TCallbackGuard() {
++    if (iOwner)
++        iOwner->iCallbackGuards = iPrevious;
++}
++
+ void CVideoPlayerUtility::CBody::ConstructL(RWsSession &aWsSession, RWindowBase &aWindow, const TRect &aWindowRect, const TRect &aClipRect) {
+     iDispatchInstance = EVideoPlayerCreateForVersion(0, iVersion);
+ 
+@@ -90,6 +110,7 @@ void CVideoPlayerUtility::CBody::ConstructL(RWsSession &aWsSession, RWindowBase
+     SetDisplayRectL(aWindowRect, aClipRect);
+     
+     iCompleteIdle = CIdle::NewL(CActive::EPriorityHigh);
++    iOpenPoll = CPeriodic::NewL(CActive::EPriorityStandard);
+     CActiveScheduler::Add(this);
+ }
+ 
+@@ -98,6 +119,7 @@ void CVideoPlayerUtility::CBody::Construct2L() {
+     User::LeaveIfNull(iDispatchInstance);
+ 
+     iCompleteIdle = CIdle::NewL(CActive::EPriorityHigh);
++    iOpenPoll = CPeriodic::NewL(CActive::EPriorityStandard);
+     CActiveScheduler::Add(this);
+ }
+ 
+@@ -290,26 +312,92 @@ void CVideoPlayerUtility::CBody::OpenFileL(const TDesC &aPath) {
+         return;
+     }
+ 
+-    if (iFeedbackHandler.CurrentState() != EVideoPlayerStateIdle) {
+-        Close();
+-    }
++    // This also cancels an earlier asynchronous open while state is still idle.
++    TCallbackGuard guard(this);
++    const TUint generation = iSourceGeneration + 1;
++    Close();
++    if (!guard.iOwner || generation != iSourceGeneration)
++        return;
+ 
+     TInt result = EVideoPlayerOpenUrl(0, iDispatchInstance, &aPath);
+-    if ((result == KErrNotSupported) || (result == KErrNotFound)) {
+-        iFeedbackHandler.OpenComplete(result);
++    if (result == KRequestPending) {
++        iOpenPoll->Start(1000, 50000, TCallBack(PollOpen, this));
+         return;
+     }
+-    
+-    if (result == KErrNone) {
++    CompleteOpen(result);
++}
++
++void CVideoPlayerUtility::CBody::CompleteOpen(TInt aResult) {
++    iOpenResult = aResult;
++    if (aResult == KErrNone) {
+         iVideoBitRate = -1;
+         iAudioBitRate = -1;
+         iVideoFps = -1.0f;
++    }
++    iCompleteIdle->Start(TCallBack(OpenComplete, this));
++}
+ 
+-        iCompleteIdle->Start(TCallBack(McvPlayerOpenCompleteIdleCallback, &iFeedbackHandler));
+-        return;
++TInt CVideoPlayerUtility::CBody::OpenComplete(TAny *aSelf) {
++    CBody *self = static_cast<CBody*>(aSelf);
++    self->iFeedbackHandler.OpenComplete(self->iOpenResult);
++    return 0;
++}
++
++TInt CVideoPlayerUtility::CBody::PollOpen(TAny *aSelf) {
++    CBody *self = static_cast<CBody*>(aSelf);
++    TInt result = EVideoPlayerPollOpenUrl(0, self->iDispatchInstance);
++    if (result == KRequestPending)
++        return 1;
++    self->iOpenPoll->Cancel();
++    // Deliver from a separate idle object; Close cancels this delivery too.
++    self->CompleteOpen(result);
++    return 0;
++}
++
++void CVideoPlayerUtility::CBody::OpenUrlL(const TDesC &aUrl, TInt aIapId, const TDesC8 &aMimeType) {
++    // The emulator has one host connection, not a guest IAP database. Do not
++    // silently claim to route through an unsupported requested access point.
++    if (aIapId != -1 && aIapId != 0)
++        User::Leave(KErrNotSupported);
++    if (aMimeType.Length() > 255 || aMimeType.Locate('\r') != KErrNotFound || aMimeType.Locate('\n') != KErrNotFound)
++        User::Leave(KErrArgument);
++    if (!((aUrl.Length() >= 7 && aUrl.Left(7).CompareF(_L("http://")) == 0)
++        || (aUrl.Length() >= 8 && aUrl.Left(8).CompareF(_L("https://")) == 0)))
++        User::Leave(KErrNotSupported);
++    // MIME is a decoder hint. The actual downloaded container determines the
++    // result, and is exposed through MimeType() only after a successful open.
++    OpenFileL(aUrl);
++}
++
++TBool CVideoPlayerUtility::CBody::HasAudioL() const {
++    TVideoMediaInfo info;
++    User::LeaveIfError(EVideoPlayerMediaInfo(0, iDispatchInstance, &info));
++    return info.iHasAudio;
++}
++
++TBool CVideoPlayerUtility::CBody::HasVideoL() const {
++    TVideoMediaInfo info;
++    User::LeaveIfError(EVideoPlayerMediaInfo(0, iDispatchInstance, &info));
++    return info.iHasVideo;
++}
++
++TFourCC CVideoPlayerUtility::CBody::AudioTypeL() const {
++    TVideoMediaInfo info;
++    User::LeaveIfError(EVideoPlayerMediaInfo(0, iDispatchInstance, &info));
++    if (!info.iAudioType)
++        User::Leave(KErrNotSupported);
++    return TFourCC(info.iAudioType);
++}
++
++const TDesC8 &CVideoPlayerUtility::CBody::MimeType() {
++    TVideoMediaInfo info;
++    iMimeType.Zero();
++    if (EVideoPlayerMediaInfo(0, iDispatchInstance, &info) == KErrNone) {
++        TInt length = 0;
++        while (length < 64 && info.iMime[length]) ++length;
++        iMimeType.Copy(TPtrC8(info.iMime, length));
+     }
+-    
+-    User::Leave(result);
++    return iMimeType;
+ }
+ 
+ void CVideoPlayerUtility::CBody::OpenDesL(const TDesC8 &aContent) {
+@@ -320,30 +408,23 @@ void CVideoPlayerUtility::CBody::OpenDesL(const TDesC8 &aContent) {
+         return;
+     }
+ 
+-    TInt result = EVideoPlayerOpenDes(0, iDispatchInstance, &aContent);
+-    if ((result == KErrNotSupported) || (result == KErrNotFound)) {
+-        iFeedbackHandler.OpenComplete(result);
++    TCallbackGuard guard(this);
++    const TUint generation = iSourceGeneration + 1;
++    Close();
++    if (!guard.iOwner || generation != iSourceGeneration)
+         return;
+-    }
+-    
+-    if (result == KErrNone) {
+-        iCompleteIdle->Start(TCallBack(McvPlayerOpenCompleteIdleCallback, &iFeedbackHandler));
+-        return;
+-    }
+-    
+-    User::Leave(result);
++    CompleteOpen(EVideoPlayerOpenDes(0, iDispatchInstance, &aContent));
+ }
+ 
+ void CVideoPlayerUtility::CBody::Prepare() {
+-    if (iFeedbackHandler.CurrentState() >= EVideoPlayerStatePrepared) {
+-        return;
+-    }
+-
+-    if (iFeedbackHandler.CurrentState() == EVideoPlayerStateIdle) {
+-        LogOut(KMcvCat, _L("Prepare a new video player with no content opening (warning)!"));
+-    }
++    iPrepareResult = iFeedbackHandler.CurrentState() == EVideoPlayerStateIdle ? KErrNotReady : KErrNone;
++    iCompleteIdle->Start(TCallBack(PrepareComplete, this));
++}
+ 
+-    iCompleteIdle->Start(TCallBack(McvPlayerPrepareCompleteIdleCallback, &iFeedbackHandler));
++TInt CVideoPlayerUtility::CBody::PrepareComplete(TAny *aSelf) {
++    CBody *self = static_cast<CBody*>(aSelf);
++    self->iFeedbackHandler.PrepareComplete(self->iPrepareResult);
++    return 0;
+ }
+ 
+ void CVideoPlayerUtility::CBody::Play(const TTimeIntervalMicroSeconds *aInterval) {
+@@ -375,7 +456,7 @@ void CVideoPlayerUtility::CBody::Pause() {
+     }
+ 
+     Cancel();
+-    EVideoPlayerPause(0, iDispatchInstance);
++    User::LeaveIfError(EVideoPlayerPause(0, iDispatchInstance));
+     iFeedbackHandler.Pause();
+ }
+ 
+@@ -390,21 +471,34 @@ void CVideoPlayerUtility::CBody::Stop() {
+ }
+ 
+ void CVideoPlayerUtility::CBody::Close() {
+-    if (iFeedbackHandler.CurrentState() == EVideoPlayerStateIdle) {
+-        return;
+-    }
+-    
++    const TUint generation = ++iSourceGeneration;
++    TCallbackGuard guard(this);
++    if (iOpenPoll) iOpenPoll->Cancel();
++    if (iCompleteIdle) iCompleteIdle->Cancel();
+     Cancel();
+ #ifndef MCV_EKA1
+-    iDisplayObservers.Reset();
++    const TSurfaceId surfaceId = iSurfaceId;
+     iSurfaceId = TSurfaceId::CreateNullId();
+ #endif
+     for (TInt i = 0; i < iWindowInfos.Count(); i++) {
+         EVideoPlayerUnregisterWindow(0, iDispatchInstance, iWindowInfos[i].iManagedHandle);
+     }
+     iWindowInfos.Reset();
+-    EVideoPlayerClose(0, iDispatchInstance);
++    if (iDispatchInstance) EVideoPlayerClose(0, iDispatchInstance);
++    iMimeType.Zero();
+     iFeedbackHandler.Close();
++#ifndef MCV_EKA1
++    // Remove registrations before notifying. Reentrant Close/RemoveDisplay
++    // cannot deliver twice, and a new Open owns a different generation.
++    while (iDisplayObservers.Count()) {
++        MMMFSurfaceEventHandler *handler = iDisplayObservers[0].iHandler;
++        iDisplayObservers.Remove(0);
++        if (!surfaceId.IsNull())
++            handler->MmsehRemoveSurface(surfaceId);
++        if (!guard.iOwner || generation != iSourceGeneration)
++            return;
++    }
++#endif
+ }
+ 
+ void CVideoPlayerUtility::CBody::SetPositionL(const TTimeIntervalMicroSeconds &aWhere) {
+@@ -526,7 +620,11 @@ CVideoPlayerUtility::CBody *CVideoPlayerUtility::CBody::New2L(MVideoPlayerUtilit
+ 
+ EXPORT_C CVideoPlayerUtility* CVideoPlayerUtility::NewL(MVideoPlayerUtilityObserver& aObserver,
+                                           TInt aPriority,
++#ifdef MCV_EKA1
+                                           TMdaPriorityPreference aPref,
++#else
++                                          TInt aPref,
++#endif
+                                           RWsSession& aWs,
+                                           CWsScreenDevice& aScreenDevice,
+                                           RWindowBase& aWindow,
+@@ -555,10 +653,12 @@ EXPORT_C CVideoPlayerUtility2* CVideoPlayerUtility2::NewL(MVideoPlayerUtilityObs
+ #endif
+ 
+ EXPORT_C void CVideoPlayerUtility::OpenFileL(const TDesC& aFileName,TUid aControllerUid) {
++    if (aControllerUid != KNullUid) User::Leave(KErrNotSupported);
+     iBody->OpenFileL(aFileName);
+ }
+ 
+ EXPORT_C void CVideoPlayerUtility::OpenFileL(const RFile& aFileName, TUid aControllerUid) {
++    if (aControllerUid != KNullUid) User::Leave(KErrNotSupported);
+ #ifdef MCV_EKA1
+     // EKA1 RFile cannot report its full path.
+     LogOut(KMcvCat, _L("Video Player's open file through RFile is not supported on EKA1!"));
+@@ -573,17 +673,19 @@ EXPORT_C void CVideoPlayerUtility::OpenFileL(const RFile& aFileName, TUid aContr
+ 
+ #ifndef MCV_EKA1
+ EXPORT_C void CVideoPlayerUtility::OpenFileL(const TMMSource& aSource, TUid aControllerUid) {
+-    LogOut(KMcvCat, _L("Video Player's open file through MMSource is not yet implemented!"));
++    User::Leave(KErrNotSupported);
+ }
+ 
+ #endif
+ 
+ EXPORT_C void CVideoPlayerUtility::OpenDesL(const TDesC8& aDescriptor,TUid aControllerUid) {
++    if (aControllerUid != KNullUid) User::Leave(KErrNotSupported);
+     iBody->OpenDesL(aDescriptor);
+ }
+ 
+ EXPORT_C void CVideoPlayerUtility::OpenUrlL(const TDesC& aUrl, TInt aIapId, const TDesC8& aMimeType, TUid aControllerUid) {
+-    LogOut(KMcvCat, _L("Video Player's open URL is not yet implemented!"));
++    if (aControllerUid != KNullUid) User::Leave(KErrNotSupported);
++    iBody->OpenUrlL(aUrl, aIapId, aMimeType);
+ }
+ 
+ EXPORT_C void CVideoPlayerUtility::Prepare() {
+@@ -615,7 +717,13 @@ EXPORT_C void CVideoPlayerUtility::PauseL() {
+     iBody->Pause();
+ }
+ 
+-EXPORT_C void CVideoPlayerUtility::SetPriorityL(TInt aPriority, TMdaPriorityPreference aPref) {
++EXPORT_C void CVideoPlayerUtility::SetPriorityL(TInt aPriority,
++#ifdef MCV_EKA1
++    TMdaPriorityPreference aPref
++#else
++    TInt aPref
++#endif
++) {
+     LogOut(KMcvCat, _L("Video Player's set priority is not yet implemented!"));
+ }
+ 
+@@ -661,7 +769,7 @@ EXPORT_C void CVideoPlayerUtility::VideoFrameSizeL(TSize& aSize) const {
+ }
+ 
+ EXPORT_C const TDesC8& CVideoPlayerUtility::VideoFormatMimeType() const {
+-    return _L8("video/mp4");
++    return iBody->MimeType();
+ }
+ 
+ EXPORT_C TInt CVideoPlayerUtility::VideoBitRateL() const {
+@@ -673,12 +781,11 @@ EXPORT_C TInt CVideoPlayerUtility::AudioBitRateL() const {
+ }
+ 
+ EXPORT_C TFourCC CVideoPlayerUtility::AudioTypeL() const {
+-    LogOut(KMcvCat, _L("Video Player's auto type is not yet implemented!"));
++    return iBody->AudioTypeL();
+ }
+ 
+ EXPORT_C TBool CVideoPlayerUtility::AudioEnabledL() const {
+-    LogOut(KMcvCat, _L("Video Player's audio enabled is stubbed!"));
+-    return ETrue;
++    return iBody->HasAudioL();
+ }
+ 
+ EXPORT_C void CVideoPlayerUtility::SetPositionL(const TTimeIntervalMicroSeconds& aPosition) {
+@@ -706,11 +813,12 @@ EXPORT_C TInt CVideoPlayerUtility::MaxVolume() const {
+ }
+ 
+ EXPORT_C void CVideoPlayerUtility::SetBalanceL(TInt aBalance) {
+-    LogOut(KMcvCat, _L("Video Player's set balance is not yet implemented!"));
++    if (aBalance)
++        User::Leave(KErrNotSupported);
+ }
+ 
+ EXPORT_C TInt CVideoPlayerUtility::Balance()const {
+-    LogOut(KMcvCat, _L("Video Player's get balance is not yet implemented!"));
++    return 0; // The current decoder mixes at the centre balance only.
+ }
+ 
+ EXPORT_C void CVideoPlayerUtility::SetRotationL(TVideoRotation aRotation) {
+@@ -745,6 +853,27 @@ void CVideoPlayerUtility::CBody::SetCropRegionL(const TRect &aCrop) {
+             UpdateDisplayWindowL(iWindowInfos[i]);
+         }
+     }
++#ifndef MCV_EKA1
++    if (iSurfaceId.IsNull())
++        return;
++    TSize size;
++    FrameSizeL(size);
++    TRect crop(TPoint(0, 0), size);
++    if (!iCropRegion.IsEmpty()) crop.Intersection(iCropRegion);
++    const TSurfaceId surfaceId = iSurfaceId;
++    const TUint generation = iSourceGeneration;
++    TCallbackGuard guard(this);
++    TInt remaining = iDisplayObservers.Count();
++    for (TInt index = 0; index < iDisplayObservers.Count() && remaining--; ) {
++        const TDisplayObserver observer = iDisplayObservers[index];
++        observer.iHandler->MmsehSurfaceParametersChanged(surfaceId, crop, TVideoAspectRatio(1, 1));
++        if (!guard.iOwner || generation != iSourceGeneration)
++            return;
++        if (index < iDisplayObservers.Count() && iDisplayObservers[index].iHandler == observer.iHandler
++            && iDisplayObservers[index].iDisplay == observer.iDisplay)
++            ++index;
++    }
++#endif
+ }
+ 
+ EXPORT_C TInt CVideoPlayerUtility::NumberOfMetaDataEntriesL() const {
+@@ -758,7 +887,8 @@ EXPORT_C CMMFMetaDataEntry* CVideoPlayerUtility::MetaDataEntryL(TInt aIndex) con
+ }
+ 
+ EXPORT_C const CMMFControllerImplementationInformation& CVideoPlayerUtility::ControllerImplementationInformationL() {
+-    LogOut(KMcvCat, _L("Video Player's controller implementation information is not yet implemented!"));
++    User::Leave(KErrNotSupported);
++    __builtin_unreachable();
+ }
+ 
+ EXPORT_C TInt CVideoPlayerUtility::CustomCommandSync(const TMMFMessageDestinationPckg& aDestination, TInt aFunction, const TDesC8& aDataTo1, const TDesC8& aDataTo2, TDes8& aDataFrom) {
+@@ -800,16 +930,15 @@ EXPORT_C void CVideoPlayerUtility::StartDirectScreenAccessL() {
+ }
+ 
+ EXPORT_C TInt CVideoPlayerUtility::RegisterAudioResourceNotification(MMMFAudioResourceNotificationCallback& aCallback, TUid aNotificationEventUid, const TDesC8& aNotificationRegistrationData) {
+-    LogOut(KMcvCat, _L("Video Player's register audio resource notification is not yet implemented!"));
++    return KErrNotSupported; // No host audio-resource arbitration events yet.
+ }
+ 
+ EXPORT_C TInt CVideoPlayerUtility::CancelRegisterAudioResourceNotification(TUid aNotificationEventId) {
+-    LogOut(KMcvCat, _L("Video Player's cancel register audio resource notification is not yet implemented!"));
++    return KErrNotSupported;
+ }
+ 
+ EXPORT_C TInt CVideoPlayerUtility::WillResumePlay() {
+-    LogOut(KMcvCat, _L("Video Player's will resume play is not yet implemented!"));
+-    return ETrue;
++    return KErrNotSupported;
+ }
+ 
+ EXPORT_C TInt CVideoPlayerUtility::SetInitScreenNumber(TInt aScreenNumber) {
+@@ -839,8 +968,7 @@ EXPORT_C void CVideoPlayerUtility::SetVideoEnabledL(TBool aVideoEnabled) {
+ }
+ 
+ EXPORT_C TBool CVideoPlayerUtility::VideoEnabledL() const {
+-    LogOut(KMcvCat, _L("Video Player's get video enabled is not yet implemented!"));
+-    return ETrue;
++    return iBody->HasVideoL();
+ }
+ 
+ EXPORT_C void CVideoPlayerUtility::SetAudioEnabledL(TBool aAudioEnabled) {
+@@ -936,13 +1064,20 @@ void CVideoPlayerUtility::CBody::AddDisplayL(TInt aDisplay, MMMFSurfaceEventHand
+     observer.iDisplay = aDisplay;
+     observer.iHandler = &aHandler;
+     User::LeaveIfError(iDisplayObservers.Append(observer));
+-    aHandler.MmsehSurfaceCreated(aDisplay, iSurfaceId, TRect(TPoint(0, 0), size), TVideoAspectRatio(1, 1));
++    TRect crop(TPoint(0, 0), size);
++    if (!iCropRegion.IsEmpty()) crop.Intersection(iCropRegion);
++    const TSurfaceId surfaceId = iSurfaceId;
++    aHandler.MmsehSurfaceCreated(aDisplay, surfaceId, crop, TVideoAspectRatio(1, 1));
+ }
+ 
+ void CVideoPlayerUtility::CBody::RemoveDisplay(TInt aDisplay) {
+     for (TInt i = 0; i < iDisplayObservers.Count(); i++) {
+         if (iDisplayObservers[i].iDisplay == aDisplay) {
++            MMMFSurfaceEventHandler *handler = iDisplayObservers[i].iHandler;
++            const TSurfaceId surfaceId = iSurfaceId;
+             iDisplayObservers.Remove(i);
++            if (!surfaceId.IsNull())
++                handler->MmsehRemoveSurface(surfaceId);
+             return;
+         }
+     }
+diff --git a/src/patch/mediaclientvideo/src/dispatch.s b/src/patch/mediaclientvideo/src/dispatch.s
+index d252c9f3e..65386b800 100644
+--- a/src/patch/mediaclientvideo/src/dispatch.s
++++ b/src/patch/mediaclientvideo/src/dispatch.s
+@@ -135,3 +135,11 @@ EVideoPlayerSetWindowRotation:
+ .global EVideoPlayerGetSurfaceId
+ EVideoPlayerGetSurfaceId:
+     CallHleDispatch 0x9C
++
++.global EVideoPlayerPollOpenUrl
++EVideoPlayerPollOpenUrl:
++    CallHleDispatch 0x9D
++
++.global EVideoPlayerMediaInfo
++EVideoPlayerMediaInfo:
++    CallHleDispatch 0x9E
+diff --git a/src/emu/drivers/include/drivers/media_download.h b/src/emu/drivers/include/drivers/media_download.h
+new file mode 100644
+--- /dev/null
++++ b/src/emu/drivers/include/drivers/media_download.h
+@@ -0,0 +1,40 @@
++#pragma once
++
++#include <atomic>
++#include <memory>
++#include <string>
++
++namespace eka2l1::drivers {
++    // A transfer owns no emulator/kernel/guest pointers. Closing a native
++    // player cancels and drops its reference; the worker retains its state
++    // until curl returns and then removes the temporary file automatically.
++    class media_download final {
++    public:
++        enum class result {
++            pending, complete, cancelled, invalid_url, network_error,
++            timeout, http_error, tls_error, file_error, resource_error
++        };
++
++        static std::shared_ptr<media_download> start(std::string url);
++        ~media_download();
++        void cancel() noexcept { cancelled_.store(true, std::memory_order_relaxed); }
++        result status() const noexcept { return result_.load(std::memory_order_acquire); }
++
++        // Read these only after status() is no longer pending.
++        const std::string &path() const { return path_; }
++        const std::string &error() const { return error_; }
++        long http_status() const { return http_status_; }
++
++    private:
++        explicit media_download(std::string url, std::string ca_bundle);
++        void run();
++
++        std::string url_;
++        std::string ca_bundle_;
++        std::string path_;
++        std::string error_;
++        long http_status_ = 0;
++        std::atomic<bool> cancelled_{false};
++        std::atomic<result> result_{result::pending};
++    };
++}
+diff --git a/src/emu/drivers/src/media_download.cpp b/src/emu/drivers/src/media_download.cpp
+new file mode 100644
+--- /dev/null
++++ b/src/emu/drivers/src/media_download.cpp
+@@ -0,0 +1,172 @@
++#include <drivers/media_download.h>
++
++#include <curl/curl.h>
++#include <algorithm>
++#include <cstdio>
++#include <cstdlib>
++#include <filesystem>
++#include <limits>
++#include <mutex>
++#include <thread>
++#include <vector>
++
++#ifdef _WIN32
++#include <windows.h>
++#else
++#include <unistd.h>
++#endif
++
++namespace eka2l1::drivers {
++    media_download::media_download(std::string url, std::string ca_bundle)
++        : url_(std::move(url)), ca_bundle_(std::move(ca_bundle)) {
++    }
++
++    media_download::~media_download() {
++        if (!path_.empty()) {
++            std::error_code ignored;
++            std::filesystem::remove(std::filesystem::u8path(path_), ignored);
++        }
++    }
++
++    std::shared_ptr<media_download> media_download::start(std::string url) {
++        // URI schemes are case insensitive, but embedded NULs must never be
++        // interpreted as a truncated, different URL by libcurl.
++        const auto colon = url.find(':');
++        if (colon != std::string::npos)
++            std::transform(url.begin(), url.begin() + colon, url.begin(), [](unsigned char character) {
++                return character >= 'A' && character <= 'Z' ? character + ('a' - 'A') : character;
++            });
++        const char *ca_bundle = std::getenv("EKA2L1_MEDIA_CA_BUNDLE");
++        auto transfer = std::shared_ptr<media_download>(new media_download(std::move(url), ca_bundle ? ca_bundle : ""));
++        try {
++            std::thread([transfer] { transfer->run(); }).detach();
++        } catch (const std::exception &error) {
++            transfer->error_ = error.what();
++            transfer->result_.store(result::resource_error, std::memory_order_release);
++        }
++        return transfer;
++    }
++
++    static FILE *temporary_file(std::string &path) {
++#ifdef _WIN32
++        wchar_t directory[MAX_PATH + 1], name[MAX_PATH + 1];
++        if (!GetTempPathW(MAX_PATH, directory) || !GetTempFileNameW(directory, L"eka", 0, name))
++            return nullptr;
++        auto utf8 = std::filesystem::path(name).u8string();
++        path.assign(utf8.begin(), utf8.end());
++        FILE *file = nullptr;
++        _wfopen_s(&file, name, L"w+b");
++        return file;
++#else
++        std::error_code error;
++        auto directory = std::filesystem::temp_directory_path(error);
++        if (error)
++            return nullptr;
++        std::string pattern = (directory / "eka-media-XXXXXX").string();
++        std::vector<char> name(pattern.begin(), pattern.end());
++        name.push_back(0);
++        int descriptor = mkstemp(name.data());
++        if (descriptor < 0)
++            return nullptr;
++        path = name.data();
++        FILE *file = fdopen(descriptor, "w+b");
++        if (!file)
++            close(descriptor);
++        return file;
++#endif
++    }
++
++    void media_download::run() {
++        result final_result = result::network_error;
++        try {
++            // Explicitly reject local-file and other protocol URLs, including
++            // redirects. A browser uses WebCore's loader instead of this API.
++            if (url_.find('\0') != std::string::npos || (url_.compare(0, 7, "http://") && url_.compare(0, 8, "https://"))) {
++                result_.store(result::invalid_url, std::memory_order_release);
++                return;
++            }
++            static std::once_flag once;
++            static CURLcode initialization = CURLE_FAILED_INIT;
++            std::call_once(once, [] { initialization = curl_global_init(CURL_GLOBAL_DEFAULT); });
++            if (initialization != CURLE_OK) {
++                result_.store(result::resource_error, std::memory_order_release);
++                return;
++            }
++            std::unique_ptr<FILE, decltype(&fclose)> file(temporary_file(path_), fclose);
++            if (!file) {
++                result_.store(result::file_error, std::memory_order_release);
++                return;
++            }
++            std::unique_ptr<CURL, decltype(&curl_easy_cleanup)> curl(curl_easy_init(), curl_easy_cleanup);
++            if (!curl) {
++                result_.store(result::resource_error, std::memory_order_release);
++                return;
++            }
++            char error_buffer[CURL_ERROR_SIZE] = {};
++            CURLcode configuration = CURLE_OK;
++            auto set_option = [&](CURLoption option, auto value) {
++                const auto code = curl_easy_setopt(curl.get(), option, value);
++                if (configuration == CURLE_OK)
++                    configuration = code;
++            };
++            set_option(CURLOPT_ERRORBUFFER, error_buffer);
++            set_option(CURLOPT_URL, url_.c_str());
++            set_option(CURLOPT_NOSIGNAL, 1L);
++            set_option(CURLOPT_PROTOCOLS_STR, "http,https");
++            set_option(CURLOPT_REDIR_PROTOCOLS_STR, "http,https");
++            set_option(CURLOPT_FOLLOWLOCATION, 1L);
++            set_option(CURLOPT_MAXREDIRS, 5L);
++            set_option(CURLOPT_SSL_VERIFYPEER, 1L);
++            set_option(CURLOPT_SSL_VERIFYHOST, 2L);
++            if (!ca_bundle_.empty())
++                set_option(CURLOPT_CAINFO, ca_bundle_.c_str());
++            set_option(CURLOPT_CONNECTTIMEOUT, 10L);
++            set_option(CURLOPT_TIMEOUT, 120L);
++            set_option(CURLOPT_FAILONERROR, 1L);
++            set_option(CURLOPT_WRITEDATA, file.get());
++            // Keep FILE ownership and fwrite in this module's CRT, including
++            // when a Windows libcurl DLL uses a different C runtime.
++            set_option(CURLOPT_WRITEFUNCTION,
++                +[](char *bytes, std::size_t size, std::size_t count, void *context) -> std::size_t {
++                    if (size && count > std::numeric_limits<std::size_t>::max() / size)
++                        return 0;
++                    return std::fwrite(bytes, 1, size * count, static_cast<FILE *>(context));
++                });
++            set_option(CURLOPT_NOPROGRESS, 0L);
++            set_option(CURLOPT_XFERINFODATA, this);
++            set_option(CURLOPT_XFERINFOFUNCTION,
++                +[](void *context, curl_off_t, curl_off_t, curl_off_t, curl_off_t) -> int {
++                    return static_cast<media_download *>(context)->cancelled_.load(std::memory_order_relaxed);
++                });
++            // A host libcurl lacking a required security option must fail
++            // closed, rather than silently use a weaker transfer policy.
++            if (configuration != CURLE_OK) {
++                error_ = curl_easy_strerror(configuration);
++                result_.store(result::resource_error, std::memory_order_release);
++                return;
++            }
++            CURLcode code = cancelled_.load(std::memory_order_relaxed) ? CURLE_ABORTED_BY_CALLBACK : curl_easy_perform(curl.get());
++            curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_status_);
++            error_ = error_buffer[0] ? error_buffer : curl_easy_strerror(code);
++            if (cancelled_.load(std::memory_order_relaxed) || code == CURLE_ABORTED_BY_CALLBACK)
++                final_result = result::cancelled;
++            else if (code == CURLE_PEER_FAILED_VERIFICATION || code == CURLE_SSL_CACERT_BADFILE || code == CURLE_SSL_ISSUER_ERROR)
++                final_result = result::tls_error;
++            else if (code == CURLE_OPERATION_TIMEDOUT)
++                final_result = result::timeout;
++            else if (code == CURLE_HTTP_RETURNED_ERROR || (code == CURLE_OK && http_status_ != 200))
++                final_result = result::http_error;
++            else if (code == CURLE_WRITE_ERROR)
++                final_result = result::file_error;
++            else if (code == CURLE_OK)
++                final_result = result::complete;
++            // Closing completes all writes before publishing the local path.
++            if (fclose(file.release()) && final_result == result::complete)
++                final_result = result::file_error;
++        } catch (const std::exception &error) {
++            error_ = error.what();
++            final_result = result::resource_error;
++        }
++        result_.store(final_result, std::memory_order_release);
++    }
++}

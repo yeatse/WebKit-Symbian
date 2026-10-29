@@ -1,7 +1,7 @@
 # Symbian^3 (S60 5.2, ARM11, EKA2) with the symbian-platform SDK: WebCore on
-# cairo's image surface with FreeType and HarfBuzz text, curl networking with
-# mbedTLS, and the ARM11 Baseline/DFG JIT. Everything is static; images are linked by the
-# SDK's E32 flow.
+# Cairo rasterization with FreeType/HarfBuzz text, GLES2 composition, ANGLE
+# WebGL, native MMF media, curl/mbedTLS networking and the ARM11 Baseline/DFG
+# JIT. Everything is static; images are linked by the SDK's E32 flow.
 find_package(Threads REQUIRED)
 
 set(CMAKE_C_VISIBILITY_PRESET hidden)
@@ -30,9 +30,9 @@ WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_SMOOTH_SCROLLING PRIVATE ON)
 
 # libxslt from build-deps.sh.
 WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_XSLT PRIVATE ON)
-# On the SDK's mbedTLS (WebCore/crypto/mbedtls).
-# No multimedia backend is built in the 2.52 port.
-WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_VIDEO PRIVATE OFF)
+# Native Symbian^3 audio/video services; network loading stays in WebCore.
+WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_VIDEO PRIVATE ON)
+WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_WEBGL PRIVATE ON)
 
 # Needs a platform implementation that does not exist yet, or more memory and
 # CPU than an ARM11 phone has.
@@ -54,7 +54,6 @@ WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_SPEECH_SYNTHESIS PRIVATE OFF)
 WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_SPELLCHECK PRIVATE OFF)
 WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_USER_MESSAGE_HANDLERS PRIVATE OFF)
 WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_WEBDRIVER PRIVATE OFF)
-WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_WEBGL PRIVATE OFF)
 WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_WEB_AUDIO PRIVATE OFF)
 WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_WEB_RTC PRIVATE OFF)
 WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_WEBASSEMBLY_BBQJIT PRIVATE OFF)
@@ -79,8 +78,7 @@ WEBKIT_OPTION_END()
 
 # A single-process embedding (WebKitLegacy's shared parts plus the port's
 # WebView); WebKit's multi-process API is too heavy for an ARM11 phone.
-set(ENABLE_WEBCORE ON)
-set(ENABLE_WEBKIT_LEGACY ON)
+set(ENABLE_WEBKIT_LEGACY ${ENABLE_WEBCORE})
 set(ENABLE_WEBKIT OFF)
 set(ENABLE_WEBINSPECTORUI OFF)
 
@@ -100,6 +98,15 @@ SET_AND_EXPOSE_TO_BUILD(USE_CURL ON)
 SET_AND_EXPOSE_TO_BUILD(USE_FREETYPE ON)
 SET_AND_EXPOSE_TO_BUILD(USE_HARFBUZZ ON)
 SET_AND_EXPOSE_TO_BUILD(USE_MBEDTLS ON)
+
+# Cairo paints layer contents; TextureMapper submits them through native
+# EGL/GLES2. The embedding enables composition only after EGL initializes.
+SET_AND_EXPOSE_TO_BUILD(USE_TEXTURE_MAPPER ON)
+SET_AND_EXPOSE_TO_BUILD(USE_GRAPHICS_LAYER_TEXTURE_MAPPER ON)
+SET_AND_EXPOSE_TO_BUILD(USE_COORDINATED_GRAPHICS OFF)
+# WebGL uses ANGLE's private GL_*/EGL_* entry points. Public gl*/egl* names
+# remain bound to the Symbian driver for the compositor.
+set(USE_ANGLE_EGL OFF)
 
 set(WTF_FRAMEWORK_HEADERS_DIR ${CMAKE_BINARY_DIR}/WTF/Headers)
 set(JavaScriptCore_FRAMEWORK_HEADERS_DIR ${CMAKE_BINARY_DIR}/JavaScriptCore/Headers)

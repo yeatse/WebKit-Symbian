@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "failure": null,
+  "probe": "angle",
+  "image_sha256": "e098ef9b7b753f01ab787acf496e6fd877d5b1e710fd58f6ee4301dd891685b2",
+  "emulator_sha256": "1e418ff2d4af12755a62f6093b2bba79da1248c111336e760f559f50888ae42b",
+  "arguments": [],
+  "host_exit": 0,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "angle-probe",
+    "passed": 34,
+    "failed": 0
+  },
+  "guest_log": "angle-probe.log",
+  "screenshots": [],
+  "audio": null,
+  "audio_format": null
+}

@@ -1,0 +1,29 @@
+{
+  "status": "FAIL",
+  "failure": "probe RESULT reports failure or no checks",
+  "probe": "egl",
+  "image_sha256": "c9b8331f218694cc00321f5c772d735713b067cfbc19598af9f5dfedfddacaf6",
+  "emulator_sha256": "a6adac49c8bf4cb7c3cfdca90ba30e3cdd667d6a0121da53939196d9ca5c0842",
+  "arguments": [
+    "--expect-es3-rejection",
+    "--hold-ms",
+    "15000"
+  ],
+  "host_exit": 0,
+  "guest_exit": null,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "egl-window-probe",
+    "version": 2,
+    "passed": 67,
+    "failed": 2,
+    "swaps": 0,
+    "pixelChecks": 0,
+    "holdMilliseconds": 15000,
+    "expectES3Rejection": true
+  },
+  "guest_log": "egl-probe.log",
+  "screenshots": [],
+  "audio": null,
+  "audio_format": null
+}

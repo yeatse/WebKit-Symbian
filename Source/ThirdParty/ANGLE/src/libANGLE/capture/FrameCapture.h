@@ -1471,6 +1471,7 @@ struct FmtMultiLineString
 
 std::ostream &operator<<(std::ostream &ostr, const FmtMultiLineString &fmt);
 
+#if ANGLE_CAPTURE_ENABLED
 struct SaveFileHelper
 {
   public:
@@ -1507,6 +1508,7 @@ struct SaveFileHelper
     std::ofstream mOfs;
     std::string mFilePath;
 };
+#endif  // ANGLE_CAPTURE_ENABLED
 
 // TODO: Consolidate to C output and remove option. http://anglebug.com/42266223
 

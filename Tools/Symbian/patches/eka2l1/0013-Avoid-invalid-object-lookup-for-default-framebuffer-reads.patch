@@ -1,0 +1,24 @@
+Subject: [PATCH] Read EGL default framebuffer without an invalid object lookup
+
+Name zero selects the EGL read surface. The user-framebuffer lookup queues
+INVALID_OPERATION for zero, contaminating a successful native surface read.
+Use that lookup only for nonzero names, retaining its validation for FBOs.
+
+Apply after 0012.
+
+diff --git a/src/emu/dispatch/src/libraries/gles2/gles2.cpp b/src/emu/dispatch/src/libraries/gles2/gles2.cpp
+--- a/src/emu/dispatch/src/libraries/gles2/gles2.cpp
++++ b/src/emu/dispatch/src/libraries/gles2/gles2.cpp
+@@ -3064,7 +3064,11 @@
+ 
+         dispatcher *dp = sys->get_dispatcher();
+         dispatch::egl_controller &controller = dp->get_egl_controller();
+-        gles_framebuffer_object *fb_obj = get_binded_framebuffer_object_gles(ctx, controller);
++        // Name zero is the valid EGL read surface, not a user framebuffer.
++        // The object lookup reports INVALID_OPERATION for zero, even though
++        // the default-surface read below succeeds.
++        gles_framebuffer_object *fb_obj = ctx->binded_framebuffer_
++            ? get_binded_framebuffer_object_gles(ctx, controller) : nullptr;
+ 
+         // Framebuffer handle on driver side still 0 = not drawn anything yet. Don't waste time
+         // Maybe we should still read though. No one knows

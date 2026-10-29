@@ -29,6 +29,10 @@
 #include "NetworkStorageSessionMap.h"
 #include "PageStorageSessionProvider.h"
 #include "SymbianChromeClient.h"
+#include "SymbianCompositor.h"
+#if ENABLE(VIDEO)
+#include "MediaPlayerPrivateSymbian.h"
+#endif
 #include "SymbianEditorClient.h"
 #include "SymbianFrameLoaderClient.h"
 #include "SymbianPlatformStrategies.h"
@@ -222,6 +226,9 @@ void WebView::initializeProcess(const char* directory)
 
     dataDirectory() = String::fromUTF8(directory);
     FileSystem::makeAllDirectories(dataDirectory());
+#if ENABLE(VIDEO)
+    MediaPlayerPrivateSymbian::registerMediaEngine(dataDirectory());
+#endif
     NetworkStorageSessionMap::defaultStorageSession().setCookieDatabase(
         makeUniqueRef<CookieJarDB>(FileSystem::pathByAppendingComponent(dataDirectory(), "cookies.db"_s)));
 
@@ -240,6 +247,16 @@ void WebView::setWakeUpCallback(void (*wakeUp)(void*), void* context)
     RunLoop::setWakeUpCallback([wakeUp, context] {
         wakeUp(context);
     });
+}
+
+void WebView::setMediaPlayerFactory(MediaPlayerFactory factory, void* context)
+{
+#if ENABLE(VIDEO)
+    MediaPlayerPrivateSymbian::setFactory(factory, context);
+#else
+    UNUSED_PARAM(factory);
+    UNUSED_PARAM(context);
+#endif
 }
 
 void WebView::runPendingWork()
@@ -298,8 +315,7 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
     settings.setLoadsImagesAutomatically(true);
     settings.setTextAreasAreResizable(false);
     settings.setDefaultTextEncodingName("UTF-8"_s);
-    // Nothing composites layers here, so content WebCore moved into one
-    // (transforms, will-change, video) would go unpainted.
+    // Enable only after the embedding has supplied a working native window.
     settings.setAcceleratedCompositingEnabled(false);
 
     m_page->localMainFrame()->init();
@@ -310,7 +326,107 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
 WebViewImpl::~WebViewImpl()
 {
     m_scaleTimer.stop();
+    disableCompositing();
     m_page->localMainFrame()->loader().detachFromParent();
+}
+
+bool WebViewImpl::setNativeWindow(void* window)
+{
+    disableCompositing();
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (window)
+        m_compositor = SymbianCompositor::create(*this, window);
+    if (m_compositor) {
+        m_page->settings().setAcceleratedCompositingEnabled(true);
+        invalidate(IntRect(IntPoint(), m_size));
+        return true;
+    }
+#else
+    UNUSED_PARAM(window);
+#endif
+    return false;
+}
+
+bool WebViewImpl::usesAcceleratedCompositing() const
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    return !!m_compositor;
+#else
+    return false;
+#endif
+}
+
+void WebViewImpl::disableCompositing()
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (!m_compositor)
+        return;
+    m_compositor->prepareForDestruction();
+    m_page->settings().setAcceleratedCompositingEnabled(false);
+    // Disabling the setting tears down RenderLayer backings on the next
+    // style/layout pass. Keep their parent/context alive for that pass.
+    if (auto* view = m_page->localMainFrame()->view()) {
+        view->updateLayoutAndStyleIfNeededRecursive();
+        view->flushCompositingStateIncludingSubframes();
+    }
+    m_compositor = nullptr;
+    invalidate(IntRect(IntPoint(), m_size));
+#endif
+}
+
+void WebViewImpl::renderCompositedFrame()
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (!m_compositor)
+        return;
+#if ENABLE(VIDEO)
+    // MMF Utility2 video uses a native window below the page. Until EGL
+    // transparency is verified on that device, use the proven ARGB path.
+    if (MediaPlayerPrivateSymbian::requiresNativeVideoWindow()) {
+        WTFLogAlways("Symbian compositor: native video window requires software painting");
+        disableCompositing();
+        return;
+    }
+#endif
+    if (!m_compositor->render())
+        disableCompositing();
+#endif
+}
+
+void WebViewImpl::attachRootGraphicsLayer(GraphicsLayer* layer)
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (m_compositor)
+        m_compositor->setRootLayer(layer);
+#else
+    UNUSED_PARAM(layer);
+#endif
+}
+
+void WebViewImpl::attachViewOverlayGraphicsLayer(GraphicsLayer* layer)
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (m_compositor)
+        m_compositor->setOverlayLayer(layer);
+#else
+    UNUSED_PARAM(layer);
+#endif
+}
+
+void WebViewImpl::requestCompositedDisplay()
+{
+    m_client.didInvalidate({ 0, 0, m_size.width(), m_size.height() });
+}
+
+void WebViewImpl::scheduleRenderingUpdate()
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (m_compositor) {
+        m_compositor->scheduleRenderingUpdate();
+        return;
+    }
+#endif
+    m_page->isolatedUpdateRendering();
 }
 
 LocalFrame& WebViewImpl::focusedFrame() const
@@ -323,6 +439,10 @@ void WebViewImpl::invalidate(const IntRect& rect)
     IntRect visible = intersection(rect, IntRect(IntPoint(), m_size));
     if (visible.isEmpty())
         return;
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (m_compositor)
+        m_compositor->invalidate(visible);
+#endif
     m_client.didInvalidate({ visible.x(), visible.y(), visible.width(), visible.height() });
 }
 
@@ -379,6 +499,10 @@ void WebViewImpl::setSize(int width, int height)
 {
     bool widthChanged = width != m_size.width();
     m_size = IntSize(width, height);
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (m_compositor && !m_compositor->resize())
+        disableCompositing();
+#endif
     if (LocalFrameView* view = m_page->localMainFrame()->view())
         view->resize(m_size);
     // The split view keyboard changes only the height, and keeps the zoom.
@@ -452,6 +576,9 @@ void WebViewImpl::paint(uint8_t* pixels, int stride, const Rect& area)
     IntRect rect = intersection(IntRect(area.x, area.y, area.width, area.height), IntRect(IntPoint(), m_size));
     if (rect.isEmpty())
         return;
+#if ENABLE(VIDEO)
+    MediaPlayerPrivateSymbian::willPaint();
+#endif
     cairo_surface_t* surface = cairo_image_surface_create_for_data(pixels, CAIRO_FORMAT_ARGB32, m_size.width(), m_size.height(), stride);
     {
         GraphicsContextCairo context(surface);
@@ -465,6 +592,9 @@ void WebViewImpl::paint(uint8_t* pixels, int stride, const Rect& area)
     }
     cairo_surface_flush(surface);
     cairo_surface_destroy(surface);
+#if ENABLE(VIDEO)
+    MediaPlayerPrivateSymbian::didPaint(rect);
+#endif
 }
 
 void WebViewImpl::load(const char* url)

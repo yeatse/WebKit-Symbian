@@ -1,0 +1,104 @@
+{
+  "dateUTC": "2026-10-29",
+  "device": "X7-00 (RM-707), Symbian Belle epocver:10.0",
+  "ekaBase": "5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a",
+  "runs": [
+    {
+      "case": "final",
+      "run": "egl-20261029T144637Z-ix2szxg8",
+      "files": [
+        {
+          "file": "final/result.json",
+          "uncompressedBytes": 717,
+          "uncompressedSHA256": "5c61830631b5e92383048e24e155ef0a8df6d6f846eb45b6f65bee113bcf49be"
+        },
+        {
+          "file": "final/egl-probe.log.gz",
+          "uncompressedBytes": 7331,
+          "uncompressedSHA256": "2439a598c78945d9118c399d0d25a12feeac37f596f943d8b5c6ff1b889dbdcd"
+        },
+        {
+          "file": "final/screenshot-1.png",
+          "uncompressedBytes": 7327,
+          "uncompressedSHA256": "6a92850955224beedd39c56665075647972e9336fb127ab0bc72d0f760e13367"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 53162,
+        "sha256": "863d73b6e4bea70993b5e3b4b06402fcf4ae0ebde7d277dd7058c443c3cd1fd5",
+        "retainedInRepository": false,
+        "reason": "Contains host paths and unrelated device/media logs; strict exit and panic summary is preserved in unmodified result.json."
+      }
+    },
+    {
+      "case": "precision-null",
+      "run": "egl-20261029T143221Z-ekvm67f2",
+      "files": [
+        {
+          "file": "precision-null/result.json",
+          "uncompressedBytes": 537,
+          "uncompressedSHA256": "ef11578a66048e675d90cd816f84e581e250e7136822eb601abe3cc017f9f432"
+        },
+        {
+          "file": "precision-null/egl-probe.log.gz",
+          "uncompressedBytes": 2856,
+          "uncompressedSHA256": "8be0d9b9fc074234e79f895a9a1fefd0d2d1baeab531e322c71275803381daf4"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 40097,
+        "sha256": "64b038bfd590713b632e7b8765e2c181b220680896b1349caa3444821ac28dbb",
+        "retainedInRepository": false,
+        "reason": "Contains host paths and unrelated device/media logs; strict exit and panic summary is preserved in unmodified result.json."
+      }
+    },
+    {
+      "case": "object-name",
+      "run": "egl-20261029T144029Z-eesjx5g8",
+      "files": [
+        {
+          "file": "object-name/result.json",
+          "uncompressedBytes": 732,
+          "uncompressedSHA256": "97fd4ae746ac08ad99143741bf0de162cf2679e2c1472fbf224600586dea556d"
+        },
+        {
+          "file": "object-name/egl-probe.log.gz",
+          "uncompressedBytes": 4570,
+          "uncompressedSHA256": "b0d3249c0d62456c12cc7eb8da7e536d43e2de6325c3775cda7a44f887e01653"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 44983,
+        "sha256": "14893a95fb56bef3b64c0d7d00b8e724ce5a924e1886928412728cc3f1a657f4",
+        "retainedInRepository": false,
+        "reason": "Contains host paths and unrelated device/media logs; strict exit and panic summary is preserved in unmodified result.json."
+      }
+    },
+    {
+      "case": "default-framebuffer",
+      "run": "egl-20261029T144332Z-8x1bmf5x",
+      "files": [
+        {
+          "file": "default-framebuffer/result.json",
+          "uncompressedBytes": 729,
+          "uncompressedSHA256": "d1ef728c4c48a8b6faf00dce9e0c2cd3ab4a8fd8147fa4be1b7154f0749285dd"
+        },
+        {
+          "file": "default-framebuffer/egl-probe.log.gz",
+          "uncompressedBytes": 6119,
+          "uncompressedSHA256": "29f3f2665b2580d331de66c1261551c19d77b3196962b3467b058fa958bed4b8"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 49654,
+        "sha256": "df50745d4902d0d8f8d9f9741a2f17b4c78563272bacc846d42087b06ddf2689",
+        "retainedInRepository": false,
+        "reason": "Contains host paths and unrelated device/media logs; strict exit and panic summary is preserved in unmodified result.json."
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "failure": "emulator exited with status -11",
+  "probe": "egl",
+  "image_sha256": "6b406c113455f081850dfc87acc30017c19fa570cea3fda8c6c1d0067065b12c",
+  "emulator_sha256": "156ae62ca5b16af63c12d351bfda6e8a3f819298f5c6fa1db81b78d134a5fa3e",
+  "arguments": [
+    "--expect-es3-rejection",
+    "--hold-ms",
+    "15000"
+  ],
+  "host_exit": -11,
+  "guest_exit": null,
+  "panic_or_access_violation": false,
+  "result": null,
+  "guest_log": "egl-probe.log",
+  "screenshots": [],
+  "audio": null,
+  "audio_format": null
+}

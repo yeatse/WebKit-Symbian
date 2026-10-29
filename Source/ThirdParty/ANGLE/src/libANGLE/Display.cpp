@@ -12,6 +12,7 @@
 #    pragma allow_unsafe_buffers
 #endif
 
+#include "common/tls_symbian.h"
 #include "libANGLE/Display.h"
 
 #include <algorithm>
@@ -62,7 +63,7 @@
 #        include "libANGLE/renderer/gl/wgl/DisplayWGL.h"
 #    elif ANGLE_ENABLE_CGL
 #        include "libANGLE/renderer/gl/cgl/DisplayCGL.h"
-#    elif defined(ANGLE_PLATFORM_LINUX)
+#    elif defined(ANGLE_PLATFORM_LINUX) || defined(ANGLE_PLATFORM_SYMBIAN)
 #        include "libANGLE/renderer/gl/egl/DisplayEGL.h"
 #        if defined(ANGLE_USE_X11)
 #            include "libANGLE/renderer/gl/glx/DisplayGLX_api.h"
@@ -105,7 +106,17 @@ struct TLSData
 
 TLSData::TLSData() : errorScratchSpace(0) {}
 
-#if defined(ANGLE_PLATFORM_APPLE)
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+struct DisplayTLSTag;
+TLSData *GetDisplayTLS()
+{
+    return angle::SymbianThreadLocal<DisplayTLSTag, TLSData *>();
+}
+void SetDisplayTLS(TLSData *data)
+{
+    angle::SymbianThreadLocal<DisplayTLSTag, TLSData *>() = data;
+}
+#elif defined(ANGLE_PLATFORM_APPLE)
 // TODO(angleproject:6479): Due to a bug in Apple's dyld loader, `thread_local` will cause
 // excessive memory use. Temporarily avoid it by using pthread's thread
 // local storage instead.
@@ -426,6 +437,11 @@ rx::DisplayImpl *CreateDisplayFromAttribs(EGLAttrib displayType,
             impl = new rx::DisplayCGL(state);
             break;
 
+#    elif defined(ANGLE_PLATFORM_SYMBIAN)
+            // Symbian firmware exposes OpenGL ES, not desktop OpenGL.
+            impl = nullptr;
+            break;
+
 #    elif defined(ANGLE_PLATFORM_LINUX)
 #        if defined(ANGLE_USE_GBM) || defined(ANGLE_USE_WAYLAND)
             if (platformType == 0)
@@ -477,6 +493,8 @@ rx::DisplayImpl *CreateDisplayFromAttribs(EGLAttrib displayType,
 #if defined(ANGLE_ENABLE_OPENGL)
 #    if defined(ANGLE_PLATFORM_WINDOWS)
             impl = new rx::DisplayWGL(state);
+#    elif defined(ANGLE_PLATFORM_SYMBIAN)
+            impl = new rx::DisplayEGL(state);
 #    elif defined(ANGLE_PLATFORM_LINUX)
 #        if defined(ANGLE_USE_GBM) || defined(ANGLE_USE_WAYLAND)
             if (platformType == 0)
@@ -2197,7 +2215,7 @@ static ClientExtensions GenerateClientExtensions()
     extensions.x11Visual = true;
 #endif
 
-#if defined(ANGLE_PLATFORM_LINUX)
+#if defined(ANGLE_PLATFORM_LINUX) || defined(ANGLE_PLATFORM_SYMBIAN)
     extensions.platformANGLEDeviceTypeEGLANGLE = true;
 #endif
 
@@ -2768,7 +2786,7 @@ void Display::InitTLS()
 {
     TLSData *tlsData = new TLSData;
 
-#if defined(ANGLE_PLATFORM_APPLE)
+#if defined(ANGLE_PLATFORM_APPLE) || defined(ANGLE_PLATFORM_SYMBIAN)
     SetDisplayTLS(tlsData);
 #else
     gDisplayTLS = tlsData;

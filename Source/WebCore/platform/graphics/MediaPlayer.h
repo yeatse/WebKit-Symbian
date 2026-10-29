@@ -167,6 +167,7 @@ enum class MediaPlayerType {
     GStreamer,
     GStreamerMSE,
     HolePunch,
+    Symbian,
     WirelessPlayback,
     Remote
 };

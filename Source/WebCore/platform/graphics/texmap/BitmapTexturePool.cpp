@@ -71,10 +71,16 @@ BitmapTexturePool::BitmapTexturePool()
 Ref<BitmapTexture> BitmapTexturePool::acquireTexture(const IntSize& size, OptionSet<BitmapTexture::Flags> flags)
 {
     ASSERT(GLContextWrapper::currentContext());
+#if OS(SYMBIAN)
+    RELEASE_ASSERT(GLContext::current());
+#endif
     Locker locker { m_lock };
     Entry* selectedEntry = std::find_if(m_textures.begin(), m_textures.end(), [&](Entry& entry) {
         return entry.texture->refCount() == 1
             && entry.texture->size() == size
+#if OS(SYMBIAN)
+            && entry.texture->resourceState() == GLContext::current()->resourceState()
+#endif
 #if USE(GBM)
             && entry.texture->flags().contains(BitmapTexture::Flags::BackedByDMABuf) == flags.contains(BitmapTexture::Flags::BackedByDMABuf)
             && entry.texture->flags().contains(BitmapTexture::Flags::ForceLinearBuffer) == flags.contains(BitmapTexture::Flags::ForceLinearBuffer)
@@ -109,6 +115,20 @@ Ref<BitmapTexture> BitmapTexturePool::createTextureForImage(EGLImage image, Opti
     m_imageTextures.append(texture.copyRef());
     scheduleReleaseUnusedTextures();
     return texture;
+}
+#endif
+
+#if OS(SYMBIAN)
+void BitmapTexturePool::releaseTexturesForContext(const std::shared_ptr<SymbianGLResourceState>& state)
+{
+    Locker locker { m_lock };
+    m_textures.removeAllMatching([&](const Entry& entry) {
+        if (entry.texture->resourceState() != state)
+            return false;
+        m_poolSizeInBytes -= entry.texture->sizeInBytes();
+        return true;
+    });
+    exitLimitExceededModeIfNeeded();
 }
 #endif
 
@@ -164,6 +184,10 @@ void BitmapTexturePool::releaseUnusedTexturesTimerFired()
 #endif
     };
 
+#if OS(SYMBIAN)
+    // Each texture queues deletion on its owner. No sharing context is needed.
+    releaseTexturesIfNeeded();
+#else
     if (GLContextWrapper::currentContext())
         releaseTexturesIfNeeded();
 #if !PLATFORM(WIN)
@@ -171,6 +195,8 @@ void BitmapTexturePool::releaseUnusedTexturesTimerFired()
         GLContext::ScopedGLContextCurrent scopedCurrent(*context);
         releaseTexturesIfNeeded();
     }
+#endif
+
 #endif
 
     if (hasTextures())

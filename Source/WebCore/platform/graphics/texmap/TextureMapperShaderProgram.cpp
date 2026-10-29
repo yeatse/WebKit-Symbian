@@ -21,6 +21,9 @@
 
 #include "config.h"
 #include "TextureMapperShaderProgram.h"
+#if OS(SYMBIAN)
+#include "GLContext.h"
+#endif
 
 #if USE(TEXTURE_MAPPER)
 
@@ -715,6 +718,10 @@ static CString getProgramLog(GLuint program)
 
 TextureMapperShaderProgram::TextureMapperShaderProgram(const String& vertex, const String& fragment)
 {
+#if OS(SYMBIAN)
+    RELEASE_ASSERT(GLContext::current());
+    m_resourceState = GLContext::current()->resourceState();
+#endif
     m_vertexShader = glCreateShader(GL_VERTEX_SHADER);
     {
         CString vertexCString = vertex.utf8();
@@ -748,6 +755,12 @@ TextureMapperShaderProgram::TextureMapperShaderProgram(const String& vertex, con
 
 TextureMapperShaderProgram::~TextureMapperShaderProgram()
 {
+#if OS(SYMBIAN)
+    // Deleting the program detaches its shaders. All names belong to this token.
+    m_resourceState->release(SymbianGLResourceState::Type::Program, m_id);
+    m_resourceState->release(SymbianGLResourceState::Type::Shader, m_vertexShader);
+    m_resourceState->release(SymbianGLResourceState::Type::Shader, m_fragmentShader);
+#else
     if (!m_id)
         return;
 
@@ -756,6 +769,7 @@ TextureMapperShaderProgram::~TextureMapperShaderProgram()
     glDetachShader(m_id, m_fragmentShader);
     glDeleteShader(m_fragmentShader);
     glDeleteProgram(m_id);
+#endif
 }
 
 void TextureMapperShaderProgram::setMatrix(GLuint location, const TransformationMatrix& matrix)

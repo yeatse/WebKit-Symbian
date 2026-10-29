@@ -1,0 +1,928 @@
+diff --git a/src/emu/dispatch/include/dispatch/libraries/egl/def.h b/src/emu/dispatch/include/dispatch/libraries/egl/def.h
+index c2c8945b9..3afed20cb 100644
+--- a/src/emu/dispatch/include/dispatch/libraries/egl/def.h
++++ b/src/emu/dispatch/include/dispatch/libraries/egl/def.h
+@@ -122,6 +122,7 @@ namespace eka2l1::dispatch {
+         EGL_SWAP_BUFFER_PRESERVED = 0x3094,
+         EGL_SWAP_BUFFER_DESTROYED = 0x3095,
+         EGL_CONTEXT_MAJOR_VERSION_KHR_EMU = 0x3098,
++        EGL_CONTEXT_MINOR_VERSION_KHR_EMU = 0x30FB,
+         EGL_OPENGL_ES_API_EMU = 0x30A0,
+         EGL_OPENVG_API_EMU = 0x30A1,
+         EGL_OPENGL_API_EMU = 0x30A2,
+@@ -343,6 +344,8 @@ namespace eka2l1::dispatch {
+         GL_POINT_FADE_THRESHOLD_SIZE_EMU = 0x8128,
+         GL_POINT_DISTANCE_ATTENUATION_EMU = 0x8129,
+         GL_ALIASED_POINT_SIZE_RANGE_EMU = 0x846D,
++        GL_ALIASED_LINE_WIDTH_RANGE_EMU = 0x846E,
++        GL_MAX_CUBE_MAP_TEXTURE_SIZE_EMU = 0x851C,
+         GL_GENERATE_MIPMAP_EMU = 0x8191,
+         GL_REPEAT_EMU = 0x2901,
+         GL_CLAMP_TO_EDGE_EMU = 0x812F,
+diff --git a/src/emu/dispatch/include/dispatch/libraries/gles2/consts.h b/src/emu/dispatch/include/dispatch/libraries/gles2/consts.h
+index fa9139ac0..bf4985228 100644
+--- a/src/emu/dispatch/include/dispatch/libraries/gles2/consts.h
++++ b/src/emu/dispatch/include/dispatch/libraries/gles2/consts.h
+@@ -9,6 +9,42 @@ namespace eka2l1::dispatch {
+         GLES2_EMU_MAX_VERTEX_ATTRIBS_COUNT = 8,
+         GLES2_EMU_MAX_TEXTURE_UNIT_COUNT = 8
+     };
++
++    enum {
++        GL_MAX_VERTEX_UNIFORM_VECTORS_EMU = 0x8DFB,
++        GL_MAX_VARYING_VECTORS_EMU = 0x8DFC,
++        GL_MAX_FRAGMENT_UNIFORM_VECTORS_EMU = 0x8DFD,
++        GL_MAX_RENDERBUFFER_SIZE_EMU = 0x84E8,
++        GL_CURRENT_PROGRAM_EMU = 0x8B8D,
++        GL_SHADER_COMPILER_EMU = 0x8DFA,
++        GL_LOW_FLOAT_EMU = 0x8DF0,
++        GL_MEDIUM_FLOAT_EMU = 0x8DF1,
++        GL_HIGH_FLOAT_EMU = 0x8DF2,
++        GL_LOW_INT_EMU = 0x8DF3,
++        GL_MEDIUM_INT_EMU = 0x8DF4,
++        GL_HIGH_INT_EMU = 0x8DF5,
++        GL_VERTEX_ATTRIB_ARRAY_ENABLED_EMU = 0x8622,
++        GL_VERTEX_ATTRIB_ARRAY_SIZE_EMU = 0x8623,
++        GL_VERTEX_ATTRIB_ARRAY_STRIDE_EMU = 0x8624,
++        GL_VERTEX_ATTRIB_ARRAY_TYPE_EMU = 0x8625,
++        GL_CURRENT_VERTEX_ATTRIB_EMU = 0x8626,
++        GL_VERTEX_ATTRIB_ARRAY_NORMALIZED_EMU = 0x886A,
++        GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING_EMU = 0x889F,
++        GL_VERTEX_ATTRIB_ARRAY_POINTER_EMU = 0x8645,
++        GL_RENDERBUFFER_WIDTH_EMU = 0x8D42,
++        GL_RENDERBUFFER_HEIGHT_EMU = 0x8D43,
++        GL_RENDERBUFFER_INTERNAL_FORMAT_EMU = 0x8D44,
++        GL_RENDERBUFFER_RED_SIZE_EMU = 0x8D50,
++        GL_RENDERBUFFER_GREEN_SIZE_EMU = 0x8D51,
++        GL_RENDERBUFFER_BLUE_SIZE_EMU = 0x8D52,
++        GL_RENDERBUFFER_ALPHA_SIZE_EMU = 0x8D53,
++        GL_RENDERBUFFER_DEPTH_SIZE_EMU = 0x8D54,
++        GL_RENDERBUFFER_STENCIL_SIZE_EMU = 0x8D55,
++        GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EMU = 0x8CD0,
++        GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EMU = 0x8CD1,
++        GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL_EMU = 0x8CD2,
++        GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE_EMU = 0x8CD3
++    };
+     
+     static constexpr const char *GLES2_STATIC_STRING_VENDOR = "IMAGINATION TECHNOLOGIES EKA2L1";
+     static constexpr const char *GLES2_STATIC_STRING_RENDERER = "POWERVR EKA2L1";
+@@ -28,4 +64,4 @@ namespace eka2l1::dispatch {
+          * "GL_EXT_texture_compression_s3tc "
+          */
+     static constexpr const char *GLES2_STATIC_STRING_SHADER_LANGUAGE_VERSION = "OpenGL ES GLSL ES 1.00";
+-}
+\ No newline at end of file
++}
+diff --git a/src/emu/dispatch/include/dispatch/libraries/gles2/def.h b/src/emu/dispatch/include/dispatch/libraries/gles2/def.h
+index 9608ba31d..6b8dbbb03 100644
+--- a/src/emu/dispatch/include/dispatch/libraries/gles2/def.h
++++ b/src/emu/dispatch/include/dispatch/libraries/gles2/def.h
+@@ -119,6 +119,7 @@ namespace eka2l1::dispatch {
+ 
+         std::string link_log_;
+         bool linked_;
++        bool validated_ = false;
+         bool one_module_changed_;
+         bool delete_pending_;
+         bool binded_;
+@@ -143,6 +144,7 @@ namespace eka2l1::dispatch {
+         bool detach(gles_shader_object *obj);
+ 
+         void link(drivers::graphics_driver *drv);
++        void validate(drivers::graphics_driver *drv, egl_controller &controller);
+         void on_unbound();
+         void delete_object();
+ 
+@@ -159,13 +161,17 @@ namespace eka2l1::dispatch {
+         }
+ 
+         const std::int32_t get_link_log_length() const {
+-            return static_cast<std::int32_t>(link_log_.length());
++            return link_log_.empty() ? 0 : static_cast<std::int32_t>(link_log_.length() + (link_log_.back() != '\0'));
+         }
+ 
+         const bool is_linked() const {
+             return linked_;
+         }
+ 
++        bool is_validated() const {
++            return validated_;
++        }
++
+         const bool is_delete_pending() const {
+             return delete_pending_;
+         }
+@@ -268,6 +274,7 @@ namespace eka2l1::dispatch {
+         void force_detach(gles_driver_object *obj);
+ 
+         std::uint32_t set_attachment(gles_driver_object *object, const std::uint32_t attachment_type, const int index);
++        std::uint32_t get_attachment_parameter(std::uint32_t attachment, std::uint32_t pname, std::int32_t &value) const;
+         std::uint32_t completed() const;
+         std::uint32_t ready_for_draw(egl_controller &controller, drivers::graphics_driver *drv);
+         std::uint32_t format_compatible_for_read(const std::uint32_t format, const std::uint32_t dttype) const;
+@@ -288,10 +295,15 @@ namespace eka2l1::dispatch {
+         bool use_constant_vcomp_;
+ 
+         explicit gles2_vertex_attrib()
+-            : client_ask_instanced_(false)
+-            , constant_vcomp_count_(0)
++            : constant_data_{0.0f, 0.0f, 0.0f, 1.0f}
++            , constant_vcomp_count_(4)
++            , client_ask_instanced_(false)
+             , normalized_(false)
+             , use_constant_vcomp_(false) {
++            size_ = 4;
++            data_type_ = GL_FLOAT_EMU;
++            stride_ = 0;
++            offset_ = 0;
+         }
+     };
+ 
+@@ -352,4 +364,4 @@ namespace eka2l1::dispatch {
+ 
+     egl_context_es2 *get_es2_active_context(system *sys);
+     std::string get_es2_extensions(drivers::graphics_driver *driver);
+-}
+\ No newline at end of file
++}
+diff --git a/src/emu/dispatch/include/dispatch/libraries/gles2/gles2.h b/src/emu/dispatch/include/dispatch/libraries/gles2/gles2.h
+index 53aec2ed6..bb60132d8 100644
+--- a/src/emu/dispatch/include/dispatch/libraries/gles2/gles2.h
++++ b/src/emu/dispatch/include/dispatch/libraries/gles2/gles2.h
+@@ -31,6 +31,14 @@ namespace eka2l1::dispatch {
+     BRIDGE_FUNC_LIBRARY(void, gl_shader_source_emu, std::uint32_t shader, std::int32_t count, eka2l1::ptr<const char> *strings,
+         const std::int32_t *length);
+     BRIDGE_FUNC_LIBRARY(void, gl_get_shader_iv_emu, std::uint32_t shader, std::uint32_t pname, std::int32_t *params);
++    BRIDGE_FUNC_LIBRARY(void, gl_get_shader_precision_format_emu, std::uint32_t shader_type, std::uint32_t precision_type,
++        std::int32_t *range, std::int32_t *precision);
++    BRIDGE_FUNC_LIBRARY(void, gl_get_renderbuffer_parameteriv_emu, std::uint32_t target, std::uint32_t pname, std::int32_t *params);
++    BRIDGE_FUNC_LIBRARY(void, gl_get_framebuffer_attachment_parameteriv_emu, std::uint32_t target, std::uint32_t attachment,
++        std::uint32_t pname, std::int32_t *params);
++    BRIDGE_FUNC_LIBRARY(void, gl_get_vertex_attrib_fv_emu, std::uint32_t index, std::uint32_t pname, float *params);
++    BRIDGE_FUNC_LIBRARY(void, gl_get_vertex_attrib_iv_emu, std::uint32_t index, std::uint32_t pname, std::int32_t *params);
++    BRIDGE_FUNC_LIBRARY(void, gl_get_vertex_attrib_pointerv_emu, std::uint32_t index, std::uint32_t pname, eka2l1::ptr<void> *pointer);
+     BRIDGE_FUNC_LIBRARY(void, gl_compile_shader_emu, std::uint32_t shader);
+     BRIDGE_FUNC_LIBRARY(bool, gl_is_shader_emu, std::uint32_t name);
+     BRIDGE_FUNC_LIBRARY(bool, gl_is_program_emu, std::uint32_t name);
+@@ -52,7 +60,7 @@ namespace eka2l1::dispatch {
+     BRIDGE_FUNC_LIBRARY(bool, gl_is_framebuffer_emu, std::uint32_t name);
+     BRIDGE_FUNC_LIBRARY(void, gl_bind_framebuffer_emu, std::uint32_t target, std::uint32_t fb);
+     BRIDGE_FUNC_LIBRARY(void, gl_framebuffer_texture2d_emu, std::uint32_t target, std::uint32_t attachment_type,
+-        std::uint32_t attachment_target, std::uint32_t attachment);
++        std::uint32_t attachment_target, std::uint32_t attachment, std::int32_t level);
+     BRIDGE_FUNC_LIBRARY(void, gl_framebuffer_renderbuffer_emu, std::uint32_t target, std::uint32_t attachment_type,
+         std::uint32_t attachment_target, std::uint32_t attachment);
+     BRIDGE_FUNC_LIBRARY(std::uint32_t, gl_check_framebuffer_status_emu, std::uint32_t target);
+@@ -104,4 +112,4 @@ namespace eka2l1::dispatch {
+         std::uint32_t type, void *data_ptr);
+     BRIDGE_FUNC_LIBRARY(void, gl_delete_renderbuffers_emu, std::int32_t n, std::uint32_t *rbs);
+     BRIDGE_FUNC_LIBRARY(void, gl_delete_program_emu, std::uint32_t program);
+-}
+\ No newline at end of file
++}
+diff --git a/src/emu/dispatch/src/libraries/egl/egl.cpp b/src/emu/dispatch/src/libraries/egl/egl.cpp
+index 5d8574f08..a75af1781 100644
+--- a/src/emu/dispatch/src/libraries/egl/egl.cpp
++++ b/src/emu/dispatch/src/libraries/egl/egl.cpp
+@@ -337,7 +337,7 @@ namespace eka2l1::dispatch {
+         eka2l1::vec2 dim(0, 0);
+         while (true) {
+             std::int32_t pname = *additional_attribs++;
+-            if (pname == 0) {
++            if ((pname == 0) || (pname == EGL_NONE_EMU)) {
+                 break;
+             }
+             std::int32_t param = *additional_attribs++;
+@@ -355,7 +355,7 @@ namespace eka2l1::dispatch {
+             }
+         }
+ 
+-        if ((dim.x == 0) || (dim.y == 0) || (dim.x > 2048) || (dim.y > 2048)) {
++        if ((dim.x <= 0) || (dim.y <= 0) || (dim.x > 2048) || (dim.y > 2048)) {
+             egl_push_error(sys, EGL_BAD_ATTRIBUTE_EMU);
+             return EGL_NO_SURFACE_EMU;
+         }
+@@ -507,6 +507,7 @@ namespace eka2l1::dispatch {
+         egl_context_instance context_inst = nullptr;
+ 
+         egl_config::target_context_version version = choosen_config.get_target_context_version();
++        std::uint32_t minor_version = 0;
+ 
+         while (additional_attribs_ != nullptr) {
+             std::uint32_t pname = *(additional_attribs_++);
+@@ -518,12 +519,25 @@ namespace eka2l1::dispatch {
+             if (pname == EGL_CONTEXT_MAJOR_VERSION_KHR_EMU) {
+                 if (param == 2) {
+                     version = egl_config::EGL_TARGET_CONTEXT_ES2;
+-                } else {
++                } else if (param == 1) {
+                     version = egl_config::EGL_TARGET_CONTEXT_ES11;
++                } else {
++                    egl_push_error(sys, EGL_BAD_MATCH_EMU);
++                    return EGL_NO_CONTEXT_EMU;
+                 }
++            } else if (pname == EGL_CONTEXT_MINOR_VERSION_KHR_EMU) {
++                minor_version = param;
++            } else {
++                egl_push_error(sys, EGL_BAD_ATTRIBUTE_EMU);
++                return EGL_NO_CONTEXT_EMU;
+             }
+         }
+ 
++        if (minor_version > (version == egl_config::EGL_TARGET_CONTEXT_ES11 ? 1u : 0u)) {
++            egl_push_error(sys, EGL_BAD_MATCH_EMU);
++            return EGL_NO_CONTEXT_EMU;
++        }
++
+         switch (version) {
+         case egl_config::EGL_TARGET_CONTEXT_ES11:
+             context_inst = std::make_unique<egl_context_es1>();
+diff --git a/src/emu/dispatch/src/libraries/gles2/gles2.cpp b/src/emu/dispatch/src/libraries/gles2/gles2.cpp
+index a5f7f94ef..4479c1a9f 100644
+--- a/src/emu/dispatch/src/libraries/gles2/gles2.cpp
++++ b/src/emu/dispatch/src/libraries/gles2/gles2.cpp
+@@ -27,6 +27,10 @@
+ #include <services/window/screen.h>
+ #include <kernel/kernel.h>
+ 
++#include <cmath>
++#include <limits>
++#include <type_traits>
++
+ namespace eka2l1::dispatch {
+     std::string get_es2_extensions(drivers::graphics_driver *driver) {
+         std::string original_list = GLES2_STATIC_STRING_EXTENSIONS;
+@@ -289,6 +293,7 @@ namespace eka2l1::dispatch {
+     }
+ 
+     void gles_program_object::link(drivers::graphics_driver *drv) {
++        validated_ = false;
+         if (!one_module_changed_) {
+             if (linked_) {
+                 goto APPLY_PENDING_ROUTES;
+@@ -325,6 +330,22 @@ APPLY_PENDING_ROUTES:
+         pending_attrib_binds_.clear();
+     }
+     
++    void gles_program_object::validate(drivers::graphics_driver *drv, egl_controller &controller) {
++        validated_ = false;
++        link_log_.clear();
++        if (!linked_) {
++            link_log_ = "Program has not been linked successfully.";
++            return;
++        }
++
++        // Uniform values are deferred until drawing. Submit them before validating
++        // sampler conflicts on the graphics thread, including an unused program.
++        context_.cmd_builder_.use_program(driver_handle_);
++        prepare_for_draw();
++        context_.flush_to_driver(controller, drv);
++        validated_ = drivers::validate_shader_program(drv, driver_handle_, &link_log_);
++    }
++
+     void gles_program_object::bind_attribute_to_index(const std::string &attrib_name, const int new_index) {
+         pending_attrib_binds_[attrib_name] = new_index;
+     }
+@@ -457,6 +478,7 @@ APPLY_PENDING_ROUTES:
+     gles_renderbuffer_object::gles_renderbuffer_object(egl_context_es_shared &ctx)
+         : gles_driver_object(ctx)
+         , format_(0)
++        , size_(0, 0)
+         , current_scale_(0.0f) {
+     }
+ 
+@@ -679,6 +701,52 @@ APPLY_PENDING_ROUTES:
+         }
+     }
+ 
++    std::uint32_t gles_framebuffer_object::get_attachment_parameter(std::uint32_t attachment, std::uint32_t pname, std::int32_t &value) const {
++        gles_driver_object *object = nullptr;
++        int face = 0;
++        switch (attachment) {
++        case GL_COLOR_ATTACHMENT0_EMU:
++            object = attached_color_;
++            face = attached_color_face_index_;
++            break;
++        case GL_DEPTH_ATTACHMENT_EMU:
++            object = attached_depth_;
++            face = attached_depth_face_index_;
++            break;
++        case GL_STENCIL_ATTACHMENT_EMU:
++            object = attached_stencil_;
++            face = attached_stencil_face_index_;
++            break;
++        default:
++            return GL_INVALID_ENUM;
++        }
++        if (pname == GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EMU) {
++            value = !object ? 0 : object->object_type() == GLES_OBJECT_TEXTURE ? GL_TEXTURE_EMU : GL_RENDERBUFFER_EMU;
++            return GL_NO_ERROR;
++        }
++        if (!object) {
++            return GL_INVALID_ENUM;
++        }
++        if (pname == GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EMU) {
++            value = object->client_handle();
++            return GL_NO_ERROR;
++        }
++        if (object->object_type() != GLES_OBJECT_TEXTURE) {
++            return GL_INVALID_ENUM;
++        }
++        if (pname == GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL_EMU) {
++            // GLES2 framebuffer attachments accept level zero only.
++            value = 0;
++            return GL_NO_ERROR;
++        }
++        if (pname == GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE_EMU) {
++            value = static_cast<gles_driver_texture *>(object)->texture_type() == GLES_DRIVER_TEXTURE_TYPE_CUBE
++                ? GL_TEXTURE_CUBE_MAP_POSITIVE_X_EMU + face : 0;
++            return GL_NO_ERROR;
++        }
++        return GL_INVALID_ENUM;
++    }
++
+     std::uint32_t gles_framebuffer_object::set_attachment(gles_driver_object *object, const std::uint32_t attachment_type, const int face_index) {
+         if (object && (object->object_type() != GLES_OBJECT_TEXTURE) && (object->object_type() != GLES_OBJECT_RENDERBUFFER)) {
+             return GL_INVALID_OPERATION;
+@@ -1385,6 +1453,33 @@ APPLY_PENDING_ROUTES:
+             *params = static_cast<T>(ctx->binded_framebuffer_);
+             break;
+ 
++        case GL_RENDERBUFFER_BINDING_EMU:
++            *params = static_cast<T>(ctx->binded_renderbuffer_);
++            break;
++
++        case GL_CURRENT_PROGRAM_EMU:
++            *params = static_cast<T>(ctx->using_program_ ? ctx->using_program_->client_handle() : 0);
++            break;
++
++        case GL_SHADER_COMPILER_EMU:
++            *params = static_cast<T>(1);
++            break;
++
++        case GL_MAX_VERTEX_UNIFORM_VECTORS_EMU:
++        case GL_MAX_FRAGMENT_UNIFORM_VECTORS_EMU:
++        case GL_MAX_VARYING_VECTORS_EMU:
++        case GL_MAX_RENDERBUFFER_SIZE_EMU: {
++            std::int32_t value = 0;
++            if (!drivers::get_graphics_integer(drv, pname, &value)) {
++                return false;
++            }
++            if (pname == GL_MAX_RENDERBUFFER_SIZE_EMU) {
++                value = std::min<std::int32_t>(value, GLES_EMU_MAX_TEXTURE_SIZE);
++            }
++            *params = static_cast<T>(value);
++            break;
++        }
++
+         case GL_STENCIL_BITS_EMU:
+             *params = static_cast<T>(8);
+             break;
+@@ -1610,6 +1705,27 @@ APPLY_PENDING_ROUTES:
+         }
+     }
+ 
++    BRIDGE_FUNC_LIBRARY(void, gl_get_shader_precision_format_emu, std::uint32_t shader_type, std::uint32_t precision_type,
++        std::int32_t *range, std::int32_t *precision) {
++        auto *ctx = get_es2_active_context(sys);
++        if (!ctx) {
++            return;
++        }
++        auto &controller = sys->get_dispatcher()->get_egl_controller();
++        if ((shader_type != GL_VERTEX_SHADER_EMU && shader_type != GL_FRAGMENT_SHADER_EMU)
++            || precision_type < GL_LOW_FLOAT_EMU || precision_type > GL_HIGH_INT_EMU) {
++            controller.push_error(ctx, GL_INVALID_ENUM);
++            return;
++        }
++        if (!range || !precision) {
++            controller.push_error(ctx, GL_INVALID_VALUE);
++            return;
++        }
++        if (!drivers::get_shader_precision(sys->get_graphics_driver(), shader_type, precision_type, range, precision)) {
++            controller.push_error(ctx, GL_INVALID_OPERATION);
++        }
++    }
++
+     BRIDGE_FUNC_LIBRARY(void, gl_compile_shader_emu, std::uint32_t shader) {
+         egl_context_es2 *ctx = get_es2_active_context(sys);
+         if (!ctx) {
+@@ -1829,7 +1945,15 @@ APPLY_PENDING_ROUTES:
+     }
+     
+     BRIDGE_FUNC_LIBRARY(void, gl_validate_program_emu, std::uint32_t program) {
+-        // Left empty
++        auto *ctx = get_es2_active_context(sys);
++        if (!ctx) {
++            return;
++        }
++        auto &controller = sys->get_dispatcher()->get_egl_controller();
++        auto *program_obj = get_program_object_gles(ctx, controller, program);
++        if (program_obj) {
++            program_obj->validate(sys->get_graphics_driver(), controller);
++        }
+     }
+ 
+     BRIDGE_FUNC_LIBRARY(void, gl_get_program_iv_emu, std::uint32_t program, std::uint32_t pname, std::int32_t *params) {
+@@ -1848,7 +1972,7 @@ APPLY_PENDING_ROUTES:
+ 
+         switch (pname) {
+         case GL_VALIDATE_STATUS_EMU:
+-            *params = 1;
++            *params = static_cast<std::int32_t>(program_obj->is_validated());
+             break;
+ 
+         case GL_LINK_STATUS_EMU:
+@@ -1914,15 +2038,19 @@ APPLY_PENDING_ROUTES:
+ 
+         gles_program_object *program_obj = reinterpret_cast<gles_program_object*>(object_ptr->get());
+ 
+-        if (!info_log) {
++        if (max_length < 0 || (max_length > 0 && !info_log)) {
+             controller.push_error(ctx, GL_INVALID_VALUE);
+             return;
+         }
+ 
+-        std::int32_t length_to_copy = common::min<std::int32_t>(max_length, static_cast<std::int32_t>(program_obj->get_link_log_length()));
+         const std::string &info_std = program_obj->get_link_log();
+-
+-        std::memcpy(info_log, info_std.data(), length_to_copy);
++        const std::size_t log_size = info_std.size() - (!info_std.empty() && info_std.back() == '\0');
++        const std::int32_t length_to_copy = max_length > 0
++            ? std::min<std::size_t>(max_length - 1, log_size) : 0;
++        if (max_length > 0) {
++            std::memcpy(info_log, info_std.data(), length_to_copy);
++            info_log[length_to_copy] = '\0';
++        }
+         if (actual_length) {
+             *actual_length = length_to_copy;
+         }
+@@ -1981,6 +2109,50 @@ APPLY_PENDING_ROUTES:
+         return obj && ((*obj)->object_type() == GLES_OBJECT_RENDERBUFFER);
+     }
+     
++    BRIDGE_FUNC_LIBRARY(void, gl_get_renderbuffer_parameteriv_emu, std::uint32_t target, std::uint32_t pname, std::int32_t *params) {
++        auto *ctx = get_es2_active_context(sys);
++        if (!ctx) {
++            return;
++        }
++        auto &controller = sys->get_dispatcher()->get_egl_controller();
++        if (target != GL_RENDERBUFFER_EMU) {
++            controller.push_error(ctx, GL_INVALID_ENUM);
++            return;
++        }
++        auto *entry = ctx->objects_.get(ctx->binded_renderbuffer_);
++        if (!entry || (*entry)->object_type() != GLES_OBJECT_RENDERBUFFER) {
++            controller.push_error(ctx, GL_INVALID_OPERATION);
++            return;
++        }
++        if (!params) {
++            controller.push_error(ctx, GL_INVALID_VALUE);
++            return;
++        }
++        auto *object = static_cast<gles_renderbuffer_object *>(entry->get());
++        const auto format = object->get_format();
++        std::int32_t red = 0, green = 0, blue = 0, alpha = 0, depth = 0, stencil = 0;
++        switch (format) {
++        case GL_RGBA4_EMU: red = green = blue = alpha = 4; break;
++        case GL_RGB5_A1_EMU: red = green = blue = 5; alpha = 1; break;
++        case GL_RGB565_EMU: red = blue = 5; green = 6; break;
++        case GL_DEPTH_COMPONENT16_EMU: depth = 16; break;
++        case GL_STENCIL_INDEX8_EMU: stencil = 8; break;
++        case GL_DEPTH24_STENCIL8_OES: depth = 24; stencil = 8; break;
++        }
++        switch (pname) {
++        case GL_RENDERBUFFER_WIDTH_EMU: *params = object->get_size().x; break;
++        case GL_RENDERBUFFER_HEIGHT_EMU: *params = object->get_size().y; break;
++        case GL_RENDERBUFFER_INTERNAL_FORMAT_EMU: *params = format ? format : GL_RGBA4_EMU; break;
++        case GL_RENDERBUFFER_RED_SIZE_EMU: *params = red; break;
++        case GL_RENDERBUFFER_GREEN_SIZE_EMU: *params = green; break;
++        case GL_RENDERBUFFER_BLUE_SIZE_EMU: *params = blue; break;
++        case GL_RENDERBUFFER_ALPHA_SIZE_EMU: *params = alpha; break;
++        case GL_RENDERBUFFER_DEPTH_SIZE_EMU: *params = depth; break;
++        case GL_RENDERBUFFER_STENCIL_SIZE_EMU: *params = stencil; break;
++        default: controller.push_error(ctx, GL_INVALID_ENUM); break;
++        }
++    }
++
+     BRIDGE_FUNC_LIBRARY(void, gl_renderbuffer_storage_emu, std::uint32_t target, std::uint32_t internal_format, std::int32_t width, std::int32_t height) {
+         egl_context_es2 *ctx = get_es2_active_context(sys);
+         if (!ctx) {
+@@ -2080,6 +2252,11 @@ APPLY_PENDING_ROUTES:
+         dispatcher *dp = sys->get_dispatcher();
+         dispatch::egl_controller &controller = dp->get_egl_controller();
+ 
++        if (target != GL_FRAMEBUFFER_EMU) {
++            controller.push_error(ctx, GL_INVALID_ENUM);
++            return;
++        }
++
+         gles_framebuffer_object *fb_obj = get_binded_framebuffer_object_gles(ctx, controller);
+         if (!fb_obj) {
+             return;
+@@ -2119,7 +2296,13 @@ APPLY_PENDING_ROUTES:
+     }
+ 
+     BRIDGE_FUNC_LIBRARY(void, gl_framebuffer_texture2d_emu, std::uint32_t target, std::uint32_t attachment_type,
+-        std::uint32_t attachment_target, std::uint32_t attachment) {
++        std::uint32_t attachment_target, std::uint32_t attachment, std::int32_t level) {
++        if (level != 0) {
++            if (auto *ctx = get_es2_active_context(sys)) {
++                sys->get_dispatcher()->get_egl_controller().push_error(ctx, GL_INVALID_VALUE);
++            }
++            return;
++        }
+         submit_framebuffer_attachment_gles(sys, target, attachment_type, attachment_target, attachment, GL_TEXTURE_2D_EMU);
+     }
+ 
+@@ -2128,6 +2311,31 @@ APPLY_PENDING_ROUTES:
+         submit_framebuffer_attachment_gles(sys, target, attachment_type, attachment_target, attachment, GL_RENDERBUFFER_EMU);
+     }
+     
++    BRIDGE_FUNC_LIBRARY(void, gl_get_framebuffer_attachment_parameteriv_emu, std::uint32_t target, std::uint32_t attachment,
++        std::uint32_t pname, std::int32_t *params) {
++        auto *ctx = get_es2_active_context(sys);
++        if (!ctx) {
++            return;
++        }
++        auto &controller = sys->get_dispatcher()->get_egl_controller();
++        if (target != GL_FRAMEBUFFER_EMU) {
++            controller.push_error(ctx, GL_INVALID_ENUM);
++            return;
++        }
++        auto *object = get_binded_framebuffer_object_gles(ctx, controller);
++        if (!object) {
++            return;
++        }
++        if (!params) {
++            controller.push_error(ctx, GL_INVALID_VALUE);
++            return;
++        }
++        const auto error = object->get_attachment_parameter(attachment, pname, *params);
++        if (error) {
++            controller.push_error(ctx, error);
++        }
++    }
++
+     BRIDGE_FUNC_LIBRARY(std::uint32_t, gl_check_framebuffer_status_emu, std::uint32_t target) {
+         egl_context_es2 *ctx = get_es2_active_context(sys);
+         if (!ctx) {
+@@ -2527,6 +2735,66 @@ APPLY_PENDING_ROUTES:
+         set_uniform_value_gles2(sys, location, value, 64 * count, count, drivers::shader_var_type::mat4, transpose ? gles_uniform_variable_data_info::EXTRA_FLAG_MATRIX_NEED_TRANSPOSE : 0);
+     }
+     
++    template <typename T>
++    static void get_vertex_attrib_gles(system *sys, std::uint32_t index, std::uint32_t pname, T *params) {
++        auto *ctx = get_es2_active_context(sys);
++        if (!ctx) {
++            return;
++        }
++        auto &controller = sys->get_dispatcher()->get_egl_controller();
++        if (index >= GLES2_EMU_MAX_VERTEX_ATTRIBS_COUNT || !params) {
++            controller.push_error(ctx, GL_INVALID_VALUE);
++            return;
++        }
++        const auto &attribute = ctx->attributes_[index];
++        switch (pname) {
++        case GL_VERTEX_ATTRIB_ARRAY_ENABLED_EMU: *params = (ctx->attributes_enabled_ >> index) & 1; break;
++        case GL_VERTEX_ATTRIB_ARRAY_SIZE_EMU: *params = attribute.size_; break;
++        case GL_VERTEX_ATTRIB_ARRAY_STRIDE_EMU: *params = attribute.stride_; break;
++        case GL_VERTEX_ATTRIB_ARRAY_TYPE_EMU: *params = attribute.data_type_; break;
++        case GL_VERTEX_ATTRIB_ARRAY_NORMALIZED_EMU: *params = attribute.normalized_; break;
++        case GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING_EMU: *params = attribute.buffer_obj_; break;
++        case GL_CURRENT_VERTEX_ATTRIB_EMU:
++            for (std::size_t component = 0; component < 4; ++component) {
++                if constexpr (std::is_same_v<T, std::int32_t>) {
++                    const double rounded = std::round(static_cast<double>(attribute.constant_data_[component]));
++                    params[component] = std::isnan(rounded) ? 0 : static_cast<T>(std::clamp(rounded,
++                        static_cast<double>(std::numeric_limits<T>::min()), static_cast<double>(std::numeric_limits<T>::max())));
++                } else {
++                    params[component] = attribute.constant_data_[component];
++                }
++            }
++            break;
++        default: controller.push_error(ctx, GL_INVALID_ENUM); break;
++        }
++    }
++
++    BRIDGE_FUNC_LIBRARY(void, gl_get_vertex_attrib_fv_emu, std::uint32_t index, std::uint32_t pname, float *params) {
++        get_vertex_attrib_gles(sys, index, pname, params);
++    }
++
++    BRIDGE_FUNC_LIBRARY(void, gl_get_vertex_attrib_iv_emu, std::uint32_t index, std::uint32_t pname, std::int32_t *params) {
++        get_vertex_attrib_gles(sys, index, pname, params);
++    }
++
++    BRIDGE_FUNC_LIBRARY(void, gl_get_vertex_attrib_pointerv_emu, std::uint32_t index, std::uint32_t pname, eka2l1::ptr<void> *pointer) {
++        auto *ctx = get_es2_active_context(sys);
++        if (!ctx) {
++            return;
++        }
++        auto &controller = sys->get_dispatcher()->get_egl_controller();
++        if (index >= GLES2_EMU_MAX_VERTEX_ATTRIBS_COUNT || !pointer) {
++            controller.push_error(ctx, GL_INVALID_VALUE);
++            return;
++        }
++        if (pname != GL_VERTEX_ATTRIB_ARRAY_POINTER_EMU) {
++            controller.push_error(ctx, GL_INVALID_ENUM);
++            return;
++        }
++        // This is a guest address/offset, not a pointer in the emulator process.
++        *pointer = eka2l1::ptr<void>(ctx->attributes_[index].offset_);
++    }
++
+     BRIDGE_FUNC_LIBRARY(void, gl_enable_vertex_attrib_array_emu, int index) {
+         egl_context_es2 *ctx = get_es2_active_context(sys);
+         if (!ctx) {
+@@ -2582,6 +2850,9 @@ APPLY_PENDING_ROUTES:
+         }
+ 
+         ctx->attributes_[index].constant_data_[0] = v0;
++        ctx->attributes_[index].constant_data_[1] = 0.0f;
++        ctx->attributes_[index].constant_data_[2] = 0.0f;
++        ctx->attributes_[index].constant_data_[3] = 1.0f;
+         ctx->attributes_[index].constant_vcomp_count_ = 1;
+         ctx->attrib_changed_ = true;
+     }
+@@ -2602,6 +2873,8 @@ APPLY_PENDING_ROUTES:
+ 
+         ctx->attributes_[index].constant_data_[0] = v0;
+         ctx->attributes_[index].constant_data_[1] = v1;
++        ctx->attributes_[index].constant_data_[2] = 0.0f;
++        ctx->attributes_[index].constant_data_[3] = 1.0f;
+         ctx->attributes_[index].constant_vcomp_count_ = 2;
+         ctx->attrib_changed_ = true;
+     }
+@@ -2623,6 +2896,7 @@ APPLY_PENDING_ROUTES:
+         ctx->attributes_[index].constant_data_[0] = v0;
+         ctx->attributes_[index].constant_data_[1] = v1;
+         ctx->attributes_[index].constant_data_[2] = v2;
++        ctx->attributes_[index].constant_data_[3] = 1.0f;
+         ctx->attributes_[index].constant_vcomp_count_ = 3;
+         ctx->attrib_changed_ = true;
+     }
+@@ -2664,6 +2938,9 @@ APPLY_PENDING_ROUTES:
+         }
+ 
+         ctx->attributes_[index].constant_data_[0] = *v;
++        ctx->attributes_[index].constant_data_[1] = 0.0f;
++        ctx->attributes_[index].constant_data_[2] = 0.0f;
++        ctx->attributes_[index].constant_data_[3] = 1.0f;
+         ctx->attributes_[index].constant_vcomp_count_ = 1;
+         ctx->attrib_changed_ = true;
+     }
+@@ -2683,6 +2960,8 @@ APPLY_PENDING_ROUTES:
+         }
+ 
+         std::memcpy(ctx->attributes_[index].constant_data_, v, 8);
++        ctx->attributes_[index].constant_data_[2] = 0.0f;
++        ctx->attributes_[index].constant_data_[3] = 1.0f;
+         ctx->attributes_[index].constant_vcomp_count_ = 2;
+         ctx->attrib_changed_ = true;
+     }
+@@ -2702,6 +2981,7 @@ APPLY_PENDING_ROUTES:
+         }
+ 
+         std::memcpy(ctx->attributes_[index].constant_data_, v, 12);
++        ctx->attributes_[index].constant_data_[3] = 1.0f;
+         ctx->attributes_[index].constant_vcomp_count_ = 3;
+         ctx->attrib_changed_ = true;
+     }
+@@ -2867,4 +3147,4 @@ APPLY_PENDING_ROUTES:
+ 
+         program_obj->delete_object();
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/src/emu/dispatch/src/libraries/gles_shared/gles_shared.cpp b/src/emu/dispatch/src/libraries/gles_shared/gles_shared.cpp
+index db3edb6a2..7cdee0e27 100644
+--- a/src/emu/dispatch/src/libraries/gles_shared/gles_shared.cpp
++++ b/src/emu/dispatch/src/libraries/gles_shared/gles_shared.cpp
+@@ -1743,11 +1743,26 @@ namespace eka2l1::dispatch {
+             break;
+ 
+         case GL_MAX_VIEWPORT_DIMS_EMU:
++            params[0] = params[1] = static_cast<T>(GLES_EMU_MAX_TEXTURE_SIZE);
++            break;
++
+         case GL_MAX_TEXTURE_SIZE_EMU:
++        case GL_MAX_CUBE_MAP_TEXTURE_SIZE_EMU:
+             // We clamp on this
+             *params = static_cast<T>(GLES_EMU_MAX_TEXTURE_SIZE);
+             break;
+ 
++        case GL_ALIASED_POINT_SIZE_RANGE_EMU:
++        case GL_ALIASED_LINE_WIDTH_RANGE_EMU: {
++            float range[2] = {};
++            if (!drivers::get_graphics_float(drv, pname, range)) {
++                return false;
++            }
++            params[0] = convert_query_value<T>(range[0]);
++            params[1] = convert_query_value<T>(range[1]);
++            break;
++        }
++
+         case GL_SMOOTH_LINE_WIDTH_RANGE_EMU:
+             params[0] = static_cast<T>(1);
+             params[1] = static_cast<T>(1);
+diff --git a/src/emu/dispatch/src/register.cpp b/src/emu/dispatch/src/register.cpp
+index cf99a4c8a..bec6ff39b 100644
+--- a/src/emu/dispatch/src/register.cpp
++++ b/src/emu/dispatch/src/register.cpp
+@@ -383,17 +383,17 @@ namespace eka2l1::dispatch {
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11D9, gl_get_active_uniform_emu, "glGetActiveUniform"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11DA, gl_get_attached_shaders_emu, "glGetAttachedShaders"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11DB, gl_get_attrib_location_emu, "glGetAttribLocation"),
+-        //BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11DC, gl_get_framebuffer_attachment_parameteriv_emu, "glGetFramebufferAttachmentParameteriv"),
++        BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11DC, gl_get_framebuffer_attachment_parameteriv_emu, "glGetFramebufferAttachmentParameteriv"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11DD, gl_get_program_info_log_emu, "glGetProgramInfoLog"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11DE, gl_get_program_iv_emu, "glGetProgramiv"),
+-        //BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11DF, gl_get_renderbuffer_parameteriv_emu, "glGetRenderbufferParameteriv"),
++        BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11DF, gl_get_renderbuffer_parameteriv_emu, "glGetRenderbufferParameteriv"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E0, gl_get_shader_info_log_emu, "glGetShaderInfoLog"),
+-        //BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E1, gl_get_shader_precision_format_emu, "glGetShaderPrecisionFormat"),
++        BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E1, gl_get_shader_precision_format_emu, "glGetShaderPrecisionFormat"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E2, gl_get_shader_source_emu, "glGetShaderSource"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E3, gl_get_shader_iv_emu, "glGetShaderiv"),
+-        //BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E4, gl_get_vertex_attrib_pointerv_emu, "glGetVertexAttribPointerv"),
+-        //BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E5, gl_get_vertex_attrib_fv_emu, "glGetVertexAttribfv"),
+-        //BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E6, gl_get_vertex_attrib_iv_emu, "glGetVertexAttribiv"),
++        BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E4, gl_get_vertex_attrib_pointerv_emu, "glGetVertexAttribPointerv"),
++        BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E5, gl_get_vertex_attrib_fv_emu, "glGetVertexAttribfv"),
++        BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E6, gl_get_vertex_attrib_iv_emu, "glGetVertexAttribiv"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E7, gl_is_framebuffer_emu, "glIsFramebuffer"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E8, gl_is_program_emu, "glIsProgram"),
+         BRIDGE_REGISTER_DISPATCHER_SYMBOL(0x11E9, gl_is_renderbuffer_emu, "glIsRenderbuffer"),
+diff --git a/src/emu/drivers/include/drivers/graphics/backend/ogl/shader_ogl.h b/src/emu/drivers/include/drivers/graphics/backend/ogl/shader_ogl.h
+index 9b28cf2a3..a8eaf03a4 100644
+--- a/src/emu/drivers/include/drivers/graphics/backend/ogl/shader_ogl.h
++++ b/src/emu/drivers/include/drivers/graphics/backend/ogl/shader_ogl.h
+@@ -36,6 +36,7 @@ namespace eka2l1::drivers {
+ 
+         bool create(graphics_driver *driver, shader_module *vertex_module, shader_module *fragment_module, std::string *link_log = nullptr) override;
+         bool use(graphics_driver *driver) override;
++        bool validate(std::string *validation_log) override;
+ 
+         std::uint32_t program_handle() const {
+             return program;
+diff --git a/src/emu/drivers/include/drivers/graphics/graphics.h b/src/emu/drivers/include/drivers/graphics/graphics.h
+index fe689e8e6..7d67f43b5 100644
+--- a/src/emu/drivers/include/drivers/graphics/graphics.h
++++ b/src/emu/drivers/include/drivers/graphics/graphics.h
+@@ -106,7 +106,11 @@ namespace eka2l1::drivers {
+         graphics_driver_read_framebuffer,
+         graphics_driver_backup_state, // Backup all possible state to a struct
+         graphics_driver_restore_state, // Restore previously backup data
+-        graphics_driver_copy_framebuffer_to_texture
++        graphics_driver_copy_framebuffer_to_texture,
++        graphics_driver_validate_program,
++        graphics_driver_get_shader_precision,
++        graphics_driver_get_integer,
++        graphics_driver_get_float
+     };
+ 
+     enum graphics_driver_extension {
+diff --git a/src/emu/drivers/include/drivers/graphics/shader.h b/src/emu/drivers/include/drivers/graphics/shader.h
+index c3465e4d8..98144b68b 100644
+--- a/src/emu/drivers/include/drivers/graphics/shader.h
++++ b/src/emu/drivers/include/drivers/graphics/shader.h
+@@ -100,6 +100,7 @@ namespace eka2l1::drivers {
+ 
+         virtual bool create(graphics_driver *driver, shader_module *vertex_module, shader_module *fragment_module, std::string *link_log = nullptr) = 0;
+         virtual bool use(graphics_driver *driver) = 0;
++        virtual bool validate(std::string *validation_log) = 0;
+ 
+         virtual std::optional<int> get_uniform_location(const std::string &name) = 0;
+         virtual std::optional<int> get_attrib_location(const std::string &name) = 0;
+diff --git a/src/emu/drivers/include/drivers/itc.h b/src/emu/drivers/include/drivers/itc.h
+index 1f2662b1f..260e2f894 100644
+--- a/src/emu/drivers/include/drivers/itc.h
++++ b/src/emu/drivers/include/drivers/itc.h
+@@ -102,6 +102,12 @@ namespace eka2l1::drivers {
+     drivers::handle create_shader_program(graphics_driver *driver, drivers::handle vertex_module,
+         drivers::handle fragment_module, shader_program_metadata *metadata, std::string *link_log = nullptr);
+ 
++    bool validate_shader_program(graphics_driver *driver, drivers::handle program, std::string *validation_log);
++    bool get_shader_precision(graphics_driver *driver, std::uint32_t shader_type, std::uint32_t precision_type,
++        std::int32_t *range, std::int32_t *precision);
++    bool get_graphics_integer(graphics_driver *driver, std::uint32_t pname, std::int32_t *value);
++    bool get_graphics_float(graphics_driver *driver, std::uint32_t pname, float *value);
++
+     /**
+      * \brief Create a new texture.
+      *
+diff --git a/src/emu/drivers/src/graphics/backend/graphics_driver_shared.cpp b/src/emu/drivers/src/graphics/backend/graphics_driver_shared.cpp
+index 6b2f06144..7d2802b1c 100644
+--- a/src/emu/drivers/src/graphics/backend/graphics_driver_shared.cpp
++++ b/src/emu/drivers/src/graphics/backend/graphics_driver_shared.cpp
+@@ -1230,6 +1230,36 @@ namespace eka2l1::drivers {
+             break;
+         }
+ 
++        case graphics_driver_validate_program: {
++            auto *program = reinterpret_cast<shader_program *>(get_graphics_object(cmd.data_[0]));
++            auto *log = reinterpret_cast<std::string *>(cmd.data_[1]);
++            finish(cmd.status_, program && program->validate(log) ? 0 : -1);
++            break;
++        }
++
++        case graphics_driver_get_shader_precision: {
++#if !EKA2L1_PLATFORM(IOS)
++            if (!glGetShaderPrecisionFormat) {
++                finish(cmd.status_, -1);
++                break;
++            }
++#endif
++            glGetShaderPrecisionFormat(static_cast<GLenum>(cmd.data_[0]), static_cast<GLenum>(cmd.data_[1]),
++                reinterpret_cast<GLint *>(cmd.data_[2]), reinterpret_cast<GLint *>(cmd.data_[3]));
++            finish(cmd.status_, 0);
++            break;
++        }
++
++        case graphics_driver_get_integer:
++            glGetIntegerv(static_cast<GLenum>(cmd.data_[0]), reinterpret_cast<GLint *>(cmd.data_[1]));
++            finish(cmd.status_, 0);
++            break;
++
++        case graphics_driver_get_float:
++            glGetFloatv(static_cast<GLenum>(cmd.data_[0]), reinterpret_cast<GLfloat *>(cmd.data_[1]));
++            finish(cmd.status_, 0);
++            break;
++
+         case graphics_driver_create_texture: {
+             create_texture(cmd);
+             break;
+diff --git a/src/emu/drivers/src/graphics/backend/ogl/shader_ogl.cpp b/src/emu/drivers/src/graphics/backend/ogl/shader_ogl.cpp
+index 118c1d4a8..65fb65fa3 100644
+--- a/src/emu/drivers/src/graphics/backend/ogl/shader_ogl.cpp
++++ b/src/emu/drivers/src/graphics/backend/ogl/shader_ogl.cpp
+@@ -305,6 +305,23 @@ namespace eka2l1::drivers {
+         return true;
+     }
+ 
++    bool ogl_shader_program::validate(std::string *validation_log) {
++        glValidateProgram(program);
++        GLint success = GL_FALSE;
++        glGetProgramiv(program, GL_VALIDATE_STATUS, &success);
++        if (validation_log) {
++            GLint log_length = 0;
++            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_length);
++            validation_log->resize(log_length);
++            if (log_length) {
++                GLsizei written = 0;
++                glGetProgramInfoLog(program, log_length, &written, validation_log->data());
++                validation_log->resize(written);
++            }
++        }
++        return success == GL_TRUE;
++    }
++
+     bool ogl_shader_program::use(graphics_driver *driver) {
+         glUseProgram(program);
+         return true;
+diff --git a/src/emu/drivers/src/itc.cpp b/src/emu/drivers/src/itc.cpp
+index c5041e011..2ae4bd2ea 100644
+--- a/src/emu/drivers/src/itc.cpp
++++ b/src/emu/drivers/src/itc.cpp
+@@ -117,6 +117,41 @@ namespace eka2l1::drivers {
+         return handle_num;
+     }
+ 
++    bool validate_shader_program(graphics_driver *driver, drivers::handle program, std::string *validation_log) {
++        command cmd;
++        cmd.opcode_ = graphics_driver_validate_program;
++        cmd.data_[0] = program;
++        cmd.data_[1] = reinterpret_cast<std::uint64_t>(validation_log);
++        return send_sync_command(driver, cmd) == 0;
++    }
++
++    bool get_shader_precision(graphics_driver *driver, std::uint32_t shader_type, std::uint32_t precision_type,
++        std::int32_t *range, std::int32_t *precision) {
++        command cmd;
++        cmd.opcode_ = graphics_driver_get_shader_precision;
++        cmd.data_[0] = shader_type;
++        cmd.data_[1] = precision_type;
++        cmd.data_[2] = reinterpret_cast<std::uint64_t>(range);
++        cmd.data_[3] = reinterpret_cast<std::uint64_t>(precision);
++        return send_sync_command(driver, cmd) == 0;
++    }
++
++    bool get_graphics_integer(graphics_driver *driver, std::uint32_t pname, std::int32_t *value) {
++        command cmd;
++        cmd.opcode_ = graphics_driver_get_integer;
++        cmd.data_[0] = pname;
++        cmd.data_[1] = reinterpret_cast<std::uint64_t>(value);
++        return send_sync_command(driver, cmd) == 0;
++    }
++
++    bool get_graphics_float(graphics_driver *driver, std::uint32_t pname, float *value) {
++        command cmd;
++        cmd.opcode_ = graphics_driver_get_float;
++        cmd.data_[0] = pname;
++        cmd.data_[1] = reinterpret_cast<std::uint64_t>(value);
++        return send_sync_command(driver, cmd) == 0;
++    }
++
+     drivers::handle create_buffer(graphics_driver *driver, const void *initial_data, const std::size_t initial_size, const buffer_upload_hint upload_hint) {
+         drivers::handle handle_num = 0;
+ 

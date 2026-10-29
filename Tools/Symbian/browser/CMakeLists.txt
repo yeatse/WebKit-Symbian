@@ -25,6 +25,30 @@ set(shell_sources
   RunLoopDriver.cpp
   WebContainer.cpp)
 
+# Match the engine's configured features without importing its private
+# config.h into the native AVKON translation units.
+set(browser_media OFF)
+set(browser_compositing OFF)
+set(browser_webgl OFF)
+if (NOT BROWSER_STUB_ENGINE)
+  foreach(feature IN ITEMS ENABLE_VIDEO USE_TEXTURE_MAPPER ENABLE_WEBGL)
+    file(STRINGS "${WEBKIT_BUILD_DIR}/cmakeconfig.h" feature_enabled
+      REGEX "^#define ${feature} 1$")
+    if(feature_enabled)
+      if(feature STREQUAL "ENABLE_VIDEO")
+        set(browser_media ON)
+      elseif(feature STREQUAL "USE_TEXTURE_MAPPER")
+        set(browser_compositing ON)
+      else()
+        set(browser_webgl ON)
+      endif()
+    endif()
+  endforeach()
+endif()
+if(browser_media)
+  list(APPEND shell_sources MediaPlayers.cpp)
+endif()
+
 if (BROWSER_STUB_ENGINE)
   symbian_add_executable(browser SOURCES ${shell_sources} StubWebView.cpp)
 else ()
@@ -33,6 +57,9 @@ endif ()
 
 target_include_directories(browser PRIVATE "${WEBKIT_SOURCE_DIR}/Source/WebKitLegacy/symbian")
 target_compile_features(browser PRIVATE cxx_std_23)
+target_compile_definitions(browser PRIVATE
+  SYMBIAN_BROWSER_MEDIA=$<BOOL:${browser_media}>
+  SYMBIAN_BROWSER_COMPOSITING=$<BOOL:${browser_compositing}>)
 # Leaves (exceptions) cross the AVKON framework, but no typeinfo: the FEP
 # interfaces' type information lives in fepbase.dll, which has no proxy.
 symbian_enable_native_leaves(browser SOURCES ${shell_sources})
@@ -51,12 +78,26 @@ target_compile_definitions(browser PRIVATE __wchar_t=__symbian_wchar_t)
 foreach (dll avkon cone eikcore eikcoctl eikctl apparc apgrfx bafl efsrv fbscli bitgdi gdi ws32 etext form esock)
   target_link_libraries(browser PRIVATE "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
 endforeach ()
+if(browser_media)
+  foreach(dll mediaclientaudio mediaclientvideo)
+    target_link_libraries(browser PRIVATE "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
+  endforeach()
+endif()
 
 if (NOT BROWSER_STUB_ENGINE)
   set(L "${WEBKIT_BUILD_DIR}/lib")
   set(D "${DEPS_DIR}/lib")
   set(M "${SYMBIAN_SDK_PREFIX}/lib/armv6/mbedtls/lib")
   set(S "${SYMBIAN_SDK_PREFIX}/lib/armv6")
+  set(graphics_libraries)
+  if(browser_compositing)
+    list(APPEND graphics_libraries "${L}/libSymbianEGLBridge.a"
+      "${SYMBIAN_SDK_PREFIX}/proxies/libegl/libegl.dso"
+      "${SYMBIAN_SDK_PREFIX}/proxies/libglesv2/libglesv2.dso")
+  endif()
+  if(browser_webgl)
+    list(APPEND graphics_libraries "${L}/libGLESv2.a" "${L}/libANGLE.a")
+  endif()
   target_link_libraries(browser PRIVATE
     --start-group
     "${L}/libWebKitLegacy.a"
@@ -64,6 +105,7 @@ if (NOT BROWSER_STUB_ENGINE)
     "${L}/libPAL.a"
     "${L}/libJavaScriptCore.a"
     "${L}/libWTF.a"
+    ${graphics_libraries}
     "${D}/libcairo.a" "${D}/libpixman-1.a" "${D}/libharfbuzz-icu.a" "${D}/libharfbuzz.a"
     "${D}/libfontconfig.a" "${D}/libxslt.a" "${D}/libxml2.a" "${D}/libsqlite3.a" "${D}/libpsl.a"
     "${D}/libwebpdemux.a" "${D}/libwebp.a" "${D}/libcurl.a" "${D}/libmbedtls_fs.a"

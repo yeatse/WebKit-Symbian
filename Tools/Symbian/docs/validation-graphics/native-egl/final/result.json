@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "failure": null,
+  "probe": "egl",
+  "image_sha256": "c9b8331f218694cc00321f5c772d735713b067cfbc19598af9f5dfedfddacaf6",
+  "emulator_sha256": "1e418ff2d4af12755a62f6093b2bba79da1248c111336e760f559f50888ae42b",
+  "arguments": [
+    "--expect-es3-rejection",
+    "--hold-ms",
+    "15000"
+  ],
+  "host_exit": 0,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "egl-window-probe",
+    "version": 2,
+    "passed": 123,
+    "failed": 0,
+    "swaps": 3,
+    "pixelChecks": 9,
+    "holdMilliseconds": 15000,
+    "expectES3Rejection": true
+  },
+  "guest_log": "egl-probe.log",
+  "screenshots": [
+    "screenshot-1.png"
+  ],
+  "audio": null,
+  "audio_format": null
+}

@@ -6,6 +6,7 @@
 
 // system_utils.cpp: Implementation of common functions
 
+#include "common/tls_symbian.h"
 #include "common/system_utils.h"
 #include "common/debug.h"
 
@@ -128,11 +129,16 @@ bool PrependPathToEnvironmentVar(const char *variableName, const char *path)
 
 bool IsFullPath(std::string dirName)
 {
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+    return dirName.size() >= 3 && dirName[1] == ':'
+           && (dirName[2] == '\\' || dirName[2] == '/');
+#else
     if (dirName.find(GetRootDirectory()) == 0)
     {
         return true;
     }
     return false;
+#endif
 }
 
 std::string ConcatenatePath(std::string first, std::string second)
@@ -242,7 +248,17 @@ std::string StripFilenameFromPath(const std::string &path)
     return (lastPathSepLoc != std::string::npos) ? path.substr(0, lastPathSepLoc) : "";
 }
 
-#if defined(ANGLE_PLATFORM_APPLE)
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+uint64_t GetCurrentThreadUniqueId()
+{
+    static std::atomic<uint64_t> globalThreadSerial;
+    struct UniqueThreadIdTag;
+    auto &id = SymbianThreadLocal<UniqueThreadIdTag, uint64_t>();
+    if (!id)
+        id = ++globalThreadSerial;
+    return id;
+}
+#elif defined(ANGLE_PLATFORM_APPLE)
 // https://anglebug.com/42264979, similar to egl::GetCurrentThread() in libGLESv2/global_state.cpp
 uint64_t GetCurrentThreadUniqueId()
 {

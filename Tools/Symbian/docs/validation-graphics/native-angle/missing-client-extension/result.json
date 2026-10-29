@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "failure": "probe RESULT reports failure or no checks",
+  "probe": "angle",
+  "image_sha256": "5359d8296e87567af006183f1849c84eac9ba492eff63b68e94edb7109096753",
+  "emulator_sha256": "1e418ff2d4af12755a62f6093b2bba79da1248c111336e760f559f50888ae42b",
+  "arguments": [],
+  "host_exit": 0,
+  "guest_exit": 1,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "angle-probe",
+    "passed": 0,
+    "failed": 2
+  },
+  "guest_log": "angle-probe.log",
+  "screenshots": [],
+  "audio": null,
+  "audio_format": null
+}

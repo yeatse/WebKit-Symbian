@@ -1,0 +1,1 @@
+PASS: restore failure suppresses upload; owner-only/deferred deletion; abandonment; thread release; context reuse; C++ lifetime

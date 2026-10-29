@@ -1,0 +1,1 @@
+PASS: native argument parser preserves quoted paths/URLs and rejects malformed/overflow input

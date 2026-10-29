@@ -14,6 +14,7 @@
 #include "common/string_utils.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <algorithm>
 #include <cctype>
@@ -181,6 +182,21 @@ bool HexStringToUInt(const std::string_view &input, unsigned int *uintOut)
 
 bool ReadFileToString(const std::string &path, std::string *stringOut)
 {
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+    FILE *file = fopen(path.c_str(), "rb");
+    if (!file)
+        return false;
+    std::string result;
+    char buffer[4096];
+    size_t count;
+    while ((count = fread(buffer, 1, sizeof(buffer), file)))
+        result.append(buffer, count);
+    bool success = !ferror(file);
+    success = !fclose(file) && success;
+    if (success)
+        *stringOut = std::move(result);
+    return success;
+#else
     std::ifstream inFile(path.c_str(), std::ios::binary);
     if (inFile.fail())
     {
@@ -194,6 +210,7 @@ bool ReadFileToString(const std::string &path, std::string *stringOut)
 
     inFile.read(stringOut->data(), size);
     return !inFile.fail();
+#endif
 }
 
 bool BeginsWith(const std::string &str, const std::string &prefix)

@@ -34,7 +34,6 @@ platform/libwpe/PasteboardLibWPE.cpp
 
 
 platform/symbian/CurlSSLHandleSymbian.cpp
-platform/symbian/GraphicsLayerSymbian.cpp
 platform/symbian/MIMETypeRegistrySymbian.cpp
 platform/symbian/NetworkStateNotifierSymbian.cpp
 platform/symbian/PlatformKeyboardEventSymbian.cpp

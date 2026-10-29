@@ -196,10 +196,12 @@ void SymbianChromeClient::dispatchViewportPropertiesDidChange(const ViewportArgu
 
 void SymbianChromeClient::triggerRenderingUpdate()
 {
-    // No compositing: an update runs animation frames and layout, and the
-    // repaints it causes arrive as invalidations.
-    m_view.page().isolatedUpdateRendering();
+    m_view.scheduleRenderingUpdate();
 }
+
+bool SymbianChromeClient::allowsAcceleratedCompositing() const { return m_view.usesAcceleratedCompositing(); }
+void SymbianChromeClient::attachRootGraphicsLayer(LocalFrame&, GraphicsLayer* layer) { m_view.attachRootGraphicsLayer(layer); }
+void SymbianChromeClient::attachViewOverlayGraphicsLayer(GraphicsLayer* layer) { m_view.attachViewOverlayGraphicsLayer(layer); }
 
 RefPtr<ColorChooser> SymbianChromeClient::createColorChooser(ColorChooserClient&, const Color&) { return nullptr; }
 RefPtr<DataListSuggestionPicker> SymbianChromeClient::createDataListSuggestionPicker(DataListSuggestionsClient&) { return nullptr; }

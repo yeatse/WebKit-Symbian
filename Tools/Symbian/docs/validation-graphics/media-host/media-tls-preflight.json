@@ -1,0 +1,80 @@
+[
+  {
+    "check": "trusted endpoint",
+    "host": "localhost",
+    "port": 8776,
+    "server_hostname": "localhost",
+    "certificate": "good.crt",
+    "trust": "ca.crt",
+    "status": "PASS",
+    "certificate_sha256": "b2cf6d54caea8fcc29d34d61e61b1ffdb64988d644ad541a66365c9b07faf8de",
+    "subject_alt_names": [
+      [
+        "DNS",
+        "localhost"
+      ]
+    ],
+    "protocol": "TLSv1.3",
+    "http_status": 200
+  },
+  {
+    "check": "wrong-host endpoint identity",
+    "host": "localhost",
+    "port": 8777,
+    "server_hostname": "wrong.invalid",
+    "certificate": "wrong.crt",
+    "trust": "ca.crt",
+    "status": "PASS",
+    "certificate_sha256": "87899b62acbdc0390029f9f06e70a69447bdec0d2117bdea431f6167c8739b64",
+    "subject_alt_names": [
+      [
+        "DNS",
+        "wrong.invalid"
+      ]
+    ],
+    "protocol": "TLSv1.3",
+    "http_status": 200
+  },
+  {
+    "check": "untrusted endpoint identity",
+    "host": "localhost",
+    "port": 8778,
+    "server_hostname": "localhost",
+    "certificate": "untrusted.crt",
+    "trust": "untrusted.crt",
+    "status": "PASS",
+    "certificate_sha256": "3b88438bbbd23b31b5a176ebced9f89102f8de15f14c5d4b00605b7c5acfaf45",
+    "subject_alt_names": [
+      [
+        "DNS",
+        "localhost"
+      ]
+    ],
+    "protocol": "TLSv1.3",
+    "http_status": 200
+  },
+  {
+    "check": "hostname rejection",
+    "host": "localhost",
+    "port": 8777,
+    "server_hostname": "localhost",
+    "certificate": "wrong.crt",
+    "trust": "ca.crt",
+    "status": "PASS",
+    "error_type": "SSLCertVerificationError",
+    "verify_code": 62,
+    "verify_message": "Hostname mismatch, certificate is not valid for 'localhost'."
+  },
+  {
+    "check": "untrusted-root rejection",
+    "host": "localhost",
+    "port": 8778,
+    "server_hostname": "localhost",
+    "certificate": "untrusted.crt",
+    "trust": "ca.crt",
+    "status": "PASS",
+    "error_type": "SSLCertVerificationError",
+    "verify_code": 18,
+    "verify_message": "self-signed certificate"
+  }
+]

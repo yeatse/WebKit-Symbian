@@ -1,0 +1,74 @@
+Subject: [PATCH] Retain generated GLES guest names for attachment queries
+
+Framebuffer attachment queries return the attached object's guest name.
+Textures and renderbuffers previously left client_handle_ uninitialized;
+only shaders/programs assigned it. Initialize the field and record each
+new generated/bound name, independently of host driver handles.
+
+Apply after 0011. Leaves guest test expectations unchanged.
+
+diff --git a/src/emu/dispatch/src/libraries/gles_shared/gles_shared.cpp b/src/emu/dispatch/src/libraries/gles_shared/gles_shared.cpp
+--- a/src/emu/dispatch/src/libraries/gles_shared/gles_shared.cpp
++++ b/src/emu/dispatch/src/libraries/gles_shared/gles_shared.cpp
+@@ -959,7 +959,8 @@
+ 
+     gles_driver_object::gles_driver_object(egl_context_es_shared &ctx)
+         : context_(ctx)
+-        , driver_handle_(0) {
++        , driver_handle_(0)
++        , client_handle_(0) {
+     }
+ 
+     gles_driver_texture::~gles_driver_texture() {
+@@ -1242,7 +1243,9 @@
+         while (buffers_.find(name) != buffers_.end()) {
+             ++name;
+         }
+-        buffers_.emplace(name, std::make_unique<gles_driver_buffer>(*this));
++        auto buffer = std::make_unique<gles_driver_buffer>(*this);
++        buffer->assign_client_handle(name);
++        buffers_.emplace(name, std::move(buffer));
+         return name;
+     }
+ 
+@@ -1260,6 +1263,7 @@
+             auto &buffer = buffers_[name];
+             if (!buffer) {
+                 buffer = std::make_unique<gles_driver_buffer>(*this);
++                buffer->assign_client_handle(name);
+             }
+             buffer->was_bound_ = true;
+         }
+@@ -2050,7 +2054,9 @@
+             default:
+                 break;
+             }
++            auto *object = stub_obj.get();
+             texs[i] = static_cast<std::uint32_t>(ctx->objects_.add(stub_obj));
++            object->assign_client_handle(texs[i]);
+         }
+     }
+ 
+diff --git a/src/emu/dispatch/src/libraries/gles2/gles2.cpp b/src/emu/dispatch/src/libraries/gles2/gles2.cpp
+--- a/src/emu/dispatch/src/libraries/gles2/gles2.cpp
++++ b/src/emu/dispatch/src/libraries/gles2/gles2.cpp
+@@ -2078,7 +2078,9 @@
+ 
+         for (std::int32_t i = 0; i < count; i++) {
+             stub_obj = std::make_unique<gles_renderbuffer_object>(*ctx);
++            auto *object = stub_obj.get();
+             rbs[i] = static_cast<std::uint32_t>(ctx->objects_.add(stub_obj));
++            object->assign_client_handle(rbs[i]);
+         }
+     }
+     
+@@ -2208,7 +2210,9 @@
+ 
+         for (std::int32_t i = 0; i < count; i++) {
+             stub_obj = std::make_unique<gles_framebuffer_object>(*ctx);
++            auto *object = stub_obj.get();
+             names[i] = static_cast<std::uint32_t>(ctx->objects_.add(stub_obj));
++            object->assign_client_handle(names[i]);
+         }
+     }
+ 

@@ -36,6 +36,7 @@
 
 namespace WebCore {
 class Element;
+class GraphicsLayer;
 class LocalFrame;
 class KeyboardEvent;
 class Page;
@@ -43,6 +44,7 @@ class ResourceError;
 }
 
 namespace WebKitSymbian {
+class SymbianCompositor;
 
 // UTF-16 storage for a Text handed to the application.
 class UTF16Text {
@@ -73,9 +75,16 @@ public:
     void progressChanged();
     void loadErrorPage(const WebCore::ResourceError&);
     void viewportChanged(const WebCore::ViewportArguments&);
+    void attachRootGraphicsLayer(WebCore::GraphicsLayer*);
+    void attachViewOverlayGraphicsLayer(WebCore::GraphicsLayer*);
+    void scheduleRenderingUpdate();
+    void requestCompositedDisplay();
+    bool usesAcceleratedCompositing() const final;
 
 private:
     // WebView
+    bool setNativeWindow(void*) final;
+    void renderCompositedFrame() final;
     void setSize(int width, int height) final;
     void paint(uint8_t* pixels, int stride, const Rect&) final;
     void load(const char* url) final;
@@ -109,10 +118,14 @@ private:
     void zoomAt(const WebCore::IntPoint&);
     void click(const WebCore::IntPoint&);
     void scrollAt(const WebCore::IntPoint&, const WebCore::IntSize& delta);
+    void disableCompositing();
 
     WebViewClient& m_client;
     RefPtr<WebCore::Page> m_page;
     WebCore::IntSize m_size;
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    std::unique_ptr<SymbianCompositor> m_compositor;
+#endif
 
     // Pages lay out at the width their viewport asks for, 980 pixels for
     // those without one, and start scaled to fit the view.

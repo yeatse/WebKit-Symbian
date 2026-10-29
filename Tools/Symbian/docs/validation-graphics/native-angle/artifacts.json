@@ -1,0 +1,23 @@
+{
+  "publicNativeAliases": 0,
+  "privateANGLEEntryPoints": 963,
+  "unsupportedELFTLSSymbols": 0,
+  "probeSHA256": "e098ef9b7b753f01ab787acf496e6fd877d5b1e710fd58f6ee4301dd891685b2",
+  "probeBytes": 2526796,
+  "probeUID": "e00008f4",
+  "probeFlags": "0x12100028",
+  "guestExecution": "PASS",
+  "guestEvidence": "final/result.json",
+  "libraries": [
+    {
+      "name": "libANGLE.a",
+      "bytes": 1467988,
+      "sha256": "eb7476c097ffe20a7c00f89d64be8fef51b4140b8391375e54eb642d8b1f9480"
+    },
+    {
+      "name": "libGLESv2.a",
+      "bytes": 44180,
+      "sha256": "79bfd707efe1c7092e0daa4208de21dc152bc0713ba36ebaa8e06da1c1b33abb"
+    }
+  ]
+}

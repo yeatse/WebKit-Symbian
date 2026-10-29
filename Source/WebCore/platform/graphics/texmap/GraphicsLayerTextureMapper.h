@@ -90,7 +90,7 @@ public:
     void flushCompositingState(const FloatRect&) override;
     void flushCompositingStateForThisLayerOnly() override;
 
-    WEBCORE_EXPORT void updateBackingStoreIncludingSubLayers(TextureMapper&);
+    WEBCORE_EXPORT bool updateBackingStoreIncludingSubLayers(TextureMapper&);
 
     TextureMapperLayer& layer() { return m_layer; }
 
@@ -107,7 +107,7 @@ private:
 
     void commitLayerChanges();
     void updateDebugBorderAndRepaintCount();
-    void updateBackingStoreIfNeeded(TextureMapper&);
+    bool updateBackingStoreIfNeeded(TextureMapper&);
     void prepareBackingStoreIfNeeded();
     bool shouldHaveBackingStore() const;
 

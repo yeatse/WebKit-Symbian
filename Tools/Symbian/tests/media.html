@@ -1,0 +1,194 @@
+<!doctype html><meta charset="utf-8">
+<title>Symbian media acceptance</title>
+<style>body{font:14px sans-serif;background:white;color:#111}video{width:320px;height:180px;background:#444}pre{white-space:pre-wrap}#stage{min-height:190px}</style>
+<h1>Media playback</h1><button id="run">Run media checks</button>
+<div id="stage"></div><pre id="output"></pre>
+<script>
+'use strict';
+const parameters = new URL(location.href).searchParams;
+const runToken = parameters.get('run') || ('manual-' + Date.now());
+const local = location.protocol === 'file:' || parameters.get('mode') === 'local';
+const withTLS = parameters.get('tls') === '1';
+const output = document.getElementById('output');
+const stage = document.getElementById('stage');
+const trace = [];
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+function assert(value, message) { if (!value) throw new Error(message); }
+function log(message) { output.textContent += message + '\n'; console.log(message); }
+async function until(predicate, description, timeout=12000) {
+    const deadline = performance.now() + timeout;
+    while (performance.now() < deadline) {
+        if (predicate()) return;
+        await delay(50);
+    }
+    throw new Error('timeout: ' + description);
+}
+function source(name) { return new URL(name, location.href).href; }
+function transferURL(name, suffix) { return source(name) + '?token=' + encodeURIComponent(runToken + '-' + suffix); }
+async function transferState(suffix) { return (await fetch(source('transfer-state') + '?token=' + encodeURIComponent(runToken + '-' + suffix))).json(); }
+async function media(kind, task) {
+    const element = document.createElement(kind);
+    element.preload = 'auto'; element.controls = true;
+    stage.appendChild(element);
+    for (const name of ['loadstart','loadedmetadata','canplay','playing','pause','waiting','seeking','seeked','ended','error','emptied']) {
+        element.addEventListener(name, () => trace.push({event:name, at:Math.round(performance.now()), time:element.currentTime, ready:element.readyState, error:element.error ? element.error.code : 0}));
+    }
+    try { return await task(element); }
+    finally { element.pause(); element.removeAttribute('src'); element.load(); element.remove(); }
+}
+async function load(element, url) {
+    element.src = url; element.load();
+    await until(() => !!element.error || element.readyState >= 1, 'metadata');
+    assert(!element.error, 'load failed code=' + (element.error && element.error.code));
+    assert(element.duration > 11 && element.duration < 13.5, 'fixture duration: ' + element.duration);
+}
+async function advance(element, delta=.3, timeout=12000) {
+    const initial = element.currentTime;
+    await until(() => !!element.error || element.currentTime > initial + delta, 'position advances', timeout);
+    assert(!element.error, 'playback error code=' + (element.error && element.error.code));
+}
+async function play(element) {
+    await element.play();
+    await advance(element);
+}
+async function seek(element, position) {
+    element.currentTime = position;
+    await until(() => !!element.error || (!element.seeking && Math.abs(element.currentTime - position) < .6), 'seek completes');
+    assert(!element.error, 'seek error');
+}
+async function controls(element, name) {
+    await load(element, source(name));
+    await play(element);
+    log('CAPTURE: ' + name + ' playing');
+    await delay(800);
+    element.pause();
+    const paused = element.currentTime;
+    log('CAPTURE: ' + name + ' paused');
+    await delay(650);
+    assert(Math.abs(element.currentTime-paused) < .12, 'position advanced while paused');
+    await seek(element, 4);
+    element.volume = .5;
+    await element.play();
+    await advance(element);
+    element.muted = true;
+    log('CAPTURE: ' + name + ' muted');
+    await delay(650);
+    assert(element.muted && element.volume === .5, 'volume/mute properties');
+    element.muted = false;
+    log('CAPTURE: ' + name + ' unmuted');
+    await advance(element, .5);
+}
+async function expectError(url) {
+    await media('video', async element => {
+        element.src=url; element.load();
+        // Consume partial responses too, so a decoder cannot leave a truncated
+        // response sitting in its preload buffer without observing the error.
+        element.play().catch(() => {});
+        await until(() => !!element.error, 'expected media error', 18000);
+        assert([2,3,4].includes(element.error.code), 'unexpected error code ' + element.error.code);
+    });
+}
+async function run() {
+    document.getElementById('run').disabled = true;
+    output.textContent = ''; trace.length = 0;
+    const tests = [
+        ['format rejection', async () => {
+            const element=document.createElement('video');
+            assert(element.canPlayType('video/x-not-a-format') === '', 'unknown container advertised');
+            assert(element.canPlayType('video/mp4; codecs="not-a-codec"') === '', 'unknown codec advertised');
+        }],
+        ['WAV playback controls', () => media('audio', element => controls(element, 'audio.wav'))],
+        ['MP3 playback', () => media('audio', async element => { await load(element,source('audio.mp3')); await play(element); })],
+        ['MP4 video controls', () => media('video', async element => {
+            await controls(element, 'video.mp4');
+            assert(element.videoWidth === 320 && element.videoHeight === 180, 'native video dimensions');
+        })],
+        ['natural end notification', () => media('video', async element => {
+            await load(element, source('video.mp4'));
+            let ended=0; element.addEventListener('ended',()=>++ended);
+            await seek(element,element.duration-1);
+            await element.play();
+            await until(()=>element.ended || !!element.error,'natural end',7000);
+            assert(!element.error && element.ended && ended===1, 'wrong end/error event');
+        })],
+        ['invalid media error', () => expectError(source('unsupported.mp4'))],
+    ];
+    if (!local) tests.push(
+        ['HTTP redirect playback', () => media('video', async element => { await load(element,source('redirect-video.mp4')); await play(element); })],
+        ['HTTP missing media error', () => expectError(source('missing.mp4'))],
+        ['source replacement during open', () => media('audio', async element => {
+            let errors=0; element.addEventListener('error',()=>++errors);
+            element.src=transferURL('delayed-audio.wav','replace'); element.load();
+            await delay(80);
+            await load(element,source('audio.mp3')); await play(element);
+            await delay(2300);
+            assert(errors===0 && element.currentSrc.endsWith('/audio.mp3'), 'old open affected replacement');
+            assert(element.duration > 11 && element.duration < 13.5, 'replacement metadata');
+        })],
+        ['cancel pending open', () => media('video', async element => {
+            let late=0;
+            element.src=transferURL('delayed-video.mp4','cancel'); element.load();
+            await delay(80);
+            element.removeAttribute('src'); element.load();
+            for (const name of ['loadedmetadata','canplay','playing','error']) element.addEventListener(name,()=>++late);
+            await delay(2500);
+            assert(late===0 && element.readyState===0, 'callback after cancellation');
+        })],
+        ['progressive playback before completion', () => media('video', async element => {
+            await load(element,transferURL('slow-video.mp4','progressive')); await play(element);
+            const state=await transferState('progressive');
+            assert(state.started && state.sent < state.total && !state.complete, 'playback waited for complete download');
+            trace.push({progressive:state, position:element.currentTime});
+        })],
+        ['stalled download resumes playback', () => media('video', async element => {
+            let waiting=0, ended=0;
+            element.addEventListener('waiting',()=>++waiting);
+            element.addEventListener('ended',()=>++ended);
+            await load(element,transferURL('stall-video.mp4','stall')); await play(element);
+            const deadline=performance.now()+10000;
+            let observed=false, position=0;
+            while(performance.now()<deadline) {
+                const state=await transferState('stall');
+                if(state.stalling && element.readyState<3 && element.currentTime>.1) { observed=true;position=element.currentTime;break; }
+                await delay(100);
+            }
+            assert(observed && waiting>0 && ended===0, 'partial EOF was not a recoverable stall');
+            await until(()=>!!element.error || element.currentTime>position+.6,'playback after stalled transfer',18000);
+            assert(!element.error && ended===0,'stall became error or premature end');
+            trace.push({stallPosition:position,resumedPosition:element.currentTime,waiting});
+        })],
+        ['tail index waits for complete file', () => media('video', async element => {
+            await load(element,transferURL('slow-video-tail-index.mp4','tail')); await play(element);
+            const state=await transferState('tail');
+            assert(state.complete && state.sent===state.total,'tail index opened incomplete file');
+        })],
+        ['truncated HTTP media error', () => expectError(source('truncated-video.mp4'))],
+    );
+    if (withTLS && !local) {
+        const tlsPort=Number(parameters.get('tlsPort') || 8776);
+        tests.push(
+            ['HTTPS trusted playback', () => media('audio', async element => { await load(element,'https://localhost:'+tlsPort+'/audio.wav'); await play(element); })],
+            ['HTTPS wrong hostname rejected', () => expectError('https://localhost:'+(tlsPort+1)+'/video.mp4')],
+            ['HTTPS untrusted root rejected', () => expectError('https://localhost:'+(tlsPort+2)+'/video.mp4')],
+        );
+    }
+    const results=[];
+    for (const [name,test] of tests) {
+        let status='PASS', detail='';
+        try { await test(); } catch(error) { status='FAIL'; detail=String(error); }
+        results.push({name,status,detail}); log(status+': '+name+(detail?' '+detail:''));
+    }
+    const passed=results.filter(result=>result.status==='PASS').length;
+    const summary=(passed===tests.length?'PASS':'FAIL')+': media '+passed+'/'+tests.length;
+    log(summary); document.title=summary;
+    const report={suite:'media',run:runToken,mode:local?'local':(withTLS?'http-tls':'http'),results,trace};
+    console.log('RESULT '+JSON.stringify(report));
+    if(!local) {
+        try { const response=await fetch('/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(report)}); assert(response.ok,'report HTTP '+response.status); }
+        catch(error) { log('REPORT FAILED: '+error); }
+    }
+    document.getElementById('run').disabled=false;
+}
+document.getElementById('run').onclick=run;
+if(parameters.get('autorun')==='1') run();
+</script>

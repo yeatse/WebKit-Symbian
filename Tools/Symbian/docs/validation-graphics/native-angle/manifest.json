@@ -1,0 +1,53 @@
+{
+  "dateUTC": "2026-10-29",
+  "device": "X7-00 (RM-707), Symbian Belle epocver:10.0",
+  "ekaBase": "5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a",
+  "runs": [
+    {
+      "case": "final",
+      "run": "angle-20261029T145113Z-4zer05xt",
+      "files": [
+        {
+          "file": "final/result.json",
+          "uncompressedBytes": 508,
+          "uncompressedSHA256": "c0f9cdfcf5b73c39dc2bf0044691b32b0e9b6fd1897ca57a5f20e5b570dd471e"
+        },
+        {
+          "file": "final/angle-probe.log.gz",
+          "uncompressedBytes": 2701,
+          "uncompressedSHA256": "1abdf1d75b16529b5c92f8ef1acfceeac901ffb0e39db206fd295e83fbb6c3e8"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 40740,
+        "sha256": "1240ff053674e3298d0946a22c88c5d9b0222064edb5f76b5c438a2193155901",
+        "retainedInRepository": false,
+        "reason": "Contains host paths and unrelated device/media logs; strict exit and panic summary is preserved in unmodified result.json."
+      }
+    },
+    {
+      "case": "missing-client-extension",
+      "run": "angle-20261029T144726Z-uunb1mam",
+      "files": [
+        {
+          "file": "missing-client-extension/result.json",
+          "uncompressedBytes": 546,
+          "uncompressedSHA256": "ed9812b0101e842a83e8b5057dbf8bea62c2d19182453ac02db81f15a04157a4"
+        },
+        {
+          "file": "missing-client-extension/angle-probe.log.gz",
+          "uncompressedBytes": 173,
+          "uncompressedSHA256": "eb12fcea35dabb0460f3339ffa0830c840cbfd32de4d2537ff0ffc346ea7351e"
+        }
+      ],
+      "externalHostLog": {
+        "name": "emulator.log",
+        "bytes": 27995,
+        "sha256": "e76876bf1407818faddb9425fd98a5853d61334a00596f55163f360f9bda72ab",
+        "retainedInRepository": false,
+        "reason": "Contains host paths and unrelated device/media logs; strict exit and panic summary is preserved in unmodified result.json."
+      }
+    }
+  ]
+}

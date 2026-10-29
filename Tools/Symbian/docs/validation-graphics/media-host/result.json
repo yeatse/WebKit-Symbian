@@ -1,0 +1,17 @@
+{
+  "helper_groups_passed": 5,
+  "helper_requests_passed": 13,
+  "tls_preflight_passed": 5,
+  "guest_playback_verified": false,
+  "host_source_sha256": {
+    "src/emu/drivers/src/media_download.cpp": "6586d291bc0d50402b1acb9ab9db950a04b74d0edf0717573da4bf282ccc27b2",
+    "src/emu/drivers/include/drivers/media_download.h": "91cf415b384481c37f8054cc3be12d22d80c78a67794d4460d5541567f87b0db"
+  },
+  "network_runner_regressions_passed": 12,
+  "truncated_http": {
+    "advertised_bytes": 710764,
+    "received_bytes": 236921,
+    "missing_bytes": 473843,
+    "host_result": "http.client.IncompleteRead"
+  }
+}

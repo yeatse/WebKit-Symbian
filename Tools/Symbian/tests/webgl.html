@@ -1,0 +1,201 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Symbian WebGL checks</title>
+<style>
+body{font:15px sans-serif;margin:12px;background:#ddd;color:#111}
+canvas{width:128px;height:128px;image-rendering:pixelated;border:1px solid #333}
+pre{white-space:pre-wrap;overflow-wrap:anywhere}button{padding:10px}
+</style>
+<h1>WebGL 1 checks</h1>
+<canvas id="canvas" width="8" height="8"></canvas>
+<button id="run">Run checks</button><pre id="output"></pre>
+<script>
+(function () {
+    'use strict';
+    const tests = [], canvas = document.getElementById('canvas');
+    let gl, program, buffer, texture;
+    function check(value, message) { if (!value) throw new Error(message); }
+    function test(name, body) { tests.push({ name, body }); }
+    function noError(message) { check(gl.getError() === gl.NO_ERROR, message); }
+    function pixel(x, y, expected, tolerance = 0) {
+        const actual = new Uint8Array(4);
+        gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, actual);
+        check(actual.every((v, i) => Math.abs(v - expected[i]) <= tolerance),
+            'pixel ' + x + ',' + y + ': ' + Array.from(actual) + ' expected ' + expected);
+        noError('readPixels');
+    }
+    function shader(type, source) {
+        const result = gl.createShader(type);
+        gl.shaderSource(result, source); gl.compileShader(result);
+        check(gl.getShaderParameter(result, gl.COMPILE_STATUS), gl.getShaderInfoLog(result));
+        return result;
+    }
+    function draw() {
+        gl.useProgram(program);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        const location = gl.getAttribLocation(program, 'position');
+        gl.enableVertexAttribArray(location);
+        gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+        gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.uniform1i(gl.getUniformLocation(program, 'image'), 0);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        noError('textured draw');
+    }
+    test('context-and-capabilities', () => {
+        gl = canvas.getContext('webgl', { alpha: true, antialias: false, preserveDrawingBuffer: true });
+        check(gl, 'WebGL context unavailable');
+        check(gl.getParameter(gl.VERSION).indexOf('WebGL 1.0') === 0, 'WebGL 1 version');
+        const attributes = gl.getContextAttributes();
+        check(attributes.alpha && attributes.preserveDrawingBuffer && !attributes.antialias, 'context attributes');
+        const precision = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.MEDIUM_FLOAT);
+        check(precision && precision.precision >= 10 && precision.rangeMax >= 14, 'fragment precision');
+        check(gl.getParameter(gl.MAX_TEXTURE_SIZE) >= 64, 'texture limits');
+        console.log('WEBGL INFO ' + JSON.stringify({ version: gl.getParameter(gl.VERSION),
+            renderer: gl.getParameter(gl.RENDERER), attributes }));
+        noError('capability queries');
+    });
+    test('new-buffer-is-cleared', () => {
+        pixel(0, 0, [0, 0, 0, 0]); pixel(7, 7, [0, 0, 0, 0]);
+    });
+    test('shader-texture-and-vertex-queries', () => {
+        const vertex = shader(gl.VERTEX_SHADER, 'attribute vec2 position; varying vec2 uv; void main(){uv=position*0.5+0.5;gl_Position=vec4(position,0.0,1.0);}');
+        const fragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float; varying vec2 uv; uniform sampler2D image; void main(){gl_FragColor=texture2D(image,uv);}');
+        program = gl.createProgram(); gl.attachShader(program, vertex); gl.attachShader(program, fragment);
+        gl.linkProgram(program); check(gl.getProgramParameter(program, gl.LINK_STATUS), gl.getProgramInfoLog(program));
+        gl.deleteShader(vertex); gl.deleteShader(fragment);
+        buffer = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+        texture = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 2, 2, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+            new Uint8Array([255,0,0,255, 0,255,0,255, 0,0,255,255, 255,255,255,255]));
+        gl.viewport(0, 0, 8, 8); draw();
+        pixel(1, 1, [255,0,0,255]); pixel(6, 1, [0,255,0,255]);
+        pixel(1, 6, [0,0,255,255]); pixel(6, 6, [255,255,255,255]);
+        const location = gl.getAttribLocation(program, 'position');
+        check(gl.getVertexAttrib(location, gl.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING) === buffer, 'vertex buffer query');
+        check(gl.getVertexAttrib(location, gl.VERTEX_ATTRIB_ARRAY_SIZE) === 2, 'vertex size query');
+        check(gl.getVertexAttribOffset(location, gl.VERTEX_ATTRIB_ARRAY_POINTER) === 0, 'vertex offset query');
+        gl.validateProgram(program); check(gl.getProgramParameter(program, gl.VALIDATE_STATUS), gl.getProgramInfoLog(program));
+        noError('shader and vertex queries');
+    });
+    test('framebuffer-allocation-and-queries', () => {
+        const target = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, target);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 8, 8, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        const framebuffer = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, target, 0);
+        check(gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE, 'FBO incomplete');
+        check(gl.getFramebufferAttachmentParameter(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
+            gl.FRAMEBUFFER_ATTACHMENT_OBJECT_NAME) === target, 'attachment identity');
+        pixel(0, 0, [0,0,0,0]); pixel(7, 7, [0,0,0,0]);
+        const depth = gl.createRenderbuffer(); gl.bindRenderbuffer(gl.RENDERBUFFER, depth);
+        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, 8, 8);
+        check(gl.getRenderbufferParameter(gl.RENDERBUFFER, gl.RENDERBUFFER_WIDTH) === 8, 'renderbuffer width');
+        gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depth);
+        check(gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE, 'depth FBO incomplete');
+        gl.clearColor(0.25, 0.5, 0.75, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+        pixel(3, 3, [64,128,191,255], 1);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        gl.deleteFramebuffer(framebuffer); gl.deleteRenderbuffer(depth); gl.deleteTexture(target);
+        noError('FBO cleanup');
+    });
+    test('validation-and-invalid-shader', () => {
+        // A null object isolates the invalid enum from object/target mismatch.
+        gl.bindTexture(0xDEAD, null);
+        const targetError = gl.getError();
+        check(targetError === gl.INVALID_ENUM, 'invalid target error: ' + targetError);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferSubData(gl.ARRAY_BUFFER, 32, new Uint8Array(1));
+        check(gl.getError() === gl.INVALID_VALUE, 'out-of-bounds buffer write was accepted');
+        const invalid = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(invalid, 'this is not a shader'); gl.compileShader(invalid);
+        check(!gl.getShaderParameter(invalid, gl.COMPILE_STATUS), 'invalid shader compiled');
+        check(gl.getShaderInfoLog(invalid).length > 0, 'missing shader diagnostic');
+        gl.deleteShader(invalid); noError('validation recovery');
+    });
+    test('resize-clears-and-retains-objects', () => {
+        canvas.width = 12; canvas.height = 10;
+        check(gl.drawingBufferWidth === 12 && gl.drawingBufferHeight === 10, 'resize dimensions');
+        pixel(0, 0, [0,0,0,0]); pixel(11, 9, [0,0,0,0]);
+        check(gl.isProgram(program) && gl.isTexture(texture), 'resize lost objects');
+        gl.viewport(0, 0, 12, 10); draw();
+        pixel(1, 1, [255,0,0,255]); pixel(10, 8, [255,255,255,255]);
+    });
+    test('canvas-upload-flip-and-premultiply', () => {
+        const source = document.createElement('canvas'); source.width = 2; source.height = 2;
+        const context = source.getContext('2d');
+        context.fillStyle = 'red'; context.fillRect(0, 0, 2, 1);
+        context.fillStyle = 'rgba(0,0,255,0.5)'; context.fillRect(0, 1, 2, 1);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+        draw(); pixel(2, 1, [0,0,128,128], 1); pixel(2, 8, [255,0,0,255]);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        noError('canvas texture upload');
+    });
+    test('canvas-presentation-and-preservation', async () => {
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        pixel(2, 1, [0,0,128,128], 1); pixel(2, 8, [255,0,0,255]);
+        const copy = document.createElement('canvas'); copy.width = 12; copy.height = 10;
+        const context = copy.getContext('2d'); context.drawImage(canvas, 0, 0);
+        const top = context.getImageData(2, 1, 1, 1).data;
+        const bottom = context.getImageData(2, 8, 1, 1).data;
+        check(top[0] === 255 && top[1] === 0 && top[2] === 0 && top[3] === 255, 'presented top row');
+        check(bottom[0] === 0 && bottom[1] === 0 && bottom[2] >= 253 && Math.abs(bottom[3] - 128) <= 1,
+            'presented alpha/unpremultiplication');
+    });
+    test('context-loss-and-restoration', async () => {
+        const surface = document.createElement('canvas'); surface.width = 4; surface.height = 4;
+        const context = surface.getContext('webgl', { antialias: false });
+        check(context, 'second WebGL context');
+        const extension = context.getExtension('WEBGL_lose_context');
+        check(extension, 'WEBGL_lose_context unavailable');
+        await new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => reject(new Error('context restoration timed out')), 15000);
+            surface.addEventListener('webglcontextlost', event => {
+                event.preventDefault();
+                try {
+                    check(context.isContextLost(), 'context loss state');
+                    check(context.getError() === context.CONTEXT_LOST_WEBGL, 'context loss error');
+                    setTimeout(() => extension.restoreContext(), 0);
+                } catch (error) { clearTimeout(timeout); reject(error); }
+            }, { once: true });
+            surface.addEventListener('webglcontextrestored', () => {
+                clearTimeout(timeout);
+                try {
+                    check(!context.isContextLost(), 'restored state');
+                    const actual = new Uint8Array(4);
+                    context.readPixels(0, 0, 1, 1, context.RGBA, context.UNSIGNED_BYTE, actual);
+                    check(actual.every(value => value === 0), 'restored buffer must be cleared');
+                    context.clearColor(0, 1, 0, 1); context.clear(context.COLOR_BUFFER_BIT);
+                    context.readPixels(0, 0, 1, 1, context.RGBA, context.UNSIGNED_BYTE, actual);
+                    check(actual.join(',') === '0,255,0,255', 'restored context draw');
+                    check(context.getError() === context.NO_ERROR, 'restored draw error');
+                    resolve();
+                } catch (error) { reject(error); }
+            }, { once: true });
+            extension.loseContext();
+        });
+    });
+    async function run() {
+        document.getElementById('run').disabled = true;
+        const output = document.getElementById('output'); output.textContent = '';
+        const result = window.webglResult = { state: 'running', total: tests.length, passed: 0, failed: 0 };
+        function log(text) { console.log(text); output.textContent += text + '\n'; }
+        for (const item of tests) {
+            try { await item.body(); ++result.passed; log('WEBGL PASS ' + item.name); }
+            catch (error) { ++result.failed; log('WEBGL FAIL ' + item.name + ': ' + error.message); }
+        }
+        result.state = 'done';
+        log('WEBGL DONE ' + (result.failed ? 'FAIL' : 'PASS') + ' ' + result.passed + '/' + result.total + ' passed; ' + result.failed + ' failed');
+    }
+    document.getElementById('run').onclick = run;
+    if (new URLSearchParams(location.search).get('autorun') === '1') setTimeout(run, 0);
+})();
+</script>

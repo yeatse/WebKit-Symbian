@@ -1,0 +1,4 @@
+# Preserve the official source bytes checked by the provenance manifest.
+include/native/videoplayer2.h -whitespace
+include/native/surfaceeventhandler.h -whitespace
+include/native/graphics/surface.h -whitespace

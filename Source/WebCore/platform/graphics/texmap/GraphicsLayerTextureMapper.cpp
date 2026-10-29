@@ -557,23 +557,26 @@ void GraphicsLayerTextureMapper::flushCompositingState(const FloatRect& rect)
         child->flushCompositingState(rect);
 }
 
-void GraphicsLayerTextureMapper::updateBackingStoreIncludingSubLayers(TextureMapper& textureMapper)
+bool GraphicsLayerTextureMapper::updateBackingStoreIncludingSubLayers(TextureMapper& textureMapper)
 {
-    updateBackingStoreIfNeeded(textureMapper);
-
-    if (maskLayer())
-        downcast<GraphicsLayerTextureMapper>(*maskLayer()).updateBackingStoreIfNeeded(textureMapper);
-    if (replicaLayer())
-        downcast<GraphicsLayerTextureMapper>(*replicaLayer()).updateBackingStoreIncludingSubLayers(textureMapper);
-    for (auto& child : children())
-        downcast<GraphicsLayerTextureMapper>(child.get()).updateBackingStoreIncludingSubLayers(textureMapper);
+    if (!updateBackingStoreIfNeeded(textureMapper))
+        return false;
+    if (maskLayer() && !downcast<GraphicsLayerTextureMapper>(*maskLayer()).updateBackingStoreIfNeeded(textureMapper))
+        return false;
+    if (replicaLayer() && !downcast<GraphicsLayerTextureMapper>(*replicaLayer()).updateBackingStoreIncludingSubLayers(textureMapper))
+        return false;
+    for (auto& child : children()) {
+        if (!downcast<GraphicsLayerTextureMapper>(child.get()).updateBackingStoreIncludingSubLayers(textureMapper))
+            return false;
+    }
+    return true;
 }
 
-void GraphicsLayerTextureMapper::updateBackingStoreIfNeeded(TextureMapper& textureMapper)
+bool GraphicsLayerTextureMapper::updateBackingStoreIfNeeded(TextureMapper& textureMapper)
 {
     if (!shouldHaveBackingStore()) {
         ASSERT(!m_backingStore);
-        return;
+        return true;
     }
     ASSERT(m_backingStore);
 
@@ -581,15 +584,17 @@ void GraphicsLayerTextureMapper::updateBackingStoreIfNeeded(TextureMapper& textu
     if (!m_needsDisplay)
         dirtyRect.intersect(enclosingIntRect(m_needsDisplayRect));
     if (dirtyRect.isEmpty())
-        return;
+        return true;
 
     m_backingStore->updateContentsScale(pageScaleFactor() * deviceScaleFactor());
 
     dirtyRect.scale(pageScaleFactor() * deviceScaleFactor());
-    m_backingStore->updateContents(textureMapper, this, m_size, dirtyRect);
+    if (!m_backingStore->updateContents(textureMapper, this, m_size, dirtyRect))
+        return false;
 
     m_needsDisplay = false;
     m_needsDisplayRect = IntRect();
+    return true;
 }
 
 bool GraphicsLayerTextureMapper::shouldHaveBackingStore() const

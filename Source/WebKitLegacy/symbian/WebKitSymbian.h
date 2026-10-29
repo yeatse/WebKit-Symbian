@@ -79,6 +79,35 @@ protected:
     ~WebViewClient() = default;
 };
 
+// Native MMF media callbacks run on the application's event loop. A backend
+// must cancel its callbacks before it is destroyed. Errors are native TInt
+// values (zero means success); dimensions are zero for an audio-only file.
+class MediaPlayerClient {
+public:
+    virtual ~MediaPlayerClient() = default;
+    virtual void mediaPlayerOpened(int error, double duration, int width, int height, bool hasAudio) = 0;
+    virtual void mediaPlayerEnded(int error) = 0;
+};
+
+class MediaPlayer {
+public:
+    virtual ~MediaPlayer() = default;
+    // WebCore owns network policy and downloading. Native players receive
+    // local files; the writer must make appended bytes visible to the reader.
+    virtual int createFile(const char* utf8Path) = 0;
+    virtual int appendToFile(const char*, unsigned length) = 0;
+    virtual int flushFile() = 0;
+    virtual void closeFile() = 0;
+    virtual void open(const char* utf8Path) = 0;
+    virtual int play() = 0;
+    virtual int pause() = 0;
+    virtual int position(double& seconds) const = 0;
+    virtual int setPosition(double seconds) = 0;
+    virtual int setVolume(double volume) = 0;
+    // Window-relative coordinates; an empty clip hides the native surface.
+    virtual int setVideoRect(const Rect&, const Rect&) { return 0; }
+};
+
 class WebView {
 public:
     // Once per process, before the first WebView. dataDirectory holds the
@@ -93,10 +122,17 @@ public:
     // Microseconds until the next timer is due, or -1 if none is scheduled.
     static int64_t microsecondsUntilNextTimer();
 
+    using MediaPlayerFactory = MediaPlayer* (*)(void* context, MediaPlayerClient&, bool video);
+    static void setMediaPlayerFactory(MediaPlayerFactory, void* context);
+
     static WebView* create(WebViewClient&, int width, int height);
     virtual ~WebView() = default;
 
     virtual void setSize(int width, int height) = 0;
+    // Native RWindow lifetime extends until setNativeWindow(nullptr).
+    virtual bool setNativeWindow(void*) { return false; }
+    virtual bool usesAcceleratedCompositing() const { return false; }
+    virtual void renderCompositedFrame() { }
     // Paints area into a 32-bit buffer of premultiplied ARGB words
     // (0xAARRGGBB) that covers the whole view.
     virtual void paint(uint8_t* pixels, int stride, const Rect& area) = 0;

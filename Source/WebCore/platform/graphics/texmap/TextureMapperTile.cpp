@@ -72,12 +72,12 @@ void TextureMapperTile::updateContents(Image* image, const IntRect& dirtyRect)
     m_texture->updateContents(nativeImage.get(), targetRect, sourceOffset);
 }
 
-void TextureMapperTile::updateContents(GraphicsLayer* sourceLayer, const IntRect& dirtyRect, float scale)
+bool TextureMapperTile::updateContents(GraphicsLayer* sourceLayer, const IntRect& dirtyRect, float scale)
 {
     IntRect targetRect = enclosingIntRect(m_rect);
     targetRect.intersect(dirtyRect);
     if (targetRect.isEmpty())
-        return;
+        return true;
     IntPoint sourceOffset = targetRect.location();
 
     // Normalize targetRect to the texture's coordinates.
@@ -86,7 +86,7 @@ void TextureMapperTile::updateContents(GraphicsLayer* sourceLayer, const IntRect
     if (!m_texture)
         m_texture = BitmapTexture::create(targetRect.size(), { BitmapTexture::Flags::SupportsAlpha });
 
-    m_texture->updateContents(sourceLayer, targetRect, sourceOffset, scale);
+    return m_texture->updateContents(sourceLayer, targetRect, sourceOffset, scale);
 }
 
 void TextureMapperTile::paint(TextureMapper& textureMapper, const TransformationMatrix& transform, float opacity, bool allEdgesExposed)

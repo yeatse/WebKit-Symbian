@@ -12,6 +12,9 @@
 
 #include "common/debug.h"
 #include "common/gl_enum_utils.h"
+#include "common/tls_symbian.h"
+
+#include <array>
 
 #include <algorithm>
 #include <cstring>
@@ -23,7 +26,13 @@ namespace
 const char *UnknownEnumToString(unsigned int value)
 {
     constexpr size_t kBufferSize = 64;
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+    struct EnumStringBufferTag;
+    auto &storage = angle::SymbianThreadLocal<EnumStringBufferTag, std::array<char, kBufferSize>>();
+    char *sBuffer = storage.data();
+#else
     static thread_local char sBuffer[kBufferSize];
+#endif
     snprintf(sBuffer, kBufferSize, "0x%04X", value);
     return sBuffer;
 }

@@ -42,7 +42,7 @@ public:
 
     void updateContentsScale(float);
     void updateContents(TextureMapper&, Image*, const FloatSize&, const IntRect&);
-    void updateContents(TextureMapper&, GraphicsLayer*, const FloatSize&, const IntRect&);
+    bool updateContents(TextureMapper&, GraphicsLayer*, const FloatSize&, const IntRect&);
 
     void setContentsToImage(Image* image) { m_image = image; }
 

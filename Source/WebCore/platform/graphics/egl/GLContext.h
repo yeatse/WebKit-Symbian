@@ -21,6 +21,9 @@
 
 #include "GLContextWrapper.h"
 #include "IntSize.h"
+#if OS(SYMBIAN)
+#include "SymbianGLResourceState.h"
+#endif
 #include <wtf/Noncopyable.h>
 #include <wtf/TZoneMalloc.h>
 #include <wtf/ThreadSafeWeakPtr.h>
@@ -94,6 +97,12 @@ public:
     WEBCORE_EXPORT bool makeContextCurrent();
     bool unmakeContextCurrent();
     WEBCORE_EXPORT void swapBuffers();
+#if OS(SYMBIAN)
+    WEBCORE_EXPORT bool resizeWindowSurface(GLNativeWindowType);
+    WEBCORE_EXPORT bool swapBuffersChecked();
+    const std::shared_ptr<SymbianGLResourceState>& resourceState() const { return m_resourceState; }
+    void abandonResources() { m_resourceState->abandon(); }
+#endif
     GCGLContext platformContext() const;
 
     struct GLExtensions {
@@ -167,6 +176,9 @@ private:
     unsigned windowHeight() const final;
 #endif
 
+#if OS(SYMBIAN)
+    std::shared_ptr<SymbianGLResourceState> m_resourceState;
+#endif
     ThreadSafeWeakPtr<GLDisplay> m_display;
     mutable unsigned m_version { 0 };
     EGLContext m_context { nullptr };

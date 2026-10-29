@@ -34,6 +34,10 @@
 #include <EGL/eglext.h>
 #endif
 
+#if OS(SYMBIAN)
+#include "SymbianEGLBindings.h"
+#endif
+
 #if OS(ANDROID)
 #include "BufferFormatAndroid.h"
 #include <android/hardware_buffer.h>
@@ -121,6 +125,14 @@ EGLImage GLDisplay::createImage(EGLContext context, EGLenum target, EGLClientBuf
     if (m_display == EGL_NO_DISPLAY)
         return EGL_NO_IMAGE;
 
+#if OS(SYMBIAN)
+    if (!checkVersion(1, 5) && !m_extensions.KHR_image_base)
+        return EGL_NO_IMAGE;
+    return SymbianEGLBindings::publicHandle<EGLImage>(SymbianEGL::createImage(
+        SymbianEGLBindings::nativeHandle(m_display), SymbianEGLBindings::nativeHandle(context), target,
+        SymbianEGLBindings::nativeHandle(clientBuffer), attributes.isEmpty() ? nullptr : attributes.span().data(), checkVersion(1, 5)));
+#else
+
     if (checkVersion(1, 5)) {
         static PFNEGLCREATEIMAGEPROC s_eglCreateImage = reinterpret_cast<PFNEGLCREATEIMAGEPROC>(eglGetProcAddress("eglCreateImage"));
         if (s_eglCreateImage)
@@ -138,12 +150,19 @@ EGLImage GLDisplay::createImage(EGLContext context, EGLenum target, EGLClientBuf
     if (s_eglCreateImageKHR)
         return s_eglCreateImageKHR(m_display, context, target, clientBuffer, intAttributes.isEmpty() ? nullptr : intAttributes.span().data());
     return EGL_NO_IMAGE_KHR;
+#endif
 }
 
 bool GLDisplay::destroyImage(EGLImage image) const
 {
     if (m_display == EGL_NO_DISPLAY)
         return false;
+
+#if OS(SYMBIAN)
+    if (!checkVersion(1, 5) && !m_extensions.KHR_image_base)
+        return false;
+    return SymbianEGL::destroyImage(SymbianEGLBindings::nativeHandle(m_display), SymbianEGLBindings::nativeHandle(image), checkVersion(1, 5));
+#else
 
     if (checkVersion(1, 5)) {
         static PFNEGLDESTROYIMAGEPROC s_eglDestroyImage = reinterpret_cast<PFNEGLDESTROYIMAGEPROC>(eglGetProcAddress("eglDestroyImage"));
@@ -159,6 +178,7 @@ bool GLDisplay::destroyImage(EGLImage image) const
     if (s_eglDestroyImageKHR)
         return s_eglDestroyImageKHR(m_display, image);
     return false;
+#endif
 }
 
 #if USE(GBM)

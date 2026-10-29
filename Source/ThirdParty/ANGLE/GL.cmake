@@ -120,7 +120,7 @@ if(angle_use_x11)
     )
 endif()
 
-if(is_android OR is_linux OR is_chromeos)
+if(is_android OR is_linux OR is_chromeos OR is_symbian)
     list(APPEND gl_backend_sources
         "src/libANGLE/renderer/gl/egl/ContextEGL.cpp"
         "src/libANGLE/renderer/gl/egl/ContextEGL.h"

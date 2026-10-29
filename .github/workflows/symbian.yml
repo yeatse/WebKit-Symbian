@@ -61,6 +61,7 @@ jobs:
             .github
             PerformanceTests
             Source/JavaScriptCore
+            Source/ThirdParty/ANGLE
             Source/ThirdParty/unifdef
             Source/WTF
             Source/WebCore
@@ -98,6 +99,10 @@ jobs:
           mkdir -p "$SYMBIAN_SDK_PREFIX"
           tar -xzf "$RUNNER_TEMP/symbian-sdk-$SDK_VERSION-linux-x86_64.tar.gz" -C "$SYMBIAN_SDK_PREFIX"
           rm "$RUNNER_TEMP"/symbian-sdk-*.tar.gz
+
+      # Run on cache hits too: the SDK release omits these official S^3 headers.
+      - name: Restore Symbian^3 SDK media headers
+        run: python3 scripts/apply-sdk-patches.py
 
       # Inputs that change rarely: the E32 converter with its host
       # dependencies, ICU and the WebCore libraries, each keyed on the scripts

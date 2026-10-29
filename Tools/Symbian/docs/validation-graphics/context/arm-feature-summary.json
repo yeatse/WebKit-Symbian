@@ -1,0 +1,118 @@
+{
+  "kind": "real ARM syntax-only feature boundary checks",
+  "limitations": "No CMake reconfiguration, archive link, guest, EGL or driver execution. TextureMapper OFF is not a supported Symbian CMake option.",
+  "compile_commands_sha256": "dd55a984bca350e843aefc574c8fe26c2a8fa94748a94040ccb0a9e0be16cbc0",
+  "original_cmakeconfig_sha256": "bc8897118c254409a3b5c5a63b91e19556d256b670eb87b29ee228ebdd6fbadf",
+  "cases": [
+    {
+      "case": "webgl-off",
+      "defines": {
+        "ENABLE_WEBGL": 0
+      },
+      "source": "Source/WebCore/platform/graphics/egl/GLContext.cpp",
+      "source_sha256": "1c2d54821211affcc0614e2885dde38d66dcd2197f9e63f840bf83362bf85607",
+      "config_sha256": "5a04e440c36c3fb4e82744366b60053e887ebaae23514139821477101fb8e750",
+      "exit_code": 0
+    },
+    {
+      "case": "webgl-off",
+      "defines": {
+        "ENABLE_WEBGL": 0
+      },
+      "source": "Source/WebCore/platform/graphics/egl/GLContextWrapper.cpp",
+      "source_sha256": "6d759adf95a0a0d2a8b326360fd22d4f3b00d01def993c17c056cdbd3e9c6e0e",
+      "config_sha256": "5a04e440c36c3fb4e82744366b60053e887ebaae23514139821477101fb8e750",
+      "exit_code": 0
+    },
+    {
+      "case": "webgl-off",
+      "defines": {
+        "ENABLE_WEBGL": 0
+      },
+      "source": "Source/WebCore/platform/graphics/texmap/BitmapTexture.cpp",
+      "source_sha256": "0a0793bf02e8e5f7531647ab5b0208b2a1cb85597e1cedfba0ba03ff4e54abb7",
+      "config_sha256": "5a04e440c36c3fb4e82744366b60053e887ebaae23514139821477101fb8e750",
+      "exit_code": 0
+    },
+    {
+      "case": "webgl-off",
+      "defines": {
+        "ENABLE_WEBGL": 0
+      },
+      "source": "Source/WebCore/platform/graphics/texmap/GraphicsLayerTextureMapper.cpp",
+      "source_sha256": "2b488440370a458bd7d3db7bafeba52ada71a1e9e650ac3dacc06a3f0fbd0c2b",
+      "config_sha256": "5a04e440c36c3fb4e82744366b60053e887ebaae23514139821477101fb8e750",
+      "exit_code": 0
+    },
+    {
+      "case": "webgl-off",
+      "defines": {
+        "ENABLE_WEBGL": 0
+      },
+      "source": "Source/WebKitLegacy/symbian/SymbianCompositor.cpp",
+      "source_sha256": "202ded65e2807779d0d13ac6881ebda50bb3a43202e57385b371d2ab062d17ab",
+      "config_sha256": "5a04e440c36c3fb4e82744366b60053e887ebaae23514139821477101fb8e750",
+      "exit_code": 0
+    },
+    {
+      "case": "texture-mapper-off-boundary",
+      "defines": {
+        "ENABLE_WEBGL": 0,
+        "USE_TEXTURE_MAPPER": 0,
+        "USE_GRAPHICS_LAYER_TEXTURE_MAPPER": 0
+      },
+      "source": "Source/WebCore/platform/graphics/egl/GLContext.cpp",
+      "source_sha256": "1c2d54821211affcc0614e2885dde38d66dcd2197f9e63f840bf83362bf85607",
+      "config_sha256": "2c124d7a88567c7358572fefa569e83300504d8fadcf4e76cd7a8466fda9e77d",
+      "exit_code": 0
+    },
+    {
+      "case": "texture-mapper-off-boundary",
+      "defines": {
+        "ENABLE_WEBGL": 0,
+        "USE_TEXTURE_MAPPER": 0,
+        "USE_GRAPHICS_LAYER_TEXTURE_MAPPER": 0
+      },
+      "source": "Source/WebCore/platform/graphics/egl/GLContextWrapper.cpp",
+      "source_sha256": "6d759adf95a0a0d2a8b326360fd22d4f3b00d01def993c17c056cdbd3e9c6e0e",
+      "config_sha256": "2c124d7a88567c7358572fefa569e83300504d8fadcf4e76cd7a8466fda9e77d",
+      "exit_code": 0
+    },
+    {
+      "case": "texture-mapper-off-boundary",
+      "defines": {
+        "ENABLE_WEBGL": 0,
+        "USE_TEXTURE_MAPPER": 0,
+        "USE_GRAPHICS_LAYER_TEXTURE_MAPPER": 0
+      },
+      "source": "Source/WebCore/platform/graphics/texmap/BitmapTexture.cpp",
+      "source_sha256": "0a0793bf02e8e5f7531647ab5b0208b2a1cb85597e1cedfba0ba03ff4e54abb7",
+      "config_sha256": "2c124d7a88567c7358572fefa569e83300504d8fadcf4e76cd7a8466fda9e77d",
+      "exit_code": 0
+    },
+    {
+      "case": "texture-mapper-off-boundary",
+      "defines": {
+        "ENABLE_WEBGL": 0,
+        "USE_TEXTURE_MAPPER": 0,
+        "USE_GRAPHICS_LAYER_TEXTURE_MAPPER": 0
+      },
+      "source": "Source/WebCore/platform/graphics/texmap/BitmapTexturePool.cpp",
+      "source_sha256": "3d725ee6794c4d28af988dd6906beca285b6355f2d45c065c68f8f5f2cb54d34",
+      "config_sha256": "2c124d7a88567c7358572fefa569e83300504d8fadcf4e76cd7a8466fda9e77d",
+      "exit_code": 0
+    },
+    {
+      "case": "texture-mapper-off-boundary",
+      "defines": {
+        "ENABLE_WEBGL": 0,
+        "USE_TEXTURE_MAPPER": 0,
+        "USE_GRAPHICS_LAYER_TEXTURE_MAPPER": 0
+      },
+      "source": "Source/WebKitLegacy/symbian/SymbianCompositor.cpp",
+      "source_sha256": "202ded65e2807779d0d13ac6881ebda50bb3a43202e57385b371d2ab062d17ab",
+      "config_sha256": "2c124d7a88567c7358572fefa569e83300504d8fadcf4e76cd7a8466fda9e77d",
+      "exit_code": 0
+    }
+  ]
+}
