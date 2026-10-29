@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "CookieJarDB.h"
+#include "CookieSameSite.h"
 #include "CookieJar.h"
 
 #include "CookieUtil.h"
@@ -31,6 +32,7 @@
 #include "PublicSuffixStore.h"
 #include "RegistrableDomain.h"
 #include "SQLiteFileSystem.h"
+#include "SQLiteTransaction.h"
 #include <wtf/DateMath.h>
 #include <wtf/FileHandle.h>
 #include <wtf/FileSystem.h>
@@ -59,6 +61,7 @@ WTF_MAKE_TZONE_ALLOCATED_IMPL(CookieJarDB);
     "  session INTEGER NOT NULL,"\
     "  httponly INTEGER NOT NULL DEFAULT 0,"\
     "  secure INTEGER NOT NULL DEFAULT 0,"\
+    "  sameSite INTEGER NOT NULL DEFAULT 1,"\
     "  lastupdated INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP, "\
     "  UNIQUE(name, domain, path));"_s
 #define CREATE_DOMAIN_INDEX_SQL \
@@ -72,8 +75,14 @@ WTF_MAKE_TZONE_ALLOCATED_IMPL(CookieJarDB);
 #define CHECK_EXISTS_HTTPONLY_COOKIE_SQL \
     "SELECT name FROM Cookie WHERE (name = ?) AND (domain = ?) AND (path = ?) AND (httponly = 1);"_s
 #define SET_COOKIE_SQL \
-    "INSERT OR REPLACE INTO Cookie (name, value, domain, path, expires, size, session, httponly, secure) "\
-    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"_s
+    "INSERT OR REPLACE INTO Cookie (name, value, domain, path, expires, size, session, httponly, secure, sameSite) "\
+    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"_s
+#define MIGRATE_COOKIE_SAMESITE_SQL \
+    "ALTER TABLE Cookie ADD COLUMN sameSite INTEGER NOT NULL DEFAULT 1;"_s
+#define RESET_LEGACY_COOKIE_SAMESITE_SQL \
+    "UPDATE Cookie SET sameSite=1;"_s
+#define UPDATE_COOKIE_SCHEMA_SQL \
+    "PRAGMA user_version=2;"_s
 #define DELETE_COOKIE_BY_NAME_DOMAIN_PATH_SQL \
     "DELETE FROM Cookie WHERE name = ? AND domain = ? AND path = ?;"_s
 #define DELETE_COOKIE_BY_NAME_DOMAIN_SQL \
@@ -91,7 +100,8 @@ WTF_MAKE_TZONE_ALLOCATED_IMPL(CookieJarDB);
 // If the database schema is updated:
 // - Increment schemaVersion
 // - Add upgrade logic in verifySchemaVersion to migrate databases from the previous schema version
-static constexpr int schemaVersion = 1;
+static constexpr int schemaVersion = 2;
+static_assert(static_cast<int>(Cookie::SameSitePolicy::Lax) == 1);
 
 
 CookieJarDB::CookieJarDB(const String& databasePath)
@@ -152,7 +162,10 @@ bool CookieJarDB::openDatabase()
     if (!isOnMemory() && !m_database.turnOnIncrementalAutoVacuum())
         LOG_ERROR("Unable to turn on incremental auto-vacuum (%d %s)", m_database.lastError(), m_database.lastErrorMsg());
 
-    verifySchemaVersion();
+    if (!verifySchemaVersion()) {
+        m_database.close();
+        return false;
+    }
 
     if (!existsDatabaseFile || !m_database.tableExists("Cookie"_s)) {
         bool ok = executeSQLStatement(m_database.prepareStatement(CREATE_COOKIE_TABLE_SQL))
@@ -189,15 +202,53 @@ void CookieJarDB::closeDatabase()
     }
 }
 
-void CookieJarDB::verifySchemaVersion()
+bool CookieJarDB::verifySchemaVersion()
 {
     if (isOnMemory())
-        return;
+        return true;
 
-    auto statement = m_database.prepareStatement("PRAGMA user_version"_s);
-    int version = statement ? statement->columnInt(0) : 0;
+    int version;
+    {
+        auto statement = m_database.prepareStatement("PRAGMA user_version"_s);
+        if (!statement || statement->step() != SQLITE_ROW)
+            return false;
+        version = statement->columnInt(0);
+    }
     if (version == schemaVersion)
-        return;
+        return true;
+
+    // Keep v1 persistent rows. Their SameSite attribute was discarded by the
+    // old curl backend, so its unknown value must migrate to Lax, not None.
+    // A failed ALTER or version update rolls back without losing the old jar.
+    if (version == 1) {
+        SQLiteTransaction transaction(m_database);
+        transaction.begin();
+        if (!transaction.inProgress())
+            return false;
+        bool hasSameSiteColumn = false;
+        {
+            auto statement = m_database.prepareStatement("PRAGMA table_info(Cookie)"_s);
+            if (!statement)
+                return false;
+            int result;
+            while ((result = statement->step()) == SQLITE_ROW) {
+                if (equalLettersIgnoringASCIICase(statement->columnText(1), "samesite"_s))
+                    hasSameSiteColumn = true;
+            }
+            if (result != SQLITE_DONE)
+                return false;
+        }
+        // A v1 downgrade can leave this column: its live version-query
+        // statement prevents DROP TABLE, but the version write still succeeds.
+        // Treat every v1 row as Lax because v1 cannot record the attribute.
+        if (!(hasSameSiteColumn
+                ? executeSQLStatement(m_database.prepareStatement(RESET_LEGACY_COOKIE_SAMESITE_SQL))
+                : executeSQLStatement(m_database.prepareStatement(MIGRATE_COOKIE_SAMESITE_SQL)))
+            || !executeSQLStatement(m_database.prepareStatement(UPDATE_COOKIE_SCHEMA_SQL)))
+            return false;
+        transaction.commit();
+        return !transaction.inProgress();
+    }
 
     switch (version) {
         // Placeholder for schema version upgrade logic
@@ -214,7 +265,7 @@ void CookieJarDB::verifySchemaVersion()
     }
 
     // Update version
-    executeSQLStatement(m_database.prepareStatementSlow(makeString("PRAGMA user_version="_s, schemaVersion)));
+    return executeSQLStatement(m_database.prepareStatement(UPDATE_COOKIE_SCHEMA_SQL));
 }
 
 void CookieJarDB::deleteAllTables()
@@ -384,7 +435,7 @@ std::optional<Vector<Cookie>> CookieJarDB::searchCookies(const URL& firstParty, 
 
     RegistrableDomain registrableDomain { requestUrl };
 
-    auto pstmt = m_database.prepareStatement("SELECT name, value, domain, path, expires, httponly, secure, session FROM Cookie WHERE "\
+    auto pstmt = m_database.prepareStatement("SELECT name, value, domain, path, expires, httponly, secure, session, sameSite FROM Cookie WHERE "\
         "(NOT ((session = 0) AND (expires < ?)))"
         "AND (httponly = COALESCE(NULLIF(?, -1), httponly)) "\
         "AND (secure = COALESCE(NULLIF(?, -1), secure)) "\
@@ -442,6 +493,7 @@ std::optional<Vector<Cookie>> CookieJarDB::searchCookies(const URL& firstParty, 
         cookie.httpOnly = cookieHttpOnly;
         cookie.secure = cookieSecure;
         cookie.session = cookieSession;
+        cookie.sameSite = cookieSameSitePolicyFromDatabase(pstmt->columnInt(8));
         results.append(WTF::move(cookie));
     }
 
@@ -454,7 +506,7 @@ Vector<Cookie> CookieJarDB::getAllCookies()
     if (!isEnabled() || !m_database.isOpen())
         return result;
 
-    auto pstmt = m_database.prepareStatement("SELECT name, value, domain, path, expires, httponly, secure, session FROM Cookie"_s);
+    auto pstmt = m_database.prepareStatement("SELECT name, value, domain, path, expires, httponly, secure, session, sameSite FROM Cookie"_s);
     if (!pstmt)
         return result;
 
@@ -470,6 +522,7 @@ Vector<Cookie> CookieJarDB::getAllCookies()
         cookie.httpOnly = (pstmt->columnInt(5) == 1);
         cookie.secure = (pstmt->columnInt(6) == 1);
         cookie.session = (pstmt->columnInt(7) == 1);
+        cookie.sameSite = cookieSameSitePolicyFromDatabase(pstmt->columnInt(8));
         result.append(WTF::move(cookie));
     }
     return result;
@@ -500,6 +553,9 @@ static bool checkSecureCookie(const Cookie& cookie)
 
 bool CookieJarDB::canAcceptCookie(const Cookie& cookie, const URL& firstParty, const URL& url, CookieJarDB::Source source)
 {
+    if ((cookie.sameSite == Cookie::SameSitePolicy::None && !cookie.secure)
+        || (cookie.secure && !url.protocolIs("https"_s)))
+        return false;
     if (PublicSuffixStore::singleton().isPublicSuffix(cookie.domain))
         return false;
 
@@ -518,6 +574,8 @@ bool CookieJarDB::canAcceptCookie(const Cookie& cookie, const URL& firstParty, c
 
 bool CookieJarDB::setCookie(const Cookie& cookie)
 {
+    if (cookie.sameSite == Cookie::SameSitePolicy::None && !cookie.secure)
+        return false;
     auto expires = cookie.expires.value_or(0.0);
     if (!cookie.session && MonotonicTime::fromRawSeconds(expires / msPerSecond) <= MonotonicTime::now())
         return deleteCookieInternal(cookie.name, cookie.domain, cookie.path);
@@ -534,10 +592,11 @@ bool CookieJarDB::setCookie(const Cookie& cookie)
     statement.bindInt(7, cookie.session ? 1 : 0);
     statement.bindInt(8, cookie.httpOnly ? 1 : 0);
     statement.bindInt(9, cookie.secure ? 1 : 0);
+    statement.bindInt(10, static_cast<int>(cookie.sameSite));
     return checkSQLiteReturnCode(statement.step());
 }
 
-bool CookieJarDB::setCookie(const URL& firstParty, const URL& url, const String& body, CookieJarDB::Source source, std::optional<Seconds> cappedLifetime)
+bool CookieJarDB::setCookie(const URL& firstParty, const URL& url, const String& body, CookieJarDB::Source source, std::optional<Seconds> cappedLifetime, const SameSiteInfo* sameSiteInfo)
 {
     if (!isEnabled() || !m_database.isOpen())
         return false;
@@ -559,6 +618,9 @@ bool CookieJarDB::setCookie(const URL& firstParty, const URL& url, const String&
         cookie->path = CookieUtil::defaultPathForURL(url);
 
     if (!canAcceptCookie(*cookie, firstParty, url, source))
+        return false;
+
+    if (sameSiteInfo && !sameSiteCookieMayBeSet(cookie->sameSite, *sameSiteInfo, source == Source::Network))
         return false;
 
     if (cappedLifetime && cookie->expires) {

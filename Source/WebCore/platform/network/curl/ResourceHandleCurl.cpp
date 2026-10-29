@@ -32,6 +32,7 @@
 
 #if OS(SYMBIAN) && USE(CURL)
 #include "CredentialStorage.h"
+#include "CookieJarDB.h"
 #include "CurlContext.h"
 #include "CurlRequest.h"
 #include "DNS.h"
@@ -171,9 +172,10 @@ void ResourceHandle::curlDidReceiveResponse(CurlRequest& request, CurlResponse&&
         handle.checkTAO(state.m_response);
         state.m_response.setDeprecatedNetworkLoadMetrics(Box<NetworkLoadMetrics>::create(WTF::move(response.networkLoadMetrics)));
         if (request->resourceRequest().allowCookies() && handle.context() && handle.context()->storageSession()) {
+            auto sameSiteInfo = SameSiteInfo::create(request->resourceRequest());
             for (auto& header : response.headers) {
                 if (header.startsWithIgnoringASCIICase("set-cookie:"_s))
-                    handle.context()->storageSession()->setCookiesFromHTTPResponse(request->resourceRequest().firstPartyForCookies(), response.url, header.substring(11).trim(deprecatedIsSpaceOrNewline));
+                    handle.context()->storageSession()->cookieDatabase().setCookie(request->resourceRequest().firstPartyForCookies(), response.url, header.substring(11).trim(deprecatedIsSpaceOrNewline), CookieJarDB::Source::Network, std::nullopt, &sameSiteInfo);
             }
         }
         auto status = state.m_response.httpStatusCode();
@@ -231,6 +233,10 @@ void ResourceHandle::continueCurlRedirect(ResourceRequest&& request, const URL& 
         return;
     }
     bool sameOrigin = protocolHostAndPortAreEqual(previousURL, request.url());
+    // The loader handles ordinary subresource redirects too. Keep this boundary
+    // conservative for every Legacy client: A -> B -> A must not regain Strict.
+    if (request.isSameSite() && !SecurityOrigin::create(previousURL)->isSameSiteAs(SecurityOrigin::create(request.url())))
+        request.setIsSameSite(false);
     String user = sameOrigin ? d->m_curlRequest->user() : String();
     String password = sameOrigin ? d->m_curlRequest->password() : String();
     if (!sameOrigin) {

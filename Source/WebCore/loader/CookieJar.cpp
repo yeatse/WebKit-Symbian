@@ -66,6 +66,14 @@ IncludeSecureCookies CookieJar::shouldIncludeSecureCookies(const URL& url)
 
 SameSiteInfo CookieJar::sameSiteInfo(const Document& document, IsForDOMCookieAccess isAccessForDOM)
 {
+#if OS(SYMBIAN)
+    if (isAccessForDOM == IsForDOMCookieAccess::Yes) {
+        // Use the current ancestor chain, not the site's original navigation.
+        // Top-level documents may read their own Strict cookies after arriving
+        // cross-site; an A -> B -> A iframe chain may not.
+        return { document.isSameSiteForCookies(document.cookieURL()), document.isTopDocument(), true };
+    }
+#endif
     RefPtr frame = document.frame();
     if (frame && frame->loader().client().isRemoteWorkerFrameLoaderClient()) {
         RegistrableDomain domain(document.securityOrigin().data());
@@ -116,7 +124,15 @@ CookieRequestHeaderFieldProxy CookieJar::cookieRequestHeaderFieldProxy(const Doc
     if (auto* frame = document.frame())
         frameID = frame->frameID();
 
+#if OS(SYMBIAN)
+    // The Legacy WebSocket handshake supplies its HTTP(S) cookie URL (ws/wss
+    // already mapped). A socket is a subresource, not the document's original
+    // top-level navigation; copying that navigation would incorrectly allow Lax.
+    SameSiteInfo socketContext { document.isSameSiteForCookies(url), false, true };
+    return { document.firstPartyForCookies(), socketContext, url, frameID, pageID, shouldIncludeSecureCookies(url) };
+#else
     return { document.firstPartyForCookies(), sameSiteInfo(document), url, frameID, pageID, shouldIncludeSecureCookies(url) };
+#endif
 }
 
 void CookieJar::setCookies(Document& document, const URL& url, const String& cookieString)

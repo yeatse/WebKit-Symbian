@@ -30,10 +30,12 @@
 
 #include "Cookie.h"
 #include "CookieJarDB.h"
+#include "CookieSameSite.h"
 #include "CookieRequestHeaderFieldProxy.h"
 #include "CookieStoreGetOptions.h"
 #include "CurlContext.h"
 #include "HTTPCookieAcceptPolicy.h"
+#include "SecurityOrigin.h"
 #include <optional>
 #include <wtf/FileSystem.h>
 #include <wtf/URL.h>
@@ -65,15 +67,29 @@ static String alternativeServicesStorageFile(const String& alternativeServicesDi
     return FileSystem::pathByAppendingComponent(alternativeServicesDirectory, defaultFileName);
 }
 
-static std::pair<String, bool> cookiesForSession(const NetworkStorageSession& session, const URL& firstParty, const URL& url, bool forHTTPHeader, IncludeSecureCookies includeSecureCookies)
+static SameSiteInfo cookieContext(const URL& firstParty, const SameSiteInfo& info, const URL& url)
+{
+    auto result = info;
+    // Never upgrade a cross-site/opaque-ancestor decision from the loader.
+    // First-party and target URLs are HTTP(S), including the WebSocket cookie URL.
+    if (result.isSameSite && !SecurityOrigin::create(firstParty)->isSameSiteAs(SecurityOrigin::create(url)))
+        result.isSameSite = false;
+    return result;
+}
+
+static std::pair<String, bool> cookiesForSession(const NetworkStorageSession& session, const URL& firstParty, const SameSiteInfo& info, const URL& url, bool forHTTPHeader, IncludeSecureCookies includeSecureCookies)
 {
     StringBuilder cookies;
     bool didAccessSecureCookies = false;
     auto searchHTTPOnly = forHTTPHeader ? std::nullopt : std::optional<bool> { false };
     auto secure = includeSecureCookies == IncludeSecureCookies::Yes ? std::nullopt : std::optional<bool> { false };
+    auto context = cookieContext(firstParty, info, url);
 
     if (auto result = session.cookieDatabase().searchCookies(firstParty, url, searchHTTPOnly, secure, std::nullopt)) {
         for (const auto& cookie : *result) {
+            if ((cookie.sameSite == Cookie::SameSitePolicy::None && !cookie.secure)
+                || !sameSiteCookieMayBeSent(cookie.sameSite, context, forHTTPHeader))
+                continue;
             if (!cookies.isEmpty())
                 cookies.append("; "_s);
             if (!cookie.name.isEmpty())
@@ -114,10 +130,11 @@ CookieJarDB& NetworkStorageSession::cookieDatabase() const
     return m_cookieDatabase;
 }
 
-void NetworkStorageSession::setCookiesFromDOM(const URL& firstParty, const SameSiteInfo&, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier> pageID, ApplyTrackingPrevention, RequiresScriptTrackingPrivacy requiresScriptTrackingPrivacy, const String& value, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
+void NetworkStorageSession::setCookiesFromDOM(const URL& firstParty, const SameSiteInfo& info, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier> pageID, ApplyTrackingPrevention, RequiresScriptTrackingPrivacy requiresScriptTrackingPrivacy, const String& value, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
 {
     auto cappedLifetime = clientSideCookieCap(RegistrableDomain { firstParty }, requiresScriptTrackingPrivacy, pageID);
-    cookieDatabase().setCookie(firstParty, url, value, CookieJarDB::Source::Script, cappedLifetime);
+    auto context = cookieContext(firstParty, info, url);
+    cookieDatabase().setCookie(firstParty, url, value, CookieJarDB::Source::Script, cappedLifetime, &context);
 }
 
 bool NetworkStorageSession::setCookieFromDOM(const URL&, const SameSiteInfo&, const URL&, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, ApplyTrackingPrevention, RequiresScriptTrackingPrivacy, const Cookie&, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
@@ -153,9 +170,9 @@ HTTPCookieAcceptPolicy NetworkStorageSession::cookieAcceptPolicy() const
     return HTTPCookieAcceptPolicy::OnlyFromMainDocumentDomain;
 }
 
-std::pair<String, bool> NetworkStorageSession::cookiesForDOM(const URL& firstParty, const SameSiteInfo&, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies includeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
+std::pair<String, bool> NetworkStorageSession::cookiesForDOM(const URL& firstParty, const SameSiteInfo& info, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies includeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
 {
-    return cookiesForSession(*this, firstParty, url, false, includeSecureCookies);
+    return cookiesForSession(*this, firstParty, info, url, false, includeSecureCookies);
 }
 
 std::optional<Vector<Cookie>> NetworkStorageSession::cookiesForDOMAsVector(const URL&, const SameSiteInfo&, const URL&, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker, CookieStoreGetOptions&&) const
@@ -234,19 +251,24 @@ void NetworkStorageSession::hasCookies(const RegistrableDomain&, CompletionHandl
     completionHandler(false);
 }
 
-bool NetworkStorageSession::getRawCookies(const URL& firstParty, const SameSiteInfo&, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, Vector<Cookie>& rawCookies) const
+bool NetworkStorageSession::getRawCookies(const URL& firstParty, const SameSiteInfo& info, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, Vector<Cookie>& rawCookies) const
 {
     auto cookies = cookieDatabase().searchCookies(firstParty, url, std::nullopt, std::nullopt, std::nullopt);
     if (!cookies)
         return false;
 
     rawCookies = WTF::move(*cookies);
+    auto context = cookieContext(firstParty, info, url);
+    rawCookies.removeAllMatching([&](const Cookie& cookie) {
+        return (cookie.sameSite == Cookie::SameSitePolicy::None && !cookie.secure)
+            || !sameSiteCookieMayBeSent(cookie.sameSite, context, true);
+    });
     return true;
 }
 
-std::pair<String, bool> NetworkStorageSession::cookieRequestHeaderFieldValue(const URL& firstParty, const SameSiteInfo&, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies includeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
+std::pair<String, bool> NetworkStorageSession::cookieRequestHeaderFieldValue(const URL& firstParty, const SameSiteInfo& info, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies includeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
 {
-    return cookiesForSession(*this, firstParty, url, true, includeSecureCookies);
+    return cookiesForSession(*this, firstParty, info, url, true, includeSecureCookies);
 }
 
 std::pair<String, bool> NetworkStorageSession::cookieRequestHeaderFieldValue(const CookieRequestHeaderFieldProxy& headerFieldProxy) const
