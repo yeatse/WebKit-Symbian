@@ -1,0 +1,26 @@
+[
+  {
+    "case": "before",
+    "source": "Source/JavaScriptCore/jit/JITInlineCacheGenerator.cpp",
+    "sourceSHA256": "bdf22d9ffb53a6c11e6d7f9218ab756c52b04be4283cba4fa64f2fdf4073d3a8",
+    "methodSHA256": "3098b197d6c35b2f1da76816664f3c08169a7dd1efc1b322b075ae5d2a99bab8",
+    "guestExit": 1,
+    "guestLogSHA256": "81b473a253b15e37dfaa16593e460d95532f9a19ae5f528c4db8f5453c6c8163"
+  },
+  {
+    "case": "body-only",
+    "source": "Source/JavaScriptCore/jit/JITInlineCacheGenerator.cpp",
+    "sourceSHA256": "96e74c9f53a8a84ec97d62e766d1cb3764057c2565e2de1141c59602bc4882a1",
+    "methodSHA256": "571cf3641bc6d7992a19f0b6d9cafc71dce3cffe997c2bea43c646fc89076f8e",
+    "guestExit": 1,
+    "guestLogSHA256": "4af209c9fb4bd7d73d11acf69595c2db88d0f248b4e31b74cf2e090a09e108d1"
+  },
+  {
+    "case": "after",
+    "source": "Source/JavaScriptCore/jit/JITInlineCacheGenerator.cpp",
+    "sourceSHA256": "115b001e7cc0947208425a4761ee270392eadc9ee20bcf7e9668b922498deb7e",
+    "methodSHA256": "59de036bd694ee0cfecd781e0af478dceefdf461aab04a3334e471407570d31b",
+    "guestExit": 0,
+    "guestLogSHA256": "c94ecd1bf89248ca7d0fab6504db1a27fe9a190c4b468f1f2ed28fcd74dbf5b0"
+  }
+]

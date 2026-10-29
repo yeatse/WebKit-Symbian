@@ -104,10 +104,10 @@ void JITByIdGenerator::generateFastCommon(CCallHelpers& jit, size_t inlineICSize
     ASSERT(!m_stubInfo->useDataIC);
     jit.padBeforePatch(); // On ARMv7, this ensures that the patchable jump does not make the inline code too large.
 #if CPU(ARM_TRADITIONAL)
-    // Repatching overwrites this whole region. Flush any pending literal pool
-    // before recording its start, and reserve the jump's literal as well as
-    // all instruction bytes so no pool can be inserted among the padding.
-    jit.m_assembler.ensureSpace(inlineICSize, sizeof(uint32_t));
+    // Repatching overwrites start through done, including anything emitted by
+    // the final label. Reserve its 4-byte instruction / 8-byte constant guard
+    // as well as the whole IC and jump literal before recording the start.
+    jit.m_assembler.ensureSpace(inlineICSize + sizeof(uint32_t), sizeof(uint32_t) + sizeof(uint64_t));
 #endif
     m_start = jit.label();
     size_t startSize = jit.m_assembler.buffer().codeSize();
@@ -115,8 +115,8 @@ void JITByIdGenerator::generateFastCommon(CCallHelpers& jit, size_t inlineICSize
     size_t jumpSize = jit.m_assembler.buffer().codeSize() - startSize;
     size_t nopsToEmitInBytes = inlineICSize - jumpSize;
     jit.emitNops(nopsToEmitInBytes);
-    ASSERT(jit.m_assembler.buffer().codeSize() - startSize == inlineICSize);
     m_done = jit.label();
+    ASSERT(jit.m_assembler.buffer().codeSize() - startSize == inlineICSize);
 }
 
 JITGetByIdGenerator::JITGetByIdGenerator(

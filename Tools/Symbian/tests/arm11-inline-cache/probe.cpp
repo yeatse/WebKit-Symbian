@@ -25,7 +25,7 @@ struct ProbeGenerator {
 int main()
 {
     JSC::initialize();
-    unsigned corruptions = 0, wrongPadding = 0, postRegionPools = 0, cases = 0;
+    unsigned corruptions = 0, wrongPadding = 0, enlargedRegions = 0, cases = 0;
     // Cover every instruction position around multiple 2 KiB pool boundaries,
     // including different numbers of outstanding unique literals.
     for (unsigned literals : { 1u, 2u, 8u }) {
@@ -46,19 +46,19 @@ int main()
             uintptr_t before[8];
             for (unsigned i = 0; i < literals; ++i)
                 before[i] = reinterpret_cast<uintptr_t>(ARMAssembler::readPointer(code + offsets[i] / 4));
-            // A pool flushed by the final label AFTER the reserved 64 bytes
-            // is legal. Inside the region, the jump is one ARM word followed
-            // by exactly fifteen NOP words; no barrier/literal may be inserted.
-            if (generator.m_done.offset - generator.m_start.offset != 64)
-                ++postRegionPools;
+            // StructureStubInfo::inlineCodeSize() uses done minus start, so
+            // a pool emitted by the final label is ALSO in the replaced range.
+            unsigned actualSize = generator.m_done.offset - generator.m_start.offset;
+            if (actualSize != 64)
+                ++enlargedRegions;
             for (unsigned i = 1; i < 16; ++i) {
                 if (code[generator.m_start.offset / 4 + i] != 0xe1a00000) {
                     ++wrongPadding;
                     break;
                 }
             }
-            // LinkBuffer repatching owns all 64 bytes, including NOP padding.
-            for (unsigned i = 0; i < 16; ++i)
+            // Match the real replacement range, including any erroneous pool.
+            for (unsigned i = 0; i < actualSize / 4; ++i)
                 code[generator.m_start.offset / 4 + i] = 0xe1a00000;
             for (unsigned i = 0; i < literals; ++i) {
                 auto after = reinterpret_cast<uintptr_t>(ARMAssembler::readPointer(code + offsets[i] / 4));
@@ -73,7 +73,7 @@ int main()
             ++cases;
         }
     }
-    std::printf("RESULT cases=%u corruptions=%u wrongPadding=%u postRegionPools=%u\n", cases, corruptions, wrongPadding, postRegionPools);
-    std::puts(corruptions || wrongPadding ? "FAIL: arm11-inline-cache" : "PASS: arm11-inline-cache");
-    return corruptions || wrongPadding ? 1 : 0;
+    std::printf("RESULT cases=%u corruptions=%u wrongPadding=%u enlargedRegions=%u\n", cases, corruptions, wrongPadding, enlargedRegions);
+    std::puts(corruptions || wrongPadding || enlargedRegions ? "FAIL: arm11-inline-cache" : "PASS: arm11-inline-cache");
+    return corruptions || wrongPadding || enlargedRegions ? 1 : 0;
 }

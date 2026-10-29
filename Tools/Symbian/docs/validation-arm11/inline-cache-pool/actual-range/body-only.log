@@ -1,0 +1,3 @@
+CORRUPTION literals=1 padding=491 start=1968 expectedEnd=2032 actualEnd=2048 before=12345678 after=e1a00000
+RESULT cases=3300 corruptions=22 wrongPadding=0 enlargedRegions=6
+FAIL: arm11-inline-cache

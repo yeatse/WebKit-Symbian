@@ -15,10 +15,12 @@ p.add_argument("--sysroot", type=Path, required=True)
 p.add_argument("--qemu", type=Path, required=True)
 p.add_argument("--work", type=Path, required=True)
 p.add_argument("--baseline", default="17cf20e6748e87a1749f11b1bf018cf2304eb392")
+p.add_argument("--body-only-fix", default="3d20f6375cb")
 a = p.parse_args()
 a.work.mkdir(parents=True, exist_ok=True)
 relative = "Source/JavaScriptCore/jit/JITInlineCacheGenerator.cpp"
 old = subprocess.check_output(["git", "show", a.baseline + ":" + relative], cwd=a.checkout).decode()
+body_only = subprocess.check_output(["git", "show", a.body_only_fix + ":" + relative], cwd=a.checkout).decode()
 new = (a.checkout / relative).read_text()
 ninja = (a.qemu_build / "build.ninja").read_text()
 block = re.search(r"^build .*jsc\.cpp\.o:.*\n((?:  .*\n)+)", ninja, re.M).group(1)
@@ -42,7 +44,7 @@ link = re.search(r"^build bin/jsc:.*\n((?:  .*\n)+)", ninja, re.M).group(1)
 libraries = shlex.split(dict(re.findall(r"^  (\w+) = (.*)$", link, re.M))["LINK_LIBRARIES"])
 compiler = a.sysroot / "usr/bin/arm-linux-gnueabi-g++"
 records = []
-for name, source, expected in [("before", old, 1), ("after", new, 0)]:
+for name, source, expected in [("before", old, 1), ("body-only", body_only, 1), ("after", new, 0)]:
     work = a.work / name
     work.mkdir(exist_ok=True)
     start = source.index("void JITByIdGenerator::generateFastCommon(")
@@ -61,8 +63,8 @@ for name, source, expected in [("before", old, 1), ("after", new, 0)]:
         result = subprocess.run([str(a.qemu), "-cpu", "arm1136", "-L", str(a.sysroot / "usr/arm-linux-gnueabi"), str(binary)],
             stdout=log, stderr=subprocess.STDOUT, timeout=30)
     print(name, "exit", result.returncode, (work / "guest.log").read_text(), end="", flush=True)
-    summary = re.search(r"RESULT cases=(\d+) corruptions=(\d+) wrongPadding=(\d+) postRegionPools=(\d+)", (work / "guest.log").read_text())
-    if result.returncode != expected or not summary or int(summary[1]) != 3300 or (name == "before" and not int(summary[2])):
+    summary = re.search(r"RESULT cases=(\d+) corruptions=(\d+) wrongPadding=(\d+) enlargedRegions=(\d+)", (work / "guest.log").read_text())
+    if result.returncode != expected or not summary or int(summary[1]) != 3300 or (name != "after" and not int(summary[2])):
         raise SystemExit("unexpected regression result: " + name)
     records.append({"case": name, "source": relative, "sourceSHA256": hashlib.sha256(source.encode()).hexdigest(),
         "methodSHA256": hashlib.sha256(method.encode()).hexdigest(), "guestExit": result.returncode,
