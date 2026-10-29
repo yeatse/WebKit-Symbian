@@ -236,7 +236,8 @@ void ResourceHandle::continueCurlRedirect(ResourceRequest&& request, const URL& 
     if (!sameOrigin) {
         request.clearHTTPAuthorization();
         request.removeHTTPHeaderField(HTTPHeaderName::Cookie);
-        request.clearHTTPOrigin();
+        // The client has already applied CORS redirect rules, including a new
+        // or opaque Origin. Preserve that value when continuing this request.
         d->m_user = { };
         d->m_password = { };
         d->m_initialCredential = { };

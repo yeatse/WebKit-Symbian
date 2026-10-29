@@ -29,7 +29,6 @@
 #if ENABLE(WEB_CRYPTO) && USE(MBEDTLS)
 
 #include "CryptoAlgorithmAESCBC.h"
-#include "CryptoAlgorithmAESCFB.h"
 #include "CryptoAlgorithmAESGCM.h"
 #include "CryptoAlgorithmAESKW.h"
 #include "CryptoAlgorithmHKDF.h"
@@ -44,8 +43,8 @@ namespace WebCore {
 
 void CryptoAlgorithmRegistry::platformRegisterAlgorithms()
 {
+    // SubtleCrypto in WebKit 2.52 rejects the deprecated AES-CFB-8 API.
     registerAlgorithm<CryptoAlgorithmAESCBC>();
-    registerAlgorithm<CryptoAlgorithmAESCFB>();
     registerAlgorithm<CryptoAlgorithmAESGCM>();
     registerAlgorithm<CryptoAlgorithmAESKW>();
     registerAlgorithm<CryptoAlgorithmHKDF>();

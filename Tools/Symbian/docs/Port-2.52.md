@@ -7,7 +7,7 @@ Updated: 2026-10-29 (Asia/Singapore).
 - Base: WebKitGTK `webkitgtk-2.52.6`, `4fb33923db2f945803df49546f75867980365c08`.
 - Reference: `2.32.4-symbian`, `165777485aca391b73583d12d45edb230d3c4216`; reference upstream `a81ec020d36acabbe870529ac29582c954c91852`.
 - The reference now includes later crypto/media commits after the supplied handoff's `4dca1b91`. Media stays disabled on this branch.
-- Emulator: `yeatse/EKA2L1`, `webkit-symbian`, `5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a`. CLI firmware installation and panic diagnostics are local validation changes only.
+- Emulator: `yeatse/EKA2L1`, `webkit-symbian`, `5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a`. CLI firmware installation and panic diagnostics are local validation changes only. Browser validation also uses two local shutdown fixes: message-window animations observe canvas destruction, and property subscriptions do not signal already-destroyed request semaphores during kernel wipeout. These EKA changes are not pushed. The final browser-validation emulator SHA256 is `94bcad8b14b1ac7d6b78ddaa33f717cfcc432ca008d556af6631cbe21da3eb7f`.
 - SDK: symbian-platform 0.3.0, Clang 23.1.2. Release archive SHA256 `9be830884a5fd1b9315ea1c11571810f7a50fa673851fa392bb397c6759fec3d`.
 
 ## Current checkpoint
@@ -29,19 +29,18 @@ WTF, PAL, JSC, WebCore and WebKitLegacy have all compiled and archived for ARM. 
 - `browser.exe`: 49,121,832 bytes; SHA256 `282d7dbfa7566cf3fda437b0e61c55663722987352594ce7b7c3e15dd3a1a34f`.
 - `browser.sis`: 18,355,252 bytes; SHA256 `8eebe8516eb9006d849a4ce10be160c46184288cecd8cde7d5b7f1dc4f5d2bed`.
 
-The browser SIS installs successfully in X7 with UID `0xE1A5C012`, the installation-complete marker and package registry. The installed EXE, registration/localization resources, local HTML and release CA bundle match the package inputs. Browser execution validation is in progress; local rendering and its fresh console PASS are observed, but the emulator currently crashes during normal host shutdown, which the runner correctly rejects.
+The browser SIS installs successfully in X7 with UID `0xE1A5C012`, the installation-complete marker and package registry. The installed EXE, registration/localization resources, local HTML and release CA bundle match the package inputs. The local DOM/modern JavaScript/Chinese rendering page passes in `browser-20261029T102646Z-_97vb6hr`, with a fresh console marker, screenshot, normal host shutdown and no guest panic/access violation. The form controls render; interactive input has not been separately tested.
 
 The E32 converter's 47 host regression tests pass, including a valid exception index larger than 64 KiB, malformed table/descriptor rejection and strict single-branch ARM import thunks. Clean sequential patch application, reverse checks and repeated cached builds pass. Converter SHA256: `6639323282ca92f09c823a9ea7178b318c2198cfdf27c5e0bb9e50cef6d5f27d`.
 
 Host fault injection compiles the actual `SymbianSystem.cpp` against fake kernel interfaces and passes reservation/commit rollback, data preservation, decommit/zeroing, slot limit/reuse and entropy failure/short-fill checks. Filesystem host regressions also pass five groups covering path handling, aliases/no-overwrite, non-regular files, short writes/EINTR, failed-copy cleanup, cross-device fallback, temporary directories and permission errors. Six fake-emulator JSC runner regressions and twelve browser-network runner host regressions pass. These validate algorithms and harness behavior; they do not substitute for guest kernel or JSC execution.
 
-Browser fixture pages cover HTTP/WebSocket and TLS. WebCrypto vectors have supplementary host checks, but all browser fixture outcomes still need to be established in the Symbian engine.
+Browser fixture pages cover HTTP/WebSocket and TLS. The first complete WebCrypto guest run passed 18 of 19 groups; AES-CFB-8 was rejected by WebKit 2.52's intentional API deprecation. This is preserved: CFB is removed from the platform registry and its fixture checks rejection. The historical CFB implementation/registration claim is not evidence of usable browser API support, and no Symbian CFB vector pass is claimed. The initial browser image passes all six TLS groups in `tls-validation-282d7dbf/result.json`: trusted HTTPS/WSS and independent wrong-hostname/untrusted-root rejection for each. The test CA is restored to its exact original bytes. Initial HTTP results are 20/23: cookie persistence and cross-port redirect handling require correction. Final-image WebCrypto and network outcomes are pending.
 
 Verified environment preparation: SDK compiler, linker and stock E32 converter built the SDK hello-time example. This does not validate WebKit. SDK entropy source uses the checked kernel secure RNG path with a 1024-byte request limit; emulator behavior cannot establish physical-device entropy quality.
 
 ## Required validation
 
-- Local browser DOM/JS/Chinese rendering and input.
 - WebCrypto standard vectors and error inputs.
 - HTTP, WebSocket, HTTPS, WSS, untrusted certificates and hostname mismatch.
 
