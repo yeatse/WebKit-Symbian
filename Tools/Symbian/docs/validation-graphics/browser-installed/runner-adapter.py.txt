@@ -1,0 +1,6 @@
+import importlib.util
+from pathlib import Path
+p=Path('/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/run-browser-graphics-tests.py')
+spec=importlib.util.spec_from_file_location('installed_graphics',p);mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
+mod.BROWSER_RUNNER=Path('/workspace/symbian-final-work/installed-validation/run-installed-browser.sh')
+raise SystemExit(mod.main())

@@ -1,5 +1,7 @@
 # Browser compositing and WebGL regression
 
+This records the earlier directly deployed 8ba0 browser. The later SIS-installed 0.3.39 browser has its own [2db5 validation record](../browser-installed/README.md); the original results and identities below are retained unchanged.
+
 The strict browser runner passed both suites on 2026-10-29: **compositing 10/10** and **WebGL 9/9**. Each run separately logged native EGL/GLES2 initialization and a successful 360 × 532 presentation, with no compositor fallback or panic. Both browser drivers returned 0 after the observation period and graceful host shutdown. The installed CA file was unchanged.
 
 - Browser SHA256: `8ba0a5068a3dbd3aef616d71ae3b9f6d6b0a906c376c49fa4a9cc04685eaead5`.

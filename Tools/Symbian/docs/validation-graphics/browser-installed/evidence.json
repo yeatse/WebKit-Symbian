@@ -1,0 +1,23 @@
+{
+  "source_directory": "/workspace/symbian-final-work/installed-validation/graphics",
+  "browser_sha256": "2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "package_version": "0.3.39",
+  "launch_path": "E:\\sys\\bin\\browser.exe",
+  "browser_sis_sha256": "6f6c9749f81081d2337bdb3ae1ca867ec0eacb084eb6ea14333fab4531380e35",
+  "status": "PASS",
+  "files_sha256": {
+    "compositing/browser.png": "2273ea237b65a6db7634995ae31331321c0899a88919ea1247b2fe855a96843e",
+    "compositing/emulator.log": "44ca8a93d54e953ce15126d9ac3609393202c903005029f4c3353f327a787336",
+    "compositing/launcher.log": "0009dcfba78dc5907011f9b49648bd62d126858e56baf94a56a1cb94dba7394a",
+    "compositing/log.txt": "0417a370bccf5b3ae46d82cd83ddd13f7ae81507ebd33d4397474f46a65dbe37",
+    "driver-adaptation.json": "ddc035a2ccf251982f64826bdfa7e5fb028f2b27b412c94d8e1c024a1ed18e8b",
+    "driver-source.sh.txt": "c1e92e6a79623ae4565f71565ca174d208ef4b16469829aaf0cc07f0f29cdf16",
+    "result.json": "165e88a1efe974f0f0a5400708388e99d10d478f3665ae33735e2ca655e840ee",
+    "runner-adapter.py.txt": "4d65f77da50ccdacfd54e3c8e08f042ae35e515da577af1a37abb7e184cd36f8",
+    "webgl/browser.png": "589027415214e23743852d6a6fd7dcbe407827f98e4172c73775da6bdb3394a8",
+    "webgl/emulator.log": "7b1396b24cfc5427fbfb58ce1c6913be9caf4a0e45385c77f07ed7740d0d0e5b",
+    "webgl/launcher.log": "3dbaf59fcbe8f2d94c84ca436416cf5828d05924f38ab6f5839dfbead3afa39e",
+    "webgl/log.txt": "d40db1009e41a9783b439fe8853a17d481ae819cd9180df5050e08145f63789c"
+  }
+}

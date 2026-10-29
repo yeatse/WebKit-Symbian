@@ -1,0 +1,20 @@
+17:29:07.623 WebKit Browser starting
+17:29:07.639 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+17:29:09.188 load file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f
+Symbian compositor: native EGL/GLES2 presented 360x532
+17:29:09.734 network: connected through "Host network"
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:54: WEBGL INFO {"version":"WebGL 1.0","renderer":"WebKit WebGL","attributes":{"alpha":true,"antialias":false,"depth":true,"failIfMajorPerformanceCaveat":false,"powerPreference":"default","premultipliedAlpha":true,"preserveDrawingBuffer":true,"stencil":false}}
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL PASS context-and-capabilities
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL PASS new-buffer-is-cleared
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL PASS shader-texture-and-vertex-queries
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL PASS framebuffer-allocation-and-queries
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:108: WebGL: INVALID_ENUM: bindTexture: invalid target
+console: :0: WebGL: INVALID_VALUE: glBufferSubData: Insufficient buffer size.
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL PASS validation-and-invalid-shader
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL PASS resize-clears-and-retains-objects
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL PASS canvas-upload-flip-and-premultiply
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL PASS canvas-presentation-and-preservation
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL PASS context-loss-and-restoration
+console: file:///C:/Data/WebKit/webgl.html?autorun=1&run=ed6b9fe4ee9d424d913765c23ff1851f:190: WEBGL DONE PASS 9/9 passed; 0 failed

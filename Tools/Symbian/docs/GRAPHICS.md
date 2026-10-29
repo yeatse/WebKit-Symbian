@@ -4,10 +4,14 @@ Status recorded on 2026-10-29: the EKA2L1 browser passed **10/10 compositing** a
 **9/9 WebGL** checks, with native EGL/GLES2 initialization and successful
 360 × 532 presentation recorded separately for each page. Both browser drivers
 completed their observation periods and normal host shutdown, with no panic or
-compositor fallback; the installed CA file was unchanged. The repaired browser's
-six promoted/plain text regions also match the software reference exactly, and
-both one-pixel stripe rows have zero RGB error. Original logs, screenshots and
-hashes are in [browser-final](validation-graphics/browser-final/README.md) and
+compositor fallback; the installed CA file was unchanged. The latest run
+explicitly launched the SIS-installed 0.3.39 browser from E, after checking all
+11 package payloads. Its logs, screenshots and hashes are in
+[browser-installed](validation-graphics/browser-installed/README.md). The earlier
+8ba0 browser also passed both suites and its six promoted/plain text regions
+matched the software reference exactly, with zero RGB error in both one-pixel
+stripe rows. Those separate records remain in
+[browser-final](validation-graphics/browser-final/README.md) and
 [compositing-text](validation-graphics/compositing-text/README.md).
 
 On the same final emulator, the standalone native EGL probe passed **131/131**
@@ -89,15 +93,20 @@ checked against the fixed base; all 13 current patch hashes match the recorded
 | GLAD host loader regression | 7/7 | Capability-gated precision API loading, exact call forwarding, missing resolver rejection and clearing stale pointers |
 | Browser compositing page | 10/10 | Transform, opacity, clipping, scrolling, repaint, resize and animation checks, plus separate native presentation evidence |
 | Browser WebGL page | 9/9 | WebGL 1 storage, shader/texture/FBO queries, validation, resize, canvas uploads/presentation and context loss/restoration |
-| Browser text/stripe comparison | Exact match | Six 280 × 24 text regions match the software reference; both one-pixel stripe rows have zero RGB error |
+| Earlier 8ba0 browser text/stripe comparison | Exact match | Six 280 × 24 text regions match the software reference; both one-pixel stripe rows have zero RGB error |
 
-The final host SHA-256 is
-`ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1`.
+The graphics-validation host SHA-256 is
+`ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1`
+(patches through `0016`). The later `0017` media-reader change has separate
+validation; the native EGL, ANGLE and browser graphics results below were not
+rerun on that newer host.
 The native image SHA-256 is
 `bd8fce0b249e73edbe0eb9661b1d8d6a39b9adafa0b2340981e5ae1a5a1c9aa3`;
 the ANGLE image SHA-256 is
 `8148b8ff1b50acfc8bac5ef83b4ca37561742c3f163fc1dd27fff5c87ee19a33`;
-the browser image SHA-256 is
+the SIS-installed browser image SHA-256 is
+`2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd`.
+The earlier text-comparison browser is
 `8ba0a5068a3dbd3aef616d71ae3b9f6d6b0a906c376c49fa4a9cc04685eaead5`.
 The final native EGL rerun is in `validation-graphics/native-egl/final-clean`;
 the host has no temporary `MMFSTART` diagnostic instrumentation. Earlier runs

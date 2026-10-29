@@ -1,0 +1,19 @@
+17:28:06.515 WebKit Browser starting
+17:28:06.531 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+17:28:08.070 load file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179
+Symbian compositor: native EGL/GLES2 presented 360x532
+17:28:08.603 network: connected through "Host network"
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: translated layer geometry
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: layer opacity
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: overlapping layer hit test
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: overflow clipping excludes transformed child
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: remove compositing trigger
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: ordinary root content update
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: overflow scroller position
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: layout resize retains layer geometry
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: animation reached final transform
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: multiple animation frames delivered
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: RESULT: compositing-regression passed=10 failed=0 frames=3
+console: file:///C:/Data/WebKit/compositing.html?autorun=1&run=d6db4eb2837f4b85bebd74e6e231b179:32: PASS: compositing-regression
