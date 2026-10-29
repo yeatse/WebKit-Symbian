@@ -283,8 +283,10 @@ build_curl() {
   # started; without it the resolver thread is polled. No default CA bundle
   # or path, which curl would otherwise take from the build machine
   # (/etc/ssl/certs, missing on phones, failed every HTTPS load); WebCore
-  # sets the bundle.
-  cflags="$cflags $tls_flags" cmake_build curl-7.88.1 -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF \
+  # sets the bundle. Open C's sa_family_t is a byte, while sin_family is a
+  # u_short and AF_INET is 0x0800: curl's own addresses for numeric hosts
+  # (http://127.0.0.1/) cast the family to sa_family_t, which made it 0.
+  cflags="$cflags $tls_flags -DCURL_SA_FAMILY_T=u_short" cmake_build curl-7.88.1 -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF \
     -DCURL_DISABLE_DICT=ON -DCURL_DISABLE_FTP=ON -DCURL_DISABLE_GOPHER=ON \
     -DCURL_DISABLE_IMAP=ON -DCURL_DISABLE_LDAPS=ON -DCURL_DISABLE_MQTT=ON \
     -DCURL_DISABLE_POP3=ON -DCURL_DISABLE_RTSP=ON -DCURL_DISABLE_SMB=ON \
