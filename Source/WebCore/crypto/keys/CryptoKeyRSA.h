@@ -53,6 +53,12 @@ typedef EVP_PKEY* PlatformRSAKey;
 typedef WebCore::EvpPKeyPtr PlatformRSAKeyContainer;
 #endif
 
+#if USE(MBEDTLS)
+#include <variant>
+using PlatformRSAKey = std::monostate*;
+using PlatformRSAKeyContainer = std::unique_ptr<std::monostate>;
+#endif
+
 namespace WebCore {
 
 class CryptoKeyRSAComponents;

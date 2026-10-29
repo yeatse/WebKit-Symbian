@@ -26,7 +26,7 @@
 #include "config.h"
 #include "Editor.h"
 
-#if USE(LIBWPE)
+#if USE(LIBWPE) || OS(SYMBIAN)
 
 #include "DocumentFragment.h"
 #include "FrameDestructionObserverInlines.h"

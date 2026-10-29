@@ -26,7 +26,7 @@
 #include "config.h"
 #include "Pasteboard.h"
 
-#if USE(LIBWPE)
+#if USE(LIBWPE) || OS(SYMBIAN)
 
 #include "NotImplemented.h"
 #include "PasteboardStrategy.h"

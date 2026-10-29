@@ -60,6 +60,13 @@ using PlatformECKeyContainer = WebCore::EvpPKeyPtr;
 }
 #endif
 
+#if USE(MBEDTLS)
+#include <variant>
+namespace WebCore {
+using PlatformECKeyContainer = std::unique_ptr<std::monostate>;
+}
+#endif
+
 namespace WebCore {
 
 struct JsonWebKey;

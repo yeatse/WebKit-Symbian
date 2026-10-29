@@ -97,7 +97,7 @@ public:
     virtual void writeToClipboard(const String& pasteboardName, SelectionData&&) = 0;
     virtual void clearClipboard(const String& pasteboardName) = 0;
     virtual int64_t changeCount(const String& pasteboardName) = 0;
-#elif USE(LIBWPE)
+#elif USE(LIBWPE) || OS(SYMBIAN)
     virtual void getTypes(Vector<String>& types) = 0;
     virtual void writeToPasteboard(const PasteboardWebContent&) = 0;
     virtual void writeToPasteboard(const String& pasteboardType, const String&) = 0;
