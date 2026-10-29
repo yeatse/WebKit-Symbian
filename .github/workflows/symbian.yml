@@ -1,7 +1,8 @@
 # Builds jsc.exe and browser.exe for Symbian^3 on every push to a *-symbian
 # branch and packages them as SIS files (symbian-webkit-icu.sis, jsc.sis,
-# browser.sis), uploaded as the "sis" artifact. A pushed symbian-v* tag also
-# attaches them to a release. See Tools/Symbian/README.md.
+# browser.sis), uploaded as the "sis" artifact; browser.elf, for symbolizing
+# crashes, is the "elf" artifact. A pushed symbian-v* tag also attaches the
+# SIS files to a release. See Tools/Symbian/README.md.
 #
 # The packages are unsigned, versioned 0.3.<run number> so that each build
 # installs over the previous one (a symbian-vX.Y.Z tag gives version X.Y.Z).
@@ -195,6 +196,13 @@ jobs:
           name: sis
           path: WebKitBuild/Symbian/sis/*.sis
           if-no-files-found: error
+      # The linked image, to symbolize crashes of the packaged browser.exe.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: elf
+          path: WebKitBuild/Symbian/build/browser/browser.elf
+          retention-days: 30
+          if-no-files-found: warn
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

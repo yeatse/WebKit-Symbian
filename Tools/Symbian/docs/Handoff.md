@@ -78,6 +78,7 @@ git am /path/to/WebKit-Symbian/Tools/Symbian/patches/eka2l1/000{1,5}-*.patch
 
 ## 查崩溃
 
+* CI 每次构建除了 `sis` 还会上传 `elf` artifact（`browser.elf`，保留 30 天）。用 CI 的包（包括用户手机上装的）查崩溃时，用同一次构建的 elf 来符号化。
 * **KERN-EXEC 3（访问违例）**：EKA2L1 日志里会打出 `pc`、`lr` 和寄存器。browser.exe 的加载基址在 `browser.exe (UID3=0xE1A5C002) runtime code: 0x...` 这一行。ELF 地址 = 运行地址 − 基址 + 0x8000：
   ```sh
   llvm-symbolizer -e WebKitBuild/Symbian/build/browser/browser.elf -f -C -i 0x<ELF 地址>
