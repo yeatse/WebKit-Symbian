@@ -102,6 +102,7 @@ private:
     void startLoading();
     bool createBackend();
     void scanBoxes(const uint8_t*, size_t);
+    unsigned long long bytesToResume() const;
     bool hasEnoughToOpen() const;
     void openIfReady();
     void open();

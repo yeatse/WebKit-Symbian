@@ -182,7 +182,7 @@ private:
 // again after the backend ran out of it.
 static constexpr unsigned long long minimumBytesToOpen = 64 * 1024;
 static constexpr unsigned long long bytesAfterMovie = 64 * 1024;
-static constexpr unsigned long long bytesToResume = 256 * 1024;
+static constexpr double secondsToResume = 5;
 
 MediaPlayerPrivateSymbian::MediaPlayerPrivateSymbian(WebCore::MediaPlayer* player)
     : m_player(player)
@@ -331,12 +331,20 @@ void MediaPlayerPrivateSymbian::scanBoxes(const uint8_t* data, size_t length)
     }
 }
 
+// A few seconds of the media at its average bit rate, when that is known.
+unsigned long long MediaPlayerPrivateSymbian::bytesToResume() const
+{
+    if (!m_expectedLength || m_duration <= 0)
+        return 4 * minimumBytesToOpen;
+    return std::max(minimumBytesToOpen, static_cast<unsigned long long>(m_expectedLength / m_duration * secondsToResume));
+}
+
 bool MediaPlayerPrivateSymbian::hasEnoughToOpen() const
 {
     if (m_complete)
         return true;
     if (m_stalled)
-        return m_bytesReceived >= m_stallBytes + bytesToResume;
+        return m_bytesReceived >= m_stallBytes + bytesToResume();
     if (m_bytesReceived < m_openThreshold)
         return false;
     switch (m_boxes) {
