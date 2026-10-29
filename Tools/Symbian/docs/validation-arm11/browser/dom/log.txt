@@ -1,0 +1,14 @@
+13:56:13.059 WebKit Browser starting
+13:56:13.075 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+13:56:14.962 load file:///C:/Data/WebKit/arm11-dom.html?autorun=1
+13:56:15.611 network: connected through "Host network"
+console: file:///C:/Data/WebKit/arm11-dom.html?autorun=1:204: ARM11-DOM PASS node-getters
+console: file:///C:/Data/WebKit/arm11-dom.html?autorun=1:204: ARM11-DOM PASS node-kinds-and-mutation
+console: file:///C:/Data/WebKit/arm11-dom.html?autorun=1:204: ARM11-DOM PASS element-attributes-and-live-collection
+console: file:///C:/Data/WebKit/arm11-dom.html?autorun=1:204: ARM11-DOM PASS document-root
+console: file:///C:/Data/WebKit/arm11-dom.html?autorun=1:204: ARM11-DOM PASS event-getters-and-dispatch
+console: file:///C:/Data/WebKit/arm11-dom.html?autorun=1:204: ARM11-DOM PASS prototype-invalidation
+console: file:///C:/Data/WebKit/arm11-dom.html?autorun=1:204: ARM11-DOM PASS receiver-brand-checks
+console: file:///C:/Data/WebKit/arm11-dom.html?autorun=1:204: ARM11-DOM PASS allocation-pressure-live-wrappers
+console: file:///C:/Data/WebKit/arm11-dom.html?autorun=1:204: ARM11-DOM DONE PASS 8/8 passed; 0 failed

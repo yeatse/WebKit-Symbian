@@ -1,0 +1,65 @@
+{
+  "runtime_source_revision": "8290c1d3a05f64e6b843412c5f66d547476bc01a",
+  "image_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+  "image_bytes": 53337952,
+  "emulator_sha256": "c6c98382236bb8e83f31ae545c3e11edb126dd5d61f87e5b4ff07a22cd92fb1c",
+  "device": "RM-707 / Nokia X7-00 / Symbian 10.0",
+  "default_jit_configuration": true,
+  "status": "PASS",
+  "results": {
+    "local": {
+      "status": "PASS",
+      "result": "local/result.json",
+      "screenshot": "local/browser.png"
+    },
+    "dom": {
+      "status": "PASS",
+      "result": "dom/result.json",
+      "screenshot": "dom/browser.png",
+      "passed": 8
+    },
+    "webcrypto": {
+      "status": "PASS",
+      "result": "webcrypto/result.json",
+      "screenshot": "webcrypto/browser.png",
+      "passed": 19
+    },
+    "network": {
+      "status": "PASS",
+      "result": "network/result.json",
+      "screenshot": "network/browser.png",
+      "passed": 23
+    },
+    "tls": {
+      "status": "PASS",
+      "result": "tls/result.json",
+      "screenshot": "tls/browser.png",
+      "passed": 6
+    }
+  },
+  "packages": {
+    "browser.sis": {
+      "sha256": "91332e66ed751d3f9540b1e78b4c2c827667c7ffa29b7a092fc95edcacebf645",
+      "bytes": 20027304,
+      "installation_evidence": "sis/browser.json",
+      "fresh_installation": true
+    },
+    "jsc.sis": {
+      "sha256": "8895d95a3034c6b7977d6649c69a07894e3a21f6ef47c3753e1b1edcb68f5b81",
+      "bytes": 6894028,
+      "installation_evidence": "sis/jsc.json",
+      "fresh_installation": true
+    },
+    "symbian-webkit-icu.sis": {
+      "sha256": "9bca263c767e2095b5835340a2bc5a7a953a95e9a9a2082e5bd7c60c46b88bb8",
+      "bytes": 4744200,
+      "installation_evidence": "sis/icu.json",
+      "fresh_installation": false
+    }
+  },
+  "installed_c_e_browser_match": true,
+  "installed_c_e_jsc_match": true,
+  "release_ca_sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "test_ca_restored": true,
+  "physical_device_tested": false
+}

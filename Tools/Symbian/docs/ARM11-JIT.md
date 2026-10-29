@@ -89,5 +89,18 @@ The ARM11 tests verify a normal typed-array read in DFG, then observe the
 RAB guard's exit and check shrink/regrowth/GSAB results in the fallback.
 This is correct fallback behavior, not in-DFG RAB length optimization.
 
-The complete browser build and runtime verification are still in progress.
+The complete WebCore/WebKitLegacy browser builds, links and converts to E32.
+The same JIT-enabled browser passes local DOM/JavaScript/Chinese rendering,
+8 DOM cases, 19 WebCrypto vector/rejection cases, 23 HTTP/WebSocket cases and
+6 HTTPS/WSS trust cases on EKA2L1/X7. Each run closes normally with host exit
+zero and no guest panic. The release CA is restored after TLS testing.
+Browser and JSC SIS packages were actually installed onto E and their
+EXE/resources/test files verified byte-for-byte; C/E image hashes agree.
+[Browser and installation evidence](validation-arm11/browser/README.md)
+includes portable logs, reports and screenshots. The final images explicitly
+declare VFPv2 in their E32 headers; only the requirement flag and header CRC
+changed, with every executable-payload byte preserved. Both final SIS packages
+were reinstalled and local/DOM/default-concurrent-DFG checks passed again.
+[Final package hashes and header verification](validation-arm11/vfpv2-header/README.md)
+link these rechecks to the original complete regression records.
 Physical-device validation remains separate from emulator validation.

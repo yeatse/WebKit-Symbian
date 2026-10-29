@@ -1,0 +1,64 @@
+{
+  "package": "WebKit Browser",
+  "uid": "e1a5c012",
+  "sis_sha256": "91332e66ed751d3f9540b1e78b4c2c827667c7ffa29b7a092fc95edcacebf645",
+  "sis_bytes": 20027304,
+  "image_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+  "previous_e_exe_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+  "previous_c_exe_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+  "host_exit": 0,
+  "installation_marker": true,
+  "guest_panic": false,
+  "files": [
+    {
+      "source_name": "browser.exe",
+      "installed": "e/sys/bin/browser.exe",
+      "bytes": 53337952,
+      "sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+      "identical": true
+    },
+    {
+      "source_name": "browser_reg.rsc",
+      "installed": "e/private/10003a3f/import/apps/browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "identical": true
+    },
+    {
+      "source_name": "browser_loc.rsc",
+      "installed": "e/resource/apps/browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "identical": true
+    },
+    {
+      "source_name": "test.html",
+      "installed": "c/Data/webkit/test.html",
+      "bytes": 2254,
+      "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+      "identical": true
+    },
+    {
+      "source_name": "cacert-2026-09-25.pem",
+      "installed": "c/resource/webkit/cacert.pem",
+      "bytes": 188900,
+      "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+      "identical": true
+    }
+  ],
+  "registry": [
+    {
+      "name": "00000000.reg",
+      "bytes": 640,
+      "sha256": "77d6ee3827dc322c84981434368438d1aed1b3fb88e4ac614827fdc6506c933a"
+    },
+    {
+      "name": "00000000_0000.ctl",
+      "bytes": 1292,
+      "sha256": "4aafdcba474a00295200d3568965664e357ccc781c10118a41d34e0275b370c3"
+    }
+  ],
+  "c_exe_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+  "e_exe_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+  "c_image_staging": "Copied from verified build after E-drive package installation verification."
+}

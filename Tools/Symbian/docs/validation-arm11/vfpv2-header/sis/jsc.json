@@ -1,0 +1,64 @@
+{
+  "package": "JavaScriptCore shell",
+  "uid": "e1a5c011",
+  "sis_sha256": "3da01c6fb5e8b625ff6501c495a9feb1e3a0465e2b7a93aa78d54443640b2a18",
+  "sis_bytes": 6894028,
+  "image_sha256": "f6358eda691be2cc92cfa63a900d7cc42f8f9b2965ae1ad0c06cb4de6ebba6dd",
+  "previous_e_exe_sha256": "86fc45d8ccf82c39c3519366f8633c5d1465aeb742dd3ee1404ad8dea5c448a7",
+  "previous_c_exe_sha256": "86fc45d8ccf82c39c3519366f8633c5d1465aeb742dd3ee1404ad8dea5c448a7",
+  "host_exit": 0,
+  "installation_marker": true,
+  "guest_panic": false,
+  "files": [
+    {
+      "source_name": "jsc.exe",
+      "installed": "e/sys/bin/jsc.exe",
+      "bytes": 18842640,
+      "sha256": "f6358eda691be2cc92cfa63a900d7cc42f8f9b2965ae1ad0c06cb4de6ebba6dd",
+      "identical": true
+    },
+    {
+      "source_name": "basic.js",
+      "installed": "c/Data/basic.js",
+      "bytes": 186,
+      "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+      "identical": true
+    },
+    {
+      "source_name": "es2020.js",
+      "installed": "c/Data/es2020.js",
+      "bytes": 2587,
+      "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+      "identical": true
+    },
+    {
+      "source_name": "intl.js",
+      "installed": "c/Data/intl.js",
+      "bytes": 1462,
+      "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+      "identical": true
+    },
+    {
+      "source_name": "resizable-arraybuffer.js",
+      "installed": "c/Data/resizable-arraybuffer.js",
+      "bytes": 2715,
+      "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+      "identical": true
+    }
+  ],
+  "registry": [
+    {
+      "name": "00000000.reg",
+      "bytes": 590,
+      "sha256": "1de36a780868dd4df5b2df100dbef6f17b3874ca5f5b2fe8a832be9d1adcbf4d"
+    },
+    {
+      "name": "00000000_0000.ctl",
+      "bytes": 1180,
+      "sha256": "23595825bb60519ca08101142205d63326a387ddfabd83fdc1e7888f5f6d701e"
+    }
+  ],
+  "c_exe_sha256": "f6358eda691be2cc92cfa63a900d7cc42f8f9b2965ae1ad0c06cb4de6ebba6dd",
+  "e_exe_sha256": "f6358eda691be2cc92cfa63a900d7cc42f8f9b2965ae1ad0c06cb4de6ebba6dd",
+  "c_image_staging": "Copied from verified build after E-drive package installation verification."
+}

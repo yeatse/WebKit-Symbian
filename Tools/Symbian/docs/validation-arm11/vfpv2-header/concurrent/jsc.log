@@ -1,0 +1,3 @@
+RESULT {"test":"arm11-concurrent-jit","useConcurrentJIT":true,"compilerThreads":1,"budgetMS":50000,"elapsedMS":4999.580000000001,"batches":6,"calls":384,"yields":5,"compiled":{"numeric":1,"allocation":1},"numericDFGExecutions":128,"allocationDFGExecutions":128,"collections":7,"dfgCollections":2,"dfgReturnsAfterGC":2,"collectionsBeforeAllBodiesObserved":5,"retainedRoots":32}
+PASS: arm11-concurrent-jit
+jsc exiting 0

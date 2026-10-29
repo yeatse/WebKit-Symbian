@@ -1,0 +1,97 @@
+{
+  "image_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+  "emulator_sha256": "c6c98382236bb8e83f31ae545c3e11edb126dd5d61f87e5b4ff07a22cd92fb1c",
+  "suite": "tls",
+  "run": "1011014eb47f415ab0fcaeb6aa6d34ac",
+  "passed": 6,
+  "failed": 0,
+  "observation_seconds": 60,
+  "host_exit": 0,
+  "normal_window_close": true,
+  "panic_or_access_violation": false,
+  "report": "report.json",
+  "guest_log": "log.txt",
+  "screenshot": "browser.png",
+  "test_ca_restored": true,
+  "release_ca_sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "host_tls_preflight": [
+    {
+      "check": "trusted endpoint",
+      "host": "localhost",
+      "port": 8767,
+      "server_hostname": "localhost",
+      "certificate": "good.crt",
+      "trust": "ca.crt",
+      "status": "PASS",
+      "certificate_sha256": "304b4cd87bd8c8c92359a99f6d9b99dcbd9c189301a31ffd164670d495e4d795",
+      "subject_alt_names": [
+        [
+          "DNS",
+          "localhost"
+        ]
+      ],
+      "protocol": "TLSv1.3",
+      "http_status": 200
+    },
+    {
+      "check": "wrong-host endpoint identity",
+      "host": "localhost",
+      "port": 8768,
+      "server_hostname": "wrong.invalid",
+      "certificate": "wrong.crt",
+      "trust": "ca.crt",
+      "status": "PASS",
+      "certificate_sha256": "a65a661e100acc45a12d5b8163e9fda453cd2b2b09474c9be0f270f59c879a20",
+      "subject_alt_names": [
+        [
+          "DNS",
+          "wrong.invalid"
+        ]
+      ],
+      "protocol": "TLSv1.3",
+      "http_status": 200
+    },
+    {
+      "check": "untrusted endpoint identity",
+      "host": "localhost",
+      "port": 8769,
+      "server_hostname": "localhost",
+      "certificate": "untrusted.crt",
+      "trust": "untrusted.crt",
+      "status": "PASS",
+      "certificate_sha256": "d188efb63bbfb627179fd3c9cee5568bc97f092d4054e37e9d712b7ff2f5ccc5",
+      "subject_alt_names": [
+        [
+          "DNS",
+          "localhost"
+        ]
+      ],
+      "protocol": "TLSv1.3",
+      "http_status": 200
+    },
+    {
+      "check": "hostname rejection",
+      "host": "localhost",
+      "port": 8768,
+      "server_hostname": "localhost",
+      "certificate": "wrong.crt",
+      "trust": "ca.crt",
+      "status": "PASS",
+      "error_type": "SSLCertVerificationError",
+      "verify_code": 62,
+      "verify_message": "Hostname mismatch, certificate is not valid for 'localhost'."
+    },
+    {
+      "check": "untrusted-root rejection",
+      "host": "localhost",
+      "port": 8769,
+      "server_hostname": "localhost",
+      "certificate": "untrusted.crt",
+      "trust": "ca.crt",
+      "status": "PASS",
+      "error_type": "SSLCertVerificationError",
+      "verify_code": 18,
+      "verify_message": "self-signed certificate"
+    }
+  ]
+}

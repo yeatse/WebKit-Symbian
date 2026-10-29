@@ -1,0 +1,13 @@
+{
+  "image_sha256": "b169b7901a7171559becd0928998f03fa793b15ed86de88a97e61f505acbbb97",
+  "emulator_sha256": "c6c98382236bb8e83f31ae545c3e11edb126dd5d61f87e5b4ff07a22cd92fb1c",
+  "observation_seconds": 90,
+  "host_exit": 0,
+  "normal_window_close": true,
+  "panic_or_access_violation": false,
+  "passed": 8,
+  "failed": 0,
+  "marker": "ARM11-DOM DONE PASS 8/8 passed; 0 failed",
+  "guest_log": "log.txt",
+  "screenshot": "browser.png"
+}

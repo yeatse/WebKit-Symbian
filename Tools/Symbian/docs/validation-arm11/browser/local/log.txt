@@ -1,0 +1,6 @@
+14:06:17.138 WebKit Browser starting
+14:06:17.153 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+14:06:19.092 load file:///C:/Data/WebKit/test.html
+14:06:19.726 network: connected through "Host network"
+console: file:///C:/Data/WebKit/test.html:11: PASS: browser-local
