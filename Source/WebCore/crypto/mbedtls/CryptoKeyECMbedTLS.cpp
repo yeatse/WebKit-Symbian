@@ -258,14 +258,14 @@ bool CryptoKeyEC::platformAddFieldElements(JsonWebKey& jwk) const
         return false;
 
     size_t size = fieldElementSize(m_curve);
-    jwk.x = base64URLEncode(point.data() + 1, size);
-    jwk.y = base64URLEncode(point.data() + 1 + size, size);
+    jwk.x = WTF::base64URLEncode(point.data() + 1, size);
+    jwk.y = WTF::base64URLEncode(point.data() + 1 + size, size);
 
     if (type() == Type::Private) {
         auto d = MbedTLS::mpiData(MbedTLS::ecPrivateValue(MbedTLS::ecKeyPair(m_platformKey.get())), size);
         if (d.isEmpty())
             return false;
-        jwk.d = base64URLEncode(d);
+        jwk.d = WTF::base64URLEncode(d);
     }
     return true;
 }

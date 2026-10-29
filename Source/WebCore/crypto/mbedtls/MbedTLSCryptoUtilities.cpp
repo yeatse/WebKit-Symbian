@@ -167,7 +167,9 @@ Vector<uint8_t> subjectPublicKeyInfo(mbedtls_pk_context* context)
     int length = mbedtls_pk_write_pubkey_der(context, buffer.data(), buffer.size());
     if (length <= 0)
         return { };
-    return Vector<uint8_t>(buffer.data() + buffer.size() - length, length);
+    Vector<uint8_t> result;
+    result.append(buffer.data() + buffer.size() - length, length);
+    return result;
 }
 
 Vector<uint8_t> privateKeyInfo(mbedtls_pk_context* context)
@@ -222,7 +224,9 @@ Vector<uint8_t> privateKeyInfo(mbedtls_pk_context* context)
         || !add(mbedtls_asn1_write_tag(&p, start, MBEDTLS_ASN1_CONSTRUCTED | MBEDTLS_ASN1_SEQUENCE)))
         return { };
 
-    return Vector<uint8_t>(p, length);
+    Vector<uint8_t> result;
+    result.append(p, length);
+    return result;
 }
 
 } // namespace MbedTLS
