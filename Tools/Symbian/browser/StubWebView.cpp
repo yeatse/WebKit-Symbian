@@ -34,7 +34,7 @@ public:
         for (int y = area.y; y < area.y + area.height; ++y) {
             uint32_t* row = reinterpret_cast<uint32_t*>(pixels + y * stride);
             for (int x = area.x; x < area.x + area.width; ++x)
-                row[x] = colorAt(x, y);
+                row[x] = 0xff000000 | colorAt(x, y);
         }
     }
 
@@ -194,6 +194,8 @@ void WebView::setWakeUpCallback(void (*wakeUp)(void*), void* context)
 void WebView::runPendingWork() { }
 
 int64_t WebView::microsecondsUntilNextTimer() { return -1; }
+
+void WebView::setMediaPlayerFactory(MediaPlayerFactory, void*) { }
 
 WebView* WebView::create(WebViewClient& client, int width, int height)
 {

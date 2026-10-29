@@ -1,5 +1,6 @@
 #include "WebContainer.h"
 
+#include "MediaPlayers.h"
 #include "NativeDeclarations.h"
 
 #include <aknedsts.h>
@@ -92,6 +93,10 @@ void CWebContainer::ConstructL(const TRect& aRect)
     iExtendedInputCapabilities = CAknExtendedInputCapabilities::NewL();
     iExtendedInputCapabilities->SetEditorType(CAknExtendedInputCapabilities::EEdwinBased);
 
+    // The page leaves holes (alpha 0) where video plays in the window's
+    // background, so the window keeps the bitmap's alpha.
+    Window().SetRequiredDisplayMode(EColor16MA);
+    WebView::setMediaPlayerFactory(CreateMediaPlayer, static_cast<RWindowBase*>(DrawableWindow()));
     iWebView = WebView::create(*this, Size().iWidth, Size().iHeight);
     ActivateL();
 }
@@ -114,7 +119,7 @@ void CWebContainer::EnsureBitmapL()
     iBitmap = nullptr;
     CFbsBitmap* bitmap = new (ELeave) CFbsBitmap;
     CleanupStack::PushL(bitmap);
-    User::LeaveIfError(bitmap->Create(Size(), EColor16MU));
+    User::LeaveIfError(bitmap->Create(Size(), EColor16MAP));
     CleanupStack::Pop(bitmap);
     iBitmap = bitmap;
     iDirty = TRect(Size());
@@ -140,18 +145,20 @@ void CWebContainer::Draw(const TRect& aRect) const
         return;
     }
     if (!iDirty.IsEmpty()) {
-        // The engine paints into the bitmap's pixels directly; EColor16MU
-        // is the 0x00RRGGBB layout it expects.
+        // The engine paints into the bitmap's pixels directly; EColor16MAP
+        // is the premultiplied 0xAARRGGBB layout it expects.
         WebKitSymbian::Rect dirty { iDirty.iTl.iX, iDirty.iTl.iY, iDirty.Width(), iDirty.Height() };
         iDirty = TRect();
         iBitmap->BeginDataAccess();
         uint8_t* pixels = reinterpret_cast<uint8_t*>(iBitmap->DataAddress());
-        int stride = CFbsBitmap::ScanLineLength(iBitmap->SizeInPixels().iWidth, EColor16MU);
+        int stride = CFbsBitmap::ScanLineLength(iBitmap->SizeInPixels().iWidth, EColor16MAP);
         iWebView->paint(pixels, stride, dirty);
         iBitmap->EndDataAccess();
     }
     TRect source(aRect.iTl - Rect().iTl, aRect.Size());
+    gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
     gc.BitBlt(aRect.iTl, iBitmap, source);
+    gc.SetDrawMode(CGraphicsContext::EDrawModePEN);
 }
 
 void CWebContainer::FocusChanged(TDrawNow)

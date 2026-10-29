@@ -6,6 +6,7 @@ list(APPEND WebKitLegacy_SOURCES Storage/InProcessIDBServer.cpp)
 
 list(APPEND WebKitLegacy_SOURCES
     symbian/BackForwardList.cpp
+    symbian/MediaPlayerPrivateSymbian.cpp
     symbian/SymbianChromeClient.cpp
     symbian/SymbianEditorClient.cpp
     symbian/SymbianFrameLoaderClient.cpp

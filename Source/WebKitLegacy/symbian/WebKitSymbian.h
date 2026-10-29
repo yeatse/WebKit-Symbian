@@ -79,6 +79,38 @@ protected:
     ~WebViewClient() = default;
 };
 
+// <audio> and <video> play on the application's media players (the MMF
+// utilities), which open files: the engine downloads the media first.
+class MediaPlayerClient {
+public:
+    // open() finished. The duration is 0 if unknown, the video size 0x0 for
+    // audio.
+    virtual void mediaPlayerOpened(int error, double durationInSeconds, int videoWidth, int videoHeight) = 0;
+    // Playback reached the end, or stopped on an error.
+    virtual void mediaPlayerEnded(int error) = 0;
+
+protected:
+    ~MediaPlayerClient() = default;
+};
+
+class MediaPlayer {
+public:
+    virtual ~MediaPlayer() = default;
+
+    // path is UTF-8 with '/' separators and a drive, like "C:/Data/x.mp3".
+    virtual void open(const char* path) = 0;
+    virtual void play() = 0;
+    virtual void pause() = 0;
+    virtual double position() const = 0;
+    virtual void setPosition(double seconds) = 0;
+    // From 0 to 1.
+    virtual void setVolume(double) = 0;
+    // Where the video shows, in view pixels, and the part of it that is
+    // visible; an empty clip hides it. The view leaves the area transparent
+    // (alpha 0) for the video underneath.
+    virtual void setVideoRect(const Rect& /* rect */, const Rect& /* clip */) { }
+};
+
 class WebView {
 public:
     // Once per process, before the first WebView. dataDirectory holds the
@@ -93,12 +125,19 @@ public:
     // Microseconds until the next timer is due, or -1 if none is scheduled.
     static int64_t microsecondsUntilNextTimer();
 
+    // Creates the players for <audio> and <video>; without a factory, media
+    // elements report that they can't play anything. hasVideo tells which
+    // player the media needs.
+    using MediaPlayerFactory = MediaPlayer* (*)(void* context, MediaPlayerClient&, bool hasVideo);
+    static void setMediaPlayerFactory(MediaPlayerFactory, void* context);
+
     static WebView* create(WebViewClient&, int width, int height);
     virtual ~WebView() = default;
 
     virtual void setSize(int width, int height) = 0;
-    // Paints area into a 32-bit XRGB buffer (0x00RRGGBB words) that covers
-    // the whole view.
+    // Paints area into a 32-bit buffer of premultiplied ARGB words
+    // (0xAARRGGBB) that covers the whole view. Pages are opaque except where
+    // a video shows through (see MediaPlayer::setVideoRect()).
     virtual void paint(uint8_t* pixels, int stride, const Rect& area) = 0;
 
     // url is UTF-8; text without a scheme is treated as http://.

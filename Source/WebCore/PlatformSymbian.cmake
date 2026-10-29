@@ -33,6 +33,7 @@ list(REMOVE_ITEM WebCore_LIBRARIES
 
 list(APPEND WebCore_USER_AGENT_STYLE_SHEETS
     ${WEBCORE_DIR}/css/themeAdwaita.css
+    ${WEBCORE_DIR}/Modules/mediacontrols/mediaControlsAdwaita.css
 )
 
 set(WebCore_USER_AGENT_SCRIPTS

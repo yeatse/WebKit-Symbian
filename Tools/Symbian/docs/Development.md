@@ -297,7 +297,15 @@ A further commit fixes constant-expression errors from current Clang.
   * key event state
   * network state, which is always online for now
 
-Features that need a missing platform implementation or more than an ARM11 phone has are off. These include video, WebGL, Web Audio, Web Crypto, service workers and XSLT.
+Optional web platform features:
+
+* **XSLT** is on, on libxslt from `build-deps.sh` (`XSLTProcessorLibxslt`): `<?xml-stylesheet?>` documents and `XSLTProcessor` from script.
+* **Web Crypto** is on, on the SDK's mbedTLS (`Source/WebCore/crypto/mbedtls/`): digests, HMAC, AES (CBC, CTR, GCM, CFB, KW), PBKDF2, HKDF, RSA (PKCS #1 v1.5, OAEP, PSS) and ECDSA/ECDH on P-256, P-384 and P-521, with raw, JWK, SPKI and PKCS #8 import and export. Every operation uses its own CTR-DRBG and its own copy of the key's context, since WebCore runs them on a work queue. The PKCS #8 writer is mbedTLS's PKCS #1 or SEC 1 key wrapped in a `PrivateKeyInfo`; mbedTLS's own parser takes PKCS #1 and SEC 1 too, so `importKey("pkcs8")` checks for a `PrivateKeyInfo` first.
+* **`<audio>` and `<video>`** are on, on the phone's MMF players (`Source/WebKitLegacy/symbian/MediaPlayerPrivateSymbian.cpp`, `Tools/Symbian/browser/MediaPlayers.cpp`): `CMdaAudioPlayerUtility` for audio and `CVideoPlayerUtility` for video. The players open files, so the engine downloads the media into `C:\Data\WebKit\Media` first (local `file:` media is opened in place); there is no progressive playback or streaming. Video plays in the browser window's background, as on Symbian^3's NGA, and the page leaves a transparent hole for it: the view paints premultiplied ARGB (`EColor16MAP`, drawn with `EDrawModeWriteAlpha` into an `EColor16MA` window) and a `<video>` paints transparent black where it is. The engine tells the player where the hole is after each paint, and hides a video whose area was repainted without it. The controls are Adwaita's (`mediaControlsAdwaita.js`). Types are MP4/3GP (H.264 baseline, MPEG-4, AAC, AMR), MP3 and WAV; WebM and Ogg have no decoder on the phone.
+* **WebGL** is off. The N8 has OpenGL ES 2.0, but without accelerated compositing (see above) WebGL would read every frame back into the page bitmap, and the GPU's memory is small: GOOM kills applications that hold much of it. It belongs with hardware compositing on GLES2 TextureMapper, if that is ever done.
+* **Web Audio** is off. It needs a real-time thread mixing float samples, FFT (WebKit's ports use FFmpeg or GStreamer for it) and decoders for `decodeAudioData()`, none of which the SDK has; an ARM11 without NEON at 680 MHz has no headroom for it next to layout and JavaScript.
+* **Service workers** are off. WebKitLegacy has no service worker process or the storage they need, and they mostly serve offline caching and push, which a single-process browser on a phone does not use.
+* Others that need a missing platform implementation or more than an ARM11 phone has are off as well; see `OptionsSymbian.cmake`.
 
 Libraries built by `Tools/Symbian/scripts/build-deps.sh`, beyond the SDK's FreeType, libpng, libjpeg, zlib and mbedTLS:
 
@@ -335,7 +343,7 @@ Results:
 * Single-process, on WebKitLegacy's shared storage and loader code (WebKit's multi-process API is too heavy for an ARM11 phone).
 * `WebKitSymbian.h` is a plain C++ interface with no WebCore or Symbian types, so native AVKON code can include it next to the OS headers.
 * Clients: chrome, frame loader, editor, progress tracking; platform strategies with an in-process pasteboard; an error page for failed loads.
-* Painting: WebCore paints with cairo straight into the application's `CFbsBitmap` (`EColor16MU` has cairo's RGB24 layout).
+* Painting: WebCore paints with cairo straight into the application's `CFbsBitmap` (`EColor16MAP` has cairo's premultiplied ARGB32 layout; the page is opaque except where video shows through).
 * Touch: a tap becomes a click; a drag scrolls whatever is under the finger, overflow areas included.
 * Viewport: the page lays out at the width its `<meta name=viewport>` asks for, or at 980 pixels without one, as other phone browsers do, and starts scaled to fit the view (`FrameView` fixed layout and the page scale factor, which WebCore applies as a transform on the root without compositing). A double tap toggles between that scale and a readable one (1, or twice the initial scale for pages that are already 1), keeping the point under the finger; `user-scalable=no` turns it off. The first tap of the two has clicked already. Only a change of width starts the page over at its initial scale, so the split view input keeps the zoom.
 * Event loop: WTF's generic `RunLoop` runs from the application's active scheduler. `RunLoop::nextTimerFireTime()` (added to WTF) tells the application when to wake it.

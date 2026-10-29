@@ -25,6 +25,7 @@
 #include "WebViewImpl.h"
 
 #include "BackForwardList.h"
+#include "MediaPlayerPrivateSymbian.h"
 #include "NetworkStorageSessionMap.h"
 #include "PageStorageSessionProvider.h"
 #include "SymbianChromeClient.h"
@@ -238,6 +239,8 @@ void WebView::initializeProcess(const char* directory)
     NetworkStorageSessionMap::defaultStorageSession().setCookieDatabase(
         makeUniqueRef<CookieJarDB>(FileSystem::pathByAppendingComponent(dataDirectory(), "cookies.db")));
 
+    MediaPlayerPrivateSymbian::registerMediaEngine(dataDirectory());
+
     // A phone's worth of caches.
     MemoryCache::singleton().setCapacities(0, 4 * MB, 8 * MB);
     BackForwardCache::singleton().setMaxSize(1);
@@ -266,6 +269,11 @@ int64_t WebView::microsecondsUntilNextTimer()
         return -1;
     Seconds delay = fireTime - MonotonicTime::now();
     return delay > 0_s ? static_cast<int64_t>(delay.microseconds()) : 0;
+}
+
+void WebView::setMediaPlayerFactory(MediaPlayerFactory factory, void* context)
+{
+    MediaPlayerPrivateSymbian::setFactory(factory, context);
 }
 
 WebView* WebView::create(WebViewClient& client, int width, int height)
@@ -466,7 +474,7 @@ void WebViewImpl::paint(uint8_t* pixels, int stride, const Rect& area)
     IntRect rect = intersection(IntRect(area.x, area.y, area.width, area.height), IntRect(IntPoint(), m_size));
     if (rect.isEmpty())
         return;
-    cairo_surface_t* surface = cairo_image_surface_create_for_data(pixels, CAIRO_FORMAT_RGB24, m_size.width(), m_size.height(), stride);
+    cairo_surface_t* surface = cairo_image_surface_create_for_data(pixels, CAIRO_FORMAT_ARGB32, m_size.width(), m_size.height(), stride);
     cairo_t* cr = cairo_create(surface);
     {
         PlatformContextCairo platformContext(cr);
@@ -475,7 +483,9 @@ void WebViewImpl::paint(uint8_t* pixels, int stride, const Rect& area)
         FrameView* view = m_page->mainFrame().view();
         if (view) {
             view->updateLayoutAndStyleIfNeededRecursive();
+            MediaPlayerPrivateSymbian::willPaint();
             view->paint(context, rect);
+            MediaPlayerPrivateSymbian::didPaint(rect);
         } else
             context.fillRect(rect, Color::white);
     }

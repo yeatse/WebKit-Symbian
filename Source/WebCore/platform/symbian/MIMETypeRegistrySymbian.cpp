@@ -30,6 +30,9 @@ namespace WebCore {
 static const std::initializer_list<TypeExtensionPair>& platformMediaTypes()
 {
     static std::initializer_list<TypeExtensionPair> platformMediaTypes = {
+        { "video/3gpp"_s, "3gp"_s },
+        { "audio/aac"_s, "aac"_s },
+        { "audio/amr"_s, "amr"_s },
         { "image/bmp"_s, "bmp"_s },
         { "text/css"_s, "css"_s },
         { "image/gif"_s, "gif"_s },
@@ -41,6 +44,10 @@ static const std::initializer_list<TypeExtensionPair>& platformMediaTypes()
         { "text/javascript"_s, "js"_s },
         { "text/javascript"_s, "mjs"_s },
         { "application/json"_s, "json"_s },
+        { "audio/mp4"_s, "m4a"_s },
+        { "video/x-m4v"_s, "m4v"_s },
+        { "audio/mpeg"_s, "mp3"_s },
+        { "video/mp4"_s, "mp4"_s },
         { "application/pdf"_s, "pdf"_s },
         { "image/png"_s, "png"_s },
         { "application/rss+xml"_s, "rss"_s },
@@ -49,6 +56,7 @@ static const std::initializer_list<TypeExtensionPair>& platformMediaTypes()
         { "text/plain"_s, "txt"_s },
         { "font/ttf"_s, "ttf"_s },
         { "text/vnd.wap.wml"_s, "wml"_s },
+        { "audio/wav"_s, "wav"_s },
         { "image/webp"_s, "webp"_s },
         { "font/woff"_s, "woff"_s },
         { "application/xhtml+xml"_s, "xhtml"_s },
