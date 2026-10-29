@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "evidence_scope": "Existing compiled artifacts inspected after both guest runs; no rebuild or emulator launch during archiving.",
+  "probe_image": {
+    "bytes": 76772,
+    "sha256": "386b483f26f20af074917f256e5213f58e0788f41ce553ddf5f24c85c416f9ec"
+  },
+  "probe_elf": {
+    "bytes": 257412,
+    "sha256": "6e65ebcc92731e8284dca36d395f7f9f1c0991011902c3ffed7e42a9421f0bb2"
+  },
+  "probe_object": {
+    "bytes": 56328,
+    "sha256": "129d496e98e51e560bc3e33aa85a0b14b508ecf616e24b864acca81fe2661cfa"
+  },
+  "bridge_object": {
+    "bytes": 26828,
+    "sha256": "f15d417998b35966fe0ce29a3ac85b69fc416d493f0c55df3648ff9fb5ac1e14"
+  },
+  "e32_header": {
+    "uid1": "0x1000007a",
+    "uid2": "0x0",
+    "uid3": "0xe00008f7",
+    "signature": "EPOC",
+    "flags": "0x12000028",
+    "floating_point_type": 0,
+    "capabilities": "0x0"
+  },
+  "elf_attributes_file": "build/elf-attributes.txt",
+  "compile_profile": "ARMv6 Thumb-1 native probe, -mfpu=none -mfloat-abi=soft; no VFP requirement or capability grants.",
+  "source_identity_scope": "Source snapshots inspected at archive time. The build owner confirmed that FileSystemSymbianNative.cpp and FileSystemSymbianNative.h have not changed since the 386b probe build; this is operator confirmation, not a reproduced build. Probe and bridge source mtimes precede their corresponding existing compiled objects; original compile commands retain the input paths.",
+  "source_files": {
+    "Source/WTF/wtf/symbian/FileSystemSymbianNative.cpp": {
+      "bytes": 2101,
+      "sha256": "2498f4cd546246d30d11ecbb7b0e0c6c58d32db75cb2c7cc491f8a7812ee5c51",
+      "mtime_utc": "2026-10-29T18:43:06.661444+00:00"
+    },
+    "Source/WTF/wtf/symbian/FileSystemSymbianNative.h": {
+      "bytes": 1653,
+      "sha256": "9fca4075ebcaa72efc09b9f1f521d66a28fdd4e965e7caf976e3e011f549e9f0",
+      "mtime_utc": "2026-10-29T18:43:06.661406+00:00"
+    },
+    "Tools/Symbian/tests/native-volume/probe.cpp": {
+      "bytes": 4947,
+      "sha256": "447e195497c1a4d046736aff5ba2d496326f3902d4b215fe20b6d98874f45e1b",
+      "mtime_utc": "2026-10-29T18:58:25.730703+00:00"
+    },
+    "Tools/Symbian/tests/native-volume/bridge.cpp": {
+      "bytes": 152,
+      "sha256": "f7fe32e8b92d88068f298f0bfdd259166a8da40c003d8ca04b94055e600134d3",
+      "mtime_utc": "2026-10-29T18:46:50.963845+00:00"
+    },
+    "Tools/Symbian/tests/native-volume/CMakeLists.txt": {
+      "bytes": 591,
+      "sha256": "923df4b7b3936043c393aef9718ca1590c2b31876783e4847446215e35eefe23",
+      "mtime_utc": "2026-10-29T18:46:49.951864+00:00"
+    },
+    "Tools/Symbian/tests/native-volume/build.sh": {
+      "bytes": 652,
+      "sha256": "d7f6d03724ada4e5614fdc4b68884036a89f6bd76715ee376cb57e8a84c625c1",
+      "mtime_utc": "2026-10-29T18:46:04.248595+00:00"
+    }
+  },
+  "sdk": {
+    "version": "0.3.0",
+    "file_identity_scope": "Files present in the SDK used by recorded build commands, inspected at archive time. The runtime is the native guest archive, not a separate portable browser library.",
+    "files": {
+      "VERSION": {
+        "bytes": 6,
+        "sha256": "d915cc95d6ca8f47ae297713ed46d4e5c5d99ddd29fc3c61e263bdf305f2b5b0"
+      },
+      "lib/armv6/libsymbian_guest_runtime.a": {
+        "bytes": 628314,
+        "sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26"
+      },
+      "cmake/SymbianApp.cmake": {
+        "bytes": 30802,
+        "sha256": "8549ab7b6c458d116de0ba1d776374bf1e28e79f10d1020bb35a99c950dc30d8"
+      },
+      "cmake/symbian-arm.cmake": {
+        "bytes": 5548,
+        "sha256": "09abe14e9080b69d82930049550e899fabf7d16bba88edc435a48d52d8c3f32d"
+      },
+      "cmake/exe_startup.cc": {
+        "bytes": 2012,
+        "sha256": "4eb9db83eaacf726a0b1231336c21e96d77a13a8ac553c6236abf6acbf3b1e0c"
+      },
+      "cmake/exe_startup.S": {
+        "bytes": 511,
+        "sha256": "003a0db34c1d8ce8d03fd9b46e2122bfe26b4583adcb78387104c7d6f61504ca"
+      },
+      "cmake/exe_image.ld": {
+        "bytes": 1089,
+        "sha256": "ebe6bf4ae96fd0cb1c3fbd2a3e1018ef5e4ca41f27b7d1a91c6d8ce6a806e3eb"
+      },
+      "cmake/native_cpp_compat.h": {
+        "bytes": 523,
+        "sha256": "382cd86f428f1a61acb174b7f8cb75d109425c08a986bfe5f1a03e450092208a"
+      },
+      "include/platform/f32file.h": {
+        "bytes": 93910,
+        "sha256": "a9944048a52667501c3dd0480f6a4b4e9f04685e89d5d8cf6954203792007b4d"
+      },
+      "proxies/euser/euser.dso": {
+        "bytes": 267116,
+        "sha256": "e7b8404151473ebd99bcc55437232f82b0d83d7aad24f3d2679008726c29408a"
+      },
+      "proxies/efsrv/efsrv.dso": {
+        "bytes": 46704,
+        "sha256": "7dbb2fbc41f0d50f87bdac116eddc9d8eea193cf8e67aecd97ff3380e0ccec75"
+      },
+      "proxies/libm/libm.dso": {
+        "bytes": 10396,
+        "sha256": "a5a1e8a868bdb6de188b7846266fbbbc43d9b72210c8b3565a3d0cc15ba1d318"
+      },
+      "proxies/libc/libc.dso": {
+        "bytes": 39408,
+        "sha256": "b8950f6e7e395e471df9bab7d3b9807b2b2a9c2136f4cffadc9cf4483534a887"
+      },
+      "proxies/libpthread/libpthread.dso": {
+        "bytes": 5392,
+        "sha256": "cbee209ec783e887ff49062319ef392e03d8476f53dfa1c24719ded652de3b28"
+      }
+    }
+  },
+  "patch": {
+    "bytes": 9437,
+    "sha256": "16c79789bf2c0465d334d3590c833ef44cf156825c94f32ee647c1d67db81e2a"
+  },
+  "host_source_identity_file": "host-0018-identities.json",
+  "native_patch_identity_scope": "Both guest result.json files independently record the same final MMF DLL/map hashes; host-0018-identities.json records the redeployed assets after the host rebuild."
+}

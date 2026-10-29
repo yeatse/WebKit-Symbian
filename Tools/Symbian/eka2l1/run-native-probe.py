@@ -44,7 +44,7 @@ def stop(process):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--probe", choices=("egl", "angle", "mmf", "aligned-pressure"), required=True)
+    parser.add_argument("--probe", choices=("egl", "angle", "mmf", "aligned-pressure", "native-volume"), required=True)
     parser.add_argument("--image", type=Path, required=True)
     parser.add_argument("--image-sha256", required=True)
     parser.add_argument("--emulator", type=Path, default=os.environ.get("EKA2L1"))
@@ -69,6 +69,7 @@ def main():
         "angle": ("angle-probe.log", "angle-probe", "angle_probe.exe"),
         "mmf": ("mmf-probe.log", "native-mmf", "mmf_probe.exe"),
         "aligned-pressure": ("aligned-pressure.log", "aligned-pressure", "aligned_pressure.exe"),
+        "native-volume": ("volume-probe.log", "native-volume", "native_volume.exe"),
     }[args.probe]
     data = Path(os.environ.get("EKA2L1_DATA", str(Path(os.environ["XDG_DATA_HOME"]) / "EKA2L1/data")))
     locks = []
@@ -202,6 +203,8 @@ def main():
         parsed = json.loads(results[0])
         if parsed.get("probe") != probe_name or parsed.get("failed") != 0 or parsed.get("passed", 0) <= 0:
             raise ValueError("probe RESULT reports failure or no checks")
+        if args.probe == "native-volume" and (parsed.get("passed") != 10 or "NATIVE_VOLUME_RESULT 10/10 PASS" not in content):
+            raise ValueError("native volume did not complete all ten checks")
         if exits != ["0"]:
             raise ValueError("expected exactly one successful guest exit marker")
         if not re.search(r"(?:^| )PASS(?::)? " + re.escape(probe_name), content, re.M):

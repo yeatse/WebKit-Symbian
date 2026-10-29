@@ -28,8 +28,9 @@
 #include <stdint.h>
 
 // EKA2 services used by the WTF platform layer. The implementation is the
-// only WTF file that includes Symbian headers (e32std.h clashes with WTF and
-// libc++ names), so this interface uses plain C types.
+// bridge isolates Symbian headers (e32std.h clashes with WTF and libc++
+// names), so this interface uses plain C types. FileSystemSymbianNative
+// similarly isolates the native file-server volume API.
 
 namespace WTF {
 namespace SymbianSystem {

@@ -1,4 +1,5 @@
 #include <TestWTF.h>
+#include <dirent.h>
 #include <fcntl.h>
 #include <fstream>
 #include <sys/stat.h>
@@ -14,7 +15,67 @@ static bool failWrite;
 static bool crossDevice;
 static bool denyStat;
 static unsigned shortWrites;
+static const char* nativeWorkingDirectory;
+static bool failWorkingDirectory;
+static bool failDirectoryOpen;
+static bool failDirectoryRead;
+static bool readDirectoryEntry;
 
+extern "C" DIR* __real_opendir(const char*);
+extern "C" struct dirent* __real_readdir(DIR*);
+extern "C" DIR* __wrap_opendir(const char* path)
+{
+    if (failDirectoryOpen) {
+        errno = EACCES;
+        return nullptr;
+    }
+    return __real_opendir(path);
+}
+extern "C" struct dirent* __wrap_readdir(DIR* directory)
+{
+    if (failDirectoryRead && readDirectoryEntry) {
+        errno = EIO;
+        return nullptr;
+    }
+    auto* result = __real_readdir(directory);
+    if (result && strcmp(result->d_name, ".") && strcmp(result->d_name, ".."))
+        readDirectoryEntry = true;
+    return result;
+}
+
+// Only native volume queries are injected here; the path/64-bit result logic
+// below is the real FileSystemSymbian.cpp. RFs is checked by native-volume.
+namespace WTF::SymbianSystem {
+bool volumeInformation(unsigned drive, uint64_t& capacity, uint64_t& freeSpace)
+{
+    if (drive == 2) {
+        capacity = 8ULL << 30;
+        freeSpace = 6ULL << 30;
+    } else if (drive == 4) {
+        capacity = 16ULL << 30;
+        freeSpace = 9ULL << 30;
+    } else if (drive == 25) {
+        capacity = 4ULL << 20;
+        freeSpace = 0;
+    } else
+        return false;
+    return true;
+}
+}
+
+extern "C" char* __real_getcwd(char*, size_t);
+extern "C" char* __wrap_getcwd(char* buffer, size_t capacity)
+{
+    if (failWorkingDirectory) {
+        errno = ENOENT;
+        return nullptr;
+    }
+    if (!nativeWorkingDirectory)
+        return __real_getcwd(buffer, capacity);
+    assert(strlen(nativeWorkingDirectory) < capacity);
+    strcpy(buffer, nativeWorkingDirectory);
+    return buffer;
+}
 extern "C" ssize_t __real_read(int, void*, size_t);
 extern "C" ssize_t __real_write(int, const void*, size_t);
 extern "C" int __real_rename(const char*, const char*);
@@ -157,8 +218,46 @@ int main()
     crossDevice = false;
     assert(!hardLink("C:/Data/source", "C:/Data/unsupported-link"));
     assert(!fileExists("C:/Data/unsupported-link"));
-    assert(!volumeFreeSpace("C:/") && !volumeCapacity("C:/") && !hardLinkCount("C:/Data/source"));
-    std::puts("PASS cross-device ordinary-file fallback and unsupported hardlink/capacity");
+    assert(!hardLinkCount("C:/Data/source"));
+    std::puts("PASS cross-device ordinary-file fallback and unsupported hardlink");
+
+    assert(volumeFreeSpace("C:\\Data\\file") == (6ULL << 30));
+    assert(volumeCapacity("e:/Data") == (16ULL << 30));
+    assert(volumeFreeSpace("Z:/resource") == 0);
+    assert(!volumeFreeSpace("Q:/") && !volumeCapacity("Q:/"));
+    assert(!volumeFreeSpace("") && !volumeCapacity("http://example.test"));
+    assert(!volumeFreeSpace("C:/bad:name"));
+    assert(!volumeFreeSpace(String(std::string("C:/a\0b", 6))));
+    nativeWorkingDirectory = "E:/Data";
+    assert(volumeFreeSpace("relative/file") == (9ULL << 30));
+    assert(volumeCapacity("/rooted/file") == (16ULL << 30));
+    failWorkingDirectory = true;
+    assert(!volumeFreeSpace("relative/file"));
+    failWorkingDirectory = false;
+    nativeWorkingDirectory = nullptr;
+    std::puts("PASS native volume drive selection, zero space, 64-bit values and errors");
+
+    assert(makeAllDirectories("C:/empty-directory"));
+    auto empty = tryListDirectory("C:/empty-directory");
+    assert(empty && empty->isEmpty());
+    assert(directorySizeIfExists("C:/empty-directory") == 0);
+    assert(!tryListDirectory("C:/missing-directory"));
+    assert(directorySizeIfExists("C:/missing-directory") == 0);
+    assert(!directorySizeIfExists("C:/Data/source"));
+    assert(!directorySizeIfExists("C:/Data/source/child"));
+    failDirectoryOpen = true;
+    assert(!tryListDirectory("C:/empty-directory"));
+    assert(!directorySizeIfExists("C:/empty-directory"));
+    failDirectoryOpen = false;
+    readDirectoryEntry = false;
+    failDirectoryRead = true;
+    assert(!tryListDirectory("C:/Data") && readDirectoryEntry);
+    failDirectoryRead = false;
+    denyStat = true;
+    assert(!directorySizeIfExists("C:/empty-directory"));
+    assert(!directorySizeIfExists("C:/missing-directory"));
+    denyStat = false;
+    std::puts("PASS quota enumeration distinguishes empty, missing, partial and failed I/O");
 
     auto first = createTemporaryDirectory();
     auto second = createTemporaryDirectory();

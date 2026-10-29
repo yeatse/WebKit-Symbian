@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "failure": null,
+  "probe": "native-volume",
+  "image_sha256": "386b483f26f20af074917f256e5213f58e0788f41ce553ddf5f24c85c416f9ec",
+  "emulator_sha256": "5f8704eb1c2461ceeb160eabd927a4f828765cad353e9107ae43f463127e292a",
+  "emulator_patch_assets": {
+    "mediaclientaudio_general.dll": {
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+      "bytes": 72620
+    },
+    "mediaclientaudio.dll.map": {
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "bytes": 48796
+    },
+    "mediaclientvideo_v100.dll": {
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+      "bytes": 52556
+    },
+    "mediaclientvideo.dll.map": {
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "bytes": 11393
+    }
+  },
+  "arguments": [],
+  "host_exit": 0,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "native-volume",
+    "passed": 10,
+    "failed": 0
+  },
+  "guest_log": "volume-probe.log",
+  "screenshots": [],
+  "audio": null,
+  "final_screenshot": null,
+  "audio_format": null,
+  "audio_capture_timing": null
+}

@@ -1,0 +1,55 @@
+{
+  "before": {
+    "time_ns": 1793300605697522191,
+    "drives": {
+      "c": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c",
+        "capacity": 33770192896,
+        "available": 6952570880,
+        "free": 8687333376,
+        "fragment_size": 4096
+      },
+      "e": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e",
+        "capacity": 33770192896,
+        "available": 6952570880,
+        "free": 8687333376,
+        "fragment_size": 4096
+      },
+      "z": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/z",
+        "capacity": 33770192896,
+        "available": 6952570880,
+        "free": 8687333376,
+        "fragment_size": 4096
+      }
+    }
+  },
+  "after": {
+    "time_ns": 1793300606439982936,
+    "drives": {
+      "c": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c",
+        "capacity": 33770192896,
+        "available": 6952787968,
+        "free": 8687550464,
+        "fragment_size": 4096
+      },
+      "e": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e",
+        "capacity": 33770192896,
+        "available": 6952787968,
+        "free": 8687550464,
+        "fragment_size": 4096
+      },
+      "z": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/z",
+        "capacity": 33770192896,
+        "available": 6952787968,
+        "free": 8687550464,
+        "fragment_size": 4096
+      }
+    }
+  },
+  "driver_exit": 0
+}

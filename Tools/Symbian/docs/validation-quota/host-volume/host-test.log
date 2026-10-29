@@ -1,0 +1,23 @@
+PASS: default drive follows the RFs session path rather than system C
+PASS: lowercase session drive parses without truncation
+PASS: malformed default drive paths fail before drive-array lookup
+PASS: independent filesystem space query succeeds
+PASS: Unicode mapped root reports its actual filesystem capacity
+PASS: writable available space is bounded by capacity
+PASS: read-only or ROM mapping has no guest-writable space
+PASS: empty mapping cannot fall back to cwd
+PASS: missing mapped root is not ready
+PASS: regular file cannot masquerade as a drive root
+PASS: capacity and user-available values above 4 GiB retain all bits
+PASS: reserved host blocks do not count as user-available
+PASS: TInt64 maximum remains representable
+PASS: capacity larger than TInt64 fails without wrapping
+PASS: unknown all-ones capacity never becomes a successful volume
+PASS: available larger than TInt64 fails without wrapping
+PASS: inconsistent available greater than capacity fails
+PASS: read-only volume has known zero writable bytes even when host availability is unknown
+PASS: permission errors retain native access-denied semantics
+PASS: unexpected host I/O failure cannot become success
+PASS: a second mounted filesystem uses its own capacity
+OBSERVATION: mapped_capacity=9441337344 cwd_capacity=33770192896
+RESULT: host-volume 21/21

@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "host helper; no emulator or IPC/guest execution",
+  "source_sha256": {
+    "test-host-volume.cpp": "897dff11fef10171770798cc72590004403388267639086dfc97a12f6c6f6159",
+    "host_volume.h": "e2c1a248587ae11c378392074bc5b787d778f59b719cfcee18f14a0a36969010"
+  },
+  "helper_checks": 21,
+  "actual_permission_check": "PASS",
+  "actual_drives_tu_syntax": "PASS",
+  "sdk_independent_review": "PASS after session-default-drive and minimum-descriptor fixes",
+  "descriptor_compatibility": "complete 552-byte v1 / 556-byte v2 prefix required; optional v2 tail may be omitted",
+  "guest_ipc_execution_performed": false,
+  "reproducer": "Tools/Symbian/tests/native-volume/run-host-volume.py"
+}

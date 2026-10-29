@@ -1,0 +1,116 @@
+{
+  "old-host/audio-capture.log.gz": {
+    "source": "runs/native-volume-20261029T185946Z-2kvutst8/audio-capture.log",
+    "raw_bytes": 0,
+    "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "gzip"
+  },
+  "old-host/audio.raw.gz": {
+    "source": "runs/native-volume-20261029T185946Z-2kvutst8/audio.raw",
+    "raw_bytes": 0,
+    "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "gzip"
+  },
+  "old-host/emulator.log.gz": {
+    "source": "runs/native-volume-20261029T185946Z-2kvutst8/emulator.log",
+    "raw_bytes": 31123,
+    "raw_sha256": "da0842ec745f32ffed52763365656b2ca77efde6fa08d55d632bd1dd5252819e",
+    "encoding": "gzip"
+  },
+  "old-host/result.json": {
+    "source": "runs/native-volume-20261029T185946Z-2kvutst8/result.json",
+    "raw_bytes": 1239,
+    "raw_sha256": "b651cdb8889c48e68bb33e0be9726014b73ee3cf0cf967204b9859e09c3b5d35",
+    "encoding": "identity"
+  },
+  "old-host/volume-probe.log.gz": {
+    "source": "runs/native-volume-20261029T185946Z-2kvutst8/volume-probe.log",
+    "raw_bytes": 882,
+    "raw_sha256": "4a640ea281a2af38a2282494a36e09764376dc8fa14a123f2a51fdbfc3106faa",
+    "encoding": "gzip"
+  },
+  "new-host/audio-capture.log.gz": {
+    "source": "runs/native-volume-20261029T190325Z-07gd9jjv/audio-capture.log",
+    "raw_bytes": 0,
+    "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "gzip"
+  },
+  "new-host/audio.raw.gz": {
+    "source": "runs/native-volume-20261029T190325Z-07gd9jjv/audio.raw",
+    "raw_bytes": 0,
+    "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "gzip"
+  },
+  "new-host/emulator.log.gz": {
+    "source": "runs/native-volume-20261029T190325Z-07gd9jjv/emulator.log",
+    "raw_bytes": 29841,
+    "raw_sha256": "93f75627aab822e18d366910a03d1a14e5a1a90a17c51297dfa4bbe916a8dbef",
+    "encoding": "gzip"
+  },
+  "new-host/previous-volume-probe.log.gz": {
+    "source": "runs/native-volume-20261029T190325Z-07gd9jjv/previous-volume-probe.log",
+    "raw_bytes": 882,
+    "raw_sha256": "4a640ea281a2af38a2282494a36e09764376dc8fa14a123f2a51fdbfc3106faa",
+    "encoding": "gzip"
+  },
+  "new-host/result.json": {
+    "source": "runs/native-volume-20261029T190325Z-07gd9jjv/result.json",
+    "raw_bytes": 1201,
+    "raw_sha256": "9822da0502dc1e8c4000f6a89e5717969da296297caf514ae05ff30df4c37c1e",
+    "encoding": "identity"
+  },
+  "new-host/volume-probe.log.gz": {
+    "source": "runs/native-volume-20261029T190325Z-07gd9jjv/volume-probe.log",
+    "raw_bytes": 879,
+    "raw_sha256": "ad16e52a0d9a03845d677dec7d249b2aa171d2809d4be453a134e6024a36c176",
+    "encoding": "gzip"
+  },
+  "host-0018-identities.json": {
+    "source": "host-0018-identities.json",
+    "raw_bytes": 1050,
+    "raw_sha256": "04c6a905c812ed2b81ea1b2cab0d5bac0b3b115e3d82fb1836f8262b7616ce28",
+    "encoding": "identity"
+  },
+  "host-filesystem-comparison.json": {
+    "source": "host-filesystem-comparison.json",
+    "raw_bytes": 1500,
+    "raw_sha256": "d10bc9b0c1f62348f3340fa689f5bcbfddae5026eaf746720b20e425674d3b1d",
+    "encoding": "identity"
+  },
+  "host-build-0018.log.gz": {
+    "source": "host-build-0018.log",
+    "raw_bytes": 971,
+    "raw_sha256": "d524ab9bf1e5159371b16c7660eec9875bbc407ae88ef25862f3ae2a4f1bda6c",
+    "encoding": "gzip"
+  },
+  "old-host-driver.log.gz": {
+    "source": "old-host-driver.log",
+    "raw_bytes": 1030,
+    "raw_sha256": "a304a6dc7f3e2c4c9193d226aca1506be8869cd399e43eb17830428286593080",
+    "encoding": "gzip"
+  },
+  "new-host-driver.log.gz": {
+    "source": "new-host-driver.log",
+    "raw_bytes": 1035,
+    "raw_sha256": "5922ac3d95fa30df63b1c3f16bd086f45a4496e590c891fafa7d81b592ecf75c",
+    "encoding": "gzip"
+  },
+  "build/compile_commands.json.gz": {
+    "source": "build/compile_commands.json",
+    "raw_bytes": 7439,
+    "raw_sha256": "eb372390c4d545b592b3069099f4650c2ff89dcc2d14dea3836cca09ab0a15a5",
+    "encoding": "gzip"
+  },
+  "build/build.ninja.gz": {
+    "source": "build/build.ninja",
+    "raw_bytes": 18995,
+    "raw_sha256": "59ad876815b6b5e078354d8a92fb3ebc9f64a462a86b55f2c6420edec71051b2",
+    "encoding": "gzip"
+  },
+  "build/CMakeCache.txt.gz": {
+    "source": "build/CMakeCache.txt",
+    "raw_bytes": 15177,
+    "raw_sha256": "6d4d4a60ed1e0ef97cc5e8228b005f934e9547e5686d3c47e31e7042364e6bb8",
+    "encoding": "gzip"
+  }
+}

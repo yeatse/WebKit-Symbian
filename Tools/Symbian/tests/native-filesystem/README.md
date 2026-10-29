@@ -13,7 +13,11 @@ rename failure and permission errors. Drive letters are represented by `C:` and
 Coverage includes drive/root/dot/parent paths, ancestor boundaries, no-overwrite
 copy, preventing truncation through source/destination aliases, partial writes,
 failed exclusive-copy cleanup, cross-device ordinary-file moves, unsupported
-hard links and capacity queries, temporary directories and recursive deletion.
+hard links, temporary directories and recursive deletion. Native volume results
+are injected only at the RFs bridge boundary to test drive selection, relative
+Open C paths, zero available space, values above 4 GiB and errors in the actual
+WTF adapter. The separate [native probe](../native-volume/README.md) exercises
+RFs itself; host injection is not evidence for a real Symbian volume.
 
 This validates path and I/O control flow. It does not establish Symbian Open C
 semantics, Unicode conversion or filesystem permissions, and does not replace

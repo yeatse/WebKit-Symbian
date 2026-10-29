@@ -1,0 +1,28 @@
+{
+  "host": {
+    "sha256": "5f8704eb1c2461ceeb160eabd927a4f828765cad353e9107ae43f463127e292a",
+    "bytes": 65437952
+  },
+  "native_assets": {
+    "mediaclientaudio_general.dll": {
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+      "bytes": 72620
+    },
+    "mediaclientvideo_v100.dll": {
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+      "bytes": 52556
+    },
+    "mediaclientaudio.dll.map": {
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "bytes": 48796
+    },
+    "mediaclientvideo.dll.map": {
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "bytes": 11393
+    }
+  },
+  "source": {
+    "/workspace/EKA2L1-validation/src/emu/services/src/fs/drives.cpp": "3bfbfd7d0b3502e131e8f411066874fc9baa0dfd7ce04363f49c41e3d83e9237",
+    "/workspace/EKA2L1-validation/src/emu/services/include/services/fs/host_volume.h": "e2c1a248587ae11c378392074bc5b787d778f59b719cfcee18f14a0a36969010"
+  }
+}

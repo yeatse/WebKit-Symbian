@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include <wtf/FileSystem.h>
+#include "FileSystemSymbianNative.h"
 
 #include <dirent.h>
 #include <fcntl.h>
@@ -225,6 +226,7 @@ static std::optional<Vector<String>> entries(const String& path)
     return result;
 }
 Vector<String> listDirectory(const String& path) { return entries(path).value_or(Vector<String> { }); }
+std::optional<Vector<String>> tryListDirectory(const String& path) { return entries(path); }
 
 std::optional<uint64_t> directorySize(const String& path)
 {
@@ -249,6 +251,19 @@ std::optional<uint64_t> directorySize(const String& path)
     return size.value();
 }
 
+std::optional<uint64_t> directorySizeIfExists(const String& path)
+{
+    struct stat info;
+    if (lstat(nativePath(path).c_str(), &info)) {
+        if (errno == ENOENT)
+            return 0;
+        return std::nullopt;
+    }
+    if (!S_ISDIR(info.st_mode))
+        return std::nullopt;
+    return directorySize(path);
+}
+
 bool deleteNonEmptyDirectory(const String& path)
 {
     struct stat info;
@@ -266,8 +281,43 @@ bool deleteNonEmptyDirectory(const String& path)
     return deleteEmptyDirectory(path);
 }
 
-std::optional<uint64_t> volumeFreeSpace(const String&) { return std::nullopt; }
-std::optional<uint64_t> volumeCapacity(const String&) { return std::nullopt; }
+static bool volumeInformation(const String& input, uint64_t& capacity, uint64_t& freeSpace)
+{
+    auto path = nativePath(input);
+    if (path.empty() || path.find('\0') != std::string::npos)
+        return false;
+    if (path.find(':') == std::string::npos) {
+        // Open C maintains its own current directory. An RFs session's default
+        // drive is not necessarily the drive of a relative Open C path.
+        // A native path has at most 256 UTF-16 units (at most 768 UTF-8 bytes).
+        char currentDirectory[1024];
+        if (!getcwd(currentDirectory, sizeof(currentDirectory)))
+            return false;
+        path = currentDirectory;
+    }
+    if (path.size() < 2 || !isASCIIAlpha(path[0]) || path[1] != ':' || path.find(':', 2) != std::string::npos)
+        return false;
+    unsigned drive = (path[0] >= 'a' && path[0] <= 'z') ? path[0] - 'a' : path[0] - 'A';
+    return SymbianSystem::volumeInformation(drive, capacity, freeSpace);
+}
+
+std::optional<uint64_t> volumeFreeSpace(const String& path)
+{
+    uint64_t capacity = 0;
+    uint64_t freeSpace = 0;
+    if (!volumeInformation(path, capacity, freeSpace))
+        return std::nullopt;
+    return freeSpace;
+}
+
+std::optional<uint64_t> volumeCapacity(const String& path)
+{
+    uint64_t capacity = 0;
+    uint64_t freeSpace = 0;
+    if (!volumeInformation(path, capacity, freeSpace))
+        return std::nullopt;
+    return capacity;
+}
 bool hardLink(const String&, const String&) { return false; }
 std::optional<uint64_t> hardLinkCount(const String&) { return std::nullopt; }
 bool createSymbolicLink(const String& target, const String& link) { return !symlink(nativePath(target).c_str(), nativePath(link).c_str()); }

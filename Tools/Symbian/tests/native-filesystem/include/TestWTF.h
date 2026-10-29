@@ -100,6 +100,8 @@ std::optional<FileType> fileTypeFollowingSymlinks(const String&);
 std::optional<uint64_t> fileSize(const String&);
 std::optional<uint64_t> directorySize(const String&);
 Vector<String> listDirectory(const String&);
+std::optional<Vector<String>> tryListDirectory(const String&);
+std::optional<uint64_t> directorySizeIfExists(const String&);
 bool deleteNonEmptyDirectory(const String&);
 std::optional<uint64_t> volumeFreeSpace(const String&);
 std::optional<uint64_t> volumeCapacity(const String&);

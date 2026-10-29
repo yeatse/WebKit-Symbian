@@ -12,6 +12,7 @@ list(APPEND WTF_SOURCES
 
     symbian/CPUTimeSymbian.cpp
     symbian/FileSystemSymbian.cpp
+    symbian/FileSystemSymbianNative.cpp
     symbian/LibcxxSupport.cpp
     symbian/OSAllocatorSymbian.cpp
     symbian/SymbianSystem.cpp
