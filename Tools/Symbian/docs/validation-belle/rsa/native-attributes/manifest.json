@@ -1,0 +1,23 @@
+{
+  "scope": "actual E32 SDK RSA helpers with optional PKCS8 attributes, not browser WebCrypto API validation",
+  "run_id": "rsa-20261029T203502Z-gaj8i5cf",
+  "image_sha256": "774a5feb4bc52e7b5d43e690fae46488e5676b67ed310ae7e412255c9b1a8bdb",
+  "emulator_sha256": "71cbce0aa8a8eff9d167614a34f2870d26387df18b3940cf4818a34524933093",
+  "sdk_mbedcrypto_sha256": "282b081f833b6f93a8a677919bf6466725ba9bd76b6c3f03df2d9c6cf3923627",
+  "source_sha256": {
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSAKey.h": "ba04d88546b2e24add470b33aedbc98a4ea592577ef78898c7868a95e2268e22",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSADER.h": "cccea35f2df38e405890e5b7e1706b9e921bdb1abb4e5c733bf9b50ea33f2b88",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSAOperations.h": "874749a4082604ac0678df42ffbfcafd8dad33c65f2da7934ba960f36c4672f8",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSARandom.h": "715d75e57e2f3d44c31535ccda0bfc8682ff5fcbe98d3a3eded76ea9b3ea9023",
+    "Source/WTF/wtf/symbian/SymbianSystem.cpp": "2396e250d9b4ab8adfe8032c05b409a11f94afbeebb2a6f7350f27e933f7823c",
+    "Tools/Symbian/tests/rsa/host.cpp": "1ad719941db550f4c291662af2360918deaa3538372e019f2124a789c75423b8"
+  },
+  "files_sha256": {
+    "runner-adaptation.json": "645b19d99792dd395b8c0bcc8bd482c5182e6bd9860f3ca5e61872d2ea0f2cc7",
+    "result.json": "3c02e46e6994ea72dcb3443db6bd76b0aec640386e357203e2bb59900af451be",
+    "rsa-probe.log": "46735d2f2351f9062935f602a978e15de030b6c03fd026988fe29c8106f597f7",
+    "host-excerpt.log": "3e2e4ddfe753873748c561e9f97623cef3e8bf2b715e29cae6f9b71a56161746",
+    "runner-from-153.patch": "bd1cc7647303d5b8eda30b35f0037c36c59fcd96303b3a21a24156e182722f08"
+  },
+  "host_excerpt_note": "Process identity and four 128KiB pthread lines; emulator source root normalized. Full host log retained externally."
+}

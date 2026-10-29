@@ -1,0 +1,41 @@
+{
+  "scope": "Actual production RSA helpers after optional PKCS8 attributes; WebCrypto integration pending",
+  "host": {
+    "passed": 171,
+    "failed": 0,
+    "pointer_bits": 64
+  },
+  "qemu_arm1136": {
+    "passed": 171,
+    "failed": 0,
+    "pointer_bits": 32,
+    "abi": "ARMv6 VFPv2 softfp",
+    "library_note": "SDK mbedTLS source rebuilt for ARM Linux, not the E32 archive"
+  },
+  "report_contract_tests": 7,
+  "sdk_translation_units": {
+    "passed": 2,
+    "header_overlay": true,
+    "HAVE_RSA_PSS": 1
+  },
+  "native_probe_sha256": "774a5feb4bc52e7b5d43e690fae46488e5676b67ed310ae7e412255c9b1a8bdb",
+  "native_runtime_status": "PASS 171/171, guest and host exit0, see ../native-attributes/",
+  "source_sha256": {
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSAKey.h": "ba04d88546b2e24add470b33aedbc98a4ea592577ef78898c7868a95e2268e22",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSADER.h": "cccea35f2df38e405890e5b7e1706b9e921bdb1abb4e5c733bf9b50ea33f2b88",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSAOperations.h": "874749a4082604ac0678df42ffbfcafd8dad33c65f2da7934ba960f36c4672f8",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSARandom.h": "715d75e57e2f3d44c31535ccda0bfc8682ff5fcbe98d3a3eded76ea9b3ea9023",
+    "Source/WebCore/crypto/mbedtls/CryptoKeyRSAMbedTLS.cpp": "7d3e9f54a4d9b0743f779c2977ceb45107ba73de15d10481bbbf918d4bf91795",
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmRSAMbedTLS.cpp": "142e4ac5760eceeab5af2732d849d494342cf9cb6f4e091cebca149c1a46d04d",
+    "Tools/Symbian/tests/rsa/host.cpp": "1ad719941db550f4c291662af2360918deaa3538372e019f2124a789c75423b8",
+    "Tools/Symbian/tests/rsa/page.js": "58db1f85ad0bd4ef2cc6b7aa3d6ad3cb234d83acf97f06b2e17b9c443acee937",
+    "Tools/Symbian/tests/rsa/worker.js": "db582e9b301f7c2432b61d7d4eb019c9cad2902a02174fb2906e702ee804663c"
+  },
+  "files_sha256": {
+    "host.log": "a595a85f0aa723cd1c028c90cf89b32c18b5c0f9299e38a3213535e05957ebb3",
+    "vector-sources.json": "979393580f406538ab6cd95dc3ea27c1d2e63347bc0e2c699db18896f189cf43",
+    "syntax-overlay.log": "72de7d87dd6ad2a35b25231b33f3a1a5dc8f93f844bf3e6bb155bae700f858d8",
+    "arm1136.log": "ab12cc35327c088a91285e232fc688643ca82ddaa28967cc9774865a96dcc2da",
+    "attributes-from-153.patch": "d37623961ec5c4bcf2589f85f0028cdf1e626bc609552f970414f66fb1497ac4"
+  }
+}

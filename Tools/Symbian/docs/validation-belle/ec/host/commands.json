@@ -1,0 +1,26 @@
+{
+  "build_argv": [
+    "c++",
+    "-std=c++20",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-DMBEDTLS_STATIC",
+    "-DMBEDTLS_USER_CONFIG_FILE=\"symbian_mbedtls/config.h\"",
+    "-I/workspace/WebKit-Symbian-graphics/Source/WebCore/crypto/mbedtls",
+    "-I/workspace/symbian-ec-work/host",
+    "-I/workspace/symbian-tls-ip-work/production/source/include",
+    "-I/workspace/symbian-sdk/include/abseil",
+    "/workspace/symbian-ec-work/tests/host.cpp",
+    "/workspace/symbian-tls-ip-work/production/host/tls/library/libmbedcrypto.a",
+    "-pthread",
+    "-o",
+    "/workspace/symbian-ec-work/host/test"
+  ],
+  "execution_scope": "native helper harness; not Symbian E32 or WebCrypto browser execution",
+  "run_argv": [
+    "/workspace/symbian-ec-work/host/test"
+  ],
+  "runtime_timeout_seconds": 120
+}

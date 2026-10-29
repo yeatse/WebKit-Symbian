@@ -1,0 +1,46 @@
+{
+  "exit": 0,
+  "scope": "native helper tests; not E32/browser validation",
+  "command": [
+    "/workspace/symbian-arm11-work/qemu/sysroot/usr/bin/arm-linux-gnueabi-g++",
+    "-std=c++20",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-DMBEDTLS_STATIC",
+    "-DMBEDTLS_USER_CONFIG_FILE=\"symbian_mbedtls/config.h\"",
+    "-I/workspace/WebKit-Symbian-graphics/Source/WebCore/crypto/mbedtls",
+    "-I/workspace/symbian-ec-work/arm1136",
+    "-I/workspace/symbian-work/symbian-platform/third_party/mbedtls-symbian/include",
+    "-I/workspace/symbian-sdk/include/abseil",
+    "--sysroot=/workspace/symbian-arm11-work/qemu/sysroot",
+    "-march=armv6",
+    "-marm",
+    "-mfpu=vfp",
+    "-mfloat-abi=softfp",
+    "/workspace/symbian-ec-work/tests/host.cpp",
+    "/workspace/symbian-belle-work/rsa-arm-library/mbedtls/library/libmbedcrypto.a",
+    "-pthread",
+    "-o",
+    "/workspace/symbian-ec-work/arm1136/test"
+  ],
+  "runner": [
+    "/workspace/symbian-arm11-work/qemu/sysroot/usr/bin/qemu-arm",
+    "-L",
+    "/workspace/symbian-arm11-work/qemu/sysroot/usr/arm-linux-gnueabi",
+    "-cpu",
+    "arm1136"
+  ],
+  "archive_sha256": "f633e18b64b66ef678e1fd5c27638bb6b23ae81e13f397618d298ddcb0fe3967",
+  "sources": {
+    "MbedTLSECKey.h": "29c5c66d27ba25ff70b3eaf4313b8f77f6cdd9a8402ae3819eb8275a82155f98",
+    "MbedTLSECDER.h": "10811cf1e189dcfe0dad17ca60345abbaf339b7e49722fc8190886a9a450d782",
+    "MbedTLSECOperations.h": "2a7f7f81f7a94677b18a728cfbfb68f9986b4b390c6cff1b78cd4047c9b36dda",
+    "MbedTLSRSADER.h": "cccea35f2df38e405890e5b7e1706b9e921bdb1abb4e5c733bf9b50ea33f2b88",
+    "MbedTLSRSAKey.h": "ba04d88546b2e24add470b33aedbc98a4ea592577ef78898c7868a95e2268e22"
+  },
+  "test_sha256": "ca4fc4247c406f2b0203453f279cb475c400ea9a1567c28bfae374137f841a4c",
+  "vector_sources_sha256": "14a49f91009d89d98c92f1bdd4c9a68887e838bddb5de5c43425471af1ff9087",
+  "log_sha256": "db6f9ea3a68c72c293095193b025991558216a60477279ed7ee1640e287e7d1b"
+}

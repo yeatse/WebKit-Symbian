@@ -1,0 +1,33 @@
+{
+  "status": "HELPER_TESTS_PASS_INTEGRATION_PENDING",
+  "scope": "production RSA helpers on native host and ARM1136 Linux; separate native/ evidence records the actual E32 run; no browser RSA support claim",
+  "checks": {
+    "host": 153,
+    "arm1136_pointer_bits_32": 153,
+    "report_contract": 7
+  },
+  "concurrent_threads": 4,
+  "concurrent_thread_stack_bytes": 131072,
+  "source_sha256": {
+    "Source/WebCore/crypto/mbedtls/CryptoKeyRSAMbedTLS.cpp": "7d3e9f54a4d9b0743f779c2977ceb45107ba73de15d10481bbbf918d4bf91795",
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmRSAMbedTLS.cpp": "142e4ac5760eceeab5af2732d849d494342cf9cb6f4e091cebca149c1a46d04d",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSAKey.h": "ba04d88546b2e24add470b33aedbc98a4ea592577ef78898c7868a95e2268e22",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSADER.h": "30d04ff3763a496e6fc7c98f84ea522fbbf345a9071709b0f6cfdb6bc5148203",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSAOperations.h": "874749a4082604ac0678df42ffbfcafd8dad33c65f2da7934ba960f36c4672f8",
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSARandom.h": "715d75e57e2f3d44c31535ccda0bfc8682ff5fcbe98d3a3eded76ea9b3ea9023"
+  },
+  "host_mbedcrypto_sha256": "791549ff67724033ac946a58d8ce5fc8deae58f79d0233a699142d5b093129d1",
+  "arm_linux_mbedcrypto_sha256": "f633e18b64b66ef678e1fd5c27638bb6b23ae81e13f397618d298ddcb0fe3967",
+  "sdk_armv6_mbedcrypto_sha256": "282b081f833b6f93a8a677919bf6466725ba9bd76b6c3f03df2d9c6cf3923627",
+  "e32_probe_sha256": "dc6de76330537d531db4958811914101d47f4ed0537cbf2181717051054904df",
+  "syntax": {
+    "changed_translation_units": 2,
+    "exit": 0,
+    "note": "Real SDK compiler/compdb with external CryptoKeyRSA container header overlay and HAVE_RSA_PSS=1; production integration is still frozen. Diagnostic paths normalized."
+  },
+  "logs_sha256": {
+    "host.log": "c004bc51d387e2ac70a1a280f1fe865636a0ca49326f4aa14daf7e8aa78b7c3d",
+    "syntax-overlay.log": "779f2ced6707e02b366f49d21d9f6d8d430d0e24e0e721d41ccb36914731ae34",
+    "arm1136.log": "d7fdd21bb123e5b1d97cb9807677326c3f5e75ec35e4d257bcbf01e14f1ad6d8"
+  }
+}

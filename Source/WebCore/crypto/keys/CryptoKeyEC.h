@@ -61,9 +61,9 @@ using PlatformECKeyContainer = WebCore::EvpPKeyPtr;
 #endif
 
 #if USE(MBEDTLS)
-#include <variant>
+#include "crypto/mbedtls/MbedTLSECKey.h"
 namespace WebCore {
-using PlatformECKeyContainer = std::unique_ptr<std::monostate>;
+using PlatformECKeyContainer = MbedTLS::ECKey;
 }
 #endif
 

@@ -1,0 +1,8 @@
+T $EKA_SOURCE/src/emu/kernel/src/kernel.cpp:994 [Kernel]: Spawned process: rsa_probe, entry point = 0x0
+I $EKA_SOURCE/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: rsa_probe.exe (UID3=0xE0000902) runtime code: 0x81db0000
+I $EKA_SOURCE/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: rsa_probe.exe (UID3=0xE0000902) runtime data: 0x400000
+I $EKA_SOURCE/src/emu/kernel/src/process.cpp:108 [Kernel]: Process rsa_probe capabilities: None
+T $EKA_SOURCE/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread 059a60d0b8cd97c9 created with start pc = 0x81e24241, stack size = 0x20000
+T $EKA_SOURCE/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread 059a6120215da8f5 created with start pc = 0x81e24241, stack size = 0x20000
+T $EKA_SOURCE/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread 059a6170a01ac684 created with start pc = 0x81e24241, stack size = 0x20000
+T $EKA_SOURCE/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread 059a61c0f0b1d5c2 created with start pc = 0x81e24241, stack size = 0x20000

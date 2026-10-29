@@ -59,6 +59,15 @@ if not os.environ.get('DISPLAY'):
     sys.exit('Set DISPLAY to a running Xvfb (-nolisten tcp) or X display for screenshots')
 expected=os.environ.get('EKA2L1_EXPECT_PASS','')
 deadline=time.monotonic()+float(os.environ.get('WAIT','60'))
+# Suites with a complete terminal marker may request a quiet observation period
+# after that marker. WAIT remains the hard deadline; existing callers retain
+# their full observation window. Only a fresh guest log can end the wait early.
+completion_grace=os.environ.get('EKA2L1_COMPLETION_GRACE')
+if completion_grace is not None:
+    completion_grace=float(completion_grace)
+    if not expected or not 1 <= completion_grace <= 60:
+        sys.exit('Completion grace requires an expected marker and 1–60 seconds')
+completed_at=None
 process=None
 failure=None
 hostlog=run/'emulator.log'
@@ -75,6 +84,11 @@ try:
                 failure='browser/emulator exited before observation completed';break
             if re.search(r'access violation|panicked|KERN-EXEC|USER-EXEC',read(hostlog),re.I):
                 failure='guest panic or access violation';break
+            if completion_grace is not None and expected in read(c/'Data/WebKit/log.txt'):
+                if completed_at is None:
+                    completed_at=time.monotonic()
+                elif time.monotonic()-completed_at >= completion_grace:
+                    break
             time.sleep(.25)
         shot=Path(os.environ.get('SCREENSHOT',str(run/'browser.png')))
         subprocess.run(['import','-window','root',str(shot)],check=True,timeout=15)

@@ -16,6 +16,12 @@ SDK 0.3.0 的原生头文件/导入库，日期为 2026-10-29。系统有 API �
 兼容性，再到需要新平台后端的媒体/设备能力。同一优先级可并行实现，验收后才
 更新为完成。不能用开启编译开关或存在 JS 属性代替功能验证。
 
+第二批开发状态：完整引擎和浏览器构建已通过，RSA 33 项及 EC 30 项浏览器
+验收已通过。下载、DOM touch、HTTP 401 原生认证、纯文本系统剪贴板、内存压力
+通知和连接状态已接入候选包，继续浏览器验收。系统剪贴板适配器的 31 项原生
+检查已通过；各后端的主机、ARM 或原生测试结果不代替浏览器验收。
+CookieStore、IPv6 和 HTTP/2 正在独立准备，尚未合入当前候选包。
+
 | 顺序 | 能力和现状 | Belle/现有代码基础 | 实施与验收要求 |
 | --- | --- | --- | --- |
 | P0.1 | **已接通** localStorage 和 BroadcastChannel | 真实 namespace/registry；[20 项运行检查](validation-belle/storage/README.md) | 已验证跨进程重启、localStorage 配额、来源隔离、同来源消息、关闭后不投递及 Worker 通信 |
@@ -24,7 +30,7 @@ SDK 0.3.0 的原生头文件/导入库，日期为 2026-10-29。系统有 API �
 | P1.1 | **已接通原生单文件上传**；下载被忽略 | [实际 UI 8 项](validation-belle/ui/README.md)；原生文件选择与 RFs/RFile | 已验证取消、Unicode 路径、实际上传字节、frame 导航/脱离；多选输入目前可选单文件。继续下载目标、进度、取消、重定向、磁盘满及原子完成 |
 | P1.2 | 实际仅 mouse/wheel，缺 DOM touch；maxTouchPoints 固定 0 | Window Server 指针事件、HAL、支持机型的高级指针 | touchstart/move/end/cancel、preventDefault、滚动、兼容 mouse 去重；按实际能力报告点数，多指需真机验收 |
 | P1.3 | **已打包字体配置并接通 WOFF2** | [字体运行证据](validation-belle-fonts/README.md)；固定版本 Brotli/WOFF2，修复 fontconfig 盘符路径 | WOFF2 7 项通过；系统字体 7 项分别在两次启动通过，包括中英/等宽字形、真实 fallback 像素与磁盘缓存复用 |
-| P1.4 | **已补 AES-CTR**；RSA/ECDSA/ECDH 仍缺 | [WebCrypto 29 项](validation-belle/webcrypto/README.md)及 [ARM32 计数器 35 项](validation-belle/aes-ctr-counter/README.md) | 继续 RSA/ECDSA/ECDH 标准向量、导入/导出及错误拒绝；密钥持久包装另需系统密钥方案 |
+| P1.4 | **已接通 AES-CTR、RSA、ECDSA/ECDH** | [AES 浏览器 29 项](validation-belle/webcrypto/README.md)、[ARM32 计数器 35 项](validation-belle/aes-ctr-counter/README.md)、[RSA 浏览器 33 项](validation-belle/rsa/browser-c11/README.md)、[EC 浏览器 30 项](validation-belle/ec/browser-c11/README.md) | 标准向量、生成、导入/导出、错误拒绝、并发及 DedicatedWorker 调用已验证；CryptoKey 结构化克隆和持久包装仍需独立系统密钥方案 |
 | P1.5 | HTTP 认证没有 UI；IAP 代理未接 | CAknMultiLineDataQueryDialog、ConnectionMethod/IAP 属性、curl 凭据机制 | 401 输入/取消/重试限制；407 独立代理凭据路径；IAP 切换、代理排除、TLS 验证和来源间凭据隔离 |
 | P1.6 | **已接原生 prompt**；系统剪贴板未接 | CClipboard、原生文本流、CAknTextQueryDialog | prompt 默认值、空串和取消已实际 UI 验证；原生对话框中正常退出应用已通过。继续跨应用 UTF-16 纯文本复制粘贴；富文本与 Async Clipboard 权限另列 |
 | P1.7 | 内存压力通知为空，online 状态恒 true | RChangeNotifier、EChangesFreeMemory、HAL、连接监视 API | 实际低内存通知及有界缓存回收；连接变化触发 online/offline。不能把系统剩余 RAM 当作进程可分配容量 |

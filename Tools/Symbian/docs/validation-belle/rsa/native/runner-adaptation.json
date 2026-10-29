@@ -1,0 +1,10 @@
+{
+  "shared_runner_sha256": "de7c6ebb3e7b29f20b0284a91021b9184d73517af6bc9a7e495eb45982096551",
+  "private_runner_sha256": "7a3bbad7f1563fbda9a1b7b8a9d8f1ceba28d28277b4fcc5ed79a07703e6e479",
+  "changes": [
+    "add rsa choice",
+    "map rsa-probe.log/rsa-probe/rsa_probe.exe",
+    "require exact passed153 and unique PASS summary"
+  ],
+  "production_runner_modified": false
+}

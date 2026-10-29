@@ -1,0 +1,173 @@
+{
+  "run": "e487ceced5a64403adba4e022bcbce36",
+  "passed": 33,
+  "total": 33,
+  "elapsed_ms": 32999,
+  "results": [
+    {
+      "name": "known answer RSA-OAEP with SHA-1 and no label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-256 and no label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-384 and no label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-512 and no label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-1 and empty label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-256 and empty label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-384 and empty label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-512 and empty label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-1 and a label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-256 and a label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-384 and a label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-OAEP with SHA-512 and a label",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSASSA-PKCS1-v1_5 with SHA-1",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSASSA-PKCS1-v1_5 with SHA-256",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSASSA-PKCS1-v1_5 with SHA-384",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSASSA-PKCS1-v1_5 with SHA-512",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-PSS with SHA-1 and no salt",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-PSS with SHA-256 and no salt",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-PSS with SHA-384 and no salt",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-PSS with SHA-512 and no salt",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-PSS with SHA-1, salted",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-PSS with SHA-256, salted",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-PSS with SHA-384, salted",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "known answer RSA-PSS with SHA-512, salted",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "generateKey metadata usages extractability and asynchronous completion",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "all three algorithms support JWK SPKI PKCS8 roundtrips",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "minimal private JWK works and malformed CRT or partial fields are rejected",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "DER rejects trailing truncated noncanonical and wrong formats",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "PSS exact salt bounds and unsigned overflow",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "OAEP empty maximum label mismatch ciphertext checks and wrap unwrap",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "usage extractability hash and key-type rejection",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "parallel operations on one private key keep independent state",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "DedicatedWorker imports and performs actual RSA operations",
+      "pass": true,
+      "error": null
+    }
+  ]
+}

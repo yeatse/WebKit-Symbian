@@ -1,0 +1,62 @@
+{
+  "scope": "actual Symbian SDK syntax checks after RSA key/registry/CMake integration; no overlay header or forced HAVE_RSA_PSS macro",
+  "status": "PASS",
+  "translation_units": [
+    {
+      "source": "crypto/mbedtls/CryptoKeyRSAMbedTLS.cpp",
+      "exit": 0
+    },
+    {
+      "source": "crypto/mbedtls/CryptoAlgorithmRSAMbedTLS.cpp",
+      "exit": 0
+    },
+    {
+      "source": "crypto/keys/CryptoKeyRSA.cpp",
+      "exit": 0
+    },
+    {
+      "source": "crypto/algorithms/CryptoAlgorithmRSA_PSS.cpp",
+      "exit": 0
+    },
+    {
+      "source": "crypto/algorithms/CryptoAlgorithmRSA_OAEP.cpp",
+      "exit": 0
+    },
+    {
+      "source": "crypto/algorithms/CryptoAlgorithmRSASSA_PKCS1_v1_5.cpp",
+      "exit": 0
+    },
+    {
+      "source": "crypto/mbedtls/CryptoAlgorithmRegistryMbedTLS.cpp",
+      "exit": 0
+    },
+    {
+      "source": "crypto/mbedtls/CryptoKeyUnsupportedMbedTLS.cpp",
+      "exit": 0
+    }
+  ],
+  "source_sha256": {
+    "Source/WTF/wtf/Platform.h": "e1d62df9141ed69c118879ca2096252c110ee492c24ad07f5090b3fae91e9966",
+    "Source/WebCore/crypto/keys/CryptoKeyRSA.h": "09ff8d9e7627d054362ab1f60c1a4ea4808f55f157243cb6ad6b39ec8a592289",
+    "Source/WebCore/crypto/keys/CryptoKeyRSA.cpp": "a2218c9048b67bb927ef11166d55eb48ad55200578825c0535ff19296e67421f",
+    "Source/WebCore/platform/MbedTLS.cmake": "d62ba043f0b2a16558bd774c2a9d76185062c208099a46ac8191aafd09c77b17",
+    "Source/WebCore/crypto/mbedtls/CryptoKeyRSAMbedTLS.cpp": "7d3e9f54a4d9b0743f779c2977ceb45107ba73de15d10481bbbf918d4bf91795",
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmRSAMbedTLS.cpp": "142e4ac5760eceeab5af2732d849d494342cf9cb6f4e091cebca149c1a46d04d",
+    "Source/WebCore/crypto/algorithms/CryptoAlgorithmRSA_PSS.cpp": "e0dd00f9afc73b1c4183613412f049cd363da383ed67f80d4acaf1d3be389d28",
+    "Source/WebCore/crypto/algorithms/CryptoAlgorithmRSA_OAEP.cpp": "6677990d4a16f55536c8712a78aa1a65d4960a95d037d2bacbc745edcbb6c0e5",
+    "Source/WebCore/crypto/algorithms/CryptoAlgorithmRSASSA_PKCS1_v1_5.cpp": "8dcaa5baef80e4c509c4f83a0ae34044a2a7fe7418b37ec35ef1694e5ef298e0",
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmRegistryMbedTLS.cpp": "56f3545345481973ccf81d23b3479725ced02309c7a99c0041ac4dc32d2cf3be",
+    "Source/WebCore/crypto/mbedtls/CryptoKeyUnsupportedMbedTLS.cpp": "4528cb2c49abf1fbcd6919413f6d96245df3eb082c05f28aabd241e55f76b08c"
+  },
+  "files_sha256": {
+    "CryptoAlgorithmRSA_PSS.log": "b45f0c6250b4759aa0944824ea4475b61f823f2bf5afba10fbfacbcc8cb76a1d",
+    "CryptoAlgorithmRegistryMbedTLS.log": "ff716327222fe7148625d8654cd3ec281d2862168dd19a24a7cf2f5363d4a6fe",
+    "CryptoKeyUnsupportedMbedTLS.log": "52733529c24fd4e1d859303ebf66c4dddd411e9bde2fd64b566b8e0ba80a6444",
+    "CryptoKeyRSAMbedTLS.log": "b07c422fd3690f9981f2a2f304528ea004c7367b52f7ed547d75618842fcd1c5",
+    "CryptoAlgorithmRSA_OAEP.log": "821dfe35b8ab325848580a771f9cd9cba71cfeac683061da1cb8d1a238b8c843",
+    "CryptoAlgorithmRSASSA_PKCS1_v1_5.log": "e503dcd9ae234d88d9cd7bc87f94fe7b60491c32b30e373135ef52e2af78ee38",
+    "base-command.json": "1fd770f70117fcd3d546f84a46852b42977ae56efb21fe1f6491ee5e90e0650c",
+    "CryptoAlgorithmRSAMbedTLS.log": "bdc484c75bbb19066932e3671ea1681ac308cadf97a0126a638b23363540d62f",
+    "CryptoKeyRSA.log": "b52587372a6f2b05fe9d6dd906cf18594205f93852353b83db42afe515d58c94"
+  }
+}

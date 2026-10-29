@@ -54,9 +54,9 @@ typedef WebCore::EvpPKeyPtr PlatformRSAKeyContainer;
 #endif
 
 #if USE(MBEDTLS)
-#include <variant>
-using PlatformRSAKey = std::monostate*;
-using PlatformRSAKeyContainer = std::unique_ptr<std::monostate>;
+#include "crypto/mbedtls/MbedTLSRSAKey.h"
+using PlatformRSAKey = mbedtls_rsa_context*;
+using PlatformRSAKeyContainer = WebCore::MbedTLS::RSAKey;
 #endif
 
 namespace WebCore {

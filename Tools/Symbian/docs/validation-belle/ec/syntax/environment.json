@@ -1,0 +1,7 @@
+{
+  "SYMBIAN_DEPS_PREFIX": "/workspace/symbian-work/deps/install",
+  "SYMBIAN_SDK_PREFIX": "/workspace/symbian-sdk",
+  "SYMBIAN_TARGET_ARCH": "armv6",
+  "note": "Task-scoped variables set for the archived syntax invocations; other inherited environment values were not captured.",
+  "working_directory": "/workspace/WebKit-Symbian-graphics"
+}

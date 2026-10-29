@@ -32,9 +32,14 @@
 #include "CryptoAlgorithmAESCTR.h"
 #include "CryptoAlgorithmAESGCM.h"
 #include "CryptoAlgorithmAESKW.h"
+#include "CryptoAlgorithmECDH.h"
+#include "CryptoAlgorithmECDSA.h"
 #include "CryptoAlgorithmHKDF.h"
 #include "CryptoAlgorithmHMAC.h"
 #include "CryptoAlgorithmPBKDF2.h"
+#include "CryptoAlgorithmRSA_OAEP.h"
+#include "CryptoAlgorithmRSA_PSS.h"
+#include "CryptoAlgorithmRSASSA_PKCS1_v1_5.h"
 #include "CryptoAlgorithmSHA1.h"
 #include "CryptoAlgorithmSHA256.h"
 #include "CryptoAlgorithmSHA384.h"
@@ -49,9 +54,14 @@ void CryptoAlgorithmRegistry::platformRegisterAlgorithms()
     registerAlgorithm<CryptoAlgorithmAESCTR>();
     registerAlgorithm<CryptoAlgorithmAESGCM>();
     registerAlgorithm<CryptoAlgorithmAESKW>();
+    registerAlgorithm<CryptoAlgorithmECDH>();
+    registerAlgorithm<CryptoAlgorithmECDSA>();
     registerAlgorithm<CryptoAlgorithmHKDF>();
     registerAlgorithm<CryptoAlgorithmHMAC>();
     registerAlgorithm<CryptoAlgorithmPBKDF2>();
+    registerAlgorithm<CryptoAlgorithmRSA_OAEP>();
+    registerAlgorithm<CryptoAlgorithmRSA_PSS>();
+    registerAlgorithm<CryptoAlgorithmRSASSA_PKCS1_v1_5>();
     registerAlgorithm<CryptoAlgorithmSHA1>();
     registerAlgorithm<CryptoAlgorithmSHA256>();
     registerAlgorithm<CryptoAlgorithmSHA384>();

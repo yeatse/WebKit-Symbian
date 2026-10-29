@@ -1,0 +1,39 @@
+22:57:34.773 WebKit Browser starting
+22:57:34.793 network: starting the connection
+22:57:36.251 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+22:57:36.726 network: connected through "Host network"
+22:57:36.741 load http://localhost:8810/?run=db247b2968a74aa4aadcbc9ebf6e1b8f
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-256 with SHA-1
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-256 with SHA-256
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-256 with SHA-384
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-256 with SHA-512
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-384 with SHA-1
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-384 with SHA-256
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-384 with SHA-384
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-384 with SHA-512
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-521 with SHA-1
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-521 with SHA-256
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-521 with SHA-384
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDSA ECDSA P-521 with SHA-512
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDH P-256
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDH P-384
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS known ECDH P-521
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS P-256 key formats
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS P-256 JWK validation
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS P-256 generation metadata
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS P-384 key formats
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS P-384 JWK validation
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS P-384 generation metadata
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS P-521 key formats
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS P-521 JWK validation
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS P-521 generation metadata
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS usage and key type rejection
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS curve and algorithm rejection
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS DER format length and curve rejection
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS unsupported curve and hash rejection
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS same-key parallel operations
+console: http://localhost:8810/page.js:9: EC_CASE run=db247b2968a74aa4aadcbc9ebf6e1b8f PASS DedicatedWorker EC operations
+console: http://localhost:8810/page.js:32: EC_RESULT {"run":"db247b2968a74aa4aadcbc9ebf6e1b8f","total":30,"passed":30,"elapsed_ms":6000.000000000001,"results":[{"name":"known ECDSA ECDSA P-256 with SHA-1","pass":true,"error":null},{"name":"known ECDSA ECDSA P-256 with SHA-256","pass":true,"error":null},{"name":"known ECDSA ECDSA P-256 with SHA-384","pass":true,"error":null},{"name":"known ECDSA ECDSA P-256 with SHA-512","pass":true,"error":null},{"name":"known ECDSA ECDSA P-384 with SHA-1","pass":true,"error":null},{"name":"known ECDSA ECDSA P-384 with SHA-256","pass":true,"error":null},{"name":"known ECDSA ECDSA P-384 with SHA-384","pass":true,"error":null},{"name":"known ECDSA ECDSA P-384 with SHA-512","pass":true,"error":null},{"name":"known ECDSA ECDSA P-521 with SHA-1","pass":true,"error":null},{"name":"known ECDSA ECDSA P-521 with SHA-256","pass":true,"error":null},{"name":"known ECDSA ECDSA P-521 with SHA-384","pass":true,"error":null},{"name":"known ECDSA ECDSA P-521 with SHA-512","pass":true,"error":null},{"name":"known ECDH P-256","pass":true,"error":null},{"name":"known ECDH P-384","pass":true,"error":null},{"name":"known ECDH P-521","pass":true,"error":null},{"name":"P-256 key formats","pass":true,"error":null},{"name":"P-256 JWK validation","pass":true,"error":null},{"name":"P-256 generation metadata","pass":true,"error":null},{"name":"P-384 key formats","pass":true,"error":null},{"name":"P-384 JWK validation","pass":true,"error":null},{"name":"P-384 generation metadata","pass":true,"error":null},{"name":"P-521 key formats","pass":true,"error":null},{"name":"P-521 JWK validation","pass":true,"error":null},{"name":"P-521 generation metadata","pass":true,"error":null},{"name":"usage and key type rejection","pass":true,"error":null},{"name":"curve and algorithm rejection","pass":true,"error":null},{"name":"DER format length and curve rejection","pass":true,"error":null},{"name":"unsupported curve and hash rejection","pass":true,"error":null},{"name":"same-key parallel operations","pass":true,"error":null},{"name":"DedicatedWorker EC operations","pass":true,"error":null}]}
+console: http://localhost:8810/page.js:33: EC_DONE run=db247b2968a74aa4aadcbc9ebf6e1b8f passed=30 total=30

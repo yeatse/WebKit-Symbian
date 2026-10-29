@@ -1,0 +1,260 @@
+VECTOR ECDSA P-256 with SHA-1
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-256 with SHA-256
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-256 with SHA-384
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-256 with SHA-512
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-384 with SHA-1
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-384 with SHA-256
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-384 with SHA-384
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-384 with SHA-512
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-521 with SHA-1
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-521 with SHA-256
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-521 with SHA-384
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR ECDSA P-521 with SHA-512
+PASS ECDSA known SPKI and PKCS8 accepted
+PASS ECDSA accepts independent WPT raw r||s signature
+PASS ECDSA signs and verifies fixed-width raw r||s
+PASS ECDSA rejects changed message
+PASS ECDSA rejects changed signature
+PASS ECDSA rejects short raw signature
+PASS ECDSA rejects long raw signature
+PASS ECDSA rejects zero r and s
+PASS ECDSA rejects out-of-range r and s
+PASS ECDSA rejects empty signature
+VECTOR P-256 ECDH WPT known secret
+PASS ECDH known SPKI and PKCS8 accepted
+PASS ECDH equals independent WPT secret including leading zero
+PASS EC exports exact-width uncompressed public point and private scalar
+PASS EC raw and JWK component imports preserve ECDH result
+PASS EC computes missing private public point from scalar
+PASS EC SPKI export matches independent standard encoding
+PASS EC PKCS8 export matches independent standard encoding and preserves complete private key
+PASS EC PKCS8 accepts SEC1 private key without optional public field
+PASS EC PKCS8 accepts matching optional SEC1 named curve
+PASS EC PKCS8 rejects conflicting inner named curve
+PASS EC PKCS8 rejects private scalar with conflicting SEC1 public point
+PASS bare SEC1 private encoding cannot masquerade as PKCS8
+PASS EC PKCS8 accepts empty optional attributes
+PASS EC PKCS8 rejects duplicate optional attributes fields
+PASS EC SPKI rejects nonzero BIT STRING unused-bit count
+PASS EC SPKI rejects a different public-key algorithm OID
+PASS EC PKCS8 rejects nonminimal long-form DER length
+PASS EC PKCS8 rejects indefinite DER length
+PASS EC import consistently rejects unsupported compressed points
+PASS EC private import fails when public-point computation entropy fails
+PASS EC rejects private scalar with a different valid public point
+PASS EC JWK rejects short private scalar
+PASS EC rejects zero private scalar
+PASS EC rejects out-of-range private scalar
+PASS EC rejects invalid SEC1 point prefix
+PASS EC rejects truncated uncompressed point
+PASS EC rejects oversized uncompressed point
+PASS EC rejects point outside named curve
+PASS EC rejects empty public point
+PASS EC rejects SPKI and PKCS8 named-curve mismatch
+PASS EC DER public and private formats cannot be interchanged
+PASS EC SPKI rejects trailing bytes
+PASS EC PKCS8 rejects trailing bytes
+PASS EC DER rejects truncated public and private encodings
+PASS ECDH fails when blinding entropy fails
+PASS ECDSA fails when signing entropy fails
+PASS EC generation fails when entropy fails
+PASS EC generation succeeds for configured named curve
+PASS generated EC keys derive identical fixed-width secrets
+VECTOR P-384 ECDH WPT known secret
+PASS ECDH known SPKI and PKCS8 accepted
+PASS ECDH equals independent WPT secret including leading zero
+PASS EC exports exact-width uncompressed public point and private scalar
+PASS EC raw and JWK component imports preserve ECDH result
+PASS EC computes missing private public point from scalar
+PASS EC SPKI export matches independent standard encoding
+PASS EC PKCS8 export matches independent standard encoding and preserves complete private key
+PASS EC PKCS8 accepts SEC1 private key without optional public field
+PASS EC PKCS8 accepts matching optional SEC1 named curve
+PASS EC PKCS8 rejects conflicting inner named curve
+PASS EC PKCS8 rejects private scalar with conflicting SEC1 public point
+PASS bare SEC1 private encoding cannot masquerade as PKCS8
+PASS EC PKCS8 accepts empty optional attributes
+PASS EC PKCS8 rejects duplicate optional attributes fields
+PASS EC SPKI rejects nonzero BIT STRING unused-bit count
+PASS EC SPKI rejects a different public-key algorithm OID
+PASS EC PKCS8 rejects nonminimal long-form DER length
+PASS EC PKCS8 rejects indefinite DER length
+PASS EC import consistently rejects unsupported compressed points
+PASS EC private import fails when public-point computation entropy fails
+PASS EC rejects private scalar with a different valid public point
+PASS EC JWK rejects short private scalar
+PASS EC rejects zero private scalar
+PASS EC rejects out-of-range private scalar
+PASS EC rejects invalid SEC1 point prefix
+PASS EC rejects truncated uncompressed point
+PASS EC rejects oversized uncompressed point
+PASS EC rejects point outside named curve
+PASS EC rejects empty public point
+PASS EC rejects SPKI and PKCS8 named-curve mismatch
+PASS EC DER public and private formats cannot be interchanged
+PASS EC SPKI rejects trailing bytes
+PASS EC PKCS8 rejects trailing bytes
+PASS EC DER rejects truncated public and private encodings
+PASS ECDH fails when blinding entropy fails
+PASS ECDSA fails when signing entropy fails
+PASS EC generation fails when entropy fails
+PASS EC generation succeeds for configured named curve
+PASS generated EC keys derive identical fixed-width secrets
+VECTOR P-521 ECDH WPT known secret
+PASS ECDH known SPKI and PKCS8 accepted
+PASS ECDH equals independent WPT secret including leading zero
+PASS EC exports exact-width uncompressed public point and private scalar
+PASS EC raw and JWK component imports preserve ECDH result
+PASS EC computes missing private public point from scalar
+PASS EC SPKI export matches independent standard encoding
+PASS EC PKCS8 export matches independent standard encoding and preserves complete private key
+PASS EC PKCS8 accepts SEC1 private key without optional public field
+PASS EC PKCS8 accepts matching optional SEC1 named curve
+PASS EC PKCS8 rejects conflicting inner named curve
+PASS EC PKCS8 rejects private scalar with conflicting SEC1 public point
+PASS bare SEC1 private encoding cannot masquerade as PKCS8
+PASS EC PKCS8 accepts empty optional attributes
+PASS EC PKCS8 rejects duplicate optional attributes fields
+PASS EC SPKI rejects nonzero BIT STRING unused-bit count
+PASS EC SPKI rejects a different public-key algorithm OID
+PASS EC PKCS8 rejects nonminimal long-form DER length
+PASS EC PKCS8 rejects indefinite DER length
+PASS EC import consistently rejects unsupported compressed points
+PASS EC private import fails when public-point computation entropy fails
+PASS EC rejects private scalar with a different valid public point
+PASS EC JWK rejects short private scalar
+PASS EC rejects zero private scalar
+PASS EC rejects out-of-range private scalar
+PASS EC rejects invalid SEC1 point prefix
+PASS EC rejects truncated uncompressed point
+PASS EC rejects oversized uncompressed point
+PASS EC rejects point outside named curve
+PASS EC rejects empty public point
+PASS EC rejects SPKI and PKCS8 named-curve mismatch
+PASS EC DER public and private formats cannot be interchanged
+PASS EC SPKI rejects trailing bytes
+PASS EC PKCS8 rejects trailing bytes
+PASS EC DER rejects truncated public and private encodings
+PASS ECDH fails when blinding entropy fails
+PASS ECDSA fails when signing entropy fails
+PASS EC generation fails when entropy fails
+PASS EC generation succeeds for configured named curve
+PASS generated EC keys derive identical fixed-width secrets
+PASS EC concurrency inputs available
+PASS ECDH rejects curve mismatch
+PASS ECDSA helper rejects signing with public-only key
+PASS ECDH helper rejects public-only base key
+PASS ECDSA rejects unsupported hash identifier
+PASS EC concurrency uses bounded 128 KiB worker stacks
+PASS EC concurrent same-key signing verification and derivation succeed
+PASS: ec-helpers 244/244

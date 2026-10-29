@@ -1,0 +1,14 @@
+[
+  {
+    "git_ref": "4fb33923",
+    "path": "LayoutTests/imported/w3c/web-platform-tests/WebCryptoAPI/sign_verify/ecdsa_vectors.js",
+    "git_blob": "aa9b81ba8a4bd11a5a27adab005aaf5727be18d1",
+    "sha256": "67e47c27b1aada50ceb62689b149bc7aa0dfa273f3dd122f91fd6eb5daa78426"
+  },
+  {
+    "git_ref": "4fb33923",
+    "path": "LayoutTests/imported/w3c/web-platform-tests/WebCryptoAPI/derive_bits_keys/ecdh_bits.js",
+    "git_blob": "36b29c20a282abb13aaf5ab3308db81fe7a48c89",
+    "sha256": "d1f214f875346297b5819484af3df75e951c430e7c6fd34964646e9d2640fa09"
+  }
+]

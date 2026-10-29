@@ -1,0 +1,375 @@
+{
+  "files": [
+    {
+      "original_path": "/workspace/symbian-ec-work/host/test.log",
+      "path": "host/test.log",
+      "sha256": "db6f9ea3a68c72c293095193b025991558216a60477279ed7ee1640e287e7d1b",
+      "size_bytes": 11986
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/host/result.json",
+      "path": "host/result.json",
+      "sha256": "09bbe50683cbf9dcb23fa49691c7d5564e8edd59b29664d04eec84704a58b1c6",
+      "size_bytes": 1542
+    },
+    {
+      "derived_from": "host/result.json",
+      "path": "host/commands.json",
+      "sha256": "837867f4d06cb513308588a1d6d7b18e579bdcd01040ada14293bc3d46ba0513",
+      "size_bytes": 816
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/arm1136/test.log",
+      "path": "arm1136/test.log",
+      "sha256": "db6f9ea3a68c72c293095193b025991558216a60477279ed7ee1640e287e7d1b",
+      "size_bytes": 11986
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/arm1136/result.json",
+      "path": "arm1136/result.json",
+      "sha256": "cfcf900b07d0d074c3c097a381bac8ad9df30f9f1b30200ecd656bd27eb85610",
+      "size_bytes": 1954
+    },
+    {
+      "derived_from": "arm1136/result.json",
+      "path": "arm1136/commands.json",
+      "sha256": "a38eb1ede0658d923f393d40c8d33fc1a68e60317cbbb7f382fd16dd1431aab2",
+      "size_bytes": 1229
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/host/vectors.json",
+      "path": "vectors/vectors.json",
+      "sha256": "c8d1e88fa507ff64138f8b48828dec22f15d5c0fa02f3ccefeed14663ccb1215",
+      "size_bytes": 19800
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/host/vectors.h",
+      "path": "vectors/vectors.h",
+      "sha256": "639b7434c2d14e35ebfaf30888d17f64fc5027b7414a02044536451482f0fa14",
+      "size_bytes": 18645
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/host/vector-sources.json",
+      "path": "vectors/vector-sources.json",
+      "sha256": "14a49f91009d89d98c92f1bdd4c9a68887e838bddb5de5c43425471af1ff9087",
+      "size_bytes": 560
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoKeyECMbedTLS.log",
+      "path": "syntax/CryptoKeyECMbedTLS.log",
+      "sha256": "d1194d397aa98f7df547dad6654f943061ef975549162b161746a7cf4e23c585",
+      "size_bytes": 4990
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoKeyECMbedTLS.command.json",
+      "path": "syntax/CryptoKeyECMbedTLS.command.json",
+      "sha256": "95086c4f0f5862ad73064ffa9e42bbac1d5111c1e49d6cd584d07645e1b230d1",
+      "size_bytes": 24081
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoAlgorithmECMbedTLS.log",
+      "path": "syntax/CryptoAlgorithmECMbedTLS.log",
+      "sha256": "0d4bd558268f773a42c42b525b3954c72ad95a6c5e22f51df06b9f5565846000",
+      "size_bytes": 4486
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoAlgorithmECMbedTLS.command.json",
+      "path": "syntax/CryptoAlgorithmECMbedTLS.command.json",
+      "sha256": "c12fdeb00ba7bc3ae1a0a8f4032ea9ce3067e8cd17cc1591e4fe438a82c7edc4",
+      "size_bytes": 24087
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoKeyEC.log",
+      "path": "syntax/CryptoKeyEC.log",
+      "sha256": "4779cf367ebe6005ff5f9d896336f76ad4b01e47339c409e8771426ba2799072",
+      "size_bytes": 4963
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoKeyEC.command.json",
+      "path": "syntax/CryptoKeyEC.command.json",
+      "sha256": "d012c89d1202047af77ad87e5355131d4d4c592a950c2c88d0dc41c04147fd63",
+      "size_bytes": 24071
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoAlgorithmECDH.log",
+      "path": "syntax/CryptoAlgorithmECDH.log",
+      "sha256": "a7149dc156f94b4e7b4b6e35e8b1fa3b66162851b233f487816b16d089dd022a",
+      "size_bytes": 5277
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoAlgorithmECDH.command.json",
+      "path": "syntax/CryptoAlgorithmECDH.command.json",
+      "sha256": "80185c756670c472ed0f25a232b969c16c8fc4079db52c86bc3ceed5ca6e1359",
+      "size_bytes": 24085
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoAlgorithmECDSA.log",
+      "path": "syntax/CryptoAlgorithmECDSA.log",
+      "sha256": "78e2b34132fe53e1007a1b8b3bdd4b0e502e7fceb8a4d927e86f4d62eb9e38d7",
+      "size_bytes": 5240
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoAlgorithmECDSA.command.json",
+      "path": "syntax/CryptoAlgorithmECDSA.command.json",
+      "sha256": "15e22422252869147e0feeb8d8dc3ec9774e5dfeb55576414778021c7986f694",
+      "size_bytes": 24086
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoAlgorithmRegistryMbedTLS.log",
+      "path": "syntax/CryptoAlgorithmRegistryMbedTLS.log",
+      "sha256": "3157bf497a17279466e462a9563e011390ca13f5ddb6229d63a75d04bdf97b20",
+      "size_bytes": 4507
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/CryptoAlgorithmRegistryMbedTLS.command.json",
+      "path": "syntax/CryptoAlgorithmRegistryMbedTLS.command.json",
+      "sha256": "449d56eeda60a68bdb9c05333743fcbca43ed6a41aaae474cb12d253db6db794",
+      "size_bytes": 24093
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/result.json",
+      "path": "syntax/result.json",
+      "sha256": "c45f597c864b0239af1c3cf0f9816c51e4775731692bc0a527b02dca2a5fb6e7",
+      "size_bytes": 1838
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/syntax/overlay.json",
+      "path": "syntax/overlay.json",
+      "sha256": "247e92a714eb514057bc98a3f7374308854e95f3e106ddca381e7ebf5b9022f4",
+      "size_bytes": 230
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/overlay/Source/WebCore/crypto/keys/CryptoKeyEC.h",
+      "path": "syntax/overlay-sources/CryptoKeyEC.h",
+      "sha256": "ecf8b43095174cd03edc746007d90a8b8d3edb52e05ff9f28816c49d51845926",
+      "size_bytes": 5932
+    },
+    {
+      "original_path": "/workspace/symbian-ec-work/overlay/Source/WebCore/crypto/mbedtls/CryptoAlgorithmRegistryMbedTLS.cpp",
+      "path": "syntax/overlay-sources/CryptoAlgorithmRegistryMbedTLS.cpp",
+      "sha256": "990aac06da1cf63d4146b388e01d9fbcd6d77ff96d3efb38f779181f2a55181d",
+      "size_bytes": 2997
+    },
+    {
+      "path": "syntax/environment.json",
+      "sha256": "44d1b7073f55e405cf8fea578cacd3cd2ce608a5e1424dab0cff3d5eb6681918",
+      "size_bytes": 343
+    },
+    {
+      "path": "README.md",
+      "role": "evidence scope and interpretation",
+      "sha256": "744cd2c800c7de99294e86cbabe122e6e3f3c7960b7c2c416732c64ba3b7d15c",
+      "size_bytes": 4168
+    }
+  ],
+  "limits": [
+    "No browser or Symbian E32 runtime result is claimed. The 30-case page/DedicatedWorker fixture remains pending integration acceptance.",
+    "CryptoKey structured cloning, worker key transfer and persistence remain unsupported; worker fixture imports byte encodings independently.",
+    "Original raw logs, command arrays and result records are copied byte-for-byte. Filesystem modification times are not execution timestamps.",
+    "Run-specific result.json files identify hashes recorded by the original runs. Additional packaging hashes do not imply exhaustive capture of all generated or SDK transitive headers.",
+    "The ARM1136 library and executable target ARM Linux/QEMU, not Symbian E32. No guest, test execution, build, commit or push was performed while packaging this evidence."
+  ],
+  "packaged_utc": "2026-10-29T22:17:22.469839+00:00",
+  "results": {
+    "helper_runs": [
+      {
+        "checks_passed": 244,
+        "checks_total": 244,
+        "commands": "host/commands.json",
+        "commands_sha256": "837867f4d06cb513308588a1d6d7b18e579bdcd01040ada14293bc3d46ba0513",
+        "exit": 0,
+        "library": {
+          "packaging_hash_matches_recorded_hash": true,
+          "path": "/workspace/symbian-tls-ip-work/production/host/tls/library/libmbedcrypto.a",
+          "sha256": "791549ff67724033ac946a58d8ce5fc8deae58f79d0233a699142d5b093129d1",
+          "size_bytes": 7492500
+        },
+        "log": "host/test.log",
+        "name": "host",
+        "test_executable": {
+          "hash_recorded_when": "evidence packaging; binary not copied into repository",
+          "path": "/workspace/symbian-ec-work/host/test",
+          "sha256": "64943ea752f9502c9c5a561c8a96e181f0a82408db498a35d389ba7f1e6c97c6",
+          "size_bytes": 2989528
+        }
+      },
+      {
+        "checks_passed": 244,
+        "checks_total": 244,
+        "commands": "arm1136/commands.json",
+        "commands_sha256": "a38eb1ede0658d923f393d40c8d33fc1a68e60317cbbb7f382fd16dd1431aab2",
+        "exit": 0,
+        "library": {
+          "packaging_hash_matches_recorded_hash": true,
+          "path": "/workspace/symbian-belle-work/rsa-arm-library/mbedtls/library/libmbedcrypto.a",
+          "sha256": "f633e18b64b66ef678e1fd5c27638bb6b23ae81e13f397618d298ddcb0fe3967",
+          "size_bytes": 4069472
+        },
+        "log": "arm1136/test.log",
+        "name": "arm1136",
+        "test_executable": {
+          "hash_recorded_when": "evidence packaging; binary not copied into repository",
+          "path": "/workspace/symbian-ec-work/arm1136/test",
+          "sha256": "25587b1c08d30adcb0b1ffa0d712ab8dfd038c63a21c35607c5c56ddd1ed1dae",
+          "size_bytes": 2351880
+        }
+      }
+    ],
+    "syntax_translation_units": [
+      {
+        "command": "syntax/CryptoKeyECMbedTLS.command.json",
+        "command_sha256": "95086c4f0f5862ad73064ffa9e42bbac1d5111c1e49d6cd584d07645e1b230d1",
+        "exit": 0,
+        "log": "syntax/CryptoKeyECMbedTLS.log",
+        "log_sha256": "d1194d397aa98f7df547dad6654f943061ef975549162b161746a7cf4e23c585",
+        "source_sha256": "6844bce7b6cdf698d22f0e9ab6914ced8c39da3d5bc9f185bb1b0bd426340a3b",
+        "translation_unit": "Source/WebCore/crypto/mbedtls/CryptoKeyECMbedTLS.cpp"
+      },
+      {
+        "command": "syntax/CryptoAlgorithmECMbedTLS.command.json",
+        "command_sha256": "c12fdeb00ba7bc3ae1a0a8f4032ea9ce3067e8cd17cc1591e4fe438a82c7edc4",
+        "exit": 0,
+        "log": "syntax/CryptoAlgorithmECMbedTLS.log",
+        "log_sha256": "0d4bd558268f773a42c42b525b3954c72ad95a6c5e22f51df06b9f5565846000",
+        "source_sha256": "f02fae5f978bbd3bb0b191d34b6c4a4ac958b11d44cb73cbd389b29a4a90fdc8",
+        "translation_unit": "Source/WebCore/crypto/mbedtls/CryptoAlgorithmECMbedTLS.cpp"
+      },
+      {
+        "command": "syntax/CryptoKeyEC.command.json",
+        "command_sha256": "d012c89d1202047af77ad87e5355131d4d4c592a950c2c88d0dc41c04147fd63",
+        "exit": 0,
+        "log": "syntax/CryptoKeyEC.log",
+        "log_sha256": "4779cf367ebe6005ff5f9d896336f76ad4b01e47339c409e8771426ba2799072",
+        "source_sha256": "072e0fe5e756bdd69644d73fe02c52f3380d8b64798f846a94e6dd7c692c8e82",
+        "translation_unit": "Source/WebCore/crypto/keys/CryptoKeyEC.cpp"
+      },
+      {
+        "command": "syntax/CryptoAlgorithmECDH.command.json",
+        "command_sha256": "80185c756670c472ed0f25a232b969c16c8fc4079db52c86bc3ceed5ca6e1359",
+        "exit": 0,
+        "log": "syntax/CryptoAlgorithmECDH.log",
+        "log_sha256": "a7149dc156f94b4e7b4b6e35e8b1fa3b66162851b233f487816b16d089dd022a",
+        "source_sha256": "ba219199e75693548929f148a6978780c0f6870430d49c354bab21c0c7ff56a5",
+        "translation_unit": "Source/WebCore/crypto/algorithms/CryptoAlgorithmECDH.cpp"
+      },
+      {
+        "command": "syntax/CryptoAlgorithmECDSA.command.json",
+        "command_sha256": "15e22422252869147e0feeb8d8dc3ec9774e5dfeb55576414778021c7986f694",
+        "exit": 0,
+        "log": "syntax/CryptoAlgorithmECDSA.log",
+        "log_sha256": "78e2b34132fe53e1007a1b8b3bdd4b0e502e7fceb8a4d927e86f4d62eb9e38d7",
+        "source_sha256": "b0f21f994636b3c1af3c428a0b81499acfbea65264c8206aff8e672c2e43df56",
+        "translation_unit": "Source/WebCore/crypto/algorithms/CryptoAlgorithmECDSA.cpp"
+      },
+      {
+        "command": "syntax/CryptoAlgorithmRegistryMbedTLS.command.json",
+        "command_sha256": "449d56eeda60a68bdb9c05333743fcbca43ed6a41aaae474cb12d253db6db794",
+        "exit": 0,
+        "log": "syntax/CryptoAlgorithmRegistryMbedTLS.log",
+        "log_sha256": "3157bf497a17279466e462a9563e011390ca13f5ddb6229d63a75d04bdf97b20",
+        "source_sha256": "990aac06da1cf63d4146b388e01d9fbcd6d77ff96d3efb38f779181f2a55181d",
+        "translation_unit": "Source/WebCore/crypto/mbedtls/CryptoAlgorithmRegistryMbedTLS.cpp"
+      }
+    ]
+  },
+  "schema_version": 1,
+  "scope": "EC production helper host/ARM1136 runtime and six Symbian ARM syntax translation units only",
+  "sources": {
+    "Source/WebCore/crypto/algorithms/CryptoAlgorithmECDH.cpp": {
+      "recorded_in_syntax_run": true,
+      "sha256": "ba219199e75693548929f148a6978780c0f6870430d49c354bab21c0c7ff56a5"
+    },
+    "Source/WebCore/crypto/algorithms/CryptoAlgorithmECDSA.cpp": {
+      "recorded_in_syntax_run": true,
+      "sha256": "b0f21f994636b3c1af3c428a0b81499acfbea65264c8206aff8e672c2e43df56"
+    },
+    "Source/WebCore/crypto/keys/CryptoKeyEC.cpp": {
+      "recorded_in_syntax_run": true,
+      "sha256": "072e0fe5e756bdd69644d73fe02c52f3380d8b64798f846a94e6dd7c692c8e82"
+    },
+    "Source/WebCore/crypto/keys/CryptoKeyEC.h": {
+      "sha256": "ecf8b43095174cd03edc746007d90a8b8d3edb52e05ff9f28816c49d51845926",
+      "syntax_overlay_matches_integrated_source": true
+    },
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmECMbedTLS.cpp": {
+      "recorded_in_syntax_run": true,
+      "sha256": "f02fae5f978bbd3bb0b191d34b6c4a4ac958b11d44cb73cbd389b29a4a90fdc8"
+    },
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmRegistryMbedTLS.cpp": {
+      "sha256": "990aac06da1cf63d4146b388e01d9fbcd6d77ff96d3efb38f779181f2a55181d",
+      "syntax_overlay_matches_integrated_source": true
+    },
+    "Source/WebCore/crypto/mbedtls/CryptoKeyECMbedTLS.cpp": {
+      "recorded_in_syntax_run": true,
+      "sha256": "6844bce7b6cdf698d22f0e9ab6914ced8c39da3d5bc9f185bb1b0bd426340a3b"
+    },
+    "Source/WebCore/crypto/mbedtls/MbedTLSECDER.h": {
+      "recorded_in_helper_run": true,
+      "sha256": "10811cf1e189dcfe0dad17ca60345abbaf339b7e49722fc8190886a9a450d782"
+    },
+    "Source/WebCore/crypto/mbedtls/MbedTLSECKey.h": {
+      "recorded_in_helper_run": true,
+      "sha256": "29c5c66d27ba25ff70b3eaf4313b8f77f6cdd9a8402ae3819eb8275a82155f98"
+    },
+    "Source/WebCore/crypto/mbedtls/MbedTLSECOperations.h": {
+      "recorded_in_helper_run": true,
+      "sha256": "2a7f7f81f7a94677b18a728cfbfb68f9986b4b390c6cff1b78cd4047c9b36dda"
+    },
+    "Source/WebCore/crypto/mbedtls/MbedTLSECRandom.h": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "00f011e49c1e3e54b240ff0aeb711584818effa5697273bbe426ff0f0a6fe1f8"
+    },
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSADER.h": {
+      "recorded_in_helper_run": true,
+      "sha256": "cccea35f2df38e405890e5b7e1706b9e921bdb1abb4e5c733bf9b50ea33f2b88"
+    },
+    "Source/WebCore/crypto/mbedtls/MbedTLSRSAKey.h": {
+      "recorded_in_helper_run": true,
+      "sha256": "ba04d88546b2e24add470b33aedbc98a4ea592577ef78898c7868a95e2268e22"
+    },
+    "Source/WebCore/platform/MbedTLS.cmake": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "b0084005c5dfc44cca1286a09b405d20b65722ff5baf8a4e0a9b3793f263b961"
+    },
+    "Tools/Symbian/tests/ec/README.md": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "e5d8fb3400414e9dc92019904460bf2c5884b348d59726929544358852bd8eba"
+    },
+    "Tools/Symbian/tests/ec/ec-tests.js": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "b71db5c6a45bc10ccbbb7e8c4c3a2278db53bbf20f0b026729e548ac2d03cafd"
+    },
+    "Tools/Symbian/tests/ec/host.cpp": {
+      "recorded_in_helper_run": true,
+      "sha256": "ca4fc4247c406f2b0203453f279cb475c400ea9a1567c28bfae374137f841a4c"
+    },
+    "Tools/Symbian/tests/ec/index.html": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "62738edc9b145fc53c3add856158630002496c8a43541eb579484ce12d39730a"
+    },
+    "Tools/Symbian/tests/ec/page.js": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "c366875659bf3aa7048198889448ee317da638a2be022d91e61fb9b9f98c1153"
+    },
+    "Tools/Symbian/tests/ec/prepare-vectors.py": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "ee2b0d0d1775bff87624b06e46cbf6ab68f7426ab7e8671236b6ecae5e106221"
+    },
+    "Tools/Symbian/tests/ec/run-host.py": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "f19ef3245575c6a6fbc8e221ed2cd67fc4abf6189786c624d78eab237ae4ae66"
+    },
+    "Tools/Symbian/tests/ec/test-verify.py": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "ae08a6f16a903954506367e534ab836283399129fa59bf008f1701fadbfaf75c"
+    },
+    "Tools/Symbian/tests/ec/verify.py": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "c191841d53aa8834da4f8f86b54bd6250b61c9c165140749b94a92f402f8aa5e"
+    },
+    "Tools/Symbian/tests/ec/worker.js": {
+      "hash_recorded_when": "evidence packaging",
+      "sha256": "7b807f5e503fd94566e20fe5f84996e70a0418661361a8d0a738a3c28a43ae58"
+    }
+  }
+}

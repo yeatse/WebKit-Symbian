@@ -1,0 +1,13 @@
+T <EKA>/src/emu/kernel/src/kernel.cpp:994 [Kernel]: Spawned process: rsa_probe, entry point = 0x0
+I <EKA>/src/emu/kernel/src/codeseg.cpp:329 [Kernel]: rsa_probe.exe (UID3=0xE0000902) runtime code: 0x81db0000
+I <EKA>/src/emu/kernel/src/codeseg.cpp:330 [Kernel]: rsa_probe.exe (UID3=0xE0000902) runtime data: 0x400000
+I <EKA>/src/emu/kernel/src/process.cpp:108 [Kernel]: Process rsa_probe capabilities: None
+T <EKA>/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread 059a60d0a88af657 created with start pc = 0x81e21241, stack size = 0x20000
+T <EKA>/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread 059a612074da46a7 created with start pc = 0x81e21241, stack size = 0x20000
+T <EKA>/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread 059a61701c5c515e created with start pc = 0x81e21241, stack size = 0x20000
+T <EKA>/src/emu/kernel/src/svc.cpp:2310 [Kernel]: Thread 059a61c01235da6a created with start pc = 0x81e21241, stack size = 0x20000
+T <EKA>/src/emu/kernel/src/thread.cpp:554 [Kernel]: Thread 059a612074da46a7 forcefully killed with category: None and exit code: 0 
+T <EKA>/src/emu/kernel/src/thread.cpp:554 [Kernel]: Thread 059a61701c5c515e forcefully killed with category: None and exit code: 0 
+T <EKA>/src/emu/kernel/src/thread.cpp:554 [Kernel]: Thread 059a60d0a88af657 forcefully killed with category: None and exit code: 0 
+T <EKA>/src/emu/kernel/src/thread.cpp:554 [Kernel]: Thread 059a61c01235da6a forcefully killed with category: None and exit code: 0 
+T <EKA>/src/emu/kernel/src/thread.cpp:554 [Kernel]: Thread Main forcefully killed with category: None and exit code: 0 

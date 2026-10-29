@@ -153,7 +153,7 @@
 #endif
 
 /* FIXME: The availability of RSA_PSS should not depend on the policy decision to USE(GCRYPT). */
-#if PLATFORM(MAC) || PLATFORM(IOS) || PLATFORM(MACCATALYST) || PLATFORM(VISION) || USE(GCRYPT) || USE(OPENSSL)
+#if PLATFORM(MAC) || PLATFORM(IOS) || PLATFORM(MACCATALYST) || PLATFORM(VISION) || USE(GCRYPT) || USE(OPENSSL) || USE(MBEDTLS)
 #define HAVE_RSA_PSS 1
 #endif
 

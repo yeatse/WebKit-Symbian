@@ -1,0 +1,42 @@
+22:56:06.465 WebKit Browser starting
+22:56:06.486 network: starting the connection
+22:56:07.932 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+22:56:08.413 network: connected through "Host network"
+22:56:08.431 load http://localhost:8805/?run=e487ceced5a64403adba4e022bcbce36
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-1 and no label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-256 and no label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-384 and no label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-512 and no label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-1 and empty label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-256 and empty label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-384 and empty label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-512 and empty label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-1 and a label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-256 and a label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-384 and a label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-OAEP with SHA-512 and a label
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSASSA-PKCS1-v1_5 with SHA-1
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSASSA-PKCS1-v1_5 with SHA-256
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSASSA-PKCS1-v1_5 with SHA-384
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSASSA-PKCS1-v1_5 with SHA-512
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-PSS with SHA-1 and no salt
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-PSS with SHA-256 and no salt
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-PSS with SHA-384 and no salt
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-PSS with SHA-512 and no salt
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-PSS with SHA-1, salted
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-PSS with SHA-256, salted
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-PSS with SHA-384, salted
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS known answer RSA-PSS with SHA-512, salted
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS generateKey metadata usages extractability and asynchronous completion
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS all three algorithms support JWK SPKI PKCS8 roundtrips
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS minimal private JWK works and malformed CRT or partial fields are rejected
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS DER rejects trailing truncated noncanonical and wrong formats
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS PSS exact salt bounds and unsigned overflow
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS OAEP empty maximum label mismatch ciphertext checks and wrap unwrap
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS usage extractability hash and key-type rejection
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS parallel operations on one private key keep independent state
+console: http://localhost:8805/page.js:22: RSA_CASE run=e487ceced5a64403adba4e022bcbce36 PASS DedicatedWorker imports and performs actual RSA operations
+console: http://localhost:8805/page.js:175: RSA_RESULT {"run":"e487ceced5a64403adba4e022bcbce36","passed":33,"total":33,"elapsed_ms":32999,"results":[{"name":"known answer RSA-OAEP with SHA-1 and no label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-256 and no label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-384 and no label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-512 and no label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-1 and empty label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-256 and empty label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-384 and empty label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-512 and empty label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-1 and a label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-256 and a label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-384 and a label","pass":true,"error":null},{"name":"known answer RSA-OAEP with SHA-512 and a label","pass":true,"error":null},{"name":"known answer RSASSA-PKCS1-v1_5 with SHA-1","pass":true,"error":null},{"name":"known answer RSASSA-PKCS1-v1_5 with SHA-256","pass":true,"error":null},{"name":"known answer RSASSA-PKCS1-v1_5 with SHA-384","pass":true,"error":null},{"name":"known answer RSASSA-PKCS1-v1_5 with SHA-512","pass":true,"error":null},{"name":"known answer RSA-PSS with SHA-1 and no salt","pass":true,"error":null},{"name":"known answer RSA-PSS with SHA-256 and no salt","pass":true,"error":null},{"name":"known answer RSA-PSS with SHA-384 and no salt","pass":true,"error":null},{"name":"known answer RSA-PSS with SHA-512 and no salt","pass":true,"error":null},{"name":"known answer RSA-PSS with SHA-1, salted","pass":true,"error":null},{"name":"known answer RSA-PSS with SHA-256, salted","pass":true,"error":null},{"name":"known answer RSA-PSS with SHA-384, salted","pass":true,"error":null},{"name":"known answer RSA-PSS with SHA-512, salted","pass":true,"error":null},{"name":"generateKey metadata usages extractability and asynchronous completion","pass":true,"error":null},{"name":"all three algorithms support JWK SPKI PKCS8 roundtrips","pass":true,"error":null},{"name":"minimal private JWK works and malformed CRT or partial fields are rejected","pass":true,"error":null},{"name":"DER rejects trailing truncated noncanonical and wrong formats","pass":true,"error":null},{"name":"PSS exact salt bounds and unsigned overflow","pass":true,"error":null},{"name":"OAEP empty maximum label mismatch ciphertext checks and wrap unwrap","pass":true,"error":null},{"name":"usage extractability hash and key-type rejection","pass":true,"error":null},{"name":"parallel operations on one private key keep independent state","pass":true,"error":null},{"name":"DedicatedWorker imports and performs actual RSA operations","pass":true,"error":null}]}
+console: http://localhost:8805/page.js:176: RSA_DONE run=e487ceced5a64403adba4e022bcbce36 passed=33 total=33

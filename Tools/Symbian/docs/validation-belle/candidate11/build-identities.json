@@ -1,0 +1,75 @@
+{
+  "status": "FULL_ENGINE_AND_BROWSER_BUILD_PASS",
+  "browser_files": {
+    "browser.exe": {
+      "bytes": 58792332,
+      "sha256": "20f58cef43d6fa4252546cb337940bfa609ba7ef71d0059ef1336bd126ef5288"
+    },
+    "browser_reg.rsc": {
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "browser_loc.rsc": {
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "browser_ui.rsc": {
+      "bytes": 192,
+      "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+    },
+    "browser.libraries.json": {
+      "bytes": 59,
+      "sha256": "d471e7e47cff37252dc9c741bdb82ce9cac4d4d68c48f504d544a48fb0cf5534"
+    }
+  },
+  "build_libraries": {
+    "/workspace/symbian-graphics-work/build/webcore/lib/libANGLE.a": {
+      "bytes": 1467988,
+      "sha256": "0b55d73994ec10505b443e3144a185d305469c04e96c82d58bb2785116f1f61f",
+      "thin_archive": true
+    },
+    "/workspace/symbian-graphics-work/build/webcore/lib/libGLESv2.a": {
+      "bytes": 44180,
+      "sha256": "79bfd707efe1c7092e0daa4208de21dc152bc0713ba36ebaa8e06da1c1b33abb",
+      "thin_archive": true
+    },
+    "/workspace/symbian-graphics-work/build/webcore/lib/libJavaScriptCore.a": {
+      "bytes": 5725006,
+      "sha256": "42c92d456121d4aab38f4c407327ec220043c1712d7747517b93a96c9bdb7548",
+      "thin_archive": true
+    },
+    "/workspace/symbian-graphics-work/build/webcore/lib/libPAL.a": {
+      "bytes": 41892,
+      "sha256": "bc421926ee12d688856a0a317c783b3b1945191c19059cd4d3e8d66cf4dd76be",
+      "thin_archive": true
+    },
+    "/workspace/symbian-graphics-work/build/webcore/lib/libSymbianEGLBridge.a": {
+      "bytes": 1270,
+      "sha256": "262d805aabb4941a57b835b38ed79808425fa37d50570e78dd9d2935161b004d",
+      "thin_archive": true
+    },
+    "/workspace/symbian-graphics-work/build/webcore/lib/libWTF.a": {
+      "bytes": 358268,
+      "sha256": "84560583e2d9ac66ebb6fbd1bd701441482c92c37b14ec94de229e9179ade87b",
+      "thin_archive": true
+    },
+    "/workspace/symbian-graphics-work/build/webcore/lib/libWebCore.a": {
+      "bytes": 28680540,
+      "sha256": "1488ef0e44e8c55fdcc76275a7f78b47402a3defb0cb5503766ddb35ded5a4d3",
+      "thin_archive": true
+    },
+    "/workspace/symbian-graphics-work/build/webcore/lib/libWebCoreTestSupport.a": {
+      "bytes": 491186,
+      "sha256": "6a1c97e23119b9b42560612186883e52768fa8e9346cbbc9743f34409bdcf1c0",
+      "thin_archive": true
+    },
+    "/workspace/symbian-graphics-work/build/webcore/lib/libWebKitLegacy.a": {
+      "bytes": 273272,
+      "sha256": "38a2523641d625cc0bbd6b1689cd6845a6c5c37f9c9ce8e70880b85cecbe87c0",
+      "thin_archive": true
+    }
+  },
+  "thin_archive_note": "Thin-archive hashes cover archive metadata; the E32 image hash binds the linked program bytes. Build logs and source snapshot are retained separately.",
+  "emulator_sha256": "0d2714494b322684872c0fc036c2f206b8514e54d021dc2ec1e3182af5855b98",
+  "runtime_icu_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+}

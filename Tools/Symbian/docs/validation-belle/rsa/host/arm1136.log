@@ -1,0 +1,178 @@
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-1 and no label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-256 and no label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-384 and no label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-512 and no label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-1 and empty label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-256 and empty label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-384 and empty label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-512 and empty label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-1 and a label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-256 and a label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-384 and a label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-OAEP with SHA-512 and a label
+PASS OAEP decrypt matches independent known plaintext
+PASS OAEP randomized encryption roundtrip
+PASS OAEP rejects mismatched label including zero byte
+PASS OAEP rejects tampered ciphertext
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSASSA-PKCS1-v1_5 with SHA-1
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS deterministic RSA signature matches exact known bytes
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSASSA-PKCS1-v1_5 with SHA-256
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS deterministic RSA signature matches exact known bytes
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSASSA-PKCS1-v1_5 with SHA-384
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS deterministic RSA signature matches exact known bytes
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSASSA-PKCS1-v1_5 with SHA-512
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS deterministic RSA signature matches exact known bytes
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-PSS with SHA-1 and no salt
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS deterministic RSA signature matches exact known bytes
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-PSS with SHA-256 and no salt
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS deterministic RSA signature matches exact known bytes
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-PSS with SHA-384 and no salt
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS deterministic RSA signature matches exact known bytes
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-PSS with SHA-512 and no salt
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS deterministic RSA signature matches exact known bytes
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-PSS with SHA-1, salted
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-PSS with SHA-256, salted
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-PSS with SHA-384, salted
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS RSA verify rejects tampered signature
+PASS WPT SPKI/PKCS8 mathematical keys accepted
+VECTOR RSA-PSS with SHA-512, salted
+PASS RSA verify accepts independent known signature
+PASS RSA sign and verify roundtrip
+PASS RSA verify rejects tampered signature
+PASS PSS supports exact zero/hash/hash+1/maximum salt
+PASS PSS does not accept a different salt length
+PASS PSS supports exact zero/hash/hash+1/maximum salt
+PASS PSS does not accept a different salt length
+PASS PSS supports exact zero/hash/hash+1/maximum salt
+PASS PSS does not accept a different salt length
+PASS PSS supports exact zero/hash/hash+1/maximum salt
+PASS PSS does not accept a different salt length
+PASS PSS rejects oversized salt before signed conversion
+PASS PSS oversized verify salt cannot become ANY
+PASS PSS rejects oversized salt before signed conversion
+PASS PSS oversized verify salt cannot become ANY
+PASS PSS rejects oversized salt before signed conversion
+PASS PSS oversized verify salt cannot become ANY
+PASS OAEP empty and maximum-length plaintext accepted
+PASS OAEP empty and maximum-length plaintext accepted
+PASS OAEP rejects plaintext one byte too long
+PASS OAEP checks ciphertext length before native read
+PASS RSASSA checks signature length before native read
+PASS RSASSA fails when blinding entropy fails
+PASS PSS zero salt still requires blinding entropy
+PASS OAEP encryption fails when padding entropy fails
+PASS OAEP decryption fails when blinding entropy fails
+PASS minimal N/E/D private key is completed and checked
+PASS supplied inconsistent CRT parameter is rejected
+PASS supplied inconsistent CRT parameter is rejected
+PASS supplied inconsistent CRT parameter is rejected
+PASS DER trailing data rejected
+PASS DER truncated data rejected
+PASS DER nonminimal long length rejected
+PASS DER indefinite length rejected
+PASS DER wrong algorithm OID rejected
+PASS DER oversized 32-bit length rejected
+PASS DER public/private formats cannot be interchanged
+PASS bare PKCS1 cannot masquerade as PKCS8
+PASS PKCS8 export wrapper matches exact standard structure
+PASS four 128 KiB pthreads safely use the same immutable RSA key
+RESULT checks=153 failures=0 pointerBits=32
