@@ -1,0 +1,12 @@
+{
+  "path": "/workspace/symbian-work/ci-artifacts/40921503443/sis/symbian-webkit-icu.sis",
+  "bytes": 4768936,
+  "sha256": "aa0520f96c91926d36df7351625bfa143ec893bbd56ce27e477553855a0b11f3",
+  "uid3": "0xe1a5c013",
+  "version": "0.3.39",
+  "target": "c:\\resource\\icu\\icudt70l.dat",
+  "signature_chains": 0,
+  "payload_bytes": 10261824,
+  "payload_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+  "crc_and_payload_hash_valid": true
+}

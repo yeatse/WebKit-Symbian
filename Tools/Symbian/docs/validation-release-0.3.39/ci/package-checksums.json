@@ -1,0 +1,24 @@
+{
+  "run": 40921503443,
+  "head": "defd29c69bda8781b42fec9ca4769f11a3ec15ed",
+  "version": "0.3.39",
+  "artifact_zip_sha256": "9a7a84b78f94dce23fc1c9e119540cd726570bd6ea7c109db24882354b7440ba",
+  "sha256sums_verified": true,
+  "packages": [
+    {
+      "file": "symbian-webkit-icu.sis",
+      "bytes": 4768936,
+      "sha256": "aa0520f96c91926d36df7351625bfa143ec893bbd56ce27e477553855a0b11f3"
+    },
+    {
+      "file": "jsc.sis",
+      "bytes": 6894460,
+      "sha256": "d2c853d98ece17e1716550381756f01ca480dc68e5403c58219b7bfd86e31472"
+    },
+    {
+      "file": "browser.sis",
+      "bytes": 21845292,
+      "sha256": "c350a93ec945d9a80d864fdefafcc5a5c3df61b43c22e54897403ea862d911f2"
+    }
+  ]
+}

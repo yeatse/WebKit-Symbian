@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "run_id": 40921503443,
+  "head_sha": "defd29c69bda8781b42fec9ca4769f11a3ec15ed",
+  "sis_version": "0.3.39",
+  "payload_count": 11,
+  "packages": [
+    {
+      "name": "symbian-webkit-icu.sis",
+      "uid3": "0xe1a5c013",
+      "version": "0.3.39",
+      "signature_chains": 0,
+      "header_and_section_crc_valid": true,
+      "payloads": [
+        {
+          "target": "c:\\resource\\icu\\icudt70l.dat",
+          "bytes": 10261824,
+          "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+          "file_hash_valid": true
+        }
+      ]
+    },
+    {
+      "name": "jsc.sis",
+      "uid3": "0xe1a5c011",
+      "version": "0.3.39",
+      "signature_chains": 0,
+      "header_and_section_crc_valid": true,
+      "payloads": [
+        {
+          "target": "!:\\sys\\bin\\jsc.exe",
+          "bytes": 18830168,
+          "sha256": "707179f2418ac9bb95c651c472550d041dd2cd07657e613e11ebffadf15dead0",
+          "file_hash_valid": true,
+          "e32_flags": "0x12100028",
+          "hardware_float_type": 1,
+          "capabilities": "0x0"
+        },
+        {
+          "target": "c:\\data\\es2020.js",
+          "bytes": 2587,
+          "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+          "file_hash_valid": true
+        },
+        {
+          "target": "c:\\data\\intl.js",
+          "bytes": 1462,
+          "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+          "file_hash_valid": true
+        },
+        {
+          "target": "c:\\data\\basic.js",
+          "bytes": 186,
+          "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+          "file_hash_valid": true
+        },
+        {
+          "target": "c:\\data\\resizable-arraybuffer.js",
+          "bytes": 2715,
+          "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+          "file_hash_valid": true
+        }
+      ]
+    },
+    {
+      "name": "browser.sis",
+      "uid3": "0xe1a5c012",
+      "version": "0.3.39",
+      "signature_chains": 0,
+      "header_and_section_crc_valid": true,
+      "payloads": [
+        {
+          "target": "!:\\sys\\bin\\browser.exe",
+          "bytes": 58337180,
+          "sha256": "1c6ed85bb7d6cf775d9b9ee969c7b59183cc370f851b9529c76c38853438371c",
+          "file_hash_valid": true,
+          "e32_flags": "0x12100028",
+          "hardware_float_type": 1,
+          "capabilities": "0x2000"
+        },
+        {
+          "target": "!:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+          "file_hash_valid": true
+        },
+        {
+          "target": "!:\\resource\\apps\\browser_loc.rsc",
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+          "file_hash_valid": true
+        },
+        {
+          "target": "c:\\data\\webkit\\test.html",
+          "bytes": 2254,
+          "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+          "file_hash_valid": true
+        },
+        {
+          "target": "c:\\resource\\webkit\\cacert.pem",
+          "bytes": 188900,
+          "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+          "file_hash_valid": true
+        }
+      ]
+    }
+  ]
+}
