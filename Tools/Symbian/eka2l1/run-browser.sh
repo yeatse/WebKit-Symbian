@@ -13,6 +13,7 @@ export EKA2L1_DATA=${EKA2L1_DATA:-$XDG_DATA_HOME/EKA2L1/data}
 export SYMBIAN_BROWSER_WORK=$WORK SYMBIAN_BROWSER_TESTS=$REPO/tests
 export SYMBIAN_BROWSER_PAGE=$REPO/browser/test.html
 export SYMBIAN_BROWSER_ICU=$ICU_DIR/install/share/icu/icudt70l.dat
+export SYMBIAN_BROWSER_CLOSE_WINDOW=$REPO/eka2l1/close-emulator-window.py
 python3 - "$@" <<'PY'
 import datetime, fcntl, os
 from pathlib import Path
@@ -55,7 +56,9 @@ process=None
 failure=None
 hostlog=run/'emulator.log'
 def read(path):return path.read_text(errors='replace') if path.exists() else ''
-def interrupted(signum,frame):raise KeyboardInterrupt
+def interrupted(signum,frame):
+    signal.signal(signal.SIGINT,signal.SIG_IGN);signal.signal(signal.SIGTERM,signal.SIG_IGN)
+    raise KeyboardInterrupt
 signal.signal(signal.SIGINT,interrupted);signal.signal(signal.SIGTERM,interrupted)
 try:
     with hostlog.open('w') as output:
@@ -71,7 +74,21 @@ try:
 except KeyboardInterrupt:
     failure='run interrupted'
 finally:
+    # A second cancellation must not interrupt bounded process-group cleanup.
+    signal.signal(signal.SIGINT,signal.SIG_IGN);signal.signal(signal.SIGTERM,signal.SIG_IGN)
     if process:
+        if process.poll() is None:
+            try:
+                # EKA's VFS buffers host FILE writes. Closing the Qt window lets
+                # it flush those files; SIGTERM can otherwise lose the last log.
+                subprocess.run([sys.executable,os.environ['SYMBIAN_BROWSER_CLOSE_WINDOW'],str(process.pid)],check=True,timeout=5)
+                process.wait(timeout=10)
+            except (subprocess.SubprocessError,OSError) as error:
+                failure=failure or 'emulator graceful shutdown failed; forced cleanup may lose buffered guest logs: '+str(error)
+        else:
+            failure=failure or 'emulator exited before requested shutdown'
+        if process.poll() is not None and process.returncode:
+            failure=failure or f'emulator exited with status {process.returncode}'
         try:os.killpg(process.pid,signal.SIGTERM)
         except ProcessLookupError:pass
         try:process.wait(timeout=3)

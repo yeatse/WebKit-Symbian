@@ -7,6 +7,8 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import select
+import shutil
 import signal
 import socket
 import ssl
@@ -40,6 +42,29 @@ class RunnerTests(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.certificates.cleanup()
+
+    @contextmanager
+    def private_x_display(self):
+        if not shutil.which("Xvfb"):
+            self.skipTest("Xvfb is required for the real driver's graceful-close fixture")
+        read_fd, write_fd = os.pipe()
+        server = subprocess.Popen(["Xvfb", "-displayfd", str(write_fd), "-screen", "0", "320x240x24", "-nolisten", "tcp"],
+                                  pass_fds=(write_fd,), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        os.close(write_fd)
+        try:
+            if not select.select([read_fd], [], [], 5)[0]:
+                self.fail("Private Xvfb did not become ready")
+            number = os.read(read_fd, 32).decode().strip()
+            self.assertTrue(number.isdecimal(), "Private Xvfb did not return a display number")
+            yield ":" + number
+        finally:
+            os.close(read_fd)
+            server.terminate()
+            try:
+                server.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                server.kill()
+                server.wait(timeout=5)
 
     @contextmanager
     def tls_servers(self):
@@ -182,7 +207,7 @@ class RunnerTests(unittest.TestCase):
                         self.fail("A separate lock should fail")
 
     def test_real_driver_with_fake_emulator_correlates_reports_and_restores_ca(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with self.private_x_display() as display, tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             work = root / "work"; work.mkdir()
             data = root / "data"; data.mkdir()
@@ -200,7 +225,7 @@ class RunnerTests(unittest.TestCase):
             fake_import.chmod(0o755)
             emulator = binaries / "fake-emulator"
             emulator.write_text("#!/usr/bin/env python3\n" +
-                "import json,os,pathlib,sys,time,urllib.parse\n" +
+                "import importlib.util,json,os,pathlib,sys,urllib.parse\n" +
                 "expected=" + repr(runner.EXPECTED) + "\n" +
                 "url=urllib.parse.urlsplit(sys.argv[-1].strip()); suite=pathlib.Path(url.path).stem\n" +
                 "token=urllib.parse.parse_qs(url.query)['run'][0]\n" +
@@ -208,12 +233,15 @@ class RunnerTests(unittest.TestCase):
                 "if suite=='tls': assert b'BEGIN CERTIFICATE' in (data/'drives/c/resource/webkit/cacert.pem').read_bytes()\n" +
                 "names=expected[suite]; summary=f'PASS: {suite} {len(names)}/{len(names)}'\n" +
                 "log_names=[name for name in names if name!=os.environ.get('FIXTURE_DROP_LINE')]\n" +
-                "(data/'drives/c/Data/WebKit/log.txt').write_text(''.join('PASS: '+name+'\\n' for name in log_names)+summary+'\\n')\n" +
                 "report={'suite':suite,'run':token,'results':[{'name':name,'status':'PASS'} for name in names]}\n" +
                 "(pathlib.Path(os.environ['FIXTURE_REPORTS'])/(token+'.json')).write_text(json.dumps(report))\n" +
-                "print('host-only fake emulator started',flush=True); time.sleep(60)\n")
+                "spec=importlib.util.spec_from_file_location('browser_fixture'," + repr(str(Path(__file__).with_name("test-browser-runner.py"))) + ")\n" +
+                "fixture=importlib.util.module_from_spec(spec); spec.loader.exec_module(fixture)\n" +
+                "fixture.MARKER=''.join('PASS: '+name+'\\n' for name in log_names)+summary\n" +
+                "os.environ['BROWSER_RUNNER_TEST_MODE']='normal'\n" +
+                "print('host-only fake emulator started',flush=True); fixture.fake_emulator()\n")
             emulator.chmod(0o755)
-            environment = {"EKA2L1": str(emulator), "DISPLAY": ":host-fixture", "FIXTURE_REPORTS": str(reports),
+            environment = {"EKA2L1": str(emulator), "DISPLAY": display, "FIXTURE_REPORTS": str(reports),
                            "SYMBIAN_WEBKIT_WORK": str(work), "ICU_DIR": str(root / "icu"),
                            "PATH": str(binaries) + os.pathsep + os.environ["PATH"],
                            "XDG_DATA_HOME": str(root / "xdg-data"), "XDG_CONFIG_HOME": str(root / "xdg-config"),

@@ -40,4 +40,4 @@ Host-only runner regressions do not start EKA2L1:
 python3 Tools/Symbian/tests/test-browser-network-runner.py -v
 ```
 
-They cover trust rollback, report correlation, exclusive/inherited locks, orphaned-session cleanup and TLS listener checks, including a complete driver run with a fake emulator. Their success does not establish guest network or TLS behavior.
+They cover trust rollback, report correlation, exclusive/inherited locks, orphaned-session cleanup and TLS listener checks, including a complete driver run with a fake emulator. The driver integration check requires Xvfb and creates its own display to exercise normal window closure and buffered-log collection. Their success does not establish guest network or TLS behavior.

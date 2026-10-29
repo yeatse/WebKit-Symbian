@@ -12,7 +12,7 @@ Updated: 2026-10-29 (Asia/Singapore).
 
 ## Current checkpoint
 
-The source port is being reconstructed. ICU 70.1 and all third-party target dependencies have compiled. JSC has compiled, linked and converted to E32: `jsc.exe` is 14,305,772 bytes, SHA256 `77a73defd8f84e260455d9416e6b191f803f7a128912d43d5baf297780aa3b02`. ICU data SHA256 is `5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f`. All four fresh EKA2L1/X7 runs pass with the expected PASS marker, `jsc exiting 0`, host exit 0 and no guest panic/access violation:
+The source port has been reconstructed and saved to `2.52.6-symbian` in staged commits. ICU 70.1 and all third-party target dependencies have compiled. JSC has compiled, linked and converted to E32: `jsc.exe` is 14,305,772 bytes, SHA256 `77a73defd8f84e260455d9416e6b191f803f7a128912d43d5baf297780aa3b02`. ICU data SHA256 is `5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f`. All four fresh EKA2L1/X7 runs pass with the expected PASS marker, `jsc exiting 0`, host exit 0 and no guest panic/access violation:
 
 - basic: `jsc-20261029T091922Z-483yuvby`
 - language: `jsc-20261029T091940Z-1qf4zvv_`
@@ -29,11 +29,11 @@ WTF, PAL, JSC, WebCore and WebKitLegacy have all compiled and archived for ARM. 
 - `browser.exe`: 49,121,832 bytes; SHA256 `282d7dbfa7566cf3fda437b0e61c55663722987352594ce7b7c3e15dd3a1a34f`.
 - `browser.sis`: 18,355,252 bytes; SHA256 `8eebe8516eb9006d849a4ce10be160c46184288cecd8cde7d5b7f1dc4f5d2bed`.
 
-Browser installation and guest page/network execution are pending at this checkpoint.
+The browser SIS installs successfully in X7 with UID `0xE1A5C012`, the installation-complete marker and package registry. The installed EXE, registration/localization resources, local HTML and release CA bundle match the package inputs. Browser execution validation is in progress; local rendering and its fresh console PASS are observed, but the emulator currently crashes during normal host shutdown, which the runner correctly rejects.
 
-The E32 converter's 47 host regression tests pass, including a valid exception index larger than 64 KiB, malformed table/descriptor rejection and strict single-branch ARM import thunks. Clean sequential patch application, reverse checks and repeated cached builds pass. Converter SHA256: `6639323282ca92f09c823a9ea7178b318c2198cfdf27c5e0bb9e50cef6d5f27d`. This does not establish full-browser E32 conversion.
+The E32 converter's 47 host regression tests pass, including a valid exception index larger than 64 KiB, malformed table/descriptor rejection and strict single-branch ARM import thunks. Clean sequential patch application, reverse checks and repeated cached builds pass. Converter SHA256: `6639323282ca92f09c823a9ea7178b318c2198cfdf27c5e0bb9e50cef6d5f27d`.
 
-Host fault injection compiles the actual `SymbianSystem.cpp` against fake kernel interfaces and passes reservation/commit rollback, data preservation, decommit/zeroing, slot limit/reuse and entropy failure/short-fill checks. Six fake-emulator JSC runner regressions and twelve browser-network runner host regressions pass. These validate algorithms and harness behavior; they do not substitute for guest kernel or JSC execution.
+Host fault injection compiles the actual `SymbianSystem.cpp` against fake kernel interfaces and passes reservation/commit rollback, data preservation, decommit/zeroing, slot limit/reuse and entropy failure/short-fill checks. Filesystem host regressions also pass five groups covering path handling, aliases/no-overwrite, non-regular files, short writes/EINTR, failed-copy cleanup, cross-device fallback, temporary directories and permission errors. Six fake-emulator JSC runner regressions and twelve browser-network runner host regressions pass. These validate algorithms and harness behavior; they do not substitute for guest kernel or JSC execution.
 
 Browser fixture pages cover HTTP/WebSocket and TLS. WebCrypto vectors have supplementary host checks, but all browser fixture outcomes still need to be established in the Symbian engine.
 
@@ -41,7 +41,6 @@ Verified environment preparation: SDK compiler, linker and stock E32 converter b
 
 ## Required validation
 
-- Browser SIS installation.
 - Local browser DOM/JS/Chinese rendering and input.
 - WebCrypto standard vectors and error inputs.
 - HTTP, WebSocket, HTTPS, WSS, untrusted certificates and hostname mismatch.

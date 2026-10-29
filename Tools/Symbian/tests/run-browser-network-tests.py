@@ -203,7 +203,8 @@ def stop_process_tree(process, known, excluded=()):
             os.killpg(process.pid, signal.SIGTERM)
         except ProcessLookupError:
             pass
-    deadline = time.monotonic() + 8
+    # Allow the driver's 5-second WM helper, 10-second exit wait and fallback.
+    deadline = time.monotonic() + 20
     while process.poll() is None and time.monotonic() < deadline:
         collect_descendants(known, excluded)
         time.sleep(0.05)
@@ -299,7 +300,9 @@ def run_suite(args, suite, output, work, lock):
                 process = subprocess.Popen([str(BROWSER_RUNNER), str(args.browser), url],
                                            stdout=stream, stderr=subprocess.STDOUT, env=environment,
                                            start_new_session=True, pass_fds=(lock.fileno(),))
-                deadline = time.monotonic() + args.timeout + 30
+                # Include screenshot (15s), WM helper (5s), graceful exit (10s),
+                # fallback termination (3s), and startup/collection overhead.
+                deadline = time.monotonic() + args.timeout + 45
                 while process.poll() is None:
                     collect_descendants(descendants, excluded)
                     if time.monotonic() >= deadline:

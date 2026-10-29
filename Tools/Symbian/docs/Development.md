@@ -24,6 +24,8 @@ ICU installs `icudt70l.dat` into `C:/resource/icu`; its SIS uses UID `0xE1A5C013
 
 Verify compilation, ELF linking, E32 conversion, SIS installation and guest execution separately. For JSC require a fresh log, expected PASS output, `jsc exiting 0`, and absence of guest panics or access violations; the emulator host's exit code alone is insufficient. Linux ARM QEMU is supplementary and does not exercise Symbian threads, chunks, files or AVKON.
 
-Browser validation proceeds from local DOM/JS/text rendering to WebCrypto vectors, HTTP/WebSocket, HTTPS/WSS and certificate/hostname rejection. TLS verification must stay enabled. Any test CA belongs only in the test emulator's trust file and must be restored afterward; never package it.
+Browser validation proceeds from local DOM/JS/text rendering to WebCrypto vectors, HTTP/WebSocket, HTTPS/WSS and certificate/hostname rejection. The X11 browser runner captures the screen, requests normal emulator window closure and reads logs after the host has flushed its buffered guest file writes. Early exit, nonzero exit and forced shutdown fail the run, even if a PASS marker is present. TLS verification must stay enabled. Any test CA belongs only in the test emulator's trust file and must be restored afterward; never package it.
+
+See [network-tests.md](../tests/network-tests.md) for the HTTP/TLS fixture server, exact report checks and isolated test trust setup.
 
 Current results are in [Port-2.52.md](Port-2.52.md). Historical design and 2.32 results are retained in [Development-2.32.md](Development-2.32.md).

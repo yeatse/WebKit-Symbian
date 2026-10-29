@@ -63,11 +63,12 @@ check('AES-CBC vector and PKCS7 round trip', async () => {
     await reject('OperationError', () => crypto.subtle.decrypt({ name: 'AES-CBC', iv: aesIV }, key, new Uint8Array()));
     await reject('OperationError', () => crypto.subtle.encrypt({ name: 'AES-CBC', iv: new Uint8Array(15) }, key, aesPlain));
 });
-check('AES-CFB8 vector', async () => {
-    const key = await importAES('AES-CFB', aesKey, ['encrypt', 'decrypt']);
-    const encrypted = await crypto.subtle.encrypt({ name: 'AES-CFB', iv: aesIV }, key, aesPlain);
+check('AES-CFB-8 vector', async () => {
+    const key = await importAES('AES-CFB-8', aesKey, ['encrypt', 'decrypt']);
+    equal(key.algorithm.name, 'AES-CFB-8');
+    const encrypted = await crypto.subtle.encrypt({ name: 'AES-CFB-8', iv: aesIV }, key, aesPlain);
     equal(hex(encrypted), '3b79424c9c0dd436bace9e0ed4586a4f');
-    equal(hex(await crypto.subtle.decrypt({ name: 'AES-CFB', iv: aesIV }, key, encrypted)), hex(aesPlain));
+    equal(hex(await crypto.subtle.decrypt({ name: 'AES-CFB-8', iv: aesIV }, key, encrypted)), hex(aesPlain));
 });
 check('AES-GCM NIST vector and tag rejection', async () => {
     const key = await importAES('AES-GCM', '00'.repeat(16), ['encrypt', 'decrypt']);
