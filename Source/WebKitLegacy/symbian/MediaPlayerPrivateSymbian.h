@@ -37,8 +37,8 @@ class PlatformMediaResource;
 namespace WebKitSymbian {
 
 // <audio> and <video> on the application's MediaPlayer: the media is
-// downloaded to a file through WebCore's loader, then opened. Video plays
-// under the page, which leaves its box transparent.
+// downloaded to a file through WebCore's loader, and opened while it
+// downloads. Video plays under the page, which leaves its box transparent.
 class MediaPlayerPrivateSymbian final : public WebCore::MediaPlayerPrivateInterface, public MediaPlayerClient, public CanMakeWeakPtr<MediaPlayerPrivateSymbian> {
     WTF_MAKE_FAST_ALLOCATED;
 public:
@@ -53,6 +53,7 @@ public:
     explicit MediaPlayerPrivateSymbian(WebCore::MediaPlayer*);
     ~MediaPlayerPrivateSymbian();
 
+    void didReceiveResponse(long long expectedContentLength);
     void didReceiveData(const char*, int);
     void didFinishLoading();
     void didFailLoading();
@@ -99,7 +100,11 @@ private:
     void mediaPlayerEnded(int error) final;
 
     void startLoading();
-    void open(const String& path);
+    bool createBackend();
+    void scanBoxes(const uint8_t*, size_t);
+    bool hasEnoughToOpen() const;
+    void openIfReady();
+    void open();
     void setNetworkState(WebCore::MediaPlayer::NetworkState);
     void setReadyState(WebCore::MediaPlayer::ReadyState);
     void updateVolume();
@@ -109,8 +114,38 @@ private:
     std::unique_ptr<MediaPlayer> m_backend;
     URL m_url;
     RefPtr<WebCore::PlatformMediaResource> m_resource;
-    FileSystem::PlatformFileHandle m_file { FileSystem::invalidPlatformFileHandle };
-    String m_downloadPath;
+    // The file the backend opens: the download, or a local file.
+    String m_path;
+    bool m_isDownload { false };
+
+    // The download, which plays as it arrives.
+    unsigned long long m_bytesReceived { 0 };
+    long long m_expectedLength { 0 };
+    bool m_complete { false };
+    // The size to reach before trying to open, which grows after a failed try.
+    unsigned long long m_openThreshold { 0 };
+    // What was there when the backend opened the file; partly means it
+    // opened before the download was complete, so it can end early.
+    unsigned long long m_bytesAtOpen { 0 };
+    bool m_openedPartly { false };
+    bool m_opening { false };
+    // The backend ended early, at m_stallBytes, and opens again when more has
+    // arrived; it then goes on from m_resumePosition.
+    bool m_stalled { false };
+    unsigned long long m_stallBytes { 0 };
+    double m_resumePosition { 0 };
+    mutable double m_lastPosition { 0 };
+
+    // An MP4 or 3GP file can play once its 'moov' box is there: it holds the
+    // index of the media data. A file with the data first can only play when
+    // it is complete.
+    enum class Boxes { None, Scanning, FoundMovie, DataFirst };
+    Boxes m_boxes { Boxes::None };
+    unsigned long long m_nextBox { 0 };
+    unsigned long long m_movieEnd { 0 };
+    uint8_t m_boxHeader[8];
+    unsigned m_boxHeaderLength { 0 };
+
     WebCore::MediaPlayer::NetworkState m_networkState { WebCore::MediaPlayer::NetworkState::Empty };
     WebCore::MediaPlayer::ReadyState m_readyState { WebCore::MediaPlayer::ReadyState::HaveNothing };
     WebCore::MediaPlayer::Preload m_preload { WebCore::MediaPlayer::Preload::Auto };

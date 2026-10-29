@@ -80,7 +80,8 @@ protected:
 };
 
 // <audio> and <video> play on the application's media players (the MMF
-// utilities), which open files: the engine downloads the media first.
+// utilities), which open files. Media from the network is written to a file
+// through the player as it downloads, and opened once enough of it is there.
 class MediaPlayerClient {
 public:
     // open() finished. The duration is 0 if unknown, the video size 0x0 for
@@ -97,7 +98,16 @@ class MediaPlayer {
 public:
     virtual ~MediaPlayer() = default;
 
+    // The download: the player stores the media in a file at path, in a way
+    // that lets it read the file while it is written. false is an error.
+    virtual bool createFile(const char* path) = 0;
+    virtual bool appendToFile(const char* data, int length) = 0;
+    virtual void closeFile() = 0;
+
     // path is UTF-8 with '/' separators and a drive, like "C:/Data/x.mp3".
+    // A download can be opened before it is complete; the player then ends
+    // early, at the end of what was there, and is opened again (closing
+    // what it had open) when more has arrived.
     virtual void open(const char* path) = 0;
     virtual void play() = 0;
     virtual void pause() = 0;

@@ -2,6 +2,7 @@
 
 #include <coemain.h>
 #include <e32debug.h>
+#include <f32file.h>
 #include <mdaaudiosampleplayer.h>
 #include <videoplayer.h>
 #include <w32std.h>
@@ -41,6 +42,56 @@ TTimeIntervalMicroSeconds Microseconds(double aSeconds)
     return TTimeIntervalMicroSeconds(static_cast<TInt64>(aSeconds * KMicrosecondsPerSecond));
 }
 
+// The download, written and read through handles that share the file. The
+// session is shared with the MMF server, which reads the file in its own
+// process.
+class TMediaFile {
+public:
+    void Close()
+    {
+        iReader.Close();
+        iWriter.Close();
+        iFs.Close();
+    }
+
+    bool Create(const char* aPath)
+    {
+        return Connect() == KErrNone
+            && iWriter.Replace(iFs, FileName(aPath), EFileWrite | EFileShareReadersOrWriters) == KErrNone;
+    }
+
+    bool Append(const char* aData, int aLength)
+    {
+        return iWriter.Write(TPtrC8(reinterpret_cast<const TUint8*>(aData), aLength)) == KErrNone;
+    }
+
+    void CloseWriter() { iWriter.Close(); }
+
+    // A handle to the file for the player, which must have closed the last one.
+    const RFile& ReaderL(const char* aPath)
+    {
+        User::LeaveIfError(Connect());
+        iReader.Close();
+        User::LeaveIfError(iReader.Open(iFs, FileName(aPath), EFileRead | EFileShareReadersOrWriters));
+        return iReader;
+    }
+
+private:
+    TInt Connect()
+    {
+        if (iFs.Handle())
+            return KErrNone;
+        TInt error = iFs.Connect();
+        if (!error)
+            error = iFs.ShareProtected();
+        return error;
+    }
+
+    RFs iFs;
+    RFile iWriter;
+    RFile iReader;
+};
+
 class CAudioPlayer final : public CBase, public MediaPlayer, public MMdaAudioPlayerCallback {
 public:
     explicit CAudioPlayer(MediaPlayerClient& aClient)
@@ -53,13 +104,22 @@ public:
         if (iUtility)
             iUtility->Close();
         delete iUtility;
+        iFile.Close();
     }
+
+    bool createFile(const char* aPath) final { return iFile.Create(aPath); }
+    bool appendToFile(const char* aData, int aLength) final { return iFile.Append(aData, aLength); }
+    void closeFile() final { iFile.CloseWriter(); }
 
     void open(const char* aPath) final
     {
+        iOpened = EFalse;
         TRAPD(error, {
-            iUtility = CMdaAudioPlayerUtility::NewL(*this);
-            iUtility->OpenFileL(FileName(aPath));
+            if (iUtility)
+                iUtility->Close();
+            else
+                iUtility = CMdaAudioPlayerUtility::NewL(*this);
+            iUtility->OpenFileL(iFile.ReaderL(aPath));
         });
         if (error)
             iClient.mediaPlayerOpened(error, 0, 0, 0);
@@ -97,6 +157,7 @@ public:
 
 private:
     MediaPlayerClient& iClient;
+    TMediaFile iFile;
     CMdaAudioPlayerUtility* iUtility { nullptr };
     TBool iOpened { EFalse };
     double iVolume { 1 };
@@ -115,16 +176,27 @@ public:
         if (iUtility)
             iUtility->Close();
         delete iUtility;
+        iFile.Close();
     }
+
+    bool createFile(const char* aPath) final { return iFile.Create(aPath); }
+    bool appendToFile(const char* aData, int aLength) final { return iFile.Append(aData, aLength); }
+    void closeFile() final { iFile.CloseWriter(); }
 
     void open(const char* aPath) final
     {
-        // Hidden (an empty clip) until the page paints the element.
+        iPrepared = EFalse;
+        iPlaying = EFalse;
         TRAPD(error, {
-            CCoeEnv* env = CCoeEnv::Static();
-            iUtility = CVideoPlayerUtility::NewL(*this, EMdaPriorityNormal, EMdaPriorityPreferenceTimeAndQuality,
-                env->WsSession(), *env->ScreenDevice(), iWindow, ScreenRect(iRect), TRect());
-            iUtility->OpenFileL(FileName(aPath));
+            if (iUtility) {
+                iUtility->Close();
+            } else {
+                // Hidden (an empty clip) until the page paints the element.
+                CCoeEnv* env = CCoeEnv::Static();
+                iUtility = CVideoPlayerUtility::NewL(*this, EMdaPriorityNormal, EMdaPriorityPreferenceTimeAndQuality,
+                    env->WsSession(), *env->ScreenDevice(), iWindow, ScreenRect(iRect), TRect());
+            }
+            iUtility->OpenFileL(iFile.ReaderL(aPath));
         });
         if (error)
             iClient.mediaPlayerOpened(error, 0, 0, 0);
@@ -170,14 +242,8 @@ public:
     void setVideoRect(const Rect& aRect, const Rect& aClip) final
     {
         iRect = TRect(TPoint(aRect.x, aRect.y), TSize(aRect.width, aRect.height));
-        TRect clip(TPoint(aClip.x, aClip.y), TSize(aClip.width, aClip.height));
-        if (!iUtility)
-            return;
-        CCoeEnv* env = CCoeEnv::Static();
-        TRAPD(error, iUtility->SetDisplayWindowL(env->WsSession(), *env->ScreenDevice(), iWindow,
-            ScreenRect(iRect), ScreenRect(clip)));
-        if (error)
-            RDebug::Printf("browser: video SetDisplayWindowL %d", error);
+        iClip = TRect(TPoint(aClip.x, aClip.y), TSize(aClip.width, aClip.height));
+        UpdateDisplayWindow();
     }
 
     // MVideoPlayerUtilityObserver
@@ -199,6 +265,8 @@ public:
             TRAP_IGNORE(duration = iUtility->DurationL());
             iPrepared = ETrue;
             setVolume(iVolume);
+            // Again, for a file opened again.
+            UpdateDisplayWindow();
         }
         iClient.mediaPlayerOpened(aError, Seconds(duration), size.iWidth, size.iHeight);
     }
@@ -214,6 +282,17 @@ public:
     void MvpuoEvent(const TMMFEvent&) final { }
 
 private:
+    void UpdateDisplayWindow()
+    {
+        if (!iUtility)
+            return;
+        CCoeEnv* env = CCoeEnv::Static();
+        TRAPD(error, iUtility->SetDisplayWindowL(env->WsSession(), *env->ScreenDevice(), iWindow,
+            ScreenRect(iRect), ScreenRect(iClip)));
+        if (error)
+            RDebug::Printf("browser: video SetDisplayWindowL %d", error);
+    }
+
     // The utility takes screen coordinates; the engine's are the window's.
     TRect ScreenRect(TRect aRect) const
     {
@@ -223,8 +302,10 @@ private:
 
     MediaPlayerClient& iClient;
     RWindowBase& iWindow;
+    TMediaFile iFile;
     CVideoPlayerUtility* iUtility { nullptr };
     TRect iRect;
+    TRect iClip;
     TBool iPrepared { EFalse };
     TBool iPlaying { EFalse };
     double iVolume { 1 };

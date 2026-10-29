@@ -141,6 +141,8 @@ private:
                 m_player->didFailLoading();
             return;
         }
+        if (m_player)
+            m_player->didReceiveResponse(response.expectedContentLength());
         completionHandler(ShouldContinuePolicyCheck::Yes);
     }
 
@@ -175,6 +177,12 @@ private:
 };
 
 } // namespace
+
+// How much of a download to have before opening it, and before opening it
+// again after the backend ran out of it.
+static constexpr unsigned long long minimumBytesToOpen = 64 * 1024;
+static constexpr unsigned long long bytesAfterMovie = 64 * 1024;
+static constexpr unsigned long long bytesToResume = 256 * 1024;
 
 MediaPlayerPrivateSymbian::MediaPlayerPrivateSymbian(WebCore::MediaPlayer* player)
     : m_player(player)
@@ -211,19 +219,31 @@ void MediaPlayerPrivateSymbian::prepareToPlay()
     startLoading();
 }
 
+bool MediaPlayerPrivateSymbian::createBackend()
+{
+    // The player for video can't tell an audio file's MIME type from a
+    // video's, so only the element and the type choose.
+    bool hasVideo = m_player->isVideoPlayer() && !m_player->contentMIMEType().startsWithIgnoringASCIICase("audio/");
+    m_backend.reset(s_factory ? s_factory(s_factoryContext, *this, hasVideo) : nullptr);
+    if (!m_backend) {
+        setNetworkState(WebCore::MediaPlayer::NetworkState::FormatError);
+        return false;
+    }
+    return true;
+}
+
 void MediaPlayerPrivateSymbian::startLoading()
 {
-    if (!s_factory) {
-        setNetworkState(WebCore::MediaPlayer::NetworkState::FormatError);
+    if (!createBackend())
         return;
-    }
 
     // A local file opens where it is. Its path is "/C:/...".
     if (m_url.isLocalFile()) {
-        String path = m_url.fileSystemPath();
-        if (path.length() > 2 && path[0] == '/' && path[2] == ':')
-            path = path.substring(1);
-        open(path);
+        m_path = m_url.fileSystemPath();
+        if (m_path.length() > 2 && m_path[0] == '/' && m_path[2] == ':')
+            m_path = m_path.substring(1);
+        m_complete = true;
+        open();
         return;
     }
 
@@ -241,12 +261,19 @@ void MediaPlayerPrivateSymbian::startLoading()
     if (dot != notFound && lastComponent.length() - dot <= 5)
         name = makeString(name, lastComponent.substring(dot));
     FileSystem::makeAllDirectories(mediaDirectory());
-    m_downloadPath = FileSystem::pathByAppendingComponent(mediaDirectory(), name);
-    m_file = FileSystem::openFile(m_downloadPath, FileSystem::FileOpenMode::Write);
-    if (!FileSystem::isHandleValid(m_file)) {
+    m_path = FileSystem::pathByAppendingComponent(mediaDirectory(), name);
+    m_isDownload = true;
+    if (!m_backend->createFile(m_path.utf8().data())) {
         setNetworkState(WebCore::MediaPlayer::NetworkState::NetworkError);
         return;
     }
+
+    auto type = m_player->contentMIMEType();
+    bool isMP4 = equalLettersIgnoringASCIICase(type, "video/mp4") || equalLettersIgnoringASCIICase(type, "audio/mp4")
+        || equalLettersIgnoringASCIICase(type, "video/3gpp") || equalLettersIgnoringASCIICase(type, "audio/3gpp")
+        || equalLettersIgnoringASCIICase(type, "video/x-m4v") || equalLettersIgnoringASCIICase(type, "audio/x-m4a");
+    m_boxes = isMP4 ? Boxes::Scanning : Boxes::None;
+    m_openThreshold = minimumBytesToOpen;
 
     m_resource = loader->requestResource(ResourceRequest(m_url), PlatformMediaResourceLoader::DisallowCaching);
     if (!m_resource) {
@@ -256,20 +283,90 @@ void MediaPlayerPrivateSymbian::startLoading()
     m_resource->setClient(ResourceClient::create(*this));
 }
 
+void MediaPlayerPrivateSymbian::didReceiveResponse(long long expectedContentLength)
+{
+    m_expectedLength = std::max(expectedContentLength, 0LL);
+}
+
 void MediaPlayerPrivateSymbian::didReceiveData(const char* data, int length)
 {
-    if (FileSystem::writeToFile(m_file, data, length) != length) {
+    if (!m_backend || !m_backend->appendToFile(data, length)) {
         didFailLoading();
         return;
     }
+    scanBoxes(reinterpret_cast<const uint8_t*>(data), length);
+    m_bytesReceived += length;
     m_loadingProgressed = true;
+    openIfReady();
+}
+
+// Follows the top-level boxes, [size:32][type:32][contents], of the data
+// that arrives at m_bytesReceived, to see where the 'moov' box ends.
+void MediaPlayerPrivateSymbian::scanBoxes(const uint8_t* data, size_t length)
+{
+    unsigned long long start = m_bytesReceived;
+    unsigned long long end = start + length;
+    while (m_boxes == Boxes::Scanning && m_nextBox + m_boxHeaderLength < end) {
+        // A header can span the chunks.
+        unsigned long long from = std::max(start, m_nextBox + m_boxHeaderLength);
+        while (m_boxHeaderLength < sizeof(m_boxHeader) && from < end)
+            m_boxHeader[m_boxHeaderLength++] = data[from++ - start];
+        if (m_boxHeaderLength < sizeof(m_boxHeader))
+            return;
+        m_boxHeaderLength = 0;
+
+        unsigned long long size = (static_cast<unsigned long long>(m_boxHeader[0]) << 24) | (m_boxHeader[1] << 16) | (m_boxHeader[2] << 8) | m_boxHeader[3];
+        const char* type = reinterpret_cast<const char*>(m_boxHeader + 4);
+        if (!memcmp(type, "mdat", 4) || size < sizeof(m_boxHeader)) {
+            // The data first, or a 64-bit size, which only 'mdat' boxes need.
+            m_boxes = Boxes::DataFirst;
+            return;
+        }
+        if (!memcmp(type, "moov", 4)) {
+            m_movieEnd = m_nextBox + size;
+            m_boxes = Boxes::FoundMovie;
+            return;
+        }
+        m_nextBox += size;
+    }
+}
+
+bool MediaPlayerPrivateSymbian::hasEnoughToOpen() const
+{
+    if (m_complete)
+        return true;
+    if (m_stalled)
+        return m_bytesReceived >= m_stallBytes + bytesToResume;
+    if (m_bytesReceived < m_openThreshold)
+        return false;
+    switch (m_boxes) {
+    case Boxes::None:
+        return true;
+    case Boxes::FoundMovie:
+        return m_bytesReceived >= m_movieEnd + bytesAfterMovie;
+    case Boxes::Scanning:
+    case Boxes::DataFirst:
+        return false;
+    }
+    return false;
+}
+
+void MediaPlayerPrivateSymbian::openIfReady()
+{
+    if (!m_backend || m_opening || (m_opened && !m_stalled) || !hasEnoughToOpen())
+        return;
+    open();
 }
 
 void MediaPlayerPrivateSymbian::didFinishLoading()
 {
-    FileSystem::closeFile(m_file);
+    if (m_backend)
+        m_backend->closeFile();
     m_resource = nullptr;
-    open(m_downloadPath);
+    m_complete = true;
+    if (m_opened && !m_stalled)
+        setNetworkState(WebCore::MediaPlayer::NetworkState::Loaded);
+    openIfReady();
 }
 
 void MediaPlayerPrivateSymbian::didFailLoading()
@@ -285,13 +382,28 @@ void MediaPlayerPrivateSymbian::cancelLoad()
         m_resource->setClient(nullptr);
         m_resource = nullptr;
     }
-    FileSystem::closeFile(m_file);
     setVideoRect({ });
+    // This closes the file before it goes.
     m_backend = nullptr;
-    if (!m_downloadPath.isEmpty()) {
-        FileSystem::deleteFile(m_downloadPath);
-        m_downloadPath = String();
-    }
+    if (m_isDownload)
+        FileSystem::deleteFile(m_path);
+    m_path = String();
+    m_isDownload = false;
+    m_bytesReceived = 0;
+    m_expectedLength = 0;
+    m_complete = false;
+    m_openThreshold = 0;
+    m_bytesAtOpen = 0;
+    m_openedPartly = false;
+    m_opening = false;
+    m_stalled = false;
+    m_stallBytes = 0;
+    m_resumePosition = 0;
+    m_lastPosition = 0;
+    m_boxes = Boxes::None;
+    m_nextBox = 0;
+    m_movieEnd = 0;
+    m_boxHeaderLength = 0;
     m_loadDeferred = false;
     m_opened = false;
     m_playing = false;
@@ -300,17 +412,13 @@ void MediaPlayerPrivateSymbian::cancelLoad()
     m_videoSize = { };
 }
 
-void MediaPlayerPrivateSymbian::open(const String& path)
+void MediaPlayerPrivateSymbian::open()
 {
-    // The player for video can't tell an audio file's MIME type from a
-    // video's, so only the element and the type choose.
-    bool hasVideo = m_player->isVideoPlayer() && !m_player->contentMIMEType().startsWithIgnoringASCIICase("audio/");
-    m_backend.reset(s_factory(s_factoryContext, *this, hasVideo));
-    if (!m_backend) {
-        setNetworkState(WebCore::MediaPlayer::NetworkState::FormatError);
-        return;
-    }
-    m_backend->open(path.utf8().data());
+    m_opening = true;
+    m_bytesAtOpen = m_bytesReceived;
+    m_openedPartly = !m_complete;
+    m_playing = false;
+    m_backend->open(m_path.utf8().data());
 }
 
 void MediaPlayerPrivateSymbian::mediaPlayerOpened(int error, double duration, int videoWidth, int videoHeight)
@@ -321,22 +429,49 @@ void MediaPlayerPrivateSymbian::mediaPlayerOpened(int error, double duration, in
         if (!weakThis)
             return;
         auto& player = *weakThis;
+        player.m_opening = false;
         if (error) {
-            player.m_backend = nullptr;
+            if (!player.m_complete) {
+                // Not enough of it yet: try again with more.
+                player.m_openThreshold = player.m_bytesReceived * 2;
+                player.m_stallBytes = player.m_bytesReceived;
+                return;
+            }
+            player.m_opened = false;
             player.setNetworkState(WebCore::MediaPlayer::NetworkState::FormatError);
             return;
         }
+
+        // Other than an MP4 index, what a partial file has tells the duration
+        // of only that part. Scale it to the whole, as for a constant bit rate.
+        double fullDuration = duration;
+        if (player.m_openedPartly && player.m_boxes == Boxes::None && player.m_expectedLength > 0 && player.m_bytesAtOpen)
+            fullDuration = duration * player.m_expectedLength / player.m_bytesAtOpen;
+
+        bool wasOpened = player.m_opened;
         player.m_opened = true;
-        player.m_duration = duration;
-        player.m_videoSize = FloatSize(videoWidth, videoHeight);
+        player.m_stalled = false;
         player.m_loadingProgressed = true;
-        player.updateVolume();
-        player.m_player->durationChanged();
-        if (!player.m_videoSize.isEmpty())
+        if (fullDuration != player.m_duration) {
+            player.m_duration = fullDuration;
+            player.m_player->durationChanged();
+        }
+        FloatSize videoSize(videoWidth, videoHeight);
+        if (videoSize != player.m_videoSize) {
+            player.m_videoSize = videoSize;
             player.m_player->sizeChanged();
-        player.m_player->characteristicChanged();
+        }
+        if (!wasOpened)
+            player.m_player->characteristicChanged();
+        player.updateVolume();
+        if (player.m_resumePosition > 0) {
+            player.m_backend->setPosition(player.m_resumePosition);
+            player.m_lastPosition = player.m_resumePosition;
+            player.m_resumePosition = 0;
+        }
         player.setReadyState(WebCore::MediaPlayer::ReadyState::HaveEnoughData);
-        player.setNetworkState(WebCore::MediaPlayer::NetworkState::Loaded);
+        if (player.m_complete)
+            player.setNetworkState(WebCore::MediaPlayer::NetworkState::Loaded);
         if (!player.m_paused) {
             player.m_backend->play();
             player.m_playing = true;
@@ -351,6 +486,18 @@ void MediaPlayerPrivateSymbian::mediaPlayerEnded(int error)
             return;
         auto& player = *weakThis;
         player.m_playing = false;
+        // A file opened before it was complete ends where it ended then:
+        // wait for more and go on from there.
+        if (player.m_openedPartly && (error || player.m_lastPosition < player.m_duration - 1)) {
+            player.m_stalled = true;
+            player.m_stallBytes = player.m_bytesReceived;
+            player.m_resumePosition = player.m_lastPosition;
+            player.setReadyState(WebCore::MediaPlayer::ReadyState::HaveCurrentData);
+            if (player.m_complete)
+                player.setNetworkState(WebCore::MediaPlayer::NetworkState::Loading);
+            player.openIfReady();
+            return;
+        }
         if (error) {
             player.setNetworkState(WebCore::MediaPlayer::NetworkState::DecodeError);
             return;
@@ -364,7 +511,7 @@ void MediaPlayerPrivateSymbian::mediaPlayerEnded(int error)
 void MediaPlayerPrivateSymbian::play()
 {
     m_paused = false;
-    if (m_opened && !m_playing) {
+    if (m_opened && !m_stalled && !m_opening && !m_playing) {
         m_backend->play();
         m_playing = true;
     }
@@ -392,7 +539,10 @@ MediaTime MediaPlayerPrivateSymbian::currentMediaTime() const
         return MediaTime::zeroTime();
     if (m_ended)
         return durationMediaTime();
-    return MediaTime::createWithDouble(std::min(m_backend->position(), m_duration));
+    if (m_stalled || m_opening)
+        return MediaTime::createWithDouble(m_resumePosition ? m_resumePosition : m_lastPosition);
+    m_lastPosition = std::min(m_backend->position(), m_duration);
+    return MediaTime::createWithDouble(m_lastPosition);
 }
 
 void MediaPlayerPrivateSymbian::seek(const MediaTime& time)
@@ -401,11 +551,18 @@ void MediaPlayerPrivateSymbian::seek(const MediaTime& time)
         return;
     m_seeking = true;
     m_ended = false;
-    m_backend->setPosition(std::max(0.0, std::min(time.toDouble(), m_duration)));
-    // A player that reached the end has stopped.
-    if (!m_paused && !m_playing) {
-        m_backend->play();
-        m_playing = true;
+    double position = std::max(0.0, std::min(time.toDouble(), m_duration));
+    if (m_stalled || m_opening) {
+        // For when it opens again.
+        m_resumePosition = position;
+    } else {
+        m_backend->setPosition(position);
+        m_lastPosition = position;
+        // A player that reached the end has stopped.
+        if (!m_paused && !m_playing) {
+            m_backend->play();
+            m_playing = true;
+        }
     }
     RunLoop::main().dispatch([weakThis = makeWeakPtr(*this)] {
         if (!weakThis)
@@ -437,7 +594,13 @@ std::unique_ptr<PlatformTimeRanges> MediaPlayerPrivateSymbian::buffered() const
 {
     if (!m_opened || !m_duration)
         return makeUnique<PlatformTimeRanges>();
-    return makeUnique<PlatformTimeRanges>(MediaTime::zeroTime(), durationMediaTime());
+    if (m_complete)
+        return makeUnique<PlatformTimeRanges>(MediaTime::zeroTime(), durationMediaTime());
+    if (!m_expectedLength)
+        return makeUnique<PlatformTimeRanges>();
+    // As if the file were played at a constant rate.
+    double fraction = std::min(1.0, static_cast<double>(m_bytesReceived) / m_expectedLength);
+    return makeUnique<PlatformTimeRanges>(MediaTime::zeroTime(), MediaTime::createWithDouble(m_duration * fraction));
 }
 
 bool MediaPlayerPrivateSymbian::didLoadingProgress() const
