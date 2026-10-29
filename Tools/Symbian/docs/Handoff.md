@@ -92,7 +92,6 @@ git am /path/to/WebKit-Symbian/Tools/Symbian/patches/eka2l1/000{1,5}-*.patch
 
 ## 待办
 
-1. AVKON 风格的表单控件（`RenderTheme`）。
-2. 手机上的速度：先测量，再考虑滚动 blit 和局部 `-O2`。
-3. 在手机上验证：桌面页面（980 像素布局、双击缩放），以及多个 HTTPS 连接共享 CA 链后不再出现 `mbedTLS -0x2880`。
-4. 远期：基于 GLES2 TextureMapper 的硬件合成。N8 有 OpenGL ES 2.0 和 EGL，但 GPU 内存和纹理上传都是瓶颈，GOOM 会杀进程，所以要单独评估。
+1. 手机上的速度：先测量，再考虑滚动 blit 和局部 `-O2`。
+2. 在手机上验证：桌面页面（980 像素布局、双击缩放），多个 HTTPS 连接共享 CA 链后不再出现 `mbedTLS -0x2880`，以及表单控件在真机字体和缩放下的样子。
+3. 远期：基于 GLES2 TextureMapper 的硬件合成。N8 有 OpenGL ES 2.0 和 EGL，但 GPU 内存和纹理上传都是瓶颈，GOOM 会杀进程，所以要单独评估。

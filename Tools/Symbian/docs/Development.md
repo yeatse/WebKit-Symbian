@@ -287,7 +287,7 @@ A further commit fixes constant-expression errors from current Clang.
   * Root certificates are read from `C:\resource\webkit\cacert.pem`, or from `CURL_CA_BUNDLE` if set. `browser.sis` installs Mozilla's roots there, as curl's maintainers extract them (`scripts/package-sis.sh` downloads a pinned, checksummed release). They are parsed once, on the first HTTPS connection, and every connection after it shares that chain (`mbedtls_fs_shared_ca_chain` in `shims/mbedtls-fs.c`); curl parsed the bundle for each connection, and phones ran out of memory with a few open (`mbedTLS -0x2880`).
   * PAL's digests (SHA-1/256/384/512) also use mbedTLS.
   * Public suffixes come from libpsl.
-* **Theme**: Adwaita.
+* **Theme**: Adwaita, with Symbian^3 colours and shapes under `PLATFORM(SYMBIAN)` in `ThemeAdwaita.cpp` and `RenderThemeAdwaita.cpp`: silver gradient buttons and menulists (the list arrow behind a divider), blue pressed buttons, a solid blue focus ring and selection, 16-pixel checkboxes and radios filled blue when checked, and text fields with a darker border and squarer corners. Hover is ignored, since a tap leaves the pointer over the control. Progress bars, sliders and spin buttons keep Adwaita's shapes.
 * **Event loop**: WTF's generic `RunLoop` and `WorkQueue`.
 * **Pasteboard and editing**: the libwpe code, which hands everything to the API layer's `PasteboardStrategy`.
 * **Platform files** in `platform/symbian/`:
@@ -380,7 +380,7 @@ Tested in EKA2L1 with the Nokia X7 firmware:
   * CSS gradients and rounded borders
   * Chinese text in the phone's own font
   * ES2020 script
-  * Adwaita form controls
+  * form controls in the Symbian^3 look
 * **Input**: taps click; alerts show; `<select>` opens a native list and takes the choice.
 * **Inline editing**: `fep-selftest` on the command line replays a FEP's calls when a field is focused and logs the field after each step. Pinyin inline text, conversion, commit, typed keys, cursor moves, cancelling, replacing a selection and backspace all produce the expected text.
 
@@ -418,6 +418,5 @@ WebKit's own files keep their licenses (BSD-2-Clause / LGPL-2.1); the new `wtf/s
 * **Browser**: renders pages and takes touch input in EKA2L1, and opens local pages on a phone. The first phone runs could not resolve host names: there was no access point, which the shell now starts itself, and then curl's resolver failed on `socketpair()`, which curl is now built without.
 * **Next**:
   * testing on the phone: HTTP and HTTPS, the partial screen input, memory with a 31 MB image
-  * AVKON-skinned form controls (`RenderTheme`)
   * the speed of the `-Os` build on the phone: measure first, then scroll blitting and selective `-O2`
   * following the connection manager for the online state

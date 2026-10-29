@@ -45,7 +45,15 @@
 namespace WebCore {
 
 static const int textFieldBorderSize = 1;
+#if PLATFORM(SYMBIAN)
+// Symbian^3 look: a darker field border and squarer corners, matching the AVKON editors.
+static const float textFieldCornerRadius = 3;
+static constexpr auto textFieldBorderColor = SRGBA<uint8_t> { 150, 150, 150 };
+static constexpr auto menuListButtonSeparatorColor = SRGBA<uint8_t> { 180, 180, 180 };
+#else
+static const float textFieldCornerRadius = 5;
 static constexpr auto textFieldBorderColor = SRGBA<uint8_t> { 205, 199, 194 };
+#endif
 static constexpr auto textFieldBorderDisabledColor = SRGBA<uint8_t> { 213, 208, 204 };
 static constexpr auto textFieldBackgroundColor = Color::white;
 static constexpr auto textFieldBackgroundDisabledColor = SRGBA<uint8_t> { 252, 252, 252 };
@@ -188,7 +196,7 @@ bool RenderThemeAdwaita::paintTextField(const RenderObject& renderObject, const 
         borderSize *= 2;
 
     FloatRect fieldRect = rect;
-    FloatSize corner(5, 5);
+    FloatSize corner(textFieldCornerRadius, textFieldCornerRadius);
     Path path;
     path.addRoundedRect(fieldRect, corner);
     fieldRect.inflate(-borderSize);
@@ -286,6 +294,13 @@ bool RenderThemeAdwaita::paintMenuList(const RenderObject& renderObject, const P
         fieldRect.move(menuListButtonPadding, (fieldRect.height() / 2.) - (menuListButtonArrowSize / 2));
     fieldRect.setWidth(menuListButtonArrowSize);
     fieldRect.setHeight(menuListButtonArrowSize);
+#if PLATFORM(SYMBIAN)
+    if (rect.height() > menuListButtonArrowSize) {
+        float separatorX = renderObject.style().direction() == TextDirection::LTR ? fieldRect.x() - menuListButtonPadding / 2. : fieldRect.maxX() + menuListButtonPadding / 2.;
+        float inset = rect.height() / 5.;
+        graphicsContext.fillRect({ separatorX, rect.y() + inset, 1, rect.height() - 2 * inset }, menuListButtonSeparatorColor);
+    }
+#endif
     {
         GraphicsContextStateSaver arrowStateSaver(graphicsContext);
         graphicsContext.translate(fieldRect.x(), fieldRect.y());

@@ -29,12 +29,52 @@
 #include "Color.h"
 #include "ControlStates.h"
 #include "FloatRoundedRect.h"
+#include "Gradient.h"
 #include "GraphicsContext.h"
 #include "LengthSize.h"
 #include <wtf/NeverDestroyed.h>
 
 namespace WebCore {
 
+#if PLATFORM(SYMBIAN)
+// Symbian^3 look: silver gradient buttons, solid blue focus and highlight, larger toggles for touch.
+static const unsigned focusLineWidth = 2;
+static constexpr auto focusRingColor = SRGBA<uint8_t> { 41, 128, 214, 220 };
+static const unsigned arrowSize = 16;
+static constexpr auto arrowColor = SRGBA<uint8_t> { 64, 64, 64 };
+static const int buttonFocusOffset = -1;
+static const unsigned buttonPadding = 5;
+static const int buttonBorderSize = 1; // Keep in sync with menuListButtonBorderSize in RenderThemeAdwaita.
+static const float buttonCornerRadius = 6;
+static constexpr auto buttonBorderColor = SRGBA<uint8_t> { 150, 150, 150 };
+static constexpr auto buttonBackgroundColor = SRGBA<uint8_t> { 255, 255, 255 };
+static constexpr auto buttonBackgroundBottomColor = SRGBA<uint8_t> { 214, 214, 214 };
+static constexpr auto buttonBackgroundPressedColor = SRGBA<uint8_t> { 110, 170, 232 };
+static constexpr auto buttonBackgroundPressedBottomColor = SRGBA<uint8_t> { 160, 202, 244 };
+static constexpr auto buttonBackgroundDisabledColor = SRGBA<uint8_t> { 238, 238, 238 };
+static constexpr auto toggleBackgroundColor = Color::white;
+static constexpr auto toggleBackgroundHoveredColor = toggleBackgroundColor;
+static constexpr auto toggleBackgroundDisabledColor = SRGBA<uint8_t> { 238, 238, 238 };
+static constexpr auto toggleCheckedBackgroundColor = SRGBA<uint8_t> { 41, 128, 214 };
+static const double toggleSize = 14.;
+static const int toggleControlSize = 16;
+static const int toggleFocusOffset = 1;
+static constexpr auto toggleColor = Color::white;
+static constexpr auto toggleDisabledColor = SRGBA<uint8_t> { 160, 160, 160 };
+static constexpr auto spinButtonBorderColor = buttonBorderColor;
+static constexpr auto spinButtonBackgroundColor = SRGBA<uint8_t> { 244, 244, 244 };
+static constexpr auto spinButtonBackgroundHoveredColor = SRGBA<uint8_t> { 41, 128, 214, 30 };
+static constexpr auto spinButtonBackgroundPressedColor = SRGBA<uint8_t> { 41, 128, 214, 90 };
+
+static void fillVerticalGradient(GraphicsContext& graphicsContext, const Path& path, const FloatRect& rect, const Color& top, const Color& bottom)
+{
+    auto gradient = Gradient::create(Gradient::LinearData { rect.minXMinYCorner(), rect.minXMaxYCorner() });
+    gradient->addColorStop({ 0, top });
+    gradient->addColorStop({ 1, bottom });
+    graphicsContext.setFillGradient(WTFMove(gradient));
+    graphicsContext.fillPath(path);
+}
+#else
 static const unsigned focusLineWidth = 1;
 static constexpr auto focusRingColor = SRGBA<uint8_t> { 46, 52, 54, 150 };
 static const unsigned arrowSize = 16;
@@ -51,6 +91,7 @@ static constexpr auto toggleBackgroundColor = Color::white;
 static constexpr auto toggleBackgroundHoveredColor = SRGBA<uint8_t> { 242, 242, 242 };
 static constexpr auto toggleBackgroundDisabledColor = SRGBA<uint8_t> { 252, 252, 252 };
 static const double toggleSize = 14.;
+static const int toggleControlSize = 12;
 static const int toggleFocusOffset = 2;
 static constexpr auto toggleColor = SRGBA<uint8_t> { 46, 52, 54 };
 static constexpr auto toggleDisabledColor = SRGBA<uint8_t> { 160, 160, 160 };
@@ -58,6 +99,8 @@ static constexpr auto spinButtonBorderColor = SRGBA<uint8_t> { 220, 223, 227 };
 static constexpr auto spinButtonBackgroundColor = SRGBA<uint8_t> { 252, 252, 252 };
 static constexpr auto spinButtonBackgroundHoveredColor = SRGBA<uint8_t> { 46, 52, 54, 50 };
 static constexpr auto spinButtonBackgroundPressedColor = SRGBA<uint8_t> { 46, 52, 54, 70 };
+
+#endif
 
 #if !PLATFORM(GTK) || USE(GTK4)
 Theme& Theme::singleton()
@@ -74,7 +117,11 @@ Color ThemeAdwaita::activeSelectionForegroundColor() const
 
 Color ThemeAdwaita::activeSelectionBackgroundColor() const
 {
+#if PLATFORM(SYMBIAN)
+    return SRGBA<uint8_t> { 41, 128, 214 };
+#else
     return SRGBA<uint8_t> { 52, 132, 228 };
+#endif
 }
 
 Color ThemeAdwaita::inactiveSelectionForegroundColor() const
@@ -97,7 +144,11 @@ void ThemeAdwaita::paintFocus(GraphicsContext& graphicsContext, const FloatRect&
     FloatRect focusRect = rect;
     focusRect.inflate(offset);
     Path path;
+#if PLATFORM(SYMBIAN)
+    path.addRoundedRect(focusRect, { buttonCornerRadius, buttonCornerRadius });
+#else
     path.addRoundedRect(focusRect, { 2, 2 });
+#endif
     paintFocus(graphicsContext, path, focusRingColor);
 }
 
@@ -105,6 +156,11 @@ void ThemeAdwaita::paintFocus(GraphicsContext& graphicsContext, const Path& path
 {
     GraphicsContextStateSaver stateSaver(graphicsContext);
 
+#if PLATFORM(SYMBIAN)
+    graphicsContext.setStrokeThickness(focusLineWidth);
+    graphicsContext.setStrokeColor(color);
+    graphicsContext.strokePath(path);
+#else
     graphicsContext.beginTransparencyLayer(color.alphaAsFloat());
     graphicsContext.setStrokeThickness(focusLineWidth);
     graphicsContext.setLineDash({ focusLineWidth, 2 * focusLineWidth }, 0);
@@ -117,6 +173,7 @@ void ThemeAdwaita::paintFocus(GraphicsContext& graphicsContext, const Path& path
     graphicsContext.fillPath(path);
     graphicsContext.setCompositeOperation(CompositeOperator::SourceOver);
     graphicsContext.endTransparencyLayer();
+#endif
 }
 
 void ThemeAdwaita::paintFocus(GraphicsContext& graphicsContext, const Vector<FloatRect>& rects, const Color& color)
@@ -159,9 +216,9 @@ LengthSize ThemeAdwaita::controlSize(ControlPart part, const FontCascade& fontCa
     case RadioPart: {
         LengthSize buttonSize = zoomedSize;
         if (buttonSize.width.isIntrinsicOrAuto())
-            buttonSize.width = Length(12, LengthType::Fixed);
+            buttonSize.width = Length(toggleControlSize, LengthType::Fixed);
         if (buttonSize.height.isIntrinsicOrAuto())
-            buttonSize.height = Length(12, LengthType::Fixed);
+            buttonSize.height = Length(toggleControlSize, LengthType::Fixed);
         return buttonSize;
     }
     case InnerSpinButtonPart: {
@@ -259,6 +316,10 @@ void ThemeAdwaita::paintCheckbox(ControlStates& states, GraphicsContext& graphic
     graphicsContext.setFillRule(WindRule::NonZero);
     if (!(states.states() & ControlStates::EnabledState))
         graphicsContext.setFillColor(toggleBackgroundDisabledColor);
+#if PLATFORM(SYMBIAN)
+    else if (states.states() & (ControlStates::CheckedState | ControlStates::IndeterminateState))
+        graphicsContext.setFillColor(toggleCheckedBackgroundColor);
+#endif
     else if (states.states() & ControlStates::HoverState)
         graphicsContext.setFillColor(toggleBackgroundHoveredColor);
     else
@@ -320,6 +381,10 @@ void ThemeAdwaita::paintRadio(ControlStates& states, GraphicsContext& graphicsCo
     graphicsContext.setFillRule(WindRule::NonZero);
     if (!(states.states() & ControlStates::EnabledState))
         graphicsContext.setFillColor(toggleBackgroundDisabledColor);
+#if PLATFORM(SYMBIAN)
+    else if (states.states() & ControlStates::CheckedState)
+        graphicsContext.setFillColor(toggleCheckedBackgroundColor);
+#endif
     else if (states.states() & ControlStates::HoverState)
         graphicsContext.setFillColor(toggleBackgroundHoveredColor);
     else
@@ -328,7 +393,11 @@ void ThemeAdwaita::paintRadio(ControlStates& states, GraphicsContext& graphicsCo
     path.clear();
 
     if (states.states() & ControlStates::CheckedState) {
+#if PLATFORM(SYMBIAN)
+        fieldRect.inflate(-fieldRect.width() * 0.3);
+#else
         fieldRect.inflate(-(fieldRect.width() - fieldRect.width() * 0.70));
+#endif
         path.addEllipse(fieldRect);
         if (!(states.states() & ControlStates::EnabledState))
             graphicsContext.setFillColor(toggleDisabledColor);
@@ -346,7 +415,11 @@ void ThemeAdwaita::paintButton(ControlStates& states, GraphicsContext& graphicsC
     GraphicsContextStateSaver stateSaver(graphicsContext);
 
     FloatRect fieldRect = zoomedRect;
+#if PLATFORM(SYMBIAN)
+    FloatSize corner(buttonCornerRadius, buttonCornerRadius);
+#else
     FloatSize corner(5, 5);
+#endif
     Path path;
     path.addRoundedRect(fieldRect, corner);
     fieldRect.inflate(-buttonBorderSize);
@@ -359,6 +432,14 @@ void ThemeAdwaita::paintButton(ControlStates& states, GraphicsContext& graphicsC
 
     path.addRoundedRect(fieldRect, corner);
     graphicsContext.setFillRule(WindRule::NonZero);
+#if PLATFORM(SYMBIAN)
+    if (!(states.states() & ControlStates::EnabledState))
+        fillVerticalGradient(graphicsContext, path, fieldRect, buttonBackgroundDisabledColor, buttonBackgroundDisabledColor);
+    else if (states.states() & ControlStates::PressedState)
+        fillVerticalGradient(graphicsContext, path, fieldRect, buttonBackgroundPressedColor, buttonBackgroundPressedBottomColor);
+    else
+        fillVerticalGradient(graphicsContext, path, fieldRect, buttonBackgroundColor, buttonBackgroundBottomColor);
+#else
     if (!(states.states() & ControlStates::EnabledState))
         graphicsContext.setFillColor(buttonBackgroundDisabledColor);
     else if (states.states() & ControlStates::PressedState)
@@ -368,6 +449,7 @@ void ThemeAdwaita::paintButton(ControlStates& states, GraphicsContext& graphicsC
     else
         graphicsContext.setFillColor(buttonBackgroundColor);
     graphicsContext.fillPath(path);
+#endif
 
     if (states.states() & ControlStates::FocusState)
         paintFocus(graphicsContext, zoomedRect, buttonFocusOffset);
