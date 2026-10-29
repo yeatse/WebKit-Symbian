@@ -9,6 +9,7 @@
 # The repository secrets SIS_CERTIFICATE and SIS_KEY (a PEM certificate and
 # its RSA key), if set, sign them instead.
 name: Symbian
+run-name: 'Symbian 2.52.6 (${{ github.ref_name }}) #${{ github.run_number }}'
 
 on:
   push:
@@ -116,19 +117,19 @@ jobs:
         id: icu
         with:
           path: WebKitBuild/Symbian/icu
-          key: icu-${{ hashFiles('Tools/Symbian/scripts/build-icu.sh', 'Tools/Symbian/scripts/icu-filter.py', 'Tools/Symbian/patches/icu-70.1/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**') }}
+          key: icu-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-icu.sh', 'Tools/Symbian/scripts/icu-filter.py', 'Tools/Symbian/patches/icu-70.1/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**') }}
       - name: Restore the WebCore libraries
         uses: actions/cache/restore@v4
         id: deps
         with:
           path: WebKitBuild/Symbian/deps/install
-          key: deps-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**') }}
+          key: deps-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**') }}
       - name: Restore the compiler cache
         uses: actions/cache/restore@v4
         with:
           path: WebKitBuild/Symbian/ccache
-          key: ccache-${{ github.sha }}
-          restore-keys: ccache-
+          key: ccache-symbian-2.52.6-${{ env.SDK_VERSION }}-${{ github.sha }}
+          restore-keys: ccache-symbian-2.52.6-${{ env.SDK_VERSION }}-
 
       - name: E32 converter
         run: scripts/build-symbian-native.sh
@@ -166,15 +167,14 @@ jobs:
           key: ${{ steps.deps.outputs.cache-primary-key }}
       - name: WebCore
         run: scripts/build-webcore.sh
+      - name: browser.exe
+        run: scripts/build-browser.sh
       - name: Save the compiler cache
         if: always()
         uses: actions/cache/save@v4
         with:
           path: WebKitBuild/Symbian/ccache
-          key: ccache-${{ github.sha }}
-      - name: browser.exe
-        run: scripts/build-browser.sh
-
+          key: ccache-symbian-2.52.6-${{ env.SDK_VERSION }}-${{ github.sha }}
       - name: SIS packages
         env:
           SIS_CERTIFICATE_PEM: ${{ secrets.SIS_CERTIFICATE }}
@@ -188,13 +188,24 @@ jobs:
           export SIS_VERSION=0.3.$GITHUB_RUN_NUMBER
           if [[ $GITHUB_REF == refs/tags/symbian-v* ]]; then export SIS_VERSION=${GITHUB_REF_NAME#symbian-v}; fi
           scripts/package-sis.sh
+          printf 'SIS_VERSION=%s\n' "$SIS_VERSION" >> "$GITHUB_ENV"
+          (
+            cd "$SYMBIAN_WEBKIT_WORK/sis"
+            for package in symbian-webkit-icu.sis jsc.sis browser.sis; do test -s "$package"; done
+            sha256sum symbian-webkit-icu.sis jsc.sis browser.sis > SHA256SUMS
+          )
           rm -f "$RUNNER_TEMP/sis.key"
           ccache -s
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload SIS packages
+        id: sis
+        uses: actions/upload-artifact@v4
         with:
           name: sis
-          path: WebKitBuild/Symbian/sis/*.sis
+          path: |
+            WebKitBuild/Symbian/sis/*.sis
+            WebKitBuild/Symbian/sis/SHA256SUMS
+          compression-level: 0
           if-no-files-found: error
       # Keep an ELF even when E32 conversion or packaging fails.
       - uses: actions/upload-artifact@v4
@@ -204,6 +215,19 @@ jobs:
           path: WebKitBuild/Symbian/build/browser/browser.elf
           retention-days: 30
           if-no-files-found: warn
+      - name: Package download summary
+        env:
+          SIS_ARTIFACT_URL: ${{ steps.sis.outputs.artifact-url }}
+        run: |
+          {
+            printf '### WebKit 2.52.6 for Symbian\n\n'
+            printf '[Download SIS packages](%s) · Version `%s`\n\n' "$SIS_ARTIFACT_URL" "$SIS_VERSION"
+            printf 'Branch: `%s` · Commit: `%s`\n\n' "$GITHUB_REF_NAME" "$GITHUB_SHA"
+            printf 'Install `symbian-webkit-icu.sis` first, then `browser.sis` and/or `jsc.sis`.\n\n'
+            printf '```text\n'
+            cat "$SYMBIAN_WEBKIT_WORK/sis/SHA256SUMS"
+            printf '```\n'
+          } >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
