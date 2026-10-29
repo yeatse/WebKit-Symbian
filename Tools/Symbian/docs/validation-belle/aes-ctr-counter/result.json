@@ -1,0 +1,26 @@
+[
+  {
+    "version": "before",
+    "source": "Source/WebCore/crypto/algorithms/CryptoAlgorithmAESCTR.cpp",
+    "source_sha256": "f772d13e4c1795cee6b6062061dc8576b47dfbe065869f709e93b824b92feadc",
+    "header_sha256": "6f1015fdf1ef613d23c4f3dbceb30bad0df3fe0fc8c33f8a56082a3859400d10",
+    "methods_sha256": "50dfc1ba480ade2618c686197210fb94b07acebde87c214117291ef1e2314534",
+    "probe_sha256": "f59d12917052e3e78ccc1727b4699f64652e67f1b60cc3318f62abc515cec84b",
+    "guest_exit": 1,
+    "cases": 35,
+    "failures": 4,
+    "guest_log_sha256": "65c9c7d1af84f71b79d3b301dacaf571435a55f4d7a357bea7877119d85d48c4"
+  },
+  {
+    "version": "after",
+    "source": "Source/WebCore/crypto/algorithms/CryptoAlgorithmAESCTR.cpp",
+    "source_sha256": "b0fa5b71c98957e8560f6e2f98763099365ffd69d69335ca6231ed40f3d6ed18",
+    "header_sha256": "6f1015fdf1ef613d23c4f3dbceb30bad0df3fe0fc8c33f8a56082a3859400d10",
+    "methods_sha256": "195f9cb830f34c6ba1ce8f0788da25aa7270527e0e29adcc5023c6400c265bd8",
+    "probe_sha256": "14fd41c30d2536a1deeb3dae9844a786e66902b861bae8706be0d6c78c83957a",
+    "guest_exit": 0,
+    "cases": 35,
+    "failures": 0,
+    "guest_log_sha256": "dab789f663c0204513ba5c4101f0f8bf589bf33fa247d12aa7579e8678bedd0a"
+  }
+]

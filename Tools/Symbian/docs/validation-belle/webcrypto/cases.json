@@ -1,0 +1,150 @@
+{
+  "suite": "crypto",
+  "checks": [
+    {
+      "name": "SHA-1 abc",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "SHA-256 abc",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "SHA-384 abc",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "SHA-512 abc",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "HMAC SHA-256 sign and verify",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "HKDF SHA-256 RFC 5869 case 1",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "PBKDF2 SHA-256",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CBC vector and PKCS7 round trip",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CFB-8 deprecated API rejection",
+      "status": "PASS",
+      "meaning": "unsupported algorithm correctly rejected"
+    },
+    {
+      "name": "AES-CTR NIST 128-bit key",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR NIST 192-bit key",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR NIST 256-bit key",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR counter 1 bits / 32 bytes",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR counter 7 bits / 33 bytes",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR counter 33 bits / 1 bytes",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR counter 64 bits / 1 bytes",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR counter 128 bits / 1 bytes",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR counter 128 bits / 17 bytes",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR rejects repeated counters and invalid parameters",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-CTR key import/export and wrapping",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-GCM NIST vector and tag rejection",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-GCM authenticated data and empty input",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES-KW RFC 3394 and integrity rejection",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "AES key length and usage rejection",
+      "status": "PASS",
+      "meaning": "vector/behavior check passed"
+    },
+    {
+      "name": "RSA-PSS is not registered",
+      "status": "PASS",
+      "meaning": "unsupported algorithm correctly rejected"
+    },
+    {
+      "name": "ECDSA is not registered",
+      "status": "PASS",
+      "meaning": "unsupported algorithm correctly rejected"
+    },
+    {
+      "name": "Ed25519 is not registered",
+      "status": "PASS",
+      "meaning": "unsupported algorithm correctly rejected"
+    },
+    {
+      "name": "X25519 is not registered",
+      "status": "PASS",
+      "meaning": "unsupported algorithm correctly rejected"
+    },
+    {
+      "name": "SHA-224 is not registered",
+      "status": "PASS",
+      "meaning": "unsupported algorithm correctly rejected"
+    }
+  ]
+}

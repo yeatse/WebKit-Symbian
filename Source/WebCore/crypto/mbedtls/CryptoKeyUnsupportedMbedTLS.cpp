@@ -26,7 +26,6 @@
 #include "CryptoKeyEC.h"
 #include "CryptoKeyRSA.h"
 
-#include "CryptoAlgorithmAESCTR.h"
 #include "CryptoAlgorithmECDH.h"
 #include "CryptoAlgorithmECDSA.h"
 #include "CryptoAlgorithmRSASSA_PKCS1_v1_5.h"
@@ -76,8 +75,6 @@ bool CryptoKeyRSA::isRestrictedToHash(CryptoAlgorithmIdentifier&) const { return
 auto CryptoKeyRSA::algorithm() const -> KeyAlgorithm { RELEASE_ASSERT_NOT_REACHED(); }
 
 std::optional<Vector<uint8_t>> CryptoAlgorithmECDH::platformDeriveBits(const CryptoKeyEC&, const CryptoKeyEC&) { return std::nullopt; }
-ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESCTR::platformEncrypt(const CryptoAlgorithmAesCtrParams&, const CryptoKeyAES&, const Vector<uint8_t>&) { return Exception { ExceptionCode::NotSupportedError }; }
-ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESCTR::platformDecrypt(const CryptoAlgorithmAesCtrParams&, const CryptoKeyAES&, const Vector<uint8_t>&) { return Exception { ExceptionCode::NotSupportedError }; }
 ExceptionOr<Vector<uint8_t>> CryptoAlgorithmECDSA::platformSign(const CryptoAlgorithmEcdsaParams&, const CryptoKeyEC&, const Vector<uint8_t>&) { return Exception { ExceptionCode::NotSupportedError }; }
 ExceptionOr<bool> CryptoAlgorithmECDSA::platformVerify(const CryptoAlgorithmEcdsaParams&, const CryptoKeyEC&, const Vector<uint8_t>&, const Vector<uint8_t>&) { return Exception { ExceptionCode::NotSupportedError }; }
 ExceptionOr<Vector<uint8_t>> CryptoAlgorithmRSASSA_PKCS1_v1_5::platformSign(const CryptoKeyRSA&, const Vector<uint8_t>&) { return Exception { ExceptionCode::NotSupportedError }; }

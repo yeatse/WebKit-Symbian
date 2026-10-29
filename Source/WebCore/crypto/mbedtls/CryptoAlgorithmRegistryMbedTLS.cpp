@@ -29,6 +29,7 @@
 #if ENABLE(WEB_CRYPTO) && USE(MBEDTLS)
 
 #include "CryptoAlgorithmAESCBC.h"
+#include "CryptoAlgorithmAESCTR.h"
 #include "CryptoAlgorithmAESGCM.h"
 #include "CryptoAlgorithmAESKW.h"
 #include "CryptoAlgorithmHKDF.h"
@@ -45,6 +46,7 @@ void CryptoAlgorithmRegistry::platformRegisterAlgorithms()
 {
     // SubtleCrypto in WebKit 2.52 rejects the deprecated AES-CFB-8 API.
     registerAlgorithm<CryptoAlgorithmAESCBC>();
+    registerAlgorithm<CryptoAlgorithmAESCTR>();
     registerAlgorithm<CryptoAlgorithmAESGCM>();
     registerAlgorithm<CryptoAlgorithmAESKW>();
     registerAlgorithm<CryptoAlgorithmHKDF>();

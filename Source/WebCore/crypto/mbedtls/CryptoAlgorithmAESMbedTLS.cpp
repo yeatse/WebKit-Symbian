@@ -29,9 +29,11 @@
 
 #include "CryptoAlgorithmAESCBC.h"
 #include "CryptoAlgorithmAESCFB.h"
+#include "CryptoAlgorithmAESCTR.h"
 #include "CryptoAlgorithmAESGCM.h"
 #include "CryptoAlgorithmAESKW.h"
 #include "CryptoAlgorithmAesCbcCfbParams.h"
+#include "CryptoAlgorithmAesCtrParams.h"
 #include "CryptoAlgorithmAesGcmParams.h"
 #include "CryptoKeyAES.h"
 #include <mbedtls/aes.h>
@@ -151,6 +153,60 @@ ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESCFB::platformEncrypt(const Crypto
 ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESCFB::platformDecrypt(const CryptoAlgorithmAesCbcCfbParams& parameters, const CryptoKeyAES& key, const Vector<uint8_t>& cipherText)
 {
     return aesCFB8(MBEDTLS_AES_DECRYPT, key.key(), parameters.ivVector(), cipherText);
+}
+
+static ExceptionOr<Vector<uint8_t>> aesCTR(const CryptoAlgorithmAesCtrParams& parameters, const CryptoKeyAES& key, const Vector<uint8_t>& input)
+{
+    const auto& counter = parameters.counterVector();
+    if (counter.size() != aesBlockSize || !parameters.length || parameters.length > 128)
+        return Exception { ExceptionCode::OperationError };
+
+    // Division before rounding avoids overflowing size_t on ARM32.
+    size_t blocks = input.size() / aesBlockSize + !!(input.size() % aesBlockSize);
+    if (parameters.length < sizeof(size_t) * 8 && blocks > (static_cast<size_t>(1) << parameters.length))
+        return Exception { ExceptionCode::OperationError };
+
+    AESContext context;
+    // CTR uses the forward cipher for both encryption and decryption.
+    if (!context.setKey(key.key(), true))
+        return Exception { ExceptionCode::OperationError };
+    Vector<uint8_t> output;
+    if (!output.tryGrow(input.size()))
+        return Exception { ExceptionCode::OperationError };
+    if (input.isEmpty())
+        return output;
+
+    CryptoAlgorithmAESCTR::CounterBlockHelper helper(counter, parameters.length);
+    size_t capacity = helper.countToOverflowSaturating();
+    size_t headSize = capacity < blocks ? capacity * aesBlockSize : input.size();
+    uint8_t nonceCounter[aesBlockSize];
+    uint8_t streamBlock[aesBlockSize] { };
+    size_t offset = 0;
+    memcpy(nonceCounter, counter.span().data(), aesBlockSize);
+    if (mbedtls_aes_crypt_ctr(context.get(), headSize, &offset, nonceCounter, streamBlock, input.span().data(), output.mutableSpan().data()))
+        return Exception { ExceptionCode::OperationError };
+
+    if (headSize < input.size()) {
+        // mbedTLS increments all 128 bits. Web Crypto increments only the
+        // requested low bits, preserving the nonce when that field wraps.
+        auto wrappedCounter = helper.counterVectorAfterOverflow();
+        memcpy(nonceCounter, wrappedCounter.span().data(), aesBlockSize);
+        offset = 0;
+        if (mbedtls_aes_crypt_ctr(context.get(), input.size() - headSize, &offset, nonceCounter, streamBlock,
+            input.span().data() + headSize, output.mutableSpan().data() + headSize))
+            return Exception { ExceptionCode::OperationError };
+    }
+    return output;
+}
+
+ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESCTR::platformEncrypt(const CryptoAlgorithmAesCtrParams& parameters, const CryptoKeyAES& key, const Vector<uint8_t>& plainText)
+{
+    return aesCTR(parameters, key, plainText);
+}
+
+ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESCTR::platformDecrypt(const CryptoAlgorithmAesCtrParams& parameters, const CryptoKeyAES& key, const Vector<uint8_t>& cipherText)
+{
+    return aesCTR(parameters, key, cipherText);
 }
 
 namespace {

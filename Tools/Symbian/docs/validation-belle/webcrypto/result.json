@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "suite": "crypto",
+  "browser_sha256": "91cf3692692f07b39ab495d32c6a4efa8270a66918ada79c681b2dbb446d0168",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "url": "file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830",
+  "expected_checks": 29,
+  "fixtures": {
+    "webcrypto.html": "663277d8d541d0be51fa60d28af5bde763730fee8abc36417f6902710c3e4ffb"
+  },
+  "ca_before": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "driver_exit": 0,
+  "source_run": "/workspace/symbian-belle-work/runs/browser-20261029T183833Z-e2rnfrm0",
+  "ca_after": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "passed_checks": 29,
+  "marker": "WEBCRYPTO DONE PASS 29/29 passed; 0 failed",
+  "screenshot_sha256": "51b759c28fd02048723c394b13258766e6c04b1f16d547d0e6b3a2ce903a3c33",
+  "guest_panic": false,
+  "shutdown": "normal WM close/host exit 0"
+}

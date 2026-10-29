@@ -1,0 +1,15 @@
+{
+  "browser_sha256": "91cf3692692f07b39ab495d32c6a4efa8270a66918ada79c681b2dbb446d0168",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "fixture_sha256": "663277d8d541d0be51fa60d28af5bde763730fee8abc36417f6902710c3e4ffb",
+  "source_run": "/workspace/symbian-belle-work/runs/browser-20261029T183833Z-e2rnfrm0",
+  "files": {
+    "browser.png": "51b759c28fd02048723c394b13258766e6c04b1f16d547d0e6b3a2ce903a3c33",
+    "cases.json": "76cb1c54a9781dad470a463289bb243a0e02d455d6e55ec637a6a7fd81aa0aeb",
+    "driver.log": "e99620f3cbb5f8a2c9c6a99ac37a62fc7d67a98c497d1c0ba1525f0148a0b877",
+    "emulator.log": "cd4083886ede4d90da03e09f578f7dac1ba83b636ecf5b56c7d0309bfb70695a",
+    "log.txt": "e00cbb062bf9675e8ddec1ff13a130fafeb6ae705287132ed646702fb40831bb",
+    "result.json": "6d97ede1ce9ca9281a8d1bd287a21b2b2a99001979b9955b987745a61618ff42",
+    "runtime-wrapper.py.txt": "c4106334024c590c33e009eff43e0bdedb3a4779fd75cedc9cecd32c2fa19951"
+  }
+}

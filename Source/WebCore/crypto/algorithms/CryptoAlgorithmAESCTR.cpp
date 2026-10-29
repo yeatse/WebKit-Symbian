@@ -235,8 +235,10 @@ size_t CryptoAlgorithmAESCTR::CounterBlockHelper::countToOverflowSaturating() co
     }
 
     countMinusOne &= ~sizeTypeMask;
-    if (countMinusOne.all()) {
-        // As all bits are set, adding one would result in an overflow.
+    if (countMinusOne.m_lo >= std::numeric_limits<size_t>::max()) {
+        // The mask above leaves at most size_t bits. Saturate before adding
+        // one, including on 32-bit platforms where the full 128-bit value
+        // cannot have all its bits set after masking.
         // Return size_t max instead.
         return std::numeric_limits<size_t>::max();
     }

@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import argparse,hashlib,importlib.util,json,os,re,signal,subprocess,time,uuid,shutil
+ap=argparse.ArgumentParser();ap.add_argument('browser',type=Path);ap.add_argument('--suite',choices=['crypto','fonts'],required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--sha256',required=True);args=ap.parse_args()
+repo=Path('/workspace/WebKit-Symbian-graphics/Tools/Symbian');data=Path(os.environ['XDG_DATA_HOME'])/'EKA2L1/data';work=Path(os.environ['SYMBIAN_WEBKIT_WORK']);sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+assert sha(args.browser)==args.sha256
+spec=importlib.util.spec_from_file_location('support',repo/'tests/run-browser-network-tests.py');support=importlib.util.module_from_spec(spec);spec.loader.exec_module(support)
+args.output.mkdir(parents=True,exist_ok=False)
+url,marker,prefix,count={'crypto':('file:///C:/Data/WebKit/webcrypto.html','WEBCRYPTO DONE PASS 29/29 passed; 0 failed','WEBCRYPTO PASS ',29),'fonts':('file:///C:/Data/WebKit/web-fonts/index.html','WEBFONT RESULT 7/7 PASS','WEBFONT PASS ',7)}[args.suite]
+url+='?autorun=1&run='+uuid.uuid4().hex
+report={'status':'FAIL','suite':args.suite,'browser_sha256':args.sha256,'emulator_sha256':sha(Path(os.environ['EKA2L1'])),'url':url,'expected_checks':count};p=None;descendants={}
+signal.signal(signal.SIGTERM,support.interrupted);signal.signal(signal.SIGINT,support.interrupted)
+try:
+ with support.exclusive_lock(data/'.jsc-run.lock'),support.exclusive_lock(data/'.browser-run.lock') as lock:
+  assert sha(data/'drives/e/sys/bin/browser.exe')==args.sha256
+  if args.suite=='fonts':
+   source=repo/'tests/web-fonts';target=data/'drives/c/Data/WebKit/web-fonts';shutil.copytree(source,target,dirs_exist_ok=True)
+   report['fixtures']={f.name:sha(f) for f in source.iterdir() if f.is_file()};assert all(sha(target/n)==v for n,v in report['fixtures'].items())
+  else:report['fixtures']={'webcrypto.html':sha(repo/'tests/webcrypto.html')}
+  ca=data/'drives/c/resource/webkit/cacert.pem';report['ca_before']=sha(ca)
+  env=os.environ.copy();env.update(WAIT='30',EKA2L1_EXPECT_PASS=marker,EKA2L1_BROWSER_LOCK_FD=str(lock.fileno()));previous={p.resolve() for p in (work/'runs').glob('browser-*')}
+  with support.adopt_orphaned_children() as excluded:
+   try:
+    with (args.output/'driver.log').open('w') as stream:
+     p=subprocess.Popen([str(repo/'eka2l1/run-browser.sh'),str(args.browser),url],stdout=stream,stderr=subprocess.STDOUT,env=env,start_new_session=True,pass_fds=(lock.fileno(),));deadline=time.monotonic()+75
+     while p.poll() is None:
+      support.collect_descendants(descendants,excluded)
+      if time.monotonic()>deadline:raise RuntimeError('Driver watchdog expired')
+      time.sleep(.1)
+   finally:
+    if p is not None:support.stop_process_tree(p,descendants,excluded)
+  report['driver_exit']=p.returncode;logs=re.findall(r'^logs: (.+)$',(args.output/'driver.log').read_text(errors='replace'),re.M);assert len(logs)==1;run=Path(logs[0]).resolve();assert run not in previous and run.parent==(work/'runs').resolve();report['source_run']=str(run)
+  for name in ['log.txt','emulator.log','browser.png']:
+   if (run/name).exists():shutil.copy2(run/name,args.output/name)
+  report['ca_after']=sha(ca);assert report['ca_before']==report['ca_after']
+  assert p.returncode==0
+  text=(run/'log.txt').read_text(errors='replace');host=(run/'emulator.log').read_text(errors='replace');assert not support.PANIC.search(text+'\n'+host)
+  messages=re.findall(r'^console: '+re.escape(url)+r':\d+: (.*)$',text,re.M);assert messages.count(marker)==1;assert sum(m.startswith(prefix) for m in messages)==count;assert not any(re.search(r'^(?:FAIL:|WEBFONT FAIL |WEBCRYPTO FAIL )',m) for m in messages)
+  shot=run/'browser.png';assert shot.read_bytes().startswith(b'\x89PNG\r\n\x1a\n')
+  report.update(status='PASS',passed_checks=count,marker=marker,screenshot_sha256=sha(shot),guest_panic=False,shutdown='normal WM close/host exit 0')
+except (Exception,KeyboardInterrupt) as error:report['error']=str(error) or type(error).__name__
+finally:(args.output/'result.json').write_text(json.dumps(report,indent=2)+'\n')
+print(report['status']+': '+str(args.output),flush=True)
+raise SystemExit(report['status']!='PASS')

@@ -1,0 +1,40 @@
+logs: /workspace/symbian-belle-work/runs/browser-20261029T183833Z-e2rnfrm0
+18:38:34.343 WebKit Browser starting
+18:38:34.361 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+18:38:35.996 load file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830
+Symbian compositor: native EGL/GLES2 presented 360x532
+18:38:36.562 network: connected through "Host network"
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS SHA-1 abc
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS SHA-256 abc
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS SHA-384 abc
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS SHA-512 abc
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS HMAC SHA-256 sign and verify
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS HKDF SHA-256 RFC 5869 case 1
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS PBKDF2 SHA-256
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:59: AES-CBC and AES-CTR do not provide authentication by default, and implementing it manually can result in minor, but serious mistakes. We recommended using authenticated encryption like AES-GCM to protect against chosen-ciphertext attacks.
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CBC vector and PKCS7 round trip
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CFB-8 deprecated API rejection
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR NIST 128-bit key
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR NIST 192-bit key
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR NIST 256-bit key
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR counter 1 bits / 32 bytes
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR counter 7 bits / 33 bytes
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR counter 33 bits / 1 bytes
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR counter 64 bits / 1 bytes
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR counter 128 bits / 1 bytes
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR counter 128 bits / 17 bytes
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR rejects repeated counters and invalid parameters
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-CTR key import/export and wrapping
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-GCM NIST vector and tag rejection
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-GCM authenticated data and empty input
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES-KW RFC 3394 and integrity rejection
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS AES key length and usage rejection
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS RSA-PSS is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS ECDSA is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS Ed25519 is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS X25519 is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO PASS SHA-224 is not registered
+console: file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=3d1748453ae24963a936483649b7a830:179: WEBCRYPTO DONE PASS 29/29 passed; 0 failed
+
+Browser observation completed; inspect screenshot and test outcomes: /workspace/symbian-belle-work/runs/browser-20261029T183833Z-e2rnfrm0/browser.png
