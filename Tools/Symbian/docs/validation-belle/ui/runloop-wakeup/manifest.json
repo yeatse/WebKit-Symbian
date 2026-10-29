@@ -1,0 +1,11 @@
+{
+  "scope": "host callback-lifetime ordering; original failure retained; guest exit still pending",
+  "files": {
+    "before/result.json": "c1b4ae5c20e8d4aa5584ecf2dec8ab6ce9a938718cf69738b5edc502eba70b92",
+    "before/log.txt": "ca739c0a020c838602183abbe7d2e2a0a128fa094af5d4b5f881ec03f5783383",
+    "before/production.inc": "60e4ac3e77b16a9e2efd2498109bd75cf1372c1095e630f368cf1485222b13c7",
+    "corrected/result.json": "9775fc2f88f7fbd0273b1f24f324555bc501088613e05b42e1b9a0bcb47c15c1",
+    "corrected/log.txt": "d75ff2404cf5b2f9a70efc9a397de105a71e9158598cdf0f866a13c4cf3fc37f",
+    "corrected/production.inc": "4f034a04444e12c80b6d18c095184207a6b67e5a4084655c9713977f7f9ebeb7"
+  }
+}

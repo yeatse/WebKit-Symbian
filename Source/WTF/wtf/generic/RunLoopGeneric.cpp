@@ -241,7 +241,13 @@ void RunLoop::run()
 
 void RunLoop::setWakeUpCallback(WTF::Function<void()>&& function)
 {
-    RunLoop::currentSingleton().m_wakeUpCallback = WTF::move(function);
+    auto& runLoop = RunLoop::currentSingleton();
+#if OS(SYMBIAN)
+    // wakeUpWithLock can run on a worker thread. Clearing the native driver
+    // callback must wait until any invocation using its raw context finishes.
+    Locker locker { runLoop.m_loopLock };
+#endif
+    runLoop.m_wakeUpCallback = WTF::move(function);
 }
 
 MonotonicTime RunLoop::nextTimerFireTime()

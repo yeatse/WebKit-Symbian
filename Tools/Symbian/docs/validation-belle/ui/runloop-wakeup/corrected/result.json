@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "exit": 0,
+  "scope": "actual setter/wakeup functions, host lock and callback-lifetime ordering; not a guest shutdown test",
+  "source_sha256": "cc54dcdceedee0046aecf92e2af61be7afe224a83daa17206caf89ff30a8dc82",
+  "extracted_sha256": "eb5389a07ce5bace79763ea84ca05098de185f70f6a32939855a885e432982a5",
+  "compile_command": [
+    "c++",
+    "-std=c++20",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pthread",
+    "-I/workspace/symbian-belle-work/runloop-wakeup-corrected",
+    "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/runloop-wakeup/wakeup.cpp",
+    "-o",
+    "/workspace/symbian-belle-work/runloop-wakeup-corrected/probe"
+  ]
+}
