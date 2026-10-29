@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "scope": "Independent offline revalidation of completed guest phase reports and local fixture dependency identity; original outer-run FAIL remains unchanged.",
+  "original_outer_status": "FAIL",
+  "original_result_sha256": "548e61e4e1604119321d491e44931721334d3e2eea44089ac4d1dc16a66fa9ba",
+  "original_error": "Fixture or runner changed during validation",
+  "run": "110b587efc214b549675afcc6f7c32a1",
+  "changed_fixture_files": [
+    "test-host.py"
+  ],
+  "fixture_hashes": {
+    "validate.py": {
+      "recorded_sha256": "8e1076aff8d8ab59af2129d0057cd30698e64b74b8993d3ecf9325ab48f16097",
+      "current_sha256": "8e1076aff8d8ab59af2129d0057cd30698e64b74b8993d3ecf9325ab48f16097"
+    },
+    "server.py": {
+      "recorded_sha256": "c3bf55a2d7ac300748249d90350984c101216fd6e798d94f961b59df534b29ec",
+      "current_sha256": "c3bf55a2d7ac300748249d90350984c101216fd6e798d94f961b59df534b29ec"
+    },
+    "run.py": {
+      "recorded_sha256": "21d78a8941e09619befcc555e7598b467cca6c691428e9bae4da4aab36ae5d15",
+      "current_sha256": "21d78a8941e09619befcc555e7598b467cca6c691428e9bae4da4aab36ae5d15"
+    },
+    "test-runner.py": {
+      "recorded_sha256": "ad2c8e63027a7e5b2960100421409aae0d583fdaa7047dd0be5620cbfb97f550",
+      "current_sha256": "ad2c8e63027a7e5b2960100421409aae0d583fdaa7047dd0be5620cbfb97f550"
+    },
+    "make-certificates.sh": {
+      "recorded_sha256": "c2abb3c9b46108f8636d6b205b60b83d287a0f69bc8143bbe1f84dfb16b1ad05",
+      "current_sha256": "c2abb3c9b46108f8636d6b205b60b83d287a0f69bc8143bbe1f84dfb16b1ad05"
+    },
+    "case.js": {
+      "recorded_sha256": "de17e0d511d00c902711e45432638ff287d3f8e61599fb7b6324e0114bf546bb",
+      "current_sha256": "de17e0d511d00c902711e45432638ff287d3f8e61599fb7b6324e0114bf546bb"
+    },
+    "test-host.py": {
+      "recorded_sha256": "efe7aab3a6ae9a45232e4138092393fd900c63fe471388c798fbef15080a6526",
+      "current_sha256": "70f50b3aa6d7011060d38e3baec381865950d624b7187e3cba45f42cf6ad9644"
+    }
+  },
+  "runtime_local_dependencies": [
+    "run.py",
+    "server.py",
+    "validate.py",
+    "case.js"
+  ],
+  "dependency_review": [
+    "run.py imports validate.py and the shared ../run-browser-network-tests.py support; it launches server.py.",
+    "server.py and validate.py import standard-library modules only. The page executes case.js.",
+    "test-host.py is neither imported nor invoked by any of those runtime paths; it is included only by the broad directory checksum guard.",
+    "The shared parent runner was not covered by the original per-directory hash map; no new historical byte-identity claim is made for it here."
+  ],
+  "validated_phases": {
+    "initial": {
+      "suite": "cookie-samesite",
+      "run": "110b587efc214b549675afcc6f7c32a1",
+      "phase": "initial",
+      "passed": 23,
+      "total": 23,
+      "wire_requests": 41,
+      "first_request_ns": 1793303576326902121,
+      "last_request_ns": 1793303584833671546
+    },
+    "resumed": {
+      "suite": "cookie-samesite",
+      "run": "110b587efc214b549675afcc6f7c32a1",
+      "phase": "resumed",
+      "passed": 28,
+      "total": 28,
+      "wire_requests": 48,
+      "first_request_ns": 1793303576326902121,
+      "last_request_ns": 1793303669527682556
+    }
+  },
+  "ca_restored_recorded": true,
+  "completed_phase_driver_exits": [
+    0,
+    0
+  ],
+  "requires_guest_rerun_due_to_test_host_change": false,
+  "final_clean_rerun_is_separate": true
+}

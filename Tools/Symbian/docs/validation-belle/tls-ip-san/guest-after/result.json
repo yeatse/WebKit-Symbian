@@ -1,0 +1,97 @@
+{
+  "started": "2026-10-29T19:43:03.934793+00:00",
+  "browser_sha256": "8308d9a9c9f89c4b20518068d124dda95e1c8bdb6a24b3a2f3068d752dfcb0c6",
+  "suites": [
+    {
+      "suite": "tls",
+      "run": "77937ee55aa742178d05456cd3683cea",
+      "passed": 6,
+      "logs": "/workspace/symbian-belle-work/runs/browser-20261029T194304Z-8f9irah3",
+      "report": "/workspace/symbian-belle-work/network-reports/1793302989902943706-8767.json",
+      "screenshot": "/workspace/symbian-belle-work/runs/browser-20261029T194304Z-8f9irah3/browser.png"
+    }
+  ],
+  "status": "PASS",
+  "tls_preflight": [
+    {
+      "check": "trusted endpoint",
+      "host": "localhost",
+      "port": 8767,
+      "server_hostname": "localhost",
+      "certificate": "/workspace/symbian-work/network-tls/good.crt",
+      "trust": "/workspace/symbian-work/network-tls/ca.crt",
+      "status": "PASS",
+      "certificate_sha256": "304b4cd87bd8c8c92359a99f6d9b99dcbd9c189301a31ffd164670d495e4d795",
+      "subject_alt_names": [
+        [
+          "DNS",
+          "localhost"
+        ]
+      ],
+      "protocol": "TLSv1.3",
+      "http_status": 200
+    },
+    {
+      "check": "wrong-host endpoint identity",
+      "host": "localhost",
+      "port": 8768,
+      "server_hostname": "wrong.invalid",
+      "certificate": "/workspace/symbian-work/network-tls/wrong.crt",
+      "trust": "/workspace/symbian-work/network-tls/ca.crt",
+      "status": "PASS",
+      "certificate_sha256": "a65a661e100acc45a12d5b8163e9fda453cd2b2b09474c9be0f270f59c879a20",
+      "subject_alt_names": [
+        [
+          "DNS",
+          "wrong.invalid"
+        ]
+      ],
+      "protocol": "TLSv1.3",
+      "http_status": 200
+    },
+    {
+      "check": "untrusted endpoint identity",
+      "host": "localhost",
+      "port": 8769,
+      "server_hostname": "localhost",
+      "certificate": "/workspace/symbian-work/network-tls/untrusted.crt",
+      "trust": "/workspace/symbian-work/network-tls/untrusted.crt",
+      "status": "PASS",
+      "certificate_sha256": "d188efb63bbfb627179fd3c9cee5568bc97f092d4054e37e9d712b7ff2f5ccc5",
+      "subject_alt_names": [
+        [
+          "DNS",
+          "localhost"
+        ]
+      ],
+      "protocol": "TLSv1.3",
+      "http_status": 200
+    },
+    {
+      "check": "hostname rejection",
+      "host": "localhost",
+      "port": 8768,
+      "server_hostname": "localhost",
+      "certificate": "/workspace/symbian-work/network-tls/wrong.crt",
+      "trust": "/workspace/symbian-work/network-tls/ca.crt",
+      "status": "PASS",
+      "error_type": "SSLCertVerificationError",
+      "verify_code": 62,
+      "verify_message": "Hostname mismatch, certificate is not valid for 'localhost'."
+    },
+    {
+      "check": "untrusted-root rejection",
+      "host": "localhost",
+      "port": 8769,
+      "server_hostname": "localhost",
+      "certificate": "/workspace/symbian-work/network-tls/untrusted.crt",
+      "trust": "/workspace/symbian-work/network-tls/ca.crt",
+      "status": "PASS",
+      "error_type": "SSLCertVerificationError",
+      "verify_code": 18,
+      "verify_message": "self-signed certificate"
+    }
+  ],
+  "test_ca_restored": true,
+  "finished": "2026-10-29T19:44:04.958063+00:00"
+}

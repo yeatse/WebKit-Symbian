@@ -1,0 +1,184 @@
+{
+  "status": "PASS",
+  "before_version": 1,
+  "after_version": 2,
+  "before_count": 24,
+  "after_count": 49,
+  "old_rows": [
+    {
+      "key_sha256": "babdec5de69b646aa73cb57a3e84729dd129acc07eaa5a585dbc07b43645541c",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 2
+    },
+    {
+      "key_sha256": "adae6a0bada7ccca6ad8423aa7c71a4e073325db7ceba03ddb16924cb6ce9933",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "ce367849b319cfb3e478a95c6cef9d250b734c014cb105da8ee117584a27834c",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 0
+    },
+    {
+      "key_sha256": "53c5520c2892ded117ae6a50888479c96276eb65c8fde463f3275edf56e11888",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "e491fa4f7420eebd7cf0abf5f45777e35010fe4900ed95e748d3331223d09611",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 2
+    },
+    {
+      "key_sha256": "05a1d4f08e90e338b92c357998ba6d748bea20698875fbce9094d0c7880f55f9",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "c62c057a9ee1ff8e95936c9929508eae8b9f2d1d31af2e753462d91d81035952",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "9dd99cef40bbbffb0cc793e6d3e02744d69bc97b8aed19dfc2ee95395993208d",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 2
+    },
+    {
+      "key_sha256": "e68cb7b080cabe4c6c006cedfb5a686ebbae1b5b9286ced42ef315776aea6967",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 2
+    },
+    {
+      "key_sha256": "d51503f09f20b95b0e45b41f7ca682a0e7944e469b57078aab6e45da9f4aae7f",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "263701868c4fa08ce4df665c366015ccae805b94fb6a6ea333f8d6f37c3568d7",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 0
+    },
+    {
+      "key_sha256": "504cc8b18c03d3552c0a66cf4ef3f7dd00ab5cc121c4190dcb4f53cb70ae996f",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "f53b047e703e0c5a5c624ca82380c332b193bde0dd42b24fa31a4cadf1ca44f2",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 2
+    },
+    {
+      "key_sha256": "6e306fd19bf4362d9944554065341ea98adee8cd0a3b0f369e6f6194e98d599a",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "4f73cfd22945b5d4d442d38bdc71af0b4b44502c80ef7391bd8f5be719ad6084",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "9e51404421245ac7a049903f5fae0bcd99d8a0609809bef5706db886daf5557e",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 2
+    },
+    {
+      "key_sha256": "b9199a3dfadc412bfa2e06de83daf2607a38effb8f31924279a432f8522df06f",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 2
+    },
+    {
+      "key_sha256": "62805f5a7297967648be92964baa0377226f823f4aa23f9de534492eb5a9962a",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "71e13b74eb01f6c1920c6f800b29c4fdee5ec08d2af8c9b4188970f8b90a30b2",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 0
+    },
+    {
+      "key_sha256": "18f7e81318666fca9edfd96838c5433941de8a7eac6eded2c3fd23811a0f8fa9",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "15b300a6f0b856cc970d1cc8c9dc791ed520a07b4a9020fe00bfdf3c5f511b16",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 2
+    },
+    {
+      "key_sha256": "ee88d8c94009ba44090cd69849e5c9a92ed77ad2fea75e5b346984d7a9a48e37",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "1e063e31e18c7e45c9de617577d7faee7d1dfc3c608335fbae13f1d11b09a05d",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 1
+    },
+    {
+      "key_sha256": "88e55a1f6e9b49326ac256443f7e2cf3fb1507b2de3d7a6b631c0cecc6482dba",
+      "present": true,
+      "all_non_policy_fields_unchanged": true,
+      "same_site": 1,
+      "old_policy": 2
+    }
+  ],
+  "before_source": "cookie-before-upgrade.json",
+  "note": "Migration/data preservation only; SameSite policy suite is separately FAIL18/23.",
+  "after_snapshot": {
+    "path": "/workspace/symbian-belle-work/cookie-candidate7/after-failed-suite-cookies.db",
+    "sha256": "8abbd747819d9c998a882a447cdea884487afe0be83a7ca6ccba1d3e1755e100",
+    "bytes": 32768
+  }
+}

@@ -2,8 +2,13 @@
 
 The Symbian in-process IDB server limits committed files plus pending transaction
 reservations to **32 MiB per full ClientOrigin** (top origin + client origin) and
-**128 MiB across the port's IDB directory**. New physical writes must preserve
-**16 MiB of free space** on its actual drive. The native volume bridge and EKA
+**128 MiB across the port's IDB directory**. Persistent-write and commit admission
+checks require **16 MiB of free space** on its actual drive after estimated
+pending writes. This is an admission check, not a system-wide disk reservation.
+Blob staging copies are created before server quota admission and can consume
+temporary space first; their actual allocation is reflected in free-space
+queries, and normal staging I/O failures clean up that request's temporary files.
+The native volume bridge and EKA
 patch 0018 are prerequisites for meaningful emulator free-space results.
 
 The accounting cache is initialized from disk at server startup. Different

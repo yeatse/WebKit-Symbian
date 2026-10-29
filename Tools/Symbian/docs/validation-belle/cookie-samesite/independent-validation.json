@@ -1,0 +1,22 @@
+{
+  "initial": {
+    "suite": "cookie-samesite",
+    "run": "3457af7e7fc8423881c1147dea31aaca",
+    "phase": "initial",
+    "passed": 23,
+    "total": 23,
+    "wire_requests": 41,
+    "first_request_ns": 1793303783715769631,
+    "last_request_ns": 1793303792072923146
+  },
+  "resumed": {
+    "suite": "cookie-samesite",
+    "run": "3457af7e7fc8423881c1147dea31aaca",
+    "phase": "resumed",
+    "passed": 28,
+    "total": 28,
+    "wire_requests": 48,
+    "first_request_ns": 1793303783715769631,
+    "last_request_ns": 1793303876898234427
+  }
+}

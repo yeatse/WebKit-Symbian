@@ -1,0 +1,18 @@
+FAIL: /tmp/cookie runner bad e6xtp9mj/output
+initial: driver failed (7), watchdog=False
+FAIL: /tmp/cookie runner bad cw0mn34c/output
+Missing unique final-page URL/success marker or explicit fixture failure
+FAIL: /tmp/cookie runner bad reh_l61r/output
+Missing or invalid browser screenshot
+FAIL: /tmp/cookie runner bad a1jhwe8k/output
+Missing unique final-page URL/success marker or explicit fixture failure
+FAIL: /tmp/cookie runner bad x34veuu7/output
+Missing unique final-page URL/success marker or explicit fixture failure
+FAIL: /tmp/cookie runner bad 8cuuyibv/output
+Missing unique final-page URL/success marker or explicit fixture failure
+.PASS: /tmp/cookie runner good 2x7lzip2/output
+.
+----------------------------------------------------------------------
+Ran 2 tests in 3.903s
+
+OK

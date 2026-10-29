@@ -1,0 +1,581 @@
+diff --git a/Source/WebCore/dom/Document.cpp b/Source/WebCore/dom/Document.cpp
+index e815173b4e5..8a264073e20 100644
+--- a/Source/WebCore/dom/Document.cpp
++++ b/Source/WebCore/dom/Document.cpp
+@@ -11878,8 +11878,45 @@ bool Document::hasElementWithPendingUserAgentShadowTreeUpdate(Element& element)
+ 
+ bool Document::isSameSiteForCookies(const URL& url) const
+ {
++#if OS(SYMBIAN)
++    // The curl cookie backend uses schemeful SameSite. FrameLoader's first-party
++    // URL for a top-level navigation is already the destination, so preserve
++    // the initiating document's scheme here, before that information is lost.
++    URL cookieURL = url;
++    if (cookieURL.protocolIs("ws"_s))
++        cookieURL.setProtocol("http"_s);
++    else if (cookieURL.protocolIs("wss"_s))
++        cookieURL.setProtocol("https"_s);
++    auto target = SecurityOrigin::create(cookieURL);
++    if (isTopDocument())
++        return securityOrigin().isSameSiteAs(target);
++
++    RefPtr localFrame = frame();
++    if (!localFrame)
++        return false;
++    RefPtr topFrame = dynamicDowncast<LocalFrame>(localFrame->tree().top());
++    RefPtr topDocument = topFrame ? topFrame->document() : nullptr;
++    if (!topDocument || !topDocument->securityOrigin().isSameSiteAs(target))
++        return false;
++    // siteForCookies() predates schemeful/ancestor-chain checks. In particular,
++    // an A -> B -> A grandchild must not become same-site merely by returning to
++    // the top document's host. Remote or opaque ancestors cannot establish it.
++    for (RefPtr currentFrame = localFrame; currentFrame; ) {
++        RefPtr currentDocument = currentFrame->document();
++        if (!currentDocument || !currentDocument->securityOrigin().isSameSiteAs(topDocument->securityOrigin()))
++            return false;
++        auto* parent = currentFrame->tree().parent();
++        if (!parent)
++            return true;
++        currentFrame = dynamicDowncast<LocalFrame>(parent);
++        if (!currentFrame)
++            return false;
++    }
++    return false;
++#else
+     auto domain = isTopDocument() ? RegistrableDomain(securityOrigin().data()) : RegistrableDomain(siteForCookies());
+     return domain.matches(url);
++#endif
+ }
+ 
+ void Document::notifyReportObservers(Ref<Report>&& reports)
+diff --git a/Source/WebCore/loader/CookieJar.cpp b/Source/WebCore/loader/CookieJar.cpp
+index 11a7889a301..6aa1bbaf201 100644
+--- a/Source/WebCore/loader/CookieJar.cpp
++++ b/Source/WebCore/loader/CookieJar.cpp
+@@ -66,6 +66,14 @@ IncludeSecureCookies CookieJar::shouldIncludeSecureCookies(const URL& url)
+ 
+ SameSiteInfo CookieJar::sameSiteInfo(const Document& document, IsForDOMCookieAccess isAccessForDOM)
+ {
++#if OS(SYMBIAN)
++    if (isAccessForDOM == IsForDOMCookieAccess::Yes) {
++        // Use the current ancestor chain, not the site's original navigation.
++        // Top-level documents may read their own Strict cookies after arriving
++        // cross-site; an A -> B -> A iframe chain may not.
++        return { document.isSameSiteForCookies(document.cookieURL()), document.isTopDocument(), true };
++    }
++#endif
+     RefPtr frame = document.frame();
+     if (frame && frame->loader().client().isRemoteWorkerFrameLoaderClient()) {
+         RegistrableDomain domain(document.securityOrigin().data());
+@@ -116,7 +124,15 @@ CookieRequestHeaderFieldProxy CookieJar::cookieRequestHeaderFieldProxy(const Doc
+     if (auto* frame = document.frame())
+         frameID = frame->frameID();
+ 
++#if OS(SYMBIAN)
++    // The Legacy WebSocket handshake supplies its HTTP(S) cookie URL (ws/wss
++    // already mapped). A socket is a subresource, not the document's original
++    // top-level navigation; copying that navigation would incorrectly allow Lax.
++    SameSiteInfo socketContext { document.isSameSiteForCookies(url), false, true };
++    return { document.firstPartyForCookies(), socketContext, url, frameID, pageID, shouldIncludeSecureCookies(url) };
++#else
+     return { document.firstPartyForCookies(), sameSiteInfo(document), url, frameID, pageID, shouldIncludeSecureCookies(url) };
++#endif
+ }
+ 
+ void CookieJar::setCookies(Document& document, const URL& url, const String& cookieString)
+diff --git a/Source/WebCore/platform/network/curl/CookieJarDB.cpp b/Source/WebCore/platform/network/curl/CookieJarDB.cpp
+index dfd5de50a37..4a68bf77f1d 100644
+--- a/Source/WebCore/platform/network/curl/CookieJarDB.cpp
++++ b/Source/WebCore/platform/network/curl/CookieJarDB.cpp
+@@ -24,6 +24,7 @@
+ 
+ #include "config.h"
+ #include "CookieJarDB.h"
++#include "CookieSameSite.h"
+ #include "CookieJar.h"
+ 
+ #include "CookieUtil.h"
+@@ -31,6 +32,7 @@
+ #include "PublicSuffixStore.h"
+ #include "RegistrableDomain.h"
+ #include "SQLiteFileSystem.h"
++#include "SQLiteTransaction.h"
+ #include <wtf/DateMath.h>
+ #include <wtf/FileHandle.h>
+ #include <wtf/FileSystem.h>
+@@ -59,6 +61,7 @@ WTF_MAKE_TZONE_ALLOCATED_IMPL(CookieJarDB);
+     "  session INTEGER NOT NULL,"\
+     "  httponly INTEGER NOT NULL DEFAULT 0,"\
+     "  secure INTEGER NOT NULL DEFAULT 0,"\
++    "  sameSite INTEGER NOT NULL DEFAULT 1,"\
+     "  lastupdated INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP, "\
+     "  UNIQUE(name, domain, path));"_s
+ #define CREATE_DOMAIN_INDEX_SQL \
+@@ -72,8 +75,14 @@ WTF_MAKE_TZONE_ALLOCATED_IMPL(CookieJarDB);
+ #define CHECK_EXISTS_HTTPONLY_COOKIE_SQL \
+     "SELECT name FROM Cookie WHERE (name = ?) AND (domain = ?) AND (path = ?) AND (httponly = 1);"_s
+ #define SET_COOKIE_SQL \
+-    "INSERT OR REPLACE INTO Cookie (name, value, domain, path, expires, size, session, httponly, secure) "\
+-    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"_s
++    "INSERT OR REPLACE INTO Cookie (name, value, domain, path, expires, size, session, httponly, secure, sameSite) "\
++    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"_s
++#define MIGRATE_COOKIE_SAMESITE_SQL \
++    "ALTER TABLE Cookie ADD COLUMN sameSite INTEGER NOT NULL DEFAULT 1;"_s
++#define RESET_LEGACY_COOKIE_SAMESITE_SQL \
++    "UPDATE Cookie SET sameSite=1;"_s
++#define UPDATE_COOKIE_SCHEMA_SQL \
++    "PRAGMA user_version=2;"_s
+ #define DELETE_COOKIE_BY_NAME_DOMAIN_PATH_SQL \
+     "DELETE FROM Cookie WHERE name = ? AND domain = ? AND path = ?;"_s
+ #define DELETE_COOKIE_BY_NAME_DOMAIN_SQL \
+@@ -91,7 +100,8 @@ WTF_MAKE_TZONE_ALLOCATED_IMPL(CookieJarDB);
+ // If the database schema is updated:
+ // - Increment schemaVersion
+ // - Add upgrade logic in verifySchemaVersion to migrate databases from the previous schema version
+-static constexpr int schemaVersion = 1;
++static constexpr int schemaVersion = 2;
++static_assert(static_cast<int>(Cookie::SameSitePolicy::Lax) == 1);
+ 
+ 
+ CookieJarDB::CookieJarDB(const String& databasePath)
+@@ -152,7 +162,10 @@ bool CookieJarDB::openDatabase()
+     if (!isOnMemory() && !m_database.turnOnIncrementalAutoVacuum())
+         LOG_ERROR("Unable to turn on incremental auto-vacuum (%d %s)", m_database.lastError(), m_database.lastErrorMsg());
+ 
+-    verifySchemaVersion();
++    if (!verifySchemaVersion()) {
++        m_database.close();
++        return false;
++    }
+ 
+     if (!existsDatabaseFile || !m_database.tableExists("Cookie"_s)) {
+         bool ok = executeSQLStatement(m_database.prepareStatement(CREATE_COOKIE_TABLE_SQL))
+@@ -189,15 +202,53 @@ void CookieJarDB::closeDatabase()
+     }
+ }
+ 
+-void CookieJarDB::verifySchemaVersion()
++bool CookieJarDB::verifySchemaVersion()
+ {
+     if (isOnMemory())
+-        return;
++        return true;
+ 
+-    auto statement = m_database.prepareStatement("PRAGMA user_version"_s);
+-    int version = statement ? statement->columnInt(0) : 0;
++    int version;
++    {
++        auto statement = m_database.prepareStatement("PRAGMA user_version"_s);
++        if (!statement || statement->step() != SQLITE_ROW)
++            return false;
++        version = statement->columnInt(0);
++    }
+     if (version == schemaVersion)
+-        return;
++        return true;
++
++    // Keep v1 persistent rows. Their SameSite attribute was discarded by the
++    // old curl backend, so its unknown value must migrate to Lax, not None.
++    // A failed ALTER or version update rolls back without losing the old jar.
++    if (version == 1) {
++        SQLiteTransaction transaction(m_database);
++        transaction.begin();
++        if (!transaction.inProgress())
++            return false;
++        bool hasSameSiteColumn = false;
++        {
++            auto statement = m_database.prepareStatement("PRAGMA table_info(Cookie)"_s);
++            if (!statement)
++                return false;
++            int result;
++            while ((result = statement->step()) == SQLITE_ROW) {
++                if (equalLettersIgnoringASCIICase(statement->columnText(1), "samesite"_s))
++                    hasSameSiteColumn = true;
++            }
++            if (result != SQLITE_DONE)
++                return false;
++        }
++        // A v1 browser downgrading a v2 jar clears its rows, not its schema.
++        // Its subsequent writes retain this column but cannot record the
++        // attribute. Treat every v1 row as Lax, also when the column survives.
++        if (!(hasSameSiteColumn
++                ? executeSQLStatement(m_database.prepareStatement(RESET_LEGACY_COOKIE_SAMESITE_SQL))
++                : executeSQLStatement(m_database.prepareStatement(MIGRATE_COOKIE_SAMESITE_SQL)))
++            || !executeSQLStatement(m_database.prepareStatement(UPDATE_COOKIE_SCHEMA_SQL)))
++            return false;
++        transaction.commit();
++        return !transaction.inProgress();
++    }
+ 
+     switch (version) {
+         // Placeholder for schema version upgrade logic
+@@ -214,7 +265,7 @@ void CookieJarDB::verifySchemaVersion()
+     }
+ 
+     // Update version
+-    executeSQLStatement(m_database.prepareStatementSlow(makeString("PRAGMA user_version="_s, schemaVersion)));
++    return executeSQLStatement(m_database.prepareStatement(UPDATE_COOKIE_SCHEMA_SQL));
+ }
+ 
+ void CookieJarDB::deleteAllTables()
+@@ -384,7 +435,7 @@ std::optional<Vector<Cookie>> CookieJarDB::searchCookies(const URL& firstParty,
+ 
+     RegistrableDomain registrableDomain { requestUrl };
+ 
+-    auto pstmt = m_database.prepareStatement("SELECT name, value, domain, path, expires, httponly, secure, session FROM Cookie WHERE "\
++    auto pstmt = m_database.prepareStatement("SELECT name, value, domain, path, expires, httponly, secure, session, sameSite FROM Cookie WHERE "\
+         "(NOT ((session = 0) AND (expires < ?)))"
+         "AND (httponly = COALESCE(NULLIF(?, -1), httponly)) "\
+         "AND (secure = COALESCE(NULLIF(?, -1), secure)) "\
+@@ -442,6 +493,7 @@ std::optional<Vector<Cookie>> CookieJarDB::searchCookies(const URL& firstParty,
+         cookie.httpOnly = cookieHttpOnly;
+         cookie.secure = cookieSecure;
+         cookie.session = cookieSession;
++        cookie.sameSite = cookieSameSitePolicyFromDatabase(pstmt->columnInt(8));
+         results.append(WTF::move(cookie));
+     }
+ 
+@@ -454,7 +506,7 @@ Vector<Cookie> CookieJarDB::getAllCookies()
+     if (!isEnabled() || !m_database.isOpen())
+         return result;
+ 
+-    auto pstmt = m_database.prepareStatement("SELECT name, value, domain, path, expires, httponly, secure, session FROM Cookie"_s);
++    auto pstmt = m_database.prepareStatement("SELECT name, value, domain, path, expires, httponly, secure, session, sameSite FROM Cookie"_s);
+     if (!pstmt)
+         return result;
+ 
+@@ -470,6 +522,7 @@ Vector<Cookie> CookieJarDB::getAllCookies()
+         cookie.httpOnly = (pstmt->columnInt(5) == 1);
+         cookie.secure = (pstmt->columnInt(6) == 1);
+         cookie.session = (pstmt->columnInt(7) == 1);
++        cookie.sameSite = cookieSameSitePolicyFromDatabase(pstmt->columnInt(8));
+         result.append(WTF::move(cookie));
+     }
+     return result;
+@@ -500,6 +553,9 @@ static bool checkSecureCookie(const Cookie& cookie)
+ 
+ bool CookieJarDB::canAcceptCookie(const Cookie& cookie, const URL& firstParty, const URL& url, CookieJarDB::Source source)
+ {
++    if ((cookie.sameSite == Cookie::SameSitePolicy::None && !cookie.secure)
++        || (cookie.secure && !url.protocolIs("https"_s)))
++        return false;
+     if (PublicSuffixStore::singleton().isPublicSuffix(cookie.domain))
+         return false;
+ 
+@@ -518,6 +574,8 @@ bool CookieJarDB::canAcceptCookie(const Cookie& cookie, const URL& firstParty, c
+ 
+ bool CookieJarDB::setCookie(const Cookie& cookie)
+ {
++    if (cookie.sameSite == Cookie::SameSitePolicy::None && !cookie.secure)
++        return false;
+     auto expires = cookie.expires.value_or(0.0);
+     if (!cookie.session && MonotonicTime::fromRawSeconds(expires / msPerSecond) <= MonotonicTime::now())
+         return deleteCookieInternal(cookie.name, cookie.domain, cookie.path);
+@@ -534,10 +592,11 @@ bool CookieJarDB::setCookie(const Cookie& cookie)
+     statement.bindInt(7, cookie.session ? 1 : 0);
+     statement.bindInt(8, cookie.httpOnly ? 1 : 0);
+     statement.bindInt(9, cookie.secure ? 1 : 0);
++    statement.bindInt(10, static_cast<int>(cookie.sameSite));
+     return checkSQLiteReturnCode(statement.step());
+ }
+ 
+-bool CookieJarDB::setCookie(const URL& firstParty, const URL& url, const String& body, CookieJarDB::Source source, std::optional<Seconds> cappedLifetime)
++bool CookieJarDB::setCookie(const URL& firstParty, const URL& url, const String& body, CookieJarDB::Source source, std::optional<Seconds> cappedLifetime, const SameSiteInfo* sameSiteInfo)
+ {
+     if (!isEnabled() || !m_database.isOpen())
+         return false;
+@@ -561,6 +620,9 @@ bool CookieJarDB::setCookie(const URL& firstParty, const URL& url, const String&
+     if (!canAcceptCookie(*cookie, firstParty, url, source))
+         return false;
+ 
++    if (sameSiteInfo && !sameSiteCookieMayBeSet(cookie->sameSite, *sameSiteInfo, source == Source::Network))
++        return false;
++
+     if (cappedLifetime && cookie->expires) {
+         ASSERT(*cappedLifetime >= 0_s);
+         auto cappedExpires = WallTime::now() + *cappedLifetime;
+diff --git a/Source/WebCore/platform/network/curl/CookieJarDB.h b/Source/WebCore/platform/network/curl/CookieJarDB.h
+index 96e0a63b347..7d651bfa73e 100644
+--- a/Source/WebCore/platform/network/curl/CookieJarDB.h
++++ b/Source/WebCore/platform/network/curl/CookieJarDB.h
+@@ -61,7 +61,7 @@ public:
+     HashSet<String> allDomains();
+     std::optional<Vector<Cookie>> searchCookies(const URL& firstParty, const URL& requestUrl, const std::optional<bool>& httpOnly, const std::optional<bool>& secure, const std::optional<bool>& session);
+     Vector<Cookie> getAllCookies();
+-    WEBCORE_EXPORT bool setCookie(const URL& firstParty, const URL&, const String& cookie, Source, std::optional<Seconds> cappedLifetime = std::nullopt);
++    WEBCORE_EXPORT bool setCookie(const URL& firstParty, const URL&, const String& cookie, Source, std::optional<Seconds> cappedLifetime = std::nullopt, const SameSiteInfo* = nullptr);
+     bool setCookie(const Cookie&);
+ 
+     bool deleteCookie(const String& url, const String& name);
+@@ -91,7 +91,7 @@ private:
+     bool checkDatabaseValidity();
+     void deleteAllDatabaseFiles();
+ 
+-    void verifySchemaVersion();
++    bool verifySchemaVersion();
+     void deleteAllTables();
+ 
+     void createPrepareStatement(ASCIILiteral);
+diff --git a/Source/WebCore/platform/network/curl/CookieUtil.cpp b/Source/WebCore/platform/network/curl/CookieUtil.cpp
+index 7d0ffb01d0c..c4b791c0160 100644
+--- a/Source/WebCore/platform/network/curl/CookieUtil.cpp
++++ b/Source/WebCore/platform/network/curl/CookieUtil.cpp
+@@ -107,6 +107,14 @@ static void parseCookieAttributes(const String& attribute, bool& hasMaxAge, Cook
+         result.httpOnly = true;
+     else if (equalLettersIgnoringASCIICase(attributeName, "secure"_s))
+         result.secure = true;
++    else if (equalLettersIgnoringASCIICase(attributeName, "samesite"_s)) {
++        if (equalLettersIgnoringASCIICase(attributeValue, "strict"_s))
++            result.sameSite = Cookie::SameSitePolicy::Strict;
++        else if (equalLettersIgnoringASCIICase(attributeValue, "none"_s))
++            result.sameSite = Cookie::SameSitePolicy::None;
++        else
++            result.sameSite = Cookie::SameSitePolicy::Lax;
++    }
+     else if (equalLettersIgnoringASCIICase(attributeName, "domain"_s)) {
+         if (attributeValue.isEmpty())
+             return;
+@@ -171,14 +179,19 @@ std::optional<Cookie> parseCookieHeader(const String& cookieLine)
+     }
+ 
+     Cookie cookie;
++    cookie.sameSite = Cookie::SameSitePolicy::Lax;
+     cookie.name = cookieName.trim(deprecatedIsSpaceOrNewline);
+     cookie.value = cookieValue.trim(deprecatedIsSpaceOrNewline);
+ 
+     bool hasMaxAge = false;
+     cookie.session = true;
+ 
+-    for (auto attribute : cookieLine.splitAllowingEmptyEntries(';'))
+-        parseCookieAttributes(attribute, hasMaxAge, cookie);
++    // The first name=value pair is the cookie, not an attribute. In particular,
++    // a cookie named "SameSite" must not choose its own SameSite policy.
++    if (separatorPosition != notFound) {
++        for (auto attribute : cookieLine.substring(separatorPosition + 1).splitAllowingEmptyEntries(';'))
++            parseCookieAttributes(attribute, hasMaxAge, cookie);
++    }
+ 
+     return cookie;
+ }
+diff --git a/Source/WebCore/platform/network/curl/NetworkStorageSessionCurl.cpp b/Source/WebCore/platform/network/curl/NetworkStorageSessionCurl.cpp
+index 565d89cd623..2bc7fe42171 100644
+--- a/Source/WebCore/platform/network/curl/NetworkStorageSessionCurl.cpp
++++ b/Source/WebCore/platform/network/curl/NetworkStorageSessionCurl.cpp
+@@ -30,10 +30,12 @@
+ 
+ #include "Cookie.h"
+ #include "CookieJarDB.h"
++#include "CookieSameSite.h"
+ #include "CookieRequestHeaderFieldProxy.h"
+ #include "CookieStoreGetOptions.h"
+ #include "CurlContext.h"
+ #include "HTTPCookieAcceptPolicy.h"
++#include "SecurityOrigin.h"
+ #include <optional>
+ #include <wtf/FileSystem.h>
+ #include <wtf/URL.h>
+@@ -65,15 +67,29 @@ static String alternativeServicesStorageFile(const String& alternativeServicesDi
+     return FileSystem::pathByAppendingComponent(alternativeServicesDirectory, defaultFileName);
+ }
+ 
+-static std::pair<String, bool> cookiesForSession(const NetworkStorageSession& session, const URL& firstParty, const URL& url, bool forHTTPHeader, IncludeSecureCookies includeSecureCookies)
++static SameSiteInfo cookieContext(const URL& firstParty, const SameSiteInfo& info, const URL& url)
++{
++    auto result = info;
++    // Never upgrade a cross-site/opaque-ancestor decision from the loader.
++    // First-party and target URLs are HTTP(S), including the WebSocket cookie URL.
++    if (result.isSameSite && !SecurityOrigin::create(firstParty)->isSameSiteAs(SecurityOrigin::create(url)))
++        result.isSameSite = false;
++    return result;
++}
++
++static std::pair<String, bool> cookiesForSession(const NetworkStorageSession& session, const URL& firstParty, const SameSiteInfo& info, const URL& url, bool forHTTPHeader, IncludeSecureCookies includeSecureCookies)
+ {
+     StringBuilder cookies;
+     bool didAccessSecureCookies = false;
+     auto searchHTTPOnly = forHTTPHeader ? std::nullopt : std::optional<bool> { false };
+     auto secure = includeSecureCookies == IncludeSecureCookies::Yes ? std::nullopt : std::optional<bool> { false };
++    auto context = cookieContext(firstParty, info, url);
+ 
+     if (auto result = session.cookieDatabase().searchCookies(firstParty, url, searchHTTPOnly, secure, std::nullopt)) {
+         for (const auto& cookie : *result) {
++            if ((cookie.sameSite == Cookie::SameSitePolicy::None && !cookie.secure)
++                || !sameSiteCookieMayBeSent(cookie.sameSite, context, forHTTPHeader))
++                continue;
+             if (!cookies.isEmpty())
+                 cookies.append("; "_s);
+             if (!cookie.name.isEmpty())
+@@ -114,10 +130,11 @@ CookieJarDB& NetworkStorageSession::cookieDatabase() const
+     return m_cookieDatabase;
+ }
+ 
+-void NetworkStorageSession::setCookiesFromDOM(const URL& firstParty, const SameSiteInfo&, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier> pageID, ApplyTrackingPrevention, RequiresScriptTrackingPrivacy requiresScriptTrackingPrivacy, const String& value, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
++void NetworkStorageSession::setCookiesFromDOM(const URL& firstParty, const SameSiteInfo& info, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier> pageID, ApplyTrackingPrevention, RequiresScriptTrackingPrivacy requiresScriptTrackingPrivacy, const String& value, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
+ {
+     auto cappedLifetime = clientSideCookieCap(RegistrableDomain { firstParty }, requiresScriptTrackingPrivacy, pageID);
+-    cookieDatabase().setCookie(firstParty, url, value, CookieJarDB::Source::Script, cappedLifetime);
++    auto context = cookieContext(firstParty, info, url);
++    cookieDatabase().setCookie(firstParty, url, value, CookieJarDB::Source::Script, cappedLifetime, &context);
+ }
+ 
+ bool NetworkStorageSession::setCookieFromDOM(const URL&, const SameSiteInfo&, const URL&, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, ApplyTrackingPrevention, RequiresScriptTrackingPrivacy, const Cookie&, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
+@@ -153,9 +170,9 @@ HTTPCookieAcceptPolicy NetworkStorageSession::cookieAcceptPolicy() const
+     return HTTPCookieAcceptPolicy::OnlyFromMainDocumentDomain;
+ }
+ 
+-std::pair<String, bool> NetworkStorageSession::cookiesForDOM(const URL& firstParty, const SameSiteInfo&, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies includeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
++std::pair<String, bool> NetworkStorageSession::cookiesForDOM(const URL& firstParty, const SameSiteInfo& info, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies includeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
+ {
+-    return cookiesForSession(*this, firstParty, url, false, includeSecureCookies);
++    return cookiesForSession(*this, firstParty, info, url, false, includeSecureCookies);
+ }
+ 
+ std::optional<Vector<Cookie>> NetworkStorageSession::cookiesForDOMAsVector(const URL&, const SameSiteInfo&, const URL&, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker, CookieStoreGetOptions&&) const
+@@ -234,19 +251,24 @@ void NetworkStorageSession::hasCookies(const RegistrableDomain&, CompletionHandl
+     completionHandler(false);
+ }
+ 
+-bool NetworkStorageSession::getRawCookies(const URL& firstParty, const SameSiteInfo&, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, Vector<Cookie>& rawCookies) const
++bool NetworkStorageSession::getRawCookies(const URL& firstParty, const SameSiteInfo& info, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, Vector<Cookie>& rawCookies) const
+ {
+     auto cookies = cookieDatabase().searchCookies(firstParty, url, std::nullopt, std::nullopt, std::nullopt);
+     if (!cookies)
+         return false;
+ 
+     rawCookies = WTF::move(*cookies);
++    auto context = cookieContext(firstParty, info, url);
++    rawCookies.removeAllMatching([&](const Cookie& cookie) {
++        return (cookie.sameSite == Cookie::SameSitePolicy::None && !cookie.secure)
++            || !sameSiteCookieMayBeSent(cookie.sameSite, context, true);
++    });
+     return true;
+ }
+ 
+-std::pair<String, bool> NetworkStorageSession::cookieRequestHeaderFieldValue(const URL& firstParty, const SameSiteInfo&, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies includeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
++std::pair<String, bool> NetworkStorageSession::cookieRequestHeaderFieldValue(const URL& firstParty, const SameSiteInfo& info, const URL& url, std::optional<FrameIdentifier>, std::optional<PageIdentifier>, IncludeSecureCookies includeSecureCookies, ApplyTrackingPrevention, ShouldRelaxThirdPartyCookieBlocking, IsKnownCrossSiteTracker) const
+ {
+-    return cookiesForSession(*this, firstParty, url, true, includeSecureCookies);
++    return cookiesForSession(*this, firstParty, info, url, true, includeSecureCookies);
+ }
+ 
+ std::pair<String, bool> NetworkStorageSession::cookieRequestHeaderFieldValue(const CookieRequestHeaderFieldProxy& headerFieldProxy) const
+diff --git a/Source/WebCore/platform/network/curl/ResourceHandleCurl.cpp b/Source/WebCore/platform/network/curl/ResourceHandleCurl.cpp
+index 2656a289317..7843fcc4ecf 100644
+--- a/Source/WebCore/platform/network/curl/ResourceHandleCurl.cpp
++++ b/Source/WebCore/platform/network/curl/ResourceHandleCurl.cpp
+@@ -32,6 +32,7 @@
+ 
+ #if OS(SYMBIAN) && USE(CURL)
+ #include "CredentialStorage.h"
++#include "CookieJarDB.h"
+ #include "CurlContext.h"
+ #include "CurlRequest.h"
+ #include "DNS.h"
+@@ -171,9 +172,10 @@ void ResourceHandle::curlDidReceiveResponse(CurlRequest& request, CurlResponse&&
+         handle.checkTAO(state.m_response);
+         state.m_response.setDeprecatedNetworkLoadMetrics(Box<NetworkLoadMetrics>::create(WTF::move(response.networkLoadMetrics)));
+         if (request->resourceRequest().allowCookies() && handle.context() && handle.context()->storageSession()) {
++            auto sameSiteInfo = SameSiteInfo::create(request->resourceRequest());
+             for (auto& header : response.headers) {
+                 if (header.startsWithIgnoringASCIICase("set-cookie:"_s))
+-                    handle.context()->storageSession()->setCookiesFromHTTPResponse(request->resourceRequest().firstPartyForCookies(), response.url, header.substring(11).trim(deprecatedIsSpaceOrNewline));
++                    handle.context()->storageSession()->cookieDatabase().setCookie(request->resourceRequest().firstPartyForCookies(), response.url, header.substring(11).trim(deprecatedIsSpaceOrNewline), CookieJarDB::Source::Network, std::nullopt, &sameSiteInfo);
+             }
+         }
+         auto status = state.m_response.httpStatusCode();
+@@ -231,6 +233,10 @@ void ResourceHandle::continueCurlRedirect(ResourceRequest&& request, const URL&
+         return;
+     }
+     bool sameOrigin = protocolHostAndPortAreEqual(previousURL, request.url());
++    // The loader handles ordinary subresource redirects too. Keep this boundary
++    // conservative for every Legacy client: A -> B -> A must not regain Strict.
++    if (request.isSameSite() && !SecurityOrigin::create(previousURL)->isSameSiteAs(SecurityOrigin::create(request.url())))
++        request.setIsSameSite(false);
+     String user = sameOrigin ? d->m_curlRequest->user() : String();
+     String password = sameOrigin ? d->m_curlRequest->password() : String();
+     if (!sameOrigin) {
+diff --git a/Tools/Symbian/browser/BrowserApp.cpp b/Tools/Symbian/browser/BrowserApp.cpp
+index f159d0049cd..e9d6b7997bf 100644
+--- a/Tools/Symbian/browser/BrowserApp.cpp
++++ b/Tools/Symbian/browser/BrowserApp.cpp
+@@ -542,15 +542,22 @@ void CBrowserAppUi::ConstructL()
+ 
+ CBrowserAppUi::~CBrowserAppUi()
+ {
++    BrowserLog("exit diagnostic: appui destructor begin");
+     if (iWebContainer)
+         RemoveFromStack(iWebContainer);
+     if (iUrlBar)
+         RemoveFromStack(iUrlBar);
++    BrowserLog("exit diagnostic: delete suggestions");
+     delete iSuggestions;
++    BrowserLog("exit diagnostic: delete web container");
+     delete iWebContainer;
++    BrowserLog("exit diagnostic: delete url bar");
+     delete iUrlBar;
++    BrowserLog("exit diagnostic: delete softkeys");
+     delete iSoftkeys;
++    BrowserLog("exit diagnostic: delete run loop");
+     delete iRunLoop;
++    BrowserLog("exit diagnostic: delete remaining app state");
+     User::Free(iPendingUrl);
+     delete iHistory;
+     delete iBookmarks;
+@@ -726,6 +733,7 @@ void CBrowserAppUi::HandleCommandL(TInt aCommand)
+     case ECmdExit:
+     case EAknSoftkeyExit:
+     case EEikCmdExit:
++        BrowserLog("exit diagnostic: exit command %d", aCommand);
+         Exit();
+         break;
+     default:
+diff --git a/Tools/Symbian/docs/Belle-FP2-capabilities.md b/Tools/Symbian/docs/Belle-FP2-capabilities.md
+index d54bb736f07..0f67598b306 100644
+--- a/Tools/Symbian/docs/Belle-FP2-capabilities.md
++++ b/Tools/Symbian/docs/Belle-FP2-capabilities.md
+@@ -9,7 +9,7 @@ SDK 0.3.0 的原生头文件/导入库，日期为 2026-10-29。系统有 API 
+ 合成、WebGL 1、MMF 音视频、严格校验的 HTTPS/WSS、WebSocket、持久 Cookie、
+ 部分 WebCrypto。内存/JIT、图形、安装及媒体结果分别见
+ [内存](validation-memory/README.md)、[JIT](ARM11-JIT.md)、
+-[图形](GRAPHICS.md)、[安装](validation-release-0.3.39/README.md)和
++[图形](GRAPHICS.md)、[安装](validation-release-0.3.40/README.md)和
+ [媒体](MEDIA.md)。不把这些已有实现重新列为新功能。
+ 
+ 排序优先考虑常用网页是否能正常保存数据、输入和交换文件，其次是网络与渲染
+@@ -18,15 +18,15 @@ SDK 0.3.0 的原生头文件/导入库，日期为 2026-10-29。系统有 API 
+ 
+ | 顺序 | 能力和现状 | Belle/现有代码基础 | 实施与验收要求 |
+ | --- | --- | --- | --- |
+-| P0.1 | localStorage 被默认关闭；BroadcastChannel 使用空 registry | SQLite、文件系统、线程及 Legacy 的真实 namespace/registry 已存在 | 接页面开关与 provider；跨进程重启、配额、来源隔离、同来源消息、关闭后不投递、Worker 通信 |
+-| P0.2 | Cookie SameSite 没有解析、落盘和发送筛选 | 请求已有 SameSiteInfo；缺口在通用 curl 后端 | 数据库迁移、Strict/Lax/None、Secure 限制、跨站导航/子资源/POST/重定向/WSS、重启；跨端口不能代替跨站测试 |
+-| P0.3 | 页面存储/后台线程的实际覆盖不足 | sessionStorage、IndexedDB、DedicatedWorker、Web Locks 已有真实后端 | 先测事务、回滚、重启、消息/锁与线程退出；不把缺少验收误报成缺少实现。IDB 配额回调当前恒允许，需补容量策略 |
+-| P1.1 | 文件上传入口为空；下载被忽略 | CAknFileSelectionDialog、RFs/RFile、curl/FormData/ResourceHandle | 用户选择、取消、Unicode 路径、文件上传内容；下载选择目标、进度、取消、重定向、磁盘满和原子完成 |
++| P0.1 | **已接通** localStorage 和 BroadcastChannel | 真实 namespace/registry；[20 项运行检查](validation-belle/storage/README.md) | 已验证跨进程重启、localStorage 配额、来源隔离、同来源消息、关闭后不投递及 Worker 通信 |
++| P0.2 | SameSite 解析、落盘、迁移和筛选已实现，**运行验收中** | 通用 curl 后端；实际测试另发现地址族截断及 SDK IP SAN/SNI 缺陷，均已修复 | 继续严格的 23+5 项两进程验收；跨端口不能代替跨站，不能忽略 TLS 错误使测试通过 |
++| P0.3 | sessionStorage 已启用，Worker 栈已修；IDB 配额**实现中** | [17 项后端运行检查](validation-belle/backends/README.md)；真实事务、回滚、重启、Worker 消息和 Web Locks | IDB 增加完整 ClientOrigin/全局/实际磁盘余量配额及 Blob 提交失败回滚；尚未完成 guest 配额验收 |
++| P1.1 | **已接通原生单文件上传**；下载被忽略 | [实际 UI 8 项](validation-belle/ui/README.md)；原生文件选择与 RFs/RFile | 已验证取消、Unicode 路径、实际上传字节、frame 导航/脱离；多选输入目前可选单文件。继续下载目标、进度、取消、重定向、磁盘满及原子完成 |
+ | P1.2 | 实际仅 mouse/wheel，缺 DOM touch；maxTouchPoints 固定 0 | Window Server 指针事件、HAL、支持机型的高级指针 | touchstart/move/end/cancel、preventDefault、滚动、兼容 mouse 去重；按实际能力报告点数，多指需真机验收 |
+-| P1.3 | 字体配置未打包；WOFF2 关闭 | FreeType/HarfBuzz/fontconfig；可移植 Brotli/WOFF2 解码器 | 修默认字体配置和盘符路径，补固定版本依赖；中英/等宽字体、document.fonts.load、真实字形像素、损坏字体和重启 |
+-| P1.4 | 部分 WebCrypto 算法未接 | SDK mbedTLS 已有 AES/RSA/ECP；WebCore 通用算法层已存在 | 先 AES-CTR，再 RSA/ECDSA/ECDH；标准向量、导入/导出、错误拒绝、计数器边界、真实 ARM32；密钥持久包装另需系统密钥方案 |
++| P1.3 | **已打包字体配置并接通 WOFF2** | [字体运行证据](validation-belle-fonts/README.md)；固定版本 Brotli/WOFF2，修复 fontconfig 盘符路径 | WOFF2 7 项通过；系统字体 7 项分别在两次启动通过，包括中英/等宽字形、真实 fallback 像素与磁盘缓存复用 |
++| P1.4 | **已补 AES-CTR**；RSA/ECDSA/ECDH 仍缺 | [WebCrypto 29 项](validation-belle/webcrypto/README.md)及 [ARM32 计数器 35 项](validation-belle/aes-ctr-counter/README.md) | 继续 RSA/ECDSA/ECDH 标准向量、导入/导出及错误拒绝；密钥持久包装另需系统密钥方案 |
+ | P1.5 | HTTP 认证没有 UI；IAP 代理未接 | CAknMultiLineDataQueryDialog、ConnectionMethod/IAP 属性、curl 凭据机制 | 401 输入/取消/重试限制；407 独立代理凭据路径；IAP 切换、代理排除、TLS 验证和来源间凭据隔离 |
+-| P1.6 | 系统剪贴板未接；prompt 永远返回取消 | CClipboard、原生文本流、CAknTextQueryDialog | 用户发起的跨应用 UTF-16 纯文本复制粘贴；prompt 空串/取消/默认值/FEP/导航生命周期。富文本与 Async Clipboard 权限另列 |
++| P1.6 | **已接原生 prompt**；系统剪贴板未接 | CClipboard、原生文本流、CAknTextQueryDialog | prompt 默认值、空串和取消已实际 UI 验证；继续跨应用 UTF-16 纯文本复制粘贴。富文本与 Async Clipboard 权限另列；原生对话框中退出应用的额外故障正在处理 |
+ | P1.7 | 内存压力通知为空，online 状态恒 true | RChangeNotifier、EChangesFreeMemory、HAL、连接监视 API | 实际低内存通知及有界缓存回收；连接变化触发 online/offline。不能把系统剩余 RAM 当作进程可分配容量 |
+ | P1.8 | IPv6、HTTP/2 没有编入 curl | Open C IPv6/getaddrinfo 接口、nghttp2 可移植库 | IPv6-only、AAAA/IPv4 回退、HTTPS/WSS、HTTP/2 多路复用和资源限额；先核实 SDK/模拟器实际实现 |
+ | P1.9 | CookieStore 暴露但 curl DOM 方法为空；无 HTTP 磁盘缓存 | 现有 Cookie DB/SQLite/RFile；内存缓存已有 | CookieStore 读写/删除/权限/变更事件；小容量 GET 缓存的 ETag/304/Vary/no-store/认证隔离/中断写；不能直接搬 WebKit2 网络进程 |
+diff --git a/Tools/Symbian/tests/belle-ui/README.md b/Tools/Symbian/tests/belle-ui/README.md
+index 82ecdbde8be..e3f62a407aa 100644
+--- a/Tools/Symbian/tests/belle-ui/README.md
++++ b/Tools/Symbian/tests/belle-ui/README.md
+@@ -160,6 +160,9 @@ eight-case suite. Restart the fixture server after updating its allowlist.
+   Use a separate expected-guest-exit validator. The ordinary browser runner must
+   continue rejecting an early host exit. A host WM close, killed emulator, or
+   picker Cancel does not establish application teardown during the modal call.
++  The independent [official EndTask helper](app-exit/README.md) can send that
++  application-exit request through the guest window server while the picker
++  covers the browser's menu.
+ 
+ Each diagnostic needs a fresh run token and independent normal-close/panic
+ checks. Do not include their markers in the formal eight-case count.

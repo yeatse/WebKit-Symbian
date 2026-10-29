@@ -1,0 +1,92 @@
+{"run": "CHOOSE_NEW_RUN_ID", "a": "https://localhost:8791", "b": "https://127.0.0.1:8791", "sameSiteOtherPort": "https://localhost:8792", "httpA": "http://localhost:8790"}
+[8791] "GET /summary?run=preflight_8fcebc50466e475582f8ce7c7a1ba627 HTTP/1.1" 200 -
+[8791] "GET /summary?run=preflight_8fcebc50466e475582f8ce7c7a1ba627 HTTP/1.1" 200 -
+[8792] "GET /summary?run=preflight_8fcebc50466e475582f8ce7c7a1ba627 HTTP/1.1" 200 -
+[8790] "GET /summary?run=preflight_8fcebc50466e475582f8ce7c7a1ba627 HTTP/1.1" 200 -
+[8791] "GET /start?run=3457af7e7fc8423881c1147dea31aaca HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /seed-b?run=3457af7e7fc8423881c1147dea31aaca&phase=seed-a HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /main?run=3457af7e7fc8423881c1147dea31aaca&phase=seed-b HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /echo?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8792] "GET /echo?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8791] "GET /echo?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8791] "POST /echo?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8791] "GET /frame?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /ws?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 101 -
+[8791] "GET /ws?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 101 -
+[8791] "GET /redirect?run=3457af7e7fc8423881c1147dea31aaca&phase=main&to=https%3A%2F%2F127.0.0.1%3A8791%2Fredirect%3Frun%3D3457af7e7fc8423881c1147dea31aaca%26phase%3Dmain%26to%3Dhttps%253A%252F%252Flocalhost%253A8791%252Fecho%253Frun%253D3457af7e7fc8423881c1147dea31aaca%2526phase%253Dmain HTTP/1.1" 302 -
+[8791] "GET /redirect?run=3457af7e7fc8423881c1147dea31aaca&phase=main&to=https%3A%2F%2Flocalhost%3A8791%2Fecho%3Frun%3D3457af7e7fc8423881c1147dea31aaca%26phase%3Dmain HTTP/1.1" 302 -
+[8791] "GET /echo?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8791] "GET /set-response?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8791] "GET /echo?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8791] "GET /nested-parent?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /nested-child?run=3457af7e7fc8423881c1147dea31aaca&phase=nested-parent HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /echo?run=3457af7e7fc8423881c1147dea31aaca&phase=nested-child HTTP/1.1" 200 -
+[8791] "GET /ws?run=3457af7e7fc8423881c1147dea31aaca&phase=nested-child HTTP/1.1" 101 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=main HTTP/1.1" 200 -
+[8791] "GET /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=main&step=get HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=nav HTTP/1.1" 200 -
+[8791] "POST /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=post HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=nav HTTP/1.1" 200 -
+[8791] "GET /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=same HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=nav HTTP/1.1" 200 -
+[8791] "POST /redirect?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&code=307&to=https%3A%2F%2F127.0.0.1%3A8791%2Fnav%3Frun%3D3457af7e7fc8423881c1147dea31aaca%26phase%3Dnav%26step%3Dpost307 HTTP/1.1" 307 -
+[8791] "POST /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=post307 HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=nav HTTP/1.1" 200 -
+[8791] "GET /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=chain-start HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /redirect?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&to=https%3A%2F%2Flocalhost%3A8791%2Fnav%3Frun%3D3457af7e7fc8423881c1147dea31aaca%26phase%3Dnav%26step%3Dchain-end HTTP/1.1" 302 -
+[8791] "GET /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=chain-end HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=nav HTTP/1.1" 200 -
+[8790] "GET /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=scheme-post-source HTTP/1.1" 200 -
+[8790] "GET /case.js HTTP/1.1" 200 -
+[8791] "POST /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=scheme-post HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=nav HTTP/1.1" 200 -
+[8790] "GET /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=scheme-get-source HTTP/1.1" 200 -
+[8790] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=scheme-get HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=nav HTTP/1.1" 200 -
+[8791] "GET /done?run=3457af7e7fc8423881c1147dea31aaca&phase=nav HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /summary?run=3457af7e7fc8423881c1147dea31aaca&phase=done HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 42980)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 442, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 408, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py", line 720, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [Errno 104] Connection reset by peer
+----------------------------------------
+[8791] "GET /resume?run=3457af7e7fc8423881c1147dea31aaca HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /echo?run=3457af7e7fc8423881c1147dea31aaca&phase=resume HTTP/1.1" 200 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=resume HTTP/1.1" 200 -
+[8791] "GET /resume-b?run=3457af7e7fc8423881c1147dea31aaca&phase=resume HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "POST /record?run=3457af7e7fc8423881c1147dea31aaca&phase=resume-b HTTP/1.1" 200 -
+[8791] "GET /done?run=3457af7e7fc8423881c1147dea31aaca&phase=resume-b HTTP/1.1" 200 -
+[8791] "GET /case.js HTTP/1.1" 200 -
+[8791] "GET /summary?run=3457af7e7fc8423881c1147dea31aaca&phase=done HTTP/1.1" 200 -

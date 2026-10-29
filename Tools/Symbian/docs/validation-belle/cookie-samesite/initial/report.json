@@ -1,0 +1,699 @@
+{
+  "suite": "cookie-samesite",
+  "config": {
+    "run": "3457af7e7fc8423881c1147dea31aaca",
+    "a": "https://localhost:8791",
+    "b": "https://127.0.0.1:8791",
+    "sameSiteOtherPort": "https://localhost:8792",
+    "httpA": "http://localhost:8790"
+  },
+  "requests": [
+    {
+      "path": "/start",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca"
+      },
+      "tls": true,
+      "time_ns": 1793303783715769631
+    },
+    {
+      "path": "/seed-b",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "seed-a"
+      },
+      "tls": true,
+      "time_ns": 1793303785087582791
+    },
+    {
+      "path": "/main",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "seed-b"
+      },
+      "tls": true,
+      "time_ns": 1793303785394598361
+    },
+    {
+      "path": "/echo",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303785998939566
+    },
+    {
+      "path": "/echo",
+      "method": "GET",
+      "host": "localhost:8792",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303786211653040
+    },
+    {
+      "path": "/echo",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303786287300261
+    },
+    {
+      "path": "/echo",
+      "method": "POST",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303786599024502
+    },
+    {
+      "path": "/frame",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303786800253358
+    },
+    {
+      "path": "/ws",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303787261789863
+    },
+    {
+      "path": "/ws",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303787370882061
+    },
+    {
+      "path": "/redirect",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main",
+        "to": "https://127.0.0.1:8791/redirect?run=3457af7e7fc8423881c1147dea31aaca&phase=main&to=https%3A%2F%2Flocalhost%3A8791%2Fecho%3Frun%3D3457af7e7fc8423881c1147dea31aaca%26phase%3Dmain"
+      },
+      "tls": true,
+      "time_ns": 1793303787411702513
+    },
+    {
+      "path": "/redirect",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main",
+        "to": "https://localhost:8791/echo?run=3457af7e7fc8423881c1147dea31aaca&phase=main"
+      },
+      "tls": true,
+      "time_ns": 1793303787513145250
+    },
+    {
+      "path": "/echo",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1",
+      "origin": "null",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303787538688546
+    },
+    {
+      "path": "/set-response",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303787619990051
+    },
+    {
+      "path": "/echo",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1; ss_3457af7e7fc8423881c1147dea31aaca_response_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303787686231464
+    },
+    {
+      "path": "/nested-parent",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1; ss_3457af7e7fc8423881c1147dea31aaca_response_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303787763097992
+    },
+    {
+      "path": "/nested-child",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nested-parent"
+      },
+      "tls": true,
+      "time_ns": 1793303788129530233
+    },
+    {
+      "path": "/echo",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nested-child"
+      },
+      "tls": true,
+      "time_ns": 1793303788319151148
+    },
+    {
+      "path": "/ws",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nested-child"
+      },
+      "tls": true,
+      "time_ns": 1793303788385799109
+    },
+    {
+      "path": "/record",
+      "method": "POST",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main"
+      },
+      "tls": true,
+      "time_ns": 1793303788444549089
+    },
+    {
+      "path": "/nav",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1; ss_3457af7e7fc8423881c1147dea31aaca_response_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "main",
+        "step": "get"
+      },
+      "tls": true,
+      "time_ns": 1793303788556282143
+    },
+    {
+      "path": "/record",
+      "method": "POST",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1; ss_3457af7e7fc8423881c1147dea31aaca_response_none=1",
+      "origin": "https://127.0.0.1:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav"
+      },
+      "tls": true,
+      "time_ns": 1793303788815621728
+    },
+    {
+      "path": "/nav",
+      "method": "POST",
+      "host": "localhost:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "https://127.0.0.1:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "step": "post"
+      },
+      "tls": true,
+      "time_ns": 1793303788982617350
+    },
+    {
+      "path": "/record",
+      "method": "POST",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav"
+      },
+      "tls": true,
+      "time_ns": 1793303789280568331
+    },
+    {
+      "path": "/nav",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "step": "same"
+      },
+      "tls": true,
+      "time_ns": 1793303789331151754
+    },
+    {
+      "path": "/record",
+      "method": "POST",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav"
+      },
+      "tls": true,
+      "time_ns": 1793303789452642166
+    },
+    {
+      "path": "/redirect",
+      "method": "POST",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1; ss_3457af7e7fc8423881c1147dea31aaca_response_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "code": "307",
+        "to": "https://127.0.0.1:8791/nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=post307"
+      },
+      "tls": true,
+      "time_ns": 1793303789523690863
+    },
+    {
+      "path": "/nav",
+      "method": "POST",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1; ss_3457af7e7fc8423881c1147dea31aaca_response_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "step": "post307"
+      },
+      "tls": true,
+      "time_ns": 1793303789666560995
+    },
+    {
+      "path": "/record",
+      "method": "POST",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1; ss_3457af7e7fc8423881c1147dea31aaca_response_none=1",
+      "origin": "https://127.0.0.1:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav"
+      },
+      "tls": true,
+      "time_ns": 1793303789929150046
+    },
+    {
+      "path": "/nav",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "step": "chain-start"
+      },
+      "tls": true,
+      "time_ns": 1793303790013429973
+    },
+    {
+      "path": "/redirect",
+      "method": "GET",
+      "host": "127.0.0.1:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_frame_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_response_none=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_frame_none=1; ss_316daedaf27840aa97bc2259ea59689b_response_none=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_frame_none=1; ss_110b587efc214b549675afcc6f7c32a1_response_none=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_frame_none=1; ss_3457af7e7fc8423881c1147dea31aaca_response_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "to": "https://localhost:8791/nav?run=3457af7e7fc8423881c1147dea31aaca&phase=nav&step=chain-end"
+      },
+      "tls": true,
+      "time_ns": 1793303790277845883
+    },
+    {
+      "path": "/nav",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "step": "chain-end"
+      },
+      "tls": true,
+      "time_ns": 1793303790330054858
+    },
+    {
+      "path": "/record",
+      "method": "POST",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav"
+      },
+      "tls": true,
+      "time_ns": 1793303790414397647
+    },
+    {
+      "path": "/nav",
+      "method": "GET",
+      "host": "localhost:8790",
+      "cookie": "",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "step": "scheme-post-source"
+      },
+      "tls": false,
+      "time_ns": 1793303790502731489
+    },
+    {
+      "path": "/nav",
+      "method": "POST",
+      "host": "localhost:8791",
+      "cookie": "ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "http://localhost:8790",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "step": "scheme-post"
+      },
+      "tls": true,
+      "time_ns": 1793303790754409821
+    },
+    {
+      "path": "/record",
+      "method": "POST",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav"
+      },
+      "tls": true,
+      "time_ns": 1793303791142265718
+    },
+    {
+      "path": "/nav",
+      "method": "GET",
+      "host": "localhost:8790",
+      "cookie": "",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "step": "scheme-get-source"
+      },
+      "tls": false,
+      "time_ns": 1793303791198937223
+    },
+    {
+      "path": "/nav",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav",
+        "step": "scheme-get"
+      },
+      "tls": true,
+      "time_ns": 1793303791419157415
+    },
+    {
+      "path": "/record",
+      "method": "POST",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "https://localhost:8791",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav"
+      },
+      "tls": true,
+      "time_ns": 1793303791695244834
+    },
+    {
+      "path": "/done",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "nav"
+      },
+      "tls": true,
+      "time_ns": 1793303791758584876
+    },
+    {
+      "path": "/summary",
+      "method": "GET",
+      "host": "localhost:8791",
+      "cookie": "ss_f0b31f5c1e5a488093686fdf612d3507_strict=1; ss_f0b31f5c1e5a488093686fdf612d3507_lax=1; ss_f0b31f5c1e5a488093686fdf612d3507_none=1; ss_f0b31f5c1e5a488093686fdf612d3507_default=1; ss_f0b31f5c1e5a488093686fdf612d3507_mixed=1; ss_f0b31f5c1e5a488093686fdf612d3507_unknown=1; ss_f0b31f5c1e5a488093686fdf612d3507_duplicate=1; ss_f0b31f5c1e5a488093686fdf612d3507_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_mixed=1; ss_c9595f73809e4625a1272dbd2099c0f0_unknown=1; ss_c9595f73809e4625a1272dbd2099c0f0_duplicate=1; ss_c9595f73809e4625a1272dbd2099c0f0_httpOnly=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_strict=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_lax=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_none=1; ss_c9595f73809e4625a1272dbd2099c0f0_dom_default=1; ss_c9595f73809e4625a1272dbd2099c0f0_nested_none=1; ss_316daedaf27840aa97bc2259ea59689b_strict=1; ss_316daedaf27840aa97bc2259ea59689b_lax=1; ss_316daedaf27840aa97bc2259ea59689b_none=1; ss_316daedaf27840aa97bc2259ea59689b_default=1; ss_316daedaf27840aa97bc2259ea59689b_mixed=1; ss_316daedaf27840aa97bc2259ea59689b_unknown=1; ss_316daedaf27840aa97bc2259ea59689b_duplicate=1; ss_316daedaf27840aa97bc2259ea59689b_httpOnly=1; ss_316daedaf27840aa97bc2259ea59689b_dom_strict=1; ss_316daedaf27840aa97bc2259ea59689b_dom_lax=1; ss_316daedaf27840aa97bc2259ea59689b_dom_none=1; ss_316daedaf27840aa97bc2259ea59689b_dom_default=1; ss_316daedaf27840aa97bc2259ea59689b_nested_none=1; ss_110b587efc214b549675afcc6f7c32a1_strict=1; ss_110b587efc214b549675afcc6f7c32a1_lax=1; ss_110b587efc214b549675afcc6f7c32a1_none=1; ss_110b587efc214b549675afcc6f7c32a1_default=1; ss_110b587efc214b549675afcc6f7c32a1_mixed=1; ss_110b587efc214b549675afcc6f7c32a1_unknown=1; ss_110b587efc214b549675afcc6f7c32a1_duplicate=1; ss_110b587efc214b549675afcc6f7c32a1_httpOnly=1; ss_110b587efc214b549675afcc6f7c32a1_dom_strict=1; ss_110b587efc214b549675afcc6f7c32a1_dom_lax=1; ss_110b587efc214b549675afcc6f7c32a1_dom_none=1; ss_110b587efc214b549675afcc6f7c32a1_dom_default=1; ss_110b587efc214b549675afcc6f7c32a1_nested_none=1; ss_3457af7e7fc8423881c1147dea31aaca_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_none=1; ss_3457af7e7fc8423881c1147dea31aaca_default=1; ss_3457af7e7fc8423881c1147dea31aaca_mixed=1; ss_3457af7e7fc8423881c1147dea31aaca_unknown=1; ss_3457af7e7fc8423881c1147dea31aaca_duplicate=1; ss_3457af7e7fc8423881c1147dea31aaca_session=1; ss_3457af7e7fc8423881c1147dea31aaca_httpOnly=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_strict=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_lax=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_none=1; ss_3457af7e7fc8423881c1147dea31aaca_dom_default=1; ss_3457af7e7fc8423881c1147dea31aaca_nested_none=1",
+      "origin": "",
+      "query": {
+        "run": "3457af7e7fc8423881c1147dea31aaca",
+        "phase": "done"
+      },
+      "tls": true,
+      "time_ns": 1793303792072923146
+    }
+  ],
+  "results": [
+    {
+      "name": "top-level DOM reads Strict/Lax/default; HttpOnly hidden; None without Secure rejected",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "top-level DOM writes preserve SameSite; None without Secure rejected",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "same-site fetch sends every policy",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-port same-site control sends every policy",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-site fetch GET sends only None",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-site fetch POST sends only None",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-site iframe request and DOM read/send restrictions",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "same-site WebSocket includes Strict/Lax",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-site WebSocket includes only None",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fetch redirect A to B to A keeps cross-site taint",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-site response may set None; Strict/Lax/default deferred rejection verified on top-level B",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "A to B to A iframe ancestry stays cross-site for DOM, fetch and WebSocket",
+      "phase": "main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-site top-level GET permits Lax/default/None, rejects Strict",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "top-level DOM can read Strict after cross-site navigation",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-site iframe DOM writes really rejected, not merely hidden",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "cross-site subresource Set-Cookie Strict/Lax/default really rejected",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "fresh default cookie excluded on top-level cross-site POST (no two-minute exception)",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "DOM-created cookie policies enforced for cross-site POST",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "same-site top-level GET permits Strict",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "307 preserves cross-site POST restrictions",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "top-level A to B to A GET chain still excludes Strict",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTP to HTTPS same-host POST is schemefully cross-site",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTP to HTTPS same-host GET permits Lax, excludes Strict",
+      "phase": "nav",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+logs: /workspace/symbian-belle-work/runs/browser-20261029T195619Z-8gr7b2ak
+19:56:21.065 WebKit Browser starting
+19:56:21.080 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:56:23.134 network: connected through "Host network"
+19:56:23.152 load https://localhost:8791/start?run=3457af7e7fc8423881c1147dea31aaca
+console: https://localhost:8791/case.js:33: PASS: top-level DOM reads Strict/Lax/default; HttpOnly hidden; None without Secure rejected
+console: https://localhost:8791/case.js:33: PASS: top-level DOM writes preserve SameSite; None without Secure rejected
+console: https://localhost:8791/case.js:33: PASS: same-site fetch sends every policy
+console: https://localhost:8791/case.js:33: PASS: cross-port same-site control sends every policy
+console: https://localhost:8791/case.js:33: PASS: cross-site fetch GET sends only None
+console: https://localhost:8791/case.js:33: PASS: cross-site fetch POST sends only None
+console: https://localhost:8791/case.js:33: PASS: cross-site iframe request and DOM read/send restrictions
+console: https://localhost:8791/case.js:33: PASS: same-site WebSocket includes Strict/Lax
+console: https://localhost:8791/case.js:33: PASS: cross-site WebSocket includes only None
+console: :0: WebSocket network error: Failure when receiving data from the peer
+console: https://localhost:8791/case.js:33: PASS: fetch redirect A to B to A keeps cross-site taint
+console: https://localhost:8791/case.js:33: PASS: cross-site response may set None; Strict/Lax/default deferred rejection verified on top-level B
+console: :0: WebSocket network error: Failure when receiving data from the peer
+console: https://localhost:8791/case.js:33: PASS: A to B to A iframe ancestry stays cross-site for DOM, fetch and WebSocket
+console: https://127.0.0.1:8791/case.js:33: PASS: cross-site top-level GET permits Lax/default/None, rejects Strict
+console: https://127.0.0.1:8791/case.js:33: PASS: top-level DOM can read Strict after cross-site navigation
+console: https://127.0.0.1:8791/case.js:33: PASS: cross-site iframe DOM writes really rejected, not merely hidden
+console: https://127.0.0.1:8791/case.js:33: PASS: cross-site subresource Set-Cookie Strict/Lax/default really rejected
+console: https://localhost:8791/case.js:33: PASS: fresh default cookie excluded on top-level cross-site POST (no two-minute exception)
+console: https://localhost:8791/case.js:33: PASS: DOM-created cookie policies enforced for cross-site POST
+console: https://localhost:8791/case.js:33: PASS: same-site top-level GET permits Strict
+console: https://127.0.0.1:8791/case.js:33: PASS: 307 preserves cross-site POST restrictions
+console: https://localhost:8791/case.js:33: PASS: top-level A to B to A GET chain still excludes Strict
+console: https://localhost:8791/case.js:33: PASS: HTTP to HTTPS same-host POST is schemefully cross-site
+console: https://localhost:8791/case.js:33: PASS: HTTP to HTTPS same-host GET permits Lax, excludes Strict
+console: https://localhost:8791/case.js:206: COOKIE_FINAL_URL: https://localhost:8791/done?run=3457af7e7fc8423881c1147dea31aaca&phase=nav
+console: https://localhost:8791/case.js:207: PASS: cookie-samesite 23/23 (23 outcomes)
+
+Browser observation completed; inspect screenshot and test outcomes: /workspace/symbian-belle-work/runs/browser-20261029T195619Z-8gr7b2ak/browser.png

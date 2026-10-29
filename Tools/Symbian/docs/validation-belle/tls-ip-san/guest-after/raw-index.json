@@ -1,0 +1,16 @@
+[
+  {
+    "path": "emulator.log.gz",
+    "source": "/workspace/symbian-belle-work/runs/browser-20261029T194304Z-8f9irah3/emulator.log",
+    "original_bytes": 214296,
+    "original_sha256": "caeaab03264fef2d4a0032c4db3154624d0b7a086711ce2a1075daaa13265bb2",
+    "gzip_sha256": "f3f383609f90c635953f7a750889267373e8d0e6d50652f63b0e56e4c37b843c"
+  },
+  {
+    "path": "log.txt.gz",
+    "source": "/workspace/symbian-belle-work/runs/browser-20261029T194304Z-8f9irah3/log.txt",
+    "original_bytes": 1346,
+    "original_sha256": "9ba8d7553fd35d6fabe8864a8cf3901bdd0458cfef9af3863e049f1157f6d811",
+    "gzip_sha256": "9a8c7c6c0245caf67158e4e275444fa60ad015ee98facf755310da198aa58c9f"
+  }
+]

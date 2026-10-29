@@ -9,7 +9,7 @@ SDK 0.3.0 的原生头文件/导入库，日期为 2026-10-29。系统有 API �
 合成、WebGL 1、MMF 音视频、严格校验的 HTTPS/WSS、WebSocket、持久 Cookie、
 部分 WebCrypto。内存/JIT、图形、安装及媒体结果分别见
 [内存](validation-memory/README.md)、[JIT](ARM11-JIT.md)、
-[图形](GRAPHICS.md)、[安装](validation-release-0.3.39/README.md)和
+[图形](GRAPHICS.md)、[安装](validation-release-0.3.40/README.md)和
 [媒体](MEDIA.md)。不把这些已有实现重新列为新功能。
 
 排序优先考虑常用网页是否能正常保存数据、输入和交换文件，其次是网络与渲染
@@ -18,15 +18,15 @@ SDK 0.3.0 的原生头文件/导入库，日期为 2026-10-29。系统有 API �
 
 | 顺序 | 能力和现状 | Belle/现有代码基础 | 实施与验收要求 |
 | --- | --- | --- | --- |
-| P0.1 | localStorage 被默认关闭；BroadcastChannel 使用空 registry | SQLite、文件系统、线程及 Legacy 的真实 namespace/registry 已存在 | 接页面开关与 provider；跨进程重启、配额、来源隔离、同来源消息、关闭后不投递、Worker 通信 |
-| P0.2 | Cookie SameSite 没有解析、落盘和发送筛选 | 请求已有 SameSiteInfo；缺口在通用 curl 后端 | 数据库迁移、Strict/Lax/None、Secure 限制、跨站导航/子资源/POST/重定向/WSS、重启；跨端口不能代替跨站测试 |
-| P0.3 | 页面存储/后台线程的实际覆盖不足 | sessionStorage、IndexedDB、DedicatedWorker、Web Locks 已有真实后端 | 先测事务、回滚、重启、消息/锁与线程退出；不把缺少验收误报成缺少实现。IDB 配额回调当前恒允许，需补容量策略 |
-| P1.1 | 文件上传入口为空；下载被忽略 | CAknFileSelectionDialog、RFs/RFile、curl/FormData/ResourceHandle | 用户选择、取消、Unicode 路径、文件上传内容；下载选择目标、进度、取消、重定向、磁盘满和原子完成 |
+| P0.1 | **已接通** localStorage 和 BroadcastChannel | 真实 namespace/registry；[20 项运行检查](validation-belle/storage/README.md) | 已验证跨进程重启、localStorage 配额、来源隔离、同来源消息、关闭后不投递及 Worker 通信 |
+| P0.2 | **已接通 SameSite** 解析、落盘、迁移和发送筛选 | [两进程 28 项验收](validation-belle/cookie-samesite/README.md)；另修 curl 地址族截断及 SDK IP SAN/SNI | Strict/Lax/None、Secure、跨站导航/子资源/POST/重定向/WSS、嵌套来源、跨协议与重启均通过；旧库降级再升级保留原 24 条记录。HTTPS/WSS 原有 6 项回归通过 |
+| P0.3 | sessionStorage 已启用，Worker 栈已修；IDB 配额已实现，**运行验收中** | [17 项后端运行检查](validation-belle/backends/README.md)；[配额 host/ARM 检查](validation-quota/idb-host/README.md) | IDB 增加完整 ClientOrigin 32 MiB、全局 128 MiB、持久写准入 16 MiB 磁盘余量及 Blob 提交失败回滚；尚未完成 guest 配额验收 |
+| P1.1 | **已接通原生单文件上传**；下载被忽略 | [实际 UI 8 项](validation-belle/ui/README.md)；原生文件选择与 RFs/RFile | 已验证取消、Unicode 路径、实际上传字节、frame 导航/脱离；多选输入目前可选单文件。继续下载目标、进度、取消、重定向、磁盘满及原子完成 |
 | P1.2 | 实际仅 mouse/wheel，缺 DOM touch；maxTouchPoints 固定 0 | Window Server 指针事件、HAL、支持机型的高级指针 | touchstart/move/end/cancel、preventDefault、滚动、兼容 mouse 去重；按实际能力报告点数，多指需真机验收 |
-| P1.3 | 字体配置未打包；WOFF2 关闭 | FreeType/HarfBuzz/fontconfig；可移植 Brotli/WOFF2 解码器 | 修默认字体配置和盘符路径，补固定版本依赖；中英/等宽字体、document.fonts.load、真实字形像素、损坏字体和重启 |
-| P1.4 | 部分 WebCrypto 算法未接 | SDK mbedTLS 已有 AES/RSA/ECP；WebCore 通用算法层已存在 | 先 AES-CTR，再 RSA/ECDSA/ECDH；标准向量、导入/导出、错误拒绝、计数器边界、真实 ARM32；密钥持久包装另需系统密钥方案 |
+| P1.3 | **已打包字体配置并接通 WOFF2** | [字体运行证据](validation-belle-fonts/README.md)；固定版本 Brotli/WOFF2，修复 fontconfig 盘符路径 | WOFF2 7 项通过；系统字体 7 项分别在两次启动通过，包括中英/等宽字形、真实 fallback 像素与磁盘缓存复用 |
+| P1.4 | **已补 AES-CTR**；RSA/ECDSA/ECDH 仍缺 | [WebCrypto 29 项](validation-belle/webcrypto/README.md)及 [ARM32 计数器 35 项](validation-belle/aes-ctr-counter/README.md) | 继续 RSA/ECDSA/ECDH 标准向量、导入/导出及错误拒绝；密钥持久包装另需系统密钥方案 |
 | P1.5 | HTTP 认证没有 UI；IAP 代理未接 | CAknMultiLineDataQueryDialog、ConnectionMethod/IAP 属性、curl 凭据机制 | 401 输入/取消/重试限制；407 独立代理凭据路径；IAP 切换、代理排除、TLS 验证和来源间凭据隔离 |
-| P1.6 | 系统剪贴板未接；prompt 永远返回取消 | CClipboard、原生文本流、CAknTextQueryDialog | 用户发起的跨应用 UTF-16 纯文本复制粘贴；prompt 空串/取消/默认值/FEP/导航生命周期。富文本与 Async Clipboard 权限另列 |
+| P1.6 | **已接原生 prompt**；系统剪贴板未接 | CClipboard、原生文本流、CAknTextQueryDialog | prompt 默认值、空串和取消已实际 UI 验证；继续跨应用 UTF-16 纯文本复制粘贴。富文本与 Async Clipboard 权限另列；原生对话框中退出应用的额外故障正在处理 |
 | P1.7 | 内存压力通知为空，online 状态恒 true | RChangeNotifier、EChangesFreeMemory、HAL、连接监视 API | 实际低内存通知及有界缓存回收；连接变化触发 online/offline。不能把系统剩余 RAM 当作进程可分配容量 |
 | P1.8 | IPv6、HTTP/2 没有编入 curl | Open C IPv6/getaddrinfo 接口、nghttp2 可移植库 | IPv6-only、AAAA/IPv4 回退、HTTPS/WSS、HTTP/2 多路复用和资源限额；先核实 SDK/模拟器实际实现 |
 | P1.9 | CookieStore 暴露但 curl DOM 方法为空；无 HTTP 磁盘缓存 | 现有 Cookie DB/SQLite/RFile；内存缓存已有 | CookieStore 读写/删除/权限/变更事件；小容量 GET 缓存的 ETag/304/Vary/no-store/认证隔离/中断写；不能直接搬 WebKit2 网络进程 |

@@ -1,0 +1,54 @@
+{
+  "status": "FAIL",
+  "run": "8756799abeab4534a5994c5850c5ad97",
+  "phases": [],
+  "browser_sha256": "91cf3692692f07b39ab495d32c6a4efa8270a66918ada79c681b2dbb446d0168",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "test_ca_sha256": "7c0e23b1fffe22e37960289117c3955f2beb8aa04f28814de2e1489f430b06a6",
+  "started": "2026-10-29T18:43:05.686027+00:00",
+  "fixture_sha256": {
+    "validate.py": "8e1076aff8d8ab59af2129d0057cd30698e64b74b8993d3ecf9325ab48f16097",
+    "server.py": "c3bf55a2d7ac300748249d90350984c101216fd6e798d94f961b59df534b29ec",
+    "run.py": "bc968a9c5251c51aaad7076ca00a94d4a09731c04b39bdd534e3627129ebd56e",
+    "test-runner.py": "735563f3e27ef1a653be7b0044c25a7151763959fe587b57cba4011e0e8b62fc",
+    "make-certificates.sh": "c2abb3c9b46108f8636d6b205b60b83d287a0f69bc8143bbe1f84dfb16b1ad05",
+    "case.js": "1b7304db4453ffede75351495feaab5d26067b80cdc0dc9b07130cd22ad32693",
+    "test-host.py": "f7050fd6050f2015f2345d4bdf00a9955fc81fe9931593855d16146e23e495d4"
+  },
+  "preflight": [
+    {
+      "origin": "https://localhost:8791",
+      "status": "PASS",
+      "certificate_and_hostname_verified": true
+    },
+    {
+      "origin": "https://127.0.0.1:8791",
+      "status": "PASS",
+      "certificate_and_hostname_verified": true
+    },
+    {
+      "origin": "https://localhost:8792",
+      "status": "PASS",
+      "certificate_and_hostname_verified": true
+    },
+    {
+      "origin": "http://localhost:8790",
+      "status": "PASS",
+      "certificate_and_hostname_verified": false
+    }
+  ],
+  "database_before": {
+    "exists": true,
+    "restored_or_deleted": false,
+    "bytes": 24576,
+    "sha256": "3eb9f906368c7baffe00731c484d76bb8fb18b413806c9602232b2e5dd791160",
+    "snapshot": "before-cookies.db"
+  },
+  "release_ca_before_sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "first_launch_bound_ns": 1793299385858623218,
+  "test_ca_restored": true,
+  "release_ca_after_sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "error": "initial: driver failed (1), watchdog=False",
+  "fixture_server_exit": -15,
+  "finished": "2026-10-29T18:44:36.664485+00:00"
+}

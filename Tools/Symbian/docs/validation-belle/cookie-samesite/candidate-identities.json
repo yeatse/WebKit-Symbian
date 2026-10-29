@@ -1,0 +1,215 @@
+{
+  "base_commit": "1f1b26a4a79ba805cbb424026af66cafca9cbb6e",
+  "source_patch_sha256": "57bbceeaff9925781002f5f50f50ddfed6ef27dbbe25bfc798824f9e1b90fb92",
+  "files": {
+    "Source/WebCore/platform/network/curl/CookieSameSite.h": {
+      "bytes": 1359,
+      "sha256": "9294c2f7170f3a740f6f5fdfc2653c5db4288ae5608be68612306eafccaac009"
+    },
+    "Tools/Symbian/browser/browser_ui.rss": {
+      "bytes": 1065,
+      "sha256": "d5dd3aee858822fdc668ce615c61520d1e2d42559558c22275f69b17b1a6bd6e"
+    },
+    "Tools/Symbian/browser/resources/BrowserQuery.rh": {
+      "bytes": 1976,
+      "sha256": "2d7a31e237df342402ed2625fdedb53051e052704e8686f36179efa9884b7e43"
+    },
+    "Tools/Symbian/browser/resources/README.md": {
+      "bytes": 1541,
+      "sha256": "924cf8da3602b5710bd0b658c237fc3034cf385b9a30635e3b9cd1d0fa243490"
+    },
+    "Tools/Symbian/browser/resources/source-hashes.json": {
+      "bytes": 249,
+      "sha256": "25907aa3ed70e22aeb7307fca4608341c6c098bf12c289e2d9c84e91ce405d9f"
+    },
+    "Tools/Symbian/cmake/woff2/CMakeLists.txt": {
+      "bytes": 2632,
+      "sha256": "f4fc2b2f7ca832056267989eaa63dbf9a59f02b8a8dbbccf38a4beae57db04e0"
+    },
+    "Tools/Symbian/resources/fonts.conf": {
+      "bytes": 935,
+      "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+    },
+    "Tools/Symbian/scripts/patch-fontconfig-paths.py": {
+      "bytes": 3662,
+      "sha256": "69f99152206986fefe07b02dc28ee1c0a8a841b19e1744269fa87eeaf420fee0"
+    },
+    "Source/WebCore/crypto/algorithms/CryptoAlgorithmAESCTR.cpp": {
+      "bytes": 11707,
+      "sha256": "b0fa5b71c98957e8560f6e2f98763099365ffd69d69335ca6231ed40f3d6ed18"
+    },
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmAESMbedTLS.cpp": {
+      "bytes": 14345,
+      "sha256": "571bfb8e9df7beff793311c24e49cf85e441a772a7a004f13d9f7d115a54f8a1"
+    },
+    "Source/WebCore/crypto/mbedtls/CryptoAlgorithmRegistryMbedTLS.cpp": {
+      "bytes": 2560,
+      "sha256": "07e5a310a5704e05da9a3f3067ab20c87cb41f0f8d421a57409041a3412042bd"
+    },
+    "Source/WebCore/crypto/mbedtls/CryptoKeyUnsupportedMbedTLS.cpp": {
+      "bytes": 6837,
+      "sha256": "6183022c6deacf554836ff2000914b5ed16d49c958a4300f69bdc1d3243f95b0"
+    },
+    "Source/WebCore/dom/Document.cpp": {
+      "bytes": 448205,
+      "sha256": "58726b3485e32fd58476f141ac869fd6f5c78d25cf8f168a6fae894f06f1eafc"
+    },
+    "Source/WebCore/loader/CookieJar.cpp": {
+      "bytes": 10055,
+      "sha256": "3af72ca4d1d4d62080ed8ff28d1e06156897f99c8133203e5d3e6156b5577604"
+    },
+    "Source/WebCore/platform/network/curl/CookieJarDB.cpp": {
+      "bytes": 25404,
+      "sha256": "7a781aa253d2c6404a78eba6304e4ad9e457fb0e80ee3efde72a42d5fa1e0eb2"
+    },
+    "Source/WebCore/platform/network/curl/CookieJarDB.h": {
+      "bytes": 4197,
+      "sha256": "b107e641381073255ae7040c5208222ea90be853d9815ad57c239cb2ab249e86"
+    },
+    "Source/WebCore/platform/network/curl/CookieUtil.cpp": {
+      "bytes": 7749,
+      "sha256": "b9bcb5e5f91dfb7a9b2d99ed2a8ce7ed113e3f4b0c2ba889a9c4e8a8cbe7a310"
+    },
+    "Source/WebCore/platform/network/curl/NetworkStorageSessionCurl.cpp": {
+      "bytes": 12285,
+      "sha256": "d744a7a989da2151362ef66b989ea2a1b87f79a7cd1ebb7027ec5f0e2d00ee55"
+    },
+    "Source/WebCore/platform/network/curl/ResourceHandleCurl.cpp": {
+      "bytes": 18268,
+      "sha256": "93ba0f0bb4eb0f190d758199e91113e791bc4884b279210fcbff4e03e63d5468"
+    },
+    "Source/WebKitLegacy/symbian/SymbianChromeClient.cpp": {
+      "bytes": 9521,
+      "sha256": "41dd5cabb60345602da929c6e59d5da46957ba52e515670ceddb74a3657dda48"
+    },
+    "Source/WebKitLegacy/symbian/SymbianChromeClient.h": {
+      "bytes": 8306,
+      "sha256": "a8d70ce8b98c39092a43d485dfc40a8759008058b117639ee44705a2f54b4a8f"
+    },
+    "Source/WebKitLegacy/symbian/WebKitSymbian.h": {
+      "bytes": 8486,
+      "sha256": "b81df092c672da472ff13f5af98d88154e1e2d3ad7b4eef94defd59161c7baa3"
+    },
+    "Source/WebKitLegacy/symbian/WebViewImpl.cpp": {
+      "bytes": 34922,
+      "sha256": "8540d06fb1f4baa853ef5d41d293ff29509a2bd5061015b3e2386ee30f4c4716"
+    },
+    "Source/cmake/OptionsSymbian.cmake": {
+      "bytes": 8038,
+      "sha256": "3b73a0c528c3ec186a9ece9761591074fcf7cfb45579c598484192bf9a7e3a3b"
+    },
+    "Tools/Symbian/browser/CMakeLists.txt": {
+      "bytes": 7975,
+      "sha256": "8cb255c80b64bcfc99eaa2f779ea5fbc8fc6845ef7b810259bd10134bea5c860"
+    },
+    "Tools/Symbian/browser/WebContainer.cpp": {
+      "bytes": 25033,
+      "sha256": "46dc37a54d6871a505bd2821f2700b1ea840ed64f94087cceaa34b3c6687128d"
+    },
+    "Tools/Symbian/browser/WebContainer.h": {
+      "bytes": 6093,
+      "sha256": "864cf6d295312b7a56db0f03382f7a992b39fc8aaf97385d36492b0ca02e13bc"
+    },
+    "Tools/Symbian/scripts/build-deps.sh": {
+      "bytes": 18745,
+      "sha256": "121128fd31b900acf60fa06c7a4dba472fc8a1c29abe4bb5370dee73595fe6e1"
+    },
+    "Tools/Symbian/scripts/link-webcore.sh": {
+      "bytes": 1423,
+      "sha256": "efd75cff90574baba523450aca4c10f9587412ff893dfae2c2633ffc3510b6e8"
+    },
+    "Tools/Symbian/scripts/package-sis.sh": {
+      "bytes": 3370,
+      "sha256": "4c57262be3c5d7279542992811da00cb1587efba62c4c31a1b0016174c73b228"
+    },
+    "/workspace/symbian-graphics-work/build/browser-belle8/e32/browser.exe": {
+      "bytes": 58610724,
+      "sha256": "1767da19ec00d9c823c60ff13d4f1c0a828d28cbd2abe97691f78c95ddeaca59"
+    },
+    "/workspace/symbian-graphics-work/build/browser-belle8/e32/browser_ui.rsc": {
+      "bytes": 150,
+      "sha256": "70ed39945ee9853a09f190238dccff9d41fb63712de06a4f90fb163e15ba880a"
+    },
+    "/workspace/symbian-sdk/bin/rcomp": {
+      "bytes": 355320,
+      "sha256": "68ec145cba746f3df36cc6893a8d830a5ca3f3273aa5e9c40be0ee07ed71d792"
+    },
+    "/workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime.a": {
+      "bytes": 628314,
+      "sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26"
+    },
+    "/workspace/symbian-graphics-work/build/webcore/cmakeconfig.h": {
+      "bytes": 5170,
+      "sha256": "6cf1912c9a324b878bf2e84e618b57ae1b57f0f71f38538e2bbcc289ccf5e048"
+    },
+    "/workspace/symbian-work/deps/install/lib/libwoff2dec.a": {
+      "bytes": 74704,
+      "sha256": "66034d1f03776c839f3bbae03a3f0aae2124ba1139b1530c4b503e79e808ec3d"
+    },
+    "/workspace/symbian-work/deps/install/lib/libwoff2common.a": {
+      "bytes": 10098,
+      "sha256": "3a1c6df45a575613c880f39e327cee9788ced482f37793fcb13471e27aca58af"
+    },
+    "/workspace/symbian-work/deps/install/lib/libbrotlidec.a": {
+      "bytes": 58994,
+      "sha256": "2c10c7bca30547a41b28dba3fdd481dd55765f86ba37b234bbc343a5cc12b01b"
+    },
+    "/workspace/symbian-work/deps/install/lib/libbrotlicommon.a": {
+      "bytes": 136108,
+      "sha256": "563e4d3342a3921362043d4545a0cb8a19820ac8024000bcdffc4ce810b2efef"
+    },
+    "/workspace/symbian-work/deps/install/lib/libfontconfig.a": {
+      "bytes": 486960,
+      "sha256": "5dc8313a9970a7d85f1d61f24109f6ab221956ef1a00fbbd5ee1772cd03c4635"
+    },
+    "Source/WTF/wtf/Threading.cpp": {
+      "bytes": 16968,
+      "sha256": "d38160c0bf7bccf8c801ef0437e607c261b4e69e94a42c39343c7801c96dad55"
+    },
+    "Source/WebCore/platform/network/curl/CurlContext.cpp": {
+      "bytes": 29972,
+      "sha256": "4b3500f009356e36168b880c1454c2f255a72cf4238e66ddb1c6ed5c0f041002"
+    },
+    "Source/WebCore/platform/network/curl/CurlRequest.cpp": {
+      "bytes": 23604,
+      "sha256": "7bdf8a31824859cb496b31dc50ad77a5b9e352c4bb3e078485867f076ffad3a8"
+    },
+    "/workspace/symbian-work/deps/install/lib/libcurl.a": {
+      "bytes": 835552,
+      "sha256": "49d30e8d414790f03e31a8ae706463522036f71b0b4cddf7821f445114d65b86"
+    },
+    "/workspace/symbian-sdk/lib/armv6/mbedtls/lib/libmbedx509.a": {
+      "bytes": 279744,
+      "sha256": "02a0781b714b0be092010321ba78bd7ffbb7db43e80b2ea3a66d4511f489a68d"
+    },
+    "/workspace/symbian-sdk/lib/armv6/mbedtls/lib/libmbedtls.a": {
+      "bytes": 894690,
+      "sha256": "dbc050ba56a3706466673f10ea46f657c8bcdc1a18e9a48107f16f1080da4fc8"
+    },
+    "/workspace/symbian-sdk/lib/armv6/mbedtls/lib/libmbedcrypto.a": {
+      "bytes": 2437512,
+      "sha256": "282b081f833b6f93a8a677919bf6466725ba9bd76b6c3f03df2d9c6cf3923627"
+    },
+    "Tools/Symbian/patches/sdk-0.3.0/mbedtls-ip/README.md": {
+      "bytes": 3981,
+      "sha256": "a5a936303fdce95708b5e7bac52edca407cd23c0e7a1cc92cf4057fe8851a74c"
+    },
+    "Tools/Symbian/patches/sdk-0.3.0/mbedtls-ip/manifest.json": {
+      "bytes": 34853,
+      "sha256": "82b2417dc14b39a1332b4bb8e27ceedc8d71a7dba5aa5da0eda1c98779d5740e"
+    },
+    "Tools/Symbian/patches/sdk-0.3.0/mbedtls-ip/0001-strict-ip-identities.patch": {
+      "bytes": 7641,
+      "sha256": "b3818e73ca4ac8388f551b05aa1e5facbe54af84ee05077d0e5747299e97aa19"
+    },
+    "Tools/Symbian/scripts/rebuild-sdk-mbedtls-ip.py": {
+      "bytes": 13257,
+      "sha256": "9fe19cbd8fe9c0908ec60cc0b1397b3cf85f59a56f37fccb5dc7b1f8760b4838"
+    },
+    "Tools/Symbian/browser/BrowserApp.cpp": {
+      "bytes": 29110,
+      "sha256": "222ba4c6ac26252df9242d316b6be6f913a27adb21eca5b0b371324c15c213cf"
+    }
+  },
+  "notes": "Candidate8 compiles Symbian SameSite document/DOM/WebSocket context using OS(SYMBIAN), and adds BrowserApp exit-stage logging without changing behavior. No quota or download implementation included. No guest result implied."
+}

@@ -2,3 +2,7 @@
 webcrypto/emulator.log -text -whitespace
 # The parser corpus deliberately includes a trailing space in an invalid IP.
 tls-ip-san/parser/inputs.txt -text -whitespace
+# Frozen build diff and captured TLS console output retain their original bytes.
+cookie-samesite/candidate-source.patch -text -whitespace
+tls-ip-san/guest-after/log.txt -text -whitespace
+tls-ip-san/guest-after/tls-launcher.log -text -whitespace

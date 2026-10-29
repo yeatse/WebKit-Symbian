@@ -1,0 +1,13 @@
+19:57:51.889 WebKit Browser starting
+19:57:51.905 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:57:53.893 network: connected through "Host network"
+19:57:53.908 load https://localhost:8791/resume?run=3457af7e7fc8423881c1147dea31aaca
+console: https://localhost:8791/case.js:33: PASS: restart A preserves policy and persistent cookies, removes session cookie
+console: https://localhost:8791/case.js:33: PASS: restart preserves DOM-created cookie policy
+console: https://localhost:8791/case.js:33: PASS: restart cross-site request still filters Strict/Lax/default
+console: https://127.0.0.1:8791/case.js:33: PASS: restart B cross-site top-level request still filters Strict
+console: https://127.0.0.1:8791/case.js:33: PASS: restart B DOM persistent state and no session cookie
+console: https://localhost:8791/case.js:206: COOKIE_FINAL_URL: https://localhost:8791/done?run=3457af7e7fc8423881c1147dea31aaca&phase=resume-b
+console: https://localhost:8791/case.js:207: PASS: cookie-samesite 28/28 (28 outcomes)

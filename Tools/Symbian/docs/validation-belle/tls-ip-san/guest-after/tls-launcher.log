@@ -1,0 +1,18 @@
+logs: /workspace/symbian-belle-work/runs/browser-20261029T194304Z-8f9irah3
+19:43:05.319 WebKit Browser starting
+19:43:05.336 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:43:07.284 network: connected through "Host network"
+19:43:07.300 load https://localhost:8767/tls.html?autorun=1&run=77937ee55aa742178d05456cd3683cea
+console: https://localhost:8767/tls.html?autorun=1&run=77937ee55aa742178d05456cd3683cea:21: PASS: HTTPS trusted 
+console: https://localhost:8767/tls.html?autorun=1&run=77937ee55aa742178d05456cd3683cea:21: PASS: HTTPS wrong hostname 
+console: https://localhost:8767/tls.html?autorun=1&run=77937ee55aa742178d05456cd3683cea:21: PASS: HTTPS untrusted root 
+console: https://localhost:8767/tls.html?autorun=1&run=77937ee55aa742178d05456cd3683cea:21: PASS: WSS trusted 
+console: :0: WebSocket network error: SSL peer certificate or SSH remote key was not OK
+console: https://localhost:8767/tls.html?autorun=1&run=77937ee55aa742178d05456cd3683cea:21: PASS: WSS wrong hostname 
+console: :0: WebSocket network error: SSL peer certificate or SSH remote key was not OK
+console: https://localhost:8767/tls.html?autorun=1&run=77937ee55aa742178d05456cd3683cea:21: PASS: WSS untrusted root 
+console: https://localhost:8767/tls.html?autorun=1&run=77937ee55aa742178d05456cd3683cea:22: PASS: tls 6/6
+
+Browser observation completed; inspect screenshot and test outcomes: /workspace/symbian-belle-work/runs/browser-20261029T194304Z-8f9irah3/browser.png

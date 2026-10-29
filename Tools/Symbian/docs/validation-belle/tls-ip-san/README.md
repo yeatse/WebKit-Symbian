@@ -23,6 +23,10 @@ the correction, but the smaller portable set is the maintained regression.
 See [the reproducible tests](../../../tests/tls-ip-san/README.md) for build and
 execution commands. Positive fixture certificates expire after two days;
 regenerate them for later runs. Host validation does not establish guest TLS
-transport or full TLS conformance. Corrected browser IP HTTPS, existing TLS/WSS
-negatives and the two-process cross-site cookie fixture still require the
-runtime owner's separate guest evidence.
+transport or full TLS conformance. Separate real guest evidence is now recorded
+in `guest-after/`: candidate `8308d9a9…` passes all six trusted/wrong-host/untrusted
+HTTPS and WSS cases. The later [SameSite candidate](../cookie-samesite/README.md)
+also completes real verified numeric-IP HTTPS/WSS navigation and all 23+5
+two-process cookie cases. These runs use the repaired SDK libraries; they do not
+extend the host certificate matrix into a claim that every negative certificate
+was individually tested on the guest.

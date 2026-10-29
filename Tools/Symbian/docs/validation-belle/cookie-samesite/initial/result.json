@@ -1,0 +1,21 @@
+{
+  "phase": "initial",
+  "url": "https://localhost:8791/start?run=3457af7e7fc8423881c1147dea31aaca",
+  "status": "PASS",
+  "driver_exit": 0,
+  "source_run": "/workspace/symbian-belle-work/runs/browser-20261029T195619Z-8gr7b2ak",
+  "cumulative_checks": 23,
+  "validator": {
+    "suite": "cookie-samesite",
+    "run": "3457af7e7fc8423881c1147dea31aaca",
+    "phase": "initial",
+    "passed": 23,
+    "total": 23,
+    "wire_requests": 41,
+    "first_request_ns": 1793303783715769631,
+    "last_request_ns": 1793303792072923146
+  },
+  "console_script_url": "https://localhost:8791/case.js",
+  "final_document_url": "https://localhost:8791/done?run=3457af7e7fc8423881c1147dea31aaca&phase=nav",
+  "shutdown": "observation completed and normal WM close with host exit 0"
+}

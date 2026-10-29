@@ -1,0 +1,36 @@
+{
+  "suite": "tls",
+  "run": "77937ee55aa742178d05456cd3683cea",
+  "results": [
+    {
+      "name": "HTTPS trusted",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTPS wrong hostname",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTPS untrusted root",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "WSS trusted",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "WSS wrong hostname",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "WSS untrusted root",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}
