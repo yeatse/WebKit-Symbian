@@ -172,7 +172,7 @@ build_libxml2() {
 
 build_libxslt() {
   fetch https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.35.tar.xz libxslt-1.1.35
-  # XSLT for WebCore (XSLTProcessorLibxslt), with EXSLT, which it registers.
+  # XSLT for WebCore (XSLTProcessorLibxslt), which links libxslt only.
   # The libraries only: xsltproc has no option and needs libm and libdl.
   sed -i '/^add_executable(xsltproc/,/^install(TARGETS xsltproc/d' "$src/libxslt-1.1.35/CMakeLists.txt"
   cmake_build libxslt-1.1.35 -DLIBXSLT_WITH_CRYPTO=OFF -DLIBXSLT_WITH_DEBUGGER=OFF \

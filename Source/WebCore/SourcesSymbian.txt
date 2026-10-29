@@ -20,6 +20,17 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+crypto/mbedtls/CryptoAlgorithmAESMbedTLS.cpp
+crypto/mbedtls/CryptoAlgorithmECMbedTLS.cpp
+crypto/mbedtls/CryptoAlgorithmHMACMbedTLS.cpp
+crypto/mbedtls/CryptoAlgorithmKDFMbedTLS.cpp
+crypto/mbedtls/CryptoAlgorithmRSAMbedTLS.cpp
+crypto/mbedtls/CryptoAlgorithmRegistryMbedTLS.cpp
+crypto/mbedtls/CryptoKeyECMbedTLS.cpp
+crypto/mbedtls/CryptoKeyRSAMbedTLS.cpp
+crypto/mbedtls/MbedTLSCryptoUtilities.cpp
+crypto/mbedtls/SerializedCryptoKeyWrapMbedTLS.cpp
+
 editing/libwpe/EditorLibWPE.cpp
 
 platform/ScrollAnimationKinetic.cpp

@@ -8,6 +8,7 @@ list(APPEND WebCore_UNIFIED_SOURCE_LIST_FILES
 )
 
 list(APPEND WebCore_PRIVATE_INCLUDE_DIRECTORIES
+    "${WEBCORE_DIR}/crypto/mbedtls"
     "${WEBCORE_DIR}/platform/adwaita"
     "${WEBCORE_DIR}/platform/generic"
     "${WEBCORE_DIR}/platform/graphics/opengl"
