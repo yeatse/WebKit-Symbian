@@ -1,0 +1,25 @@
+{
+  "cpu": "ARM1136",
+  "execution": "qemu-arm Linux EABI",
+  "flags": [
+    "-march=armv6",
+    "-marm",
+    "-mfpu=vfp",
+    "-mfloat-abi=softfp",
+    "-O3",
+    "-DNDEBUG"
+  ],
+  "sourceSHA256": {
+    "Source/JavaScriptCore/assembler/MacroAssemblerARM.h": "72f4b48d24afd7e3b340a2d5671d185e2e4f71404155206d5a9f966e5f1e78c4",
+    "Source/JavaScriptCore/assembler/AbstractMacroAssembler.h": "38bf2565e59e88b846b830fe9af53677837e11fa9456781aa78f6f0c43ebd56d",
+    "Source/JavaScriptCore/assembler/ARMAssembler.h": "44a41a3f03227889ee7f54e54dca228a2594be88474c0d539ba34a12887a278a",
+    "Source/JavaScriptCore/assembler/AssemblerBufferWithConstantPool.h": "ef250e1ac2315bf351e984bfe25bbf6f78e108a3cc517f038b6cddac0cf97988",
+    "Tools/Symbian/tests/arm11-inline-cache/probe.cpp": "d4b2f7741df71a380073abb5146a77d0fd295952b4c7575d77321fd5f92b84fa",
+    "Tools/Symbian/tests/arm11-inline-cache/reproduce.py": "a5f1cbcf35ed997401082e56136983f2fb401c600d35d4f0e131eaecc7e7cd99"
+  },
+  "productionSyntaxCheck": {
+    "target": "Symbian ARMv6/VFPv2/base PCS",
+    "source": "Source/JavaScriptCore/jit/JITInlineCacheGenerator.cpp",
+    "result": "PASS; three existing SDK pthread initializer warnings"
+  }
+}

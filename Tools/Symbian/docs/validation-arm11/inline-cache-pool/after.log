@@ -1,0 +1,2 @@
+RESULT cases=3300 corruptions=0 wrongPadding=0 postRegionPools=6
+PASS: arm11-inline-cache

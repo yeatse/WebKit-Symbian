@@ -103,6 +103,12 @@ void JITByIdGenerator::generateFastCommon(CCallHelpers& jit, size_t inlineICSize
 {
     ASSERT(!m_stubInfo->useDataIC);
     jit.padBeforePatch(); // On ARMv7, this ensures that the patchable jump does not make the inline code too large.
+#if CPU(ARM_TRADITIONAL)
+    // Repatching overwrites this whole region. Flush any pending literal pool
+    // before recording its start, and reserve the jump's literal as well as
+    // all instruction bytes so no pool can be inserted among the padding.
+    jit.m_assembler.ensureSpace(inlineICSize, sizeof(uint32_t));
+#endif
     m_start = jit.label();
     size_t startSize = jit.m_assembler.buffer().codeSize();
     m_slowPathJump = jit.jump();

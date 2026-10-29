@@ -1,0 +1,18 @@
+[
+  {
+    "case": "before",
+    "source": "Source/JavaScriptCore/jit/JITInlineCacheGenerator.cpp",
+    "sourceSHA256": "bdf22d9ffb53a6c11e6d7f9218ab756c52b04be4283cba4fa64f2fdf4073d3a8",
+    "methodSHA256": "3098b197d6c35b2f1da76816664f3c08169a7dd1efc1b322b075ae5d2a99bab8",
+    "guestExit": 1,
+    "guestLogSHA256": "9ffb9be3ddaefc8d11292d4381ba2ac3fc206f678d543ed512ee285c7fe202ea"
+  },
+  {
+    "case": "after",
+    "source": "Source/JavaScriptCore/jit/JITInlineCacheGenerator.cpp",
+    "sourceSHA256": "96e74c9f53a8a84ec97d62e766d1cb3764057c2565e2de1141c59602bc4882a1",
+    "methodSHA256": "571cf3641bc6d7992a19f0b6d9cafc71dce3cffe997c2bea43c646fc89076f8e",
+    "guestExit": 0,
+    "guestLogSHA256": "c578498544b6d37e15f7029cd09b38793bb4a7b547fcd810f7442261e51d366e"
+  }
+]
