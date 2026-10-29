@@ -20,6 +20,8 @@
 | --- | --- |
 | `83051a52` | 关掉 accelerated compositing。移植没有合成器，`GraphicsLayerSymbian` 是空壳；用 transform、`will-change` 的页面会建出没人接收的图层树，拆的时候在 `GraphicsLayer::removeFromParent` 里出现 KERN-EXEC 3 |
 | `2fb286a7` | 页对齐分配（JSC 的 16 KB MarkedBlock）改用一块独立的 64 MB disconnected chunk（`FastMalloc.cpp` 的 `AlignedPool`）。SDK 的 mimalloc 在复杂页面上，提交量才 16 MB 左右时 `mi_malloc_aligned(16384, 16384)` 就返回空，导致 `RELEASE_ASSERT` 触发 USER-EXEC 3。调小 `mi_option_arena_reserve` 没用：SDK 启动时就保留了 48 MB |
+| `086320b3`, `3876430f` | Web Crypto 接到 mbedTLS 上。模拟器里 `crypto.html` 26 项全过（摘要、HMAC、AES、PBKDF2、HKDF、RSA、ECDSA/ECDH，以及各种导入导出格式） |
+| `c8e958f3`, `625a370c` | `<audio>`/`<video>` 走 MMF 播放器，视频用打洞方式显示在窗口底下。模拟器里视频能正常显示和播放；音频能打开，但这个容器没有声卡（cubeb 初始化失败），所以报 `error 3`，要到真机上验证 |
 | `8807f545`, `9c03b2fb`, `79fb433f` | 线程结束方式写进日志；curl 里初始化 PSA crypto；TLS 握手跟踪 |
 
 ## EKA2L1 补丁
@@ -94,4 +96,5 @@ git am /path/to/WebKit-Symbian/Tools/Symbian/patches/eka2l1/000{1,5}-*.patch
 
 1. 手机上的速度：先测量，再考虑滚动 blit 和局部 `-O2`。
 2. 在手机上验证：桌面页面（980 像素布局、双击缩放），多个 HTTPS 连接共享 CA 链后不再出现 `mbedTLS -0x2880`，以及表单控件在真机字体和缩放下的样子。
-3. 远期：基于 GLES2 TextureMapper 的硬件合成。N8 有 OpenGL ES 2.0 和 EGL，但 GPU 内存和纹理上传都是瓶颈，GOOM 会杀进程，所以要单独评估。
+3. 在手机上验证 `<audio>`/`<video>`：音频输出；视频的洞在滚动和缩放之后位置是否正确；NGA 下 `CVideoPlayerUtility` 能不能正常显示在 `EColor16MA` 窗口下面。还缺渐进播放：现在要等整个文件下载完才开始播放。
+4. 远期：基于 GLES2 TextureMapper 的硬件合成。N8 有 OpenGL ES 2.0 和 EGL，但 GPU 内存和纹理上传都是瓶颈，GOOM 会杀进程，所以要单独评估。WebGL 要等它做好再开。Web Audio（没有 FFT 和解码器，CPU 也不够）和 service worker（WebKitLegacy 不支持）不打算做，原因见 Development.md。
