@@ -329,7 +329,10 @@ build_curl() {
   # or path, which curl would otherwise take from the build machine
   # (/etc/ssl/certs, missing on phones, failed every HTTPS load); WebCore
   # sets the bundle.
-  cflags="$cflags $tls_flags" cmake_build curl-7.88.1 -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF \
+  # Open C declares sa_family_t as uint8_t, but its sockaddr family fields are
+  # unsigned short and AF_INET is 0x0800. Curl_he2ai's explicit cast must retain
+  # all 16 bits, including for numeric-IP URLs that bypass the DNS resolver.
+  cflags="$cflags $tls_flags '-DCURL_SA_FAMILY_T=unsigned short'" cmake_build curl-7.88.1 -DBUILD_CURL_EXE=OFF -DBUILD_TESTING=OFF \
     -DCURL_DISABLE_DICT=ON -DCURL_DISABLE_FTP=ON -DCURL_DISABLE_GOPHER=ON \
     -DCURL_DISABLE_IMAP=ON -DCURL_DISABLE_LDAPS=ON -DCURL_DISABLE_MQTT=ON \
     -DCURL_DISABLE_POP3=ON -DCURL_DISABLE_RTSP=ON -DCURL_DISABLE_SMB=ON \

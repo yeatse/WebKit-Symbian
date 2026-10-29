@@ -544,6 +544,16 @@ int CurlRequest::didReceiveDebugInfo(curl_infotype type, std::span<const char> d
     if (!data.data())
         return 0;
 
+#if OS(SYMBIAN)
+    // Installing this callback replaces curl's default diagnostic output.
+    // Preserve connection/error messages only when explicitly requested;
+    // request/response headers and payloads stay out of the diagnostic file.
+    if (type == CURLINFO_TEXT && CurlContext::singleton().isVerbose()) {
+        if (auto* logFile = CurlContext::singleton().getLogFile())
+            fwrite(data.data(), 1, data.size(), logFile);
+    }
+#endif
+
     if (type == CURLINFO_HEADER_OUT) {
         String requestHeader(data);
         auto headerFields = requestHeader.split("\r\n"_s);

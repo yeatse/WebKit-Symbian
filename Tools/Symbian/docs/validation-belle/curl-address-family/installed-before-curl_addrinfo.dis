@@ -1,0 +1,353 @@
+
+/workspace/symbian-cookie-work/independent-archive/curl_addrinfo.o:     file format elf32-littlearm
+
+
+Disassembly of section .text.Curl_freeaddrinfo:
+
+00000000 <Curl_freeaddrinfo>:
+   0:	e3500000 	cmp	r0, #0
+   4:	012fff1e 	bxeq	lr
+   8:	e92d4830 	push	{r4, r5, fp, lr}
+   c:	e59f401c 	ldr	r4, [pc, #28]	@ 30 <Curl_freeaddrinfo+0x30>
+  10:	e5941000 	ldr	r1, [r4]
+  14:	e590501c 	ldr	r5, [r0, #28]
+  18:	e12fff31 	blx	r1
+  1c:	e1a00005 	mov	r0, r5
+  20:	e3550000 	cmp	r5, #0
+  24:	1afffff9 	bne	10 <Curl_freeaddrinfo+0x10>
+  28:	e8bd4830 	pop	{r4, r5, fp, lr}
+  2c:	e12fff1e 	bx	lr
+  30:	00000000 	.word	0x00000000
+			30: R_ARM_ABS32	Curl_cfree
+
+Disassembly of section .text.Curl_getaddrinfo_ex:
+
+00000000 <Curl_getaddrinfo_ex>:
+   0:	e92d4ff0 	push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
+   4:	e24dd004 	sub	sp, sp, #4
+   8:	e3a0a000 	mov	sl, #0
+   c:	e1a08003 	mov	r8, r3
+  10:	e583a000 	str	sl, [r3]
+  14:	e1a0300d 	mov	r3, sp
+  18:	ebfffffe 	bl	0 <getaddrinfo>
+			18: R_ARM_CALL	getaddrinfo
+  1c:	e3500000 	cmp	r0, #0
+  20:	0a000001 	beq	2c <Curl_getaddrinfo_ex+0x2c>
+  24:	e28dd004 	add	sp, sp, #4
+  28:	e8bd8ff0 	pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+  2c:	e59d4000 	ldr	r4, [sp]
+  30:	e3540000 	cmp	r4, #0
+  34:	0a000039 	beq	120 <Curl_getaddrinfo_ex+0x120>
+  38:	e3a09000 	mov	r9, #0
+  3c:	e3a0a000 	mov	sl, #0
+  40:	e3a0b000 	mov	fp, #0
+  44:	ea000007 	b	68 <Curl_getaddrinfo_ex+0x68>
+  48:	e35a0000 	cmp	sl, #0
+  4c:	01a0a007 	moveq	sl, r7
+  50:	e35b0000 	cmp	fp, #0
+  54:	158b701c 	strne	r7, [fp, #28]
+  58:	e1a0b007 	mov	fp, r7
+  5c:	e594401c 	ldr	r4, [r4, #28]
+  60:	e3540000 	cmp	r4, #0
+  64:	0a000029 	beq	110 <Curl_getaddrinfo_ex+0x110>
+  68:	e5940014 	ldr	r0, [r4, #20]
+  6c:	e3a06000 	mov	r6, #0
+  70:	e3500000 	cmp	r0, #0
+  74:	0a000001 	beq	80 <Curl_getaddrinfo_ex+0x80>
+  78:	ebfffffe 	bl	0 <strlen>
+			78: R_ARM_CALL	strlen
+  7c:	e2806001 	add	r6, r0, #1
+  80:	e5940004 	ldr	r0, [r4, #4]
+  84:	e3500b02 	cmp	r0, #2048	@ 0x800
+  88:	1afffff3 	bne	5c <Curl_getaddrinfo_ex+0x5c>
+  8c:	e5940018 	ldr	r0, [r4, #24]
+  90:	e3500000 	cmp	r0, #0
+  94:	0afffff0 	beq	5c <Curl_getaddrinfo_ex+0x5c>
+  98:	e5940010 	ldr	r0, [r4, #16]
+  9c:	e350001c 	cmp	r0, #28
+  a0:	3affffed 	bcc	5c <Curl_getaddrinfo_ex+0x5c>
+  a4:	e59f00ec 	ldr	r0, [pc, #236]	@ 198 <Curl_getaddrinfo_ex+0x198>
+  a8:	e5901000 	ldr	r1, [r0]
+  ac:	e286003c 	add	r0, r6, #60	@ 0x3c
+  b0:	e12fff31 	blx	r1
+  b4:	e3500000 	cmp	r0, #0
+  b8:	0a00001e 	beq	138 <Curl_getaddrinfo_ex+0x138>
+  bc:	e894102c 	ldm	r4, {r2, r3, r5, ip}
+  c0:	e1a07000 	mov	r7, r0
+  c4:	e5941018 	ldr	r1, [r4, #24]
+  c8:	e580901c 	str	r9, [r0, #28]
+  cc:	e5809014 	str	r9, [r0, #20]
+  d0:	e3a0001c 	mov	r0, #28
+  d4:	e5870010 	str	r0, [r7, #16]
+  d8:	e2870020 	add	r0, r7, #32
+  dc:	e887102c 	stm	r7, {r2, r3, r5, ip}
+  e0:	e3a0201c 	mov	r2, #28
+  e4:	e5870018 	str	r0, [r7, #24]
+  e8:	ebfffffe 	bl	0 <memcpy>
+			e8: R_ARM_CALL	memcpy
+  ec:	e3560000 	cmp	r6, #0
+  f0:	0affffd4 	beq	48 <Curl_getaddrinfo_ex+0x48>
+  f4:	e5970018 	ldr	r0, [r7, #24]
+  f8:	e5941014 	ldr	r1, [r4, #20]
+  fc:	e1a02006 	mov	r2, r6
+ 100:	e280001c 	add	r0, r0, #28
+ 104:	e5870014 	str	r0, [r7, #20]
+ 108:	ebfffffe 	bl	0 <memcpy>
+			108: R_ARM_CALL	memcpy
+ 10c:	eaffffcd 	b	48 <Curl_getaddrinfo_ex+0x48>
+ 110:	e59d0000 	ldr	r0, [sp]
+ 114:	e3500000 	cmp	r0, #0
+ 118:	0a000000 	beq	120 <Curl_getaddrinfo_ex+0x120>
+ 11c:	ebfffffe 	bl	0 <freeaddrinfo>
+			11c: R_ARM_CALL	freeaddrinfo
+ 120:	e3a00000 	mov	r0, #0
+ 124:	e35a0000 	cmp	sl, #0
+ 128:	03a00008 	moveq	r0, #8
+ 12c:	e588a000 	str	sl, [r8]
+ 130:	e28dd004 	add	sp, sp, #4
+ 134:	e8bd8ff0 	pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 138:	e59d0000 	ldr	r0, [sp]
+ 13c:	e3500000 	cmp	r0, #0
+ 140:	0a000000 	beq	148 <Curl_getaddrinfo_ex+0x148>
+ 144:	ebfffffe 	bl	0 <freeaddrinfo>
+			144: R_ARM_CALL	freeaddrinfo
+ 148:	e3a00006 	mov	r0, #6
+ 14c:	e35a0000 	cmp	sl, #0
+ 150:	0a00000c 	beq	188 <Curl_getaddrinfo_ex+0x188>
+ 154:	e59f4040 	ldr	r4, [pc, #64]	@ 19c <Curl_getaddrinfo_ex+0x19c>
+ 158:	e5941000 	ldr	r1, [r4]
+ 15c:	e1a0000a 	mov	r0, sl
+ 160:	e59a501c 	ldr	r5, [sl, #28]
+ 164:	e12fff31 	blx	r1
+ 168:	e1a0a005 	mov	sl, r5
+ 16c:	e3550000 	cmp	r5, #0
+ 170:	1afffff8 	bne	158 <Curl_getaddrinfo_ex+0x158>
+ 174:	e3a0a000 	mov	sl, #0
+ 178:	e3a00006 	mov	r0, #6
+ 17c:	e588a000 	str	sl, [r8]
+ 180:	e28dd004 	add	sp, sp, #4
+ 184:	e8bd8ff0 	pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 188:	e3a0a000 	mov	sl, #0
+ 18c:	e588a000 	str	sl, [r8]
+ 190:	e28dd004 	add	sp, sp, #4
+ 194:	e8bd8ff0 	pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+	...
+			198: R_ARM_ABS32	Curl_cmalloc
+			19c: R_ARM_ABS32	Curl_cfree
+
+Disassembly of section .text.Curl_he2ai:
+
+00000000 <Curl_he2ai>:
+   0:	e92d4ff0 	push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
+   4:	e24dd004 	sub	sp, sp, #4
+   8:	e3a04000 	mov	r4, #0
+   c:	e3500000 	cmp	r0, #0
+  10:	0a000042 	beq	120 <Curl_he2ai+0x120>
+  14:	e1a09000 	mov	r9, r0
+  18:	e5900010 	ldr	r0, [r0, #16]
+  1c:	e590a000 	ldr	sl, [r0]
+  20:	e35a0000 	cmp	sl, #0
+  24:	0a00003d 	beq	120 <Curl_he2ai+0x120>
+  28:	e3a0b000 	mov	fp, #0
+  2c:	e3a07004 	mov	r7, #4
+  30:	e6ff8071 	uxth	r8, r1
+  34:	ea000005 	b	50 <Curl_he2ai+0x50>
+  38:	e5990010 	ldr	r0, [r9, #16]
+  3c:	e1a0b006 	mov	fp, r6
+  40:	e790a007 	ldr	sl, [r0, r7]
+  44:	e2877004 	add	r7, r7, #4
+  48:	e35a0000 	cmp	sl, #0
+  4c:	0a000033 	beq	120 <Curl_he2ai+0x120>
+  50:	e5990000 	ldr	r0, [r9]
+  54:	ebfffffe 	bl	0 <strlen>
+			54: R_ARM_CALL	strlen
+  58:	e1a05000 	mov	r5, r0
+  5c:	e59f00c8 	ldr	r0, [pc, #200]	@ 12c <Curl_he2ai+0x12c>
+  60:	e285103d 	add	r1, r5, #61	@ 0x3d
+  64:	e5902000 	ldr	r2, [r0]
+  68:	e3a00001 	mov	r0, #1
+  6c:	e12fff32 	blx	r2
+  70:	e3500000 	cmp	r0, #0
+  74:	0a00001e 	beq	f4 <Curl_he2ai+0xf4>
+  78:	e1a06000 	mov	r6, r0
+  7c:	e5991000 	ldr	r1, [r9]
+  80:	e2862020 	add	r2, r6, #32
+  84:	e280003c 	add	r0, r0, #60	@ 0x3c
+  88:	e5862018 	str	r2, [r6, #24]
+  8c:	e2852001 	add	r2, r5, #1
+  90:	e5860014 	str	r0, [r6, #20]
+  94:	ebfffffe 	bl	0 <memcpy>
+			94: R_ARM_CALL	memcpy
+  98:	e3a0001c 	mov	r0, #28
+  9c:	e3540000 	cmp	r4, #0
+  a0:	e5860010 	str	r0, [r6, #16]
+  a4:	e5990008 	ldr	r0, [r9, #8]
+  a8:	01a04006 	moveq	r4, r6
+  ac:	e35b0000 	cmp	fp, #0
+  b0:	e3a01001 	mov	r1, #1
+  b4:	158b601c 	strne	r6, [fp, #28]
+  b8:	e3500b02 	cmp	r0, #2048	@ 0x800
+  bc:	e5860004 	str	r0, [r6, #4]
+  c0:	e5861008 	str	r1, [r6, #8]
+  c4:	1affffdb 	bne	38 <Curl_he2ai+0x38>
+  c8:	e5965018 	ldr	r5, [r6, #24]
+  cc:	e1a0100a 	mov	r1, sl
+  d0:	e3a02004 	mov	r2, #4
+  d4:	e2850004 	add	r0, r5, #4
+  d8:	ebfffffe 	bl	0 <memcpy>
+			d8: R_ARM_CALL	memcpy
+  dc:	e5d90008 	ldrb	r0, [r9, #8]
+  e0:	e1c500b0 	strh	r0, [r5]
+  e4:	e1a00008 	mov	r0, r8
+  e8:	ebfffffe 	bl	0 <htons>
+			e8: R_ARM_CALL	htons
+  ec:	e1c500b2 	strh	r0, [r5, #2]
+  f0:	eaffffd0 	b	38 <Curl_he2ai+0x38>
+  f4:	e3540000 	cmp	r4, #0
+  f8:	0a000007 	beq	11c <Curl_he2ai+0x11c>
+  fc:	e59f502c 	ldr	r5, [pc, #44]	@ 130 <Curl_he2ai+0x130>
+ 100:	e5951000 	ldr	r1, [r5]
+ 104:	e1a00004 	mov	r0, r4
+ 108:	e594601c 	ldr	r6, [r4, #28]
+ 10c:	e12fff31 	blx	r1
+ 110:	e1a04006 	mov	r4, r6
+ 114:	e3560000 	cmp	r6, #0
+ 118:	1afffff8 	bne	100 <Curl_he2ai+0x100>
+ 11c:	e3a04000 	mov	r4, #0
+ 120:	e1a00004 	mov	r0, r4
+ 124:	e28dd004 	add	sp, sp, #4
+ 128:	e8bd8ff0 	pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+	...
+			12c: R_ARM_ABS32	Curl_ccalloc
+			130: R_ARM_ABS32	Curl_cfree
+
+Disassembly of section .text.Curl_ip2addr:
+
+00000000 <Curl_ip2addr>:
+   0:	e92d4bf0 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
+   4:	e1a07000 	mov	r7, r0
+   8:	e59f00c8 	ldr	r0, [pc, #200]	@ d8 <Curl_ip2addr+0xd8>
+   c:	e1a09001 	mov	r9, r1
+  10:	e1a08003 	mov	r8, r3
+  14:	e1a05002 	mov	r5, r2
+  18:	e5901000 	ldr	r1, [r0]
+  1c:	e3a00020 	mov	r0, #32
+  20:	e12fff31 	blx	r1
+  24:	e3500000 	cmp	r0, #0
+  28:	0a000021 	beq	b4 <Curl_ip2addr+0xb4>
+  2c:	e1a04000 	mov	r4, r0
+  30:	e59f00a4 	ldr	r0, [pc, #164]	@ dc <Curl_ip2addr+0xdc>
+  34:	e5901000 	ldr	r1, [r0]
+  38:	e1a00005 	mov	r0, r5
+  3c:	e12fff31 	blx	r1
+  40:	e3500000 	cmp	r0, #0
+  44:	0a00001c 	beq	bc <Curl_ip2addr+0xbc>
+  48:	e1a06000 	mov	r6, r0
+  4c:	e3a05000 	mov	r5, #0
+  50:	e3570b02 	cmp	r7, #2048	@ 0x800
+  54:	1a000011 	bne	a0 <Curl_ip2addr+0xa0>
+  58:	e2845014 	add	r5, r4, #20
+  5c:	e1a00005 	mov	r0, r5
+  60:	e1a01009 	mov	r1, r9
+  64:	e3a02004 	mov	r2, #4
+  68:	e3a07004 	mov	r7, #4
+  6c:	ebfffffe 	bl	0 <memcpy>
+			6c: R_ARM_CALL	memcpy
+  70:	e3a00000 	mov	r0, #0
+  74:	e2841018 	add	r1, r4, #24
+  78:	e3a02b02 	mov	r2, #2048	@ 0x800
+  7c:	e5841010 	str	r1, [r4, #16]
+  80:	e584001c 	str	r0, [r4, #28]
+  84:	e9840085 	stmib	r4, {r0, r2, r7}
+  88:	e1a00004 	mov	r0, r4
+  8c:	e1a01008 	mov	r1, r8
+  90:	e5845018 	str	r5, [r4, #24]
+  94:	e5846000 	str	r6, [r4]
+  98:	ebfffffe 	bl	0 <Curl_ip2addr>
+			98: R_ARM_CALL	Curl_he2ai
+  9c:	e1a05000 	mov	r5, r0
+  a0:	e59f0038 	ldr	r0, [pc, #56]	@ e0 <Curl_ip2addr+0xe0>
+  a4:	e5901000 	ldr	r1, [r0]
+  a8:	e1a00006 	mov	r0, r6
+  ac:	e12fff31 	blx	r1
+  b0:	ea000002 	b	c0 <Curl_ip2addr+0xc0>
+  b4:	e3a00000 	mov	r0, #0
+  b8:	e8bd8bf0 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
+  bc:	e3a05000 	mov	r5, #0
+  c0:	e59f0018 	ldr	r0, [pc, #24]	@ e0 <Curl_ip2addr+0xe0>
+  c4:	e5901000 	ldr	r1, [r0]
+  c8:	e1a00004 	mov	r0, r4
+  cc:	e12fff31 	blx	r1
+  d0:	e1a00005 	mov	r0, r5
+  d4:	e8bd8bf0 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
+	...
+			d8: R_ARM_ABS32	Curl_cmalloc
+			dc: R_ARM_ABS32	Curl_cstrdup
+			e0: R_ARM_ABS32	Curl_cfree
+
+Disassembly of section .text.Curl_str2addr:
+
+00000000 <Curl_str2addr>:
+   0:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
+   4:	e24dd008 	sub	sp, sp, #8
+   8:	e1a07000 	mov	r7, r0
+   c:	e1a04001 	mov	r4, r1
+  10:	e28d2004 	add	r2, sp, #4
+  14:	e3a00b02 	mov	r0, #2048	@ 0x800
+  18:	e1a01007 	mov	r1, r7
+  1c:	ebfffffe 	bl	0 <__inet_pton>
+			1c: R_ARM_CALL	__inet_pton
+  20:	e3a06000 	mov	r6, #0
+  24:	e3500001 	cmp	r0, #1
+  28:	ba000029 	blt	d4 <Curl_str2addr+0xd4>
+  2c:	e59f00ac 	ldr	r0, [pc, #172]	@ e0 <Curl_str2addr+0xe0>
+  30:	e5901000 	ldr	r1, [r0]
+  34:	e3a00020 	mov	r0, #32
+  38:	e12fff31 	blx	r1
+  3c:	e3500000 	cmp	r0, #0
+  40:	0a000023 	beq	d4 <Curl_str2addr+0xd4>
+  44:	e1a05000 	mov	r5, r0
+  48:	e59f0094 	ldr	r0, [pc, #148]	@ e4 <Curl_str2addr+0xe4>
+  4c:	e5901000 	ldr	r1, [r0]
+  50:	e1a00007 	mov	r0, r7
+  54:	e12fff31 	blx	r1
+  58:	e3500000 	cmp	r0, #0
+  5c:	0a000017 	beq	c0 <Curl_str2addr+0xc0>
+  60:	e2856014 	add	r6, r5, #20
+  64:	e1a07000 	mov	r7, r0
+  68:	e28d1004 	add	r1, sp, #4
+  6c:	e1a00006 	mov	r0, r6
+  70:	e3a02004 	mov	r2, #4
+  74:	e3a08004 	mov	r8, #4
+  78:	ebfffffe 	bl	0 <memcpy>
+			78: R_ARM_CALL	memcpy
+  7c:	e3a00000 	mov	r0, #0
+  80:	e2851018 	add	r1, r5, #24
+  84:	e3a02b02 	mov	r2, #2048	@ 0x800
+  88:	e5851010 	str	r1, [r5, #16]
+  8c:	e585001c 	str	r0, [r5, #28]
+  90:	e9850105 	stmib	r5, {r0, r2, r8}
+  94:	e1a00005 	mov	r0, r5
+  98:	e1a01004 	mov	r1, r4
+  9c:	e5856018 	str	r6, [r5, #24]
+  a0:	e5857000 	str	r7, [r5]
+  a4:	ebfffffe 	bl	0 <Curl_str2addr>
+			a4: R_ARM_CALL	Curl_he2ai
+  a8:	e1a06000 	mov	r6, r0
+  ac:	e59f0034 	ldr	r0, [pc, #52]	@ e8 <Curl_str2addr+0xe8>
+  b0:	e5901000 	ldr	r1, [r0]
+  b4:	e1a00007 	mov	r0, r7
+  b8:	e12fff31 	blx	r1
+  bc:	ea000000 	b	c4 <Curl_str2addr+0xc4>
+  c0:	e3a06000 	mov	r6, #0
+  c4:	e59f001c 	ldr	r0, [pc, #28]	@ e8 <Curl_str2addr+0xe8>
+  c8:	e5901000 	ldr	r1, [r0]
+  cc:	e1a00005 	mov	r0, r5
+  d0:	e12fff31 	blx	r1
+  d4:	e1a00006 	mov	r0, r6
+  d8:	e28dd008 	add	sp, sp, #8
+  dc:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
+	...
+			e0: R_ARM_ABS32	Curl_cmalloc
+			e4: R_ARM_ABS32	Curl_cstrdup
+			e8: R_ARM_ABS32	Curl_cfree

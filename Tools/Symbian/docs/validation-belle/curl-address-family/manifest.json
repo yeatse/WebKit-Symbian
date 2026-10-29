@@ -1,0 +1,21 @@
+{
+  "files": {
+    "README.md": "3d70908e31eef8cda71cc4c920f0ba0f90962b69ecf77effcc9d33ee2641fea9",
+    "corrected-abi.log": "5a3eaaf6110a791a7c5d240b15b189d7b95ec22fe9c93edec262c272a24f40df",
+    "corrected-curl_addrinfo.s": "9ff354ea5bedc7520372331c134b538fdad08799fcd16b9d7bf007a3f03c81c8",
+    "curl-rebuild.json": "12ccf64b2e0c96372c9cfdbfc841a815a17e83af8f829d4dca4eae0d3d2799c9",
+    "guest-before-curl.txt": "62fd083f3eaa9e941606dc84aed8183c28843eb6261fcaf690d8eee9eebf0c0f",
+    "host.log": "7e36510b87e5b3476f34db05f10e7e870e0d198f536f1449a4bf10a3fcf465a1",
+    "installed-before-curl_addrinfo.dis": "2589d877be3e41d66cc22cc33600de8902cba395984a3a90ba7b37ed88494351",
+    "installed-corrected-curl_addrinfo.dis": "bb09505e67113381eb31bb190a1ddc53e6a7a274424678bd804bf35d7972d09a",
+    "old-abi.log": "ce247dc577c6f29e80f5a64cb2a96ef480971895be203904098b1277784cbfd5",
+    "old-curl_addrinfo.s": "302460203c65001d85b7b6ebc86fd64629824ccd12490e3a0db53895bdc0ca8e",
+    "result.json": "f0caf6740512c5be31cd56046e5cffe06aafb8f26b9882472c2eb87741838454"
+  },
+  "old_installed_libcurl_sha256": "73990ae934f2a9c2bb984c2ca3574ac72d3f82337cc7265baf92d6b5e2c4f091",
+  "guest_before_browser_sha256": "5122c6ef9021e8127e260ad21f37a6847d17bd106e51ef679d81bc36a6d1e46a",
+  "guest_after": "pending",
+  "new_installed_libcurl_sha256": "49d30e8d414790f03e31a8ae706463522036f71b0b4cddf7821f445114d65b86",
+  "old_installed_curl_addrinfo_object_sha256": "8b634342144695c896a4d91d3ea3c7c1b69a202bedfd4a85b8df620d9862ab1f",
+  "new_installed_curl_addrinfo_object_sha256": "8033dcabc3f75809ce75d734619fbf449b1cc53372d6cf99b135abef55df1189"
+}

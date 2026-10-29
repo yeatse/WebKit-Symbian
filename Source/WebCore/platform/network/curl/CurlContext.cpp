@@ -138,8 +138,15 @@ CurlContext::CurlContext()
     m_verbose = envVar.defined("DEBUG_CURL");
 
     auto logFile = envVar.read("CURL_LOG_FILE");
-    if (logFile)
+    if (logFile) {
         m_logFile = fopen(logFile, "a");
+#if OS(SYMBIAN)
+        // Keep explicitly enabled diagnostics when the process is terminated
+        // before this never-destroyed singleton can close its log stream.
+        if (m_logFile)
+            setvbuf(m_logFile, nullptr, _IONBF, 0);
+#endif
+    }
 #endif
 }
 

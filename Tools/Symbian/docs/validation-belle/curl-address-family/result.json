@@ -1,0 +1,15 @@
+{
+  "old": {
+    "abi_exit": 1,
+    "assembly_sha256": "302460203c65001d85b7b6ebc86fd64629824ccd12490e3a0db53895bdc0ca8e"
+  },
+  "corrected": {
+    "abi_exit": 0,
+    "assembly_sha256": "9ff354ea5bedc7520372331c134b538fdad08799fcd16b9d7bf007a3f03c81c8"
+  },
+  "source": {
+    "path": "/workspace/symbian-work/deps/src/curl-7.88.1/lib/curl_addrinfo.c",
+    "sha256": "6538c33a1c6d9ad2c51e62579d260d3998522e9703006392f2bf6b84a37743eb"
+  },
+  "configured_command": "/workspace/WebKit-Symbian/Tools/Symbian/toolchain/sym-cc -DBUILDING_LIBCURL -DCURL_HIDDEN_SYMBOLS -DHAVE_CONFIG_H -I/workspace/symbian-work/deps/src/curl-7.88.1/include -I/workspace/symbian-sdk/lib/armv6/mbedtls/include -I/workspace/symbian-work/deps/install/include -I/workspace/symbian-work/deps/src/curl-7.88.1/build-symbian/lib/../include -I/workspace/symbian-work/deps/src/curl-7.88.1/lib/.. -I/workspace/symbian-work/deps/src/curl-7.88.1/lib/../include -I/workspace/symbian-work/deps/src/curl-7.88.1/build-symbian/lib/.. -I/workspace/symbian-work/deps/src/curl-7.88.1/lib -I/workspace/symbian-work/deps/src/curl-7.88.1/build-symbian/lib -isystem /workspace/symbian-sdk/include/portable/zlib -D__LIBM_ALIASES_H__ -Dalloca=__builtin_alloca -Os -mfloat-abi=softfp -mfpu=vfpv2 -Wno-error=incompatible-function-pointer-types -Wno-error=int-conversion -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=cast-function-type-strict -include /workspace/WebKit-Symbian-graphics/Tools/Symbian/shims/mbedtls-config.h -isystem /workspace/symbian-sdk/include/abseil -I/workspace/WebKit-Symbian-graphics/Tools/Symbian/shims '-DCURL_SA_FAMILY_T=unsigned short' -pedantic -Wall -W -Wpointer-arith -Wwrite-strings -Wunused -Wshadow -Winline -Wnested-externs -Wmissing-declarations -Wmissing-prototypes -Wfloat-equal -Wsign-compare -Wundef -Wendif-labels -Wstrict-prototypes -Wdeclaration-after-statement -Wcast-align -Wtype-limits -Wempty-body -Wignored-qualifiers -Wconversion -Wvla -Wdouble-promotion -Wenum-conversion -Wno-long-long -Wno-multichar -Wno-format-nonliteral -Wno-sign-conversion -Wno-system-headers -O3 -DNDEBUG -fvisibility=hidden -MD -MT lib/CMakeFiles/libcurl.dir/curl_addrinfo.c.o -MF lib/CMakeFiles/libcurl.dir/curl_addrinfo.c.o.d -o lib/CMakeFiles/libcurl.dir/curl_addrinfo.c.o -c /workspace/symbian-work/deps/src/curl-7.88.1/lib/curl_addrinfo.c"
+}

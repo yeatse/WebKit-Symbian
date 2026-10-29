@@ -1,0 +1,4 @@
+sa_addr inet_ntop() failed with errno 47: Address family not supported by protocol family
+connect to  port 0 failed: Address family not supported by protocol family
+Failed to connect to 127.0.0.1 port 8791 after 20 ms: Failed initialization
+Closing connection 0

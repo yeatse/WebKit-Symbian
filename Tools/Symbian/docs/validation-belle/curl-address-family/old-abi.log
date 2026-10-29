@@ -1,0 +1,40 @@
+clang: warning: -Wl,-e,main: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: -Wl,--no-undefined: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: -Wl,-Bdynamic: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: -Wl,--start-group: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: /workspace/symbian-sdk/proxies/libc/libc.dso: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: /workspace/symbian-sdk/proxies/libm/libm.dso: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: /workspace/symbian-sdk/proxies/libpthread/libpthread.dso: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: /workspace/symbian-sdk/proxies/euser/euser.dso: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: /workspace/symbian-sdk/proxies/drtaeabi/drtaeabi.dso: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: /workspace/symbian-sdk/proxies/hal/hal.dso: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: /workspace/symbian-sdk/proxies/efsrv/efsrv.dso: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: /workspace/symbian-sdk/proxies/libdl/libdl.dso: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: -Wl,--end-group: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: argument unused during compilation: '-fuse-ld=lld' [-Wunused-command-line-argument]
+/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/curl-address-family/native-abi.c:7:16: error: static assertion failed due to requirement 'sizeof(unsigned char) == sizeof (((struct sockaddr *)0)->sa_family)': curl's family cast must match the native socket field width
+    7 | _Static_assert(sizeof(CURL_SA_FAMILY_T) == sizeof(((struct sockaddr*)0)->sa_family),
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/curl-address-family/native-abi.c:7:41: note: expression evaluates to '1 == 2'
+    7 | _Static_assert(sizeof(CURL_SA_FAMILY_T) == sizeof(((struct sockaddr*)0)->sa_family),
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/curl-address-family/native-abi.c:9:16: error: static assertion failed due to requirement 'sizeof(unsigned char) == sizeof (((struct sockaddr_in *)0)->sin_family)': curl's family cast must match the native IPv4 field width
+    9 | _Static_assert(sizeof(CURL_SA_FAMILY_T) == sizeof(((struct sockaddr_in*)0)->sin_family),
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/curl-address-family/native-abi.c:9:41: note: expression evaluates to '1 == 2'
+    9 | _Static_assert(sizeof(CURL_SA_FAMILY_T) == sizeof(((struct sockaddr_in*)0)->sin_family),
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/curl-address-family/native-abi.c:11:16: error: static assertion failed due to requirement '(unsigned char)2048 == 2048': curl must preserve the complete Symbian IPv4 address family
+   11 | _Static_assert((CURL_SA_FAMILY_T)AF_INET == AF_INET,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/curl-address-family/native-abi.c:11:42: note: expression evaluates to '0 == 2048'
+   11 | _Static_assert((CURL_SA_FAMILY_T)AF_INET == AF_INET,
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/curl-address-family/native-abi.c:13:16: error: static assertion failed due to requirement '(unsigned char)2054 == 2054': the cast must also preserve IPv6 even though this build disables IPv6
+   13 | _Static_assert((CURL_SA_FAMILY_T)AF_INET6 == AF_INET6,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/curl-address-family/native-abi.c:13:43: note: expression evaluates to '6 == 2054'
+   13 | _Static_assert((CURL_SA_FAMILY_T)AF_INET6 == AF_INET6,
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+4 errors generated.

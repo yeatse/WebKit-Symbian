@@ -1,0 +1,7 @@
+FAIL 127.0.0.1:8791 ai_family=0x800 socket_family=0x0
+FAIL 192.0.2.123:443 ai_family=0x800 socket_family=0x0
+FAIL 255.255.255.255:65535 ai_family=0x800 socket_family=0x0
+PASS 127.0.0.1:8791 ai_family=0x800 socket_family=0x800
+PASS 192.0.2.123:443 ai_family=0x800 socket_family=0x800
+PASS 255.255.255.255:65535 ai_family=0x800 socket_family=0x800
+PASS: unchanged curl address builders reproduce old truncation and preserve corrected families
