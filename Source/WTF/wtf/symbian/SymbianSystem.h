@@ -66,8 +66,9 @@ bool displaySize(int& width, int& height);
 // Address space backed by a local RChunk. Data reservations use a
 // disconnected chunk and commit page ranges on demand; executable
 // reservations use a code chunk and are committed in full up front.
+// commit() returns false if the pages could not be committed.
 void* reserve(size_t, bool executable);
-void commit(void*, size_t);
+bool commit(void*, size_t);
 void decommit(void*, size_t);
 void release(void*);
 

@@ -172,16 +172,20 @@ void* reserve(size_t bytes, bool executable)
     return nullptr;
 }
 
-void commit(void* address, size_t bytes)
+bool commit(void* address, size_t bytes)
 {
     TInt offset = 0;
     bool executable = false;
     RChunk chunk = chunkContaining(address, offset, executable);
+    if (!chunk.Handle())
+        return false;
     // Code chunks are committed in full by reserve().
-    if (!chunk.Handle() || executable)
-        return;
-    if (chunk.Commit(offset, static_cast<TInt>(bytes)) == KErrNone)
-        Mem::FillZ(static_cast<TUint8*>(address), static_cast<TInt>(bytes));
+    if (executable)
+        return true;
+    if (chunk.Commit(offset, static_cast<TInt>(bytes)) != KErrNone)
+        return false;
+    Mem::FillZ(static_cast<TUint8*>(address), static_cast<TInt>(bytes));
+    return true;
 }
 
 void decommit(void* address, size_t bytes)

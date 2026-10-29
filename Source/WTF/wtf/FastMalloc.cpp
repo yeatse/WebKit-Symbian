@@ -29,6 +29,12 @@
 #include <string.h>
 #include <wtf/CheckedArithmetic.h>
 
+#if OS(SYMBIAN)
+#include <pthread.h>
+#include <wtf/NotFound.h>
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
 #if OS(WINDOWS)
 #include <windows.h>
 #else
@@ -166,15 +172,149 @@ void fastAlignedFree(void* p)
 
 #elif OS(SYMBIAN)
 
-// Open C has no posix_memalign; the SDK runtime's mimalloc provides aligned
-// allocation with its own free.
+// Open C has no posix_memalign. The SDK runtime's mimalloc has aligned
+// allocation, but on complex pages it starts failing page-aligned requests
+// (JSC's 16 KB MarkedBlocks) while it still serves ordinary ones, so the
+// first JS allocation that needs a new block crashes. Page-aligned requests
+// therefore come from a pool of their own: one disconnected chunk whose
+// pages are committed per allocation and decommitted on free. Everything
+// else, and anything the pool can't fit, goes to mimalloc.
 extern "C" void* mi_malloc_aligned(size_t, size_t);
 extern "C" void mi_free(void*);
 
+namespace {
+
+class AlignedPool {
+public:
+    static constexpr size_t pageSize = 4096;
+
+    // Constant-initialized, so it is usable before dynamic initializers run.
+    constexpr AlignedPool() = default;
+
+    void* allocate(size_t alignment, size_t size)
+    {
+        if (alignment < pageSize || !size)
+            return nullptr;
+        size_t pages = (size + pageSize - 1) / pageSize;
+        pthread_mutex_lock(&m_lock);
+        void* result = allocateLocked(pages, alignment / pageSize);
+        pthread_mutex_unlock(&m_lock);
+        return result;
+    }
+
+    bool free(void* p)
+    {
+        uint8_t* address = static_cast<uint8_t*>(p);
+        if (!m_base || address < m_base || address >= m_base + m_pageCount * pageSize)
+            return false;
+        pthread_mutex_lock(&m_lock);
+        freeLocked(address);
+        pthread_mutex_unlock(&m_lock);
+        return true;
+    }
+
+private:
+    void* allocateLocked(size_t pages, size_t alignPages)
+    {
+        if (!ensureReserved() || pages > maxRun)
+            return nullptr;
+        size_t index = find(pages, alignPages, m_hint);
+        if (index == notFound && m_hint)
+            index = find(pages, alignPages, 0);
+        if (index == notFound)
+            return nullptr;
+        void* result = m_base + index * pageSize;
+        if (!SymbianSystem::commit(result, pages * pageSize))
+            return nullptr;
+        for (size_t i = index; i < index + pages; ++i)
+            setUsed(i, true);
+        m_runPages[index] = pages;
+        m_hint = index + pages;
+        return result;
+    }
+
+    void freeLocked(uint8_t* address)
+    {
+        size_t index = (address - m_base) / pageSize;
+        size_t pages = m_runPages[index];
+        RELEASE_ASSERT(pages && address == m_base + index * pageSize);
+        SymbianSystem::decommit(address, pages * pageSize);
+        for (size_t i = index; i < index + pages; ++i)
+            setUsed(i, false);
+        m_runPages[index] = 0;
+        if (index < m_hint)
+            m_hint = index;
+    }
+
+    static constexpr size_t maxPages = 64 * 1024 * 1024 / pageSize;
+    static constexpr size_t maxRun = 0xffff;
+
+    bool ensureReserved()
+    {
+        if (m_base)
+            return true;
+        if (m_reserveFailed)
+            return false;
+        // Halve the request until the kernel finds the address space.
+        for (size_t pages = maxPages; pages >= maxPages / 8; pages /= 2) {
+            if (void* base = SymbianSystem::reserve(pages * pageSize, false)) {
+                m_base = static_cast<uint8_t*>(base);
+                m_pageCount = pages;
+                return true;
+            }
+        }
+        m_reserveFailed = true;
+        return false;
+    }
+
+    // First fit at or after start whose address is a multiple of the alignment.
+    size_t find(size_t pages, size_t alignPages, size_t start)
+    {
+        size_t misalignment = (reinterpret_cast<uintptr_t>(m_base) / pageSize) % alignPages;
+        size_t index = start + (alignPages - (start + misalignment) % alignPages) % alignPages;
+        while (index + pages <= m_pageCount) {
+            size_t used = notFound;
+            for (size_t i = index; i < index + pages; ++i) {
+                if (isUsed(i)) {
+                    used = i;
+                    break;
+                }
+            }
+            if (used == notFound)
+                return index;
+            index = used + 1;
+            index += (alignPages - (index + misalignment) % alignPages) % alignPages;
+        }
+        return notFound;
+    }
+
+    bool isUsed(size_t i) const { return m_used[i / 32] & (1u << (i % 32)); }
+    void setUsed(size_t i, bool used)
+    {
+        if (used)
+            m_used[i / 32] |= 1u << (i % 32);
+        else
+            m_used[i / 32] &= ~(1u << (i % 32));
+    }
+
+    pthread_mutex_t m_lock = PTHREAD_MUTEX_INITIALIZER;
+    uint8_t* m_base { nullptr };
+    size_t m_pageCount { 0 };
+    size_t m_hint { 0 };
+    bool m_reserveFailed { false };
+    uint32_t m_used[maxPages / 32] { };
+    uint16_t m_runPages[maxPages] { };
+};
+
+// Never destroyed: blocks are freed during and after static destruction.
+AlignedPool alignedPoolStorage;
+AlignedPool& alignedPool() { return alignedPoolStorage; }
+
+} // namespace
+
 void* fastAlignedMalloc(size_t alignment, size_t size)
 {
-    ASSERT_IS_WITHIN_LIMIT(size);
-    void* p = mi_malloc_aligned(size, alignment);
+    void* p = tryFastAlignedMalloc(alignment, size);
     if (UNLIKELY(!p))
         CRASH();
     return p;
@@ -183,11 +323,15 @@ void* fastAlignedMalloc(size_t alignment, size_t size)
 void* tryFastAlignedMalloc(size_t alignment, size_t size)
 {
     FAIL_IF_EXCEEDS_LIMIT(size);
+    if (void* p = alignedPool().allocate(alignment, size))
+        return p;
     return mi_malloc_aligned(size, alignment);
 }
 
 void fastAlignedFree(void* p)
 {
+    if (!p || alignedPool().free(p))
+        return;
     mi_free(p);
 }
 

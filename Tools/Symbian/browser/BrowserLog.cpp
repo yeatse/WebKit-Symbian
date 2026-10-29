@@ -38,6 +38,22 @@ void BrowserLog(const char* aFormat, ...)
     RDebug::Printf("browser: %s", message);
 }
 
+// The SDK runtime's mimalloc gets its memory from chunks it reserves itself,
+// within a fixed address budget; these report how much of it is in use.
+extern "C" size_t SymbianRuntimeMimallocAddressBudget();
+extern "C" size_t SymbianRuntimeMimallocReservedBytes();
+extern "C" size_t SymbianRuntimeMimallocChunkBytes();
+extern "C" size_t SymbianRuntimeMimallocChunkCount();
+
+static void LogMemory()
+{
+    BrowserLog("mimalloc: %u chunks, %u KB reserved, %u KB committed, budget %u KB",
+        static_cast<unsigned>(SymbianRuntimeMimallocChunkCount()),
+        static_cast<unsigned>(SymbianRuntimeMimallocReservedBytes() / 1024),
+        static_cast<unsigned>(SymbianRuntimeMimallocChunkBytes() / 1024),
+        static_cast<unsigned>(SymbianRuntimeMimallocAddressBudget() / 1024));
+}
+
 static void LogThreads()
 {
     char line[512];
@@ -77,6 +93,7 @@ static void* ThreadWatch(void*)
     RThread().SetPriority(EPriorityAbsoluteHigh);
     for (;;) {
         LogThreads();
+        LogMemory();
         sleep(2);
     }
     return nullptr;
