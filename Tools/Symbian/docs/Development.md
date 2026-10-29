@@ -284,7 +284,7 @@ A further commit fixes constant-expression errors from current Clang.
   * The SDK's mbedTLS is built with `MBEDTLS_USER_CONFIG_FILE="symbian_mbedtls/config.h"`, `MBEDTLS_SSL_PROTO_TLS1_3`, `SYMBIAN_MBEDTLS_GUEST=1` and `MBEDTLS_STATIC`, which change the layout of its structures. curl and the file shim get them from `Tools/Symbian/shims/mbedtls-config.h`, WebKit from `OptionsSymbian.cmake`. Without them curl allocated `mbedtls_ssl_config` and the other contexts too small and with fields where the library did not look, the likely cause of HTTPS loads hanging the browser on phones.
   * `CurlSSLVerifierMbedTLS.cpp` collects the certificate chain and maps mbedTLS verification flags to WebKit's certificate errors.
   * `MbedTLSHelper` provides certificate summaries and error descriptions.
-  * Root certificates are read from `C:\resource\webkit\cacert.pem`, or from `CURL_CA_BUNDLE` if set. `browser.sis` installs Mozilla's roots there, as curl's maintainers extract them (`scripts/package-sis.sh` downloads a pinned, checksummed release).
+  * Root certificates are read from `C:\resource\webkit\cacert.pem`, or from `CURL_CA_BUNDLE` if set. `browser.sis` installs Mozilla's roots there, as curl's maintainers extract them (`scripts/package-sis.sh` downloads a pinned, checksummed release). They are parsed once, on the first HTTPS connection, and every connection after it shares that chain (`mbedtls_fs_shared_ca_chain` in `shims/mbedtls-fs.c`); curl parsed the bundle for each connection, and phones ran out of memory with a few open (`mbedTLS -0x2880`).
   * PAL's digests (SHA-1/256/384/512) also use mbedTLS.
   * Public suffixes come from libpsl.
 * **Theme**: Adwaita.

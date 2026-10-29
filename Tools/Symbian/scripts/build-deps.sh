@@ -256,6 +256,10 @@ build_curl() {
   # MBEDTLS_ERR_PK_BAD_INPUT_DATA (PSA_ERROR_BAD_STATE).
   grep -q 'psa_crypto_init' "$vtls" || perl -0pi -e 's{(static int mbedtls_init\(void\)\n\{\n)}{$1#ifdef MBEDTLS_USE_PSA_CRYPTO\n  if(psa_crypto_init() != PSA_SUCCESS)\n    return 0;\n#endif\n}; s{(#include <mbedtls/sha256.h>\n)}{$1#ifdef MBEDTLS_USE_PSA_CRYPTO\n#include <psa/crypto.h>\n#endif\n}' "$vtls"
   grep -q 'psa_crypto_init' "$vtls"
+  # Every connection uses one parsed copy of the CA bundle (shims/mbedtls-fs.c)
+  # instead of parsing its own.
+  grep -q 'mbedtls_fs_shared_ca_chain' "$vtls" || perl -0pi -e 's{(  mbedtls_x509_crt_init\(&backend->cacert\);\n)}{$1  mbedtls_x509_crt *cachain = &backend->cacert;\n}; s{mbedtls_x509_crt_parse_file\(&backend->cacert, ssl_cafile\)}{mbedtls_fs_shared_ca_chain(ssl_cafile, &cachain)}; s{(mbedtls_ssl_conf_ca_chain\(&backend->config,\n\s*)&backend->cacert,}{$1cachain,}' "$vtls"
+  [ "$(grep -c 'cachain' "$vtls")" = 3 ]
   # file: URLs name drive letters (file:///C:/Data/page.html), as on Windows.
   sed -i 's/^#if defined(WIN32) || defined(MSDOS) || defined(__EMX__)$/& || defined(__SYMBIAN32__)/' \
     "$src/curl-7.88.1/lib/file.c"

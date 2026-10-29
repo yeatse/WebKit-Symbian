@@ -60,6 +60,31 @@ int mbedtls_x509_crt_parse_file(mbedtls_x509_crt *chain, const char *path)
     return result;
 }
 
+/* curl parsed the bundle (about 220 KB of PEM) again for every connection,
+ * and phones ran out of memory with a few open (mbedTLS -0x2880, X509 alloc
+ * failed). WebKit runs every transfer on its one curl thread, so the shared
+ * chain is only used from there. */
+int mbedtls_fs_shared_ca_chain(const char *path, mbedtls_x509_crt **chain)
+{
+    static mbedtls_x509_crt shared;
+    static char *shared_path;
+    int result;
+    if (shared_path) {
+        if (strcmp(shared_path, path))
+            return mbedtls_x509_crt_parse_file(*chain, path);
+        *chain = &shared;
+        return 0;
+    }
+    mbedtls_x509_crt_init(&shared);
+    result = mbedtls_x509_crt_parse_file(&shared, path);
+    if (result < 0 || !(shared_path = strdup(path))) {
+        mbedtls_x509_crt_free(&shared);
+        return result < 0 ? result : mbedtls_x509_crt_parse_file(*chain, path);
+    }
+    *chain = &shared;
+    return result;
+}
+
 /* Returns the number of files that failed to parse, or an error if none
  * could be read, as mbedTLS does. */
 int mbedtls_x509_crt_parse_path(mbedtls_x509_crt *chain, const char *path)
