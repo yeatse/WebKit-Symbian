@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "ExceptionOr.h"
 
 #if ENABLE(WEB_CRYPTO) && USE(MBEDTLS)
 
@@ -53,8 +54,8 @@ public:
     bool setKey(const Vector<uint8_t>& key, bool encrypt)
     {
         if (encrypt)
-            return !mbedtls_aes_setkey_enc(&m_context, key.data(), key.size() * 8);
-        return !mbedtls_aes_setkey_dec(&m_context, key.data(), key.size() * 8);
+            return !mbedtls_aes_setkey_enc(&m_context, key.span().data(), key.size() * 8);
+        return !mbedtls_aes_setkey_dec(&m_context, key.span().data(), key.size() * 8);
     }
     mbedtls_aes_context* get() { return &m_context; }
 
@@ -73,22 +74,27 @@ static ExceptionOr<Vector<uint8_t>> aesCBC(int mode, const Vector<uint8_t>& key,
     if (!context.setKey(key, mode == MBEDTLS_AES_ENCRYPT))
         return Exception { ExceptionCode::OperationError };
 
-    Vector<uint8_t> data = input;
+    Vector<uint8_t> data;
+    if (!data.tryAppend(input.span()))
+        return Exception { ExceptionCode::OperationError };
     if (mode == MBEDTLS_AES_ENCRYPT && padding == CryptoAlgorithmAESCBC::Padding::Yes) {
         // PKCS #7
         size_t padLength = aesBlockSize - data.size() % aesBlockSize;
         if (data.size() > std::numeric_limits<size_t>::max() - padLength)
             return Exception { ExceptionCode::OperationError };
-        data.grow(data.size() + padLength);
-        memset(data.data() + data.size() - padLength, padLength, padLength);
+        if (!data.tryGrow(data.size() + padLength))
+            return Exception { ExceptionCode::OperationError };
+        memset(data.mutableSpan().data() + data.size() - padLength, padLength, padLength);
     }
     if (data.size() % aesBlockSize)
         return Exception { ExceptionCode::OperationError };
 
     uint8_t ivBuffer[aesBlockSize];
-    memcpy(ivBuffer, iv.data(), aesBlockSize);
-    Vector<uint8_t> output(data.size());
-    if (mbedtls_aes_crypt_cbc(context.get(), mode, data.size(), ivBuffer, data.data(), output.data()))
+    memcpy(ivBuffer, iv.span().data(), aesBlockSize);
+    Vector<uint8_t> output;
+    if (!output.tryGrow(data.size()))
+        return Exception { ExceptionCode::OperationError };
+    if (mbedtls_aes_crypt_cbc(context.get(), mode, data.size(), ivBuffer, data.span().data(), output.mutableSpan().data()))
         return Exception { ExceptionCode::OperationError };
 
     if (mode == MBEDTLS_AES_DECRYPT && padding == CryptoAlgorithmAESCBC::Padding::Yes) {
@@ -128,9 +134,11 @@ static ExceptionOr<Vector<uint8_t>> aesCFB8(int mode, const Vector<uint8_t>& key
         return Exception { ExceptionCode::OperationError };
 
     uint8_t ivBuffer[aesBlockSize];
-    memcpy(ivBuffer, iv.data(), aesBlockSize);
-    Vector<uint8_t> output(input.size());
-    if (mbedtls_aes_crypt_cfb8(context.get(), mode, input.size(), ivBuffer, input.data(), output.data()))
+    memcpy(ivBuffer, iv.span().data(), aesBlockSize);
+    Vector<uint8_t> output;
+    if (!output.tryGrow(input.size()))
+        return Exception { ExceptionCode::OperationError };
+    if (mbedtls_aes_crypt_cfb8(context.get(), mode, input.size(), ivBuffer, input.span().data(), output.mutableSpan().data()))
         return Exception { ExceptionCode::OperationError };
     return output;
 }
@@ -169,15 +177,17 @@ ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESGCM::platformEncrypt(const Crypto
         return Exception { ExceptionCode::OperationError };
 
     GCMContext context;
-    if (mbedtls_gcm_setkey(context.get(), MBEDTLS_CIPHER_ID_AES, key.key().data(), key.key().size() * 8))
+    if (mbedtls_gcm_setkey(context.get(), MBEDTLS_CIPHER_ID_AES, key.key().span().data(), key.key().size() * 8))
         return Exception { ExceptionCode::OperationError };
 
     // The tag follows the ciphertext.
     if (plainText.size() > std::numeric_limits<size_t>::max() - tagLength)
         return Exception { ExceptionCode::OperationError };
-    Vector<uint8_t> output(plainText.size() + tagLength);
-    if (mbedtls_gcm_crypt_and_tag(context.get(), MBEDTLS_GCM_ENCRYPT, plainText.size(), iv.data(), iv.size(),
-        additionalData.data(), additionalData.size(), plainText.data(), output.data(), tagLength, output.data() + plainText.size()))
+    Vector<uint8_t> output;
+    if (!output.tryGrow(plainText.size() + tagLength))
+        return Exception { ExceptionCode::OperationError };
+    if (mbedtls_gcm_crypt_and_tag(context.get(), MBEDTLS_GCM_ENCRYPT, plainText.size(), iv.span().data(), iv.size(),
+        additionalData.span().data(), additionalData.size(), plainText.span().data(), output.mutableSpan().data(), tagLength, output.mutableSpan().data() + plainText.size()))
         return Exception { ExceptionCode::OperationError };
     return output;
 }
@@ -191,13 +201,15 @@ ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESGCM::platformDecrypt(const Crypto
         return Exception { ExceptionCode::OperationError };
 
     GCMContext context;
-    if (mbedtls_gcm_setkey(context.get(), MBEDTLS_CIPHER_ID_AES, key.key().data(), key.key().size() * 8))
+    if (mbedtls_gcm_setkey(context.get(), MBEDTLS_CIPHER_ID_AES, key.key().span().data(), key.key().size() * 8))
         return Exception { ExceptionCode::OperationError };
 
     size_t length = cipherText.size() - tagLength;
-    Vector<uint8_t> output(length);
-    if (mbedtls_gcm_auth_decrypt(context.get(), length, iv.data(), iv.size(), additionalData.data(), additionalData.size(),
-        cipherText.data() + length, tagLength, cipherText.data(), output.data()))
+    Vector<uint8_t> output;
+    if (!output.tryGrow(length))
+        return Exception { ExceptionCode::OperationError };
+    if (mbedtls_gcm_auth_decrypt(context.get(), length, iv.span().data(), iv.size(), additionalData.span().data(), additionalData.size(),
+        cipherText.span().data() + length, tagLength, cipherText.span().data(), output.mutableSpan().data()))
         return Exception { ExceptionCode::OperationError };
     return output;
 }
@@ -223,12 +235,14 @@ ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESKW::platformWrapKey(const CryptoK
         return Exception { ExceptionCode::OperationError };
 
     KWContext context;
-    if (mbedtls_nist_kw_setkey(context.get(), MBEDTLS_CIPHER_ID_AES, key.key().data(), key.key().size() * 8, 1))
+    if (mbedtls_nist_kw_setkey(context.get(), MBEDTLS_CIPHER_ID_AES, key.key().span().data(), key.key().size() * 8, 1))
         return Exception { ExceptionCode::OperationError };
 
-    Vector<uint8_t> output(data.size() + 8);
+    Vector<uint8_t> output;
+    if (!output.tryGrow(data.size() + 8))
+        return Exception { ExceptionCode::OperationError };
     size_t outputLength = 0;
-    if (mbedtls_nist_kw_wrap(context.get(), MBEDTLS_KW_MODE_KW, data.data(), data.size(), output.data(), &outputLength, output.size()))
+    if (mbedtls_nist_kw_wrap(context.get(), MBEDTLS_KW_MODE_KW, data.span().data(), data.size(), output.mutableSpan().data(), &outputLength, output.size()))
         return Exception { ExceptionCode::OperationError };
     output.shrink(outputLength);
     return output;
@@ -240,12 +254,14 @@ ExceptionOr<Vector<uint8_t>> CryptoAlgorithmAESKW::platformUnwrapKey(const Crypt
         return Exception { ExceptionCode::OperationError };
 
     KWContext context;
-    if (mbedtls_nist_kw_setkey(context.get(), MBEDTLS_CIPHER_ID_AES, key.key().data(), key.key().size() * 8, 0))
+    if (mbedtls_nist_kw_setkey(context.get(), MBEDTLS_CIPHER_ID_AES, key.key().span().data(), key.key().size() * 8, 0))
         return Exception { ExceptionCode::OperationError };
 
-    Vector<uint8_t> output(data.size() - 8);
+    Vector<uint8_t> output;
+    if (!output.tryGrow(data.size() - 8))
+        return Exception { ExceptionCode::OperationError };
     size_t outputLength = 0;
-    if (mbedtls_nist_kw_unwrap(context.get(), MBEDTLS_KW_MODE_KW, data.data(), data.size(), output.data(), &outputLength, output.size()))
+    if (mbedtls_nist_kw_unwrap(context.get(), MBEDTLS_KW_MODE_KW, data.span().data(), data.size(), output.mutableSpan().data(), &outputLength, output.size()))
         return Exception { ExceptionCode::OperationError };
     output.shrink(outputLength);
     return output;

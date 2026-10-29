@@ -1271,11 +1271,16 @@ public:
     virtual void mathPrescripts(AccessibilityMathMultiscriptPairs&) = 0;
     virtual void mathPostscripts(AccessibilityMathMultiscriptPairs&) = 0;
 
+#if OS(SYMBIAN)
+    AccessibilityObjectWrapper* wrapper() const { return nullptr; }
+    void setWrapper(AccessibilityObjectWrapper* wrapper) { RELEASE_ASSERT(!wrapper); }
+#else
     AccessibilityObjectWrapper* wrapper() const { return m_wrapper.get(); }
 #if PLATFORM(COCOA)
     WEBCORE_EXPORT RetainPtr<AccessibilityObjectWrapper> protectedWrapper() const;
 #endif
     void setWrapper(AccessibilityObjectWrapper* wrapper) { m_wrapper = wrapper; }
+#endif
     void detachWrapper(AccessibilityDetachmentType);
 
 #if PLATFORM(IOS_FAMILY)
@@ -1491,7 +1496,9 @@ inline void AXCoreObject::detach(AccessibilityDetachmentType detachmentType)
 inline void AXCoreObject::detachWrapper(AccessibilityDetachmentType detachmentType)
 {
     detachPlatformWrapper(detachmentType);
+#if !OS(SYMBIAN)
     m_wrapper = nullptr;
+#endif
 }
 
 inline Vector<AXID> AXCoreObject::childrenIDs(bool updateChildrenIfNeeded)

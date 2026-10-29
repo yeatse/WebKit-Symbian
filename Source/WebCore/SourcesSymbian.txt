@@ -23,7 +23,6 @@
 
 editing/libwpe/EditorLibWPE.cpp
 
-platform/ScrollAnimationKinetic.cpp
 
 
 platform/generic/KeyedDecoderGeneric.cpp

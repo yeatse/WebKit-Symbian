@@ -142,6 +142,8 @@ void ResourceHandle::drainCurlCallbacks()
 
 void ResourceHandle::platformSetDefersLoading(bool defers)
 {
+    if (d->m_cancelled)
+        return;
     if (d->m_curlRequest) {
         d->m_curlRequest->setDefersLoading(defers);
         if (!defers)
@@ -178,8 +180,8 @@ void ResourceHandle::curlDidReceiveResponse(CurlRequest& request, CurlResponse&&
         auto location = state.m_response.httpHeaderField(HTTPHeaderName::Location);
         if ((status == 301 || status == 302 || status == 303 || status == 307 || status == 308) && !location.isEmpty()) {
             if (++state.m_redirectCount > 20) {
-                handle.client()->didFail(&handle, ResourceError(CURLE_TOO_MANY_REDIRECTS, response.url));
                 handle.cancel();
+                handle.client()->didFail(&handle, ResourceError(CURLE_TOO_MANY_REDIRECTS, response.url));
                 return;
             }
             auto redirected = request->resourceRequest();
@@ -224,8 +226,8 @@ void ResourceHandle::continueCurlRedirect(ResourceRequest&& request, const URL& 
         return;
     }
     if (!request.url().isValid() || !portAllowed(request.url()) || isIPAddressDisallowed(request.url()) || (previousURL.protocolIsInHTTPFamily() && !request.url().protocolIsInHTTPFamily())) {
-        client()->didFail(this, ResourceError(CURLE_UNSUPPORTED_PROTOCOL, request.url()));
         cancel();
+        client()->didFail(this, ResourceError(CURLE_UNSUPPORTED_PROTOCOL, request.url()));
         return;
     }
     bool sameOrigin = protocolHostAndPortAreEqual(previousURL, request.url());
@@ -272,16 +274,20 @@ void ResourceHandle::curlDidReceiveData(CurlRequest& request, Ref<SharedBuffer>&
 void ResourceHandle::curlDidComplete(CurlRequest& request, NetworkLoadMetrics&& metrics)
 {
     dispatchCurlCallback([request = Ref { request }, metrics = WTF::move(metrics)](ResourceHandle& handle) {
-        if (handle.acceptsCurlCallback(request))
+        if (handle.acceptsCurlCallback(request)) {
+            handle.cancel();
             handle.client()->didFinishLoading(&handle, metrics);
+        }
     });
 }
 
 void ResourceHandle::curlDidFailWithError(CurlRequest& request, ResourceError&& error, CertificateInfo&&)
 {
     dispatchCurlCallback([request = Ref { request }, error = WTF::move(error)](ResourceHandle& handle) {
-        if (handle.acceptsCurlCallback(request))
+        if (handle.acceptsCurlCallback(request)) {
+            handle.cancel();
             handle.client()->didFail(&handle, error);
+        }
     });
 }
 
@@ -301,7 +307,7 @@ void ResourceHandle::didReceiveAuthenticationChallenge(const AuthenticationChall
 
 void ResourceHandle::receivedCredential(const AuthenticationChallenge& challenge, const Credential& credential)
 {
-    if (d->m_cancelled || !AuthenticationChallenge::equalForWebKitLegacyChallengeComparison(challenge, d->m_currentWebChallenge) || !d->m_curlRequest)
+    if (d->m_cancelled || !client() || !AuthenticationChallenge::equalForWebKitLegacyChallengeComparison(challenge, d->m_currentWebChallenge) || !d->m_curlRequest)
         return;
     if (credential.isEmpty()) {
         receivedRequestToContinueWithoutCredential(challenge);
@@ -361,6 +367,7 @@ void ResourceHandle::handleDataURL()
                 protectedHandle->dispatchCurlCallback([buffer = WTF::move(buffer)](ResourceHandle& handle) {
                     handle.client()->didReceiveBuffer(&handle, buffer, buffer->size());
                     handle.dispatchCurlCallback([](ResourceHandle& handle) {
+                        handle.cancel();
                         handle.client()->didFinishLoading(&handle, { });
                     });
                 });

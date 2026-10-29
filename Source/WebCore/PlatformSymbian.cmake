@@ -23,7 +23,6 @@ list(APPEND WebCore_PRIVATE_INCLUDE_DIRECTORIES
 # The curl backend's certificate handling is written against OpenSSL; the
 # Symbian port uses curl's mbedTLS backend instead.
 list(REMOVE_ITEM WebCore_SOURCES
-    platform/network/curl/CurlSSLHandle.cpp
     platform/network/curl/CurlSSLVerifier.cpp
     platform/network/curl/OpenSSLHelper.cpp
 )

@@ -51,7 +51,7 @@ async function run() {
         ['307 preserves POST', async () => { const v=await json(redirect(307),{method:'POST',body:'body'}); assert(v.method==='POST' && v.body==='body'); }],
         ['401 async completes', async () => assert((await xhr('/auth')).status === 401)],
         ['401 sync completes', async () => assert((await xhr('/auth',{sync:true})).status === 401)],
-        ['XHR cancellation', () => new Promise((resolve,reject) => { const x=new XMLHttpRequest(); const t=setTimeout(()=>reject(new Error('abort timeout')),5000); x.open('GET','/slow'); x.onabort=()=>{clearTimeout(t); resolve();}; x.onload=()=>{clearTimeout(t); reject(new Error('completed after cancel'));}; x.send(); setTimeout(()=>x.abort(),50); })],
+        ['XHR cancellation', () => new Promise((resolve,reject) => { const x=new XMLHttpRequest(); const t=setTimeout(()=>reject(new Error('abort timeout')),5000); x.open('GET','/slow'); x.onabort=()=>{setTimeout(()=>{clearTimeout(t);resolve();},2500);}; x.onload=x.onerror=()=>{clearTimeout(t); reject(new Error('late callback after cancel'));}; x.send(); setTimeout(()=>x.abort(),50); })],
         ['fetch cancellation', async () => { const c=new AbortController(); const task=fetch('/slow',{signal:c.signal}); c.abort(); try { await task; throw new Error('completed after cancel'); } catch(e) { assert(e.name==='AbortError'); } }],
         ['Cookie Path isolation', async () => { await cookie('fixture_path','yes','/scoped'); assert((await json('/scoped/echo')).cookie.includes('fixture_path=yes')); assert(!(await json('/echo')).cookie.includes('fixture_path=')); }],
         ['redirect recalculates Cookie', async () => assert((await json(redirect(302,'/scoped/echo'))).cookie.includes('fixture_path=yes'))],

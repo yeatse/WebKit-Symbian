@@ -4,7 +4,7 @@ list(APPEND WTF_SOURCES
 
 if (SYMBIAN)
     include(PlatformSymbian.cmake)
-    list(REMOVE_ITEM WTF_SOURCES generic/RunLoopGeneric.cpp generic/WorkQueueGeneric.cpp)
+    list(REMOVE_ITEM WTF_SOURCES generic/RunLoopGeneric.cpp)
 elseif (WIN32)
     list(APPEND WTF_SOURCES
         text/win/StringWin.cpp

@@ -1,0 +1,143 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Symbian WebCrypto checks</title>
+<style>body{font:16px sans-serif;margin:16px;background:#fff;color:#111}button{padding:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere}.pass{color:#075b22}.fail{color:#9c1010}</style>
+<h1>WebCrypto checks</h1>
+<p>Known vectors and rejection paths for the Symbian 2.52 development port.</p>
+<button id="run">Run checks</button>
+<pre id="output"></pre>
+<script>
+'use strict';
+const tests = [];
+const bytes = value => new TextEncoder().encode(value);
+const unhex = value => Uint8Array.from(value.match(/../g) || [], value => parseInt(value, 16));
+const hex = value => Array.from(new Uint8Array(value), value => value.toString(16).padStart(2, '0')).join('');
+const equal = (actual, expected) => { if (actual !== expected) throw new Error('Expected ' + expected + ', got ' + actual); };
+const check = (name, body) => tests.push({ name, body });
+const reject = async (name, body) => {
+    try { await body(); } catch (error) { equal(error.name, name); return; }
+    throw new Error('Expected ' + name + ', operation succeeded');
+};
+const importAES = (name, key, usages) => crypto.subtle.importKey('raw', unhex(key), name, true, usages);
+const rawAES = '00112233445566778899aabbccddeeff';
+const aesKey = '2b7e151628aed2a6abf7158809cf4f3c';
+const aesIV = unhex('000102030405060708090a0b0c0d0e0f');
+const aesPlain = unhex('6bc1bee22e409f96e93d7e117393172a');
+
+// FIPS 180-4, RFC 4231, RFC 5869, NIST SP 800-38A/38D, RFC 3394.
+for (const [algorithm, expected] of [
+    ['SHA-1', 'a9993e364706816aba3e25717850c26c9cd0d89d'],
+    ['SHA-256', 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'],
+    ['SHA-384', 'cb00753f45a35e8bb5a03d699ac65007272c32ab0eded1631a8b605a43ff5bed8086072ba1e7cc2358baeca134c825a7'],
+    ['SHA-512', 'ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f']
+]) check(algorithm + ' abc', async () => equal(hex(await crypto.subtle.digest(algorithm, bytes('abc'))), expected));
+
+check('HMAC SHA-256 sign and verify', async () => {
+    const key = await crypto.subtle.importKey('raw', new Uint8Array(20).fill(11), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']);
+    const signature = await crypto.subtle.sign('HMAC', key, bytes('Hi There'));
+    equal(hex(signature), 'b0344c61d8db38535ca8afceaf0bf12b881dc200c9833da726e9376c2e32cff7');
+    equal(await crypto.subtle.verify('HMAC', key, signature, bytes('Hi There')), true);
+    equal(await crypto.subtle.verify('HMAC', key, signature, bytes('Hi There!')), false);
+    equal(await crypto.subtle.verify('HMAC', key, new Uint8Array(1), bytes('Hi There')), false);
+});
+check('HKDF SHA-256 RFC 5869 case 1', async () => {
+    const key = await crypto.subtle.importKey('raw', new Uint8Array(22).fill(11), 'HKDF', false, ['deriveBits']);
+    const result = await crypto.subtle.deriveBits({ name: 'HKDF', hash: 'SHA-256', salt: unhex('000102030405060708090a0b0c'), info: unhex('f0f1f2f3f4f5f6f7f8f9') }, key, 336);
+    equal(hex(result), '3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf34007208d5b887185865');
+    const algorithm = { name: 'HKDF', hash: 'SHA-256', salt: new Uint8Array(), info: new Uint8Array() };
+    await reject('OperationError', () => crypto.subtle.deriveBits(algorithm, key, 255 * 32 * 8 + 8));
+    await reject('OperationError', () => crypto.subtle.deriveBits(algorithm, key, 0xfffffff8));
+});
+check('PBKDF2 SHA-256', async () => {
+    const key = await crypto.subtle.importKey('raw', bytes('password'), 'PBKDF2', false, ['deriveBits']);
+    equal(hex(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: bytes('salt'), iterations: 1 }, key, 256)), '120fb6cffcf8b32c43e7225256c4f837a86548c92ccc35480805987cb70be17b');
+    await reject('OperationError', () => crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: bytes('salt'), iterations: 0 }, key, 256));
+});
+check('AES-CBC vector and PKCS7 round trip', async () => {
+    const key = await importAES('AES-CBC', aesKey, ['encrypt', 'decrypt']);
+    const encrypted = await crypto.subtle.encrypt({ name: 'AES-CBC', iv: aesIV }, key, aesPlain);
+    equal(encrypted.byteLength, 32);
+    equal(hex(encrypted).slice(0, 32), '7649abac8119b246cee98e9b12e9197d');
+    equal(hex(await crypto.subtle.decrypt({ name: 'AES-CBC', iv: aesIV }, key, encrypted)), hex(aesPlain));
+    await reject('OperationError', () => crypto.subtle.decrypt({ name: 'AES-CBC', iv: aesIV }, key, new Uint8Array()));
+    await reject('OperationError', () => crypto.subtle.encrypt({ name: 'AES-CBC', iv: new Uint8Array(15) }, key, aesPlain));
+});
+check('AES-CFB8 vector', async () => {
+    const key = await importAES('AES-CFB', aesKey, ['encrypt', 'decrypt']);
+    const encrypted = await crypto.subtle.encrypt({ name: 'AES-CFB', iv: aesIV }, key, aesPlain);
+    equal(hex(encrypted), '3b79424c9c0dd436bace9e0ed4586a4f');
+    equal(hex(await crypto.subtle.decrypt({ name: 'AES-CFB', iv: aesIV }, key, encrypted)), hex(aesPlain));
+});
+check('AES-GCM NIST vector and tag rejection', async () => {
+    const key = await importAES('AES-GCM', '00'.repeat(16), ['encrypt', 'decrypt']);
+    const algorithm = { name: 'AES-GCM', iv: new Uint8Array(12), tagLength: 128 };
+    const encrypted = await crypto.subtle.encrypt(algorithm, key, new Uint8Array(16));
+    equal(hex(encrypted), '0388dace60b6a392f328c2b971b2fe78ab6e47d42cec13bdf53a67b21257bddf');
+    equal(hex(await crypto.subtle.decrypt(algorithm, key, encrypted)), '00'.repeat(16));
+    const tampered = new Uint8Array(encrypted.slice(0));
+    tampered[tampered.length - 1] ^= 1;
+    await reject('OperationError', () => crypto.subtle.decrypt(algorithm, key, tampered));
+    await reject('OperationError', () => crypto.subtle.decrypt(algorithm, key, new Uint8Array(15)));
+    await reject('OperationError', () => crypto.subtle.encrypt({ ...algorithm, tagLength: 40 }, key, new Uint8Array()));
+});
+check('AES-GCM authenticated data and empty input', async () => {
+    const key = await importAES('AES-GCM', rawAES, ['encrypt', 'decrypt']);
+    const algorithm = { name: 'AES-GCM', iv: new Uint8Array(12), additionalData: bytes('metadata'), tagLength: 96 };
+    const encrypted = await crypto.subtle.encrypt(algorithm, key, new Uint8Array());
+    equal(encrypted.byteLength, 12);
+    equal((await crypto.subtle.decrypt(algorithm, key, encrypted)).byteLength, 0);
+    await reject('OperationError', () => crypto.subtle.decrypt({ ...algorithm, additionalData: bytes('wrong') }, key, encrypted));
+});
+check('AES-KW RFC 3394 and integrity rejection', async () => {
+    const kek = await importAES('AES-KW', '000102030405060708090a0b0c0d0e0f', ['wrapKey', 'unwrapKey']);
+    const key = await importAES('AES-GCM', rawAES, ['encrypt']);
+    const wrapped = await crypto.subtle.wrapKey('raw', key, kek, 'AES-KW');
+    equal(hex(wrapped), '1fa68b0a8112b447aef34bd8fb5a7b829d3e862371d2cfe5');
+    const unwrapped = await crypto.subtle.unwrapKey('raw', wrapped, kek, 'AES-KW', 'AES-GCM', true, ['encrypt']);
+    equal(hex(await crypto.subtle.exportKey('raw', unwrapped)), rawAES);
+    const tampered = new Uint8Array(wrapped.slice(0));
+    tampered[0] ^= 1;
+    await reject('OperationError', () => crypto.subtle.unwrapKey('raw', tampered, kek, 'AES-KW', 'AES-GCM', true, ['encrypt']));
+});
+check('AES key length and usage rejection', async () => {
+    await reject('DataError', () => crypto.subtle.importKey('raw', new Uint8Array(15), 'AES-GCM', false, ['encrypt']));
+    const key = await importAES('AES-GCM', rawAES, ['encrypt']);
+    await reject('InvalidAccessError', () => crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(12) }, key, new Uint8Array(16)));
+});
+for (const algorithm of [
+    { name: 'AES-CTR', length: 128 },
+    { name: 'RSA-PSS', modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-256' },
+    { name: 'ECDSA', namedCurve: 'P-256' },
+    { name: 'Ed25519' },
+    { name: 'X25519' }
+]) check(algorithm.name + ' is not registered', () => reject('NotSupportedError', () => crypto.subtle.generateKey(algorithm, false, ['sign'])));
+check('SHA-224 is not registered', () => reject('NotSupportedError', () => crypto.subtle.digest('SHA-224', bytes('abc'))));
+
+async function run() {
+    const output = document.getElementById('output');
+    const button = document.getElementById('run');
+    button.disabled = true;
+    output.textContent = '';
+    let passed = 0, failed = 0;
+    const report = message => { output.textContent += message + '\n'; console.log('WEBCRYPTO ' + message); };
+    window.testResult = { state: 'running', total: tests.length, passed, failed };
+    if (!globalThis.crypto || !crypto.subtle) {
+        report('FAIL WebCrypto is unavailable');
+        failed = tests.length;
+    } else {
+        for (const test of tests) {
+            try { await test.body(); ++passed; report('PASS ' + test.name); }
+            catch (error) { ++failed; report('FAIL ' + test.name + ': ' + error.name + ': ' + error.message); }
+        }
+    }
+    const status = failed ? 'FAIL' : 'PASS';
+    report('DONE ' + status + ' ' + passed + '/' + tests.length + ' passed; ' + failed + ' failed');
+    window.testResult = { state: 'done', total: tests.length, passed, failed };
+    document.title = 'WebCrypto ' + status + ' ' + passed + '/' + tests.length;
+    output.className = failed ? 'fail' : 'pass';
+    button.disabled = false;
+}
+document.getElementById('run').onclick = run;
+if (new URLSearchParams(location.search).get('autorun') === '1') run();
+</script>

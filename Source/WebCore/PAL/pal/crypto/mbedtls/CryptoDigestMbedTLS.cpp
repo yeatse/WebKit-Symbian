@@ -30,6 +30,7 @@
 namespace PAL {
 
 struct CryptoDigestContext {
+    WTF_DEPRECATED_MAKE_STRUCT_FAST_ALLOCATED(CryptoDigestContext);
     CryptoDigestContext() { mbedtls_md_init(&context); }
     ~CryptoDigestContext() { mbedtls_md_free(&context); }
     mbedtls_md_context_t context;
@@ -70,7 +71,7 @@ void CryptoDigest::addBytes(std::span<const uint8_t> input)
 Vector<uint8_t> CryptoDigest::computeHash()
 {
     Vector<uint8_t> result(m_context->size);
-    RELEASE_ASSERT(!mbedtls_md_finish(&m_context->context, result.data()));
+    RELEASE_ASSERT(!mbedtls_md_finish(&m_context->context, result.mutableSpan().data()));
     return result;
 }
 

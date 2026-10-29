@@ -163,6 +163,9 @@ ResourceHandleClient* ResourceHandle::client() const
 void ResourceHandle::clearClient()
 {
     d->m_client = nullptr;
+#if OS(SYMBIAN)
+    clearAuthentication();
+#endif
 }
 
 void ResourceHandle::didReceiveResponse(ResourceResponse&& response, CompletionHandler<void()>&& completionHandler)

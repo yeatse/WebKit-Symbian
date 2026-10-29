@@ -32,13 +32,13 @@ namespace WebCore {
 
 void PlatformKeyboardEvent::disambiguateKeyDownEvent(Type type, bool backwardsCompatibility)
 {
-    ASSERT(m_type == KeyDown);
+    ASSERT(m_type == Type::KeyDown);
     m_type = type;
 
     if (backwardsCompatibility)
         return;
 
-    if (type == PlatformEvent::RawKeyDown) {
+    if (type == Type::RawKeyDown) {
         m_text = String();
         m_unmodifiedText = String();
     } else {

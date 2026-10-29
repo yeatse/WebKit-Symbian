@@ -41,7 +41,9 @@ if [ -f "$jsc" ]; then
   make_sis --uid 0xE1A5C011 --name "JavaScriptCore shell" --output "$out/jsc.sis" \
     --file "$jsc=!:\\sys\\bin\\jsc.exe" \
     --file "$REPO/tests/es2020.js=c:\\data\\es2020.js" \
-    --file "$REPO/tests/intl.js=c:\\data\\intl.js"
+    --file "$REPO/tests/intl.js=c:\\data\\intl.js" \
+    --file "$REPO/tests/basic.js=c:\\data\\basic.js" \
+    --file "$REPO/tests/resizable-arraybuffer.js=c:\\data\\resizable-arraybuffer.js"
 fi
 
 if [ -f "$browser/browser.exe" ]; then

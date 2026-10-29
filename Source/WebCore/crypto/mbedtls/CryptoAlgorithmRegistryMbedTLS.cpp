@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "ExceptionOr.h"
 #include "CryptoAlgorithmRegistry.h"
 
 #if ENABLE(WEB_CRYPTO) && USE(MBEDTLS)

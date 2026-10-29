@@ -6,12 +6,12 @@
 const output=document.getElementById('output');
 function checkSocket(url, success) {
     return new Promise((resolve,reject)=>{
-        const ws=new WebSocket(url); let opened=false, errored=false;
+        const ws=new WebSocket(url); let opened=false, errored=false, receivedEcho=false;
         const timer=setTimeout(()=>{ws.close();reject(new Error('timeout'));},10000);
         ws.onopen=()=>{opened=true;if(!success){clearTimeout(timer);ws.close();reject(new Error('invalid certificate accepted'));}else ws.send('secure echo');};
-        ws.onmessage=event=>{clearTimeout(timer);ws.close();if(success&&event.data==='secure echo')resolve();else reject(new Error('echo mismatch'));};
+        ws.onmessage=event=>{clearTimeout(timer);ws.close();if(success&&event.data==='secure echo'){receivedEcho=true;resolve();}else reject(new Error('echo mismatch'));};
         ws.onerror=()=>{errored=true;};
-        ws.onclose=()=>{clearTimeout(timer);if(!success&&errored&&!opened)resolve();else if(!success||!opened)reject(new Error('missing independent error without open'));};
+        ws.onclose=()=>{clearTimeout(timer);if(!success&&errored&&!opened)resolve();else if(!receivedEcho)reject(new Error('unexpected close or missing independent error without open'));};
     });
 }
 async function run(){

@@ -65,7 +65,7 @@ static const std::initializer_list<TypeExtensionPair>& platformMediaTypes()
     return platformMediaTypes;
 }
 
-String MIMETypeRegistry::mimeTypeForExtension(const String& extension)
+String MIMETypeRegistry::mimeTypeForExtension(StringView extension)
 {
     for (auto& entry : platformMediaTypes()) {
         if (equalIgnoringASCIICase(extension, entry.extension))

@@ -44,6 +44,8 @@ namespace WTF::FileSystemImpl {
 static std::string nativePath(StringView path)
 {
     auto utf8 = path.utf8();
+    if (!utf8.length())
+        return { };
     std::string result(utf8.data(), utf8.length());
     std::replace(result.begin(), result.end(), '\\', '/');
     return result;
@@ -85,6 +87,11 @@ String lexicallyNormal(const String& input)
             result += '/';
         result += component;
     }
+    auto lastSlash = path.find_last_of('/');
+    auto finalComponent = path.substr(lastSlash == std::string::npos ? root : lastSlash + 1);
+    bool endsInDirectory = path.back() == '/' || finalComponent == "." || finalComponent == "..";
+    if (endsInDirectory && !components.isEmpty() && components.last() != ".." && result.back() != '/')
+        result += '/';
     return String::fromUTF8(result.empty() ? "." : result.c_str());
 }
 
@@ -100,22 +107,27 @@ String parentPath(const String& input)
 {
     auto path = nativePath(input);
     size_t root = rootLength(path);
+    bool hadTrailingSeparator = path.size() > root && path.back() == '/';
     while (path.size() > root && path.back() == '/')
         path.pop_back();
-    if (path.size() == root)
+    if (hadTrailingSeparator || path.size() == root)
         return String::fromUTF8(path.c_str());
     auto slash = path.find_last_of('/');
-    if (slash == std::string::npos)
-        return String::fromUTF8(path.substr(0, root).c_str());
-    return String::fromUTF8(path.substr(0, std::max(root, slash)).c_str());
+    size_t length = slash == std::string::npos ? root : std::max(root, slash);
+    while (length > root && path[length - 1] == '/')
+        --length;
+    return String::fromUTF8(path.substr(0, length).c_str());
 }
 
 String pathByAppendingComponent(StringView base, StringView component)
 {
     auto path = nativePath(base);
     auto next = nativePath(component);
-    if (rootLength(next))
+    if (rootLength(next)) {
+        if (next[0] == '/' && path.size() >= 2 && path[1] == ':')
+            next = path.substr(0, 2) + next;
         return String::fromUTF8(next.c_str());
+    }
     if (!path.empty() && path.back() != '/' && path.back() != ':')
         path += '/';
     path += next;
@@ -134,6 +146,10 @@ bool isAncestor(const String& ancestor, const String& child)
 {
     auto a = nativePath(lexicallyNormal(ancestor));
     auto c = nativePath(lexicallyNormal(child));
+    while (a.size() > rootLength(a) && a.back() == '/')
+        a.pop_back();
+    while (c.size() > rootLength(c) && c.back() == '/')
+        c.pop_back();
     if (a.empty() || a == "." || c.size() <= a.size())
         return false;
     if (a.back() != '/')
@@ -155,7 +171,7 @@ static bool ensureDirectory(const std::string& path)
 
 bool makeAllDirectories(const String& input)
 {
-    auto path = nativePath(lexicallyNormal(input));
+    auto path = nativePath(input);
     if (path.empty())
         return false;
     for (size_t i = rootLength(path); i < path.size(); ++i) {
@@ -235,10 +251,10 @@ std::optional<uint64_t> directorySize(const String& path)
 
 bool deleteNonEmptyDirectory(const String& path)
 {
-    auto type = fileType(path);
-    if (!type)
-        return !fileExists(path);
-    if (*type != FileType::Directory)
+    struct stat info;
+    if (lstat(nativePath(path).c_str(), &info))
+        return errno == ENOENT;
+    if (!S_ISDIR(info.st_mode))
         return deleteFile(path);
     auto children = entries(path);
     if (!children)
@@ -258,7 +274,7 @@ bool createSymbolicLink(const String& target, const String& link) { return !syml
 
 static bool copy(const String& target, const String& source, bool overwrite)
 {
-    int input = open(nativePath(source).c_str(), O_RDONLY);
+    int input = open(nativePath(source).c_str(), O_RDONLY | O_NONBLOCK);
     if (input < 0)
         return false;
     struct stat sourceInfo;
@@ -266,7 +282,7 @@ static bool copy(const String& target, const String& source, bool overwrite)
         close(input);
         return false;
     }
-    int output = open(nativePath(target).c_str(), O_WRONLY | O_CREAT | (overwrite ? 0 : O_EXCL), 0600);
+    int output = open(nativePath(target).c_str(), O_WRONLY | O_CREAT | O_NONBLOCK | (overwrite ? 0 : O_EXCL), 0600);
     if (output < 0) {
         close(input);
         return false;

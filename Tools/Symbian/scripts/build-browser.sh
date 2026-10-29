@@ -20,7 +20,7 @@ fi
   -DWEBKIT_SOURCE_DIR="$WEBKIT_SRC" -DWEBKIT_BUILD_DIR="$WEBCORE_BUILD" \
   -DDEPS_DIR="$DEPS_DIR/install" -DICU_LIBRARY_DIR="$ICU_DIR/install/lib" \
   "${options[@]}" > "$WORK/browser-configure.log"
-"$SDK/bin/ninja" -C "$build" > "$WORK/browser-build.log"
+"$SDK/bin/ninja" -j"$JOBS" -C "$build" > "$WORK/browser-build.log"
 # WebKit needs far more than a GUI application's default 1 MB heap.
 python3 "$REPO/scripts/e32-header.py" "$build/e32/browser.exe" \
   "${BROWSER_HEAP_MIN:-0x100000}" "${BROWSER_HEAP_MAX:-0x8000000}" "${BROWSER_STACK:-0x100000}"

@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "ExceptionOr.h"
 #include "CryptoAlgorithmHMAC.h"
 
 #if ENABLE(WEB_CRYPTO) && USE(MBEDTLS)
@@ -43,7 +44,7 @@ static std::optional<Vector<uint8_t>> calculateHMAC(const CryptoKeyHMAC& key, co
         return std::nullopt;
 
     Vector<uint8_t> result(mbedtls_md_get_size(info));
-    if (mbedtls_md_hmac(info, key.key().data(), key.key().size(), data.data(), data.size(), result.data()))
+    if (mbedtls_md_hmac(info, key.key().span().data(), key.key().size(), data.span().data(), data.size(), result.mutableSpan().data()))
         return std::nullopt;
     return result;
 }

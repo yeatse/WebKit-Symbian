@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "ExceptionOr.h"
 
 #if ENABLE(WEB_CRYPTO) && USE(MBEDTLS)
 
@@ -43,11 +44,21 @@ ExceptionOr<Vector<uint8_t>> CryptoAlgorithmHKDF::platformDeriveBits(const Crypt
     if (!type)
         return Exception { ExceptionCode::NotSupportedError };
 
+    const auto* hash = mbedtls_md_info_from_type(*type);
+    if (!hash)
+        return Exception { ExceptionCode::NotSupportedError };
+    if (length % 8 || length / 8 > 255 * static_cast<size_t>(mbedtls_md_get_size(hash)))
+        return Exception { ExceptionCode::OperationError };
+    if (!length)
+        return Vector<uint8_t> { };
+
     const auto& salt = parameters.saltVector();
     const auto& info = parameters.infoVector();
-    Vector<uint8_t> result(length / 8);
-    if (mbedtls_hkdf(mbedtls_md_info_from_type(*type), salt.data(), salt.size(), key.key().data(), key.key().size(),
-        info.data(), info.size(), result.data(), result.size()))
+    Vector<uint8_t> result;
+    if (!result.tryGrow(length / 8))
+        return Exception { ExceptionCode::OperationError };
+    if (mbedtls_hkdf(hash, salt.span().data(), salt.size(), key.key().span().data(), key.key().size(),
+        info.span().data(), info.size(), result.mutableSpan().data(), result.size()))
         return Exception { ExceptionCode::OperationError };
     return result;
 }
@@ -61,9 +72,11 @@ ExceptionOr<Vector<uint8_t>> CryptoAlgorithmPBKDF2::platformDeriveBits(const Cry
         return Exception { ExceptionCode::OperationError };
 
     const auto& salt = parameters.saltVector();
-    Vector<uint8_t> result(length / 8);
-    if (mbedtls_pkcs5_pbkdf2_hmac_ext(*type, key.key().data(), key.key().size(), salt.data(), salt.size(),
-        parameters.iterations, result.size(), result.data()))
+    Vector<uint8_t> result;
+    if (!result.tryGrow(length / 8))
+        return Exception { ExceptionCode::OperationError };
+    if (mbedtls_pkcs5_pbkdf2_hmac_ext(*type, key.key().span().data(), key.key().size(), salt.span().data(), salt.size(),
+        parameters.iterations, result.size(), result.mutableSpan().data()))
         return Exception { ExceptionCode::OperationError };
     return result;
 }
