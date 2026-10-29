@@ -50,6 +50,7 @@ static const int textFieldBorderSize = 1;
 static const float textFieldCornerRadius = 3;
 static constexpr auto textFieldBorderColor = SRGBA<uint8_t> { 150, 150, 150 };
 static constexpr auto menuListButtonSeparatorColor = SRGBA<uint8_t> { 180, 180, 180 };
+static const unsigned menuListButtonSeparatorGap = 6;
 #else
 static const float textFieldCornerRadius = 5;
 static constexpr auto textFieldBorderColor = SRGBA<uint8_t> { 205, 199, 194 };
@@ -265,8 +266,12 @@ LengthBox RenderThemeAdwaita::popupInternalPaddingBox(const RenderStyle& style, 
     if (style.appearance() == NoControlPart)
         return { };
 
-    int leftPadding = menuListButtonPadding + (style.direction() == TextDirection::RTL ? menuListButtonArrowSize : 0);
-    int rightPadding = menuListButtonPadding + (style.direction() == TextDirection::LTR ? menuListButtonArrowSize : 0);
+    unsigned arrowSpace = menuListButtonArrowSize;
+#if OS(SYMBIAN)
+    arrowSpace += menuListButtonSeparatorGap;
+#endif
+    int leftPadding = menuListButtonPadding + (style.direction() == TextDirection::RTL ? arrowSpace : 0);
+    int rightPadding = menuListButtonPadding + (style.direction() == TextDirection::LTR ? arrowSpace : 0);
 
     return { menuListButtonPadding, rightPadding, menuListButtonPadding, leftPadding };
 }
@@ -296,7 +301,7 @@ bool RenderThemeAdwaita::paintMenuList(const RenderObject& renderObject, const P
     fieldRect.setHeight(menuListButtonArrowSize);
 #if OS(SYMBIAN)
     if (rect.height() > menuListButtonArrowSize) {
-        float separatorX = renderObject.style().direction() == TextDirection::LTR ? fieldRect.x() - menuListButtonPadding / 2. : fieldRect.maxX() + menuListButtonPadding / 2.;
+        float separatorX = renderObject.style().direction() == TextDirection::LTR ? fieldRect.x() - menuListButtonSeparatorGap / 2. : fieldRect.maxX() + menuListButtonSeparatorGap / 2.;
         float inset = rect.height() / 5.;
         graphicsContext.fillRect({ separatorX, rect.y() + inset, 1, rect.height() - 2 * inset }, menuListButtonSeparatorColor);
     }
