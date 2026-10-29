@@ -49,10 +49,14 @@ function(add_native_media_patch target component uid)
     set(generated "${CMAKE_CURRENT_SOURCE_DIR}/generated/${target}.def")
     file(WRITE "${generated}" "${definition}")
     symbian_add_dynamic_library(${target}
+        STARTUP "${SYMBIAN_SDK_PREFIX}/cmake/freestanding_dll_startup.S"
         SOURCES ${ARGN} ${priv_cpp} "${CMAKE_CURRENT_BINARY_DIR}/${target}-dispatch.S"
+            "${CMAKE_CURRENT_SOURCE_DIR}/native-delete.cpp"
             "${SYMBIAN_SDK_PREFIX}/cmake/exception_descriptor.S"
         LINKER_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/generated/media-unwind.ld"
         UID3 "${uid}" EXPORT_DEFINITION "${generated}")
+    target_link_options(${target} PRIVATE
+        "--why-extract=${CMAKE_CURRENT_BINARY_DIR}/${target}-extract.txt")
     target_include_directories(${target} PRIVATE "${component_root}/inc" "${priv}/inc")
     target_compile_definitions(${target} PRIVATE EKA2=1 EKA2L1_MODERN_MMF_HEADERS=1)
     target_compile_options(${target} PRIVATE -fms-extensions

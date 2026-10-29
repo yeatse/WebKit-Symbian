@@ -12,7 +12,7 @@ python3 "$REPO/scripts/apply-sdk-patches.py" --sdk "$SDK"
 # project in the work directory so generated definitions never dirty WebKit.
 mkdir -p "$media_work/source" "$media_work/logs"
 "$SDK/bin/cmake" -E copy_if_different "$source_dir/CMakeLists.txt" \
-    "$source_dir/native-patch-compat.h" "$media_work/source/"
+    "$source_dir/native-patch-compat.h" "$source_dir/native-delete.cpp" "$media_work/source/"
 "$SDK/bin/cmake" -S "$media_work/source" -B "$media_work/build" -G Ninja \
     -DCMAKE_TOOLCHAIN_FILE="$SDK/cmake/symbian-arm.cmake" \
     -DSYMBIAN_SDK_PREFIX="$SDK" -DCMAKE_MAKE_PROGRAM="$SDK/bin/ninja" \
@@ -22,6 +22,8 @@ mkdir -p "$media_work/source" "$media_work/logs"
 "$SDK/bin/ninja" -C "$media_work/build" -j1 \
     mediaclientaudio_general mediaclientvideo_v100 \
     2>&1 | tee "$media_work/logs/build.log"
+python3 "$source_dir/verify.py" "$media_work/build" \
+    | tee "$media_work/logs/native-contract.json"
 (
     cd "$media_work/build"
     sha256sum mediaclientaudio_general.dll mediaclientvideo_v100.dll > SHA256SUMS

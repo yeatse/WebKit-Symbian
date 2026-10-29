@@ -112,7 +112,10 @@ private:
     RFile iReader;
 };
 
-class CAudioPlayer final : public CBase, public MediaPlayer, public MMdaAudioPlayerCallback {
+// These adapters use ordinary C++ ownership from WebCore. Do not inherit
+// CBase's User::AllocZ operator new while their virtual delete uses the
+// browser's portable allocator. The native utility objects keep their own ABI.
+class CAudioPlayer final : public MediaPlayer, public MMdaAudioPlayerCallback {
 public:
     explicit CAudioPlayer(MediaPlayerClient& aClient)
         : iClient(aClient)
@@ -191,7 +194,7 @@ private:
     double iVolume { 1 };
 };
 
-class CVideoPlayer final : public CBase, public MediaPlayer, public MVideoPlayerUtilityObserver {
+class CVideoPlayer final : public MediaPlayer, public MVideoPlayerUtilityObserver {
 public:
     CVideoPlayer(MediaPlayerClient& aClient, RWindow& aWindow)
         : iClient(aClient)

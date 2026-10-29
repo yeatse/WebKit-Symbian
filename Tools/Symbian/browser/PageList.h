@@ -1,6 +1,7 @@
 // A list of pages (address and title) kept in a file, for the history and
 // the bookmarks. The file has a line per page, "address<TAB>title", in UTF-8.
 #pragma once
+#include "NativeHeapDelete.h"
 
 #include <e32base.h>
 #include <stdio.h>
@@ -10,6 +11,7 @@ HBufC8* ToUtf8LC(const TDesC& aText);
 
 class CPageList : public CBase {
 public:
+    SYMBIAN_BROWSER_NATIVE_DELETE
     // Reads aPath if it exists. A list with aMaxCount > 0 drops its oldest
     // pages beyond that many.
     static CPageList* NewL(const char* aPath, TInt aMaxCount);

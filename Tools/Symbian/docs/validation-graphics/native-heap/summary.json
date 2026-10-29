@@ -1,0 +1,156 @@
+{
+  "status": "PASS",
+  "kind": "ARM object relocation checks; no guest execution",
+  "compile_commands_sha256": "580693be641957c0df08934d67c71c00f9cf6d9767f72365a6c3e60b4f442a7c",
+  "objects": [
+    {
+      "source": "BrowserApp.cpp",
+      "source_sha256": "16dff9fabec9eb03e3f2edf25b37f0a8d52315641a41c4d12597954405313dd7",
+      "object_sha256": "01f25a6320257eebdc2bcf1a60e4e30b36857f02739b975a6999b420412c2cc7"
+    },
+    {
+      "source": "WebContainer.cpp",
+      "source_sha256": "a7e7fd90cf1a675195f8e2479cedaa70ed5e9a86859cfffad0df40af70e9098f",
+      "object_sha256": "b34a207baed87ae12afffbb46d6e19d09c6a61b86c47f5f461f44bf044a7eae7"
+    },
+    {
+      "source": "RunLoopDriver.cpp",
+      "source_sha256": "18cc8f88741c61d2efbec2a6023ecdf67a3c44ff9f6df69fcd6218b620afddaf",
+      "object_sha256": "5e89aeacdd73af2aa783c43e408cbb23d6b733b1a3b5ad0990970e2ad303e46f"
+    },
+    {
+      "source": "PageList.cpp",
+      "source_sha256": "bb6bbb1c0527300ac6175dc4607af048569844e9972ac32b2afeaa1fd030327a",
+      "object_sha256": "c4c6f619f087a8bf927eddd8a38e3b3068994e3ccb1e06745d7fdf52e8a46ba1"
+    },
+    {
+      "source": "NetworkConnection.cpp",
+      "source_sha256": "c805cf51ab8ab21bbbf4afad0d9cf4927ffb6ce04fd06d63e99428c4995e8c81",
+      "object_sha256": "eeda93f4724cb2df5ecff6417975811d276dd69569ddf2fdaec7e6ba0be30527"
+    }
+  ],
+  "classes": [
+    {
+      "class": "CUrlBar",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN12_GLOBAL__N_17CUrlBarD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN12_GLOBAL__N_113CBrowserAppUi10ConstructLEv",
+      "allocations": [
+        "_ZN4User7AllocZLEi"
+      ]
+    },
+    {
+      "class": "CUrlSuggestions",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN12_GLOBAL__N_115CUrlSuggestionsD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN12_GLOBAL__N_113CBrowserAppUi10ConstructLEv",
+      "allocations": [
+        "_ZN4User7AllocZLEi"
+      ]
+    },
+    {
+      "class": "CBrowserAppUi",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN12_GLOBAL__N_113CBrowserAppUiD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN12_GLOBAL__N_116CBrowserDocument12CreateAppUiLEv",
+      "allocations": [
+        "_ZN4User7AllocZLEi"
+      ]
+    },
+    {
+      "class": "CBrowserDocument",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN12_GLOBAL__N_116CBrowserDocumentD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN12_GLOBAL__N_119CBrowserApplication15CreateDocumentLEv",
+      "allocations": [
+        "_ZN4User7AllocZLEi"
+      ]
+    },
+    {
+      "class": "CBrowserApplication",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN12_GLOBAL__N_119CBrowserApplicationD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN12_GLOBAL__N_114NewApplicationEv",
+      "allocations": [
+        "_ZN4User6AllocZEi"
+      ]
+    },
+    {
+      "class": "CWebContainer",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN13CWebContainerD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN13CWebContainer4NewLERK5TRectR21MWebContainerObserver",
+      "allocations": [
+        "_ZN4User7AllocZLEi"
+      ]
+    },
+    {
+      "class": "CRunLoopDriver",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN14CRunLoopDriverD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN14CRunLoopDriver4NewLEv",
+      "allocations": [
+        "_ZN4User7AllocZLEi"
+      ]
+    },
+    {
+      "class": "CWorkTimer",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN14CRunLoopDriver10CWorkTimerD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN14CRunLoopDriver10ConstructLEv",
+      "allocations": [
+        "_ZN4User7AllocZLEi"
+      ]
+    },
+    {
+      "class": "CPageList",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN9CPageListD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN9CPageList4NewLEPKci",
+      "allocations": [
+        "_ZN4User7AllocZLEi"
+      ]
+    },
+    {
+      "class": "CNetworkConnection",
+      "status": "PASS",
+      "deleting_destructor": ".rel.text._ZN18CNetworkConnectionD0Ev",
+      "deallocation": "_ZN4User4FreeEPv",
+      "allocation_site": ".rel.text._ZN18CNetworkConnection4NewLER26MNetworkConnectionObserver",
+      "allocations": [
+        "_ZN4User7AllocZLEi"
+      ]
+    }
+  ],
+  "headers": [
+    {
+      "name": "NativeHeapDelete.h",
+      "sha256": "62f8eb9bc1985d071b8d34d12a8cb7426fb0a457993c1713d322f8a6322a7643"
+    },
+    {
+      "name": "WebContainer.h",
+      "sha256": "2dd33d9cfd3a59f9ecc4031b7956d6acde17e0405d0efa4a1ab0fcf036d18a6f"
+    },
+    {
+      "name": "RunLoopDriver.h",
+      "sha256": "dd69eafb5d2caf9cf311cd1f02c405ecb81b84b1acb77426576cb738877c210c"
+    },
+    {
+      "name": "PageList.h",
+      "sha256": "22f5202ec726c8059ed859dd4fb3a8d73e2504bc3d85d5690f16b0ec84e229e8"
+    },
+    {
+      "name": "NetworkConnection.h",
+      "sha256": "838a54f773d8c0868c46258b868c39e199d2d8dbb70efe5680a9efd6289aca50"
+    }
+  ]
+}

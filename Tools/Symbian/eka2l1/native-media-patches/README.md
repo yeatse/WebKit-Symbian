@@ -28,6 +28,21 @@ builtins before `e32def.h`, avoiding its incompatible generic pointer fallback.
 Native leaving exceptions stay enabled. Neither DLL imports its own media
 library to conceal a missing implementation.
 
+These EKA patches are attached as ROM routing helpers before any guest process
+exists. They use the SDK's freestanding DLL entry, and local unsized/sized
+deallocation calls `User::Free`, matching `CBase`'s `User::AllocZL` allocation.
+The default portable SDK delete would instead pull mimalloc, TLS and stdio into
+the patch. EKA cannot resolve those process-dependent Open C/Pthread imports
+during its early ROM attachment. This is a native heap boundary, not a general
+replacement allocator for portable C++ code.
+
+Every build runs `verify.py`: the final DLLs must have no writable data/BSS or
+C++ lifetime arrays, retain the leave descriptor, and import only the approved
+native OS libraries. LLD extraction records may contain only the explicitly
+checked stateless compiler arithmetic helpers; portable heap/CRT/TLS is rejected.
+Ordinary new/STL state therefore cannot silently reintroduce the default runtime
+into this native-only project.
+
 SDK 0.3.0's DLL helper does not automatically retain unwind tables when native
 leaves are enabled. This project explicitly uses the SDK unwind linker layout
 and exception descriptor while keeping the DLL startup. Its published E32 must

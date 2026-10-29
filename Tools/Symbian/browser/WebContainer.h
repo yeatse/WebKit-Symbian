@@ -3,6 +3,7 @@
 // whatever field has the focus in the page, so AVKON input methods (the touch
 // keyboard, handwriting, predictive and Chinese input) edit web text inline.
 #pragma once
+#include "NativeHeapDelete.h"
 
 #include <WebKitSymbian.h>
 #include <coecntrl.h>
@@ -32,6 +33,7 @@ class CWebContainer : public CCoeControl
     , public MCoeFepAwareTextEditor
     , public MCoeFepAwareTextEditor_Extension1 {
 public:
+    SYMBIAN_BROWSER_NATIVE_DELETE
     static CWebContainer* NewL(const TRect& aRect, MWebContainerObserver& aObserver);
     ~CWebContainer();
 

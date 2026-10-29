@@ -4,6 +4,7 @@
 // connection (the system asks for an access point if its settings say to)
 // and makes its access point the process's default interface.
 #pragma once
+#include "NativeHeapDelete.h"
 
 #include <e32base.h>
 #include <es_sock.h>
@@ -16,6 +17,7 @@ public:
 
 class CNetworkConnection : public CActive {
 public:
+    SYMBIAN_BROWSER_NATIVE_DELETE
     static CNetworkConnection* NewL(MNetworkConnectionObserver& aObserver);
     ~CNetworkConnection();
 

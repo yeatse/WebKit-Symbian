@@ -4,6 +4,7 @@
 
 #include "BrowserLog.h"
 #include "NativeDeclarations.h"
+#include "NativeHeapDelete.h"
 #include "NetworkConnection.h"
 #include "PageList.h"
 #include "RunLoopDriver.h"
@@ -110,6 +111,7 @@ class CBrowserAppUi;
 // the load progress as a line along its bottom edge.
 class CUrlBar : public CCoeControl, public MCoeControlObserver, public MEikEdwinObserver {
 public:
+    SYMBIAN_BROWSER_NATIVE_DELETE
     CUrlBar(CBrowserAppUi& aAppUi)
         : iAppUi(aAppUi)
     {
@@ -205,6 +207,7 @@ private:
 // focus, so typing goes on in the address bar.
 class CUrlSuggestions : public CCoeControl {
 public:
+    SYMBIAN_BROWSER_NATIVE_DELETE
     CUrlSuggestions(CBrowserAppUi& aAppUi)
         : iAppUi(aAppUi)
     {
@@ -243,6 +246,7 @@ private:
 
 class CBrowserAppUi : public CAknAppUi, public MWebContainerObserver, public MNetworkConnectionObserver {
 public:
+    SYMBIAN_BROWSER_NATIVE_DELETE
     void ConstructL();
     ~CBrowserAppUi();
 
@@ -850,6 +854,7 @@ void CBrowserAppUi::WebPointerDownL()
 
 class CBrowserDocument : public CAknDocument {
 public:
+    SYMBIAN_BROWSER_NATIVE_DELETE
     CBrowserDocument(CEikApplication& aApp)
         : CAknDocument(aApp)
     {
@@ -860,6 +865,9 @@ private:
 };
 
 class CBrowserApplication : public CAknApplication {
+public:
+    SYMBIAN_BROWSER_NATIVE_DELETE
+
 private:
     TUid AppDllUid() const { return KUidBrowser; }
     CApaDocument* CreateDocumentL() { return new (ELeave) CBrowserDocument(*this); }
