@@ -1,0 +1,14 @@
+logs: /workspace/symbian-belle-work/runs/browser-20261029T191826Z-bw7ox09s
+19:18:27.768 WebKit Browser starting
+19:18:27.783 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:18:29.640 network: connected through "Host network"
+19:18:29.654 load http://localhost:8782/diagnostics.html?case=cancel&run=extra5-cancel-1916
+console: http://localhost:8782/diagnostics.html?case=cancel&run=extra5-cancel-1916:29: READY: belle-ui-diagnostic {"run":"extra5-cancel-1916","case":"cancel"}
+console: http://localhost:8782/diagnostics.html?case=cancel&run=extra5-cancel-1916:29: BEGIN: belle-ui-diagnostic {"run":"extra5-cancel-1916","case":"cancel"}
+console: http://localhost:8782/diagnostics.html?case=cancel&run=extra5-cancel-1916:29: PASS: belle-ui-diagnostic cancel: native cancel event with empty file list; external stage evidence remains required
+console: http://localhost:8782/diagnostics.html?case=cancel&run=extra5-cancel-1916:29: RESULT: belle-ui-diagnostic case=cancel passed=1 failed=0
+console: http://localhost:8782/diagnostics.html?case=cancel&run=extra5-cancel-1916:29: RETURNED: native picker call
+
+Browser observation completed; inspect screenshot and test outcomes: /workspace/symbian-belle-work/runs/browser-20261029T191826Z-bw7ox09s/browser.png

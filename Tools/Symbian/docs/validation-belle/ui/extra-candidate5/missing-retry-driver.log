@@ -1,0 +1,15 @@
+logs: /workspace/symbian-belle-work/runs/browser-20261029T192602Z-5onerq8r
+19:26:03.329 WebKit Browser starting
+19:26:03.345 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:26:05.264 network: connected through "Host network"
+19:26:05.282 load http://localhost:8782/diagnostics.html?case=missing&run=extra5-missing-retry
+console: http://localhost:8782/diagnostics.html?case=missing&run=extra5-missing-retry:29: READY: belle-ui-diagnostic {"run":"extra5-missing-retry","case":"missing"}
+console: http://localhost:8782/diagnostics.html?case=missing&run=extra5-missing-retry:29: BEGIN: belle-ui-diagnostic {"run":"extra5-missing-retry","case":"missing"}
+19:26:33.137 file chooser cancelled: native error -1
+console: http://localhost:8782/diagnostics.html?case=missing&run=extra5-missing-retry:29: PASS: belle-ui-diagnostic missing: native cancel event with empty file list; external stage evidence remains required
+console: http://localhost:8782/diagnostics.html?case=missing&run=extra5-missing-retry:29: RESULT: belle-ui-diagnostic case=missing passed=1 failed=0
+console: http://localhost:8782/diagnostics.html?case=missing&run=extra5-missing-retry:29: RETURNED: native picker call
+
+Browser observation completed; inspect screenshot and test outcomes: /workspace/symbian-belle-work/runs/browser-20261029T192602Z-5onerq8r/browser.png

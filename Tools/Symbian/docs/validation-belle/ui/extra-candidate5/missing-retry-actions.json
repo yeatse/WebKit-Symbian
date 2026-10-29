@@ -1,0 +1,32 @@
+[
+  {
+    "action": "open",
+    "x": 449,
+    "y": 270,
+    "monotonic": 38456.9819886
+  },
+  {
+    "action": "C drive",
+    "x": 449,
+    "y": 269,
+    "monotonic": 38457.98310255
+  },
+  {
+    "action": "Data",
+    "x": 449,
+    "y": 343,
+    "monotonic": 38458.984365264
+  },
+  {
+    "action": "00-WebKitUI",
+    "x": 448,
+    "y": 169,
+    "monotonic": 38459.985639196
+  },
+  {
+    "action": "select previously listed deleted file",
+    "x": 449,
+    "y": 318,
+    "monotonic": 38470.423881021
+  }
+]

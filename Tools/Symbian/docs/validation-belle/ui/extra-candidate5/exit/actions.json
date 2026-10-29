@@ -1,0 +1,32 @@
+[
+  {
+    "action": "open real picker",
+    "point": [
+      449,
+      270
+    ],
+    "monotonic": 38608.059535907
+  },
+  {
+    "action": "open Emulation menu",
+    "point": [
+      75,
+      10
+    ],
+    "monotonic": 38608.260618673
+  },
+  {
+    "action": "Emulation Launch process",
+    "point": [
+      112,
+      77
+    ],
+    "monotonic": 38616.923108794
+  },
+  {
+    "action": "typed helper path via real XTest and clicked Launch",
+    "path": "C:/sys/bin/browser_exit_request.exe",
+    "target_x11_window": "0x60006e",
+    "monotonic": 38631.708256197
+  }
+]

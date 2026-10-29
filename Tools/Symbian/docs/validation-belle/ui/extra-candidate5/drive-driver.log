@@ -1,0 +1,14 @@
+logs: /workspace/symbian-belle-work/runs/browser-20261029T191959Z-l46qxpz_
+19:20:00.987 WebKit Browser starting
+19:20:01.010 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:20:03.116 network: connected through "Host network"
+19:20:03.134 load http://localhost:8782/diagnostics.html?case=drive&run=extra5-drive-1920
+console: http://localhost:8782/diagnostics.html?case=drive&run=extra5-drive-1920:29: READY: belle-ui-diagnostic {"run":"extra5-drive-1920","case":"drive"}
+console: http://localhost:8782/diagnostics.html?case=drive&run=extra5-drive-1920:29: BEGIN: belle-ui-diagnostic {"run":"extra5-drive-1920","case":"drive"}
+console: http://localhost:8782/diagnostics.html?case=drive&run=extra5-drive-1920:29: RETURNED: native picker call
+console: http://localhost:8782/diagnostics.html?case=drive&run=extra5-drive-1920:29: PASS: belle-ui-diagnostic drive: Unicode FileReader contents; native screenshot must establish the different drive
+console: http://localhost:8782/diagnostics.html?case=drive&run=extra5-drive-1920:29: RESULT: belle-ui-diagnostic case=drive passed=1 failed=0
+
+Browser observation completed; inspect screenshot and test outcomes: /workspace/symbian-belle-work/runs/browser-20261029T191959Z-l46qxpz_/browser.png

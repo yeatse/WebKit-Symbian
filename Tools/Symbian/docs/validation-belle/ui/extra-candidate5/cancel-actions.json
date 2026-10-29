@@ -1,0 +1,55 @@
+{
+  "case": "cancel",
+  "method": "real pointer Back chain from inspected file list followed by native Cancel; no file selection",
+  "events": [
+    {
+      "action": "C",
+      "main_relative": [
+        449,
+        269
+      ]
+    },
+    {
+      "action": "Data",
+      "main_relative": [
+        449,
+        343
+      ]
+    },
+    {
+      "action": "00-WebKitUI",
+      "main_relative": [
+        448,
+        169
+      ]
+    },
+    {
+      "action": "Back from file list",
+      "main_relative": [
+        449,
+        395
+      ]
+    },
+    {
+      "action": "Back from Data",
+      "main_relative": [
+        449,
+        565
+      ]
+    },
+    {
+      "action": "Back from C",
+      "main_relative": [
+        449,
+        395
+      ]
+    },
+    {
+      "action": "Cancel from memory",
+      "main_relative": [
+        449,
+        470
+      ]
+    }
+  ]
+}

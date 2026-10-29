@@ -160,6 +160,9 @@ eight-case suite. Restart the fixture server after updating its allowlist.
   Use a separate expected-guest-exit validator. The ordinary browser runner must
   continue rejecting an early host exit. A host WM close, killed emulator, or
   picker Cancel does not establish application teardown during the modal call.
+  The independent [official EndTask helper](app-exit/README.md) can send that
+  application-exit request through the guest window server while the picker
+  covers the browser's menu.
 
 Each diagnostic needs a fresh run token and independent normal-close/panic
 checks. Do not include their markers in the formal eight-case count.

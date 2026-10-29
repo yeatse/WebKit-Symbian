@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/workspace/symbian-belle-work/ui-extra-candidate5/run-exit-observation.py", line 4, in <module>
+    data=Path(os.environ['EKA2L1_DATA']);c=data/'drives/c';locks=[]
+              ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'EKA2L1_DATA'

@@ -1,0 +1,71 @@
+{
+  "browser_sha256": "139e140d0802e9de9b202e6bb3d292ad7507415d68fbe86979f5af5f6756a7ff",
+  "emulator_sha256": "5f8704eb1c2461ceeb160eabd927a4f828765cad353e9107ae43f463127e292a",
+  "scope": "additional native picker cases, separate from formal eight-case suite",
+  "cases": [
+    {
+      "case": "cancel",
+      "status": "PASS",
+      "raw_run": "/workspace/symbian-belle-work/runs/browser-20261029T191826Z-bw7ox09s",
+      "driver": "cancel-driver.log",
+      "driver_exit_code": 0,
+      "emulator_exit_code": 0,
+      "guest_panic_or_av": false,
+      "log_sha256": "4212df435073be2a5f575ed7f79c2b08f7730debaad6ee8cf989c64ed672c1fe",
+      "hostlog_sha256": "2ee920bc050ab86429448d24afd9604e4871aed58e37908e719a7888bd732a5b",
+      "screenshot_sha256": "f6d13ce45573e42ee3b95cf12158b699997119babada988096f497c585cf5b5f",
+      "required_marker": "RESULT: belle-ui-diagnostic case=cancel passed=1 failed=0"
+    },
+    {
+      "case": "drive",
+      "status": "PASS",
+      "raw_run": "/workspace/symbian-belle-work/runs/browser-20261029T191959Z-l46qxpz_",
+      "driver": "drive-driver.log",
+      "driver_exit_code": 0,
+      "emulator_exit_code": 0,
+      "guest_panic_or_av": false,
+      "log_sha256": "2810657b52d68988b7aa70d0e630b9279b83ccc8b794c79e6f79e6e56624a962",
+      "hostlog_sha256": "a117fadcf2bd20cf7fac6e7dd4714fcb56b491e093f5c88266bcccdf80c2c9d3",
+      "screenshot_sha256": "73c159848ee071f2c73beeeeb5ca87803497342cc555f2e0a36957a5ce05346c",
+      "required_marker": "RESULT: belle-ui-diagnostic case=drive passed=1 failed=0"
+    },
+    {
+      "case": "missing",
+      "status": "PASS",
+      "raw_run": "/workspace/symbian-belle-work/runs/browser-20261029T192602Z-5onerq8r",
+      "driver": "missing-retry-driver.log",
+      "driver_exit_code": 0,
+      "emulator_exit_code": 0,
+      "guest_panic_or_av": false,
+      "log_sha256": "737a3e6008dfb8d3a64133cffd1c9ae1a66a9450c8aa628d3de0fcce73f629ce",
+      "hostlog_sha256": "eda949586ba3818816c64d74dead690a1098144399f3387b824a2c1dbb44a091",
+      "screenshot_sha256": "d61207afb38d8abbfc44f1496da7b4a67f78381d209dddebd01643220062c2ee",
+      "required_marker": "RESULT: belle-ui-diagnostic case=missing passed=1 failed=0"
+    }
+  ],
+  "application_exit": {
+    "status": "FAIL",
+    "raw": "exit",
+    "host_exit_code": -11,
+    "browser_destructor_marker_present": false,
+    "wm_close_sent": false,
+    "gdb_diagnostics": [
+      "exit-gdb",
+      "exit-gdb-context"
+    ]
+  },
+  "history": [
+    {
+      "case": "missing",
+      "driver": "missing-driver.log",
+      "status": "FAIL",
+      "reason": "turn interrupted before any UI interaction; required marker absent; original raw preserved"
+    },
+    {
+      "case": "exit",
+      "driver": "exit-prelaunch-environment-error.log",
+      "status": "FAIL",
+      "reason": "missing environment EKA2L1_DATA; no emulator launched"
+    }
+  ]
+}

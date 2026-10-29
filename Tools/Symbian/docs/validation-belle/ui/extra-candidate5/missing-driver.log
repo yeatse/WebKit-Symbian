@@ -1,0 +1,10 @@
+logs: /workspace/symbian-belle-work/runs/browser-20261029T192139Z-gpo5so01
+19:21:40.425 WebKit Browser starting
+19:21:40.441 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:21:42.390 network: connected through "Host network"
+19:21:42.406 load http://localhost:8782/diagnostics.html?case=missing&run=extra5-missing-1921
+console: http://localhost:8782/diagnostics.html?case=missing&run=extra5-missing-1921:29: READY: belle-ui-diagnostic {"run":"extra5-missing-1921","case":"missing"}
+
+missing fresh expected browser marker: RESULT: belle-ui-diagnostic case=missing passed=1 failed=0

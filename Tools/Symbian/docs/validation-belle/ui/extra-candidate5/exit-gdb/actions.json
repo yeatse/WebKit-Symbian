@@ -1,0 +1,30 @@
+[
+  {
+    "action": "open picker",
+    "point": [
+      449,
+      270
+    ],
+    "monotonic": 38690.372950342
+  },
+  {
+    "action": "Emulation",
+    "point": [
+      75,
+      10
+    ],
+    "monotonic": 38691.157143189
+  },
+  {
+    "action": "Launch process",
+    "point": [
+      112,
+      77
+    ],
+    "monotonic": 38691.858133466
+  },
+  {
+    "action": "typed official helper path and clicked Launch",
+    "monotonic": 38695.68199933
+  }
+]

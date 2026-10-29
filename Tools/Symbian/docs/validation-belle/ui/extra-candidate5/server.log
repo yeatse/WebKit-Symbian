@@ -1,0 +1,8 @@
+Serving Belle UI fixture on ('127.0.0.1', 8782)
+127.0.0.1 - - [29/Oct/2026 19:18:29] "GET /diagnostics.html?case=cancel&run=extra5-cancel-1916 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Oct/2026 19:20:03] "GET /diagnostics.html?case=drive&run=extra5-drive-1920 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Oct/2026 19:21:42] "GET /diagnostics.html?case=missing&run=extra5-missing-1921 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Oct/2026 19:26:05] "GET /diagnostics.html?case=missing&run=extra5-missing-retry HTTP/1.1" 200 -
+127.0.0.1 - - [29/Oct/2026 19:28:36] "GET /diagnostics.html?case=exit&run=extra5-exit-1929 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Oct/2026 19:30:01] "GET /diagnostics.html?case=exit&run=extra5-exit-gdb HTTP/1.1" 200 -
+127.0.0.1 - - [29/Oct/2026 19:31:51] "GET /diagnostics.html?case=exit&run=extra5-exit-gdb-context HTTP/1.1" 200 -

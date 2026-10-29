@@ -1,0 +1,27 @@
+{
+  "drive": "E",
+  "path": "E:/Data/00-WebKitUI/上传-你好.txt",
+  "main_relative_actions": [
+    [
+      449,
+      253
+    ],
+    [
+      449,
+      366
+    ],
+    [
+      449,
+      343
+    ],
+    [
+      449,
+      343
+    ],
+    [
+      449,
+      343
+    ]
+  ],
+  "evidence": "E drive selected from inspected native memory list; FileReader checks exact Unicode filename and37 bytes; host RFs access logs corroborate E path"
+}
