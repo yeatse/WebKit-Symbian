@@ -134,7 +134,7 @@ CurlContext::CurlContext()
     m_isHttp3Enabled = (info->features & CURL_VERSION_HTTP3) && m_isAltSvcEnabled;
 #endif
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     m_verbose = envVar.defined("DEBUG_CURL");
 
     auto logFile = envVar.read("CURL_LOG_FILE");
@@ -145,7 +145,7 @@ CurlContext::CurlContext()
 
 CurlContext::~CurlContext()
 {
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     if (m_logFile)
         fclose(m_logFile);
 #endif
@@ -308,7 +308,7 @@ CurlHandle::CurlHandle()
 
     enableProxyIfExists();
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     enableVerboseIfUsed();
     enableStdErrIfUsed();
 #endif
@@ -328,10 +328,13 @@ const String CurlHandle::errorDescription(CURLcode errorCode)
 void CurlHandle::enableSSL()
 {
     auto& sslHandle = CurlContext::singleton().sslHandle();
+#if !OS(SYMBIAN)
     if (sslHandle.shouldIgnoreSSLErrors()) {
         setSslVerifyPeer(CurlHandle::VerifyPeer::Disable);
         setSslVerifyHost(CurlHandle::VerifyHost::LooseNameCheck);
-    } else {
+    } else
+#endif
+    {
         setSslVerifyPeer(CurlHandle::VerifyPeer::Enable);
         setSslVerifyHost(CurlHandle::VerifyHost::StrictNameCheck);
     }
@@ -355,8 +358,10 @@ void CurlHandle::enableSSL()
 
 void CurlHandle::disableServerTrustEvaluation()
 {
+#if !OS(SYMBIAN)
     setSslVerifyPeer(CurlHandle::VerifyPeer::Disable);
     setSslVerifyHost(CurlHandle::VerifyHost::LooseNameCheck);
+#endif
 }
 
 CURLcode CurlHandle::willSetupSslCtx(void* sslCtx)
@@ -786,6 +791,7 @@ std::optional<long> CurlHandle::getSSLVerifyResult() const
     return verifyResult;
 }
 
+#if !USE(MBEDTLS)
 std::optional<SSL*> CurlHandle::sslConnection() const
 {
     curl_tlssessioninfo* info = nullptr;
@@ -799,6 +805,7 @@ std::optional<SSL*> CurlHandle::sslConnection() const
 
     return static_cast<SSL*>(info->internals);
 }
+#endif
 
 std::optional<NetworkLoadMetrics> CurlHandle::getNetworkLoadMetrics(MonotonicTime startTime)
 {
@@ -890,6 +897,7 @@ void CurlHandle::addExtraNetworkLoadMetrics(NetworkLoadMetrics& networkLoadMetri
         return;
 
     auto additionalMetrics = AdditionalNetworkLoadMetricsForWebInspector::create();
+#if !USE(MBEDTLS)
     if (!m_tlsConnectionInfo) {
         if (auto ssl = sslConnection()) {
             m_tlsConnectionInfo = makeUnique<TLSConnectionInfo>();
@@ -897,6 +905,7 @@ void CurlHandle::addExtraNetworkLoadMetrics(NetworkLoadMetrics& networkLoadMetri
             m_tlsConnectionInfo->cipher = OpenSSL::tlsCipherName(*ssl);
         }
     }
+#endif
 
     additionalMetrics->requestBodyBytesSent = requestBodySize;
     additionalMetrics->responseHeaderBytesReceived = responseHeaderSize;
@@ -924,6 +933,7 @@ std::optional<CertificateInfo> CurlHandle::certificateInfo() const
         }
     }
 
+#if !USE(MBEDTLS)
     // If you use an existing HTTP/2 connection, SSLVerifier does not exist.
     if (auto ssl = sslConnection()) {
         if (auto certificateInfo = OpenSSL::createCertificateInfo(getSSLVerifyResult(), *ssl)) {
@@ -931,11 +941,12 @@ std::optional<CertificateInfo> CurlHandle::certificateInfo() const
             return *m_certificateInfo;
         }
     }
+#endif
 
     return std::nullopt;
 }
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
 
 void CurlHandle::enableVerboseIfUsed()
 {

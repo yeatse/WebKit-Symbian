@@ -27,7 +27,11 @@
 #pragma once
 
 #include "CertificateInfo.h"
+#if USE(MBEDTLS)
+#include <mbedtls/x509_crt.h>
+#else
 #include "OpenSSLHelper.h"
+#endif
 #include <wtf/Noncopyable.h>
 #include <wtf/TZoneMalloc.h>
 #include <wtf/text/WTFString.h>
@@ -43,8 +47,13 @@ public:
     std::unique_ptr<WebCore::CertificateInfo> createCertificateInfo(std::optional<long>&&);
 
 private:
+#if USE(MBEDTLS)
+    static int verifyCallback(void*, mbedtls_x509_crt*, int, uint32_t*);
+    uint32_t m_verificationErrors { 0 };
+#else
     static int verifyCallback(int, X509_STORE_CTX*);
     void collectInfo(X509_STORE_CTX*);
+#endif
 
     CertificateInfo::CertificateChain m_certificateChain;
 };

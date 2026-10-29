@@ -45,6 +45,9 @@
 #endif
 
 #include <curl/curl.h>
+#if USE(MBEDTLS)
+#include <psa/crypto.h>
+#endif
 
 namespace WebCore {
 
@@ -61,6 +64,9 @@ class CurlGlobal {
 protected:
     CurlGlobal()
     {
+#if USE(MBEDTLS)
+        RELEASE_ASSERT(psa_crypto_init() == PSA_SUCCESS);
+#endif
         curl_global_init(CURL_GLOBAL_ALL);
     }
     
@@ -132,7 +138,7 @@ public:
     Seconds connectTimeout() const { return m_connectTimeout; }
     Seconds defaultTimeoutInterval() const { return m_defaultTimeoutInterval; }
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     FILE* getLogFile() const { return m_logFile; }
     bool isVerbose() const { return m_verbose; }
 #endif
@@ -156,7 +162,7 @@ private:
 
     String m_alternativeServicesStorageFile;
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     FILE* m_logFile { nullptr };
     bool m_verbose { false };
 #endif
@@ -316,7 +322,7 @@ public:
     CURLcode send(const uint8_t*, size_t, size_t&);
     CURLcode receive(uint8_t*, size_t, size_t&);
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     void enableVerboseIfUsed();
     void enableStdErrIfUsed();
 #endif
@@ -333,7 +339,9 @@ private:
     static CURLcode willSetupSslCtxCallback(CURL*, void* sslCtx, void* userData);
     CURLcode willSetupSslCtx(void* sslCtx);
 
+#if !USE(MBEDTLS)
     std::optional<SSL*> sslConnection() const;
+#endif
 
     CURL* m_handle { nullptr };
     char m_errorBuffer[CURL_ERROR_SIZE] { };

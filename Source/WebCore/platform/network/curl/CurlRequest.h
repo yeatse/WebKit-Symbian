@@ -25,6 +25,9 @@
 
 #pragma once
 
+#if OS(SYMBIAN)
+#include "SynchronousLoaderClient.h"
+#endif
 #include "CurlFormDataStream.h"
 #include "CurlMultipartHandle.h"
 #include "CurlMultipartHandleClient.h"
@@ -67,6 +70,10 @@ public:
     void disableServerTrustEvaluation() { m_shouldDisableServerTrustEvaluation = true; }
     void enableLocalhostAlias() { m_localhostAlias = CurlHandle::LocalhostAlias::Enable; }
 
+#if OS(SYMBIAN)
+    void setMessageQueue(RefPtr<SynchronousLoaderMessageQueue>&& queue) { m_messageQueue = WTF::move(queue); }
+    void setDefersLoading(bool);
+#endif
     WEBCORE_EXPORT void resume();
     WEBCORE_EXPORT void cancel();
 
@@ -137,6 +144,10 @@ private:
     static int didReceiveDebugInfoCallback(CURL*, curl_infotype, char*, size_t, void*);
 
 
+#if OS(SYMBIAN)
+    RefPtr<SynchronousLoaderMessageQueue> m_messageQueue;
+    std::atomic<bool> m_defersLoading { false };
+#endif
     CurlRequestClient* m_client { };
     Lock m_statusMutex;
     bool m_cancelled { false };

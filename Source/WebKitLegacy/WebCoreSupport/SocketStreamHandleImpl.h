@@ -31,6 +31,10 @@
 
 #pragma once
 
+#if OS(SYMBIAN)
+#include "SocketStreamHandleImplCurl.h"
+#else
+
 #include "SocketStreamHandle.h"
 #include <pal/SessionID.h>
 #include <wtf/RetainPtr.h>
@@ -113,3 +117,5 @@ private:
 };
 
 } // namespace WebCore
+
+#endif

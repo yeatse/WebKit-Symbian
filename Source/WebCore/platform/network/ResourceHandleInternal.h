@@ -32,6 +32,11 @@
 #include "ResourceRequest.h"
 #include "Timer.h"
 #include <wtf/MonotonicTime.h>
+#if OS(SYMBIAN)
+#include "CurlRequest.h"
+#include "SynchronousLoaderClient.h"
+#include <wtf/Deque.h>
+#endif
 
 #if PLATFORM(COCOA)
 #include <wtf/WeakObjCPtr.h>
@@ -105,6 +110,15 @@ public:
     Timer m_failureTimer;
     RefPtr<SecurityOrigin> m_sourceOrigin;
 
+#if OS(SYMBIAN)
+    RefPtr<CurlRequest> m_curlRequest;
+    RefPtr<SynchronousLoaderMessageQueue> m_messageQueue;
+    Deque<Function<void(ResourceHandle&)>> m_deferredCallbacks;
+    ResourceResponse m_response;
+    unsigned m_authFailureCount { 0 };
+    bool m_cancelled { false };
+    bool m_drainingCallbacks { false };
+#endif
     int status { 0 };
 
     uint16_t m_redirectCount { 0 };

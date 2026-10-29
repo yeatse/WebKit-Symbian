@@ -1,0 +1,82 @@
+<!doctype html><meta charset="utf-8"><title>Symbian network regressions</title>
+<style>body{font:16px sans-serif;max-width:50em;margin:1em}pre{white-space:pre-wrap}.fail{color:#b00}</style>
+<h1>Network regressions</h1><button id="run">Run 21 checks</button><pre id="output"></pre>
+<script>
+'use strict';
+const out = document.getElementById('output');
+function assert(value, detail) { if (!value) throw new Error(detail || 'assertion failed'); }
+function xhr(url, {sync=false, method='GET', body=null}={}) {
+    return new Promise((resolve,reject) => {
+        const request = new XMLHttpRequest();
+        request.open(method, url, !sync);
+        request.onload = () => resolve(request);
+        request.onerror = () => reject(new Error('XHR network failure'));
+        request.send(body);
+        if (sync) resolve(request);
+    });
+}
+function socket(binary=false) {
+    return new Promise((resolve,reject) => {
+        const ws = new WebSocket(location.origin.replace(/^http/, 'ws') + '/ws');
+        ws.binaryType = 'arraybuffer';
+        const timer = setTimeout(() => { ws.close(); reject(new Error('WebSocket timeout')); }, 10000);
+        ws.onerror = () => { clearTimeout(timer); reject(new Error('WebSocket error')); };
+        ws.onopen = () => ws.send(binary ? new Uint8Array([0,1,127,128,255]) : '中文 echo');
+        ws.onmessage = event => {
+            try {
+                if (binary) assert(Array.from(new Uint8Array(event.data)).join(',') === '0,1,127,128,255');
+                else assert(event.data === '中文 echo');
+                clearTimeout(timer); ws.close(); resolve();
+            } catch (error) { clearTimeout(timer); ws.close(); reject(error); }
+        };
+    });
+}
+async function run() {
+    document.getElementById('run').disabled = true;
+    out.textContent = '';
+    const results = [];
+    const text = async (url, options) => (await fetch(url, options)).text();
+    const json = async (url, options) => (await fetch(url, options)).json();
+    const redirect = (status, destination='/echo') => '/redirect?status=' + status + '&to=' + encodeURIComponent(destination);
+    const other = new URL(location.href); other.port = location.port === '8766' ? '8765' : '8766';
+    const cookie = (name,value,path='/',remove=false) => text('/cookie?name='+name+'&value='+value+'&path='+encodeURIComponent(path)+(remove?'&delete=1':''));
+    const tests = [
+        ['fetch', async () => assert(await text('/ok') === 'ok')],
+        ['async XHR', async () => assert((await xhr('/ok')).responseText === 'ok')],
+        ['sync XHR', async () => assert((await xhr('/ok',{sync:true})).responseText === 'ok')],
+        ['chunked response', async () => assert(await text('/chunked') === 'chunked-response')],
+        ['data URI', async () => assert((await xhr('data:text/plain,hello%20data')).responseText === 'hello data')],
+        ['302 POST becomes GET', async () => { const v=await json(redirect(302),{method:'POST',body:'body',headers:{'Content-Type':'text/plain'}}); assert(v.method==='GET' && v.body==='' && v.contentType===''); }],
+        ['303 POST becomes GET', async () => { const v=await json(redirect(303),{method:'POST',body:'body'}); assert(v.method==='GET' && v.body===''); }],
+        ['307 preserves POST', async () => { const v=await json(redirect(307),{method:'POST',body:'body'}); assert(v.method==='POST' && v.body==='body'); }],
+        ['401 async completes', async () => assert((await xhr('/auth')).status === 401)],
+        ['401 sync completes', async () => assert((await xhr('/auth',{sync:true})).status === 401)],
+        ['XHR cancellation', () => new Promise((resolve,reject) => { const x=new XMLHttpRequest(); const t=setTimeout(()=>reject(new Error('abort timeout')),5000); x.open('GET','/slow'); x.onabort=()=>{clearTimeout(t); resolve();}; x.onload=()=>{clearTimeout(t); reject(new Error('completed after cancel'));}; x.send(); setTimeout(()=>x.abort(),50); })],
+        ['fetch cancellation', async () => { const c=new AbortController(); const task=fetch('/slow',{signal:c.signal}); c.abort(); try { await task; throw new Error('completed after cancel'); } catch(e) { assert(e.name==='AbortError'); } }],
+        ['Cookie Path isolation', async () => { await cookie('fixture_path','yes','/scoped'); assert((await json('/scoped/echo')).cookie.includes('fixture_path=yes')); assert(!(await json('/echo')).cookie.includes('fixture_path=')); }],
+        ['redirect recalculates Cookie', async () => assert((await json(redirect(302,'/scoped/echo'))).cookie.includes('fixture_path=yes'))],
+        ['Cookie deletion', async () => { await cookie('fixture_path','','/scoped',true); assert(!(await json('/scoped/echo')).cookie.includes('fixture_path=')); }],
+        ['cross-port Authorization removed', async () => { const v=await json(redirect(302,other.origin+'/echo'),{headers:{Authorization:'Bearer fixture-secret'},credentials:'include'}); assert(v.authorization===''); }],
+        ['cross-port Cookie stays host scoped', async () => { await cookie('fixture_host','yes'); const v=await json(redirect(302,other.origin+'/echo'),{credentials:'include'}); assert(v.cookie.includes('fixture_host=yes')); }],
+        ['WebSocket text', () => socket()],
+        ['WebSocket binary', () => socket(true)],
+        ['request works after failures', async () => assert(await text('/ok') === 'ok')],
+        ['Cookie cleanup readback', async () => { await cookie('fixture_host','','/',true); assert(!(await json('/echo')).cookie.includes('fixture_host=')); }],
+    ];
+    for (const [name,test] of tests) {
+        let status='PASS', detail='';
+        try { await test(); } catch(error) { status='FAIL'; detail=String(error); }
+        results.push({name,status,detail});
+        const line = status + ': ' + name + (detail ? ' '+detail : '');
+        out.textContent += line + '\n'; console.log(line);
+    }
+    const passed=results.filter(v=>v.status==='PASS').length;
+    const summary=(passed===tests.length?'PASS':'FAIL')+': network '+passed+'/'+tests.length;
+    out.textContent += summary+'\n'; console.log(summary);
+    document.title=summary;
+    try { await fetch('/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({suite:'network',results})}); } catch(error) { console.log('REPORT FAILED: '+error); }
+    document.getElementById('run').disabled=false;
+}
+document.getElementById('run').onclick=run;
+if(new URL(location.href).searchParams.get('autorun')==='1') run();
+</script>

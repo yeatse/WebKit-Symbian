@@ -172,7 +172,12 @@ void CurlRequestScheduler::workerThread()
 
         executeTasks();
 
+#if OS(SYMBIAN)
+        // Open C has no socketpair; curl_multi_wakeup cannot wake this poll.
+        const int selectTimeoutMS = 5;
+#else
         const int selectTimeoutMS = INT_MAX;
+#endif
         m_curlMultiHandle->poll({ }, selectTimeoutMS);
 
         int activeCount = 0;

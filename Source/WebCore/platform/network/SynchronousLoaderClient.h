@@ -29,6 +29,10 @@
 #include <WebCore/ResourceHandleClient.h>
 #include <WebCore/ResourceResponse.h>
 #include <wtf/Function.h>
+#if OS(SYMBIAN)
+#include <wtf/Condition.h>
+#include <wtf/Deque.h>
+#endif
 #include <wtf/MessageQueue.h>
 #include <wtf/ThreadSafeRefCounted.h>
 
@@ -40,6 +44,39 @@ class SynchronousLoaderMessageQueue : public ThreadSafeRefCounted<SynchronousLoa
 public:
     static Ref<SynchronousLoaderMessageQueue> create() { return adoptRef(*new SynchronousLoaderMessageQueue); }
 
+#if OS(SYMBIAN)
+    void append(std::unique_ptr<Function<void()>>&& task)
+    {
+        Locker locker { m_lock };
+        if (!m_killed) {
+            m_tasks.append(WTF::move(task));
+            m_condition.notifyOne();
+        }
+    }
+    void kill()
+    {
+        Deque<std::unique_ptr<Function<void()>>> discarded;
+        {
+            Locker locker { m_lock };
+            m_killed = true;
+            discarded.swap(m_tasks);
+            m_condition.notifyAll();
+        }
+    }
+    bool killed() const { Locker locker { m_lock }; return m_killed; }
+    std::unique_ptr<Function<void()>> waitForMessage()
+    {
+        Locker locker { m_lock };
+        m_condition.wait(m_lock, [&] { return m_killed || !m_tasks.isEmpty(); });
+        return m_killed ? nullptr : m_tasks.takeFirst();
+    }
+private:
+    SynchronousLoaderMessageQueue() = default;
+    mutable Lock m_lock;
+    Condition m_condition;
+    bool m_killed { false };
+    Deque<std::unique_ptr<Function<void()>>> m_tasks;
+#else
     void append(std::unique_ptr<Function<void()>>&& task) { m_queue.append(WTF::move(task)); }
     void kill() { m_queue.kill(); }
     bool killed() const { return m_queue.killed(); }
@@ -48,6 +85,7 @@ public:
 private:
     SynchronousLoaderMessageQueue() = default;
     MessageQueue<Function<void()>> m_queue;
+#endif
 };
 
 class SynchronousLoaderClient final : public ResourceHandleClient {

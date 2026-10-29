@@ -1,0 +1,26 @@
+<!doctype html><meta charset="utf-8"><title>Symbian TLS regressions</title>
+<h1>TLS verification</h1><p>Use the trusted test certificate on https://localhost:8767. Test roots belong only in the emulator.</p>
+<button id="run">Run TLS checks</button><pre id="output"></pre>
+<script>
+'use strict';
+const output=document.getElementById('output');
+function checkSocket(url, success) {
+    return new Promise((resolve,reject)=>{
+        const ws=new WebSocket(url); let opened=false, errored=false;
+        const timer=setTimeout(()=>{ws.close();reject(new Error('timeout'));},10000);
+        ws.onopen=()=>{opened=true;if(!success){clearTimeout(timer);ws.close();reject(new Error('invalid certificate accepted'));}else ws.send('secure echo');};
+        ws.onmessage=event=>{clearTimeout(timer);ws.close();if(success&&event.data==='secure echo')resolve();else reject(new Error('echo mismatch'));};
+        ws.onerror=()=>{errored=true;};
+        ws.onclose=()=>{clearTimeout(timer);if(!success&&errored&&!opened)resolve();else if(!success||!opened)reject(new Error('missing independent error without open'));};
+    });
+}
+async function run(){
+    document.getElementById('run').disabled=true; output.textContent=''; const results=[];
+    async function fetchCheck(port,success){let response;try{response=await fetch('https://localhost:'+port+'/ok');}catch(e){if(!success)return;throw e;}if(!success)throw new Error('invalid certificate accepted');if(await response.text()!=='ok')throw new Error('bad response');}
+    const tests=[['HTTPS trusted',()=>fetchCheck(8767,true)],['HTTPS wrong hostname',()=>fetchCheck(8768,false)],['HTTPS untrusted root',()=>fetchCheck(8769,false)],['WSS trusted',()=>checkSocket('wss://localhost:8767/ws',true)],['WSS wrong hostname',()=>checkSocket('wss://localhost:8768/ws',false)],['WSS untrusted root',()=>checkSocket('wss://localhost:8769/ws',false)]];
+    for(const [name,test] of tests){let status='PASS',detail='';try{await test();}catch(e){status='FAIL';detail=String(e);}results.push({name,status,detail});const line=status+': '+name+' '+detail;output.textContent+=line+'\n';console.log(line);}
+    const count=results.filter(v=>v.status==='PASS').length;const summary=(count===6?'PASS':'FAIL')+': tls '+count+'/6';output.textContent+=summary;console.log(summary);document.title=summary;
+    await fetch('/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({suite:'tls',results})});document.getElementById('run').disabled=false;
+}
+document.getElementById('run').onclick=run;if(new URL(location.href).searchParams.get('autorun')==='1')run();
+</script>

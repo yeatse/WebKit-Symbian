@@ -119,6 +119,24 @@ void CurlRequest::resume()
         startWithJobManager();
 }
 
+#if OS(SYMBIAN)
+void CurlRequest::setDefersLoading(bool defers)
+{
+    ASSERT(isMainThread());
+    m_defersLoading = defers;
+    if (!m_didStartTransfer || !m_request.url().protocolIsInHTTPFamily())
+        return;
+    runOnWorkerThreadIfRequired([this, protectedThis = Ref { *this }] {
+        if (!m_curlHandle || isCompletedOrCancelled())
+            return;
+        if (m_defersLoading)
+            m_curlHandle->pause(CURLPAUSE_ALL);
+        else if (!m_didNotifyResponse || m_didReturnFromNotify)
+            m_curlHandle->pause(CURLPAUSE_CONT);
+    });
+}
+#endif
+
 void CurlRequest::startWithJobManager()
 {
     ASSERT(isMainThread());
@@ -173,6 +191,12 @@ void CurlRequest::callClient(Function<void(CurlRequest&, CurlRequestClient&)>&& 
 
 void CurlRequest::runOnMainThread(Function<void()>&& task)
 {
+#if OS(SYMBIAN)
+    if (m_messageQueue) {
+        m_messageQueue->append(makeUnique<Function<void()>>(WTF::move(task)));
+        return;
+    }
+#endif
     ensureOnMainThread(WTF::move(task));
 }
 
@@ -360,6 +384,11 @@ size_t CurlRequest::didReceiveData(std::span<const uint8_t> receivedData)
         return 0;
 #endif
 
+#if OS(SYMBIAN)
+    if (m_defersLoading && m_request.url().protocolIsInHTTPFamily())
+        return CURL_WRITEFUNC_PAUSE;
+#endif
+
     if (needToInvokeDidReceiveResponse()) {
         // Pause until completeDidReceiveResponse() is called.
         invokeDidReceiveResponse(m_response, [this] {
@@ -368,6 +397,10 @@ size_t CurlRequest::didReceiveData(std::span<const uint8_t> receivedData)
                     return;
 
                 // Unpause a connection
+#if OS(SYMBIAN)
+                if (m_defersLoading)
+                    return;
+#endif
                 m_curlHandle->pause(CURLPAUSE_CONT);
             });
         });

@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html><head><meta name="viewport" content="width=device-width"><title>WebKit on Symbian</title>
-<style>body{font-family:sans-serif;margin:12px}h1{color:#307cf0;font-size:22px}.box{background:linear-gradient(#fff,#dde);border:1px solid #99a;border-radius:8px;padding:8px}</style></head>
-<body><h1>Hello from WebKit 2.32</h1>
-<div class="box">ES2020: <span id="js">no script</span></div>
-<p>中文测试：你好，世界</p>
-<p><input id="q" placeholder="Type here" style="width:90%"></p>
-<p><select><option>One</option><option>Two</option><option>Three</option></select> <button onclick="alert('Clicked')">Alert</button></p>
-<script>document.getElementById('js').textContent = [1,2,3].map(x => x ** 2).join(',') + ' ' + (globalThis?.Symbian ?? 'ok') + ' ' + (10n ** 20n);</script>
-</body></html>
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WebKit 2.52.6 · Symbian</title>
+<style>
+body{margin:0;padding:20px;background:#edf1f5;color:#172739;font:16px sans-serif}h1{font-size:27px;margin:0 0 8px}.card{background:white;border-radius:16px;padding:18px;margin:16px 0;box-shadow:0 4px 14px #0002}.banner{background:linear-gradient(135deg,#086c88,#5147b7);color:white;border-radius:16px;padding:20px}label{display:block;margin:12px 0}input,select,button{font:inherit;padding:7px;max-width:90%}#result{font-weight:bold;color:#076c47}.grid{display:flex;gap:8px}.tile{padding:12px;background:#dce9ff;border-radius:8px;flex:1}
+</style>
+<div class="banner"><h1>WebKit 2.52.6</h1><div>Symbian^3 · C_LOOP</div></div>
+<div class="card"><h2>中文与现代网页</h2><p>你好，世界。中文排版、圆角、渐变和表单输入。</p><div class="grid"><div class="tile">DOM</div><div class="tile">CSS</div><div class="tile">JavaScript</div></div><p id="result">Running checks…</p></div>
+<div class="card"><label>文字输入 <input value="你好 Symbian" aria-label="文字输入"></label><label>选择 <select><option>诺基亚 X7</option><option>诺基亚 N8</option><option>808 PureView</option></select></label><button id="action">测试点击</button><p id="click">等待点击</p></div>
+<script>
+(async()=>{try{const value={nested:{number:42}};if(value?.nested?.number!==42||(null??7)!==7||2n**8n!==256n)throw Error('language');const node=document.createElement('span');node.textContent='DOM ready';document.querySelector('.card').appendChild(node);if(node.parentNode!==document.querySelector('.card'))throw Error('DOM');const r=await Promise.allSettled([Promise.resolve(1),Promise.reject(2)]);if(r[0].value!==1||r[1].status!=='rejected')throw Error('Promise');document.getElementById('result').textContent='PASS: local DOM / JavaScript / 中文';console.log('PASS: browser-local');}catch(e){document.getElementById('result').textContent='FAIL: '+e;console.log('FAIL: browser-local '+e);}})();
+document.getElementById('action').onclick=()=>{document.getElementById('click').textContent='PASS: 点击事件';console.log('PASS: browser-click');};
+</script></html>
