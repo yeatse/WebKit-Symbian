@@ -1,0 +1,33 @@
+{
+  "ci_run": 40925052880,
+  "source_head": "d46c6c5a84b9b96c12827be8214fbb35a93207b7",
+  "status": "prepared, CI artifact not yet received; no guest run",
+  "fixtures": {
+    "Tools/Symbian/tests/idna.html": {
+      "bytes": 2506,
+      "sha256": "13def84fb19a6cf6f00cf5410781cf82ca36490c8e2701f74507135c5daf7d9d"
+    },
+    "Tools/Symbian/tests/arm11-dom.html": {
+      "bytes": 14002,
+      "sha256": "122809cb035a392486c17d654f8e150923cc331fa02aed9c19374f59d532e7b0"
+    },
+    "Tools/Symbian/tests/webcrypto.html": {
+      "bytes": 9913,
+      "sha256": "ecaca0fa0be0d7789fed488a850e529c0c2409be0ab674999b92c761cc006852"
+    },
+    "Tools/Symbian/eka2l1/run-browser.sh": {
+      "bytes": 6131,
+      "sha256": "7e6d6a7460c83f17bd9e8118738b069ee457aca4fff30ed75df55b531400ff8c"
+    },
+    "Tools/Symbian/eka2l1/close-emulator-window.py": {
+      "bytes": 4825,
+      "sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f"
+    }
+  },
+  "installed_driver_changes": [
+    "absolute main common.sh",
+    "verify installed CI40 manifest payloads instead of copying build files",
+    "explicit E drive installed browser launch"
+  ],
+  "extra_fixture_source": "main d46c; not Belle graphics branch"
+}

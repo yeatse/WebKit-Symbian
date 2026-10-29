@@ -1,0 +1,61 @@
+from pathlib import Path
+import fcntl,hashlib,importlib.util,json,os,re,shutil,signal,struct,subprocess,sys,time
+root=Path(__file__).resolve().parent; data=Path(os.environ['XDG_DATA_HOME'])/'EKA2L1/data'; host=Path(os.environ['EKA2L1']); manifest=json.loads(Path('/workspace/symbian-work/ci-artifacts/40925052880/package-verification.json').read_text())
+assert all(p['version']=='0.3.40' for p in manifest['packages'])
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+spec=importlib.util.spec_from_file_location('sisverify','/workspace/symbian-idna-work/verify-icu-sis.py');verify=importlib.util.module_from_spec(spec);spec.loader.exec_module(verify)
+locks=[(data/n).open('a') for n in ('.jsc-run.lock','.browser-run.lock')]
+for lock in locks:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+assert sha(host)=='5f8704eb1c2461ceeb160eabd927a4f828765cad353e9107ae43f463127e292a'
+names={'symbian-webkit-icu.sis':'Symbian WebKit ICU data','jsc.sis':'JavaScriptCore shell','browser.sis':'WebKit Browser'}
+report={'status':'FAIL','emulator_sha256':sha(host),'packages':[],'executables_copied_outside_installer':False,'ci_run':40925052880,'source_head':'d46c6c5a84b9b96c12827be8214fbb35a93207b7'}
+def resolve(target):
+ drive,tail=target.replace('!:', 'e:').split(':',1);p=data/'drives'/drive.lower()
+ for part in tail.replace('\\','/').strip('/').split('/'):
+  exact=p/part
+  if exact.exists():p=exact;continue
+  matches=[x for x in p.iterdir() if x.name.lower()==part.lower()];assert len(matches)==1,(target,str(p),part);p=matches[0]
+ return p
+
+def interrupted(sig,frame):
+ signal.signal(signal.SIGINT,signal.SIG_IGN);signal.signal(signal.SIGTERM,signal.SIG_IGN);raise KeyboardInterrupt
+signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
+if '--resume-browser' in sys.argv:
+ report=json.loads((root/'installation-result.json').read_text());report['packages']=[p for p in report['packages'] if p['package']!='browser.sis'];assert all(p['status']=='PASS' for p in report['packages'])
+ manifest['packages']=[p for p in manifest['packages'] if p['package']=='browser.sis']
+try:
+ for package in sorted(manifest['packages'], key=lambda p: ['symbian-webkit-icu.sis','jsc.sis','browser.sis'].index(p['package'])):
+  sis=Path('/workspace/symbian-work/ci-artifacts/40925052880/sis')/package['package'];assert sha(sis)==package['sha256'];uid=int(package['uid'],16);reg=data/'drives/c/sys/install/sisregistry'/f'{uid:08x}';dst=root/package['package'].removesuffix('.sis');dst.mkdir(exist_ok=False)
+  if reg.exists():shutil.copytree(reg,dst/'previous-registry')
+  entry={'status':'FAIL','package':package['package'],'sis_sha256':sha(sis),'uid':package['uid'],'version':package['version'],'files':[]};report['packages'].append(entry);p=None
+  try:
+   log=dst/'install.log'
+   with log.open('w') as out:
+    p=subprocess.Popen([str(host),'--device','RM-707','--install',str(sis)],cwd=host.parent,stdout=out,stderr=subprocess.STDOUT,start_new_session=True);deadline=time.monotonic()+90
+    while time.monotonic()<deadline:
+     text=log.read_text(errors='replace')
+     if p.poll() is not None:raise RuntimeError('Installer exited before requested shutdown: '+str(p.returncode))
+     if re.search(r'access violation|panicked|KERN-EXEC|USER-EXEC',text,re.I):raise RuntimeError('Guest panic during installation')
+     mark=text.find('Package '+names[package['package']]+' registering with UID: '+package['uid'])
+     if mark>=0 and 'Installation done!' in text[mark:] and 'Supported features (for optimization)' in text:break
+     time.sleep(.2)
+    else:raise RuntimeError('Missing installation/GUI readiness markers')
+    subprocess.run([sys.executable,'/workspace/WebKit-Symbian/Tools/Symbian/eka2l1/close-emulator-window.py',str(p.pid)],check=True,timeout=5);p.wait(timeout=10);assert p.returncode==0
+   assert not re.search(r'access violation|panicked|KERN-EXEC|USER-EXEC',log.read_text(errors='replace'),re.I)
+   ctl=(reg/'00000000_0000.ctl').read_bytes();assert struct.unpack_from('<I',ctl)[0]==len(ctl)-4
+   sections={k:v for k,v,_ in verify.fields(ctl[4:])};info={k:v for k,v,_ in verify.fields(sections[14][:-2])};assert struct.unpack('<III',info[4])==tuple(map(int,package['version'].split('.')));assert struct.unpack('<I',info[9])[0]==uid
+   _,contents,_=verify.field(sis.read_bytes(),16);parts={k:v for k,v,_ in verify.fields(contents)};assert ctl==verify.decompress(parts[3])[4:]
+   assert struct.unpack_from('<I',(reg/'00000000.reg').read_bytes())[0]==uid
+   for expected in package['files']:
+    installed=resolve(expected['target']);assert installed.stat().st_size==expected['bytes'];assert sha(installed)==expected['sha256'];entry['files'].append({'path':str(installed.relative_to(data/'drives')),'bytes':installed.stat().st_size,'sha256':sha(installed),'matches_sis_payload':True})
+   entry.update(status='PASS',installation_marker=True,host_exit=p.returncode,guest_panic=False,controller_byte_identical_to_sis=True,registry=[{'file':x.name,'bytes':x.stat().st_size,'sha256':sha(x)} for x in [reg/'00000000.reg',reg/'00000000_0000.ctl']]);print('PASS: installed '+package['package'],flush=True)
+  finally:
+   if p is not None and p.poll() is None:
+    os.killpg(p.pid,signal.SIGTERM)
+    try:p.wait(timeout=3)
+    except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait()
+   (dst/'result.json').write_text(json.dumps(entry,indent=2)+'\n')
+ report['status']='PASS'
+finally:
+ (root/'installation-result.json').write_text(json.dumps(report,indent=2)+'\n')
+print('PASS: all three SIS packages, registry versions/controllers and 11 installed payloads')

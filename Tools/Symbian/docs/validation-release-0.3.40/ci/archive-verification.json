@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "run_id": 40925052880,
+  "head_sha": "d46c6c5a84b9b96c12827be8214fbb35a93207b7",
+  "artifact_id": 12924582582,
+  "zip_bytes": 33509419,
+  "zip_sha256": "fa5fc05abc785d08a030068a4f6100298418189f894f067c80a68710a08a0807",
+  "github_digest_matches": true,
+  "zip_crc_valid": true,
+  "exact_archive_members": [
+    "SHA256SUMS",
+    "browser.sis",
+    "jsc.sis",
+    "symbian-webkit-icu.sis"
+  ],
+  "download_transport": "GitHub connector reusable file URL; direct GH blob endpoint returned Forbidden"
+}

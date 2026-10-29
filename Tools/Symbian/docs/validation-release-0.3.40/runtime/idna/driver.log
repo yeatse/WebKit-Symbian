@@ -1,0 +1,19 @@
+logs: /workspace/symbian-ci40-work/runs/browser-20261029T191202Z-lloluyko
+19:12:03.941 WebKit Browser starting
+19:12:03.957 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+19:12:05.486 load file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:12:06.062 network: connected through "Host network"
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:21: IDNA PASS ASCII host
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:21: IDNA PASS Latin international host
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:21: IDNA PASS Chinese international host
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:21: IDNA PASS punycode host
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:21: IDNA PASS nontransitional sharp s
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:21: IDNA PASS width and case mapping
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:21: IDNA PASS invalid ContextJ rejected
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:21: IDNA PASS invalid bidi label rejected
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:21: IDNA PASS invalid punycode rejected
+console: file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df:39: IDNA RESULT 9/9 PASS
+
+Browser observation completed; inspect screenshot and test outcomes: /workspace/symbian-ci40-work/runs/browser-20261029T191202Z-lloluyko/browser.png

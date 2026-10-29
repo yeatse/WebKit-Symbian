@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "package": "symbian-webkit-icu.sis",
+  "sis_sha256": "4f02e2491856ac183860fc37234d262cde0264a5358f84c767a49dc6a3d99e2f",
+  "uid": "0xe1a5c013",
+  "version": "0.3.40",
+  "files": [
+    {
+      "path": "c/resource/icu/icudt70l.dat",
+      "bytes": 10261824,
+      "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+      "matches_sis_payload": true
+    }
+  ],
+  "installation_marker": true,
+  "host_exit": 0,
+  "guest_panic": false,
+  "controller_byte_identical_to_sis": true,
+  "registry": [
+    {
+      "file": "00000000.reg",
+      "bytes": 319,
+      "sha256": "3d1502c5a6c2d203c97925d992ccd470a8f4d7925540468fb33b725e1c406199"
+    },
+    {
+      "file": "00000000_0000.ctl",
+      "bytes": 692,
+      "sha256": "86f2d3e27e95ccb456e40be5c17b357b7b5ecb7411fc9ced03bdb51820312a06"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "package": "jsc.sis",
+  "sis_sha256": "0f18100c8130467c715a2be6344f355c14d730ceeca2e7ffa9ccbd6869c66840",
+  "uid": "0xe1a5c011",
+  "version": "0.3.40",
+  "files": [
+    {
+      "path": "e/sys/bin/jsc.exe",
+      "bytes": 18830168,
+      "sha256": "d90bc977bdf6476dd32c9194c46eb9df5b2472217b04a9d75d150939a5862f0c",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/es2020.js",
+      "bytes": 2587,
+      "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/intl.js",
+      "bytes": 1462,
+      "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/basic.js",
+      "bytes": 186,
+      "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/resizable-arraybuffer.js",
+      "bytes": 2715,
+      "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+      "matches_sis_payload": true
+    }
+  ],
+  "installation_marker": true,
+  "host_exit": 0,
+  "guest_panic": false,
+  "controller_byte_identical_to_sis": true,
+  "registry": [
+    {
+      "file": "00000000.reg",
+      "bytes": 590,
+      "sha256": "2e7ab7d8ca1a5469470bdef0e2fb1169e410200d18626316f0349e4ffbc7f072"
+    },
+    {
+      "file": "00000000_0000.ctl",
+      "bytes": 1180,
+      "sha256": "905b561ab1a3d2e1bccebf5a0b3332d45e5e1335a2f6c194075bcb67bb9f06f0"
+    }
+  ]
+}

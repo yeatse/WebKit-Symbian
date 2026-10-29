@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "ci_run": 40925052880,
+  "source_head": "d46c6c5a84b9b96c12827be8214fbb35a93207b7",
+  "host_sha256": "5f8704eb1c2461ceeb160eabd927a4f828765cad353e9107ae43f463127e292a",
+  "installed_files_unchanged": [
+    {
+      "path": "c/resource/icu/icudt70l.dat",
+      "bytes": 10261824,
+      "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+    },
+    {
+      "path": "e/sys/bin/jsc.exe",
+      "bytes": 18830168,
+      "sha256": "d90bc977bdf6476dd32c9194c46eb9df5b2472217b04a9d75d150939a5862f0c"
+    },
+    {
+      "path": "c/Data/es2020.js",
+      "bytes": 2587,
+      "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528"
+    },
+    {
+      "path": "c/Data/intl.js",
+      "bytes": 1462,
+      "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30"
+    },
+    {
+      "path": "c/Data/basic.js",
+      "bytes": 186,
+      "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2"
+    },
+    {
+      "path": "c/Data/resizable-arraybuffer.js",
+      "bytes": 2715,
+      "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac"
+    },
+    {
+      "path": "e/sys/bin/browser.exe",
+      "bytes": 58337180,
+      "sha256": "99ec5fe0d84c1c7ae18b06b0d2e175788d9989fee24ccd9fa3cef93bbe57570c"
+    },
+    {
+      "path": "e/private/10003a3f/import/apps/browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    {
+      "path": "e/resource/apps/browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    {
+      "path": "c/Data/webkit/test.html",
+      "bytes": 2254,
+      "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816"
+    },
+    {
+      "path": "c/resource/webkit/cacert.pem",
+      "bytes": 188900,
+      "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505"
+    }
+  ],
+  "launch_drive": "E",
+  "c_staged_browser_absent": true,
+  "package_payloads_copied_by_installer_only": true,
+  "release_ca_sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "profile": "existing Nokia X7 validation profile upgraded through actual CLI SIS installer"
+}

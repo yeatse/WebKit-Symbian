@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "job_id": 123628207631,
+  "sha256": "c06f0878b333d0741003a3a04506835d58b8f4e47702e59fdf5a0755daad2da8",
+  "bytes": 96921,
+  "source": "exact GitHub connector decoded job log encoded as UTF-8"
+}

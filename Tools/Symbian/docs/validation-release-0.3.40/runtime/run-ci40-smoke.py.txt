@@ -1,0 +1,31 @@
+from pathlib import Path
+import fcntl,hashlib,importlib.util,json,os,re,signal,subprocess,sys,time,uuid
+root=Path(__file__).resolve().parent;repo=Path('/workspace/WebKit-Symbian/Tools/Symbian');data=Path(os.environ['XDG_DATA_HOME'])/'EKA2L1/data'
+spec=importlib.util.spec_from_file_location('support',repo/'tests/run-browser-network-tests.py');support=importlib.util.module_from_spec(spec);spec.loader.exec_module(support)
+image=data/'drives/e/sys/bin/browser.exe';out=root/'smoke';out.mkdir(exist_ok=False);results=[]
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+suites=[('idna','file:///C:/Data/WebKit/idna.html',30,'IDNA RESULT 9/9 PASS','IDNA PASS ',9),('dom','file:///C:/Data/WebKit/arm11-dom.html',30,'ARM11-DOM DONE PASS 8/8 passed; 0 failed','ARM11-DOM PASS ',8),('crypto','file:///C:/Data/WebKit/webcrypto.html',30,'WEBCRYPTO DONE PASS 19/19 passed; 0 failed','WEBCRYPTO PASS ',19)]
+report={'status':'FAIL','ci_run':40925052880,'source_head':'d46c6c5a84b9b96c12827be8214fbb35a93207b7','browser_sha256':sha(data/'drives/e/sys/bin/browser.exe'),'launch_path':'E:/sys/bin/browser.exe','exe_resources_icu_test_html_copy':False,'suites':results};signal.signal(signal.SIGTERM,support.interrupted);signal.signal(signal.SIGINT,support.interrupted)
+try:
+ with support.exclusive_lock(data/'.jsc-run.lock'),support.exclusive_lock(data/'.browser-run.lock') as lock:
+  for name,url,seconds,marker,prefix,count in suites:
+   url+='?autorun=1&run='+uuid.uuid4().hex;folder=out/name;folder.mkdir();env=os.environ.copy();env.update(WAIT=str(seconds),EKA2L1_EXPECT_PASS=marker,EKA2L1_BROWSER_LOCK_FD=str(lock.fileno()));p=None;descendants={};entry={'name':name,'status':'FAIL','url':url,'expected_checks':count};results.append(entry)
+   with support.adopt_orphaned_children() as excluded:
+    try:
+     with (folder/'driver.log').open('w') as stream:
+      p=subprocess.Popen([str(root/'run-installed-browser.sh'),str(image),url],stdout=stream,stderr=subprocess.STDOUT,env=env,start_new_session=True,pass_fds=(lock.fileno(),));deadline=time.monotonic()+seconds+45
+      while p.poll() is None:
+       support.collect_descendants(descendants,excluded)
+       if time.monotonic()>deadline:raise RuntimeError('Driver watchdog expired')
+       time.sleep(.1)
+    finally:
+     if p is not None:support.stop_process_tree(p,descendants,excluded)
+   entry['driver_exit']=p.returncode;logs=re.findall(r'^logs: (.+)$',(folder/'driver.log').read_text(errors='replace'),re.M);assert len(logs)==1;run=Path(logs[0]);entry['source_run']=str(run)
+   assert p.returncode==0
+   text=(run/'log.txt').read_text(errors='replace');host=(run/'emulator.log').read_text(errors='replace');assert not support.PANIC.search(text+'\n'+host)
+   messages=re.findall(r'^console: '+re.escape(url)+r':\d+: (.*)$',text,re.M);assert messages.count(marker)==1;assert sum(m.startswith(prefix) for m in messages)==count;assert not any(re.search(r'^(?:FAIL:|IDNA FAIL |ARM11-DOM FAIL |WEBCRYPTO FAIL )',m) for m in messages)
+   shot=run/'browser.png';assert shot.read_bytes().startswith(b'\x89PNG\r\n\x1a\n')
+   entry.update(status='PASS',passed_checks=count,marker=marker,screenshot_sha256=sha(shot),guest_panic=False,shutdown='normal WM close/host exit 0');print('PASS: installed '+name,flush=True)
+ report['status']='PASS'
+finally:
+ (out/'result.json').write_text(json.dumps(report,indent=2)+'\n')

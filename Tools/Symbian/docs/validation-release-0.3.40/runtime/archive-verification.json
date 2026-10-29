@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "scope": "independent consistency check of completed operator runtime evidence; no new guest execution",
+  "all_three_packages_and_11_payloads_match_ci_download": true,
+  "all_three_fixture_hashes_match_exact_ci_source": true,
+  "normal_host_exit_and_no_panic_per_suite": true,
+  "archived_raw_hashes": {
+    "idna": {
+      "guest_log_sha256": "7b78675317c7a72775797ce56066fde0d84af9fffdc7adcd4653dadaa0e27fe9",
+      "emulator_log_sha256": "fc5968b4ad8d72be0d47eb9d414b5c775c6c7066f7c1035f2d5630d311eca118",
+      "screenshot_sha256": "6a4773e9d7e87d1a9f18b5b97d907e0f111429450775c3fcc29fdbc2926c6a39"
+    },
+    "dom": {
+      "guest_log_sha256": "f1fa476d0b7d506220131e0e25bb5120409d092275cbdb345c1591a3b2ac2dec",
+      "emulator_log_sha256": "e8b70812e9186b42a3c6975ad6834e2e5c671c72287190ecb2f29d51a538bb2f",
+      "screenshot_sha256": "20bd64a19d208126f46d5c827221858ee73b7c8ee444b483b576b19604f5d2e5"
+    },
+    "crypto": {
+      "guest_log_sha256": "febefd175ee7743f0b2f5decd680a53a84b12012c6a3589b78f4ffc113d472af",
+      "emulator_log_sha256": "9ffaac35c408050e66524e297e95d3d37660526b654afe938c924e6edffb225c",
+      "screenshot_sha256": "a58296f3fec347dc39ecb7b6e7ef3ba0d7aad763e39b4c8121a7f481344509e8"
+    }
+  },
+  "excluded": [
+    "previous-registry raw data",
+    "candidate-before-ci binaries",
+    "SIS and E32 executables"
+  ]
+}

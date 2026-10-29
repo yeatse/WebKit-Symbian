@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "package": "browser.sis",
+  "sis_sha256": "9d17602aacfc1c3b1d45f4b4880e77c5953c6f35c66da8158637b3d3918c39ec",
+  "uid": "0xe1a5c012",
+  "version": "0.3.40",
+  "files": [
+    {
+      "path": "e/sys/bin/browser.exe",
+      "bytes": 58337180,
+      "sha256": "99ec5fe0d84c1c7ae18b06b0d2e175788d9989fee24ccd9fa3cef93bbe57570c",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "e/private/10003a3f/import/apps/browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "e/resource/apps/browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/Data/webkit/test.html",
+      "bytes": 2254,
+      "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+      "matches_sis_payload": true
+    },
+    {
+      "path": "c/resource/webkit/cacert.pem",
+      "bytes": 188900,
+      "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+      "matches_sis_payload": true
+    }
+  ],
+  "installation_marker": true,
+  "host_exit": 0,
+  "guest_panic": false,
+  "controller_byte_identical_to_sis": true,
+  "registry": [
+    {
+      "file": "00000000.reg",
+      "bytes": 640,
+      "sha256": "f8d3554738e11b730999a28226f42ed557e54507603d5dd66b90b1b592a99ac5"
+    },
+    {
+      "file": "00000000_0000.ctl",
+      "bytes": 1292,
+      "sha256": "7f1c6842dbc99349844bdd573d3470834114f2182f1b3acf3ed24dd393cc12d2"
+    }
+  ]
+}

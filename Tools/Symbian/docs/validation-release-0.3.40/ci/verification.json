@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "run_id": 40925052880,
+  "run_number": 40,
+  "head_sha": "d46c6c5a84b9b96c12827be8214fbb35a93207b7",
+  "branch": "2.52.6-symbian",
+  "version": "0.3.40",
+  "sis_artifact_id": 12924582582,
+  "sis_artifact_url": "https://github.com/yeatse/WebKit-Symbian/actions/runs/40925052880/artifacts/12924582582",
+  "elf_artifact_id": 12924004026,
+  "elf_artifact_url": "https://github.com/yeatse/WebKit-Symbian/actions/runs/40925052880/artifacts/12924004026",
+  "elf_downloaded": false,
+  "sdk_runtime_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+  "runtime_objects_replaced": 21,
+  "runtime_objects_unchanged": 82,
+  "runtime_host_checks": 13,
+  "runtime_budget_bytes": 67108864,
+  "source_matches": {
+    "es2020.js": {
+      "source": "Tools/Symbian/tests/es2020.js",
+      "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+      "matches_ci_commit": true
+    },
+    "intl.js": {
+      "source": "Tools/Symbian/tests/intl.js",
+      "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+      "matches_ci_commit": true
+    },
+    "basic.js": {
+      "source": "Tools/Symbian/tests/basic.js",
+      "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+      "matches_ci_commit": true
+    },
+    "resizable-arraybuffer.js": {
+      "source": "Tools/Symbian/tests/resizable-arraybuffer.js",
+      "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+      "matches_ci_commit": true
+    },
+    "test.html": {
+      "source": "Tools/Symbian/browser/test.html",
+      "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+      "matches_ci_commit": true
+    }
+  },
+  "release_ca_payload_sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "payloads_verified": 11,
+  "scope": "CI build and downloaded artifact verification; actual installation/runtime recorded separately"
+}

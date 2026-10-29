@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "ci_run": 40925052880,
+  "source_head": "d46c6c5a84b9b96c12827be8214fbb35a93207b7",
+  "browser_sha256": "99ec5fe0d84c1c7ae18b06b0d2e175788d9989fee24ccd9fa3cef93bbe57570c",
+  "launch_path": "E:/sys/bin/browser.exe",
+  "exe_resources_icu_test_html_copy": false,
+  "suites": [
+    {
+      "name": "idna",
+      "status": "PASS",
+      "url": "file:///C:/Data/WebKit/idna.html?autorun=1&run=5844516cc735463e8177cd17f3e175df",
+      "expected_checks": 9,
+      "driver_exit": 0,
+      "source_run": "/workspace/symbian-ci40-work/runs/browser-20261029T191202Z-lloluyko",
+      "passed_checks": 9,
+      "marker": "IDNA RESULT 9/9 PASS",
+      "screenshot_sha256": "6a4773e9d7e87d1a9f18b5b97d907e0f111429450775c3fcc29fdbc2926c6a39",
+      "guest_panic": false,
+      "shutdown": "normal WM close/host exit 0"
+    },
+    {
+      "name": "dom",
+      "status": "PASS",
+      "url": "file:///C:/Data/WebKit/arm11-dom.html?autorun=1&run=abe389f1b716453e8e57d58469e5992e",
+      "expected_checks": 8,
+      "driver_exit": 0,
+      "source_run": "/workspace/symbian-ci40-work/runs/browser-20261029T191233Z-6ksxopxf",
+      "passed_checks": 8,
+      "marker": "ARM11-DOM DONE PASS 8/8 passed; 0 failed",
+      "screenshot_sha256": "20bd64a19d208126f46d5c827221858ee73b7c8ee444b483b576b19604f5d2e5",
+      "guest_panic": false,
+      "shutdown": "normal WM close/host exit 0"
+    },
+    {
+      "name": "crypto",
+      "status": "PASS",
+      "url": "file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=549f2a023a024c4eb04cac5f7dc1c575",
+      "expected_checks": 19,
+      "driver_exit": 0,
+      "source_run": "/workspace/symbian-ci40-work/runs/browser-20261029T191304Z-38_khj2o",
+      "passed_checks": 19,
+      "marker": "WEBCRYPTO DONE PASS 19/19 passed; 0 failed",
+      "screenshot_sha256": "a58296f3fec347dc39ecb7b6e7ef3ba0d7aad763e39b4c8121a7f481344509e8",
+      "guest_panic": false,
+      "shutdown": "normal WM close/host exit 0"
+    }
+  ]
+}
