@@ -1,0 +1,48 @@
+From ea701154adfbe39bfffbb3fa5d1857c6c5d5c10c Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 29 Oct 2026 02:06:52 +0000
+Subject: [PATCH] kernel: dump registers and stack of threads that panic with
+ *-EXEC
+
+Debugging aid, not for upstream: logs PANICDUMP with r0-r15 and 8 KB of
+the stack as PANICSTACK lines, so a USER-EXEC or KERN-EXEC panic in a
+large guest binary can be symbolized offline.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01FXGLpgfLR1SAt4ttxAHx1u
+---
+ src/emu/kernel/src/svc.cpp | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/src/emu/kernel/src/svc.cpp b/src/emu/kernel/src/svc.cpp
+index b8f360d92..e9cef592e 100644
+--- a/src/emu/kernel/src/svc.cpp
++++ b/src/emu/kernel/src/svc.cpp
+@@ -2342,6 +2342,24 @@ namespace eka2l1::epoc {
+             exit_category = reason_des.get(pr)->to_std_string(pr);
+         }
+ 
++        if (etype == kernel::entity_exit_type::panic && exit_category.find("EXEC") != std::string::npos) {
++            // Local debugging aid: dump the panicking thread's registers and stack.
++            arm::core *cpu = kern->get_cpu();
++            std::string regs;
++            for (int i = 0; i < 16; i++) {
++                regs += fmt::format("r{}={:08x} ", i, cpu->get_reg(i));
++            }
++            LOG_ERROR(KERNEL, "PANICDUMP {} {}: {}", exit_category, reason, regs);
++            const std::uint32_t sp = cpu->get_reg(13);
++            for (std::uint32_t off = 0; off < 0x2000; off += 4) {
++                std::uint32_t *word = eka2l1::ptr<std::uint32_t>(sp + off).get(pr);
++                if (!word) {
++                    break;
++                }
++                LOG_ERROR(KERNEL, "PANICSTACK {:08x}: {:08x}", sp + off, *word);
++            }
++        }
++
+         thr->kill(etype, common::utf8_to_ucs2(exit_category), reason);
+         return epoc::error_none;
+     }
+-- 
+2.43.0
+
