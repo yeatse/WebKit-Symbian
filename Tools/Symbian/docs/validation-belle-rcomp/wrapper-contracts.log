@@ -1,0 +1,9 @@
+test_explicit_source_uses_pinned_objects_and_does_not_modify_config (__main__.RebuildContracts.test_explicit_source_uses_pinned_objects_and_does_not_modify_config) ... ok
+test_interrupted_managed_initialization_recovers_inside_outer_git (__main__.RebuildContracts.test_interrupted_managed_initialization_recovers_inside_outer_git) ... ok
+test_unknown_installed_tool_rejected_before_source_or_build (__main__.RebuildContracts.test_unknown_installed_tool_rejected_before_source_or_build) ... ok
+test_unknown_managed_origin_rejected_without_rewriting_it (__main__.RebuildContracts.test_unknown_managed_origin_rejected_without_rewriting_it) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.105s
+
+OK

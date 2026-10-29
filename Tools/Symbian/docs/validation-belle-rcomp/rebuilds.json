@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "source_revision": "d3c2eadd3ff7826bdf9e1d92f447c357571af18b",
+  "patched_tool_sha256": "68ec145cba746f3df36cc6893a8d830a5ca3f3273aa5e9c40be0ee07ed71d792",
+  "script_sha256": "a5c62af53ec82de94e24284e099271ff3fd6d0e00cfc7f5832d3bc65de52cbb6",
+  "fresh_work_directory": "/workspace/WebKit-Symbian-graphics/WebKitBuild/Symbian/rcomp-clean-regression/work",
+  "isolated_test_sdk": "/workspace/WebKit-Symbian-graphics/WebKitBuild/Symbian/rcomp-clean-regression/sdk",
+  "rebuilds": {
+    "clean-nested-build.log": {
+      "sha256": "2d103d8daca47e411bded5d8e382888b098c483c863a1cd740a87058b982a2ae",
+      "exit_status": 0,
+      "compiler_checks": 14
+    },
+    "cached-nested-build.log": {
+      "sha256": "2d103d8daca47e411bded5d8e382888b098c483c863a1cd740a87058b982a2ae",
+      "exit_status": 0,
+      "compiler_checks": 14
+    }
+  },
+  "real_resource_inputs": [
+    {
+      "input_name": "enums.rss",
+      "input_sha256": "7caedf6dfa328b5cf1b00a440f45211e8155c2ee7e79d44fe5035f9b379c14da",
+      "result": "PASS",
+      "output_bytes": 32,
+      "output_sha256": "5c3956cf84e56876438c77d96441d8c592690632489c5e0d63ed29855848dbce"
+    },
+    {
+      "input_name": "browser_ui.rpp",
+      "input_sha256": "1c37daa205592b304bb558efe139646a99d38f1e99a0eb0a7d27679f3e23d958",
+      "result": "PASS",
+      "output_bytes": 150,
+      "output_sha256": "70ed39945ee9853a09f190238dccff9d41fb63712de06a4f90fb163e15ba880a"
+    },
+    {
+      "input_name": "buttons.rpp",
+      "input_sha256": "6d42fcef19b88271f181e265e56d401bf9e0fe6ca2d548458fe07308cfd7c0d4",
+      "result": "PASS",
+      "output_bytes": 78,
+      "output_sha256": "da32753fb29cae2179ee35894f45b2092180a294adf5bd12edcd2609d6550b1a"
+    }
+  ],
+  "limits": [
+    "Host resource compiler validation; no guest UI or physical device result implied.",
+    "Output hash is compiler-specific; source and patch identities are pinned.",
+    "Fresh source clone was interrupted once before completion; the resumed nested build and complete cached repeat both passed."
+  ],
+  "wrapper_tests": {
+    "checks": 4,
+    "status": "PASS",
+    "log": "wrapper-contracts.log",
+    "log_sha256": "151373b947bb737974339fce1d11865601f8fb8a1744d1844724b37f6d7ea259",
+    "network_access": false,
+    "installed_sdk_modified": false
+  }
+}

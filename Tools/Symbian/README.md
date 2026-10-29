@@ -24,4 +24,6 @@ Before a local build, run `python3 Tools/Symbian/scripts/apply-sdk-patches.py --
 
 Also run `python3 Tools/Symbian/scripts/rebuild-sdk-runtime.py --sdk "$SYMBIAN_SDK_PREFIX" --install` before building. This reproducibly repairs the ARMv6 SDK allocator's 32-bit reservation overhead while retaining its 64 MiB budget. It checks the exact SDK/source/archive hashes, preserves every non-mimalloc object and validates the public ABI and ARM attributes. CI runs the same rebuild; [allocator evidence](docs/validation-memory/sdk-mimalloc/README.md) distinguishes this fix from WebKit's separate JSC aligned pool.
 
+Before building browser resources, run `python3 Tools/Symbian/scripts/rebuild-sdk-rcomp.py --sdk "$SYMBIAN_SDK_PREFIX" --install`. This repairs the SDK resource compiler's crash on valid symbolic identifiers and verifies 14 regression cases before installation. The [build instructions](docs/Development.md) include both SDK repairs in order; CI runs them on cache hits too.
+
 See [Development.md](docs/Development.md) for builds and [Handoff-2.52.md](docs/Handoff-2.52.md) for the reconstruction requirements. [Development-2.32.md](docs/Development-2.32.md) and [Handoff.md](docs/Handoff.md) are historical reference material.

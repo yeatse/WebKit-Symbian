@@ -82,7 +82,7 @@ jobs:
           sudo apt-get update -q
           sudo apt-get install -yq --no-install-recommends clang lld cmake ninja-build ruby perl binutils \
             libjson-pp-perl gperf flex bison unifdef python3 pkg-config ccache openssl \
-            autoconf automake libtool
+            autoconf automake libtool g++ patch
 
       - name: Symbian memory allocation regression
         run: |
@@ -180,6 +180,24 @@ jobs:
         with:
           path: WebKitBuild/Symbian/sdk-runtime
           key: ${{ steps.runtime.outputs.cache-primary-key }}
+
+      - name: Restore the SDK resource compiler sources
+        uses: actions/cache/restore@v4
+        id: rcomp
+        with:
+          path: WebKitBuild/Symbian/sdk-rcomp
+          key: sdk-rcomp-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/rebuild-sdk-rcomp.py', 'Tools/Symbian/patches/sdk-0.3.0/rcomp/**', 'Tools/Symbian/tests/rcomp/**') }}
+      # Rebuild and rerun the identifier regressions on cache hits too.
+      - name: Repair and verify the SDK resource compiler
+        run: |
+          python3 tests/rcomp/test-rebuild-sdk-rcomp.py
+          python3 scripts/rebuild-sdk-rcomp.py --install
+      - name: Save the SDK resource compiler sources
+        if: steps.rcomp.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: WebKitBuild/Symbian/sdk-rcomp
+          key: ${{ steps.rcomp.outputs.cache-primary-key }}
 
       - name: ICU
         run: scripts/build-icu.sh
@@ -282,6 +300,10 @@ jobs:
             WebKitBuild/Symbian/icu/*.log
             WebKitBuild/Symbian/deps/*.log
             WebKitBuild/Symbian/deps/src/**/config.log
+            WebKitBuild/Symbian/sdk-runtime/*.json
+            WebKitBuild/Symbian/sdk-runtime/*.log
+            WebKitBuild/Symbian/sdk-rcomp/*.json
+            WebKitBuild/Symbian/sdk-rcomp/*.log
           if-no-files-found: ignore
 
       - name: Release

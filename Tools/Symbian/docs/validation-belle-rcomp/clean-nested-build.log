@@ -1,0 +1,3 @@
+rcomp: 14 checks PASS
+rcomp source and 14 regressions verified; SHA256 68ec145cba746f3df36cc6893a8d830a5ca3f3273aa5e9c40be0ee07ed71d792
+Installed only the verified SDK rcomp tool

@@ -1,5 +1,13 @@
 # SDK 0.3.0 corrections
 
+## Linux resource compiler identifiers
+
+The [rcomp correction](rcomp/README.md) fixes crashes on valid enum aliases and
+symbolic resource links after preprocessing without line directives. Its pinned
+rebuild script validates the original SDK tools, builds the host compiler and
+runs real resource-compilation regressions before replacing only `bin/rcomp`.
+It changes no SDK runtime library or resource layout.
+
 ## 32-bit mimalloc reservations
 
 `0001-mimalloc-32bit-pagemap.patch` changes only the target's 32-bit mimalloc

@@ -1,0 +1,22 @@
+{
+  "sdk_version": "0.3.0",
+  "platform_revision": "b105f752f84d1b5640052f64c4a703017810d7b8",
+  "rcomp_repository": "https://github.com/SymbianRevive/symbian-build.git",
+  "rcomp_revision": "d3c2eadd3ff7826bdf9e1d92f447c357571af18b",
+  "stock_rcomp_sha256": "98d1ae9dc94405633814b854a0c340260855ae0fc0e78a3ca875fde4dc39dfb3",
+  "uidcrc_sha256": "bfc941d481b38484952d8b7b1c1a5893ffa4562af26376e6f1c776902a8e218c",
+  "support_files": {
+    "research/rcomp/EPL-1.0.html": "a40741b59364cc49449255e9b9bfe1fcfe6a2e7ab4d37ca89db3bacbfb14e9d2",
+    "research/rcomp/compat/fstream.h": "05dc6a7ad0233904ebce1e26f15ee4d180360d5460029d1dbb6fccb81501b624",
+    "research/rcomp/compat/io.h": "b5239a9340ef9440234ebf0a16ae276a58cabb6923df05f7fc49b66cd70ace20",
+    "research/rcomp/compat/iostream.h": "6cbab5d536ed2fca9e674b961a31421bcc5ce01bf68482aeda23933c4182fd72",
+    "research/rcomp/compat/linux/limits.h": "9e7a30b894873434983a6e1f848c4f6bd3565b5085680a640dd751d861bcc3d4",
+    "research/rcomp/compat/malloc.h": "0255684c4d6c1527072949458c753df8cd146612251d4ba3fe3b22a7e063cec1",
+    "research/rcomp/compat/strstrea.h": "2ef24441d17e6d7e4d8e35f5258640ad87286ce1500d81835737d58ba7f8b436",
+    "research/rcomp/modern-host.patch": "d607761a7442d617883c99dd93efdad2be97b8b8731e14e802f4162ec8d1e886",
+    "research/rcomp/uidcrc-spawn.patch": "f1e18e06b0f2101783a77973329acdae22eae12ed394ba5adc559bb66a0d0130"
+  },
+  "patches": {
+    "0003-initialize-identifier-locations.patch": "d1d0f86bab21815d59459544913cf63e367e6d4f79b74328fb603aea8eb0b8b8"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "checks": 14,
+  "results": [
+    {
+      "name": "enum alias without line directives",
+      "passed": true
+    },
+    {
+      "name": "enum alias equals literal resource",
+      "passed": true
+    },
+    {
+      "name": "backward symbolic LLINK",
+      "passed": true
+    },
+    {
+      "name": "backward generated resource ID",
+      "passed": true
+    },
+    {
+      "name": "backward relocation equals numeric resource",
+      "passed": true
+    },
+    {
+      "name": "forward symbolic LLINK",
+      "passed": true
+    },
+    {
+      "name": "forward generated resource ID",
+      "passed": true
+    },
+    {
+      "name": "forward relocation equals numeric resource",
+      "passed": true
+    },
+    {
+      "name": "seekable stdin input",
+      "passed": true
+    },
+    {
+      "name": "line directives preserved",
+      "passed": true
+    },
+    {
+      "name": "missing link rejected with location",
+      "passed": true
+    },
+    {
+      "name": "malformed syntax rejected",
+      "passed": true
+    },
+    {
+      "name": "stock literal compatibility",
+      "passed": true
+    },
+    {
+      "name": "stock alias crash negative control",
+      "passed": true
+    }
+  ],
+  "rcomp_sha256": "68ec145cba746f3df36cc6893a8d830a5ca3f3273aa5e9c40be0ee07ed71d792",
+  "reference_sha256": "98d1ae9dc94405633814b854a0c340260855ae0fc0e78a3ca875fde4dc39dfb3"
+}
