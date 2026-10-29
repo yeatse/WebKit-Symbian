@@ -343,6 +343,7 @@ Results:
 **Shell** (`Tools/Symbian/browser/`), a native AVKON application without a resource file:
 
 * Softkeys, menus (`CAknPopupList`) and the address field (`CEikEdwin`) are built in code. `<select>` lists and JavaScript alerts and confirms use native AVKON controls too.
+* History and bookmarks (`PageList.cpp`), from the Options menu: each lists its pages by title in a popup, and the chosen one loads. Every main frame address the engine reports goes into the history, most recent first, with the title once it comes; the history keeps the last 100 pages, and its menu ends with "Clear history". "Add bookmark" and "Remove bookmark" act on the page shown. They are kept in `C:\Data\WebKit\history.txt` and `bookmarks.txt`, a line per page, `address<TAB>title`, in UTF-8.
 * The page view is the FEP-aware editor for whatever field has the focus in the page, so AVKON input methods edit web text inline:
   * `MCoeFepAwareTextEditor` and its extension
   * a `CAknEdwinState` per field type (password, number, e-mail, URL…)
@@ -414,7 +415,7 @@ WebKit's own files keep their licenses (BSD-2-Clause / LGPL-2.1); the new `wtf/s
 * **Browser**: renders pages and takes touch input in EKA2L1, and opens local pages on a phone. The first phone runs could not resolve host names: there was no access point, which the shell now starts itself, and then curl's resolver failed on `socketpair()`, which curl is now built without.
 * **Next**:
   * testing on the phone: HTTP and HTTPS, the partial screen input, memory with a 31 MB image
-  * the address bar: history and bookmarks
+  * the address bar: suggestions from the history and the bookmarks while typing
   * zoom and a viewport for desktop pages
   * AVKON-skinned form controls (`RenderTheme`)
   * the speed of the `-Os` build on the phone: measure first, then scroll blitting and selective `-O2`

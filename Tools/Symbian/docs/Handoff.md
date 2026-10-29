@@ -91,7 +91,7 @@ git am /path/to/WebKit-Symbian/Tools/Symbian/patches/eka2l1/000{1,5}-*.patch
 
 ## 待办
 
-1. 地址栏：历史和书签。
+1. 地址栏：历史和书签已经做了（Options 菜单里，`browser/PageList.cpp`），只有 CI 编译过，还没在模拟器或手机上试。还没做的是输入地址时，从历史和书签里给出补全。
 2. 桌面页面的 viewport 和缩放。
 3. AVKON 风格的表单控件（`RenderTheme`）。
 4. 手机上的速度：先测量，再考虑滚动 blit 和局部 `-O2`。

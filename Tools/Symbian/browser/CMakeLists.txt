@@ -21,6 +21,7 @@ set(shell_sources
   BrowserApp.cpp
   BrowserLog.cpp
   NetworkConnection.cpp
+  PageList.cpp
   RunLoopDriver.cpp
   WebContainer.cpp)
 

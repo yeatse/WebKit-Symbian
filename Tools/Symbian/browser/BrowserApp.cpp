@@ -5,6 +5,7 @@
 #include "BrowserLog.h"
 #include "NativeDeclarations.h"
 #include "NetworkConnection.h"
+#include "PageList.h"
 #include "RunLoopDriver.h"
 #include "WebContainer.h"
 
@@ -30,12 +31,19 @@ namespace {
 const TUid KUidBrowser = { static_cast<TInt32>(0xE1A5C002) };
 // The engine keeps cookies and caches here.
 const char KDataDirectory[] = "C:/Data/WebKit";
+const char KHistoryFile[] = "C:/Data/WebKit/history.txt";
+const char KBookmarksFile[] = "C:/Data/WebKit/bookmarks.txt";
+const TInt KHistoryMaxCount = 100;
 const TInt KUrlBarHeight = 48;
 const TInt KUrlMaxLength = 2048;
 
 enum TBrowserCommand {
     ECmdOptions = 0x6000,
     ECmdGoTo,
+    ECmdBookmarks,
+    ECmdAddBookmark,
+    ECmdRemoveBookmark,
+    ECmdHistory,
     ECmdBack,
     ECmdForward,
     ECmdReload,
@@ -43,8 +51,6 @@ enum TBrowserCommand {
     ECmdExit,
 };
 
-// Shows a list of items in an AVKON popup and waits for a choice. Returns
-// the chosen index, or -1 if the list was cancelled.
 // Whether a URL needs the network connection: anything but a local file or
 // a page the engine makes itself.
 TBool IsNetworkUrl(const TDesC& aUrl)
@@ -63,28 +69,8 @@ TBool IsNetworkUrl(const TDesC& aUrl)
     return ETrue;
 }
 
-// UTF-16 to UTF-8, for the engine and the log.
-HBufC8* ToUtf8LC(const TDesC& aText)
-{
-    HBufC8* utf8 = HBufC8::NewLC(aText.Length() * 3 + 1);
-    TPtr8 utf8Ptr = utf8->Des();
-    for (TInt i = 0; i < aText.Length(); ++i) {
-        TUint c = aText[i];
-        if (c < 0x80)
-            utf8Ptr.Append(c);
-        else if (c < 0x800) {
-            utf8Ptr.Append(0xC0 | (c >> 6));
-            utf8Ptr.Append(0x80 | (c & 0x3F));
-        } else {
-            utf8Ptr.Append(0xE0 | (c >> 12));
-            utf8Ptr.Append(0x80 | ((c >> 6) & 0x3F));
-            utf8Ptr.Append(0x80 | (c & 0x3F));
-        }
-    }
-    utf8Ptr.ZeroTerminate();
-    return utf8;
-}
-
+// Shows a list of items in an AVKON popup and waits for a choice. Returns
+// the chosen index, or -1 if the list was cancelled.
 TInt ShowPopupListL(const TDesC& aTitle, const MDesCArray& aItems, TInt aSelected)
 {
     CAknSinglePopupMenuStyleListBox* list = new (ELeave) CAknSinglePopupMenuStyleListBox;
@@ -217,6 +203,9 @@ private:
     void HandleResourceChangeL(TInt aType);
     void LayoutControls();
     void ShowOptionsMenuL();
+    // Lists the pages and loads the chosen one. aExtraItem, if any, is
+    // shown last; returns ETrue if it was chosen.
+    TBool ShowPageListL(const TDesC& aTitle, const CPageList& aPages, const TDesC& aExtraItem);
 
     // MWebContainerObserver
     void WebTitleChanged(const TDesC& aTitle);
@@ -238,6 +227,11 @@ private:
     CEikButtonGroupContainer* iSoftkeys { nullptr };
     CUrlBar* iUrlBar { nullptr };
     CWebContainer* iWebContainer { nullptr };
+    CPageList* iHistory { nullptr };
+    CPageList* iBookmarks { nullptr };
+    // The page shown, for the history and the bookmarks.
+    HBufC* iUrl { nullptr };
+    HBufC* iTitle { nullptr };
     TBool iLoading { EFalse };
     TInt iProgress { 0 };
     // With curl's trace on, logs that the UI thread still runs.
@@ -295,6 +289,8 @@ void CBrowserAppUi::ConstructL()
         BrowserThreadWatchStart();
     }
     iRunLoop = CRunLoopDriver::NewL();
+    iHistory = CPageList::NewL(KHistoryFile, KHistoryMaxCount);
+    iBookmarks = CPageList::NewL(KBookmarksFile, 0);
     // Start the connection now, so the system's access point prompt (if
     // any) comes up once, while the first page is being typed.
     iNetwork = CNetworkConnection::NewL(*this);
@@ -340,6 +336,10 @@ CBrowserAppUi::~CBrowserAppUi()
     delete iSoftkeys;
     delete iRunLoop;
     delete iPendingUrl;
+    delete iHistory;
+    delete iBookmarks;
+    delete iUrl;
+    delete iTitle;
     delete iNetwork;
     delete iHeartbeat;
     BrowserLog("WebKit Browser exiting");
@@ -451,6 +451,21 @@ void CBrowserAppUi::HandleCommandL(TInt aCommand)
     case ECmdGoTo:
         FocusUrlBarL();
         break;
+    case ECmdBookmarks:
+        ShowPageListL(_L("Bookmarks"), *iBookmarks, KNullDesC);
+        break;
+    case ECmdAddBookmark:
+        if (iUrl)
+            iBookmarks->AddL(*iUrl, iTitle ? static_cast<const TDesC&>(*iTitle) : KNullDesC());
+        break;
+    case ECmdRemoveBookmark:
+        if (iUrl && iBookmarks->Find(*iUrl) != KErrNotFound)
+            iBookmarks->Remove(iBookmarks->Find(*iUrl));
+        break;
+    case ECmdHistory:
+        if (ShowPageListL(_L("History"), *iHistory, _L("Clear history")))
+            iHistory->Reset();
+        break;
     case ECmdBack:
         if (webView.canGoBack())
             webView.goBack();
@@ -479,10 +494,25 @@ void CBrowserAppUi::ShowOptionsMenuL()
     WebView& webView = iWebContainer->WebView();
     RArray<TInt> commands;
     CleanupClosePushL(commands);
-    CDesCArrayFlat* items = new (ELeave) CDesCArrayFlat(5);
+    CDesCArrayFlat* items = new (ELeave) CDesCArrayFlat(8);
     CleanupStack::PushL(items);
     items->AppendL(_L("Go to address"));
     commands.AppendL(ECmdGoTo);
+    if (iBookmarks->Count()) {
+        items->AppendL(_L("Bookmarks"));
+        commands.AppendL(ECmdBookmarks);
+    }
+    if (iUrl && iBookmarks->Find(*iUrl) != KErrNotFound) {
+        items->AppendL(_L("Remove bookmark"));
+        commands.AppendL(ECmdRemoveBookmark);
+    } else if (iUrl) {
+        items->AppendL(_L("Add bookmark"));
+        commands.AppendL(ECmdAddBookmark);
+    }
+    if (iHistory->Count()) {
+        items->AppendL(_L("History"));
+        commands.AppendL(ECmdHistory);
+    }
     if (webView.canGoForward()) {
         items->AppendL(_L("Forward"));
         commands.AppendL(ECmdForward);
@@ -499,13 +529,51 @@ void CBrowserAppUi::ShowOptionsMenuL()
         HandleCommandL(command);
 }
 
-void CBrowserAppUi::WebTitleChanged(const TDesC&)
+TBool CBrowserAppUi::ShowPageListL(const TDesC& aTitle, const CPageList& aPages, const TDesC& aExtraItem)
 {
+    CDesCArrayFlat* items = new (ELeave) CDesCArrayFlat(Max(aPages.Count() + 1, 1));
+    CleanupStack::PushL(items);
+    for (TInt i = 0; i < aPages.Count(); ++i)
+        items->AppendL(aPages.Label(i));
+    if (aExtraItem.Length())
+        items->AppendL(aExtraItem);
+    TInt index = ShowPopupListL(aTitle, *items, 0);
+    iSoftkeys->DrawNow();
+    CleanupStack::PopAndDestroy(items);
+    if (index < 0)
+        return EFalse;
+    if (index >= aPages.Count())
+        return ETrue;
+    // The list may change once the page loads.
+    HBufC* url = aPages.Url(index).AllocLC();
+    LoadUrlL(*url);
+    CleanupStack::PopAndDestroy(url);
+    return EFalse;
+}
+
+void CBrowserAppUi::WebTitleChanged(const TDesC& aTitle)
+{
+    HBufC* title = aTitle.AllocL();
+    delete iTitle;
+    iTitle = title;
+    if (iUrl)
+        iHistory->SetTitleL(*iUrl, aTitle);
 }
 
 void CBrowserAppUi::WebUrlChanged(const TDesC& aUrl)
 {
     iUrlBar->SetUrlL(aUrl);
+    if (iUrl && *iUrl == aUrl)
+        return;
+    HBufC* url = aUrl.AllocL();
+    delete iUrl;
+    iUrl = url;
+    // The title comes after the address; until then the page has none.
+    delete iTitle;
+    iTitle = nullptr;
+    _LIT(KAboutBlank, "about:blank");
+    if (aUrl.Length() && aUrl != KAboutBlank)
+        iHistory->AddL(aUrl, KNullDesC);
 }
 
 void CBrowserAppUi::WebProgressChanged(TBool aLoading, TInt aPercent)
