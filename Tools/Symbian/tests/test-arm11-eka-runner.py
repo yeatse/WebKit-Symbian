@@ -30,7 +30,7 @@ def fixture_output(mode):
     if failure == "different-result" and mode == "dfg":
         result["digest"][0] += 1
     return "\n".join([*("PASS: " + name for name in CASES), "RESULT " + json.dumps(result),
-                      "PASS: arm11-jit 10/10", "jsc exiting 0", ""])
+                      f"PASS: arm11-jit {len(CASES)}/{len(CASES)}", "jsc exiting 0", ""])
 
 
 def fake_emulator():
@@ -78,6 +78,13 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(process.returncode, 0, process.stderr)
         self.assertEqual([item["mode"] for item in report["profiles"]], ["llint", "baseline", "dfg"])
         self.assertEqual(report["image_sha256"], report["installed_image_sha256"])
+        self.assertIn("profiles llint, baseline, dfg; execution evidence and matching results verified", process.stdout)
+
+    def test_single_profile_reports_only_its_evidence(self):
+        process, report = self.run_fixture(modes=("baseline",))
+        self.assertEqual(process.returncode, 0, process.stderr)
+        self.assertIn("profile baseline; execution evidence verified", process.stdout)
+        self.assertNotIn("matching results", process.stdout)
 
     def test_markers_do_not_replace_tier_evidence(self):
         process, report = self.run_fixture("missing-tier", ("baseline",))

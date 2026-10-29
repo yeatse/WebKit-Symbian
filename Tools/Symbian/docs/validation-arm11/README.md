@@ -23,4 +23,4 @@ By default the runner uses one image for all three profiles. `--modes llint`, `-
 
 The test records the execution tier observed within guest frames, per-function DFG compilation counts, execution of each DFG kernel, OSR entry during a first call, and OSR exit with live values recovered. The runner compares semantic results across profiles. It rejects missing evidence, stale results, panic, timeout, and nonzero host exit. A C_LOOP-only release cannot pass as Baseline or DFG.
 
-`python3 Tools/Symbian/tests/test-arm11-eka-runner.py -v` runs eight host-only regressions for these runner failure cases. These fixtures do not run JavaScriptCore and are not tier validation evidence.
+`python3 Tools/Symbian/tests/test-arm11-eka-runner.py -v` runs nine host-only regressions for these runner failure cases and single-profile reporting. The fixtures follow the shared suite's case count. They do not run JavaScriptCore and are not tier validation evidence.

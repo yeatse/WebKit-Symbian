@@ -25,5 +25,6 @@ cmake -S "$WEBKIT_SRC" -B "$build" -G Ninja -DPORT=Symbian \
   -DLIBXSLT_INCLUDE_DIR="$D/include" -DLIBXSLT_LIBRARIES="$D/lib/libxslt.a" \
   -DSQLite3_INCLUDE_DIR="$D/include" -DSQLite3_LIBRARY="$D/lib/libsqlite3.a" \
   "$@" > "$WORK/webcore-configure.log"
+if [ "${CONFIGURE_ONLY:-0}" = 1 ]; then exit 0; fi
 ninja -C "$build" -j"$JOBS" WebCore WebKitLegacy > "$WORK/webcore-build.log"
 ls -la "$build/lib"

@@ -170,7 +170,11 @@ def main():
     print("Logs: " + str(run))
     if summary["failure"]:
         sys.exit("FAIL: " + summary["failure"])
-    print("PASS: ARM11 execution tiers and matching results verified")
+    profiles = ", ".join(args.modes)
+    if len(args.modes) > 1:
+        print("PASS: ARM11 profiles " + profiles + "; execution evidence and matching results verified")
+    else:
+        print("PASS: ARM11 profile " + profiles + "; execution evidence verified")
 
 
 if __name__ == "__main__":

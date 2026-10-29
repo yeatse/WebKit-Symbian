@@ -97,7 +97,8 @@ def main(argv=None):
     try:
         (output / "elf-attributes.txt").write_text(validate_elf(args.jsc))
         for mode in profiles:
-            command = [qemu, "-cpu", "arm1136", "-L", str(args.sysroot), str(args.jsc),
+            command = [qemu, "-cpu", "arm1136", "-L", str(args.sysroot),
+                       "-U", "LD_LIBRARY_PATH", "-U", "LD_PRELOAD", str(args.jsc),
                        *PROFILE_OPTIONS[mode], str(script), "--", mode]
             entry = {"mode": mode, "command": command, "log": str(output / (mode + ".log")), "status": "FAIL"}
             record["profiles"].append(entry)

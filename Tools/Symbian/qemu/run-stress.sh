@@ -23,6 +23,7 @@ one() {
     *) return 2 ;;
   esac
   timeout "$TIMEOUT" "$QEMU_ARM" -cpu arm1136 -L "$ARM11_LINUX_SYSROOT" \
+    -U LD_LIBRARY_PATH -U LD_PRELOAD \
     "$jsc" "${options[@]}" "$1" > /dev/null 2>&1 || result=$?
   printf '%s %s\n' "$result" "$(basename "$1" .js)"
   return "$result"

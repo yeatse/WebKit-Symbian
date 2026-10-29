@@ -857,7 +857,7 @@ namespace JSC {
             if (result.offset() != (m_indexOfTailOfLastWatchpoint - maxJumpReplacementSize()))
                 result = label();
             m_indexOfTailOfLastWatchpoint = result.offset() + maxJumpReplacementSize();
-            return label();
+            return result;
         }
 
         AssemblerLabel label()

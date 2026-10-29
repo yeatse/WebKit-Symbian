@@ -60,6 +60,13 @@ rewriting, cache flushing, near branches across the pool, and data-page
 regressions. [Recorded evidence](validation-arm11/README.md) identifies the
 tested image and emulator by SHA-256.
 
+The [offline assembler probe](../tests/arm11-offlineasm/README.md) also passed
+8,460 assertions on QEMU's ARM1136, using the production Ruby lowering and
+ARMv6/VFPv2 machine code. It checks constants, aliases, signed/unsigned and
+floating-point comparisons, halfword addressing, register pairs and in-place
+trailing-zero counts. An intentionally corrupted constant is detected and
+returns a failing process status.
+
 Full JSC compilation and execution-tier validation are still in progress.
 Configuration flags, syntax checks, and the allocator probe alone do not
 establish that Baseline or DFG executes correctly. The tier tests must observe

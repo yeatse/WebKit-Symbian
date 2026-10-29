@@ -117,7 +117,42 @@
     check(Number.isNaN(numberKernel(NaN, 1)), "NaN arithmetic");
     check(Object.is(Math.atan2(-0, 1), -0), "negative zero softfp result");
     check(numberKernel(2.5, -0.5) === 1.25, "double speculation recovery");
+    check(numberKernel("3", "4") === 41, "math IC int/double/string transition");
     finish("number-guards", 1610612737.75);
+
+    function bitwiseKernel(value, shift) {
+        const answer = [value >> 0, value >>> 0, value >> shift, value >>> shift,
+            value << shift, (value >>> 0) + 0.5];
+        if ($vm.dfgTrue()) seen["bitwise-unsigned"] = true;
+        return answer;
+    }
+    warmed("bitwise-unsigned", bitwiseKernel, i => [i & 1 ? -1 : -2147483648, i & 63]);
+    const shifts = [[0, -2147483647, 2147483649, -2147483647],
+        [1, -1073741824, 1073741824, 2], [31, -1, 1, -2147483648],
+        [32, -2147483647, 2147483649, -2147483647],
+        [64, -2147483647, 2147483649, -2147483647], [-1, -1, 1, -2147483648]];
+    for (const [shift, signed, unsigned, left] of shifts) {
+        const value = bitwiseKernel(-2147483647, shift);
+        check(value[0] === -2147483647 && value[1] === 2147483649, "zero-bit signed/unsigned shift");
+        check(value[2] === signed && value[3] === unsigned && value[4] === left, "ARM shift count modulo 32: " + shift);
+    }
+    check(bitwiseKernel(-2147483648, 0)[5] === 2147483648.5, "uint32 0x80000000 to double");
+    check(bitwiseKernel(-1, 0)[5] === 4294967295.5, "uint32 0xffffffff to double");
+    finish("bitwise-unsigned", 4294967295.5);
+
+    function compareKernel(a, b) {
+        const answer = (a == b ? 1 : 0) | (a != b ? 2 : 0) | (a < b ? 4 : 0)
+            | (a <= b ? 8 : 0) | (a > b ? 16 : 0) | (a >= b ? 32 : 0);
+        // Require a NaN comparison to execute in DFG, not only a finite warm-up.
+        if ($vm.dfgTrue() && Number.isNaN(a)) seen["double-comparisons"] = true;
+        return answer;
+    }
+    const comparisons = [NaN, 0.5, -1.25, Infinity, -Infinity, 0, -0];
+    warmed("double-comparisons", compareKernel, i => [comparisons[i % 7], comparisons[(i + 3) % 7]]);
+    check(compareKernel(NaN, 1) === 2 && compareKernel(1, NaN) === 2 && compareKernel(NaN, NaN) === 2, "unordered ARM floating-point conditions");
+    check(compareKernel(1, 1) === 41 && compareKernel(1, 2) === 14 && compareKernel(2, 1) === 50, "ordered floating-point conditions");
+    check(compareKernel(-0, 0) === 41 && compareKernel(-Infinity, Infinity) === 14, "signed zero/infinity comparisons");
+    finish("double-comparisons", 162);
 
     function gcKernel(seed, collect) {
         const object = {value: seed + 1, payload: new Float64Array([seed + 0.5, seed + 1.5])};

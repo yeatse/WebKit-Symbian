@@ -1403,7 +1403,12 @@ public:
     }
 
     void loadFence() { memoryFence(); }
-    void padBeforePatch() { m_assembler.label(); }
+    void padBeforePatch()
+    {
+        m_assembler.label();
+        // Keep a patch sequence contiguous even when a literal pool is due.
+        ensureSpace(patchableJumpSize(), sizeof(ARMWord));
+    }
     Call threadSafePatchableNearCall() { return nearCall(); }
     Call threadSafePatchableNearTailCall() { return nearTailCall(); }
 

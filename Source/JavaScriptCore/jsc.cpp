@@ -212,6 +212,8 @@ namespace {
         for (;;) {
 #if OS(WINDOWS)
             Sleep(1000);
+#elif OS(SYMBIAN)
+            WTF::sleep(WTF::Seconds(1));
 #else
             pause();
 #endif

@@ -11,7 +11,7 @@ PROFILE_OPTIONS = {
     "dfg": COMMON_OPTIONS + ["--useJIT=true", "--useBaselineJIT=true", "--useDFGJIT=true"],
 }
 CASES = ("execution-tier", "osr-entry", "osr-exit", "inline-caches", "call-arity", "softfp-math",
-         "number-guards", "gc-live-values", "rab-gsab", "exceptions")
+         "number-guards", "bitwise-unsigned", "double-comparisons", "gc-live-values", "rab-gsab", "exceptions")
 PANIC = re.compile(r"access violation|panicked|KERN-EXEC|USER-EXEC|segmentation fault|illegal instruction", re.I)
 
 
@@ -31,7 +31,7 @@ def validate_output(text, mode):
         raise ValueError("RESULT must be an object")
     if result.get("mode") != mode or result.get("completed") != list(CASES):
         raise ValueError("Wrong mode, missing cases, or unexpected case order")
-    for marker in [*("PASS: " + name for name in CASES), "PASS: arm11-jit 10/10"]:
+    for marker in [*("PASS: " + name for name in CASES), f"PASS: arm11-jit {len(CASES)}/{len(CASES)}"]:
         if text.splitlines().count(marker) != 1:
             raise ValueError("Missing or repeated console marker: " + marker)
     digest = result.get("digest")

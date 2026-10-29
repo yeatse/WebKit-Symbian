@@ -397,7 +397,7 @@ void ARMAssembler::prepareExecutableCopy(void* to)
     m_buffer.flushWithoutBarrier(true);
 
     char* data = reinterpret_cast<char*>(m_buffer.data());
-    ptrdiff_t delta = reinterpret_cast<char*>(to) - data;
+    uintptr_t executableBase = reinterpret_cast<uintptr_t>(to);
 
     for (Jumps::Iterator iter = m_jumps.begin(); iter != m_jumps.end(); ++iter) {
         // The last bit is set if the constant must be placed on constant pool.
@@ -413,7 +413,7 @@ void ARMAssembler::prepareExecutableCopy(void* to)
                     continue;
                 }
             }
-            *addr = reinterpret_cast<ARMWord>(data + delta + *addr);
+            *addr = executableBase + *addr;
         }
     }
 }

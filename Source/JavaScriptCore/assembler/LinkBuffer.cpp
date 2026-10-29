@@ -476,7 +476,9 @@ void LinkBuffer::linkCode(MacroAssembler& macroAssembler, JITCompilationEffort e
 #if ENABLE(JIT)
 #if !ENABLE(BRANCH_COMPACTION)
 #if defined(ASSEMBLER_HAS_CONSTANT_POOL) && ASSEMBLER_HAS_CONSTANT_POOL
-    macroAssembler.m_assembler.buffer().flushConstantPool(false);
+    // Linked inline code can fall through to the following machine code.
+    // Keep literal data behind a branch even at the end of the buffer.
+    macroAssembler.m_assembler.buffer().flushConstantPool();
 #endif
     allocate(macroAssembler, effort);
     if (!m_didAllocate)

@@ -1,0 +1,7 @@
+PASS: in-place tzcnti including zero
+PASS: constants and symbolic literals
+PASS: signed unsigned and equality comparisons
+PASS: VFPv2 comparisons NaN infinity and signed zero
+PASS: large signed offsets and halfword base aliases
+PASS: arbitrary register pairs and base aliases
+PASS: arm11-offlineasm checks=0x0000210c
