@@ -1,0 +1,18 @@
+[
+  {
+    "step": 7,
+    "child_click_monotonic": 36689.817705989,
+    "invalidation_observed_screenshot_monotonic": 36692.54911197,
+    "file_row_click_monotonic": 36695.596354262,
+    "open_to_file_choice_seconds": 5.778648,
+    "check": "invalidation marker observed while memory chooser remains open; selected real file afterwards"
+  },
+  {
+    "step": 8,
+    "child_click_monotonic": 36697.247210234,
+    "invalidation_observed_screenshot_monotonic": 36700.982307029,
+    "file_row_click_monotonic": 36704.028507439,
+    "open_to_file_choice_seconds": 6.781297,
+    "check": "invalidation marker observed while memory chooser remains open; selected real file afterwards"
+  }
+]

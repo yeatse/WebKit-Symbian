@@ -65,6 +65,7 @@ if [ -f "$browser/browser.exe" ]; then
     --file "$browser/browser.exe=!:\\sys\\bin\\browser.exe" \
     --file "$browser/browser_reg.rsc=!:\\private\\10003a3f\\import\\apps\\browser_reg.rsc" \
     --file "$browser/browser_loc.rsc=!:\\resource\\apps\\browser_loc.rsc" \
+    --file "$browser/browser_ui.rsc=!:\\resource\\apps\\browser_ui.rsc" \
     --file "$REPO/browser/test.html=c:\\data\\webkit\\test.html" \
     --file "$cacert=c:\\resource\\webkit\\cacert.pem"
 fi

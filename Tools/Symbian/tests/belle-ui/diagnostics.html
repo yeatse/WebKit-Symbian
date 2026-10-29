@@ -1,0 +1,64 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Native picker diagnostics</title>
+<style>
+body { font: 17px sans-serif; margin: 12px; background: white; color: black; }
+button { min-height: 64px; width: 100%; }
+pre { white-space: pre-wrap; font: 12px monospace; }
+</style>
+<h2>Native picker diagnostic</h2>
+<p id="instruction"></p>
+<button id="open">Open real native picker</button>
+<input id="file" type="file" hidden>
+<pre id="log"></pre>
+<script>
+(function () {
+    'use strict';
+    var params = new URLSearchParams(location.search);
+    var mode = params.get('case') || 'cancel';
+    var token = params.get('run') || 'manual';
+    var input = document.getElementById('file');
+    var button = document.getElementById('open');
+    var descriptions = {
+        cancel: 'Enter a memory and folder, then press native Cancel at the file-list level. Do not select a file.',
+        missing: 'List the disposable delete-before-accept.txt. The operator removes that exact test copy, then tries to select its old row. Dismiss any native error and cancel.',
+        drive: 'Select the unchanged 上传-你好.txt from a different writable user drive. Keep screenshots of the selected drive and filename.',
+        exit: 'Keep the native picker open. Terminate the browser application through a normal guest application-exit request. Host emulator shutdown is not this check.'
+    };
+    function log(text) { console.log(text); document.getElementById('log').textContent += text + '\n'; }
+    function fail(text) { log('FAIL: belle-ui-diagnostic ' + mode + ': ' + text); document.title = 'FAIL diagnostic'; }
+    function pass(text) {
+        log('PASS: belle-ui-diagnostic ' + mode + ': ' + text);
+        log('RESULT: belle-ui-diagnostic case=' + mode + ' passed=1 failed=0');
+        document.title = 'PASS diagnostic';
+    }
+    if (!Object.prototype.hasOwnProperty.call(descriptions, mode)) { fail('unknown case'); button.disabled = true; return; }
+    document.getElementById('instruction').textContent = descriptions[mode];
+    input.oncancel = function () {
+        if (mode === 'exit') { fail('picker returned; application teardown was not exercised'); return; }
+        if (mode === 'drive') { fail('different-drive selection was cancelled'); return; }
+        if (input.files.length) { fail('cancel exposed a selected file'); return; }
+        pass('native cancel event with empty file list; external stage evidence remains required');
+    };
+    input.onchange = function () {
+        if (mode !== 'drive') { fail('unexpected selected file'); return; }
+        if (input.files.length !== 1 || input.files[0].name !== '上传-你好.txt') { fail('wrong selected file'); return; }
+        var reader = new FileReader();
+        reader.onerror = function () { fail('FileReader error'); };
+        reader.onload = function () {
+            if (reader.result !== 'Symbian UTF-8 upload: 你好, café.\n') { fail('wrong file bytes'); return; }
+            pass('Unicode FileReader contents; native screenshot must establish the different drive');
+        };
+        reader.readAsText(input.files[0]);
+    };
+    button.onclick = function () {
+        button.disabled = true;
+        log('BEGIN: belle-ui-diagnostic ' + JSON.stringify({ run: token, case: mode }));
+        if (mode === 'exit') log('ARMED: browser application exit while native picker is open; no page PASS is expected');
+        input.click();
+        log('RETURNED: native picker call');
+    };
+    log('READY: belle-ui-diagnostic ' + JSON.stringify({ run: token, case: mode }));
+}());
+</script>

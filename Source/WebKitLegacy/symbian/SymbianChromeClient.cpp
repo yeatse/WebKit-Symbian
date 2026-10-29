@@ -32,6 +32,10 @@
 #include <WebCore/DataListSuggestionPicker.h>
 #include <WebCore/DateTimeChooser.h>
 #include <WebCore/FocusOptions.h>
+#include <WebCore/Document.h>
+#include <WebCore/DocumentPage.h>
+#include <WebCore/FileChooser.h>
+#include <WebCore/LocalFrameInlines.h>
 #include <WebCore/Page.h>
 #include <WebCore/PopupMenu.h>
 #include <WebCore/PopupMenuClient.h>
@@ -42,6 +46,20 @@ namespace WebKitSymbian {
 using namespace WebCore;
 
 namespace {
+
+class StringTextResult final : public TextResult {
+public:
+    void setText(Text text) final
+    {
+        if (text.length < 0 || (text.length && !text.characters))
+            return;
+        value = text.length ? String(std::span(reinterpret_cast<const UChar*>(text.characters), static_cast<size_t>(text.length))) : emptyString();
+        wasSet = true;
+    }
+
+    String value;
+    bool wasSet { false };
+};
 
 // A <select> list shown by the application, which blocks until the user
 // picks an item.
@@ -156,6 +174,41 @@ void SymbianChromeClient::runJavaScriptAlert(LocalFrame&, const String& message)
 bool SymbianChromeClient::runJavaScriptConfirm(LocalFrame&, const String& message)
 {
     return m_view.client().runJavaScriptConfirm(UTF16Text(message).text());
+}
+
+bool SymbianChromeClient::runJavaScriptPrompt(LocalFrame& frame, const String& message, const String& defaultValue, String& result)
+{
+    Ref protectedFrame(frame);
+    RefPtr originalDocument = frame.document();
+    StringTextResult text;
+    bool accepted = m_view.client().runJavaScriptPrompt(UTF16Text(message).text(), UTF16Text(defaultValue).text(), text);
+    // A native modal loop can dispatch navigation or detach the frame. Avoid
+    // accessing m_view (or this) after the embedding callback has returned.
+    if (!accepted || !text.wasSet || !protectedFrame->page() || protectedFrame->document() != originalDocument)
+        return false;
+    result = WTF::move(text.value);
+    return true;
+}
+
+void SymbianChromeClient::runOpenPanel(LocalFrame& frame, FileChooser& chooser)
+{
+    Ref protectedChooser(chooser);
+    if (chooser.settings().allowsDirectories) {
+        WTFLogAlways("Symbian file chooser: directory selection is not supported");
+        protectedChooser->cancelFileChoosing();
+        return;
+    }
+    Ref protectedFrame(frame);
+    RefPtr originalDocument = frame.document();
+    StringTextResult path;
+    bool chosen = m_view.client().chooseFile(path);
+    if (!chosen || !path.wasSet || path.value.isEmpty() || !protectedFrame->page() || protectedFrame->document() != originalDocument) {
+        protectedChooser->cancelFileChoosing();
+        return;
+    }
+    // FileInputType invalidates its chooser when it is replaced/destroyed;
+    // chooseFile() then becomes a no-op, even if the frame itself survived.
+    protectedChooser->chooseFile(path.value);
 }
 
 RefPtr<PopupMenu> SymbianChromeClient::createPopupMenu(PopupMenuClient& client) const

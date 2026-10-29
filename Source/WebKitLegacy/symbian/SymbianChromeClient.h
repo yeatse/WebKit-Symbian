@@ -72,7 +72,7 @@ private:
 
     void runJavaScriptAlert(WebCore::LocalFrame&, const String&) final;
     bool runJavaScriptConfirm(WebCore::LocalFrame&, const String&) final;
-    bool runJavaScriptPrompt(WebCore::LocalFrame&, const String&, const String&, String&) final { return false; }
+    bool runJavaScriptPrompt(WebCore::LocalFrame&, const String&, const String&, String&) final;
 
     bool selectItemWritingDirectionIsNatural() final { return false; }
     bool selectItemAlignmentFollowsMenuWritingDirection() final { return true; }
@@ -111,7 +111,7 @@ private:
     void exceededDatabaseQuota(WebCore::LocalFrame&, const String&, WebCore::DatabaseDetails) final { }
     void reachedMaxAppCacheSize(int64_t) final { }
 
-    void runOpenPanel(WebCore::LocalFrame&, WebCore::FileChooser&) final { }
+    void runOpenPanel(WebCore::LocalFrame&, WebCore::FileChooser&) final;
     void showShareSheet(WebCore::ShareDataWithParsedURL&&, CompletionHandler<void(bool)>&&) final;
     void loadIconForFiles(const Vector<String>&, WebCore::FileIconLoader&) final { }
 

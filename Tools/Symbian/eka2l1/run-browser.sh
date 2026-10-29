@@ -41,6 +41,11 @@ for directory in ['sys/bin','Data/WebKit','private/10003a3f/import/apps','resour
     (c/directory).mkdir(parents=True,exist_ok=True)
 for src,dst in [(exe,'sys/bin/browser.exe'),(exe.parent/'browser_reg.rsc','private/10003a3f/import/apps/browser_reg.rsc'),(exe.parent/'browser_loc.rsc','resource/apps/browser_loc.rsc'),(Path(os.environ['SYMBIAN_BROWSER_ICU']),'resource/icu/icudt70l.dat'),(Path(os.environ['SYMBIAN_BROWSER_PAGE']),'Data/WebKit/test.html')]:
     shutil.copy2(src,c/dst)
+# Older archived browser images predate the native prompt resource. New
+# candidates carry it beside the executable, on the same guest drive.
+ui_resource=exe.parent/'browser_ui.rsc'
+if ui_resource.is_file():
+    shutil.copy2(ui_resource,c/'resource/apps/browser_ui.rsc')
 for page in Path(os.environ['SYMBIAN_BROWSER_TESTS']).glob('*.html'):
     shutil.copy2(page,c/'Data/WebKit'/page.name)
 for name in ['log.txt','log.old.txt','curl.txt']:

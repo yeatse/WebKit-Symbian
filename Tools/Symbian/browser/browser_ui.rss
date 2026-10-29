@@ -1,0 +1,44 @@
+CHARACTER_SET UTF8
+#include "resources/BrowserQuery.rh"
+
+NAME WBUI
+
+RESOURCE BA_RSS_SIGNATURE { signature = EEikResourceSignatureValue; }
+
+RESOURCE CBA r_browser_prompt_buttons
+{
+    buttons =
+    {
+        CBA_BUTTON { id = EAknSoftkeyOk; txt = "OK"; },
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = "Cancel"; }
+    };
+}
+
+RESOURCE DIALOG r_browser_prompt
+{
+    flags = EGeneralQueryFlags;
+    buttons = r_browser_prompt_buttons;
+    items =
+    {
+        DLG_LINE
+        {
+            type = EAknCtQuery;
+            prompt = "";
+            id = EGeneralQuery;
+            bmpmask = 0xffff;
+            control = AVKON_DATA_QUERY
+            {
+                layout = EDataLayoutAllowEmptyInput;
+                label = "";
+                control = EDWIN
+                {
+                    flags = EEikEdwinNoLineOrParaBreaks | EEikEdwinResizable;
+                    maxlength = 4096;
+                    width = 16;
+                    lines = 1;
+                    max_view_height_in_lines = 5;
+                };
+            };
+        }
+    };
+}

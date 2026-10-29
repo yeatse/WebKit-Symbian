@@ -1,0 +1,87 @@
+/*
+ * Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+ * All rights reserved.
+ * These resource definitions are available under Eclipse Public License v1.0:
+ * https://www.eclipse.org/legal/epl-v10.html
+ * Extracted without layout changes from official Symbian headers; see README.md.
+ */
+#include <avkon.hrh>
+#include <eikon.hrh>
+#include <uikon.hrh>
+
+#define AKN_EDITOR_EXTENSIONS\
+	WORD default_case=EAknEditorTextCase;\
+	WORD allowed_case_modes=EAknEditorAllCaseModes;\
+	WORD numeric_keymap=EAknEditorAlphanumericNumberModeKeymap;\
+	WORD allowed_input_modes=EAknEditorAllInputModes;\
+	WORD default_input_mode=EAknEditorTextInputMode;\
+	LLINK special_character_table=-1;\
+	WORD avkon_flags=EAknEditorFlagDefault;\
+	WORD max_view_height_in_lines=0;\
+	WORD base_line_delta=0;\
+	WORD spare=0;
+
+
+STRUCT BA_RSS_SIGNATURE
+    {
+    LONG signature=0; // this value must be changed if the resource file is loaded by an environment
+    SRLINK self;
+    }
+
+STRUCT EDWIN
+    {
+    LONG flags=0;
+    WORD width=0;
+    WORD lines=1;
+    WORD maxlength=0;
+	AKN_EDITOR_EXTENSIONS
+    }
+
+STRUCT CBA
+	{
+	LONG flags=EEikButtonGroupAddToStack;
+	WORD breadth=80; // !!! make this accessible from LAF
+	LLINK related_buttons=0;
+   	STRUCT buttons[];
+	}
+
+STRUCT CBA_BUTTON
+	{
+	BYTE version=0;
+	WORD id=0;
+   	LTEXT txt="";
+	LTEXT bmpfile="";
+  	WORD bmpid=0xffff;		// -1
+    WORD bmpmask=0xffff;	// -1
+	}
+
+STRUCT DIALOG
+    {
+    LONG flags=0;
+    LTEXT title="";
+	LLINK pages=0;
+    LLINK buttons=0;
+    STRUCT items[];
+	LLINK form=0;
+    }
+
+STRUCT DLG_LINE
+    {
+    WORD type;
+    LTEXT prompt;
+    WORD id=0;
+	LONG itemflags=0;
+    STRUCT control;
+	LTEXT trailer="";
+	LTEXT bmpfile = "" ;   // NEW AVKON bitmap filename
+	WORD bmpid = 0xffff ; // NEW AVKON icon image ID
+	WORD bmpmask ;		// NEW AVKON icon mask ID
+	LTEXT tooltip = "" ;	// NEW AVKON hint text for form line
+    }
+
+STRUCT AVKON_DATA_QUERY
+    {
+    WORD layout;
+    LTEXT label;
+    STRUCT control;
+    }

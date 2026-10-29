@@ -56,6 +56,7 @@ else ()
 endif ()
 
 target_include_directories(browser PRIVATE "${WEBKIT_SOURCE_DIR}/Source/WebKitLegacy/symbian")
+target_include_directories(browser PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 target_compile_features(browser PRIVATE cxx_std_23)
 target_compile_definitions(browser PRIVATE
   SYMBIAN_BROWSER_MEDIA=$<BOOL:${browser_media}>
@@ -75,7 +76,7 @@ target_include_directories(browser SYSTEM PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/i
 # extensions make __wchar_t a keyword, which Open C's sys/_types.h declares.
 target_compile_options(browser PRIVATE -fms-extensions -Wno-microsoft-extra-qualification)
 target_compile_definitions(browser PRIVATE __wchar_t=__symbian_wchar_t)
-foreach (dll avkon cone eikcore eikcoctl eikctl apparc apgrfx bafl efsrv fbscli bitgdi gdi ws32 etext form esock)
+foreach (dll avkon cone eikcore eikcoctl eikctl apparc apgrfx bafl efsrv fbscli bitgdi gdi ws32 etext form esock commondialogs)
   target_link_libraries(browser PRIVATE "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
 endforeach ()
 if(browser_media)
@@ -144,15 +145,20 @@ symbian_publish_executable(browser UID3 ${BROWSER_UID3} CAPABILITIES 0x2000)
 
 # Registration and caption resources, as the SDK's packager compiles them:
 # preprocess as C, then rcomp.
-foreach (resource browser_reg browser_loc)
+foreach (resource browser_reg browser_loc browser_ui)
   set(rss "${CMAKE_CURRENT_SOURCE_DIR}/${resource}.rss")
   set(rpp "${CMAKE_CURRENT_BINARY_DIR}/${resource}.rpp")
   set(rsc "${CMAKE_CURRENT_BINARY_DIR}/e32/${resource}.rsc")
   add_custom_command(OUTPUT "${rsc}"
-    COMMAND "${CMAKE_C_COMPILER}" -E -P -x c -I "${SYMBIAN_SDK_PREFIX}/include/platform" "${rss}" -o "${rpp}"
+    COMMAND "${CMAKE_C_COMPILER}" -E -P -x c
+      -MMD -MF "${rpp}.d" -MT "${rsc}"
+      -I "${SYMBIAN_SDK_PREFIX}/include/platform"
+      -I "${SYMBIAN_SDK_PREFIX}/include/native"
+      -I "${CMAKE_CURRENT_SOURCE_DIR}" "${rss}" -o "${rpp}"
     COMMAND "${CMAKE_COMMAND}" -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/e32"
     COMMAND "${SYMBIAN_SDK_PREFIX}/bin/rcomp" -u "-s${rpp}" "-o${rsc}" "-h${CMAKE_CURRENT_BINARY_DIR}/${resource}.rsg"
-    DEPENDS "${rss}" VERBATIM)
+    DEPENDS "${rss}" DEPFILE "${rpp}.d" VERBATIM)
   list(APPEND resources "${rsc}")
 endforeach ()
 add_custom_target(browser_resources ALL DEPENDS ${resources})
+add_dependencies(browser browser_resources)

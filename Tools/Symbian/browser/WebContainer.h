@@ -70,6 +70,8 @@ private:
     void didChangeSelection();
     void runJavaScriptAlert(WebKitSymbian::Text);
     bool runJavaScriptConfirm(WebKitSymbian::Text);
+    bool runJavaScriptPrompt(WebKitSymbian::Text, WebKitSymbian::Text, WebKitSymbian::TextResult&);
+    bool chooseFile(WebKitSymbian::TextResult&);
     int runSelectPopup(const WebKitSymbian::Text*, int count, int selectedIndex);
 
     // MCoeFepAwareTextEditor
@@ -113,6 +115,7 @@ private:
     MWebContainerObserver& iObserver;
     WebKitSymbian::WebView* iWebView { nullptr };
     CFbsBitmap* iBitmap { nullptr };
+    TInt iUiResourceOffset { -1 };
     mutable TRect iDirty;
 
     // The field's input method state, owned on behalf of the FEP; the AVKON

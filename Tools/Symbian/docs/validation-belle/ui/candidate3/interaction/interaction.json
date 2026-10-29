@@ -1,0 +1,596 @@
+{
+  "status": "INTERACTION_COMPLETE",
+  "pid": 410934,
+  "window": "0x60000b",
+  "run": "belle3-ui-1856",
+  "window_geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "content_rect": [
+    270,
+    77,
+    360,
+    532
+  ],
+  "from_step": 1,
+  "through_step": 8,
+  "scope": "Real XTest interaction only; normal runner shutdown/panic checks and upload records remain required.",
+  "actions": [
+    {
+      "screenshot": "01-page.png",
+      "sha256": "07ac31f545aa65f2ac1f85dfc59d213f994b2aff31c47e6310e9e53a7096ffae",
+      "monotonic": 36659.388115938
+    },
+    {
+      "click": [
+        450,
+        213
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 1,
+        "target": "next",
+        "x": 180,
+        "y": 135.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36659.388483762
+    },
+    {
+      "screenshot": "01-native-open.png",
+      "sha256": "52e139a2342eb010ef7211e76a254848761a59936d2b249a5c834953ba931e18",
+      "monotonic": 36661.404582924
+    },
+    {
+      "fep": {
+        "window": "0x60005a",
+        "geometry": [
+          241,
+          185,
+          400,
+          300
+        ],
+        "submit": [
+          200,
+          277
+        ]
+      },
+      "monotonic": 36661.607570229
+    },
+    {
+      "screenshot": "01-native-after-fep.png",
+      "sha256": "da417438c7e7c89665b328c6b8312f340058dc11c932c364c96b06635f16b365",
+      "monotonic": 36663.226467478
+    },
+    {
+      "native_click": [
+        363,
+        330
+      ],
+      "monotonic": 36663.226478695
+    },
+    {
+      "screenshot": "01-passed.png",
+      "sha256": "536f507ad718367e10b5b9a23a70d939929c73808db549ed2d5b74a6efd33712",
+      "monotonic": 36664.042245341
+    },
+    {
+      "screenshot": "02-page.png",
+      "sha256": "536f507ad718367e10b5b9a23a70d939929c73808db549ed2d5b74a6efd33712",
+      "monotonic": 36664.156476916
+    },
+    {
+      "click": [
+        450,
+        231
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 2,
+        "target": "next",
+        "x": 180,
+        "y": 153.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36664.157087389
+    },
+    {
+      "screenshot": "02-native-open.png",
+      "sha256": "54d84a96231f62331a22f7828f7d63111e14565d5632b7899e4804a5f6b4537c",
+      "monotonic": 36666.123120177
+    },
+    {
+      "fep": {
+        "window": "0x600077",
+        "geometry": [
+          241,
+          185,
+          400,
+          300
+        ],
+        "submit": [
+          200,
+          277
+        ]
+      },
+      "monotonic": 36666.324838561
+    },
+    {
+      "screenshot": "02-native-after-fep.png",
+      "sha256": "d86189838837328170fac94bf645024d5b1ed162104b305340f8a7c5978881e2",
+      "monotonic": 36667.940402202
+    },
+    {
+      "native_click": [
+        363,
+        330
+      ],
+      "monotonic": 36667.940412187
+    },
+    {
+      "screenshot": "02-passed.png",
+      "sha256": "06334003351c942b5a5390efa4de237fb89fbf5032a523a36e68fa4b641e8df9",
+      "monotonic": 36668.755805108
+    },
+    {
+      "screenshot": "03-page.png",
+      "sha256": "06334003351c942b5a5390efa4de237fb89fbf5032a523a36e68fa4b641e8df9",
+      "monotonic": 36668.87023478
+    },
+    {
+      "click": [
+        450,
+        231
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 3,
+        "target": "next",
+        "x": 180,
+        "y": 153.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36668.870495937
+    },
+    {
+      "screenshot": "03-native-open.png",
+      "sha256": "7fd6828074c06d78d0835fa133f6dc7679378a492e4cd58c3afd4f7f3624af00",
+      "monotonic": 36670.886184064
+    },
+    {
+      "fep": {
+        "window": "0x600090",
+        "geometry": [
+          241,
+          185,
+          400,
+          300
+        ],
+        "submit": [
+          200,
+          277
+        ]
+      },
+      "monotonic": 36671.087797969
+    },
+    {
+      "screenshot": "03-native-after-fep.png",
+      "sha256": "d242c2d5a7be4ecc0c8ded145664d85d42be843697376b2e3039186c9ca1d3de",
+      "monotonic": 36672.705447469
+    },
+    {
+      "native_click": [
+        539,
+        330
+      ],
+      "monotonic": 36672.705455641
+    },
+    {
+      "screenshot": "03-passed.png",
+      "sha256": "1ed23bd5a55c52fe3278173a96fa9766391ca79efd9d9a966ebc157c3758a9e5",
+      "monotonic": 36673.520821186
+    },
+    {
+      "screenshot": "04-page.png",
+      "sha256": "1ed23bd5a55c52fe3278173a96fa9766391ca79efd9d9a966ebc157c3758a9e5",
+      "monotonic": 36673.635375071
+    },
+    {
+      "click": [
+        450,
+        231
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 4,
+        "target": "next",
+        "x": 180,
+        "y": 153.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36673.635640674
+    },
+    {
+      "screenshot": "04-native-open.png",
+      "sha256": "aee3e399ce5afa1bfa09a51df20990f454b09a1de5935511278b56f17db734f7",
+      "monotonic": 36675.654787554
+    },
+    {
+      "native_click": [
+        449,
+        269
+      ],
+      "monotonic": 36675.654800072
+    },
+    {
+      "screenshot": "04-picker-01.png",
+      "sha256": "66950bcc682c2b008f64fe16801f2574354b01cb465d026f7182aafc1da6ce7d",
+      "monotonic": 36676.670196534
+    },
+    {
+      "native_click": [
+        449,
+        343
+      ],
+      "monotonic": 36676.670206859
+    },
+    {
+      "screenshot": "04-picker-02.png",
+      "sha256": "05bb2160c36c051150afd3b3aeb92b28e09dbbe1b64d78bba9fe4363ecc883a0",
+      "monotonic": 36677.685684981
+    },
+    {
+      "native_click": [
+        448,
+        169
+      ],
+      "monotonic": 36677.685693804
+    },
+    {
+      "screenshot": "04-picker-03.png",
+      "sha256": "7afaa70013a1cde82db64de56f809c0954eac2499447cd11ad2df5305c4d7fc3",
+      "monotonic": 36678.700940034
+    },
+    {
+      "native_click": [
+        449,
+        343
+      ],
+      "monotonic": 36678.700948887
+    },
+    {
+      "screenshot": "04-picker-04.png",
+      "sha256": "06b42a1b38a2280b41d373fab9bc1be5b9f962a697fff3f19139055b3b748450",
+      "monotonic": 36679.718758786
+    },
+    {
+      "screenshot": "04-passed.png",
+      "sha256": "06b42a1b38a2280b41d373fab9bc1be5b9f962a697fff3f19139055b3b748450",
+      "monotonic": 36679.833486443
+    },
+    {
+      "screenshot": "05-page.png",
+      "sha256": "06b42a1b38a2280b41d373fab9bc1be5b9f962a697fff3f19139055b3b748450",
+      "monotonic": 36679.950192077
+    },
+    {
+      "click": [
+        450,
+        231
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 5,
+        "target": "next",
+        "x": 180,
+        "y": 153.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36679.950528135
+    },
+    {
+      "screenshot": "05-native-open.png",
+      "sha256": "3f9384bedb8836a5da8d7249c07b97064ef35083ddf75be8f74019d64978b8b7",
+      "monotonic": 36681.974150974
+    },
+    {
+      "native_click": [
+        449,
+        269
+      ],
+      "monotonic": 36681.97416129
+    },
+    {
+      "screenshot": "05-picker-01.png",
+      "sha256": "ab8ae42b68606045c134485c7b39d611b9c6ac454449f67572e069294abbd3da",
+      "monotonic": 36682.98961995
+    },
+    {
+      "native_click": [
+        449,
+        343
+      ],
+      "monotonic": 36682.989627951
+    },
+    {
+      "screenshot": "05-picker-02.png",
+      "sha256": "6aa95fe8f6ea30257d89b62d0d89147974d617c8e4b40e588cba216388377b0d",
+      "monotonic": 36684.00644399
+    },
+    {
+      "native_click": [
+        448,
+        169
+      ],
+      "monotonic": 36684.006452713
+    },
+    {
+      "screenshot": "05-picker-03.png",
+      "sha256": "64b66e2194a7f1b7719cb3b9728b7aa36e509e7c47af5d17b895bde5c8a82168",
+      "monotonic": 36685.022643516
+    },
+    {
+      "native_click": [
+        449,
+        343
+      ],
+      "monotonic": 36685.022652179
+    },
+    {
+      "screenshot": "05-picker-04.png",
+      "sha256": "e3070fa57194959b949d8d068f844083a4c3a1b1c1ca50a4a20c223f1e44d5ca",
+      "monotonic": 36686.038167463
+    },
+    {
+      "screenshot": "05-passed.png",
+      "sha256": "e3070fa57194959b949d8d068f844083a4c3a1b1c1ca50a4a20c223f1e44d5ca",
+      "monotonic": 36686.152765135
+    },
+    {
+      "screenshot": "06-page.png",
+      "sha256": "e3070fa57194959b949d8d068f844083a4c3a1b1c1ca50a4a20c223f1e44d5ca",
+      "monotonic": 36686.267377243
+    },
+    {
+      "click": [
+        450,
+        231
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 6,
+        "target": "next",
+        "x": 180,
+        "y": 153.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36686.267686781
+    },
+    {
+      "screenshot": "06-native-open.png",
+      "sha256": "619a150a090913b57d83820b0813d18e2357df8174b145cbf8d5faa2efad00a5",
+      "monotonic": 36688.283444819
+    },
+    {
+      "native_click": [
+        449,
+        470
+      ],
+      "monotonic": 36688.283454003
+    },
+    {
+      "screenshot": "06-passed.png",
+      "sha256": "56de52098ec2687afad1558fc050390ee6c7fdf49becf2329b3be3976ff5b6b3",
+      "monotonic": 36689.100628091
+    },
+    {
+      "screenshot": "07-page.png",
+      "sha256": "56de52098ec2687afad1558fc050390ee6c7fdf49becf2329b3be3976ff5b6b3",
+      "monotonic": 36689.21504167
+    },
+    {
+      "click": [
+        450,
+        249
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 7,
+        "target": "next",
+        "x": 180,
+        "y": 171.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36689.215360482
+    },
+    {
+      "click": [
+        451,
+        326
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 7,
+        "target": "child",
+        "x": 181,
+        "y": 248.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36689.817705989
+    },
+    {
+      "screenshot": "07-native-open.png",
+      "sha256": "de0e80b8bd859b7a3a9083ccee371efdd715017afdd16a03c0b26c0f38c6baa3",
+      "monotonic": 36691.63275331
+    },
+    {
+      "screenshot": "07-native-after-invalidation.png",
+      "sha256": "93ea2ababe407c193fc19afe9efbe6e8cd5c624f1802c45c9ae1be474c2c518f",
+      "monotonic": 36692.54911197
+    },
+    {
+      "native_click": [
+        449,
+        269
+      ],
+      "monotonic": 36692.549120953
+    },
+    {
+      "screenshot": "07-picker-01.png",
+      "sha256": "822ed22c1950712b554334e63550bb2406f911546b43b7f310db577231f12011",
+      "monotonic": 36693.56591477
+    },
+    {
+      "native_click": [
+        449,
+        343
+      ],
+      "monotonic": 36693.565923863
+    },
+    {
+      "screenshot": "07-picker-02.png",
+      "sha256": "0ce1eb7e675b4cc8090dbfc1438ffba901b63a156752db34a880f05d4e2084e2",
+      "monotonic": 36694.581091906
+    },
+    {
+      "native_click": [
+        448,
+        169
+      ],
+      "monotonic": 36694.581099747
+    },
+    {
+      "screenshot": "07-picker-03.png",
+      "sha256": "8a133aa53fc434c44f541cbd5207951e04ca81bcd3b4056942c4f4f7bbddb8dc",
+      "monotonic": 36695.596345879
+    },
+    {
+      "native_click": [
+        449,
+        343
+      ],
+      "monotonic": 36695.596354262
+    },
+    {
+      "screenshot": "07-picker-04.png",
+      "sha256": "cce45cb93d288920bb8262e1650212f374cf1231a3f65cb3a65732ba41ad5289",
+      "monotonic": 36696.613747606
+    },
+    {
+      "screenshot": "07-passed.png",
+      "sha256": "cce45cb93d288920bb8262e1650212f374cf1231a3f65cb3a65732ba41ad5289",
+      "monotonic": 36696.730389833
+    },
+    {
+      "screenshot": "08-page.png",
+      "sha256": "cce45cb93d288920bb8262e1650212f374cf1231a3f65cb3a65732ba41ad5289",
+      "monotonic": 36696.844731265
+    },
+    {
+      "click": [
+        450,
+        249
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 8,
+        "target": "next",
+        "x": 180,
+        "y": 171.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36696.84506531
+    },
+    {
+      "click": [
+        451,
+        326
+      ],
+      "action": {
+        "run": "belle3-ui-1856",
+        "step": 8,
+        "target": "child",
+        "x": 181,
+        "y": 248.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36697.247210234
+    },
+    {
+      "screenshot": "08-native-open.png",
+      "sha256": "c545e8c1a9b4cf9e1ac907b64eb62f458834314195e4cc099f806366d9a1f96a",
+      "monotonic": 36699.062442597
+    },
+    {
+      "screenshot": "08-native-after-invalidation.png",
+      "sha256": "5b1d12d0f496e676f074b60620dea706d992b9a084f3b4a8700c11ef7041d78e",
+      "monotonic": 36700.982307029
+    },
+    {
+      "native_click": [
+        449,
+        269
+      ],
+      "monotonic": 36700.982315742
+    },
+    {
+      "screenshot": "08-picker-01.png",
+      "sha256": "5f2c1e750a38429c6f107a6dab26a0a7cc304936a988bdf1cc6c8a9e5376b441",
+      "monotonic": 36701.997688594
+    },
+    {
+      "native_click": [
+        449,
+        343
+      ],
+      "monotonic": 36701.997697427
+    },
+    {
+      "screenshot": "08-picker-02.png",
+      "sha256": "f3e599d10785992a30ade5eea9ccbcd1717ae721ebca5055b99d9f34cfd673c1",
+      "monotonic": 36703.01302947
+    },
+    {
+      "native_click": [
+        448,
+        169
+      ],
+      "monotonic": 36703.013037562
+    },
+    {
+      "screenshot": "08-picker-03.png",
+      "sha256": "d005f9a4017a1434c7246736538b64368c37ae3d36a8b0086381ec5ebf57d944",
+      "monotonic": 36704.028498856
+    },
+    {
+      "native_click": [
+        449,
+        343
+      ],
+      "monotonic": 36704.028507439
+    },
+    {
+      "screenshot": "08-picker-04.png",
+      "sha256": "d95e3296b31c75caeaa43d5ba218f86fe5001e9532406e460a6f7a1e2c6e05f2",
+      "monotonic": 36705.043806673
+    },
+    {
+      "screenshot": "08-passed.png",
+      "sha256": "d95e3296b31c75caeaa43d5ba218f86fe5001e9532406e460a6f7a1e2c6e05f2",
+      "monotonic": 36705.158575655
+    }
+  ]
+}

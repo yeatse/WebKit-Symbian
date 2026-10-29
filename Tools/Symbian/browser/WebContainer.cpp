@@ -1,17 +1,22 @@
 #include "WebContainer.h"
 
 #include "NativeDeclarations.h"
+#include "BrowserLog.h"
+#include "browser_ui.rsg"
 #if SYMBIAN_BROWSER_MEDIA
 #include "MediaPlayers.h"
 #endif
 
 #include <aknedsts.h>
+#include <AknCommonDialogsDynMem.h>
+#include <AknQueryDialog.h>
 #include <aknedstsobs.h>
 #include <coemain.h>
 #include <e32debug.h>
 #include <e32keys.h>
 #include <eikenv.h>
 #include <fbs.h>
+#include <f32file.h>
 #include <txtfrmat.h>
 
 using namespace WebKitSymbian;
@@ -84,6 +89,11 @@ CWebContainer::CWebContainer(MWebContainerObserver& aObserver)
 
 void CWebContainer::ConstructL(const TRect& aRect)
 {
+    // The package installs UI resources on the executable's drive.
+    TFileName executable = RProcess().FileName();
+    TFileName resource = executable.Left(2);
+    resource.Append(_L("\\resource\\apps\\browser_ui.rsc"));
+    iUiResourceOffset = iCoeEnv->AddResourceFileL(resource);
     CreateWindowL();
     EnableDragEvents();
     SetRect(aRect);
@@ -128,6 +138,8 @@ CWebContainer::~CWebContainer()
     delete iExtendedInputCapabilities;
     User::Free(iInlineText);
     delete iSelfTest;
+    if (iUiResourceOffset >= 0)
+        iCoeEnv->DeleteResourceFile(iUiResourceOffset);
 }
 
 void CWebContainer::EnsureBitmapL()
@@ -424,6 +436,60 @@ bool CWebContainer::runJavaScriptConfirm(Text aMessage)
     TBool result = EFalse;
     TRAP_IGNORE(result = CEikonEnv::QueryWinL(ToDesC(aMessage), KNullDesC));
     return result;
+}
+
+bool CWebContainer::runJavaScriptPrompt(Text aMessage, Text aDefaultValue, TextResult& aResult)
+{
+    // Keep a bounded native editor, without silently truncating the default.
+    const TInt maximumLength = 4096;
+    if (aDefaultValue.length > maximumLength) {
+        BrowserLog("prompt cancelled: default exceeds native editor limit");
+        return false;
+    }
+    TBool accepted = EFalse;
+    TRAPD(error, {
+        HBufC* buffer = HBufC::NewLC(maximumLength);
+        TPtr value = buffer->Des();
+        value.Copy(ToDesC(aDefaultValue));
+        CAknTextQueryDialog* dialog = CAknTextQueryDialog::NewL(value);
+        dialog->SetMaxLength(maximumLength);
+        // ExecuteLD owns/destroys the dialog, including on Leave. The resource
+        // uses EDataLayoutAllowEmptyInput, so OK on empty text is not Cancel.
+        accepted = dialog->ExecuteLD(R_BROWSER_PROMPT, ToDesC(aMessage));
+        if (accepted)
+            aResult.setText(ToText(value));
+        CleanupStack::PopAndDestroy(buffer);
+    });
+    if (error)
+        BrowserLog("prompt cancelled: native error %d", error);
+    return !error && accepted;
+}
+
+bool CWebContainer::chooseFile(TextResult& aResult)
+{
+    TBool accepted = EFalse;
+    TRAPD(error, {
+        TFileName path;
+        const TInt memories = AknCommonDialogsDynMem::EMemoryTypePhone
+            | AknCommonDialogsDynMem::EMemoryTypeInternalMassStorage
+            | AknCommonDialogsDynMem::EMemoryTypeMMCExternal;
+        // A zero resource ID uses the firmware's defaults. The dynamic-memory
+        // facade lists actual local drives, then offers single-file selection.
+        accepted = AknCommonDialogsDynMem::RunSelectDlgLD(memories, path, 0);
+        if (accepted) {
+            RFs fs;
+            User::LeaveIfError(fs.Connect());
+            CleanupClosePushL(fs);
+            RFile file;
+            User::LeaveIfError(file.Open(fs, path, EFileRead | EFileShareReadersOnly));
+            file.Close();
+            aResult.setText(ToText(path));
+            CleanupStack::PopAndDestroy(&fs);
+        }
+    });
+    if (error)
+        BrowserLog("file chooser cancelled: native error %d", error);
+    return !error && accepted;
 }
 
 int CWebContainer::runSelectPopup(const Text* aItems, int aCount, int aSelected)

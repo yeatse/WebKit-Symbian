@@ -1,0 +1,59 @@
+{
+  "status": "FAIL",
+  "pid": 409474,
+  "window": "0x60000b",
+  "run": "belle3-ui-1849",
+  "window_geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "content_rect": [
+    270,
+    77,
+    360,
+    532
+  ],
+  "from_step": 1,
+  "through_step": 3,
+  "scope": "Real XTest interaction only; normal runner shutdown/panic checks and upload records remain required.",
+  "error": "keyboard focus left the selected emulator window",
+  "actions": [
+    {
+      "screenshot": "01-page.png",
+      "sha256": "81eb3115790b1782a483970aa3798372a6d9187b8fd190958625d5023197a3eb",
+      "monotonic": 36251.18428332
+    },
+    {
+      "click": [
+        450,
+        213
+      ],
+      "action": {
+        "run": "belle3-ui-1849",
+        "step": 1,
+        "target": "next",
+        "x": 180,
+        "y": 135.8125,
+        "width": 360,
+        "height": 532
+      },
+      "monotonic": 36251.184828143
+    },
+    {
+      "screenshot": "01-native-open.png",
+      "sha256": "06162815c55225c8fccf3e2349277c35db272004e4f639a4c54f0dcfc3381836",
+      "monotonic": 36253.204962847
+    },
+    {
+      "key": "F1",
+      "monotonic": 36253.204970528
+    },
+    {
+      "screenshot": "failure.png",
+      "sha256": "06162815c55225c8fccf3e2349277c35db272004e4f639a4c54f0dcfc3381836",
+      "monotonic": 36253.321154228
+    }
+  ]
+}

@@ -45,6 +45,16 @@ struct Text {
     int length { 0 };
 };
 
+// A synchronous text result. setText() copies the characters before returning;
+// neither side transfers allocations across the native/engine heap boundary.
+class TextResult {
+public:
+    virtual void setText(Text) = 0;
+
+protected:
+    ~TextResult() = default;
+};
+
 // What kind of field has the focus, for choosing the input mode.
 enum class InputType { None, Text, Password, Number, Telephone, Email, URL, Search, MultiLine };
 
@@ -71,6 +81,13 @@ public:
     virtual void didChangeSelection() { }
     virtual void runJavaScriptAlert(Text /* message */) { }
     virtual bool runJavaScriptConfirm(Text /* message */) { return false; }
+    // Return true only after setting a result. An accepted empty string differs
+    // from cancellation. The result may only be used during this call.
+    virtual bool runJavaScriptPrompt(Text /* message */, Text /* defaultValue */, TextResult&) { return false; }
+    // Pick one existing local file, returning its absolute UTF-16 path. false
+    // means cancellation/error; this initial bridge does not support multiple
+    // files or directory selection. The result may only be used during this call.
+    virtual bool chooseFile(TextResult&) { return false; }
     // A <select> was tapped: show the items and return the chosen index, or
     // -1 if the choice was cancelled.
     virtual int runSelectPopup(const Text* /* items */, int /* count */, int /* selectedIndex */) { return -1; }

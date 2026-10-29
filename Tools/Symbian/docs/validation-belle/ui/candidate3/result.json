@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "run": "belle3-ui-1856",
+  "browser_sha256": "d21abb2a9a23ab08295c56d4c075d67e42c95e00f18ef6924cc325414d3e1d76",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "source_run": "/workspace/symbian-belle-work/runs/browser-20261029T185612Z-0lpxn5_k",
+  "checks": [
+    "Unicode prompt default",
+    "Empty prompt accepted",
+    "Prompt cancellation",
+    "Unicode single-file upload",
+    "Single file on multiple input",
+    "Cancel preserves selected file",
+    "Detached-frame chooser lifetime",
+    "Navigated-frame chooser lifetime"
+  ],
+  "passed": 8,
+  "failed": 0,
+  "driver_exit": 0,
+  "shutdown": "normal WM close/host exit0 after 180s observation",
+  "uploads": [
+    {
+      "name": "上传-你好.txt",
+      "bytes": 37,
+      "sha256": "3f0bad9f38770739709c88025e2233cd6d0d0ad535838be5102a9fd59a57316f",
+      "contentMatches": true
+    },
+    {
+      "name": "上传-你好.txt",
+      "bytes": 37,
+      "sha256": "3f0bad9f38770739709c88025e2233cd6d0d0ad535838be5102a9fd59a57316f",
+      "contentMatches": true
+    }
+  ],
+  "input": "real XTest click events; explicit same-PID Qt FEP Submit followed by AVKON OK/Cancel",
+  "additional_manual_cases": "file-layer Cancel, remove-before-accept, different drive, app exit with dialog pending separately",
+  "files": {
+    "log.txt": "bca0a64e105ed0450514752fd7998a4c45f7f2ad4880cd50fe998c5ee3795ad3",
+    "emulator.log": "5015c953d9832998831fd4a2d47ec22f9504f6ff86796e23ef9379d81a1e117e",
+    "browser.png": "d95e3296b31c75caeaa43d5ba218f86fe5001e9532406e460a6f7a1e2c6e05f2",
+    "driver.log": "a31cfcbd3cd26f18563dcced2b261b5ce82113226624802875f93e26435e37ba",
+    "uploads.jsonl": "1db142cf6ee950c437ce360044dc2c5d7a5faaa3ab093e6de804c45d70ee616e",
+    "interaction/interaction.json": "dc5828d4be65acede56c19eab50183d1910e7211e40f4289ca650173bbc5d5d5"
+  }
+}

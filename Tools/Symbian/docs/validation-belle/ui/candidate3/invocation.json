@@ -1,0 +1,13 @@
+{
+  "driver": "Tools/Symbian/eka2l1/run-browser.sh",
+  "environment": {
+    "SYMBIAN_WEBKIT_WORK": "/workspace/symbian-belle-work",
+    "EKA2L1_EXPECT_PASS": "RESULT: belle-native-ui passed=8 failed=0 total=8",
+    "WAIT": "180"
+  },
+  "arguments": [
+    "/workspace/symbian-graphics-work/build/browser-belle3/e32/browser.exe",
+    "http://localhost:8782/index.html?run=belle3-ui-1856"
+  ],
+  "note": "Workspace paths describe this validation environment. Shared driver retains lock, normal WM close, host exit, panic and fresh-marker checks."
+}

@@ -1,0 +1,31 @@
+logs: /workspace/symbian-belle-work/runs/browser-20261029T184913Z-gn1edoll
+18:49:14.400 WebKit Browser starting
+18:49:14.417 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+18:49:16.292 network: connected through "Host network"
+18:49:16.306 load http://localhost:8782/index.html?run=belle3-ui-1849
+console: http://localhost:8782/suite.js:13: READY: belle-native-ui {"run":"belle3-ui-1849"}
+console: http://localhost:8782/suite.js:13: ACTION: belle-native-ui {"run":"belle3-ui-1849","step":1,"target":"next","x":180,"y":135.8125,"width":360,"height":532}
+console: http://localhost:8782/suite.js:13: BEGIN: Unicode prompt default
+console: http://localhost:8782/suite.js:13: PASS: Unicode prompt default
+console: http://localhost:8782/suite.js:13: ACTION: belle-native-ui {"run":"belle3-ui-1849","step":2,"target":"next","x":180,"y":153.8125,"width":360,"height":532}
+console: http://localhost:8782/suite.js:13: BEGIN: Empty prompt accepted
+console: http://localhost:8782/suite.js:13: PASS: Empty prompt accepted
+console: http://localhost:8782/suite.js:13: ACTION: belle-native-ui {"run":"belle3-ui-1849","step":3,"target":"next","x":180,"y":153.8125,"width":360,"height":532}
+console: http://localhost:8782/suite.js:13: BEGIN: Prompt cancellation
+console: http://localhost:8782/suite.js:13: PASS: Prompt cancellation
+console: http://localhost:8782/suite.js:13: ACTION: belle-native-ui {"run":"belle3-ui-1849","step":4,"target":"next","x":180,"y":153.8125,"width":360,"height":532}
+console: http://localhost:8782/suite.js:13: BEGIN: Unicode single-file upload
+console: http://localhost:8782/suite.js:13: UPLOAD: 3f0bad9f38770739709c88025e2233cd6d0d0ad535838be5102a9fd59a57316f bytes=37
+console: http://localhost:8782/suite.js:13: PASS: Unicode single-file upload
+console: http://localhost:8782/suite.js:13: ACTION: belle-native-ui {"run":"belle3-ui-1849","step":5,"target":"next","x":180,"y":153.8125,"width":360,"height":532}
+console: http://localhost:8782/suite.js:13: BEGIN: Single file on multiple input
+console: http://localhost:8782/suite.js:13: UPLOAD: 3f0bad9f38770739709c88025e2233cd6d0d0ad535838be5102a9fd59a57316f bytes=37
+console: http://localhost:8782/suite.js:13: PASS: Single file on multiple input
+console: http://localhost:8782/suite.js:13: ACTION: belle-native-ui {"run":"belle3-ui-1849","step":6,"target":"next","x":180,"y":153.8125,"width":360,"height":532}
+console: http://localhost:8782/suite.js:13: BEGIN: Cancel preserves selected file
+console: http://localhost:8782/suite.js:13: PASS: Cancel preserves selected file
+console: http://localhost:8782/suite.js:13: ACTION: belle-native-ui {"run":"belle3-ui-1849","step":7,"target":"next","x":180,"y":171.8125,"width":360,"height":532}
+
+missing fresh expected browser marker: RESULT: belle-native-ui passed=8 failed=0 total=8

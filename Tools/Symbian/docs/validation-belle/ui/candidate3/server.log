@@ -1,0 +1,5 @@
+Serving Belle UI fixture on ('127.0.0.1', 8782)
+127.0.0.1 - - [29/Oct/2026 18:56:16] "GET /index.html?run=belle3-ui-1856 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Oct/2026 18:56:16] "GET /suite.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Oct/2026 18:56:41] "POST /upload HTTP/1.1" 200 -
+127.0.0.1 - - [29/Oct/2026 18:56:47] "POST /upload HTTP/1.1" 200 -

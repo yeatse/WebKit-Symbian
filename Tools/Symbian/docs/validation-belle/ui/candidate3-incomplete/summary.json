@@ -1,0 +1,9 @@
+{
+  "status": "FAIL_INCOMPLETE",
+  "observed_case_passes": 6,
+  "required_case_passes": 8,
+  "reason": "Initial XTest focus guard correctly refused the separate Qt FEP modal. Manual calibration completed six assertions before the 300-second observation ended; steps 7 and 8 were not executed. Strict final-marker check failed.",
+  "source_run": "/workspace/symbian-belle-work/runs/browser-20261029T184913Z-gn1edoll",
+  "browser_sha256": "d21abb2a9a23ab08295c56d4c075d67e42c95e00f18ef6924cc325414d3e1d76",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c"
+}
