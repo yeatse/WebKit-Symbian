@@ -1,0 +1,36 @@
+FAIL dual.der 127.0.0.1 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+PASS dual.der localhost {'parse_result': 0, 'verify_result': 0, 'flags': 0}
+PASS dual.der 127.0.0.2 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+PASS dual.der 127.0.0.10 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+FAIL ipv6.der ::1 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+FAIL ipv6.der 0:0:0:0:0:0:0:1 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+FAIL ipv6.der 2001:0db8:0:0::0001 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+PASS ipv6.der 2001:db8::2 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+FAIL mapped.der ::ffff:7f00:1 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+PASS mapped.der 127.0.0.1 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+FAIL dns-numeric.der 127.0.0.1 {'parse_result': 0, 'verify_result': 0, 'flags': 0}
+FAIL dns-numeric.der ::1 {'parse_result': 0, 'verify_result': 0, 'flags': 0}
+FAIL cn-numeric.der 127.0.0.1 {'parse_result': 0, 'verify_result': 0, 'flags': 0}
+FAIL cn-ipv6.der ::1 {'parse_result': 0, 'verify_result': 0, 'flags': 0}
+FAIL mixed-wrong-ip.der 127.0.0.1 {'parse_result': 0, 'verify_result': 0, 'flags': 0}
+FAIL wrong-dns-right-ip.der 127.0.0.1 {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+FAIL numeric-wildcard.der 127.0.0.1 {'parse_result': 0, 'verify_result': 0, 'flags': 0}
+PASS wildcard.der www.example.test {'parse_result': 0, 'verify_result': 0, 'flags': 0}
+PASS wildcard.der a.b.example.test {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+PASS dual.der other.test {'parse_result': 0, 'verify_result': -9984, 'flags': 4}
+FAIL expired.der 127.0.0.1 {'parse_result': 0, 'verify_result': -9984, 'flags': 5}
+FAIL future.der 127.0.0.1 {'parse_result': 0, 'verify_result': -9984, 'flags': 516}
+FAIL untrusted.der 127.0.0.1 {'parse_result': 0, 'verify_result': -9984, 'flags': 12}
+PASS expired.der 127.0.0.2 {'parse_result': 0, 'verify_result': -9984, 'flags': 5}
+PASS untrusted.der 127.0.0.2 {'parse_result': 0, 'verify_result': -9984, 'flags': 12}
+PASS ClientHello TLS1.2 localhost ['localhost']
+PASS ClientHello TLS1.2 www.example.test ['www.example.test']
+FAIL ClientHello TLS1.2 127.0.0.1 ['127.0.0.1']
+FAIL ClientHello TLS1.2 ::1 ['::1']
+FAIL ClientHello TLS1.2 2001:db8::1 ['2001:db8::1']
+PASS ClientHello TLS1.3 localhost ['localhost']
+PASS ClientHello TLS1.3 www.example.test ['www.example.test']
+FAIL ClientHello TLS1.3 127.0.0.1 ['127.0.0.1']
+FAIL ClientHello TLS1.3 ::1 ['::1']
+FAIL ClientHello TLS1.3 2001:db8::1 ['2001:db8::1']
+RESULT 14/35 FAIL

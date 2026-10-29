@@ -81,7 +81,7 @@ jobs:
         run: |
           sudo apt-get update -q
           sudo apt-get install -yq --no-install-recommends clang lld cmake ninja-build ruby perl binutils \
-            libjson-pp-perl gperf flex bison unifdef python3 pkg-config ccache openssl \
+            libjson-pp-perl gperf flex bison unifdef python3 python3-cryptography pkg-config ccache openssl \
             autoconf automake libtool g++ patch
 
       - name: Symbian memory allocation regression
@@ -199,6 +199,28 @@ jobs:
           path: WebKitBuild/Symbian/sdk-rcomp
           key: ${{ steps.rcomp.outputs.cache-primary-key }}
 
+      - name: Restore the SDK IP certificate repair sources
+        uses: actions/cache/restore@v4
+        id: mbedtls-ip
+        with:
+          path: WebKitBuild/Symbian/sdk-mbedtls-ip
+          key: sdk-mbedtls-ip-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/rebuild-sdk-mbedtls-ip.py', 'Tools/Symbian/patches/sdk-0.3.0/mbedtls-ip/**', 'Tools/Symbian/tests/tls-ip-san/**') }}
+      # Recompile both ARM objects and rerun signed-certificate/ClientHello
+      # regressions even when the source and original-archive cache is restored.
+      - name: Repair and verify SDK IP certificate identities
+        run: |
+          python3 scripts/rebuild-sdk-mbedtls-ip.py --install
+          python3 tests/tls-ip-san/test-rebuild-wrapper.py \
+            --sdk "$SYMBIAN_SDK_PREFIX" \
+            --work-dir "$SYMBIAN_WEBKIT_WORK/sdk-mbedtls-ip" \
+            --output "$SYMBIAN_WEBKIT_WORK/sdk-mbedtls-ip/wrapper-rejections.json"
+      - name: Save the SDK IP certificate repair sources
+        if: steps.mbedtls-ip.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: WebKitBuild/Symbian/sdk-mbedtls-ip
+          key: ${{ steps.mbedtls-ip.outputs.cache-primary-key }}
+
       - name: ICU
         run: scripts/build-icu.sh
       - name: ICU domain-name data regression
@@ -304,6 +326,8 @@ jobs:
             WebKitBuild/Symbian/sdk-runtime/*.log
             WebKitBuild/Symbian/sdk-rcomp/*.json
             WebKitBuild/Symbian/sdk-rcomp/*.log
+            WebKitBuild/Symbian/sdk-mbedtls-ip/*.json
+            WebKitBuild/Symbian/sdk-mbedtls-ip/*.log
           if-no-files-found: ignore
 
       - name: Release

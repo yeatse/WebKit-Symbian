@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "checks": 8,
+  "manifest_sha256": "82b2417dc14b39a1332b4bb8e27ceedc8d71a7dba5aa5da0eda1c98779d5740e",
+  "results": [
+    {
+      "case": "compiler",
+      "status": "PASS",
+      "returncode": 1,
+      "stderr": "Unknown SDK compiler; expected pinned Linux SDK 0.3.0",
+      "sdk_archives_unchanged": true
+    },
+    {
+      "case": "header",
+      "status": "PASS",
+      "returncode": 1,
+      "stderr": "SDK header mismatch: include/abseil/absl/base/config.h",
+      "sdk_archives_unchanged": true
+    },
+    {
+      "case": "crypto",
+      "status": "PASS",
+      "returncode": 1,
+      "stderr": "Unknown crypto archive; refusing mixed SDK inputs",
+      "sdk_archives_unchanged": true
+    },
+    {
+      "case": "x509",
+      "status": "PASS",
+      "returncode": 1,
+      "stderr": "Unknown installed archive: libmbedx509.a",
+      "sdk_archives_unchanged": true
+    },
+    {
+      "case": "tls",
+      "status": "PASS",
+      "returncode": 1,
+      "stderr": "Unknown installed archive: libmbedtls.a",
+      "sdk_archives_unchanged": true
+    },
+    {
+      "case": "backup",
+      "status": "PASS",
+      "returncode": 1,
+      "stderr": "Original archive backup changed: libmbedx509.a",
+      "sdk_archives_unchanged": true
+    },
+    {
+      "case": "repaired-without-backup",
+      "status": "PASS",
+      "returncode": 1,
+      "stderr": "Original archive backup required for libmbedx509.a",
+      "sdk_archives_unchanged": true
+    },
+    {
+      "case": "source",
+      "status": "PASS",
+      "returncode": 1,
+      "stderr": "SDK source mismatch: CMakeLists.txt",
+      "sdk_archives_unchanged": true
+    }
+  ]
+}

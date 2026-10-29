@@ -1,0 +1,28 @@
+19:06:11.223 WebKit Browser starting
+19:06:11.229 curl trace on, in curl.txt
+19:06:11.241 network: starting the connection
+19:06:11.316 threads (process p350): [WebKit p0 -1578400307ms] [12680f18e0f646c4 p500 2ms]
+19:06:11.317 mimalloc: 3 chunks, 49232 KB reserved, 260 KB committed, budget 65536 KB
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:06:13.180 network: connected through "Host network"
+19:06:13.196 load https://127.0.0.1:8791/summary?run=e1db9c56247d4470952797b4a9a76fbc
+19:06:13.317 threads (process p350): [WebKit p0 -1578398475ms] [12680f18e0f646c4 p500 3ms]
+19:06:13.318 mimalloc: 3 chunks, 49232 KB reserved, 452 KB committed, budget 65536 KB
+19:06:13.476 UI thread running
+load failed: https://127.0.0.1:8791/summary?run=e1db9c56247d4470952797b4a9a76fbc: SSL peer certificate or SSH remote key was not OK (60)
+19:06:15.318 threads (process p350): [WebKit p0 -1578397854ms] [12680f18e0f646c4 p500 4ms] [12681f2014a188c2 p-10 238ms] [126820989fe5849d p-10 6ms]
+19:06:15.318 mimalloc: 3 chunks, 49232 KB reserved, 2020 KB committed, budget 65536 KB
+19:06:15.482 UI thread running
+19:06:17.319 threads (process p350): [WebKit p0 -1578397854ms] [12680f18e0f646c4 p500 4ms] [12681f2014a188c2 p-10 245ms] [126820989fe5849d p-10 6ms]
+19:06:17.319 mimalloc: 3 chunks, 49232 KB reserved, 2020 KB committed, budget 65536 KB
+19:06:17.498 UI thread running
+19:06:19.320 threads (process p350): [WebKit p0 -1578397854ms] [12680f18e0f646c4 p500 5ms] [12681f2014a188c2 p-10 252ms] [126820989fe5849d p-10 6ms]
+19:06:19.320 mimalloc: 3 chunks, 49232 KB reserved, 2020 KB committed, budget 65536 KB
+19:06:19.513 UI thread running
+19:06:21.320 threads (process p350): [WebKit p0 -1578397853ms] [12680f18e0f646c4 p500 6ms] [12681f2014a188c2 p-10 259ms] [126820989fe5849d p-10 6ms]
+19:06:21.321 mimalloc: 3 chunks, 49232 KB reserved, 2020 KB committed, budget 65536 KB
+19:06:21.529 UI thread running
+19:06:23.321 threads (process p350): [WebKit p0 -1578397853ms] [12680f18e0f646c4 p500 6ms] [12681f2014a188c2 p-10 271ms] [126820989fe5849d p-10 6ms]
+19:06:23.321 mimalloc: 3 chunks, 49232 KB reserved, 2020 KB committed, budget 65536 KB
+19:06:23.544 UI thread running

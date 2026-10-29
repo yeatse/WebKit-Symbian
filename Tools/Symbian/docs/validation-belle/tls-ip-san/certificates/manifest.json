@@ -1,0 +1,162 @@
+{
+  "created_utc": "2026-10-29T19:10:41.477979+00:00",
+  "cases": [
+    {
+      "certificate": "dual.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 0
+    },
+    {
+      "certificate": "dual.der",
+      "hostname": "localhost",
+      "required_flags": 0
+    },
+    {
+      "certificate": "dual.der",
+      "hostname": "127.0.0.2",
+      "required_flags": 4
+    },
+    {
+      "certificate": "dual.der",
+      "hostname": "127.0.0.10",
+      "required_flags": 4
+    },
+    {
+      "certificate": "ipv6.der",
+      "hostname": "::1",
+      "required_flags": 0
+    },
+    {
+      "certificate": "ipv6.der",
+      "hostname": "0:0:0:0:0:0:0:1",
+      "required_flags": 0
+    },
+    {
+      "certificate": "ipv6.der",
+      "hostname": "2001:0db8:0:0::0001",
+      "required_flags": 0
+    },
+    {
+      "certificate": "ipv6.der",
+      "hostname": "2001:db8::2",
+      "required_flags": 4
+    },
+    {
+      "certificate": "mapped.der",
+      "hostname": "::ffff:7f00:1",
+      "required_flags": 0
+    },
+    {
+      "certificate": "mapped.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4
+    },
+    {
+      "certificate": "dns-numeric.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4
+    },
+    {
+      "certificate": "dns-numeric.der",
+      "hostname": "::1",
+      "required_flags": 4
+    },
+    {
+      "certificate": "cn-numeric.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4
+    },
+    {
+      "certificate": "cn-ipv6.der",
+      "hostname": "::1",
+      "required_flags": 4
+    },
+    {
+      "certificate": "mixed-wrong-ip.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4
+    },
+    {
+      "certificate": "wrong-dns-right-ip.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 0
+    },
+    {
+      "certificate": "numeric-wildcard.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4
+    },
+    {
+      "certificate": "wildcard.der",
+      "hostname": "www.example.test",
+      "required_flags": 0
+    },
+    {
+      "certificate": "wildcard.der",
+      "hostname": "a.b.example.test",
+      "required_flags": 4
+    },
+    {
+      "certificate": "dual.der",
+      "hostname": "other.test",
+      "required_flags": 4
+    },
+    {
+      "certificate": "expired.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 1
+    },
+    {
+      "certificate": "future.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 512
+    },
+    {
+      "certificate": "untrusted.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 8
+    },
+    {
+      "certificate": "expired.der",
+      "hostname": "127.0.0.2",
+      "required_flags": 5
+    },
+    {
+      "certificate": "untrusted.der",
+      "hostname": "127.0.0.2",
+      "required_flags": 12
+    }
+  ],
+  "files": {
+    "ca.der": "2ddc9f313c811f5afe5eecb0390a0c7860bd0e4a1b2038fd16897c3a2ad60ef7",
+    "ca.pem": "71a629eb2423eb7fe7fa3482d48f17bd44579fb499b05e3d3a68151ed2bd184d",
+    "cn-ipv6.der": "2b11632987ddbf22a0f8291380df3052957568a77367b156498476671614ebe3",
+    "cn-ipv6.pem": "7e8fea9cb83d64271e7a482b83cb37a23fabf605127b1b542a3ef24496c96532",
+    "cn-numeric.der": "866dda8cad83f3e1a76ea203f86af1d415e59f70b8da77a62bdc12575d1d854f",
+    "cn-numeric.pem": "792ffa027f36f3ce00ba129e4d72fd3350c366e6baf91ac10d0bda32304442fa",
+    "dns-numeric.der": "eade2ef96510e39c16111507a93a7ec144e88f26b51470400318c0cc94c12659",
+    "dns-numeric.pem": "7982f6e1c2933ed7f6c1095c266f84ac4873bec7885ccc0b421039f524d4e447",
+    "dual.der": "47853748c78c6b26785d69ed785503871de1a2d746a7699b6ec15de6aae80303",
+    "dual.pem": "0064ba59c70de81b80f8af3e9e9e590d899f34754592f303356eb155a339e36e",
+    "expired.der": "fd7b54f33ea306f6cfa6273fd8bdc1dfeb09f8e62587f1b588430f05f4319711",
+    "expired.pem": "24aa73c0d1d5dd14684b3e9eb609cb2e327f67b792035f2ff48b158091f6e28d",
+    "future.der": "b249a4ee75795ae3ac42e38e76c10ab6c221ebe17de7cf0870cf4f46ed20acc0",
+    "future.pem": "3fbcf6a806fe6b5fc1e2bfc72fa8c4c5abf614524a5c4bc7a35ab26c37cca5af",
+    "ipv6.der": "28a1de37f64fc3d49c0884f3dc92450545cbcba64bef30de221e9e471ac73905",
+    "ipv6.pem": "b418f10f619a8ad59f5aaafbd5d00f2143cd0c71b78ec523c7df1072d78e5ca6",
+    "mapped.der": "9d6b47fa13544ed9b8cc9d21f36f235dc4d23f65561640e9c9df132ef4a1481d",
+    "mapped.pem": "6bf3faa3b7b20f1045963f4019e371511d237bc9ef3112350e2f8135517804fc",
+    "mixed-wrong-ip.der": "0441466c14863f1384cb255fb6752602f82c1251973b014b4cbe933adeac90dd",
+    "mixed-wrong-ip.pem": "f6ea081b09e188cfb4d608b36f19afebee6a6f3f9e48e59095dbc07ed56e88d1",
+    "numeric-wildcard.der": "16962839aac51fa8b4b6b77aa4171e5c2f0265e0b933e832136aef7be6f9b62a",
+    "numeric-wildcard.pem": "90c79a903f49dfa4308fa873d15cafba147a746d587b322e1aceacb4c0a08b5a",
+    "other-ca.der": "147fd4b66dc7f93eb8b627c34c659ba6bb51917da557671c79bfaaede126f4df",
+    "other-ca.pem": "5336e58e18413eef72c16521fcbab54b27614126189b9e68a97c5fe520f322f6",
+    "untrusted.der": "a48710e2bd3f2ef1d7e6312395628b033e4dde2af305e7deec30fffb8579b846",
+    "untrusted.pem": "69e7504076525d43697f4f4d2d43eb7eb0dc9fc00ce2e3cd8d2c7f69f65a5a35",
+    "wildcard.der": "a55d971ce3c6ac3428d26f42a0ed6daf0d88b15440431ab5e0b0c34c4f5a1589",
+    "wildcard.pem": "ae7a380e1c0e696983b3b23299ce7bee4fa3d782134e4781b9858f6693c86614",
+    "wrong-dns-right-ip.der": "3863d7292b71a41076e4b5fd7b2cddf1fa6c8d86341da1746ede554c54bc4442",
+    "wrong-dns-right-ip.pem": "ae55aa4c8ffc0338780f832d7643e1235a7e94cbc1a75866c6c40d3b809d8e21"
+  }
+}

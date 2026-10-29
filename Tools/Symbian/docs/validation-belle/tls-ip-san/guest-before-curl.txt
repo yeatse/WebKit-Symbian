@@ -1,0 +1,7 @@
+  Trying 127.0.0.1:8791...
+Could not set SO_NOSIGPIPE: Unknown error: 126
+Connected to 127.0.0.1 (127.0.0.1) port 8791 (#0)
+mbedTLS: Connecting to 127.0.0.1:8791
+mbedTLS: Handshake complete, cipher is TLS-ECDHE-RSA-WITH-AES-256-GCM-SHA384
+Cert verify failed: BADCERT_CN_MISMATCH
+Closing connection 0

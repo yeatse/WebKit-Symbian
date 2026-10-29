@@ -1,0 +1,404 @@
+{
+  "status": "FAIL",
+  "passed": 14,
+  "total": 35,
+  "probe_sha256": "bb06fd15d53f2b01ef4ca76a6c9bb236e43d08c0ded1d39a4c6316cb19cc9dbe",
+  "fixture_manifest_sha256": "a44d2fb8daa617589d61cdc1cd87e7c1b68461f2bdf99fec0df12d7f38238a54",
+  "results": [
+    {
+      "certificate": "dual.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 0,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "dual.der",
+      "hostname": "localhost",
+      "required_flags": 0,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": 0,
+        "flags": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "certificate": "dual.der",
+      "hostname": "127.0.0.2",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "PASS"
+    },
+    {
+      "certificate": "dual.der",
+      "hostname": "127.0.0.10",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "PASS"
+    },
+    {
+      "certificate": "ipv6.der",
+      "hostname": "::1",
+      "required_flags": 0,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "ipv6.der",
+      "hostname": "0:0:0:0:0:0:0:1",
+      "required_flags": 0,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "ipv6.der",
+      "hostname": "2001:0db8:0:0::0001",
+      "required_flags": 0,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "ipv6.der",
+      "hostname": "2001:db8::2",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "PASS"
+    },
+    {
+      "certificate": "mapped.der",
+      "hostname": "::ffff:7f00:1",
+      "required_flags": 0,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "mapped.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "PASS"
+    },
+    {
+      "certificate": "dns-numeric.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": 0,
+        "flags": 0
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "dns-numeric.der",
+      "hostname": "::1",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": 0,
+        "flags": 0
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "cn-numeric.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": 0,
+        "flags": 0
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "cn-ipv6.der",
+      "hostname": "::1",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": 0,
+        "flags": 0
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "mixed-wrong-ip.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": 0,
+        "flags": 0
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "wrong-dns-right-ip.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 0,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "numeric-wildcard.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": 0,
+        "flags": 0
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "wildcard.der",
+      "hostname": "www.example.test",
+      "required_flags": 0,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": 0,
+        "flags": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "certificate": "wildcard.der",
+      "hostname": "a.b.example.test",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "PASS"
+    },
+    {
+      "certificate": "dual.der",
+      "hostname": "other.test",
+      "required_flags": 4,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 4
+      },
+      "status": "PASS"
+    },
+    {
+      "certificate": "expired.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 1,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 5
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "future.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 512,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 516
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "untrusted.der",
+      "hostname": "127.0.0.1",
+      "required_flags": 8,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 12
+      },
+      "status": "FAIL"
+    },
+    {
+      "certificate": "expired.der",
+      "hostname": "127.0.0.2",
+      "required_flags": 5,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 5
+      },
+      "status": "PASS"
+    },
+    {
+      "certificate": "untrusted.der",
+      "hostname": "127.0.0.2",
+      "required_flags": 12,
+      "actual": {
+        "parse_result": 0,
+        "verify_result": -9984,
+        "flags": 12
+      },
+      "status": "PASS"
+    },
+    {
+      "client_hello_hostname": "localhost",
+      "tls_version": "TLS1.2",
+      "server_names": [
+        "localhost"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 334
+      },
+      "status": "PASS"
+    },
+    {
+      "client_hello_hostname": "www.example.test",
+      "tls_version": "TLS1.2",
+      "server_names": [
+        "www.example.test"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 341
+      },
+      "status": "PASS"
+    },
+    {
+      "client_hello_hostname": "127.0.0.1",
+      "tls_version": "TLS1.2",
+      "server_names": [
+        "127.0.0.1"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 334
+      },
+      "status": "FAIL"
+    },
+    {
+      "client_hello_hostname": "::1",
+      "tls_version": "TLS1.2",
+      "server_names": [
+        "::1"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 328
+      },
+      "status": "FAIL"
+    },
+    {
+      "client_hello_hostname": "2001:db8::1",
+      "tls_version": "TLS1.2",
+      "server_names": [
+        "2001:db8::1"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 336
+      },
+      "status": "FAIL"
+    },
+    {
+      "client_hello_hostname": "localhost",
+      "tls_version": "TLS1.3",
+      "server_names": [
+        "localhost"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 208
+      },
+      "status": "PASS"
+    },
+    {
+      "client_hello_hostname": "www.example.test",
+      "tls_version": "TLS1.3",
+      "server_names": [
+        "www.example.test"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 215
+      },
+      "status": "PASS"
+    },
+    {
+      "client_hello_hostname": "127.0.0.1",
+      "tls_version": "TLS1.3",
+      "server_names": [
+        "127.0.0.1"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 208
+      },
+      "status": "FAIL"
+    },
+    {
+      "client_hello_hostname": "::1",
+      "tls_version": "TLS1.3",
+      "server_names": [
+        "::1"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 202
+      },
+      "status": "FAIL"
+    },
+    {
+      "client_hello_hostname": "2001:db8::1",
+      "tls_version": "TLS1.3",
+      "server_names": [
+        "2001:db8::1"
+      ],
+      "actual": {
+        "result": 0,
+        "bytes": 210
+      },
+      "status": "FAIL"
+    }
+  ]
+}

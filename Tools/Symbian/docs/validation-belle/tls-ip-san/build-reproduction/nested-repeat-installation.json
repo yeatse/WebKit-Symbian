@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "sdk": "/workspace/WebKit-Symbian-graphics/WebKitBuild/Symbian/mbedtls-ip-clean-test/sdk",
+  "archives": {
+    "libmbedx509.a": {
+      "stock_sha256": "5c58e21f8ff26dbb67b569bd1c47b26c0e4b51d8224330f3bb853675967d142c",
+      "patched_sha256": "02a0781b714b0be092010321ba78bd7ffbb7db43e80b2ea3a66d4511f489a68d",
+      "changed_member": "x509_crt.c.obj",
+      "public_definitions": 18,
+      "added_imports": [
+        "mbedtls_put_unaligned_uint16",
+        "memmove",
+        "strchr"
+      ],
+      "members": 8,
+      "changed": [
+        "x509_crt.c.obj"
+      ],
+      "member_sha256": {
+        "pkcs7.c.obj": "8369accbfb75fbab0cd54c105ce2dadddd770c15cc81f39217a1a44fa9f7fa90",
+        "x509.c.obj": "199f7e4809b320f1f717b5cebe32bf1dcc1163b754aaa2ccff7106083a890bc7",
+        "x509_create.c.obj": "03804b5ce9d596b9bebd9140e05b2db8e7fd134402c9e30d5c28d9c143754c62",
+        "x509_crl.c.obj": "f46678d5e42234865ac29b38d04c8f5fb6fc0c199a76661840bf521b458b4b23",
+        "x509_crt.c.obj": "8961fc77368c41b5c9bae445e4fffeb0c22ca3b8278856ab18225d3a049d9014",
+        "x509_csr.c.obj": "60feb6a96754902c3a63a3f0dec7c73853a8b52a20ee0720eeaa5900d4647497",
+        "x509write_crt.c.obj": "a2bbc7d67c2ffdd5a120de5c2921e57f595baa9e90b338633e5027ec2f15153f",
+        "x509write_csr.c.obj": "a7e89ce1ae44134020d14dad41eeecd9fd6c3ec3fcea312a58495f2397f86b10"
+      }
+    },
+    "libmbedtls.a": {
+      "stock_sha256": "950b62ef00778e546cf1d762759f3ab1debc956597c0a725b2badb9444b4a166",
+      "patched_sha256": "dbc050ba56a3706466673f10ea46f657c8bcdc1a18e9a48107f16f1080da4fc8",
+      "changed_member": "ssl_client.c.obj",
+      "public_definitions": 1,
+      "added_imports": [
+        "memmove",
+        "memset",
+        "strchr"
+      ],
+      "members": 19,
+      "changed": [
+        "ssl_client.c.obj"
+      ],
+      "member_sha256": {
+        "debug.c.obj": "2064a998dcfee4f16d18f02a245c3712c0d52d933f429a021249b111e0b75c82",
+        "mps_reader.c.obj": "9bb30a92d329bd729d99422091f59ed589a36e143abe69ae6367c15c7bede0fc",
+        "mps_trace.c.obj": "8369580e420f732f1c586ccbc1026c1b8c2b41308051339f8bc0dbed9aacdbc5",
+        "net_sockets.c.obj": "2d186c7bde5cc5bc381c8821a987e49039e760f67d6a8950b62156a6b1a02b20",
+        "ssl_cache.c.obj": "f9840e027abeacbef29377c1aae3e9bc64c3ea22d5903ed223b21e822f2c16fb",
+        "ssl_ciphersuites.c.obj": "45ee53e7c5f85a89368b5d0b8f10b5d4a0f41046dbd9f2a780498f082c4617d6",
+        "ssl_client.c.obj": "3635bb7db5acd96b7c4454d890c37e5a6a1df318f8a49d3b309c23e233ec50d4",
+        "ssl_cookie.c.obj": "448b23c48476dc94d368a004738bd6d277203536b152e99a63a9e8aa1ea3c27e",
+        "ssl_debug_helpers_generated.c.obj": "6715466cbadc1bfb184662c9156cc01953ef481b0c696adc0adc9fd578668f58",
+        "ssl_msg.c.obj": "f12be814230d9c3c64f1a4ffd926ddf57c7ede0f9f6b7f5cfed7be9963b88c16",
+        "ssl_ticket.c.obj": "32ca709e150782d4b36667a1c953e49c996a9506fe542bf3a07fc6b820f9735e",
+        "ssl_tls.c.obj": "a755861ae1d0be134456b1648aedc132315ff165326abd02b314c1db96d93e3e",
+        "ssl_tls12_client.c.obj": "16f3f176ee8b4b4560702cb1df9261c7130711626f790077e62668551b25f8fb",
+        "ssl_tls12_server.c.obj": "f1e5873f45b8846390140d38683a0860fd60264299d1bb21203f4e24e5290888",
+        "ssl_tls13_keys.c.obj": "e003d0f19073788e7bf683195a701f9655e18d17e2c372ff9be3eb2375227aa6",
+        "ssl_tls13_server.c.obj": "6a2281ea59f13dc038aa7c7e61bc7f26c8e64bec612fbea25fe27adb7c66a995",
+        "ssl_tls13_client.c.obj": "37b4624251ca938e56adf48c6589a531c22ad1be7aa04a590272390d79bd5d09",
+        "ssl_tls13_generic.c.obj": "fae22dde0f9426713c51fb492d08424ba798d7f1f65bd96a540ef0bc1d48ca57",
+        "sdk_socket_bio.c.obj": "3d4ad516f7285009e8deb6d4c930ecf2c7086eda27d332c6ba7090d5a962f43e"
+      }
+    }
+  },
+  "crypto_unchanged_sha256": "282b081f833b6f93a8a677919bf6466725ba9bd76b6c3f03df2d9c6cf3923627",
+  "manifest_sha256": "82b2417dc14b39a1332b4bb8e27ceedc8d71a7dba5aa5da0eda1c98779d5740e",
+  "compiler_sha256": "56cfb4a2beb9106caf0780ffa25649fe3c0271d5faecb2b9370cd13152c98796",
+  "certificate_checks": 35,
+  "parser": {
+    "status": "PASS",
+    "cases": 2069,
+    "exit_code": 0,
+    "seed": 20261029,
+    "probe_sha256": "bf64827c38174257457ef0cca0dc3e1ffdc36e5862c286c7ed184324f2c47a91",
+    "inputs_sha256": "1d5df9dcf365de8cf9fb318b9f5da3a06934c7f1f2cf2be092dde31e067978f0"
+  },
+  "installed": true
+}

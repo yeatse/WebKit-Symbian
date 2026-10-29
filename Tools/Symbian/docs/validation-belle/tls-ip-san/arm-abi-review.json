@@ -1,0 +1,64 @@
+{
+  "libmbedx509.a": {
+    "status": "PASS",
+    "old_sha256": "5c58e21f8ff26dbb67b569bd1c47b26c0e4b51d8224330f3bb853675967d142c",
+    "new_sha256": "02a0781b714b0be092010321ba78bd7ffbb7db43e80b2ea3a66d4511f489a68d",
+    "members": 8,
+    "changed": [
+      "x509_crt.c.obj"
+    ],
+    "public_definitions": 18,
+    "added_imports": {
+      "strchr": {
+        "type": "NOTYPE",
+        "binding": "GLOBAL",
+        "visibility": "DEFAULT"
+      },
+      "mbedtls_put_unaligned_uint16": {
+        "type": "NOTYPE",
+        "binding": "GLOBAL",
+        "visibility": "DEFAULT"
+      },
+      "memmove": {
+        "type": "NOTYPE",
+        "binding": "GLOBAL",
+        "visibility": "DEFAULT"
+      }
+    },
+    "removed_imports": {},
+    "changed_import_metadata": {},
+    "elf_flags": "Flags:                             0x5000000, Version5 EABI",
+    "arm_attributes": "Attribute Section: aeabi\nFile Attributes\n  Tag_conformance: \"2.09\"\n  Tag_CPU_name: \"arm1136jf-s\"\n  Tag_CPU_arch: v6\n  Tag_ARM_ISA_use: Yes\n  Tag_THUMB_ISA_use: Thumb-1\n  Tag_ABI_PCS_R9_use: V6\n  Tag_ABI_PCS_GOT_use: direct\n  Tag_ABI_PCS_wchar_t: 2\n  Tag_ABI_FP_denormal: Needed\n  Tag_ABI_FP_exceptions: Unused\n  Tag_ABI_FP_number_model: IEEE 754\n  Tag_ABI_align_needed: 8-byte\n  Tag_ABI_align_preserved: 8-byte, except leaf SP\n  Tag_ABI_enum_size: int\n  Tag_ABI_optimization_goals: Aggressive Speed\n  Tag_CPU_unaligned_access: None\n  Tag_ABI_FP_16bit_format: IEEE 754\n"
+  },
+  "libmbedtls.a": {
+    "status": "PASS",
+    "old_sha256": "950b62ef00778e546cf1d762759f3ab1debc956597c0a725b2badb9444b4a166",
+    "new_sha256": "dbc050ba56a3706466673f10ea46f657c8bcdc1a18e9a48107f16f1080da4fc8",
+    "members": 19,
+    "changed": [
+      "ssl_client.c.obj"
+    ],
+    "public_definitions": 1,
+    "added_imports": {
+      "strchr": {
+        "type": "NOTYPE",
+        "binding": "GLOBAL",
+        "visibility": "DEFAULT"
+      },
+      "memmove": {
+        "type": "NOTYPE",
+        "binding": "GLOBAL",
+        "visibility": "DEFAULT"
+      },
+      "memset": {
+        "type": "NOTYPE",
+        "binding": "GLOBAL",
+        "visibility": "DEFAULT"
+      }
+    },
+    "removed_imports": {},
+    "changed_import_metadata": {},
+    "elf_flags": "Flags:                             0x5000000, Version5 EABI",
+    "arm_attributes": "Attribute Section: aeabi\nFile Attributes\n  Tag_conformance: \"2.09\"\n  Tag_CPU_name: \"arm1136jf-s\"\n  Tag_CPU_arch: v6\n  Tag_ARM_ISA_use: Yes\n  Tag_THUMB_ISA_use: Thumb-1\n  Tag_ABI_PCS_R9_use: V6\n  Tag_ABI_PCS_GOT_use: direct\n  Tag_ABI_PCS_wchar_t: 2\n  Tag_ABI_FP_denormal: Needed\n  Tag_ABI_FP_exceptions: Unused\n  Tag_ABI_FP_number_model: IEEE 754\n  Tag_ABI_align_needed: 8-byte\n  Tag_ABI_align_preserved: 8-byte, except leaf SP\n  Tag_ABI_enum_size: int\n  Tag_ABI_optimization_goals: Aggressive Speed\n  Tag_CPU_unaligned_access: None\n  Tag_ABI_FP_16bit_format: IEEE 754\n"
+  }
+}

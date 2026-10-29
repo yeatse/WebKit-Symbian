@@ -1,2 +1,4 @@
 # Preserve captured diagnostic bytes, including the emulator's trailing spaces.
 webcrypto/emulator.log -text -whitespace
+# The parser corpus deliberately includes a trailing space in an invalid IP.
+tls-ip-san/parser/inputs.txt -text -whitespace

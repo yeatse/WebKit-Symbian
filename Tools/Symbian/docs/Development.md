@@ -1,6 +1,6 @@
 # Building the Symbian 2.52.6 port
 
-Use symbian-platform SDK 0.3.0 (Clang 23.1.2), CMake, Ninja, host Clang/LLD, g++, patch, binutils (`readelf`), Ruby with ERB/JSON, Perl, gperf, flex, bison, Python 3.12 or newer, pkg-config and autotools. The build uses C++23, ARMv6 with VFPv2 and softfp, ARM LLInt/Baseline/DFG, and ICU 70.1. [ARM11-JIT.md](ARM11-JIT.md) documents the execution tiers, validation and the `SYMBIAN_JSC_MODE=cloop` fallback.
+Use symbian-platform SDK 0.3.0 (Clang 23.1.2), CMake, Ninja, host Clang/LLD, g++, patch, binutils (`readelf`), Ruby with ERB/JSON, Perl, gperf, flex, bison, Python 3.12 or newer with `cryptography` (Ubuntu package `python3-cryptography`), pkg-config and autotools. The build uses C++23, ARMv6 with VFPv2 and softfp, ARM LLInt/Baseline/DFG, and ICU 70.1. [ARM11-JIT.md](ARM11-JIT.md) documents the execution tiers, validation and the `SYMBIAN_JSC_MODE=cloop` fallback.
 
 The sparse checkout must contain `Source/JavaScriptCore`, `Source/WTF`, `Source/WebCore`, `Source/WebKitLegacy`, `Source/bmalloc`, `Source/cmake`, `Source/ThirdParty/ANGLE`, `Source/ThirdParty/unifdef`, `Tools/Scripts` and `Tools/Symbian`.
 
@@ -12,6 +12,7 @@ python3 Tools/Symbian/scripts/apply-sdk-patches.py
 Tools/Symbian/scripts/build-symbian-native.sh
 python3 Tools/Symbian/scripts/rebuild-sdk-runtime.py --platform-source "$SYMBIAN_WEBKIT_WORK/symbian-platform" --install
 python3 Tools/Symbian/scripts/rebuild-sdk-rcomp.py --install
+python3 Tools/Symbian/scripts/rebuild-sdk-mbedtls-ip.py --install
 Tools/Symbian/scripts/build-icu.sh
 Tools/Symbian/scripts/build-jsc.sh
 Tools/Symbian/scripts/link-e32.sh
@@ -25,7 +26,9 @@ Tools/Symbian/scripts/package-sis.sh
 
 The runtime step verifies SDK 0.3.0 and its fixed source/archive hashes, rebuilds the ARMv6 allocator with its 32-bit page map, and retains the 64 MiB native budget. It must precede JSC/browser linking. Its original-archive backup and per-object/ABI verification stay in `$SYMBIAN_WEBKIT_WORK/sdk-runtime`; see [SDK patch provenance](../patches/sdk-0.3.0/README.md).
 
-The resource-compiler step fixes a host crash when compiling valid symbolic resource identifiers. It builds pinned source and runs 14 regressions before replacing only the SDK's `rcomp`; its backup, build log and verification records stay in `$SYMBIAN_WEBKIT_WORK/sdk-rcomp`. CI repeats both SDK repairs after restoring the original SDK cache. Run the resource repair before building the browser's native dialogs; their resource structures and identifiers must remain symbolic.
+The resource-compiler step fixes a host crash when compiling valid symbolic resource identifiers. It builds pinned source and runs 14 regressions before replacing only the SDK's `rcomp`; its backup, build log and verification records stay in `$SYMBIAN_WEBKIT_WORK/sdk-rcomp`. Run the resource repair before building the browser's native dialogs; their resource structures and identifiers must remain symbolic.
+
+The TLS step adds strict binary IP subject-alternative-name matching and omits IP literals from SNI. It preserves chain, validity and hostname verification, and leaves DNS identity handling intact. Only two ARM objects are replaced after pinned-input, archive/ABI, 35 signed-certificate/ClientHello and 2,069 parser checks; `libmbedcrypto.a` is unchanged. Original archives, build logs and verification records stay in `$SYMBIAN_WEBKIT_WORK/sdk-mbedtls-ip`. See [the SDK patch](../patches/sdk-0.3.0/mbedtls-ip/README.md). CI repeats all SDK repairs after restoring the original SDK cache and before linking target images.
 
 ICU installs `icudt70l.dat` into `C:/resource/icu`; its SIS uses UID `0xE1A5C013`, separate from ICU63. Compiler wrappers resolve configure checks against real SDK import proxies, including libm. Dependencies and patches live under `Tools/Symbian`; changes to upstream sources are scoped to the platform port.
 

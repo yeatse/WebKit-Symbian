@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "sdk": "0.3.0 Linux x86_64",
+  "mbedtls": "3.4.1",
+  "production_install": true,
+  "isolated_nested_fresh_install": true,
+  "isolated_nested_repeated_install": true,
+  "reproducible_archives": {
+    "libmbedx509.a": "02a0781b714b0be092010321ba78bd7ffbb7db43e80b2ea3a66d4511f489a68d",
+    "libmbedtls.a": "dbc050ba56a3706466673f10ea46f657c8bcdc1a18e9a48107f16f1080da4fc8"
+  },
+  "unchanged_archive_members": 25,
+  "crypto_unchanged_sha256": "282b081f833b6f93a8a677919bf6466725ba9bd76b6c3f03df2d9c6cf3923627",
+  "certificate_and_clienthello_checks": 35,
+  "parser_differential_cases": 2069,
+  "input_rejection_checks": 8,
+  "production_sdk_source_and_public_headers_modified": false,
+  "script_sha256": "9fe19cbd8fe9c0908ec60cc0b1397b3cf85f59a56f37fccb5dc7b1f8760b4838",
+  "manifest_sha256": "82b2417dc14b39a1332b4bb8e27ceedc8d71a7dba5aa5da0eda1c98779d5740e",
+  "wrapper_test_sha256": "c0ceb8b72450b9fc33092dab3f0802484a1b14d04036abf43e99e4ffd560ba5a",
+  "evidence_sha256": {
+    "README.md": "7e84bcf1bd44c43acae836f724c0665b69646ab7bf1999d197c52545986c88b6",
+    "arm-build.log.gz": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+    "certificate-regression.json": "0f4f67c3e805e16668320eb8495d4fd36831973f921779da72fe8bc845ba5335",
+    "host-build.log.gz": "4b97a170fd7da014cd4cb4a594d428fb718b6f42737c607924ce50c545bf43ff",
+    "nested-fresh.log.gz": "9a93ebb81a0697f65dc08e05e3d1253c3f04b9b4eda22f8f50ad055ca6f105a9",
+    "nested-repeat-installation.json": "e0a1d0268d4453bbdb70817a4e0442989d40157c4896352b546d1058c705b51e",
+    "nested-repeat.log.gz": "9a93ebb81a0697f65dc08e05e3d1253c3f04b9b4eda22f8f50ad055ca6f105a9",
+    "parser-regression.json": "d083c427b02fb46912bc56215b90c76ff039935f97d1e69e5776abcb491c9a8c",
+    "production-installation.json": "afb6a2351648019055ae63128ee7903abde71f6013263149d470f6157cf46bd8",
+    "regression.log.gz": "2846c8141c02b0afbd94031f811ab954f0933c8c616810d22454af87383822a8",
+    "wrapper-rejections.json": "f6eaca81fb8a069032334ad6ca126300264deaf7884fc2d8dc7723f264b7fce5"
+  }
+}
