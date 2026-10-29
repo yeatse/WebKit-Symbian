@@ -75,3 +75,18 @@ actual EKA audio and video patch DLLs passed this check separately. All 118
 audio exports and 165 video ordinals (83 present, 82 ABSENT) matched their ELF
 addresses. These remain host build/format checks; media execution uses the
 separate native MMF probe and real pixel/PCM capture.
+
+`0005` adds the official `NetworkControl` bit (10), alongside existing
+`NetworkServices` (13), in both conversion and inspection. Other capability
+bits remain unsupported. The change only represents the requested image
+capabilities; it does not authorize them through an OS, installer or signer.
+The production browser still requests `0x2000`. The separate real-connection
+browser-test controller requests `0x2400`.
+
+The suite now passes 56 tests. Positive cases cover bit 10 alone and bits
+10+13, with unchanged code bytes. Negative cases exercise every other bit in
+the 64-bit header, alone and combined with the supported mask. Their header
+CRCs are recomputed, and a positive rewritten-CRC control ensures the tests
+reach capability validation. The five-patch apply/reverse-check sequence and
+repeat native-tool build also pass. See
+[the converter evidence](../../docs/validation-belle/network-state/converter-network-control/README.md).

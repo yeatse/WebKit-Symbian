@@ -1,0 +1,648 @@
+{
+  "tests": 56,
+  "failures": 0,
+  "disabled": 0,
+  "errors": 0,
+  "timestamp": "2026-10-29T21:22:44Z",
+  "time": "0.005s",
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "E32Test",
+      "tests": 27,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-29T21:22:44Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "ConvertsSupportedExecutableWithStableIdentity",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 27,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "OptsInToNetworkServicesCapability",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 45,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "OptsInToNetworkControlCapability",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 73,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsUnsupportedCapabilitiesWithValidHeaderChecksum",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 87,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsRenamedArmExceptionIndexWithoutDescriptor",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 115,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "PreservesExceptionIndexBeyond64KiB",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 122,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsMalformedLargeExceptionIndex",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 141,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsLargeExceptionDescriptorBoundsMismatch",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 156,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "PreservesIndependentDataBssAndTypedPointers",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 171,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "AcceptsBssWithoutInitializedData",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 202,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsMalformedWritableMappingsAndUnverifiedLifetime",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 221,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "EncodesTypedFixupsWithoutWeakeningLegacyDecode",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 248,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsEveryElfTruncation",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 262,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsUnsupportedTargetAndUid",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 272,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsOutOfRangeAbsoluteAndExternalRelocations",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 281,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RequiresRetainedRelocationsAndEntryContract",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 292,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "BoundsSectionsSymbolsAndRelocations",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 305,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsWritableMemoryAndAllocatedData",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 314,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "DetectsHeaderTamperingAndTruncatedCode",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 325,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "PreservesDllBlocksAndSparseOrdinals",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 339,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsImportSectionTruncationsAndBadPointers",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 355,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsDuplicateSlotsAndUnsupportedImportContracts",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 374,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "ImportCallMustReachItsOwnPcRelativeVeneerSlot",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 399,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "AcceptsSingleBranchImportThunkInEitherDirection",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 412,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsUnverifiedSingleBranchImportThunks",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 428,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "AcceptsArmAndThumbPicImportThunks",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 443,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        },
+        {
+          "name": "RejectsMalformedPicThunksAndTruncatedImportInstructions",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 469,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32Test"
+        }
+      ]
+    },
+    {
+      "name": "E32PointerTest",
+      "tests": 2,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-29T21:22:44Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "EmitsRuntimeFixupWithoutReapplyingLinkedSymbol",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 498,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32PointerTest"
+        },
+        {
+          "name": "RejectsBadPointerStateAlignmentAndDuplicateFixups",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 516,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32PointerTest"
+        }
+      ]
+    },
+    {
+      "name": "E32GotTest",
+      "tests": 6,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-29T21:22:44Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "RelocatesLocalObjectWordAndPreservesLinkedReference",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 567,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32GotTest"
+        },
+        {
+          "name": "PreservesThumbAndOddByteObjectAddressesExactly",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 577,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32GotTest"
+        },
+        {
+          "name": "RejectsMissingTableUndefinedSymbolAndUnclaimedWords",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 592,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32GotTest"
+        },
+        {
+          "name": "CoversEverySlotAndRejectsMissingSymbolCoverage",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 612,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32GotTest"
+        },
+        {
+          "name": "RejectsSymbolsOutsideTheirSectionAndUnsupportedSymbolKinds",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 640,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32GotTest"
+        },
+        {
+          "name": "RejectsBadShapeNamesDuplicateTablesAndTargetRelocations",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 652,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32GotTest"
+        }
+      ]
+    },
+    {
+      "name": "E32DllTest",
+      "tests": 8,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-29T21:22:44Z",
+      "time": "0.004s",
+      "testsuite": [
+        {
+          "name": "PreservesWritableDataBssAndTypedRelocations",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 700,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32DllTest"
+        },
+        {
+          "name": "ResolvesFrozenOrdinalsAndRelocatesAbsentSlots",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 721,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32DllTest"
+        },
+        {
+          "name": "KeepsApplicationPointerAndExportRelocationsTogether",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 739,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32DllTest"
+        },
+        {
+          "name": "PreservesThumbBitAndSupportsLargeVariableHeader",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 754,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32DllTest"
+        },
+        {
+          "name": "SupportsNoHolesAndMaximumFrozenOrdinal",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 768,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0.004s",
+          "classname": "E32DllTest"
+        },
+        {
+          "name": "RejectsMissingDataAndInvalidExportDefinitions",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 783,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32DllTest"
+        },
+        {
+          "name": "RejectsTruncationsAndExportRelocationCorruption",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 802,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32DllTest"
+        },
+        {
+          "name": "BoundsRelocationPagesCountsAndCanonicalPadding",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_test.cc",
+          "line": 819,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32DllTest"
+        }
+      ]
+    },
+    {
+      "name": "Eka1Test",
+      "tests": 3,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-29T21:22:44Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "PublishesLegacyHeaderWithoutEka2EntryOrSecurity",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/arm_attributes_test.cc",
+          "line": 59,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "Eka1Test"
+        },
+        {
+          "name": "RejectsUntestedAbiAndRuntimeRequirements",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/arm_attributes_test.cc",
+          "line": 89,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "Eka1Test"
+        },
+        {
+          "name": "ChecksPeOrdinalsAgainstContiguousTerminatedIat",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/arm_attributes_test.cc",
+          "line": 122,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "Eka1Test"
+        }
+      ]
+    },
+    {
+      "name": "ArmAttributesTest",
+      "tests": 6,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-29T21:22:44Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "ReadsBothSupportedIsasAndKeepsMissingMetadataUnknown",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/arm_attributes_test.cc",
+          "line": 150,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "ArmAttributesTest"
+        },
+        {
+          "name": "RejectsTruncationsAndMalformedBounds",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/arm_attributes_test.cc",
+          "line": 162,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "ArmAttributesTest"
+        },
+        {
+          "name": "ConvertsMatchedE32CpuIdentityAndRejectsUnsupportedProfiles",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/arm_attributes_test.cc",
+          "line": 190,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "ArmAttributesTest"
+        },
+        {
+          "name": "ConvertsExplicitArmv6Vfpv2WithBasePcsAndImageFlag",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/arm_attributes_test.cc",
+          "line": 212,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "ArmAttributesTest"
+        },
+        {
+          "name": "RejectsVfpWithoutExplicitArmv6AndNonBasePcs",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/arm_attributes_test.cc",
+          "line": 232,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "ArmAttributesTest"
+        },
+        {
+          "name": "RejectsUnsupportedE32FloatingPointProfiles",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/arm_attributes_test.cc",
+          "line": 264,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "ArmAttributesTest"
+        }
+      ]
+    },
+    {
+      "name": "E32ObjectExportsTest",
+      "tests": 4,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-29T21:22:44Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "PreservesFrozenObjectOrdinalAndRelocation",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_object_exports_test.cc",
+          "line": 59,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32ObjectExportsTest"
+        },
+        {
+          "name": "RejectsMalformedObjectBoundsAlignmentAndVisibility",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_object_exports_test.cc",
+          "line": 79,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32ObjectExportsTest"
+        },
+        {
+          "name": "RejectsWritableExecutableAndNobitsObjects",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_object_exports_test.cc",
+          "line": 110,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32ObjectExportsTest"
+        },
+        {
+          "name": "RejectsDuplicateMissingAndInvalidFrozenOrdinals",
+          "file": "\/workspace\/symbian-work\/symbian-platform\/cpp\/tests\/e32_object_exports_test.cc",
+          "line": 121,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-29T21:22:44Z",
+          "time": "0s",
+          "classname": "E32ObjectExportsTest"
+        }
+      ]
+    }
+  ]
+}

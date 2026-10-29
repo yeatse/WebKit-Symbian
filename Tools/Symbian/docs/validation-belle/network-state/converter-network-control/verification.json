@@ -1,0 +1,25 @@
+{
+  "status": "HOST_FORMAT_PASS_GUEST_PENDING",
+  "base_revision": "b105f752f84d1b5640052f64c4a703017810d7b8",
+  "tool_before_sha256": "ab75517eaac5ccf0fff8f9eae62edbbaaa601426172d06cd9ee47348be4779f9",
+  "tool_after_sha256": "b3889820a40a2533be8e40edadf0000d69c934675abfee7555f262c43a0c0999",
+  "repeat_build_sha256": "b3889820a40a2533be8e40edadf0000d69c934675abfee7555f262c43a0c0999",
+  "repeat_build_no_work": true,
+  "tests": 56,
+  "style_violations": 0,
+  "controller": {
+    "path": "/workspace/symbian-online-work/controller-build/e32/network_state_controller.exe",
+    "sha256": "828ab94f8bd991d1deac67b1f104d580276fbbf0aa60531032a352fa1e1ef35b",
+    "uid3": "0xe00008fc",
+    "capabilities": "0x2400",
+    "header_crc_valid": true
+  },
+  "browser_capabilities_unchanged": "0x2000",
+  "official_capability_header": {
+    "path": "include/native/e32capability.h",
+    "sha256": "341aa2300475c942d0b93e9cace8091e2c4a25cd79d88d5d5925dca1d0e4bf33",
+    "NetworkControl": 10,
+    "NetworkServices": 13
+  },
+  "scope": "format mask expansion only; OS/installer/signing authorization unchanged; no guest run"
+}

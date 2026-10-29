@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/workspace/symbian-online-work/converter-network-control/symbian-native-before",
+    "convert-exe",
+    "--input",
+    "/workspace/symbian-online-work/controller-build/network_state_controller.elf",
+    "--uid3",
+    "0xe00008fc",
+    "--capabilities",
+    "0x2400",
+    "--output",
+    "/workspace/symbian-online-work/converter-network-control/old-negative.exe"
+  ],
+  "exit_code": 1,
+  "stderr": "UNIMPLEMENTED: Unsupported E32 capability\n=== Source Location Trace: ===\n/workspace/symbian-work/symbian-platform/cpp/symbian/e32/e32.cc:817\n\n",
+  "output_absent": true
+}

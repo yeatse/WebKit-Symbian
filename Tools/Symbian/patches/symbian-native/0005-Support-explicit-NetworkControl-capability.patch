@@ -1,0 +1,118 @@
+Subject: [PATCH] Support explicit NetworkControl capability in E32 conversion and inspection
+
+Apply after patches 0001 through 0004 to the pinned symbian-platform v0.3.0.
+Official e32capability.h assigns NetworkControl bit 10 and NetworkServices
+bit 13. Permit either or both, consistently in generation and inspection;
+other bits remain unsupported. This is image-format support, not capability
+authorization by the operating system, a signing service or the installer.
+
+The browser keeps NetworkServices only. The separate test controller needs
+NetworkControl for actual interface management. Test both accepted profiles
+and every other bit, with valid CRCs so inspection reaches capability checks.
+
+diff --git a/cpp/symbian/e32/e32.cc b/cpp/symbian/e32/e32.cc
+--- a/cpp/symbian/e32/e32.cc
++++ b/cpp/symbian/e32/e32.cc
+@@ -58,6 +58,10 @@
+   }
+   return crc;
+ }
++
++// Official e32capability.h: NetworkControl=10, NetworkServices=13.
++// This format support does not grant capabilities at install or runtime.
++constexpr uint32_t kSupportedCapabilities = (1U << 10) | (1U << 13);
+ 
+ using internal::ResolvedImports;
+ using internal::Section;
+@@ -812,8 +816,7 @@
+   if (uid3 < 0xe0000000 || uid3 > 0xefffffff) {
+     return absl::InvalidArgumentError("Experimental unprotected UID3 required");
+   }
+-  constexpr uint32_t kNetworkServices = 1U << 13;
+-  if ((capabilities & ~kNetworkServices) != 0) {
++  if ((capabilities & ~kSupportedCapabilities) != 0) {
+     return absl::UnimplementedError("Unsupported E32 capability");
+   }
+   const auto header = analysis::InspectElf32(elf);
+@@ -1202,8 +1205,7 @@
+       return absl::UnimplementedError("Unsupported E32 security header");
+     }
+   }
+-  constexpr uint32_t kNetworkServices = 1U << 13;
+-  if ((Read32(bytes, 136) & ~kNetworkServices) != 0) {
++  if ((Read32(bytes, 136) & ~kSupportedCapabilities) != 0) {
+     return absl::UnimplementedError("Unsupported E32 capability");
+   }
+   const uint32_t descriptor = Read32(bytes, 144);
+diff --git a/cpp/tests/e32_test.cc b/cpp/tests/e32_test.cc
+--- a/cpp/tests/e32_test.cc
++++ b/cpp/tests/e32_test.cc
+@@ -51,9 +51,65 @@
+   const auto inspected = InspectImage(*image);
+   ASSERT_TRUE(inspected.ok()) << inspected.status();
+   EXPECT_EQ(inspected->capabilities, kNetworkServices);
+-  EXPECT_EQ(
+-      ConvertPicExecutable(Executable(), 0xe0000808, 1U << 10).status().code(),
+-      absl::StatusCode::kUnimplemented);
++}
++
++// Recompute the actual header CRC so negative capability tests reach the
++// capability check, not an unrelated corrupt-checksum rejection.
++std::string WithCapabilities(std::string image, uint64_t capabilities) {
++  Put32(image, 136, static_cast<uint32_t>(capabilities));
++  Put32(image, 140, static_cast<uint32_t>(capabilities >> 32));
++  Put32(image, 20, 0xc90fdaa2);
++  uint32_t crc = 0;
++  for (uint32_t index = 0; index < Read32(image, 100); ++index) {
++    crc ^= static_cast<uint8_t>(image[index]);
++    for (unsigned bit = 0; bit < 8; ++bit) {
++      crc = (crc >> 1) ^ ((crc & 1) ? 0xedb88320U : 0U);
++    }
++  }
++  Put32(image, 20, crc);
++  return image;
++}
++
++TEST(E32Test, OptsInToNetworkControlCapability) {
++  for (uint32_t capabilities : {1U << 10, (1U << 10) | (1U << 13)}) {
++    const auto image =
++        ConvertPicExecutable(Executable(), 0xe0000808, capabilities);
++    ASSERT_TRUE(image.ok()) << image.status();
++    EXPECT_EQ(Read32(*image, 136), capabilities);
++    EXPECT_EQ(Read32(*image, 140), 0U);
++    const auto inspected = InspectImage(*image);
++    ASSERT_TRUE(inspected.ok()) << inspected.status();
++    EXPECT_EQ(inspected->capabilities, capabilities);
++    EXPECT_EQ(image->substr(Read32(*image, 100)), Executable().substr(84, 32));
++  }
++}
++
++TEST(E32Test, RejectsUnsupportedCapabilitiesWithValidHeaderChecksum) {
++  const auto image = ConvertPicExecutable(Executable(), 0xe0000808);
++  ASSERT_TRUE(image.ok()) << image.status();
++  // Positive CRC control: this independently rewritten image must inspect.
++  ASSERT_TRUE(InspectImage(WithCapabilities(*image, 0x2400)).ok());
++  for (unsigned bit = 0; bit < 64; ++bit) {
++    if (bit == 10 || bit == 13) {
++      continue;
++    }
++    for (uint64_t base : {uint64_t{0}, uint64_t{0x2400}}) {
++      const uint64_t capabilities = base | (uint64_t{1} << bit);
++      if (bit < 32) {
++        EXPECT_EQ(ConvertPicExecutable(Executable(), 0xe0000808,
++                                       static_cast<uint32_t>(capabilities))
++                      .status()
++                      .code(),
++                  absl::StatusCode::kUnimplemented)
++            << bit;
++      }
++      EXPECT_EQ(InspectImage(WithCapabilities(*image, capabilities))
++                    .status()
++                    .code(),
++                absl::StatusCode::kUnimplemented)
++          << bit;
++    }
++  }
+ }
+ 
+ TEST(E32Test, RejectsRenamedArmExceptionIndexWithoutDescriptor) {

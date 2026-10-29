@@ -1,0 +1,39 @@
+{
+  "base_revision": "b105f752f84d1b5640052f64c4a703017810d7b8",
+  "status": "PASS",
+  "patches": [
+    {
+      "name": "0001-Raise-E32-converter-limits-for-large-images.patch",
+      "sha256": "e7d526647d2bcdbf919c85506226c4f77218f20d3a6bcbae6304086189fbe0d4"
+    },
+    {
+      "name": "0002-Accept-LLD-PIC-range-extension-thunks-to-the-PLT.patch",
+      "sha256": "47522c168093f2f72aa40733cf49f7a430a67c3a134341ec85f8f5c3e19bbe7e"
+    },
+    {
+      "name": "0003-Support-explicit-ARMv6-VFPv2-with-base-AAPCS.patch",
+      "sha256": "5259045f9b77cafc5344b9908b608a5a8205305e5b0b6e60031f024655639699"
+    },
+    {
+      "name": "0004-Support-bounded-read-only-DLL-object-exports.patch",
+      "sha256": "5a2f9dc3444056b2a105acbdf2842fe64dde0494a293cca4126c0acc7088312d"
+    },
+    {
+      "name": "0005-Support-explicit-NetworkControl-capability.patch",
+      "sha256": "b16bc89494ec8b0bc71ebd81f7e88bc5e19ce4a701b76f8ceb39063ee2200964"
+    }
+  ],
+  "owned_sources": {
+    "cpp/symbian/e32/e32.cc": {
+      "before_sha256": "5daef5c1699db46aff44bb4d394aea304418278333d7d3d19df1eea1eab0041d",
+      "after_sha256": "2d1954c912bb084ccd1926503ab6682cade27cfe0bf51cd151b20dd159313f65",
+      "replayed_bytes_equal": true
+    },
+    "cpp/tests/e32_test.cc": {
+      "before_sha256": "fcf562281fb946ab1968089569d8a480daca40f56120cf6b0d6812ebc7cb59e1",
+      "after_sha256": "658bf9ef3f60f9b3d982519a61bb66493b25e72cda891dc4378e7c60fc44992e",
+      "replayed_bytes_equal": true
+    }
+  },
+  "repeat_reverse_checks": "all five patches already applied"
+}

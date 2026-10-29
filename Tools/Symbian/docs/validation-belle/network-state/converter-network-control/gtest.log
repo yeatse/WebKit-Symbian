@@ -1,0 +1,139 @@
+Running main() from /project/build/release-host-linux-x86_64/_deps/googletest-src/googletest/src/gtest_main.cc
+[==========] Running 56 tests from 7 test suites.
+[----------] Global test environment set-up.
+[----------] 27 tests from E32Test
+[ RUN      ] E32Test.ConvertsSupportedExecutableWithStableIdentity
+[       OK ] E32Test.ConvertsSupportedExecutableWithStableIdentity (0 ms)
+[ RUN      ] E32Test.OptsInToNetworkServicesCapability
+[       OK ] E32Test.OptsInToNetworkServicesCapability (0 ms)
+[ RUN      ] E32Test.OptsInToNetworkControlCapability
+[       OK ] E32Test.OptsInToNetworkControlCapability (0 ms)
+[ RUN      ] E32Test.RejectsUnsupportedCapabilitiesWithValidHeaderChecksum
+[       OK ] E32Test.RejectsUnsupportedCapabilitiesWithValidHeaderChecksum (0 ms)
+[ RUN      ] E32Test.RejectsRenamedArmExceptionIndexWithoutDescriptor
+[       OK ] E32Test.RejectsRenamedArmExceptionIndexWithoutDescriptor (0 ms)
+[ RUN      ] E32Test.PreservesExceptionIndexBeyond64KiB
+[       OK ] E32Test.PreservesExceptionIndexBeyond64KiB (0 ms)
+[ RUN      ] E32Test.RejectsMalformedLargeExceptionIndex
+[       OK ] E32Test.RejectsMalformedLargeExceptionIndex (0 ms)
+[ RUN      ] E32Test.RejectsLargeExceptionDescriptorBoundsMismatch
+[       OK ] E32Test.RejectsLargeExceptionDescriptorBoundsMismatch (0 ms)
+[ RUN      ] E32Test.PreservesIndependentDataBssAndTypedPointers
+[       OK ] E32Test.PreservesIndependentDataBssAndTypedPointers (0 ms)
+[ RUN      ] E32Test.AcceptsBssWithoutInitializedData
+[       OK ] E32Test.AcceptsBssWithoutInitializedData (0 ms)
+[ RUN      ] E32Test.RejectsMalformedWritableMappingsAndUnverifiedLifetime
+[       OK ] E32Test.RejectsMalformedWritableMappingsAndUnverifiedLifetime (0 ms)
+[ RUN      ] E32Test.EncodesTypedFixupsWithoutWeakeningLegacyDecode
+[       OK ] E32Test.EncodesTypedFixupsWithoutWeakeningLegacyDecode (0 ms)
+[ RUN      ] E32Test.RejectsEveryElfTruncation
+[       OK ] E32Test.RejectsEveryElfTruncation (0 ms)
+[ RUN      ] E32Test.RejectsUnsupportedTargetAndUid
+[       OK ] E32Test.RejectsUnsupportedTargetAndUid (0 ms)
+[ RUN      ] E32Test.RejectsOutOfRangeAbsoluteAndExternalRelocations
+[       OK ] E32Test.RejectsOutOfRangeAbsoluteAndExternalRelocations (0 ms)
+[ RUN      ] E32Test.RequiresRetainedRelocationsAndEntryContract
+[       OK ] E32Test.RequiresRetainedRelocationsAndEntryContract (0 ms)
+[ RUN      ] E32Test.BoundsSectionsSymbolsAndRelocations
+[       OK ] E32Test.BoundsSectionsSymbolsAndRelocations (0 ms)
+[ RUN      ] E32Test.RejectsWritableMemoryAndAllocatedData
+[       OK ] E32Test.RejectsWritableMemoryAndAllocatedData (0 ms)
+[ RUN      ] E32Test.DetectsHeaderTamperingAndTruncatedCode
+[       OK ] E32Test.DetectsHeaderTamperingAndTruncatedCode (0 ms)
+[ RUN      ] E32Test.PreservesDllBlocksAndSparseOrdinals
+[       OK ] E32Test.PreservesDllBlocksAndSparseOrdinals (0 ms)
+[ RUN      ] E32Test.RejectsImportSectionTruncationsAndBadPointers
+[       OK ] E32Test.RejectsImportSectionTruncationsAndBadPointers (0 ms)
+[ RUN      ] E32Test.RejectsDuplicateSlotsAndUnsupportedImportContracts
+[       OK ] E32Test.RejectsDuplicateSlotsAndUnsupportedImportContracts (0 ms)
+[ RUN      ] E32Test.ImportCallMustReachItsOwnPcRelativeVeneerSlot
+[       OK ] E32Test.ImportCallMustReachItsOwnPcRelativeVeneerSlot (0 ms)
+[ RUN      ] E32Test.AcceptsSingleBranchImportThunkInEitherDirection
+[       OK ] E32Test.AcceptsSingleBranchImportThunkInEitherDirection (0 ms)
+[ RUN      ] E32Test.RejectsUnverifiedSingleBranchImportThunks
+[       OK ] E32Test.RejectsUnverifiedSingleBranchImportThunks (0 ms)
+[ RUN      ] E32Test.AcceptsArmAndThumbPicImportThunks
+[       OK ] E32Test.AcceptsArmAndThumbPicImportThunks (0 ms)
+[ RUN      ] E32Test.RejectsMalformedPicThunksAndTruncatedImportInstructions
+[       OK ] E32Test.RejectsMalformedPicThunksAndTruncatedImportInstructions (0 ms)
+[----------] 27 tests from E32Test (0 ms total)
+
+[----------] 2 tests from E32PointerTest
+[ RUN      ] E32PointerTest.EmitsRuntimeFixupWithoutReapplyingLinkedSymbol
+[       OK ] E32PointerTest.EmitsRuntimeFixupWithoutReapplyingLinkedSymbol (0 ms)
+[ RUN      ] E32PointerTest.RejectsBadPointerStateAlignmentAndDuplicateFixups
+[       OK ] E32PointerTest.RejectsBadPointerStateAlignmentAndDuplicateFixups (0 ms)
+[----------] 2 tests from E32PointerTest (0 ms total)
+
+[----------] 6 tests from E32GotTest
+[ RUN      ] E32GotTest.RelocatesLocalObjectWordAndPreservesLinkedReference
+[       OK ] E32GotTest.RelocatesLocalObjectWordAndPreservesLinkedReference (0 ms)
+[ RUN      ] E32GotTest.PreservesThumbAndOddByteObjectAddressesExactly
+[       OK ] E32GotTest.PreservesThumbAndOddByteObjectAddressesExactly (0 ms)
+[ RUN      ] E32GotTest.RejectsMissingTableUndefinedSymbolAndUnclaimedWords
+[       OK ] E32GotTest.RejectsMissingTableUndefinedSymbolAndUnclaimedWords (0 ms)
+[ RUN      ] E32GotTest.CoversEverySlotAndRejectsMissingSymbolCoverage
+[       OK ] E32GotTest.CoversEverySlotAndRejectsMissingSymbolCoverage (0 ms)
+[ RUN      ] E32GotTest.RejectsSymbolsOutsideTheirSectionAndUnsupportedSymbolKinds
+[       OK ] E32GotTest.RejectsSymbolsOutsideTheirSectionAndUnsupportedSymbolKinds (0 ms)
+[ RUN      ] E32GotTest.RejectsBadShapeNamesDuplicateTablesAndTargetRelocations
+[       OK ] E32GotTest.RejectsBadShapeNamesDuplicateTablesAndTargetRelocations (0 ms)
+[----------] 6 tests from E32GotTest (0 ms total)
+
+[----------] 8 tests from E32DllTest
+[ RUN      ] E32DllTest.PreservesWritableDataBssAndTypedRelocations
+[       OK ] E32DllTest.PreservesWritableDataBssAndTypedRelocations (0 ms)
+[ RUN      ] E32DllTest.ResolvesFrozenOrdinalsAndRelocatesAbsentSlots
+[       OK ] E32DllTest.ResolvesFrozenOrdinalsAndRelocatesAbsentSlots (0 ms)
+[ RUN      ] E32DllTest.KeepsApplicationPointerAndExportRelocationsTogether
+[       OK ] E32DllTest.KeepsApplicationPointerAndExportRelocationsTogether (0 ms)
+[ RUN      ] E32DllTest.PreservesThumbBitAndSupportsLargeVariableHeader
+[       OK ] E32DllTest.PreservesThumbBitAndSupportsLargeVariableHeader (0 ms)
+[ RUN      ] E32DllTest.SupportsNoHolesAndMaximumFrozenOrdinal
+[       OK ] E32DllTest.SupportsNoHolesAndMaximumFrozenOrdinal (4 ms)
+[ RUN      ] E32DllTest.RejectsMissingDataAndInvalidExportDefinitions
+[       OK ] E32DllTest.RejectsMissingDataAndInvalidExportDefinitions (0 ms)
+[ RUN      ] E32DllTest.RejectsTruncationsAndExportRelocationCorruption
+[       OK ] E32DllTest.RejectsTruncationsAndExportRelocationCorruption (0 ms)
+[ RUN      ] E32DllTest.BoundsRelocationPagesCountsAndCanonicalPadding
+[       OK ] E32DllTest.BoundsRelocationPagesCountsAndCanonicalPadding (0 ms)
+[----------] 8 tests from E32DllTest (4 ms total)
+
+[----------] 3 tests from Eka1Test
+[ RUN      ] Eka1Test.PublishesLegacyHeaderWithoutEka2EntryOrSecurity
+[       OK ] Eka1Test.PublishesLegacyHeaderWithoutEka2EntryOrSecurity (0 ms)
+[ RUN      ] Eka1Test.RejectsUntestedAbiAndRuntimeRequirements
+[       OK ] Eka1Test.RejectsUntestedAbiAndRuntimeRequirements (0 ms)
+[ RUN      ] Eka1Test.ChecksPeOrdinalsAgainstContiguousTerminatedIat
+[       OK ] Eka1Test.ChecksPeOrdinalsAgainstContiguousTerminatedIat (0 ms)
+[----------] 3 tests from Eka1Test (0 ms total)
+
+[----------] 6 tests from ArmAttributesTest
+[ RUN      ] ArmAttributesTest.ReadsBothSupportedIsasAndKeepsMissingMetadataUnknown
+[       OK ] ArmAttributesTest.ReadsBothSupportedIsasAndKeepsMissingMetadataUnknown (0 ms)
+[ RUN      ] ArmAttributesTest.RejectsTruncationsAndMalformedBounds
+[       OK ] ArmAttributesTest.RejectsTruncationsAndMalformedBounds (0 ms)
+[ RUN      ] ArmAttributesTest.ConvertsMatchedE32CpuIdentityAndRejectsUnsupportedProfiles
+[       OK ] ArmAttributesTest.ConvertsMatchedE32CpuIdentityAndRejectsUnsupportedProfiles (0 ms)
+[ RUN      ] ArmAttributesTest.ConvertsExplicitArmv6Vfpv2WithBasePcsAndImageFlag
+[       OK ] ArmAttributesTest.ConvertsExplicitArmv6Vfpv2WithBasePcsAndImageFlag (0 ms)
+[ RUN      ] ArmAttributesTest.RejectsVfpWithoutExplicitArmv6AndNonBasePcs
+[       OK ] ArmAttributesTest.RejectsVfpWithoutExplicitArmv6AndNonBasePcs (0 ms)
+[ RUN      ] ArmAttributesTest.RejectsUnsupportedE32FloatingPointProfiles
+[       OK ] ArmAttributesTest.RejectsUnsupportedE32FloatingPointProfiles (0 ms)
+[----------] 6 tests from ArmAttributesTest (0 ms total)
+
+[----------] 4 tests from E32ObjectExportsTest
+[ RUN      ] E32ObjectExportsTest.PreservesFrozenObjectOrdinalAndRelocation
+[       OK ] E32ObjectExportsTest.PreservesFrozenObjectOrdinalAndRelocation (0 ms)
+[ RUN      ] E32ObjectExportsTest.RejectsMalformedObjectBoundsAlignmentAndVisibility
+[       OK ] E32ObjectExportsTest.RejectsMalformedObjectBoundsAlignmentAndVisibility (0 ms)
+[ RUN      ] E32ObjectExportsTest.RejectsWritableExecutableAndNobitsObjects
+[       OK ] E32ObjectExportsTest.RejectsWritableExecutableAndNobitsObjects (0 ms)
+[ RUN      ] E32ObjectExportsTest.RejectsDuplicateMissingAndInvalidFrozenOrdinals
+[       OK ] E32ObjectExportsTest.RejectsDuplicateMissingAndInvalidFrozenOrdinals (0 ms)
+[----------] 4 tests from E32ObjectExportsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 56 tests from 7 test suites ran. (5 ms total)
+[  PASSED  ] 56 tests.
