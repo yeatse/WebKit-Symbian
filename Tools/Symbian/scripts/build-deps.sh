@@ -112,6 +112,11 @@ build_sqlite() {
   # files owned by their original user. No mmap or extension loading.
   cat > "$dir/symbian-fchown.h" <<'EOF'
 #include <sys/types.h>
+#include <fcntl.h>
+/* Open C aliases O_BINARY to O_BUFFERED. SQLite needs immediately visible
+ * journal writes; Symbian file descriptors already use binary I/O by default. */
+#undef O_BINARY
+#define O_BINARY 0
 static int sqliteNoFchown(int fd, uid_t uid, gid_t gid) { (void)fd; (void)uid; (void)gid; return 0; }
 #define fchown sqliteNoFchown
 EOF

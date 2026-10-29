@@ -160,7 +160,15 @@ bool SQLiteDatabase::open(const String& filename, OpenMode openMode, OptionSet<O
         int result = SQLITE_OK;
         {
             SQLiteTransactionInProgressAutoCounter transactionCounter;
-            result = sqlite3_open_v2(FileSystem::fileSystemRepresentation(filename).data(), &m_db, flags, nullptr);
+#if OS(SYMBIAN)
+            // Open C does not implement POSIX record locks. SQLite's directory
+            // locks provide exclusion between connections without F_SETLK.
+            constexpr auto* vfs = "unix-dotfile";
+            m_useWAL = false;
+#else
+            constexpr const char* vfs = nullptr;
+#endif
+            result = sqlite3_open_v2(FileSystem::fileSystemRepresentation(filename).data(), &m_db, flags, vfs);
 #if PLATFORM(COCOA)
             if (result == SQLITE_OK && options.contains(OpenOptions::CanSuspendWhileLocked))
                 SQLiteFileSystem::setCanSuspendLockedFileAttribute(filename);
@@ -191,6 +199,15 @@ bool SQLiteDatabase::open(const String& filename, OpenMode openMode, OptionSet<O
     }
 
     if (filename != inMemoryPath()) {
+#if OS(SYMBIAN)
+        // The Symbian SQLite build omits WAL and shared-memory support.
+        if (openMode != OpenMode::ReadOnly) {
+            SQLiteTransactionInProgressAutoCounter transactionCounter;
+            auto statement = prepareStatement("PRAGMA journal_mode=DELETE;"_s);
+            if (!statement || statement->step() != SQLITE_ROW || !equalLettersIgnoringASCIICase(statement->columnText(0), "delete"_s))
+                return false;
+        }
+#else
         if (openMode != OpenMode::ReadOnly && !useWALJournalMode())
             return false;
 
@@ -200,6 +217,7 @@ bool SQLiteDatabase::open(const String& filename, OpenMode openMode, OptionSet<O
             if (!FileSystem::makeSafeToUseMemoryMapForPath(shmFileName))
                 return false;
         }
+#endif
     }
 
     closeDatabase.release();
