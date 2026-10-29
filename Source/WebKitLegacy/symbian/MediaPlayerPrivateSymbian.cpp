@@ -29,6 +29,7 @@
 #include <WebCore/PlatformMediaResourceLoader.h>
 #include <WebCore/PlatformTimeRanges.h>
 #include <WebCore/ResourceRequest.h>
+#include <WebCore/ResourceResponse.h>
 #include <wtf/HashSet.h>
 #include <wtf/NeverDestroyed.h>
 #include <wtf/RunLoop.h>
@@ -77,7 +78,7 @@ private:
     // Like the hole-punch engine, which this port's would be the only one.
     MediaPlayerEnums::MediaEngineIdentifier identifier() const final { return MediaPlayerEnums::MediaEngineIdentifier::HolePunch; }
 
-    std::unique_ptr<MediaPlayerPrivateInterface> createMediaEnginePlayer(MediaPlayer* player) const final
+    std::unique_ptr<MediaPlayerPrivateInterface> createMediaEnginePlayer(WebCore::MediaPlayer* player) const final
     {
         return makeUnique<MediaPlayerPrivateSymbian>(player);
     }
@@ -88,18 +89,18 @@ private:
             types = mimeTypes();
     }
 
-    MediaPlayer::SupportsType supportsTypeAndCodecs(const MediaEngineSupportParameters& parameters) const final
+    WebCore::MediaPlayer::SupportsType supportsTypeAndCodecs(const MediaEngineSupportParameters& parameters) const final
     {
         if (!s_factory || parameters.isMediaSource || parameters.isMediaStream || !mimeTypes().contains(parameters.type.containerType()))
-            return MediaPlayer::SupportsType::IsNotSupported;
+            return WebCore::MediaPlayer::SupportsType::IsNotSupported;
         auto codecs = parameters.type.codecs();
         if (codecs.isEmpty())
-            return MediaPlayer::SupportsType::MayBeSupported;
+            return WebCore::MediaPlayer::SupportsType::MayBeSupported;
         for (auto& codec : codecs) {
             if (!isSupportedCodec(codec))
-                return MediaPlayer::SupportsType::IsNotSupported;
+                return WebCore::MediaPlayer::SupportsType::IsNotSupported;
         }
-        return MediaPlayer::SupportsType::IsSupported;
+        return WebCore::MediaPlayer::SupportsType::IsSupported;
     }
 };
 
@@ -175,7 +176,7 @@ private:
 
 } // namespace
 
-MediaPlayerPrivateSymbian::MediaPlayerPrivateSymbian(MediaPlayer* player)
+MediaPlayerPrivateSymbian::MediaPlayerPrivateSymbian(WebCore::MediaPlayer* player)
     : m_player(player)
 {
     players().add(this);
@@ -191,11 +192,11 @@ void MediaPlayerPrivateSymbian::load(const String& url)
 {
     cancelLoad();
     m_url = URL(URL(), url);
-    setNetworkState(MediaPlayer::NetworkState::Loading);
-    setReadyState(MediaPlayer::ReadyState::HaveNothing);
-    if (m_preload == MediaPlayer::Preload::None) {
+    setNetworkState(WebCore::MediaPlayer::NetworkState::Loading);
+    setReadyState(WebCore::MediaPlayer::ReadyState::HaveNothing);
+    if (m_preload == WebCore::MediaPlayer::Preload::None) {
         m_loadDeferred = true;
-        setNetworkState(MediaPlayer::NetworkState::Idle);
+        setNetworkState(WebCore::MediaPlayer::NetworkState::Idle);
         return;
     }
     startLoading();
@@ -206,14 +207,14 @@ void MediaPlayerPrivateSymbian::prepareToPlay()
     if (!m_loadDeferred)
         return;
     m_loadDeferred = false;
-    setNetworkState(MediaPlayer::NetworkState::Loading);
+    setNetworkState(WebCore::MediaPlayer::NetworkState::Loading);
     startLoading();
 }
 
 void MediaPlayerPrivateSymbian::startLoading()
 {
     if (!s_factory) {
-        setNetworkState(MediaPlayer::NetworkState::FormatError);
+        setNetworkState(WebCore::MediaPlayer::NetworkState::FormatError);
         return;
     }
 
@@ -228,7 +229,7 @@ void MediaPlayerPrivateSymbian::startLoading()
 
     auto loader = m_player->createResourceLoader();
     if (!loader) {
-        setNetworkState(MediaPlayer::NetworkState::NetworkError);
+        setNetworkState(WebCore::MediaPlayer::NetworkState::NetworkError);
         return;
     }
 
@@ -243,7 +244,7 @@ void MediaPlayerPrivateSymbian::startLoading()
     m_downloadPath = FileSystem::pathByAppendingComponent(mediaDirectory(), name);
     m_file = FileSystem::openFile(m_downloadPath, FileSystem::FileOpenMode::Write);
     if (!FileSystem::isHandleValid(m_file)) {
-        setNetworkState(MediaPlayer::NetworkState::NetworkError);
+        setNetworkState(WebCore::MediaPlayer::NetworkState::NetworkError);
         return;
     }
 
@@ -274,7 +275,7 @@ void MediaPlayerPrivateSymbian::didFinishLoading()
 void MediaPlayerPrivateSymbian::didFailLoading()
 {
     cancelLoad();
-    setNetworkState(MediaPlayer::NetworkState::NetworkError);
+    setNetworkState(WebCore::MediaPlayer::NetworkState::NetworkError);
 }
 
 void MediaPlayerPrivateSymbian::cancelLoad()
@@ -306,7 +307,7 @@ void MediaPlayerPrivateSymbian::open(const String& path)
     bool hasVideo = m_player->isVideoPlayer() && !m_player->contentMIMEType().startsWithIgnoringASCIICase("audio/");
     m_backend.reset(s_factory(s_factoryContext, *this, hasVideo));
     if (!m_backend) {
-        setNetworkState(MediaPlayer::NetworkState::FormatError);
+        setNetworkState(WebCore::MediaPlayer::NetworkState::FormatError);
         return;
     }
     m_backend->open(path.utf8().data());
@@ -322,7 +323,7 @@ void MediaPlayerPrivateSymbian::mediaPlayerOpened(int error, double duration, in
         auto& player = *weakThis;
         if (error) {
             player.m_backend = nullptr;
-            player.setNetworkState(MediaPlayer::NetworkState::FormatError);
+            player.setNetworkState(WebCore::MediaPlayer::NetworkState::FormatError);
             return;
         }
         player.m_opened = true;
@@ -334,8 +335,8 @@ void MediaPlayerPrivateSymbian::mediaPlayerOpened(int error, double duration, in
         if (!player.m_videoSize.isEmpty())
             player.m_player->sizeChanged();
         player.m_player->characteristicChanged();
-        player.setReadyState(MediaPlayer::ReadyState::HaveEnoughData);
-        player.setNetworkState(MediaPlayer::NetworkState::Loaded);
+        player.setReadyState(WebCore::MediaPlayer::ReadyState::HaveEnoughData);
+        player.setNetworkState(WebCore::MediaPlayer::NetworkState::Loaded);
         if (!player.m_paused) {
             player.m_backend->play();
             player.m_playing = true;
@@ -351,7 +352,7 @@ void MediaPlayerPrivateSymbian::mediaPlayerEnded(int error)
         auto& player = *weakThis;
         player.m_playing = false;
         if (error) {
-            player.setNetworkState(MediaPlayer::NetworkState::DecodeError);
+            player.setNetworkState(WebCore::MediaPlayer::NetworkState::DecodeError);
             return;
         }
         // HTMLMediaElement sees the end in currentTime, and pauses or loops.
@@ -446,7 +447,7 @@ bool MediaPlayerPrivateSymbian::didLoadingProgress() const
     return progressed;
 }
 
-void MediaPlayerPrivateSymbian::setNetworkState(MediaPlayer::NetworkState state)
+void MediaPlayerPrivateSymbian::setNetworkState(WebCore::MediaPlayer::NetworkState state)
 {
     if (m_networkState == state)
         return;
@@ -454,7 +455,7 @@ void MediaPlayerPrivateSymbian::setNetworkState(MediaPlayer::NetworkState state)
     m_player->networkStateChanged();
 }
 
-void MediaPlayerPrivateSymbian::setReadyState(MediaPlayer::ReadyState state)
+void MediaPlayerPrivateSymbian::setReadyState(WebCore::MediaPlayer::ReadyState state)
 {
     if (m_readyState == state)
         return;
