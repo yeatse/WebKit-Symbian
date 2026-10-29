@@ -1,0 +1,1 @@
+{"useJIT":1,"useBaselineJIT":1,"useDFGJIT":1,"useFTLJIT":0,"useConcurrentJIT":1,"numberOfDFGCompilerThreads":2,"useRegExpJIT":0,"useSamplingProfiler":0,"testLoopCount":10000}

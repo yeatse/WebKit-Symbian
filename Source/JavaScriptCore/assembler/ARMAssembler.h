@@ -168,7 +168,7 @@ namespace JSC {
 
         // ARM instruction constants
         enum {
-            AND = (0x0 << 21),
+            ANDInstruction = (0x0 << 21),
             EOR = (0x1 << 21),
             SUB = (0x2 << 21),
             RSB = (0x3 << 21),
@@ -320,12 +320,12 @@ namespace JSC {
 
         void bitAnd(int rd, int rn, ARMWord op2, Condition cc = AL)
         {
-            emitInstruction(toARMWord(cc) | AND, rd, rn, op2);
+            emitInstruction(toARMWord(cc) | ANDInstruction, rd, rn, op2);
         }
 
         void bitAnds(int rd, int rn, ARMWord op2, Condition cc = AL)
         {
-            emitInstruction(toARMWord(cc) | AND | SetConditionalCodes, rd, rn, op2);
+            emitInstruction(toARMWord(cc) | ANDInstruction | SetConditionalCodes, rd, rn, op2);
         }
 
         void eor(int rd, int rn, ARMWord op2, Condition cc = AL)

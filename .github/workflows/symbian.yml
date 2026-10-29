@@ -9,7 +9,7 @@
 # The repository secrets SIS_CERTIFICATE and SIS_KEY (a PEM certificate and
 # its RSA key), if set, sign them instead.
 name: Symbian
-run-name: 'Symbian 2.52.6 (${{ github.ref_name }}) #${{ github.run_number }}'
+run-name: 'Symbian 2.52.6 ARM11 JIT (${{ github.ref_name }}) #${{ github.run_number }}'
 
 on:
   push:
@@ -31,6 +31,7 @@ concurrency:
 
 env:
   SDK_VERSION: 0.3.0
+  SYMBIAN_JSC_MODE: dfg
   SYMBIAN_WEBKIT_WORK: ${{ github.workspace }}/WebKitBuild/Symbian
   SYMBIAN_SDK_PREFIX: ${{ github.workspace }}/WebKitBuild/Symbian/symbian-sdk
   CCACHE_DIR: ${{ github.workspace }}/WebKitBuild/Symbian/ccache
@@ -223,6 +224,7 @@ jobs:
             printf '### WebKit 2.52.6 for Symbian\n\n'
             printf '[Download SIS packages](%s) · Version `%s`\n\n' "$SIS_ARTIFACT_URL" "$SIS_VERSION"
             printf 'Branch: `%s` · Commit: `%s`\n\n' "$GITHUB_REF_NAME" "$GITHUB_SHA"
+            printf 'JavaScript: ARM LLInt + Baseline JIT + DFG (ARMv6, VFPv2, softfp).\n\n'
             printf 'Install `symbian-webkit-icu.sis` first, then `browser.sis` and/or `jsc.sis`.\n\n'
             printf '```text\n'
             cat "$SYMBIAN_WEBKIT_WORK/sis/SHA256SUMS"
