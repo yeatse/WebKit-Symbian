@@ -1,0 +1,825 @@
+{
+  "status": "FAIL",
+  "sis_version": "0.3.41",
+  "payload_count": 13,
+  "script": {
+    "exists": true,
+    "path": "/workspace/symbian-belle-work/release-0.3.41/install-verify-sis.py",
+    "bytes": 23238,
+    "sha256": "f6ca434d022c7dd1353bd7430a70f7de91501a911d9db1cdb210645ec0c8b245"
+  },
+  "emulator": {
+    "exists": true,
+    "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+    "bytes": 65473264,
+    "sha256": "3c4e27c486b696171502ff28b5577bbed48666c238c2ff85b335d79a0083467c"
+  },
+  "close_helper": {
+    "exists": true,
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/close-emulator-window.py",
+    "bytes": 4825,
+    "sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f"
+  },
+  "packages": [
+    {
+      "package": "symbian-webkit-icu.sis",
+      "sis_sha256": "5a2ad94da2911a9d586466dac58f40dd61af14c43c73a6613f44ed77a3e36692",
+      "before": [
+        {
+          "target": "c:\\resource\\icu\\icudt70l.dat",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/icu/icudt70l.dat",
+          "bytes": 10261824,
+          "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+        }
+      ],
+      "status": "FAIL",
+      "command": [
+        "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+        "--device",
+        "RM-707",
+        "--install",
+        "/workspace/symbian-belle-work/release-0.3.41/sis/symbian-webkit-icu.sis"
+      ],
+      "log": "/workspace/symbian-belle-work/release-0.3.41/install-run-4/symbian-webkit-icu.log",
+      "forced_cleanup": false,
+      "close_requested": true,
+      "pid": 478300,
+      "installation_marker": true,
+      "host_exit": 0,
+      "guest_panic": false,
+      "log_identity": {
+        "exists": true,
+        "path": "/workspace/symbian-belle-work/release-0.3.41/install-run-4/symbian-webkit-icu.log",
+        "bytes": 35368,
+        "sha256": "5f99add051280370af69a89554d3d13ac7d8acfb7ed5b4c138a0d1b58a1886fa"
+      },
+      "verification": {
+        "status": "FAIL",
+        "payload_status": "PASS",
+        "registry_identity_status": "PASS",
+        "registry_file_length_status": "FAIL",
+        "registry_file_lengths": [
+          {
+            "target": "c:\\resource\\icu\\icudt70l.dat",
+            "registry_value": 4768109,
+            "expected_uncompressed": 10261824,
+            "sis_stored": 4768109,
+            "correct": false
+          }
+        ],
+        "registry": {
+          "uid": "0xe1a5c013",
+          "name": "Symbian WebKit ICU data",
+          "vendor": "symbian-webkit",
+          "index": 0,
+          "drives": 20,
+          "completely_present_raw": 0,
+          "sids": [],
+          "controllers": [
+            {
+              "version_words": [
+                2687744,
+                2687744,
+                2687744
+              ],
+              "offset": 0,
+              "hash": ""
+            }
+          ],
+          "version": "0.3.41",
+          "language": 1,
+          "selected_drive_mask": 16,
+          "format": [
+            5,
+            4
+          ],
+          "localized_vendor": "",
+          "install_type": 0,
+          "in_rom": 0,
+          "deletable_preinstalled_raw": 0,
+          "signed_raw": 1,
+          "trust_raw": 400,
+          "embedded": [],
+          "files": [
+            {
+              "target": "c:\\resource\\icu\\icudt70l.dat",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "5143286f53aad4c49b6de05497492af9f4dd1445",
+              "bytes": 4768109,
+              "index": 0,
+              "sid": "0x0"
+            }
+          ],
+          "is_removable": 1,
+          "signed_by_sucert_raw": 0,
+          "localized_names": [],
+          "localized_vendors": [
+            "symbian-webkit"
+          ]
+        },
+        "registry_file": {
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/install/sisregistry/e1a5c013/00000000.reg",
+          "bytes": 319,
+          "sha256": "c276123530d686f7d39227514e95d7c677718380ea3232bb1f74b6e676e155f8"
+        },
+        "controller_file": {
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/install/sisregistry/e1a5c013/00000000_0000.ctl",
+          "bytes": 692,
+          "sha256": "ab5988ac4182c2aaad4736dfa02adf3a0056fa15997c6276a68c93c76c6edecf"
+        },
+        "controller_equals_sis": true,
+        "registry_length_note": "Current EKA may store compressed length in the uncompressed_length field. Such entries FAIL registry metadata verification even when all installed payload bytes pass; stored-length correspondence is diagnostic only.",
+        "files": [
+          {
+            "target": "c:\\resource\\icu\\icudt70l.dat",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/icu/icudt70l.dat",
+            "bytes": 10261824,
+            "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+            "source_bytes_equal": true
+          }
+        ],
+        "c_drive_shadows": []
+      },
+      "installation_status": "PASS"
+    },
+    {
+      "package": "jsc.sis",
+      "sis_sha256": "b32d1d49befbf977c591bb25a830688cd04f3676553690432e24adcd6d3265ad",
+      "before": [
+        {
+          "target": "e:\\sys\\bin\\jsc.exe",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/sys/bin/jsc.exe",
+          "bytes": 18846844,
+          "sha256": "d26cf9cad3c4e47a0d3a559598bd16ba2bfad772dabeb21c17cb8eb211b44bcc"
+        },
+        {
+          "target": "c:\\sys\\bin\\jsc.exe",
+          "shadow": true,
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/jsc.exe",
+          "bytes": 18846844,
+          "sha256": "d26cf9cad3c4e47a0d3a559598bd16ba2bfad772dabeb21c17cb8eb211b44bcc"
+        },
+        {
+          "target": "c:\\data\\es2020.js",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/es2020.js",
+          "bytes": 2587,
+          "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528"
+        },
+        {
+          "target": "c:\\data\\intl.js",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/intl.js",
+          "bytes": 1462,
+          "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30"
+        },
+        {
+          "target": "c:\\data\\basic.js",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/basic.js",
+          "bytes": 186,
+          "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2"
+        },
+        {
+          "target": "c:\\data\\resizable-arraybuffer.js",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/resizable-arraybuffer.js",
+          "bytes": 2715,
+          "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac"
+        }
+      ],
+      "status": "FAIL",
+      "command": [
+        "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+        "--device",
+        "RM-707",
+        "--install",
+        "/workspace/symbian-belle-work/release-0.3.41/sis/jsc.sis"
+      ],
+      "log": "/workspace/symbian-belle-work/release-0.3.41/install-run-4/jsc.log",
+      "forced_cleanup": false,
+      "close_requested": true,
+      "pid": 478330,
+      "installation_marker": true,
+      "host_exit": 0,
+      "guest_panic": false,
+      "log_identity": {
+        "exists": true,
+        "path": "/workspace/symbian-belle-work/release-0.3.41/install-run-4/jsc.log",
+        "bytes": 35820,
+        "sha256": "9743d26c31295885482030f424c77f66b645a938cd358ca0e73ba28cd729f192"
+      },
+      "verification": {
+        "status": "FAIL",
+        "payload_status": "PASS",
+        "registry_identity_status": "PASS",
+        "registry_file_length_status": "FAIL",
+        "registry_file_lengths": [
+          {
+            "target": "!:\\sys\\bin\\jsc.exe",
+            "registry_value": 6891028,
+            "expected_uncompressed": 18846844,
+            "sis_stored": 6891028,
+            "correct": false
+          },
+          {
+            "target": "c:\\data\\es2020.js",
+            "registry_value": 1063,
+            "expected_uncompressed": 2587,
+            "sis_stored": 1063,
+            "correct": false
+          },
+          {
+            "target": "c:\\data\\intl.js",
+            "registry_value": 638,
+            "expected_uncompressed": 1462,
+            "sis_stored": 638,
+            "correct": false
+          },
+          {
+            "target": "c:\\data\\basic.js",
+            "registry_value": 147,
+            "expected_uncompressed": 186,
+            "sis_stored": 147,
+            "correct": false
+          },
+          {
+            "target": "c:\\data\\resizable-arraybuffer.js",
+            "registry_value": 864,
+            "expected_uncompressed": 2715,
+            "sis_stored": 864,
+            "correct": false
+          }
+        ],
+        "registry": {
+          "uid": "0xe1a5c011",
+          "name": "JavaScriptCore shell",
+          "vendor": "symbian-webkit",
+          "index": 0,
+          "drives": 20,
+          "completely_present_raw": 0,
+          "sids": [],
+          "controllers": [
+            {
+              "version_words": [
+                2687744,
+                2687744,
+                2687744
+              ],
+              "offset": 0,
+              "hash": ""
+            }
+          ],
+          "version": "0.3.41",
+          "language": 1,
+          "selected_drive_mask": 16,
+          "format": [
+            5,
+            4
+          ],
+          "localized_vendor": "",
+          "install_type": 0,
+          "in_rom": 0,
+          "deletable_preinstalled_raw": 0,
+          "signed_raw": 1,
+          "trust_raw": 400,
+          "embedded": [],
+          "files": [
+            {
+              "target": "E:\\sys\\bin\\jsc.exe",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "793a728d156f95005ad0b798fc317dd3a8180846",
+              "bytes": 6891028,
+              "index": 0,
+              "sid": "0xe1a5c001"
+            },
+            {
+              "target": "c:\\data\\es2020.js",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "63c6d19ce8f4203c1875353f9f4daecaaeccc48d",
+              "bytes": 1063,
+              "index": 1,
+              "sid": "0x0"
+            },
+            {
+              "target": "c:\\data\\intl.js",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "b14e291627a62eeae586fda988e095ebe07311d7",
+              "bytes": 638,
+              "index": 2,
+              "sid": "0x0"
+            },
+            {
+              "target": "c:\\data\\basic.js",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "def7df0dfa4be5bb7017b2ba54080c9939fd9e79",
+              "bytes": 147,
+              "index": 3,
+              "sid": "0x0"
+            },
+            {
+              "target": "c:\\data\\resizable-arraybuffer.js",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "ad64751ce22426706e64de0ccb304a5614f1ce72",
+              "bytes": 864,
+              "index": 4,
+              "sid": "0x0"
+            }
+          ],
+          "is_removable": 1,
+          "signed_by_sucert_raw": 0,
+          "localized_names": [],
+          "localized_vendors": [
+            "symbian-webkit"
+          ]
+        },
+        "registry_file": {
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/install/sisregistry/e1a5c011/00000000.reg",
+          "bytes": 590,
+          "sha256": "cc12d315850faaef062c2c53348e39b9767fb22b978e579c95cd385c2f0dc574"
+        },
+        "controller_file": {
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/install/sisregistry/e1a5c011/00000000_0000.ctl",
+          "bytes": 1180,
+          "sha256": "40b88d9a08490bd6d20829d75252daba3145a2a6c3b50ab79860decbe6e1ceaf"
+        },
+        "controller_equals_sis": true,
+        "registry_length_note": "Current EKA may store compressed length in the uncompressed_length field. Such entries FAIL registry metadata verification even when all installed payload bytes pass; stored-length correspondence is diagnostic only.",
+        "files": [
+          {
+            "target": "E:\\sys\\bin\\jsc.exe",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/sys/bin/jsc.exe",
+            "bytes": 18846844,
+            "sha256": "d26cf9cad3c4e47a0d3a559598bd16ba2bfad772dabeb21c17cb8eb211b44bcc",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "c:\\data\\es2020.js",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/es2020.js",
+            "bytes": 2587,
+            "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "c:\\data\\intl.js",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/intl.js",
+            "bytes": 1462,
+            "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "c:\\data\\basic.js",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/basic.js",
+            "bytes": 186,
+            "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "c:\\data\\resizable-arraybuffer.js",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/resizable-arraybuffer.js",
+            "bytes": 2715,
+            "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+            "source_bytes_equal": true
+          }
+        ],
+        "c_drive_shadows": [
+          {
+            "target": "c:\\sys\\bin\\jsc.exe",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/jsc.exe",
+            "bytes": 18846844,
+            "sha256": "d26cf9cad3c4e47a0d3a559598bd16ba2bfad772dabeb21c17cb8eb211b44bcc",
+            "matches_package": true,
+            "is_executable": true
+          }
+        ]
+      },
+      "installation_status": "PASS"
+    },
+    {
+      "package": "browser.sis",
+      "sis_sha256": "15ea260aadeb1b8b75d9f47db26c78ad4a82d89035bd21ab935dfd9d71787710",
+      "before": [
+        {
+          "target": "e:\\sys\\bin\\browser.exe",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/sys/bin/browser.exe",
+          "bytes": 58639352,
+          "sha256": "0d6e88803e2c5ea0a3937c527f8a9141f9752666f1c6ca4752416fc444f1a6f7"
+        },
+        {
+          "target": "c:\\sys\\bin\\browser.exe",
+          "shadow": true,
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+          "bytes": 58640092,
+          "sha256": "3a2385c1bd571d51c98f58f967a8ecf499ba1dcfb86d42d58b1e7dc82dd70317"
+        },
+        {
+          "target": "e:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/private/10003a3f/import/apps/browser_reg.rsc",
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+        },
+        {
+          "target": "c:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+          "shadow": true,
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+        },
+        {
+          "target": "e:\\resource\\apps\\browser_loc.rsc",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/resource/apps/browser_loc.rsc",
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+        },
+        {
+          "target": "c:\\resource\\apps\\browser_loc.rsc",
+          "shadow": true,
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+        },
+        {
+          "target": "e:\\resource\\apps\\browser_ui.rsc",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/resource/apps/browser_ui.rsc",
+          "bytes": 150,
+          "sha256": "70ed39945ee9853a09f190238dccff9d41fb63712de06a4f90fb163e15ba880a"
+        },
+        {
+          "target": "c:\\resource\\apps\\browser_ui.rsc",
+          "shadow": true,
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+          "bytes": 150,
+          "sha256": "70ed39945ee9853a09f190238dccff9d41fb63712de06a4f90fb163e15ba880a"
+        },
+        {
+          "target": "c:\\data\\webkit\\test.html",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/webkit/test.html",
+          "bytes": 2254,
+          "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816"
+        },
+        {
+          "target": "c:\\resource\\webkit\\cacert.pem",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/webkit/cacert.pem",
+          "bytes": 188900,
+          "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505"
+        },
+        {
+          "target": "c:\\resource\\fontconfig\\fonts.conf",
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/fontconfig/fonts.conf",
+          "bytes": 935,
+          "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+        }
+      ],
+      "status": "FAIL",
+      "command": [
+        "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+        "--device",
+        "RM-707",
+        "--install",
+        "/workspace/symbian-belle-work/release-0.3.41/sis/browser.sis"
+      ],
+      "log": "/workspace/symbian-belle-work/release-0.3.41/install-run-4/browser.log",
+      "forced_cleanup": false,
+      "close_requested": true,
+      "pid": 478360,
+      "installation_marker": true,
+      "host_exit": 0,
+      "guest_panic": false,
+      "log_identity": {
+        "exists": true,
+        "path": "/workspace/symbian-belle-work/release-0.3.41/install-run-4/browser.log",
+        "bytes": 36124,
+        "sha256": "81577420c9ec921ef9c33264217f73cd8eaccc1d25f345aa99970ed4d53a5924"
+      },
+      "verification": {
+        "status": "FAIL",
+        "payload_status": "PASS",
+        "registry_identity_status": "PASS",
+        "registry_file_length_status": "FAIL",
+        "registry_file_lengths": [
+          {
+            "target": "!:\\sys\\bin\\browser.exe",
+            "registry_value": 21854176,
+            "expected_uncompressed": 58640092,
+            "sis_stored": 21854176,
+            "correct": false
+          },
+          {
+            "target": "!:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+            "registry_value": 76,
+            "expected_uncompressed": 97,
+            "sis_stored": 76,
+            "correct": false
+          },
+          {
+            "target": "!:\\resource\\apps\\browser_loc.rsc",
+            "registry_value": 55,
+            "expected_uncompressed": 74,
+            "sis_stored": 55,
+            "correct": false
+          },
+          {
+            "target": "!:\\resource\\apps\\browser_ui.rsc",
+            "registry_value": 120,
+            "expected_uncompressed": 150,
+            "sis_stored": 120,
+            "correct": false
+          },
+          {
+            "target": "c:\\data\\webkit\\test.html",
+            "registry_value": 1244,
+            "expected_uncompressed": 2254,
+            "sis_stored": 1244,
+            "correct": false
+          },
+          {
+            "target": "c:\\resource\\webkit\\cacert.pem",
+            "registry_value": 108394,
+            "expected_uncompressed": 188900,
+            "sis_stored": 108394,
+            "correct": false
+          },
+          {
+            "target": "c:\\resource\\fontconfig\\fonts.conf",
+            "registry_value": 339,
+            "expected_uncompressed": 935,
+            "sis_stored": 339,
+            "correct": false
+          }
+        ],
+        "registry": {
+          "uid": "0xe1a5c012",
+          "name": "WebKit Browser",
+          "vendor": "symbian-webkit",
+          "index": 0,
+          "drives": 20,
+          "completely_present_raw": 0,
+          "sids": [],
+          "controllers": [
+            {
+              "version_words": [
+                2687744,
+                2687744,
+                2687744
+              ],
+              "offset": 0,
+              "hash": ""
+            }
+          ],
+          "version": "0.3.41",
+          "language": 1,
+          "selected_drive_mask": 16,
+          "format": [
+            5,
+            4
+          ],
+          "localized_vendor": "",
+          "install_type": 0,
+          "in_rom": 0,
+          "deletable_preinstalled_raw": 0,
+          "signed_raw": 1,
+          "trust_raw": 400,
+          "embedded": [],
+          "files": [
+            {
+              "target": "E:\\sys\\bin\\browser.exe",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "41318c0243c5669172ad5c3cf7116138debf1f21",
+              "bytes": 21854176,
+              "index": 0,
+              "sid": "0xe1a5c002"
+            },
+            {
+              "target": "E:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "1c73687c8175ce9084e61ccbff220d82cef856c0",
+              "bytes": 76,
+              "index": 1,
+              "sid": "0x0"
+            },
+            {
+              "target": "E:\\resource\\apps\\browser_loc.rsc",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "71c87c25a77eb6a84f6025136a044d79c4b77fc5",
+              "bytes": 55,
+              "index": 2,
+              "sid": "0x0"
+            },
+            {
+              "target": "E:\\resource\\apps\\browser_ui.rsc",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "1656563edac9abf4ccc9d9280b20cf2641171fe7",
+              "bytes": 120,
+              "index": 3,
+              "sid": "0x0"
+            },
+            {
+              "target": "c:\\data\\webkit\\test.html",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "e731a8f9f6f9dd4ef2f92283bffa5777185b2b75",
+              "bytes": 1244,
+              "index": 4,
+              "sid": "0x0"
+            },
+            {
+              "target": "c:\\resource\\webkit\\cacert.pem",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "a845301c77df4a6e0025d2e30a46cc387f59e35d",
+              "bytes": 108394,
+              "index": 5,
+              "sid": "0x0"
+            },
+            {
+              "target": "c:\\resource\\fontconfig\\fonts.conf",
+              "mime": "",
+              "operation": 1,
+              "options": 0,
+              "sha1": "a43e043811c89e2a7c02a08a4b221c007171b9ef",
+              "bytes": 339,
+              "index": 6,
+              "sid": "0x0"
+            }
+          ],
+          "is_removable": 1,
+          "signed_by_sucert_raw": 0,
+          "localized_names": [],
+          "localized_vendors": [
+            "symbian-webkit"
+          ]
+        },
+        "registry_file": {
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/install/sisregistry/e1a5c012/00000000.reg",
+          "bytes": 806,
+          "sha256": "47cd53415cdbbf6dde2122c29ffe0c0c12498f68c4d8c63b89f77a5c7c2fcd05"
+        },
+        "controller_file": {
+          "exists": true,
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/install/sisregistry/e1a5c012/00000000_0000.ctl",
+          "bytes": 1600,
+          "sha256": "00cff206ce86ffad12925001a1bd69673d54240b62b9550857ec77d9798840ed"
+        },
+        "controller_equals_sis": true,
+        "registry_length_note": "Current EKA may store compressed length in the uncompressed_length field. Such entries FAIL registry metadata verification even when all installed payload bytes pass; stored-length correspondence is diagnostic only.",
+        "files": [
+          {
+            "target": "E:\\sys\\bin\\browser.exe",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/sys/bin/browser.exe",
+            "bytes": 58640092,
+            "sha256": "3a2385c1bd571d51c98f58f967a8ecf499ba1dcfb86d42d58b1e7dc82dd70317",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "E:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/private/10003a3f/import/apps/browser_reg.rsc",
+            "bytes": 97,
+            "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "E:\\resource\\apps\\browser_loc.rsc",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/resource/apps/browser_loc.rsc",
+            "bytes": 74,
+            "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "E:\\resource\\apps\\browser_ui.rsc",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/e/resource/apps/browser_ui.rsc",
+            "bytes": 150,
+            "sha256": "70ed39945ee9853a09f190238dccff9d41fb63712de06a4f90fb163e15ba880a",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "c:\\data\\webkit\\test.html",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/webkit/test.html",
+            "bytes": 2254,
+            "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "c:\\resource\\webkit\\cacert.pem",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/webkit/cacert.pem",
+            "bytes": 188900,
+            "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+            "source_bytes_equal": true
+          },
+          {
+            "target": "c:\\resource\\fontconfig\\fonts.conf",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/fontconfig/fonts.conf",
+            "bytes": 935,
+            "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c",
+            "source_bytes_equal": true
+          }
+        ],
+        "c_drive_shadows": [
+          {
+            "target": "c:\\sys\\bin\\browser.exe",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+            "bytes": 58640092,
+            "sha256": "3a2385c1bd571d51c98f58f967a8ecf499ba1dcfb86d42d58b1e7dc82dd70317",
+            "matches_package": true,
+            "is_executable": true
+          },
+          {
+            "target": "c:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+            "bytes": 97,
+            "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+            "matches_package": true,
+            "is_executable": false
+          },
+          {
+            "target": "c:\\resource\\apps\\browser_loc.rsc",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+            "bytes": 74,
+            "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+            "matches_package": true,
+            "is_executable": false
+          },
+          {
+            "target": "c:\\resource\\apps\\browser_ui.rsc",
+            "exists": true,
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+            "bytes": 150,
+            "sha256": "70ed39945ee9853a09f190238dccff9d41fb63712de06a4f90fb163e15ba880a",
+            "matches_package": true,
+            "is_executable": false
+          }
+        ]
+      },
+      "installation_status": "PASS"
+    }
+  ],
+  "default_install_drive": "E",
+  "direct_payload_copy": false,
+  "registry_trust_fields_are_not_signature_validation": true,
+  "installation_status": "PASS",
+  "runtime_validation_performed": false,
+  "payload_status": "PASS",
+  "registry_metadata_status": "FAIL",
+  "metadata_followup": "Fix EKA registry uncompressed length and repeat formal SIS installation",
+  "verified_payload_count": 13,
+  "shadow_status": "NO_STALE_C_SHADOWS",
+  "stale_c_shadows": [],
+  "default_launch_payloads_match_package": true
+}

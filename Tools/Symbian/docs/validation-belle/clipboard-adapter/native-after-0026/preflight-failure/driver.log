@@ -1,0 +1,11 @@
+usage: run-native-adapter.py [-h] --probe
+                             {egl,angle,mmf,aligned-pressure,native-volume,native-clipboard,clipboard-adapter}
+                             --image IMAGE --image-sha256 IMAGE_SHA256
+                             [--emulator EMULATOR] --emulator-sha256
+                             EMULATOR_SHA256 --reports REPORTS
+                             [--timeout TIMEOUT]
+                             [--screenshot-marker SCREENSHOT_MARKER]
+                             [--final-screenshot-marker FINAL_SCREENSHOT_MARKER]
+                             [--screenshots SCREENSHOTS] [--capture-audio]
+                             ...
+run-native-adapter.py: error: emulator, positive timeout and screenshot count are required

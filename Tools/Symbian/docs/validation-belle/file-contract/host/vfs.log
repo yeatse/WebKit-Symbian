@@ -1,0 +1,24 @@
+/workspace/symbian-file-contract-work/overlay/src/emu/vfs/src/vfs.cpp: In member function ‘virtual std::optional<eka2l1::entry_info> eka2l1::physical_file_system::get_entry_info(const std::u16string&)’:
+/workspace/symbian-file-contract-work/overlay/src/emu/vfs/src/vfs.cpp:1004:86: warning: ‘std::filesystem::__cxx11::path std::filesystem::__cxx11::u8path(const _Source&) [with _Source = std::__cxx11::basic_string<char>; _Require = path; _CharT = char]’ is deprecated: use 'path((const char8_t*)&*source)' instead [-Wdeprecated-declarations]
+ 1004 |                 const auto read_only = host_file_is_read_only(std::filesystem::u8path(real_path_utf8));
+      |                                                               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/14/filesystem:52,
+                 from /workspace/symbian-file-contract-work/overlay/src/emu/vfs/include/vfs/host_file_attributes.h:6,
+                 from /workspace/symbian-file-contract-work/overlay/src/emu/vfs/src/vfs.cpp:34:
+/usr/include/c++/14/bits/fs_path.h:843:5: note: declared here
+  843 |     u8path(const _Source& __source)
+      |     ^~~~~~
+/workspace/symbian-file-contract-work/overlay/src/emu/vfs/src/vfs.cpp: In member function ‘virtual std::unique_ptr<eka2l1::file> eka2l1::physical_file_system::open_file(const std::u16string&, int)’:
+/workspace/symbian-file-contract-work/overlay/src/emu/vfs/src/vfs.cpp:1049:86: warning: ‘std::filesystem::__cxx11::path std::filesystem::__cxx11::u8path(const _Source&) [with _Source = std::__cxx11::basic_string<char>; _Require = path; _CharT = char]’ is deprecated: use 'path((const char8_t*)&*source)' instead [-Wdeprecated-declarations]
+ 1049 |                 const auto read_only = host_file_is_read_only(std::filesystem::u8path(real_path_utf8));
+      |                                                               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/fs_path.h:843:5: note: declared here
+  843 |     u8path(const _Source& __source)
+      |     ^~~~~~
+/workspace/symbian-file-contract-work/overlay/src/emu/vfs/src/vfs.cpp: In member function ‘eka2l1::abstract_file_system_err_code eka2l1::io_system::set_entry_read_only(const std::u16string&, bool)’:
+/workspace/symbian-file-contract-work/overlay/src/emu/vfs/src/vfs.cpp:1405:59: warning: ‘std::filesystem::__cxx11::path std::filesystem::__cxx11::u8path(const _Source&) [with _Source = std::__cxx11::basic_string<char>; _Require = path; _CharT = char]’ is deprecated: use 'path((const char8_t*)&*source)' instead [-Wdeprecated-declarations]
+ 1405 |             const auto host_path = std::filesystem::u8path(host_name);
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+/usr/include/c++/14/bits/fs_path.h:843:5: note: declared here
+  843 |     u8path(const _Source& __source)
+      |     ^~~~~~

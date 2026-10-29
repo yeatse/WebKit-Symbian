@@ -1,0 +1,49 @@
+{
+  "status": "SOURCE_ONLY_APPLIED_HOST_CHECKS_PASS_NATIVE_PENDING",
+  "independent_review": "sdk_setup: no remaining blocking findings; Linux ordinary physical-file scope",
+  "files": [
+    {
+      "path": "src/emu/services/include/services/fs/file_attributes.h",
+      "before_sha256": null,
+      "after_sha256": "a49a406f1fe8a114651600b4162d308fc87313d6721ec9a9be3c321597dcfeec"
+    },
+    {
+      "path": "src/emu/services/include/services/fs/file_share.h",
+      "before_sha256": null,
+      "after_sha256": "a3f20fc95e83f729c90ff1f45a3c9c69205e41326aea5892c35c2decb5093491"
+    },
+    {
+      "path": "src/emu/services/include/services/fs/fs.h",
+      "before_sha256": "e35ac4e45a382bb54ffb0ae619d5ace51746d797327cfb4ef6e2a8684715af4c",
+      "after_sha256": "e185f74f32a1efc451678ab1d3adbac5e3d978039b994d8fb5ed69d025f4424a"
+    },
+    {
+      "path": "src/emu/services/src/fs/files.cpp",
+      "before_sha256": "1db3c39a406aa384a0b9957f608cab3bd637742cf9e8712e4adc01e96a76ec3e",
+      "after_sha256": "55f255aad82b7454a6881ba7240b8814b5b06ff4db177b22e08fa6d8ebfcae03"
+    },
+    {
+      "path": "src/emu/services/src/fs/fs.cpp",
+      "before_sha256": "8e10a1cf42bacddaf5679d0137e6b60b6a380a827379082d71dccd888a9490df",
+      "after_sha256": "a7e51fd804a5ef7c9ccbda93a63509e958403994ea7e0d1c31e700c2c81f1ff6"
+    },
+    {
+      "path": "src/emu/vfs/include/vfs/host_file_attributes.h",
+      "before_sha256": null,
+      "after_sha256": "d2a9cebc19ffda818e45d87d28bcc1921d5384061432e8f2bab92f9d895d4238"
+    },
+    {
+      "path": "src/emu/vfs/include/vfs/vfs.h",
+      "before_sha256": "17d7893012996ca569f1c7c93d67a5c980ffaa204dba7a843678616aaa2cfb28",
+      "after_sha256": "9b55a015e7b7fce859d8da3b6daf1ff3b61e7a76de979d51a622f70c25e08125"
+    },
+    {
+      "path": "src/emu/vfs/src/vfs.cpp",
+      "before_sha256": "97f27aba0abd6e9d711dd85f41dc902713779f9e011673814f8aa099eeef5801",
+      "after_sha256": "79a9894c46208d6b0432aa4155c0e5c1f5023c3e79927682ff91bbc5fe09788b"
+    }
+  ],
+  "patch_sha256": "a063b01f70d8f9e3521d9b3f4415e6f9746abbe8b3f9592254d5aa91f7f39535",
+  "host_result": "portable-reviewed-final/result.json",
+  "host_build_or_guest_run": false
+}

@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "scope": "Production native clipboard adapter, not DOM or browser editing",
+  "test_count": 31,
+  "host_exit": 0,
+  "guest_exit": 0,
+  "original_clipboard_restored": true,
+  "original_clipboard_contents_included": false,
+  "raw_emulator_log": {
+    "bytes": 128467,
+    "sha256": "4a78a33397d1b0a3215e7f30611a6e0fade5bead8c7779fa5fca5847a8e232b5"
+  },
+  "files": {
+    "clipboard-adapter-probe.log": {
+      "bytes": 1742,
+      "sha256": "909dc5a085305128d3b3e9941e17b635c5146b659881d3f9d56b06b323c62778"
+    },
+    "emulator.log.gz": {
+      "bytes": 4321,
+      "sha256": "ff2a090d26d5f21c58a3357bbd3641579979f2a23fc301944de4313d34282ab4"
+    },
+    "preflight-failure/driver.log": {
+      "bytes": 754,
+      "sha256": "7570f7ea79fa4aa346b306f40dd72fc6fac07c8a37d83af36cd84cdcce51b23b"
+    },
+    "preflight-failure/preservation-after.json": {
+      "bytes": 135,
+      "sha256": "82ae51b7f7073d34c92f490c16a7ea7468284e02e3c91aa0195a4c5bb7898bed"
+    },
+    "preservation-after.json": {
+      "bytes": 135,
+      "sha256": "3fd653033ec72ffed98aaaa0c4cb55cf06bebd5537e98531f8fb07ca0637b483"
+    },
+    "preservation-before.json": {
+      "bytes": 50,
+      "sha256": "68b48cc4743701ea19a014c287625e082adea04dc30809f676664aff21298754"
+    },
+    "result.json": {
+      "bytes": 1272,
+      "sha256": "7b09c95a06516b4e858983ef7c6d23a895c16f918996f6b052274ea1abf41a3f"
+    }
+  }
+}

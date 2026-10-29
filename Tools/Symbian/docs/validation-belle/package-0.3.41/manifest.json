@@ -1,11 +1,11 @@
 {
   "status": "PASS",
-  "scope": "Local SIS structural/payload verification; no installation or runtime claim",
+  "scope": "Local SIS structural/payload verification with separately archived formal installation; no application runtime or CI41 artifact/result claim",
   "payload_count": 13,
   "files": {
     "README.md": {
-      "bytes": 2625,
-      "sha256": "9dd8b3c5dd9143d842ae0f9538b30b52170a4a3112c66afd7cc146ec56f31ed1"
+      "bytes": 3377,
+      "sha256": "93770948e237b8d77c464dcd136c5ff01c70533a39d1c2b7b9bb639cdb3088e7"
     },
     "SHA256SUMS": {
       "bytes": 241,
@@ -22,6 +22,17 @@
     "package-verification.json": {
       "bytes": 8655,
       "sha256": "3e676ca4133dce545a57f8b41c48361126da9808c32b13be59c3e836b18038fd"
+    },
+    "installation-after-0026/manifest.json": {
+      "bytes": 6350,
+      "sha256": "3502e4d591c9cc4d8d369184f791de3283838cdb2b3dafc4efdef79c214305ee"
     }
+  },
+  "installation_evidence": {
+    "manifest": "installation-after-0026/manifest.json",
+    "status": "PASS",
+    "previous_host_registry_metadata_status": "FAIL",
+    "runtime_validation_performed": false,
+    "local_browser_candidate": 10
   }
 }

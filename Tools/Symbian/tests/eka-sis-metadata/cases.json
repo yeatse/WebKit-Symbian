@@ -1,0 +1,82 @@
+[
+  {
+    "name": "symbian-webkit-icu.sis:0",
+    "stored": 4768109,
+    "expanded": 10261824
+  },
+  {
+    "name": "jsc.sis:0",
+    "stored": 6891028,
+    "expanded": 18846844
+  },
+  {
+    "name": "jsc.sis:1",
+    "stored": 1063,
+    "expanded": 2587
+  },
+  {
+    "name": "jsc.sis:2",
+    "stored": 638,
+    "expanded": 1462
+  },
+  {
+    "name": "jsc.sis:3",
+    "stored": 147,
+    "expanded": 186
+  },
+  {
+    "name": "jsc.sis:4",
+    "stored": 864,
+    "expanded": 2715
+  },
+  {
+    "name": "browser.sis:0",
+    "stored": 21854176,
+    "expanded": 58640092
+  },
+  {
+    "name": "browser.sis:1",
+    "stored": 76,
+    "expanded": 97
+  },
+  {
+    "name": "browser.sis:2",
+    "stored": 55,
+    "expanded": 74
+  },
+  {
+    "name": "browser.sis:3",
+    "stored": 120,
+    "expanded": 150
+  },
+  {
+    "name": "browser.sis:4",
+    "stored": 1244,
+    "expanded": 2254
+  },
+  {
+    "name": "browser.sis:5",
+    "stored": 108394,
+    "expanded": 188900
+  },
+  {
+    "name": "browser.sis:6",
+    "stored": 339,
+    "expanded": 935
+  },
+  {
+    "name": "empty",
+    "stored": 0,
+    "expanded": 0
+  },
+  {
+    "name": "uncompressed",
+    "stored": 1234,
+    "expanded": 1234
+  },
+  {
+    "name": "64-bit-logical-length",
+    "stored": 4096,
+    "expanded": 4294968027
+  }
+]

@@ -55,6 +55,13 @@ repairs do not by themselves establish browser support for the corresponding
 APIs. The [native-dialog exit result](validation-belle/ui/exit-candidate9-host0022/README.md)
 records a complete normal application exit with the unchanged candidate 9 image.
 
+Root patches `0025` and `0026` add native file-sharing/read-only contracts and
+correct expanded payload lengths in SIS registration. The rebuilt host passes
+the [31 native clipboard checks](validation-belle/clipboard-adapter/README.md)
+and [formal installation of all three local packages](validation-belle/package-0.3.41/installation-after-0026/README.md).
+These are adapter and installation results; they do not replace the pending
+browser editing tests or verification of a separately built CI artifact.
+
 SQLite uses directory locks and DELETE journals because Open C has no POSIX record locking. The SQLite build shim must keep `O_BINARY` zero: this SDK aliases it to write buffering, which makes incomplete journal metadata visible during rollback. See [the guest SQLite regression](../tests/sqlite-probe/README.md) for locking, rollback and persistence checks.
 
 Current ARM11 results are in [ARM11-JIT.md](ARM11-JIT.md). The initial C_LOOP reconstruction is recorded in [Port-2.52.md](Port-2.52.md); historical design and 2.32 results are retained in [Development-2.32.md](Development-2.32.md).

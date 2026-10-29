@@ -1,0 +1,35 @@
+BEGIN clipboard-adapter-probe version=1
+PASS: production write Chinese emoji and mixed line endings
+PASS: native plain stream is present
+PASS: production read returns exact normalized UTF16 once
+PASS: independent CPlainText reads real native text stream
+PASS: write explicit empty string
+PASS: empty text retains plain stream presence
+PASS: empty text invokes callback exactly once
+PASS: restore owned sentinel text
+PASS: oversized write rejected before reading source
+PASS: oversized write preserves previous contents
+PASS: negative write length rejected
+PASS: null nonempty write rejected
+PASS: invalid pointer and length preserve previous contents
+FAIL: readonly native store refuses write
+PASS: readonly store remains readable and unchanged
+FAIL: exclusive native store lock rejects read without callback
+FAIL: exclusive native store lock refuses write
+PASS: locked write failure preserves previous contents
+PASS: production clear removes owned store
+PASS: missing store has no text and no callback
+PASS: dictionary count above64 rejected before native parsing
+PASS: negative serialized text length rejected
+PASS: oversized serialized text length rejected
+PASS: reserved SCSU command rejected without callback
+PASS: truncated SCSU command rejected without callback
+PASS: invalid field-set flag rejected
+PASS: repeated corrupt reads release native heap cells and handles
+PASS: valid write recovers after malformed store
+PASS: repeated valid reads release native heap cells and handles
+PASS: oversized native store rejected before allocation
+PASS: final clear leaves no owned test data
+RESULT {"probe":"clipboard-adapter-probe","passed":28,"failed":3,"nativeErrors":79}
+FAIL: clipboard-adapter-probe 28/31
+clipboard-adapter-probe exiting 1

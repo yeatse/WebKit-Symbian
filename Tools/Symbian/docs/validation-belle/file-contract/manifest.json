@@ -1,0 +1,21 @@
+{
+  "status": "HOST_115_PASS_NATIVE_CLIPBOARD_31_PASS",
+  "files": {
+    "README.md": "a1991d0bb26f15016b71556fda001a62e3897f50cad8a63bfbc81cf906b97d51",
+    "host/files.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host/fs.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host/probe-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host/probe.log": "1bdb6cc217df7502b471029e623325d7e1d9344075d698292d08f5c6daf9c6e9",
+    "host/result.json": "84bdabe469966886c50ba27662fcd48c8d6d4d1d28823d535b7d8e16a8fd08f4",
+    "host/vfs.log": "e3aeb0ae4502fa7860fb115440c2a6ce0ed8c729528db63f98ef8ebfa0c99efa",
+    "official-sources.json": "053ccf1e8a1be77d3af0800dd37672954bbf914081a5d2a71cfb17c468040bf5",
+    "patch-replay.json": "23effc0cd62b721ad968ee70b8d07638de7b986d64b6a1750702c8ea5343a630",
+    "source-manifest.json": "395211aecee2758ccd82cc99b43a9425a0a699a84a82b767605367096c3b0d48"
+  },
+  "referenced_files": {
+    "Tools/Symbian/patches/eka2l1/0025-Enforce-file-sharing-and-read-only-attributes.patch": "a063b01f70d8f9e3521d9b3f4415e6f9746abbe8b3f9592254d5aa91f7f39535",
+    "Tools/Symbian/tests/eka-file-contract/run.py": "ed13a19fd94a45161969ee344758ad784cf973cb8d189037b4bf3a4b7e4d1799",
+    "Tools/Symbian/tests/eka-file-contract/probe.cpp": "f40729cbe0395ae939cf02bd0dcd1ba9f1da1844392c2e46715be31d4fc98a52",
+    "Tools/Symbian/tests/eka-file-contract/README.md": "abdaf2ec947d28915874e94317e01e610d3acabef4de6bbc5bd843e7436bdb4b"
+  }
+}

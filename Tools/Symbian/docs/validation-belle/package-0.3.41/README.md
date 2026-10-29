@@ -1,8 +1,11 @@
 # Local SIS 0.3.41 package verification
 
 The three local packages passed independent structural and payload verification.
-This records packaging only: these packages were not installed or guest-tested
-by this check, and this is not a GitHub Actions run 41 result.
+The package check below records packaging only. A separate
+[formal installation check](installation-after-0026/README.md) subsequently
+installed these same local candidate-10 (C10) packages and passed after EKA host
+patch 0026. Neither check is a GitHub Actions run 41 artifact or result, and the
+installation check does not establish new browser or JSC guest execution.
 
 | Package | Package UID | Version | Payloads | Bytes |
 | --- | --- | --- | --- | --- |
@@ -30,7 +33,15 @@ the older CI40 11-payload evidence remains unchanged.
 identities and checker hashes. `SHA256SUMS` identifies the actual SIS bytes.
 `input-plan.json` is the exact plan used. The original candidate-2 plan is
 preserved externally at `/workspace/symbian-font-work/belle-payload-plan-candidate2.json`.
-Only verification metadata is stored here, not SIS or executable payloads.
+This directory stores verification metadata, checker source and compressed
+installation logs, not SIS or executable payloads or guest databases.
+
+The [installation evidence](installation-after-0026/README.md) records the new
+host and unchanged three SIS identities, all 13 installed payload hashes and
+correct uncompressed registry lengths, preservation of eight fixed C payloads
+and five existing C shadows, and three normal host exits. The
+[previous host result](installation-after-0026/previous-host/result.json) remains
+an overall FAIL for compressed registry lengths despite its payload PASS.
 
 From the repository root, with the recorded inputs still present:
 

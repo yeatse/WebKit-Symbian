@@ -1,0 +1,961 @@
+Subject: [PATCH] Enforce file sharing and persistent read-only attributes
+
+Apply after patch 0024. Independently opened file objects own sharing claims;
+duplicate handles and mappings retain the original object. Check read-only and
+compatibility before opening/truncation, and publish only successful opens.
+Persist read-only attributes in the host file, defer RFile SetAtt until flush,
+and reject unsupported attribute/time updates. Clear file sessions while their
+sharing state is alive, and roll back unpublished handles on output errors.
+Rename an exclusively open file without reopening/truncating it; retain the
+handle, cursor and attributes. Respect the distinct RFs Rename/Replace rules.
+
+diff --git a/src/emu/services/include/services/fs/file_attributes.h b/src/emu/services/include/services/fs/file_attributes.h
+new file mode 100644
+--- /dev/null
++++ b/src/emu/services/include/services/fs/file_attributes.h
+@@ -0,0 +1,22 @@
++#pragma once
++
++#include <cstdint>
++
++namespace eka2l1 {
++    enum class read_only_change { invalid, unsupported, unchanged, set, clear };
++
++    inline read_only_change requested_read_only_change(std::uint32_t set, std::uint32_t clear) {
++        // f32file.h: Dir, Volume and Remote cannot be changed through SetAtt.
++        constexpr std::uint32_t ignored = 0x10 | 0x08 | 0x100;
++        constexpr std::uint32_t read_only = 0x01;
++        if (set & clear)
++            return read_only_change::invalid;
++        if ((set | clear) & ~(ignored | read_only))
++            return read_only_change::unsupported;
++        if (set & read_only)
++            return read_only_change::set;
++        if (clear & read_only)
++            return read_only_change::clear;
++        return read_only_change::unchanged;
++    }
++}
+diff --git a/src/emu/services/include/services/fs/file_share.h b/src/emu/services/include/services/fs/file_share.h
+new file mode 100644
+--- /dev/null
++++ b/src/emu/services/include/services/fs/file_share.h
+@@ -0,0 +1,53 @@
++// RFile sharing compatibility follows the public f32file.h promotion table.
++// Claims belong to independently opened file objects, not to processes.
++#pragma once
++
++#include <array>
++#include <cassert>
++#include <cstdint>
++#include <limits>
++
++namespace eka2l1 {
++    class file_share_state {
++        // Exclusive, ReadersOnly, Any, optional reader, optional writer.
++        std::array<std::uint32_t, 5> counts_{};
++
++        static unsigned index(unsigned mode, bool write) {
++            return mode == 3 ? (write ? 4 : 3) : mode;
++        }
++
++    public:
++        std::uint32_t use_count{0};
++
++        bool compatible(unsigned mode, bool write) const {
++            if (mode > 3 || (mode == 1 && write))
++                return false;
++            if (!use_count)
++                return true;
++            if (!mode || counts_[0])
++                return false;
++            if (mode == 1)
++                return !counts_[2] && !counts_[4];
++            if (mode == 2 || write)
++                return !counts_[1];
++            return true;
++        }
++
++        bool can_acquire(unsigned mode, bool write) const {
++            return compatible(mode, write)
++                && use_count != std::numeric_limits<std::uint32_t>::max();
++        }
++
++        void acquire(unsigned mode, bool write) {
++            assert(can_acquire(mode, write));
++            ++counts_[index(mode, write)];
++            ++use_count;
++        }
++
++        void release(unsigned mode, bool write) {
++            assert(mode <= 3 && counts_[index(mode, write)] && use_count);
++            --counts_[index(mode, write)];
++            --use_count;
++        }
++    };
++}
+diff --git a/src/emu/services/include/services/fs/fs.h b/src/emu/services/include/services/fs/fs.h
+--- a/src/emu/services/include/services/fs/fs.h
++++ b/src/emu/services/include/services/fs/fs.h
+@@ -20,6 +20,10 @@
+ 
+ #pragma once
+ 
++#include <services/fs/file_share.h>
++#include <services/fs/file_attributes.h>
++#include <optional>
++
+ #include <kernel/server.h>
+ #include <services/context.h>
+ #include <services/framework.h>
+@@ -52,6 +56,9 @@
+     }
+ 
+     struct entry_info;
++    enum class abstract_file_system_err_code;
++    int file_attribute_result(abstract_file_system_err_code);
++    std::u16string canonical_file_attrib_path(std::u16string);
+ 
+     static constexpr std::uint32_t FS_UID = 0x100039E3;
+     static constexpr std::uint32_t SYSTEM_DRIVE_KEY = 0x10283049;
+@@ -67,14 +74,9 @@
+     struct io_component;
+     using io_component_ptr = std::unique_ptr<io_component>;
+ 
+-    enum class fs_file_attrib_flag {
+-        exclusive = 1 << 0,
+-        share_read = 1 << 1,
+-        share_write = 1 << 2,
+-        share_optional = 1 << 3
+-    };
+-
+-    struct file_attrib;
++    struct file_attrib : file_share_state {
++        std::optional<bool> pending_read_only;
++    };
+ 
+     struct fs_node : public epoc::ref_count_object {
+         io_component_ptr vfs_node;
+@@ -87,6 +89,7 @@
+ 
+         kernel::uid process{ 0 };
+ 
++        int flush_attributes();
+         void deref() override;
+         ~fs_node() override;
+     };
+@@ -200,6 +203,7 @@
+         void replace(service::ipc_context *ctx);
+         void parse(service::ipc_context *ctx);
+ 
++        int check_closed_entry(io_system *, const std::u16string &, bool deny_read_only);
+         void delete_entry(service::ipc_context *ctx);
+         void set_entry(service::ipc_context *ctx);
+         void set_should_notify_failure(service::ipc_context *ctx);
+@@ -263,69 +267,6 @@
+         epoc::filename name_buf;
+     };
+ 
+-    struct file_attrib {
+-        std::uint32_t flags{ 0 };
+-        kernel::uid owner{ 0 };
+-        std::uint32_t use_count{ 0 };
+-
+-        bool is_exlusive() const {
+-            return flags & static_cast<std::uint32_t>(fs_file_attrib_flag::exclusive);
+-        }
+-
+-        bool is_readable() const {
+-            return flags & static_cast<std::uint32_t>(fs_file_attrib_flag::share_read);
+-        }
+-
+-        bool is_writeable() const {
+-            return flags & static_cast<std::uint32_t>(fs_file_attrib_flag::share_write);
+-        }
+-
+-        bool is_readonly() const {
+-            return is_readable() && !is_writeable();
+-        }
+-
+-        bool is_readable_and_writeable() const {
+-            return is_readable() && is_writeable();
+-        }
+-
+-        bool is_optional() const {
+-            return flags & static_cast<std::uint32_t>(fs_file_attrib_flag::share_optional);
+-        }
+-
+-        /**
+-         * \brief    Claim the exclusive for this file, to given process.
+-         * 
+-         * If the file attrib is not currently being claimed, the given process will claim it. If the file
+-         * is claimed by other process, this failed. Else, if the given process already claimed the file,
+-         * nothing happens. You can only unclaimed when use of this file for the process claimed it reached 0.
+-         * 
+-         * \returns  False, if a process already claimed this file.
+-         */
+-        bool claim_exclusive(const kernel::uid pr_uid);
+-
+-        /**
+-         * \brief Increment usage of the attrib.
+-         * 
+-         * This only work with process UID that has already claimed this file attribute, or if this file attribute
+-         * has not been claimed.
+-         * 
+-         * \param pr_uid        UID of the process to increment use. 
+-         */
+-        void increment_use(const kernel::uid pr_uid);
+-
+-        /**
+-         * \brief    Decrement use count of the given process.
+-         * 
+-         * If the given process UID currently exclusively decrement use of this attrib, when it reachs zero,
+-         * the claim will be freed. Any flags will also be cleared along.
+-         * 
+-         * This is used for situation where multiple file handles in a process all claimed for exclusive.
+-         * 
+-         * \param pr_uid The UID of target process.
+-         */
+-        void decrement_use(const kernel::uid pr_uid);
+-    };
+-
+     class fs_server : public service::typical_server {
+         friend struct fs_server_client;
+         friend struct fs_node;
+diff --git a/src/emu/services/src/fs/files.cpp b/src/emu/services/src/fs/files.cpp
+--- a/src/emu/services/src/fs/files.cpp
++++ b/src/emu/services/src/fs/files.cpp
+@@ -71,46 +71,9 @@
+ 
+     // The sharing state is keyed by path, so the key has to be one single form of it:
+     // a file opened as "c:/dir/f" and again as "c:\dir\f" is the same file.
+-    static std::u16string canonical_file_attrib_path(std::u16string path) {
+-        return eka2l1::transform_separators<char16_t>(
+-            std::move(path), true, eka2l1::get_separator_16);
+-    }
+-
+-    bool file_attrib::claim_exclusive(const kernel::uid pr_uid) {
+-        if (owner == pr_uid) {
+-            flags |= static_cast<std::uint32_t>(fs_file_attrib_flag::exclusive);
+-            return true;
+-        }
+-
+-        return false;
+-    }
+-
+-    void file_attrib::increment_use(const kernel::uid pr_uid) {
+-        if (use_count == 0) {
+-            owner = pr_uid;
+-        }
+-
+-        if (owner == pr_uid) {
+-            use_count++;
+-        }
+-    }
+-
+-    void file_attrib::decrement_use(const kernel::uid pr_uid) {
+-        if (use_count == 0) {
+-            return;
+-        }
+-
+-        if (pr_uid == owner) {
+-            use_count--;
+-        }
+-
+-        if (use_count == 0) {
+-            // Clear all flags
+-            flags = 0;
+-            owner = 0;
+-
+-            return;
+-        }
++    std::u16string canonical_file_attrib_path(std::u16string path) {
++        return common::lowercase_ucs2_string(eka2l1::transform_separators<char16_t>(
++            std::move(path), true, eka2l1::get_separator_16));
+     }
+ 
+     fs_node::~fs_node() {
+@@ -124,14 +87,44 @@
+         }
+     }
+ 
++    int file_attribute_result(abstract_file_system_err_code result) {
++        switch (result) {
++        case abstract_file_system_err_code::ok: return epoc::error_none;
++        case abstract_file_system_err_code::no: return epoc::error_not_found;
++        case abstract_file_system_err_code::unsupported: return epoc::error_not_supported;
++        case abstract_file_system_err_code::failed: return epoc::error_access_denied;
++        }
++        return epoc::error_general;
++    }
++
++    int fs_node::flush_attributes() {
++        if (!vfs_node || vfs_node->type != io_component_type::file)
++            return epoc::error_none;
++        auto *file = static_cast<eka2l1::file *>(vfs_node.get());
++        auto found = serv->attribs.find(canonical_file_attrib_path(file->file_name()));
++        if (found == serv->attribs.end() || !found->second.pending_read_only)
++            return epoc::error_none;
++        const auto error = file_attribute_result(serv->get_system()->get_io_system()->set_entry_read_only(
++            file->file_name(), *found->second.pending_read_only));
++        if (error == epoc::error_none)
++            found->second.pending_read_only.reset();
++        return error;
++    }
++
+     void fs_node::deref() {
+-        if (vfs_node->type == io_component_type::file) {        
++        // Duplicate handles and file mappings retain this same file object.
++        // Drop its one sharing claim only with the final reference.
++        if (count == 1 && vfs_node && vfs_node->type == io_component_type::file) {
++            const bool flushed = static_cast<file *>(vfs_node.get())->flush();
++            const auto error = flushed ? flush_attributes() : epoc::error_general;
++            if (error != epoc::error_none)
++                LOG_ERROR(SERVICE_EFSRV, "Failed to persist attributes on final close: {}", error);
+             file *vfs_file = reinterpret_cast<file *>(vfs_node.get());
+             const std::u16string filename = canonical_file_attrib_path(vfs_file->file_name());
+ 
+             auto ite = serv->attribs.find(filename);
+             if (ite != serv->attribs.end()) {
+-                ite->second.decrement_use(process);
++                ite->second.release(mix_mode & 3, open_mode & WRITE_MODE);
+                 if (ite->second.use_count == 0) {
+                     serv->attribs.erase(ite);
+                 }
+@@ -434,7 +427,7 @@
+             return;
+         }
+ 
+-        ctx->complete(epoc::error_none);
++        ctx->complete(node->flush_attributes());
+     }
+ 
+     void fs_server_client::file_rename(service::ipc_context *ctx) {
+@@ -452,6 +445,12 @@
+             return;
+         }
+ 
++        // RFile::Rename requires an exclusive writable share. Moving a shared
++        // path's bookkeeping would strand other nodes under their old name.
++        if ((node->mix_mode & 3) != epoc::fs::file_share_exclusive || !(node->open_mode & WRITE_MODE)) {
++            ctx->complete(epoc::error_access_denied);
++            return;
++        }
+         file *vfs_file = reinterpret_cast<file *>(node->vfs_node.get());
+         const std::u16string old_path = vfs_file->file_name();
+         auto new_path = ctx->get_argument_value<std::u16string>(0);
+@@ -467,32 +466,32 @@
+             return;
+         }
+ 
+-        bool res = ctx->sys->get_io_system()->rename(old_path, new_path_abs);
+-
+-        if (!res) {
++        if (char16_to_drive(old_path[0]) != char16_to_drive(new_path_abs[0])) {
++            ctx->complete(epoc::error_bad_name);
++            return;
++        }
++        if (ctx->sys->get_io_system()->exist(new_path_abs)) {
++            ctx->complete(epoc::error_already_exists);
++            return;
++        }
++        if (!vfs_file->flush()) {
+             ctx->complete(epoc::error_general);
+             return;
+         }
+-
+-        // Save state of file and reopening it
+-        size_t last_pos = vfs_file->tell();
+-        int last_mode = vfs_file->file_mode();
+-
+-        vfs_file->close();
+-
+-        symfile new_vfs_file = ctx->sys->get_io_system()->open_file(new_path_abs, last_mode);
+-
+-        if (!new_vfs_file) {
+-            // Renamed on disk, but the new path would not open. Say so, rather than
+-            // leaving the subsession holding a null file it dereferences next.
+-            LOG_ERROR(SERVICE_EFSRV, "Can't reopen {} after rename", common::ucs2_to_utf8(new_path_abs));
++        const int attribute_error = node->flush_attributes();
++        if (attribute_error != epoc::error_none) {
++            ctx->complete(attribute_error);
++            return;
++        }
++        const auto new_host_path = ctx->sys->get_io_system()->get_raw_path(new_path_abs);
++        if (!new_host_path) {
++            ctx->complete(epoc::error_not_supported);
++            return;
++        }
++        if (!vfs_file->rename(new_path_abs, *new_host_path)) {
+             ctx->complete(epoc::error_general);
+             return;
+         }
+-
+-        new_vfs_file->seek(last_pos, file_seek_mode::beg);
+-
+-        node->vfs_node = std::move(new_vfs_file);
+ 
+         auto &attribs = server<fs_server>()->attribs;
+         auto attrib_node = attribs.extract(canonical_file_attrib_path(old_path));
+@@ -818,11 +817,9 @@
+         void *backing_;
+         std::size_t size_;
+ 
+-        fs_file_mapping(fs_node *source, kernel::chunk *chunk, void *backing, const std::size_t size,
+-            file_attrib *attrib)
++        fs_file_mapping(fs_node *source, kernel::chunk *chunk, void *backing, const std::size_t size)
+             : source_(source), chunk_(chunk), backing_(backing), size_(size) {
+             source_->ref();
+-            attrib->increment_use(source_->process);
+         }
+ 
+         ~fs_file_mapping() override {
+@@ -946,8 +943,7 @@
+             return;
+         }
+ 
+-        auto &attrib = server<fs_server>()->attribs[canonical_file_attrib_path(source_file->file_name())];
+-        auto *mapping = make_new<fs_file_mapping>(source, chunk, backing, mapped_size, &attrib);
++        auto *mapping = make_new<fs_file_mapping>(source, chunk, backing, mapped_size);
+         const auto handle = obj_table_.add(mapping);
+         const address base = chunk->base(process).ptr_address();
+         int error = epoc::error_none;
+@@ -990,11 +986,12 @@
+         file *vfs_file = reinterpret_cast<file *>(node->vfs_node.get());
+ 
+         // Reset its status, so seek back, this is just in case it got used again
+-        vfs_file->flush();
++        const bool flushed = vfs_file->flush();
++        const int attribute_error = flushed ? node->flush_attributes() : epoc::error_general;
+         vfs_file->seek(0, file_seek_mode::beg);
+ 
+         obj_table_.remove(*handle_res);
+-        ctx->complete(epoc::error_none);
++        ctx->complete(!flushed ? epoc::error_general : attribute_error);
+     }
+ 
+     void fs_server_client::file_open(service::ipc_context *ctx) {
+@@ -1040,18 +1037,31 @@
+             *ctx->get_argument_value<std::int32_t>(1), true, true);
+ 
+         if (handle <= 0) {
++            io->delete_entry(full_path);
+             ctx->complete(handle);
+             return;
+         }
+ 
+         LOG_TRACE(SERVICE_EFSRV, "Handle opened: {}", handle);
+ 
+-        ctx->write_data_to_descriptor_argument<int>(3, handle);
+-
+-        // Arg2 take the temp path
+         const utf16_str guest_path = eka2l1::transform_separators<char16_t>(
+             full_path, true, eka2l1::get_separator_16);
+-        ctx->write_arg(2, guest_path);
++        int error = epoc::error_none;
++        const std::size_t max_path_chars = ctx->get_argument_max_data_size(2)
++            / (ctx->sys->get_kernel_system()->is_eka1() ? 1 : sizeof(char16_t));
++        const bool enough_space = max_path_chars >= guest_path.size()
++            && ctx->get_argument_max_data_size(3) >= sizeof(handle);
++        if (!enough_space)
++            error = epoc::error_overflow;
++        const bool handle_written = enough_space && ctx->write_data_to_descriptor_argument<int>(3, handle, &error);
++        const bool path_written = handle_written && ctx->write_arg(2, guest_path);
++        if (!handle_written || !path_written) {
++            obj_table_.remove(handle);
++            io->delete_entry(full_path);
++            server<fs_server>()->temporary_file_cleanset_.erase(common::lowercase_ucs2_string(full_path));
++            ctx->complete(error == epoc::error_none ? epoc::error_bad_descriptor : error);
++            return;
++        }
+         ctx->complete(epoc::error_none);
+     }
+ 
+@@ -1070,13 +1080,12 @@
+ 
+         const epoc::handle dup_handle = obj_table_.add(node);
+ 
+-        file *f = reinterpret_cast<file *>(node->vfs_node.get());
+-
+-        auto &node_attrib = server<fs_server>()->attribs[
+-            canonical_file_attrib_path(f->file_name())];
+-        node_attrib.increment_use(node->process);
+-
+-        ctx->write_data_to_descriptor_argument<epoc::handle>(3, dup_handle);
++        int error = epoc::error_none;
++        if (!ctx->write_data_to_descriptor_argument<epoc::handle>(3, dup_handle, &error)) {
++            obj_table_.remove(dup_handle);
++            ctx->complete(error);
++            return;
++        }
+         ctx->complete(epoc::error_none);
+     }
+ 
+@@ -1108,26 +1117,46 @@
+         std::optional<entry_info> info = io->get_entry_info(f->file_name());
+         assert(info);
+ 
+-        const std::uint32_t attrib = epoc::fs::build_attribute_from_entry_info(info.value());
+-        ctx->write_data_to_descriptor_argument(0, attrib);
+-        ctx->complete(epoc::error_none);
++        std::uint32_t attrib = epoc::fs::build_attribute_from_entry_info(info.value());
++        const auto found = server<fs_server>()->attribs.find(canonical_file_attrib_path(f->file_name()));
++        if (found != server<fs_server>()->attribs.end() && found->second.pending_read_only) {
++            if (*found->second.pending_read_only)
++                attrib |= epoc::fs::entry_att_read_only;
++            else
++                attrib &= ~epoc::fs::entry_att_read_only;
++        }
++        int error = epoc::error_none;
++        ctx->write_data_to_descriptor_argument(0, attrib, &error);
++        ctx->complete(error);
+     }
+ 
+     void fs_server_client::file_set_att(service::ipc_context *ctx) {
+-        std::int32_t target_handle = *ctx->get_argument_value<std::int32_t>(3);
+-
+-        if (!target_handle) {
+-            ctx->complete(epoc::error_argument);
+-            return;
+-        }
+-
+-        fs_node *node = get_file_node(target_handle);
+-
+-        if (!node) {
+-            ctx->complete(epoc::error_not_found);
+-            return;
+-        }
+-
++        const auto handle = ctx->get_argument_value<std::int32_t>(3);
++        const auto set = ctx->get_argument_value<std::uint32_t>(0);
++        const auto clear = ctx->get_argument_value<std::uint32_t>(1);
++        if (!handle || !set || !clear) {
++            ctx->complete(epoc::error_argument);
++            return;
++        }
++        auto *node = get_file_node(*handle);
++        if (!node || !node->vfs_node || node->vfs_node->type != io_component_type::file) {
++            ctx->complete(epoc::error_bad_handle);
++            return;
++        }
++        if (!(node->open_mode & WRITE_MODE)) {
++            ctx->complete(epoc::error_access_denied);
++            return;
++        }
++        const auto change = requested_read_only_change(*set, *clear);
++        if (change == read_only_change::invalid || change == read_only_change::unsupported) {
++            ctx->complete(change == read_only_change::invalid ? epoc::error_argument : epoc::error_not_supported);
++            return;
++        }
++        if (change != read_only_change::unchanged) {
++            auto *file = static_cast<eka2l1::file *>(node->vfs_node.get());
++            auto &attribute = server<fs_server>()->attribs.at(canonical_file_attrib_path(file->file_name()));
++            attribute.pending_read_only = change == read_only_change::set;
++        }
+         ctx->complete(epoc::error_none);
+     }
+ 
+@@ -1226,6 +1255,11 @@
+ 
+         if (!name_res || !open_mode_res) {
+             ctx->complete(epoc::error_argument);
++            return;
++        }
++
++        if (ctx->get_argument_max_data_size(3) < sizeof(int)) {
++            ctx->complete(epoc::error_overflow);
+             return;
+         }
+ 
+@@ -1285,7 +1319,12 @@
+ 
+         LOG_TRACE(SERVICE_EFSRV, "Handle opened: {}", handle);
+ 
+-        ctx->write_data_to_descriptor_argument<int>(3, handle);
++        int error = epoc::error_none;
++        if (!ctx->write_data_to_descriptor_argument<int>(3, handle, &error)) {
++            obj_table_.remove(handle);
++            ctx->complete(error);
++            return;
++        }
+         ctx->complete(epoc::error_none);
+     }
+ 
+@@ -1335,51 +1374,33 @@
+             }
+         }
+ 
+-        // Check the attribute first
+-        fs_node *new_node = server<fs_server>()->make_new<fs_node>();
+-        auto &node_attrib = server<fs_server>()->attribs[
+-            canonical_file_attrib_path(name)];
+-
+-        if (node_attrib.is_exlusive()) {
+-            // Check if we can open it
+-            if (node_attrib.owner != own_pr_uid) {
+-                // Access denied
++        if (access_mode & WRITE_MODE) {
++            auto info = io->get_entry_info(name);
++            if (info && (epoc::fs::build_attribute_from_entry_info(*info) & epoc::fs::entry_att_read_only))
++                return epoc::error_access_denied;
++        }
++
++        auto &attributes = server<fs_server>()->attribs;
++        const auto key = canonical_file_attrib_path(name);
++        auto existing = attributes.find(key);
++        if (existing != attributes.end()) {
++            if (!existing->second.compatible(share_mode, access_mode & WRITE_MODE))
+                 return epoc::error_in_use;
+-            }
+-        }
+-
+-        node_attrib.increment_use(own_pr_uid);
+-
+-        if (share_mode == epoc::fs::file_share_exclusive) {
+-            // Try to claim and return denied if we can't
+-            if (!node_attrib.claim_exclusive(own_pr_uid)) {
+-                return epoc::error_in_use;
+-            }
+-        }
+-
+-        //======================= CHECK COMPARE MODE ===============================
+-
+-        if (node_attrib.is_readable_and_writeable() && !node_attrib.is_optional()) {
+-            if (share_mode == epoc::fs::file_share_readers_only) {
+-                // Hell no.
+-                return epoc::error_access_denied;
+-            }
+-        }
+-
+-        if (node_attrib.is_readonly() && ((share_mode == epoc::fs::file_share_any) || (share_mode == epoc::fs::file_share_readers_or_writers))) {
+-            return epoc::error_access_denied;
+-        }
+-
+-        //======================= PROMOTE MODE ==============================
+-        // TODO
+-
+-        //======================= DO OPEN AND FILL ==========================
+-        new_node->vfs_node = io->open_file(name, access_mode);
+-
+-        if (!new_node->vfs_node) {
++            if (!existing->second.can_acquire(share_mode, access_mode & WRITE_MODE))
++                return epoc::error_no_memory;
++        }
++
++        // Compatibility and read-only checks precede any truncating open.
++        // Publish a claim only after opening succeeds; a failed open must not
++        // leave exclusive state or a partly initialized server object behind.
++        auto opened = io->open_file(name, access_mode);
++        if (!opened || !opened->valid()) {
+             LOG_TRACE(SERVICE_EFSRV, "Can't open file {}", common::ucs2_to_utf8(name));
+             return epoc::error_not_found;
+         }
++        auto *new_node = server<fs_server>()->make_new<fs_node>();
++        new_node->vfs_node = std::move(opened);
++        attributes[key].acquire(share_mode, access_mode & WRITE_MODE);
+ 
+         new_node->mix_mode = real_mode;
+         new_node->open_mode = access_mode;
+diff --git a/src/emu/services/src/fs/fs.cpp b/src/emu/services/src/fs/fs.cpp
+--- a/src/emu/services/src/fs/fs.cpp
++++ b/src/emu/services/src/fs/fs.cpp
+@@ -178,6 +178,11 @@
+     }
+ 
+     fs_server::~fs_server() {
++        // Session tables release file/mapping references and pending attributes.
++        // Do this while derived sharing state and the temporary-file set live,
++        // before typical_server's base destructor would clear the sessions.
++        sessions.clear();
++        obj_con.clear();
+         io_system *io = sys->get_io_system();
+         for (const std::u16string &path: temporary_file_cleanset_) {
+             io->delete_entry(path);
+@@ -358,6 +363,17 @@
+         }
+     }
+ 
++    int fs_server_client::check_closed_entry(io_system *io, const std::u16string &path, bool deny_read_only) {
++        const auto open = server<fs_server>()->attribs.find(canonical_file_attrib_path(path));
++        if (open != server<fs_server>()->attribs.end() && open->second.use_count)
++            return epoc::error_in_use;
++        auto info = io->get_entry_info(path);
++        if (!info)
++            return epoc::error_not_found;
++        return deny_read_only && (epoc::fs::build_attribute_from_entry_info(*info) & epoc::fs::entry_att_read_only)
++            ? epoc::error_access_denied : epoc::error_none;
++    }
++
+     void fs_server_client::replace(service::ipc_context *ctx) {
+         auto given_path_target = ctx->get_argument_value<std::u16string>(0);
+         auto given_path_dest = ctx->get_argument_value<std::u16string>(1);
+@@ -372,6 +388,13 @@
+ 
+         io_system *io = ctx->sys->get_io_system();
+ 
++        int error = check_closed_entry(io, target, false);
++        if (error == epoc::error_none && io->exist(dest))
++            error = check_closed_entry(io, dest, true);
++        if (error != epoc::error_none) {
++            ctx->complete(error);
++            return;
++        }
+         // If exists, delete it so the new file can be replaced
+         if (io->exist(dest)) {
+             io->delete_entry(dest);
+@@ -418,6 +441,11 @@
+             return;
+         }
+ 
++        const auto error = check_closed_entry(io, target, false);
++        if (error != epoc::error_none) {
++            ctx->complete(error);
++            return;
++        }
+         bool res = io->rename(target, dest);
+ 
+         if (!res) {
+@@ -445,6 +473,11 @@
+ 
+         io_system *io = ctx->sys->get_io_system();
+ 
++        const auto error = check_closed_entry(io, path, true);
++        if (error != epoc::error_none) {
++            ctx->complete(error);
++            return;
++        }
+         bool success = io->delete_entry(path);
+ 
+         if (!success) {
+@@ -977,29 +1010,45 @@
+     }
+ 
+     void fs_server_client::set_entry(service::ipc_context *ctx) {
+-        std::optional<std::u16string> fname_op = ctx->get_argument_value<std::u16string>(0);
+-        std::optional<epoc::time> time = ctx->get_argument_data_from_descriptor<epoc::time>(1);
+-        std::uint32_t set_att_mask = *ctx->get_argument_value<std::uint32_t>(2);
+-        std::uint32_t clear_att_mask = *ctx->get_argument_value<std::uint32_t>(3);
+-
+-        if (!fname_op) {
+-            ctx->complete(epoc::error_argument);
+-            return;
+-        }
+-
+-        const std::u16string fname = get_full_symbian_path(ss_path, fname_op.value());
+-        LOG_INFO(SERVICE_EFSRV, "Set entry of: {}", common::ucs2_to_utf8(fname));
+-
+-        io_system *io = ctx->sys->get_io_system();
+-
+-        std::optional<entry_info> entry_hle = io->get_entry_info(fname);
+-
+-        if (!entry_hle) {
++        const auto name = ctx->get_argument_value<std::u16string>(0);
++        const auto time = ctx->get_argument_data_from_descriptor<epoc::time>(1);
++        const auto set = ctx->get_argument_value<std::uint32_t>(2);
++        const auto clear = ctx->get_argument_value<std::uint32_t>(3);
++        if (!name || !time || !set || !clear) {
++            ctx->complete(epoc::error_argument);
++            return;
++        }
++        const auto change = requested_read_only_change(*set, *clear);
++        if (change == read_only_change::invalid) {
++            ctx->complete(epoc::error_argument);
++            return;
++        }
++        // RFs::SetAtt sends TTime(0). Nonzero modification time and unsupported
++        // attributes must not be acknowledged without implementing them.
++        if (*time || change == read_only_change::unsupported) {
++            ctx->complete(epoc::error_not_supported);
++            return;
++        }
++        const auto path = get_full_symbian_path(ss_path, *name);
++        if (!check_path_capabilities_pass(path, ctx->msg->own_thr->owning_process(),
++                epoc::fs::private_comp_access_policy, epoc::fs::sys_resource_modify_access_policy,
++                epoc::fs::sys_resource_modify_access_policy)) {
++            ctx->complete(epoc::error_permission_denied);
++            return;
++        }
++        auto *io = ctx->sys->get_io_system();
++        if (!io->get_entry_info(path)) {
+             ctx->complete(epoc::error_not_found);
+             return;
+         }
+-
+-        ctx->complete(epoc::error_none);
++        const auto key = canonical_file_attrib_path(path);
++        const auto open = server<fs_server>()->attribs.find(key);
++        if (open != server<fs_server>()->attribs.end() && open->second.use_count) {
++            ctx->complete(epoc::error_in_use);
++            return;
++        }
++        ctx->complete(change == read_only_change::unchanged ? epoc::error_none
++            : file_attribute_result(io->set_entry_read_only(path, change == read_only_change::set)));
+     }
+ 
+     void fs_server::private_path(service::ipc_context *ctx) {
+diff --git a/src/emu/vfs/include/vfs/host_file_attributes.h b/src/emu/vfs/include/vfs/host_file_attributes.h
+new file mode 100644
+--- /dev/null
++++ b/src/emu/vfs/include/vfs/host_file_attributes.h
+@@ -0,0 +1,35 @@
++// Persist the supported Symbian read-only bit in the mapped host file itself.
++// Check permission bits, not access(W_OK): an elevated host may still write a
++// read-only file, whereas the guest file-server contract must deny that open.
++#pragma once
++
++#include <filesystem>
++#include <optional>
++#include <system_error>
++
++namespace eka2l1 {
++    inline std::optional<bool> host_file_is_read_only(const std::filesystem::path &path) {
++        std::error_code error;
++        const auto status = std::filesystem::status(path, error);
++        if (error || !std::filesystem::exists(status)
++            || status.permissions() == std::filesystem::perms::unknown)
++            return std::nullopt;
++        constexpr auto writes = std::filesystem::perms::owner_write
++            | std::filesystem::perms::group_write | std::filesystem::perms::others_write;
++        return (status.permissions() & writes) == std::filesystem::perms::none;
++    }
++
++    inline bool set_host_file_read_only(const std::filesystem::path &path, bool read_only) {
++        std::error_code error;
++        const auto status = std::filesystem::status(path, error);
++        if (error || !std::filesystem::exists(status)
++            || status.permissions() == std::filesystem::perms::unknown)
++            return false;
++        constexpr auto writes = std::filesystem::perms::owner_write
++            | std::filesystem::perms::group_write | std::filesystem::perms::others_write;
++        const auto desired = read_only ? status.permissions() & ~writes
++            : status.permissions() | std::filesystem::perms::owner_write;
++        std::filesystem::permissions(path, desired, std::filesystem::perm_options::replace, error);
++        return !error;
++    }
++}
+diff --git a/src/emu/vfs/include/vfs/vfs.h b/src/emu/vfs/include/vfs/vfs.h
+--- a/src/emu/vfs/include/vfs/vfs.h
++++ b/src/emu/vfs/include/vfs/vfs.h
+@@ -134,6 +134,9 @@
+          */
+         virtual std::u16string file_name() const = 0;
+ 
++        // Rename an already open physical file without reopening/truncating it.
++        virtual bool rename(const std::u16string &, const std::u16string &) { return false; }
++
+         /*! \brief Size of the file. 
+          * \returns The size of the file.
+         */
+@@ -347,6 +350,9 @@
+ 
+         std::optional<std::u16string> get_raw_path(const std::u16string &path);
+ 
++        // Persist the supported per-entry read-only bit in a writable mapped drive.
++        abstract_file_system_err_code set_entry_read_only(const std::u16string &path, bool read_only);
++
+         /*! \brief Add a new file system to the IO system
+         *
+         * Each filesystem will be assigned an ID for management.
+diff --git a/src/emu/vfs/src/vfs.cpp b/src/emu/vfs/src/vfs.cpp
+--- a/src/emu/vfs/src/vfs.cpp
++++ b/src/emu/vfs/src/vfs.cpp
+@@ -31,6 +31,10 @@
+ #include <mem/mem.h>
+ #include <mem/ptr.h>
+ #include <vfs/vfs.h>
++#include <vfs/host_file_attributes.h>
++#if EKA2L1_PLATFORM(ANDROID)
++#include <common/android/contenturi.h>
++#endif
+ 
+ #include <array>
+ #include <cwctype>
+@@ -464,6 +468,22 @@
+             WARN_CLOSE
+ 
+             return input_name;
++        }
++
++        bool rename(const std::u16string &new_name, const std::u16string &new_path) override {
++            if (closed || !file)
++                return false;
++            std::error_code error;
++            // A copy/delete fallback would leave this FILE on the old inode.
++            // Symbian's RFile::Rename is a same-volume operation.
++            std::filesystem::rename(std::filesystem::path(physical_path),
++                std::filesystem::path(new_path), error);
++            if (error)
++                return false;
++            input_name = new_name;
++            physical_path = new_path;
++            common::invalidate_folded_directory_indexes();
++            return true;
+         }
+ 
+         bool flush() override {
+@@ -977,6 +997,16 @@
+             drive &drv = mappings[ascii_to_drive_number(static_cast<char>(std::towlower(root[0])))].first;
+ 
+             info.attribute = drv.attribute;
++#if EKA2L1_PLATFORM(ANDROID)
++            if (!is_content_uri(real_path_utf8))
++#endif
++            {
++                const auto read_only = host_file_is_read_only(std::filesystem::u8path(real_path_utf8));
++                if (!read_only)
++                    return std::nullopt;
++                if (*read_only)
++                    info.attribute |= io_attrib_write_protected;
++            }
+ 
+             return info;
+         }
+@@ -1011,6 +1041,15 @@
+                 return nullptr;
+             }
+ 
++            if ((mode & (WRITE_MODE | APPEND_MODE)) && common::exists(real_path_utf8)
++#if EKA2L1_PLATFORM(ANDROID)
++                && !is_content_uri(real_path_utf8)
++#endif
++            ) {
++                const auto read_only = host_file_is_read_only(std::filesystem::u8path(real_path_utf8));
++                if (!read_only || *read_only)
++                    return nullptr;
++            }
+             auto opened = std::make_unique<physical_file>(path, *real_path, mode);
+ 
+             if (!opened->is_open()) {
+@@ -1344,6 +1383,32 @@
+         return false;
+     }
+ 
++    abstract_file_system_err_code io_system::set_entry_read_only(const std::u16string &path, bool read_only) {
++        const std::lock_guard<std::mutex> guard(access_lock);
++        if (path.empty())
++            return abstract_file_system_err_code::no;
++        for (auto &[id, fs] : filesystems) {
++            const auto info = fs->get_entry_info(path);
++            if (!info)
++                continue;
++            const auto drive = fs->get_drive_entry(char16_to_drive(path[0]));
++            if (!drive || (drive->attribute & io_attrib_write_protected) || drive->media_type == drive_media::rom)
++                return abstract_file_system_err_code::failed;
++            const auto raw = fs->get_raw_path(path);
++            if (!raw)
++                return abstract_file_system_err_code::unsupported;
++            const auto host_name = common::ucs2_to_utf8(*raw);
++#if EKA2L1_PLATFORM(ANDROID)
++            if (is_content_uri(host_name))
++                return abstract_file_system_err_code::unsupported;
++#endif
++            const auto host_path = std::filesystem::u8path(host_name);
++            return set_host_file_read_only(host_path, read_only)
++                ? abstract_file_system_err_code::ok : abstract_file_system_err_code::failed;
++        }
++        return abstract_file_system_err_code::no;
++    }
++
+     bool io_system::delete_entry(const std::u16string &path) {
+         const std::lock_guard<std::mutex> guard(access_lock);
+ 

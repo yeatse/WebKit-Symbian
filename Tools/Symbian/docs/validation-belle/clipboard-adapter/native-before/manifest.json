@@ -1,0 +1,21 @@
+{
+  "scope": "Actual production native clipboard adapter, first runtime; failure retained",
+  "result": "FAIL",
+  "checks": {
+    "passed": 28,
+    "failed": 3
+  },
+  "image_sha256": "662db66d1e3543af89fef1d73cbd8c804c77a82602b355e25cf28f9afc96aeac",
+  "source_sha256": {
+    "Tools/Symbian/browser/ClipboardNative.cpp": "bf4372aa805e03f401ea90cf7e857af26c9bac7f9839e59dc548bd5d38fcdb0a",
+    "Source/WebKitLegacy/symbian/WebKitSymbianClipboard.h": "6d1591a0bd081c24eced5d8a2efd25f37ce4e34b5181b5ba065252b3cd322523",
+    "Tools/Symbian/tests/clipboard-native-adapter/probe.cpp": "10ed321628f0a4552822618880d739771964d3451c7a1a3a9642b8d606230864"
+  },
+  "guest_log_sha256": "eb82ba478a0e29c2b868a1a80d74f5c7a161f723e8851c596e3c2b224317ed34",
+  "known_failures": [
+    "RFs::SetAtt read-only attribute was acknowledged without applying it by EKA set_entry.",
+    "An exclusive file handle did not prevent another open by the same process in EKA new_node.",
+    "Host shutdown exited -11; this is not accepted as a successful run."
+  ],
+  "clipboard_preservation": "Sole runtime owner backed up original absence, restored it in finally; no original clipboard contents were logged."
+}
