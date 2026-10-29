@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "sis_sha256": "0289b4c04856bc87381f48d9996dad2bcc114f49d998898cd4006b97c790164b",
+  "sis_bytes": 4768936,
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "previous_data_sha256": "5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f",
+  "package": "Symbian WebKit ICU data",
+  "uid": "0xe1a5c013",
+  "version": "0.3.38",
+  "installation_marker": true,
+  "host_exit": 0,
+  "guest_panic": false,
+  "installed_path": "C:/resource/icu/icudt70l.dat",
+  "installed_bytes": 10261824,
+  "installed_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+  "payload_byte_identical": true,
+  "controller_byte_identical_to_sis": true,
+  "registry": [
+    {
+      "file": "00000000.reg",
+      "bytes": 319,
+      "sha256": "69b8fbdfe2f634e414f261c84943bb9ef6cb27bdb3669cb6e93d3ec8eccf358c"
+    },
+    {
+      "file": "00000000_0000.ctl",
+      "bytes": 692,
+      "sha256": "c3df435a4c0e69c9abee2162a902b283ed79e3dbd3e30ed2a1bd76d633a675f7"
+    }
+  ],
+  "post_install_browser": {
+    "image_sha256": "8ba0a5068a3dbd3aef616d71ae3b9f6d6b0a906c376c49fa4a9cc04685eaead5",
+    "source_run": "browser-20261029T161946Z-x7bp35_h",
+    "idna_summary": "IDNA RESULT 9/9 PASS",
+    "normal_host_exit": 0,
+    "guest_panic": false,
+    "installed_data_copied_by_runner": false,
+    "runner_adaptation": "Private copy of strict browser driver: omitted only ICU data copy and used absolute common.sh source; all screenshot, log, marker and graceful shutdown checks preserved.",
+    "retained_installed_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+    "guest_log_sha256": "eeb71417c206e6976a2910d337fd3121ad40e8f0001fd6c5c66612e07e201837",
+    "host_log_sha256": "c96a68560bf7f17e6debe4122b5e022a87ed7bc1f6cca93cc8d2ecb82901e129",
+    "source_runner_sha256": "7e6d6a7460c83f17bd9e8118738b069ee457aca4fff30ed75df55b531400ff8c",
+    "validation_runner_sha256": "f9825f65073944029fad09db6dd54dbb69161c5f86c5fd24a95f111bf41088f0"
+  }
+}

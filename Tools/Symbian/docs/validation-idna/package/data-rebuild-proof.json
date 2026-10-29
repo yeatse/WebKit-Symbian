@@ -1,0 +1,16 @@
+{
+  "icu_version": "70.1",
+  "sis_version": "0.3.38",
+  "uid3": "0xE1A5C013",
+  "target": "C:/resource/icu/icudt70l.dat",
+  "full_archive": "/workspace/symbian-work/icu/host/data/out/tmp/icudt70l.dat",
+  "full_archive_sha256": "672dafc4940a0183cb48c3e369c1a0795cc8dfbf19951c86ced0ad78398f9480",
+  "source_build_script_sha256": "791f99b963b8e1b15522ec7bcd05eef5f930f47e9e7141838a994802eba90d8a",
+  "source_filter_sha256": "6d52e4489241b07a048ee9231a0add7fac23cb6ae49b8d71228d8030c2c66167",
+  "data_stage_script": "rebuild-data.sh",
+  "data_stage_script_sha256": "893df829ddd87faca4308508f56aa0f7f3aeac329d321907fa3ae816e6b89c60",
+  "output_dat_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+  "output_dat_bytes": 10261824,
+  "shared_install_unchanged_sha256": "5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f",
+  "scope": "Exact build-icu.sh trim/res_index data stage with fixed filter, external read-only host tools/full source archive; target libraries were not rebuilt."
+}
