@@ -21,6 +21,8 @@ The source port is being reconstructed. ICU 70.1 and all third-party target depe
 
 Run directories are under the local work directory's `runs/`. RAB covers page growth/data preservation, shrinking/regrowth zeroing and bounds; GSAB covers growth and rejected shrinking. Guest OOM fault injection and physical-device behavior have not been tested.
 
+The ICU and JSC SIS packages also install successfully in X7: each reports `Installation done!` with its matching UID and package registry; the installed EXE/data and all four test scripts match the build bytes. JSC installs to `E:/sys/bin/jsc.exe`, ICU data to `C:/resource/icu/icudt70l.dat`. The build packages are 5,189,128 bytes (`jsc.sis`) and 4,744,200 bytes (`symbian-webkit-icu.sis`). The GUI is terminated after installation evidence is captured, so its termination status is not used as the install verdict.
+
 WebCore configuration succeeds and PAL has compiled and archived. The AVKON shell's 11 ARM objects have compiled; 21 WebCore/PAL platform and crypto translation units and 6 Legacy embedding translation units pass actual ARM/C++23 syntax checks. Full WebCore/Legacy archives, final browser ELF/E32, SIS and guest execution are still pending.
 
 The E32 converter's 47 host regression tests pass, including a valid exception index larger than 64 KiB, malformed table/descriptor rejection and strict single-branch ARM import thunks. Clean sequential patch application, reverse checks and repeated cached builds pass. Converter SHA256: `6639323282ca92f09c823a9ea7178b318c2198cfdf27c5e0bb9e50cef6d5f27d`. This does not establish full-browser E32 conversion.
@@ -40,6 +42,6 @@ Verified environment preparation: SDK compiler, linker and stock E32 converter b
 
 ## Boundaries
 
-C_LOOP only; no JIT/DFG/FTL/Wasm/sampling profiler. No GPU compositor, WebGL or multimedia backend. Service Worker, Shared Worker and Cache API remain off. Register only implemented WebCrypto algorithms; reject unsupported algorithms and persistent key wrapping without a secure system master key. RChunk has no general mprotect/read-only equivalent; decommit destroys contents. Filesystem hard-link and capacity operations must report unsupported behavior honestly. Emulator results do not establish physical-phone behavior.
+C_LOOP only; no JIT/DFG/FTL/Wasm/sampling profiler. No GPU compositor, WebGL or multimedia backend. Service Worker, Shared Worker and Cache API remain off. Register only implemented WebCrypto algorithms; reject unsupported algorithms and persistent key wrapping without a secure system master key. RChunk has no general mprotect/read-only equivalent; decommit destroys contents. Its metadata table supports 256 simultaneous reservations (ordinary malloc is separate), and initial resizable ArrayBuffer maximum storage can still be temporarily fully committed. Filesystem hard-link and capacity operations must report unsupported behavior honestly. Emulator results do not establish physical-phone behavior.
 
 The supplied reconstruction record is preserved in [Handoff-2.52.md](Handoff-2.52.md). Its old validation results are historical, not evidence for this checkout.
