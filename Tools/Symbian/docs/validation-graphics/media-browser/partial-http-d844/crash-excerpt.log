@@ -1,0 +1,28 @@
+E EKA2L1/src/emu/kernel/src/kernel.cpp:384 [Kernel]: Access violation reading address 0xE1A00000 in thread WebKit
+T EKA2L1/src/emu/kernel/src/kernel.cpp:229 [Kernel]: Last instruction: str lr, [sp, #-4]! (0xe52de004)
+T EKA2L1/src/emu/kernel/src/kernel.cpp:239 [Kernel]: LR instruction: mvn r6, #0x47 (0xe3e06047)
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:35 [CPU]: CPU context: 
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:36 [CPU]: pc: 0x1bb3f480
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:37 [CPU]: lr: 0x1ba98ad8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:38 [CPU]: sp: 0x57cec8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:39 [CPU]: cpsr: 0x0
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r0: 0x1faad360
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r1: 0x57ce20
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r2: 0x9159960
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r3: 0x1faad360
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r4: 0x1bb3f480
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r5: 0x1fbd19e0
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r6: 0xe1a00000
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r7: 0x909e41c
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r8: 0x1faad360
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r9: 0x1fc239e0
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r10: 0xfffffffb
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r11: 0x57cec8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r12: 0x168
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r13: 0x57cec8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r14: 0x1ba98ad8
+T EKA2L1/src/emu/cpu/src/arm_utils.cpp:42 [CPU]: r15: 0x1bb3f480
+T EKA2L1/src/emu/kernel/src/thread.cpp:560 [Kernel]: Thread WebKit terminated peacefully with category: KERN-EXEC and exit code: 3
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x10009793: changes saved
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876E: changes saved
+T EKA2L1/src/emu/services/src/centralrepo/centralrepo.cpp:1193 [Service.CenRep]: Repo 0x101F876D: changes saved

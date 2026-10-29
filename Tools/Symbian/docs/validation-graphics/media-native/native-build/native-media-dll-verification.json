@@ -1,0 +1,144 @@
+[
+  {
+    "target": "mediaclientaudio_general",
+    "uid3": "0xee000003",
+    "flags": "0x12000029",
+    "bytes": 72620,
+    "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+    "exports": 118,
+    "max_ordinal": 118,
+    "present": 118,
+    "absent": 0,
+    "readonly_objects": [
+      {
+        "name": "_ZTI22CMdaAudioPlayerUtility",
+        "ordinal": 30,
+        "address": "0x1030c"
+      },
+      {
+        "name": "_ZTI25CMMFMdaAudioPlayerUtility",
+        "ordinal": 31,
+        "address": "0xff4c"
+      },
+      {
+        "name": "_ZTV22CMdaAudioPlayerUtility",
+        "ordinal": 32,
+        "address": "0x10288"
+      },
+      {
+        "name": "_ZTV25CMMFMdaAudioPlayerUtility",
+        "ordinal": 33,
+        "address": "0xfe98"
+      },
+      {
+        "name": "_ZTI19CMMFMdaAudioUtility",
+        "ordinal": 41,
+        "address": "0xff28"
+      },
+      {
+        "name": "_ZTI27CMMFMdaAudioRecorderUtility",
+        "ordinal": 42,
+        "address": "0xff74"
+      },
+      {
+        "name": "_ZTV19CMMFMdaAudioUtility",
+        "ordinal": 43,
+        "address": "0xfe58"
+      },
+      {
+        "name": "_ZTV27CMMFMdaAudioRecorderUtility",
+        "ordinal": 44,
+        "address": "0xfebc"
+      },
+      {
+        "name": "_ZTI20CMdaAudioClipUtility",
+        "ordinal": 101,
+        "address": "0x1004c"
+      },
+      {
+        "name": "_ZTI24CMdaAudioRecorderUtility",
+        "ordinal": 102,
+        "address": "0x10260"
+      },
+      {
+        "name": "_ZTV20CMdaAudioClipUtility",
+        "ordinal": 103,
+        "address": "0xffd0"
+      },
+      {
+        "name": "_ZTV24CMdaAudioRecorderUtility",
+        "ordinal": 104,
+        "address": "0x10174"
+      },
+      {
+        "name": "_ZTI23CMMFMdaAudioToneUtility",
+        "ordinal": 106,
+        "address": "0xffa0"
+      },
+      {
+        "name": "_ZTI24CMMFMdaAudioOpenComplete",
+        "ordinal": 107,
+        "address": "0xff00"
+      },
+      {
+        "name": "_ZTV23CMMFMdaAudioToneUtility",
+        "ordinal": 108,
+        "address": "0xfee0"
+      },
+      {
+        "name": "_ZTV24CMMFMdaAudioOpenComplete",
+        "ordinal": 109,
+        "address": "0xda90"
+      },
+      {
+        "name": "_ZTI20CMdaAudioToneUtility",
+        "ordinal": 115,
+        "address": "0x1013c"
+      },
+      {
+        "name": "_ZTV20CMdaAudioToneUtility",
+        "ordinal": 116,
+        "address": "0x10084"
+      }
+    ],
+    "every_present_export_matches_elf": true,
+    "exception_descriptor_offset": 23168,
+    "ehabi_index_bytes": 1376
+  },
+  {
+    "target": "mediaclientvideo_v100",
+    "uid3": "0xee000009",
+    "flags": "0x12000029",
+    "bytes": 52556,
+    "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+    "exports": 165,
+    "max_ordinal": 165,
+    "present": 83,
+    "absent": 82,
+    "readonly_objects": [
+      {
+        "name": "_ZTI19CVideoPlayerUtility",
+        "ordinal": 93,
+        "address": "0xe624"
+      },
+      {
+        "name": "_ZTV19CVideoPlayerUtility",
+        "ordinal": 97,
+        "address": "0xe5c4"
+      },
+      {
+        "name": "_ZTI20CVideoPlayerUtility2",
+        "ordinal": 141,
+        "address": "0xe690"
+      },
+      {
+        "name": "_ZTV20CVideoPlayerUtility2",
+        "ordinal": 142,
+        "address": "0xe65c"
+      }
+    ],
+    "every_present_export_matches_elf": true,
+    "exception_descriptor_offset": 22256,
+    "ehabi_index_bytes": 960
+  }
+]

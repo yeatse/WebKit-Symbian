@@ -1,0 +1,70 @@
+<!doctype html><meta charset="utf-8">
+<title>Progressive media cleanup diagnostic</title>
+<style>body{font:14px sans-serif;background:white;color:#111}video{width:320px;height:180px;background:#444}pre{white-space:pre-wrap}#stage{min-height:190px}</style>
+<h1>Progressive cleanup diagnostic</h1><div id="stage"></div><pre id="output"></pre>
+<script>
+'use strict';
+const parameters=new URL(location.href).searchParams;
+const token=parameters.get('run') || ('diagnostic-'+Date.now());
+const iterations=Number(parameters.get('iterations') || 10);
+const output=document.getElementById('output');
+const stage=document.getElementById('stage');
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+function log(message) { output.textContent+=message+'\n'; console.log('MEDIA-DIAG '+message); }
+function assert(value,message) { if(!value)throw new Error(message); }
+function state(element) { return JSON.stringify({ready:element.readyState,network:element.networkState,paused:element.paused,time:element.currentTime,error:element.error?element.error.code:0}); }
+async function bounded(promise,label,milliseconds=12000) {
+    let timer;
+    try { return await Promise.race([promise,new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(new Error('timeout '+label)),milliseconds);})]); }
+    finally { clearTimeout(timer); }
+}
+async function until(predicate,label,milliseconds=12000) {
+    const end=performance.now()+milliseconds;
+    while(performance.now()<end) { if(predicate())return;await delay(50); }
+    throw new Error('timeout '+label);
+}
+async function iteration(index) {
+    log(index+' create');
+    const element=document.createElement('video');element.preload='auto';element.controls=true;
+    stage.appendChild(element);
+    for(const event of ['loadstart','loadedmetadata','canplay','playing','pause','waiting','ended','error','emptied'])
+        element.addEventListener(event,()=>log(index+' event '+event+' '+state(element)));
+    try {
+        element.src='http://localhost:8775/slow-video.mp4?token='+encodeURIComponent(token+'-'+index);element.load();
+        await until(()=>!!element.error || element.readyState>=1,'metadata');
+        assert(!element.error,'metadata error '+state(element));
+        log(index+' metadata '+state(element));
+        await bounded(element.play(),'play promise');
+        log(index+' play resolved '+state(element));
+        const initial=element.currentTime;
+        await until(()=>!!element.error || element.currentTime>initial+.3,'position');
+        assert(!element.error,'play error '+state(element));
+        const controller=new AbortController();
+        let transfer;
+        try { transfer=await bounded((async()=>{
+            const response=await fetch('http://localhost:8775/transfer-state?token='+encodeURIComponent(token+'-'+index),{signal:controller.signal});
+            assert(response.ok,'transfer HTTP '+response.status);return response.json();
+        })(),'transfer state',5000); } finally { controller.abort(); }
+        assert(transfer.started && transfer.sent<transfer.total && !transfer.complete,'not progressive '+JSON.stringify(transfer));
+        log(index+' progressive '+state(element)+' '+JSON.stringify(transfer));
+    } finally {
+        log(index+' cleanup pause before');element.pause();log(index+' cleanup pause after');
+        element.removeAttribute('src');log(index+' cleanup remove-src after');
+        element.load();log(index+' cleanup load after');
+        element.remove();log(index+' cleanup remove-node after');
+    }
+}
+(async()=>{
+    assert(Number.isInteger(iterations)&&iterations>=1&&iterations<=20,'iterations outside 1..20');
+    log('BEGIN run='+token+' iterations='+iterations);
+    let completed=0;
+    try {
+        for(let i=0;i<iterations;++i) { await iteration(i);++completed;log(i+' iteration returned'); }
+        log('PASS progressive-cleanup '+completed+'/'+iterations);
+        document.title='PASS progressive-cleanup';
+    } catch(error) {
+        log('FAIL progressive-cleanup completed='+completed+' '+String(error));
+        document.title='FAIL progressive-cleanup';
+    }
+})();
+</script>

@@ -1,0 +1,123 @@
+{
+  "status": "FAIL",
+  "failure": null,
+  "browser_sha256": "d8443239a3c89f491cc5350f487799ff87a237a7f1af387ceec78817e59ea510",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "icu_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+  "suite": "http",
+  "driver_exit": 1,
+  "api_status": "FAIL",
+  "audio": {
+    "file": null,
+    "format": "s16le/48000Hz/stereo",
+    "bytes": 9032480,
+    "sha256": "e52cf1f1517c85fccb5240e08238c9876c5f6f649c72e3792c7e2d6a22f3e822",
+    "capture_timing": {
+      "recorder_start_monotonic": 27953.41004476,
+      "first_pcm_ready_monotonic": 27955.26243109,
+      "ready_bytes": 19200,
+      "driver_launch_monotonic": 27955.262500972,
+      "driver_exit_observed_monotonic": 28002.011160283,
+      "tail_start_bytes": 8994080,
+      "tail_ready_monotonic": 28002.21238496,
+      "tail_bytes": 38400,
+      "capture_end_monotonic": 28002.213624372
+    },
+    "semantic_analysis": "pending; capture presence is not tone/pause/mute proof",
+    "archived_here": false
+  },
+  "events": [
+    {
+      "label": "audio.wav playing",
+      "observed_monotonic": 27964.360477945,
+      "console_line": 9
+    },
+    {
+      "label": "audio.wav paused",
+      "observed_monotonic": 27965.365657979,
+      "console_line": 10
+    },
+    {
+      "label": "audio.wav muted",
+      "observed_monotonic": 27968.34597742,
+      "console_line": 11
+    },
+    {
+      "label": "audio.wav unmuted",
+      "observed_monotonic": 27969.354386044,
+      "console_line": 12
+    },
+    {
+      "label": "video.mp4 playing",
+      "observed_monotonic": 27976.550850029,
+      "console_line": 16
+    },
+    {
+      "label": "video.mp4 paused",
+      "observed_monotonic": 27977.383698184,
+      "console_line": 17
+    },
+    {
+      "label": "video.mp4 muted",
+      "observed_monotonic": 27980.382226598,
+      "console_line": 18
+    },
+    {
+      "label": "video.mp4 unmuted",
+      "observed_monotonic": 27981.352068349,
+      "console_line": 19
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "video-01.png",
+      "label": "video.mp4 playing",
+      "start_monotonic": 27976.551031917,
+      "end_monotonic": 27976.666431365,
+      "sha256": "7e0b9fefd60749d40cb5d6de07c65b962c9d24e0fb4634bee003aa8277533e15"
+    },
+    {
+      "file": "video-02.png",
+      "label": "video.mp4 playing second frame",
+      "start_monotonic": 27976.917704996,
+      "end_monotonic": 27977.031867407,
+      "sha256": "cab01978d85176dbd11e342d2f7d6bde3b70eda7f6daa468c885f93a86bfcedd"
+    },
+    {
+      "file": "video-03.png",
+      "label": "video.mp4 paused",
+      "start_monotonic": 27977.383903606,
+      "end_monotonic": 27977.498250489,
+      "sha256": "231788044af985433cbeb72827271d6512d965bd52a917ff6a8f32aacb0d6e70"
+    },
+    {
+      "file": "video-04.png",
+      "label": "video.mp4 paused second frame",
+      "start_monotonic": 27977.752819433,
+      "end_monotonic": 27977.867103204,
+      "sha256": "499e14351d425c9afd329ad680a1673ee011a8da3c028fa4145572677d9dc36a"
+    },
+    {
+      "file": "video-05.png",
+      "label": "video.mp4 muted",
+      "start_monotonic": 27980.382408355,
+      "end_monotonic": 27980.497467895,
+      "sha256": "74acd4216ea0010e71ac4740807ae5738ae63556ae1714f5dd984fcc77705e9e"
+    },
+    {
+      "file": "video-06.png",
+      "label": "video.mp4 unmuted",
+      "start_monotonic": 27981.352244959,
+      "end_monotonic": 27981.468378735,
+      "sha256": "815bccb4a0da50d0fee79fdbdbfb67292231a34fc9930e51a872463c6cf7ce3d"
+    },
+    {
+      "file": "video-07.png",
+      "label": "video.mp4 unmuted second frame",
+      "start_monotonic": 27981.719533341,
+      "end_monotonic": 27981.833783933,
+      "sha256": "bddffc63a3477cb673e4ac3ccd2a3a5da2a9825e3f28d5df11f68f0f7f215424"
+    }
+  ],
+  "event_clock_note": "Console first-observed host timestamps are upper bounds affected by flush and polling. This failed run produced no final page trace/report. No exact synchronized latency is claimed."
+}

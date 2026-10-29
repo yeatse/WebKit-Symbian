@@ -1,0 +1,14 @@
+{
+  "stage": "candidate with temporary audio diagnostic host; clean-host repetition pending",
+  "api_and_surface": "16/16 PASS",
+  "guest_exit": 0,
+  "host_exit": 0,
+  "pixels": "Two actual decoded test-pattern frames change; timecodes 00:00:05.200 frame 78 and 00:00:07.333 frame 110",
+  "aac_pcm": "captured separately; analysis pending",
+  "artifacts": {
+    "result.json": "76d593bcac39b892432bd61975bfadf8eae7322d9410300b45f6de252b482646",
+    "mmf-probe.log": "8be7a277210b0f1222f33fd57ca265030e843cccc8ab99d0dc2649060e4ad690",
+    "screenshot-1.png": "7e09f840ccd5d61e02a422eb33cf73ab1c48d9a1a811f40055c9e9d41b1b748d",
+    "screenshot-2.png": "9665ec875557acaba860a87f8fbaa3e94d47fc959c38674720c4b4a4d4beff99"
+  }
+}

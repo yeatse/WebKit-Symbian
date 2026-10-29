@@ -111,7 +111,31 @@ class NativeRunner(unittest.TestCase):
         self.env['PATH'] = str(self.root) + os.pathsep + self.env['PATH']
         proc, report = self.run_fixture('success', extra=('--capture-audio',))
         self.assertNotEqual(proc.returncode, 0)
-        self.assertIn('recorded audio is empty', report['failure'])
+        self.assertIn('Pulse monitor did not supply', report['failure'])
+        self.assertIsNone(report['host_exit'])
+
+    def test_recorder_ready_before_guest(self):
+        recorder = self.root / 'parec'
+        recorder.write_text('#!/usr/bin/python3\nimport sys,time\nsys.stdout.buffer.write(bytes(19200))\nsys.stdout.buffer.flush()\nwhile True:\n time.sleep(.02)\n sys.stdout.buffer.write(bytes(4800))\n sys.stdout.buffer.flush()\n')
+        recorder.chmod(0o755)
+        self.env['PATH'] = str(self.root) + os.pathsep + self.env['PATH']
+        proc, report = self.run_fixture('success', extra=('--capture-audio',))
+        self.assertEqual(proc.returncode, 0, proc.stdout+proc.stderr)
+        timing = report['audio_capture_timing']
+        self.assertGreaterEqual(timing['ready_bytes'], 19200)
+        self.assertLessEqual(timing['first_pcm_ready_monotonic'], timing['emulator_launch_monotonic'])
+        self.assertGreaterEqual(timing['tail_bytes'], 38400)
+        self.assertLessEqual(timing['host_exit_observed_monotonic'], timing['tail_ready_monotonic'])
+
+    def test_missing_post_guest_pcm_is_failure(self):
+        recorder = self.root / 'parec'
+        recorder.write_text('#!/usr/bin/python3\nimport sys,time\nsys.stdout.buffer.write(bytes(19200))\nsys.stdout.buffer.flush()\ntime.sleep(20)\n')
+        recorder.chmod(0o755)
+        self.env['PATH'] = str(self.root) + os.pathsep + self.env['PATH']
+        proc, report = self.run_fixture('success', extra=('--capture-audio',))
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertEqual(report['host_exit'], 0)
+        self.assertIn('post-guest PCM', report['failure'])
 
     def test_guest_nonzero_is_failure(self):
         proc, report = self.run_fixture('guest-failure')

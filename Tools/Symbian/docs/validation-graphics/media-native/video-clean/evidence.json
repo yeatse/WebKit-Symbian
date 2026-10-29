@@ -1,0 +1,22 @@
+{
+  "stage": "clean host with final atomic audio fixes and no temporary media diagnostics",
+  "source_run": "mmf-20261029T155233Z-ya30c72z",
+  "api_and_surface": "16/16 PASS; host and guest exit 0; no panic",
+  "first_frame": {
+    "timecode": "00:00:05.267",
+    "frame": 79
+  },
+  "second_frame": {
+    "timecode": "00:00:07.400",
+    "frame": 111
+  },
+  "visual_inspection": "Decoded test-pattern pixels and moving shapes visibly change; Close removes the video while retaining the probe border. Final video area is black with no stale frame.",
+  "audio_evidence": "../audio/README.md",
+  "artifacts": {
+    "mmf-probe.log": "9ab7b1c11c26fcfc0f1341a11e25c5b8765af97cfd93427899623b6a505b5444",
+    "screenshot-1.png": "e02df21e212d141edd5fc91d5e245c4f9c7b6e05e6f1fba10a2597c712dc1aee",
+    "screenshot-2.png": "2c38171278bf957e844ab660e81b68129b9e946cc28682cfa19f9f87af55507c",
+    "screenshot-final.png": "351b314334cc0e34e142e9ab66c81cbd7f9eee925579a1ffee291aca2373b422",
+    "result.json": "ae632720c11dcad835140c04bc5284c4b40ba10605c16b714e94a10761d638dc"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "source": "https://github.com/SymbianSource/oss.FCL.sf.os.graphics/blob/ff133bc50e6158bfb08cc093b0f0055321dcde99/windowing/windowserver/nga/CLIENT/RWINDOW.CPP",
+  "source_revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+  "source_sha256": "63f89f297e845494f97a024cb85ee2572302794fb54b19afc150565f354cb15d",
+  "source_encoding": "ISO-8859-1",
+  "functions": {
+    "alpha": {
+      "line": 2421,
+      "declaration": "EXPORT_C TInt RWindow::SetTransparencyAlphaChannel()"
+    },
+    "display_mode": {
+      "line": 1201,
+      "declaration": "EXPORT_C TInt RWindowBase::SetRequiredDisplayMode(TDisplayMode aMode)"
+    }
+  },
+  "contract": {
+    "display_mode": "NGA deprecated: no effect; returns the system display mode, not a KErrNone success result.",
+    "alpha": "Enables window alpha; returns KErrNone or a system error. Invalid areas clear to background before drawing; transparent background is required for this hole-punch use."
+  },
+  "browser_change": {
+    "path": "Tools/Symbian/browser/WebContainer.cpp",
+    "scope": "SYMBIAN_BROWSER_MEDIA; ConstructL before activation",
+    "operations": [
+      "User::LeaveIfError(Window().SetTransparencyAlphaChannel())",
+      "Window().SetBackgroundColor(TRgb(0, 0, 0, 0))"
+    ]
+  },
+  "paint_chain": [
+    "MediaPlayerPrivateSymbian::paint Copy transparent black into Cairo ARGB32",
+    "WebViewImpl::paint brackets software paint with media willPaint/didPaint",
+    "WebContainer copies EColor16MAP bitmap with EDrawModeWriteAlpha",
+    "Utility2 AddDisplayWindowL/extent/clip provides native background surface"
+  ],
+  "compositor_policy": "An opened visible native video disables EGL page composition, tears down its window surface, invalidates the full bitmap and paints the software hole path. No simultaneous GPU-page/MMF alpha composition claim.",
+  "runtime_evidence": "Recorded separately after fresh browser candidate completion."
+}

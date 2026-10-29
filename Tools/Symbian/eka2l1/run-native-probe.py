@@ -44,7 +44,7 @@ def stop(process):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--probe", choices=("egl", "angle", "mmf"), required=True)
+    parser.add_argument("--probe", choices=("egl", "angle", "mmf", "aligned-pressure"), required=True)
     parser.add_argument("--image", type=Path, required=True)
     parser.add_argument("--image-sha256", required=True)
     parser.add_argument("--emulator", type=Path, default=os.environ.get("EKA2L1"))
@@ -52,6 +52,7 @@ def main():
     parser.add_argument("--reports", type=Path, required=True)
     parser.add_argument("--timeout", type=float, default=60)
     parser.add_argument("--screenshot-marker")
+    parser.add_argument("--final-screenshot-marker", help="also capture after a final event such as native surface removal")
     parser.add_argument("--screenshots", type=int, default=1)
     parser.add_argument("--capture-audio", action="store_true")
     parser.add_argument("arguments", nargs=argparse.REMAINDER)
@@ -67,6 +68,7 @@ def main():
         "egl": ("egl-probe.log", "egl-window-probe", "egl_probe.exe"),
         "angle": ("angle-probe.log", "angle-probe", "angle_probe.exe"),
         "mmf": ("mmf-probe.log", "native-mmf", "mmf_probe.exe"),
+        "aligned-pressure": ("aligned-pressure.log", "aligned-pressure", "aligned_pressure.exe"),
     }[args.probe]
     data = Path(os.environ.get("EKA2L1_DATA", str(Path(os.environ["XDG_DATA_HOME"]) / "EKA2L1/data")))
     locks = []
@@ -88,11 +90,20 @@ def main():
     if len(argument_string.encode()) >= 4095:
         parser.error("guest command line exceeds 4096 bytes")
     command = [str(emulator), "--device", os.environ.get("EKA2L1_DEVICE", "RM-707"), "--run", "C:\\sys\\bin\\" + exe_name, argument_string]
+    # These host-side replacement DLLs determine MMF behavior independently
+    # of the emulator executable. Do not include firmware files or host paths.
+    patch_assets = {}
+    for name in ("mediaclientaudio_general.dll", "mediaclientaudio.dll.map", "mediaclientvideo_v100.dll", "mediaclientvideo.dll.map"):
+        asset = emulator.parent / "patch" / name
+        if asset.is_file():
+            patch_assets[name] = {"sha256": digest(asset), "bytes": asset.stat().st_size}
     host_log = run / "emulator.log"
     panic = re.compile(r"access violation|panicked|KERN-EXEC|USER-EXEC", re.I)
     process = recorder = None
     failure = None
     captured = []
+    final_screenshot = None
+    capture_timing = {}
     next_shot = 0
     deadline = time.monotonic() + args.timeout
 
@@ -106,7 +117,21 @@ def main():
     try:
         with host_log.open("w") as output, (run / "audio.raw").open("wb") as pcm, (run / "audio-capture.log").open("w") as audio_log:
             if args.capture_audio:
-                recorder = subprocess.Popen(["parec", "--device=symbian_media.monitor", "--format=s16le", "--rate=48000", "--channels=2", "--raw"], stdout=pcm, stderr=audio_log, start_new_session=True)
+                capture_timing["recorder_start_monotonic"] = time.monotonic()
+                recorder = subprocess.Popen(["parec", "--device=symbian_media.monitor", "--format=s16le", "--rate=48000", "--channels=2", "--latency-msec=50", "--raw"], stdout=pcm, stderr=audio_log, start_new_session=True)
+                ready_deadline = min(deadline, time.monotonic() + 3)
+                while True:
+                    if recorder.poll() is not None:
+                        raise OSError("Pulse recorder exited before monitor readiness")
+                    ready_bytes = (run / "audio.raw").stat().st_size
+                    if ready_bytes >= 19200 and ready_bytes % 4 == 0:
+                        capture_timing["first_pcm_ready_monotonic"] = time.monotonic()
+                        capture_timing["ready_bytes"] = ready_bytes
+                        break
+                    if time.monotonic() >= ready_deadline:
+                        raise OSError("Pulse monitor did not supply 100 ms of complete PCM within startup deadline")
+                    time.sleep(.02)
+            capture_timing["emulator_launch_monotonic"] = time.monotonic()
             process = subprocess.Popen(command, cwd=emulator.parent, stdout=output, stderr=subprocess.STDOUT, start_new_session=True)
             while process.poll() is None:
                 now = time.monotonic()
@@ -126,11 +151,36 @@ def main():
                         raise OSError("screenshot command produced no image")
                     captured.append(shot.name)
                     next_shot = time.monotonic() + 2
+                if args.final_screenshot_marker and final_screenshot is None and args.final_screenshot_marker in read(guest_log):
+                    shot = run / "screenshot-final.png"
+                    subprocess.run(["import", "-window", "root", str(shot)], check=True, timeout=min(10, max(.1, deadline - time.monotonic())))
+                    if not shot.is_file() or not shot.stat().st_size:
+                        raise OSError("final screenshot command produced no image")
+                    final_screenshot = shot.name
                 time.sleep(.1)
             if failure is None and process.returncode != 0:
                 failure = "emulator exited with status " + str(process.returncode)
             if recorder is not None and recorder.poll() is not None:
                 failure = failure or "Pulse recorder exited before capture cleanup"
+            if recorder is not None and failure is None:
+                # Observe Stop after the guest has exited as well. Collect real
+                # monitor samples rather than assuming host teardown took long
+                # enough to include silence at the end of the recording.
+                capture_timing["host_exit_observed_monotonic"] = time.monotonic()
+                tail_start = (run / "audio.raw").stat().st_size
+                capture_timing["tail_start_bytes"] = tail_start
+                tail_deadline = min(deadline, time.monotonic() + 1)
+                while True:
+                    if recorder.poll() is not None:
+                        raise OSError("Pulse recorder exited before post-guest PCM completed")
+                    tail_bytes = (run / "audio.raw").stat().st_size - tail_start
+                    if tail_bytes >= 38400 and tail_bytes % 4 == 0:
+                        capture_timing["tail_ready_monotonic"] = time.monotonic()
+                        capture_timing["tail_bytes"] = tail_bytes
+                        break
+                    if time.monotonic() >= tail_deadline:
+                        raise OSError("Pulse monitor did not supply 200 ms of post-guest PCM within deadline")
+                    time.sleep(.02)
     except KeyboardInterrupt:
         failure = "run interrupted"
     except (OSError, subprocess.SubprocessError) as error:
@@ -140,6 +190,7 @@ def main():
         signal.signal(signal.SIGTERM, signal.SIG_IGN)
         stop(process)
         stop(recorder)
+        capture_timing["capture_end_monotonic"] = time.monotonic()
         content = read(guest_log)
         (run / log_name).write_text(content)
     parsed = None
@@ -165,6 +216,8 @@ def main():
                 raise ValueError("EGL effective guest arguments do not match the request")
         if args.screenshot_marker and len(captured) != args.screenshots:
             raise ValueError("requested observation screenshots missing")
+        if args.final_screenshot_marker and final_screenshot is None:
+            raise ValueError("requested final-event screenshot missing")
         if panic.search(read(host_log)):
             raise ValueError("guest panic or access violation")
         if args.capture_audio and (not (run / "audio.raw").stat().st_size or (run / "audio.raw").stat().st_size % 4):
@@ -173,11 +226,14 @@ def main():
         failure = failure or str(error)
     report = {"status": "FAIL" if failure else "PASS", "failure": failure,
               "probe": args.probe, "image_sha256": args.image_sha256, "emulator_sha256": args.emulator_sha256,
+              "emulator_patch_assets": patch_assets,
               "arguments": arguments, "host_exit": process.returncode if process else None,
               "guest_exit": int(exits[0]) if len(exits) == 1 else None,
               "panic_or_access_violation": bool(panic.search(read(host_log))), "result": parsed,
               "guest_log": log_name, "screenshots": captured, "audio": "audio.raw" if args.capture_audio else None,
-              "audio_format": "s16le/48000Hz/stereo" if args.capture_audio else None}
+              "final_screenshot": final_screenshot,
+              "audio_format": "s16le/48000Hz/stereo" if args.capture_audio else None,
+              "audio_capture_timing": capture_timing if args.capture_audio else None}
     (run / "result.json").write_text(json.dumps(report, indent=2) + "\n")
     print(content)
     print("Evidence: " + str(run))

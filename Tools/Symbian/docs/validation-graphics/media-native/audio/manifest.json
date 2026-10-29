@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "sampling": "48000 Hz signed little-endian 16-bit stereo, interleaved",
+  "analysis_script_sha256": "af1b57177f057d304884e184b24b09b1e031fd9c227a6bed7a2ae5c205cf6379",
+  "captures": [
+    {
+      "directory": "wav-local-clean",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T155438Z-4gug8v97",
+      "frequency_hz": 440,
+      "pcm_analysis_status": "PASS",
+      "interpretation": "Clean host; native-only DLL; recorder-ready and actual 200 ms tail capture; strict PCM PASS.",
+      "raw_bytes": 2093348,
+      "raw_sha256": "55038ca8ad5573ac57d6091d2572c852d8c235e011c1c0f2639840cff14e8559",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "ac31527350ebfedf317f42a4330eceac9ed283d4f4a5d38174e55f4163965382",
+        "mmf-probe.log": "8abeac7d54c7319ad0b165ca5803e8e9c6569942ad8bd8c8fe5e4243b9338b57",
+        "audio-analysis.json": "efee7b5c8afd978ec895d28eba3b9fa6a5b52fd95c5cce10584b6ba0a83581a9",
+        "audio.flac": "233a7f746bac936f0924b14656d48ea447cb95af9a22144f78256d5bdac6bb96",
+        "emulator.log.gz": "2f9cfdbf2d8231d79278200324c60b34963e57045a711e0978294e1b6587b29f"
+      },
+      "lossless_audio": {
+        "file": "audio.flac",
+        "flac_bytes": 140707,
+        "flac_sha256": "233a7f746bac936f0924b14656d48ea447cb95af9a22144f78256d5bdac6bb96",
+        "decoded_pcm_identical": true
+      }
+    },
+    {
+      "directory": "mp3-local-clean",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T155450Z-xftofnwm",
+      "frequency_hz": 660,
+      "pcm_analysis_status": "PASS",
+      "interpretation": "Clean host; native-only DLL; recorder-ready and actual 200 ms tail capture; strict PCM PASS.",
+      "raw_bytes": 2091564,
+      "raw_sha256": "42e80e83903b289a387cdacf105f65cedabdda9a1e4309fea1143f304d8165fd",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "5e084e10d32d5eea8c49140b64697e789bad7c3e5e26de1e60e0c54f3123fc62",
+        "mmf-probe.log": "8fa97fda8f6b732753bd29bec6ccdd778fecf8d010c6c0e14a23844feb4da25e",
+        "audio-analysis.json": "9f322ffc58f3b60a22dbcea63519f58c2c7aa274a8f0d44c1d3c67f48687e8f7",
+        "audio.flac": "bce6891b0ef1de8e8791c0d74517e161e50e7e4da3478bfc7d2e8af036d58def",
+        "emulator.log.gz": "6f4647f5bd095d10f73fb6013d4898398e0ff83f0a424ced26452d9346a775e9"
+      },
+      "lossless_audio": {
+        "file": "audio.flac",
+        "flac_bytes": 146549,
+        "flac_sha256": "bce6891b0ef1de8e8791c0d74517e161e50e7e4da3478bfc7d2e8af036d58def",
+        "decoded_pcm_identical": true
+      }
+    },
+    {
+      "directory": "video-local-clean",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T155233Z-ya30c72z",
+      "frequency_hz": 880,
+      "pcm_analysis_status": "PASS",
+      "interpretation": "Clean host; native-only DLL; recorder-ready chain; full initial/paused/resumed/stopped PCM PASS. Surface-close observer interval supplied sufficient stop coverage.",
+      "raw_bytes": 2280556,
+      "raw_sha256": "0338e8beed4e1c9f5716ecc79decab05414fa512fadf6ff9e2bb1ac0f53e61bb",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "5f6d9fb31b6eb6462bdf6d397da31603338b25ae1d44b663296ef28f37e210e3",
+        "mmf-probe.log": "9ab7b1c11c26fcfc0f1341a11e25c5b8765af97cfd93427899623b6a505b5444",
+        "audio-analysis.json": "11a43940b7cb14dff97511e07402c5c88c74b3bb1f5242f00e63c814e4363a45",
+        "audio.flac": "2c1611c20b288095afba18c5a9200306ab8ffabf0bf2ecfd50f67bb559bea79d",
+        "emulator.log.gz": "4b23ccbab84d94095b6cc2900f4158bb29d13d4f26ed2fa20961213ebcb8cdb3"
+      },
+      "lossless_audio": {
+        "file": "audio.flac",
+        "flac_bytes": 146603,
+        "flac_sha256": "2c1611c20b288095afba18c5a9200306ab8ffabf0bf2ecfd50f67bb559bea79d",
+        "decoded_pcm_identical": true
+      }
+    },
+    {
+      "directory": "wav-https-clean",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T155220Z-2paw2nk0",
+      "frequency_hz": 440,
+      "pcm_analysis_status": "PASS",
+      "interpretation": "Clean host; native-only DLL; HTTPS; strict PCM PASS. Raw remains external.",
+      "raw_bytes": 2054760,
+      "raw_sha256": "7c5b18ea502863b80060c083445334fa9aaf8328abfc96804f4ce0b78b23e8f0",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "f7bc2f69a4826fc1691daab07dc399674f82c44755e79ccbe2d028efc6d0be0d",
+        "mmf-probe.log": "abcb3a52eef492d7da0d4da8b040908d2f29db8ae6e091648fb77199395ad863",
+        "audio-analysis.json": "223330c65ded412c7592e7a7b799afffc121aead3efa23e0757c8d537e8d5549",
+        "emulator.log.gz": "33054101775b313f90b003ed8935c3c74e5f28f572a78c4df0e47e30b1fb2fc3"
+      }
+    },
+    {
+      "directory": "wav-short-tail-clean",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T155156Z-i3rvfb4z",
+      "frequency_hz": 440,
+      "pcm_analysis_status": "FAIL",
+      "interpretation": "API 8/8 and tone/controls/continuity passed, but post-stop capture was only 98.020833 ms; fixed >=100 ms coverage check FAIL.",
+      "raw_bytes": 2056828,
+      "raw_sha256": "b048c5b4c5c1f837e69802f811ff3f7281e8919011a79c6b5479e0fdbb95921a",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "49e18a481c5b514fac5f5a94f020ebff85c420f9be1dd74c70d5e4adc11bc0c6",
+        "mmf-probe.log": "44a51fdf6ddfb5b455181ff960afd0d5b2982aebfcbd2d7f7c386c2227366c35",
+        "audio-analysis.json": "f094fab2b297140915c60d5110a77731db44bffbabaadb5a4ad78c3f939d383d"
+      }
+    },
+    {
+      "directory": "mp3-short-tail-clean",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T155208Z-xqisfmf5",
+      "frequency_hz": 660,
+      "pcm_analysis_status": "FAIL",
+      "interpretation": "API 8/8 and tone/controls/continuity passed, but post-stop capture was only 99.625 ms; fixed >=100 ms coverage check FAIL.",
+      "raw_bytes": 2052088,
+      "raw_sha256": "812c03da47cece26ee2a035d94d2e8d66fff45dba6fa4cecee335fb3bc9119b0",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "3d333613248a090c96ead9f542c0c38978aca6cd5cfb1df23e9eeeaa7c3f4d18",
+        "mmf-probe.log": "e612625d29da954f929f8e19b872a80bfe86ecd0d13e0c37f24df1269f7d06cb",
+        "audio-analysis.json": "de8d769660d04038c24b821bd7a6cebce78f24ac308e2ac3632d794fbd936931"
+      }
+    },
+    {
+      "directory": "mp3-native-only-candidate",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T152219Z-sbal00az",
+      "frequency_hz": 660,
+      "pcm_analysis_status": "PASS",
+      "interpretation": "Native-only DLL, heap-fixed probe, trace-instrumented host; clean-host replay pending.",
+      "raw_bytes": 2057644,
+      "raw_sha256": "b93421e7c1a47f4c5a47f961de80fc2848cca9b2d709c3c77aff55daf004dcfa",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "fb13a6215da7ae4a1dc1c9cfbb519fdf1bd7e7afaf24f95e540818c19091ca07",
+        "mmf-probe.log": "5558435fec1b0291fde70f3b4309ed654035bbbca0aaf2f0c8c6a3bf698fabc3",
+        "audio-analysis.json": "2bdc04cf23bcf0bb985928713ec39c1eb0d078abbfd00a2f6db0236db4caf785",
+        "emulator.log.gz": "bef23fee8de21b232d7116cc616b17c3b466715220b9cff194bea81f395ebc75"
+      },
+      "external_lossless_archive": {
+        "path": "/workspace/symbian-media-work/evidence-flac/mp3.flac",
+        "bytes": 145569,
+        "sha256": "04d15f1cdac139803cd6a60b854fac1e6de86eb53066e82b425eb0d895db23f5",
+        "decoded_pcm_identical": true
+      }
+    },
+    {
+      "directory": "video-native-only-candidate",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T152547Z-8s8u7srw",
+      "frequency_hz": 880,
+      "pcm_analysis_status": "PASS",
+      "interpretation": "Native-only DLL, heap-fixed probe, trace-instrumented host; clean-host replay pending.",
+      "raw_bytes": 2266076,
+      "raw_sha256": "4d85f2daf3d133bb55ac699c915057d212c4606e8dc6860b1075cdfcaed8cc8b",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "0f1b9605735871b3a41155da79767283b44c960489541e1634700abf0ac74af3",
+        "mmf-probe.log": "076a5403f1bd00ed9830b4066d96ba32eb563b53eef337f43c123858124bdb7c",
+        "audio-analysis.json": "643256e73820045b7aa97fdad79df1fec9e01602707540306f1f00d2701b7312",
+        "emulator.log.gz": "b9a1050cfe7b8c46691c6e384d3fa6c718efa7a42a1d5d198a346582fcd51899"
+      },
+      "external_lossless_archive": {
+        "path": "/workspace/symbian-media-work/evidence-flac/video.flac",
+        "bytes": 148610,
+        "sha256": "d46bfa6b7c32f088f2894d3f6c9c355a5cfccd36479daccdb275566dab387a17",
+        "decoded_pcm_identical": true
+      }
+    },
+    {
+      "directory": "wav-http-historical",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T145235Z-leoj3lhb",
+      "frequency_hz": 440,
+      "pcm_analysis_status": "PASS",
+      "interpretation": "Historical HTTP WAV success before native-only DLL and recorder-ready changes; not final DLL validation.",
+      "raw_bytes": 1855936,
+      "raw_sha256": "8e5fae3ed283e3647e2139cb1b4869351ba3c9a6c7a107023b96e5b1ef775cc1",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "e030de6ba05099528377fc0f2bc14c7810ce76593e2e50090e96faa30e943ce9",
+        "mmf-probe.log": "18334ec90391a4b4877e1bd73429f44028db735ffa1fb8426ecf00532a4f8f73",
+        "audio-analysis.json": "668deef4f3313e9a880662fd077400ca56b821c0b207c77155026b00b8df1e84"
+      },
+      "external_lossless_archive": {
+        "path": "/workspace/symbian-media-work/evidence-flac/http-wav.flac",
+        "bytes": 130612,
+        "sha256": "78bcd09b70b8f6d743106d1820f5678b776c932b7bedc11cf5f1b5e60e2c3a6a",
+        "decoded_pcm_identical": true
+      }
+    },
+    {
+      "directory": "wav-gap-historical",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T144858Z-rqq455_e",
+      "frequency_hz": 440,
+      "pcm_analysis_status": "FAIL",
+      "interpretation": "API passed but strict PCM failed: a 6.25 ms unexpected silent gap.",
+      "raw_bytes": 1862128,
+      "raw_sha256": "fbc871bcc9c1bdcd1420a6d1de100bc814c4e7e0073e0178e978866973c2136a",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "376c92bbe39243587ff0f461b46f02123217c2b63b5e85ca8a831f45d20b2dd1",
+        "mmf-probe.log": "b1014b29bc445b931ca1e9d024b4f1bf0b9098fec3bc490e3d422274de325a49",
+        "audio-analysis.json": "6135ed89ba2623178a18713f90f6ae1a6d4b0d684cae9f39bd7fddcdc7675469"
+      }
+    },
+    {
+      "directory": "mp3-silent-start-historical",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T144951Z-m2wb2c56",
+      "frequency_hz": 660,
+      "pcm_analysis_status": "FAIL",
+      "interpretation": "API 6/8; first playback interval was silent; resumed tone was real.",
+      "raw_bytes": 2024640,
+      "raw_sha256": "99e8462c880074a99c97f0558c57d40b2f0c704286bd7d0937b877f6528c7c5c",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "c01b6c13e1057590de7f373f21f4048f992ddf68bd31fd896342ffe8d580816a",
+        "mmf-probe.log": "545b616b5ab75a93860651ca89b687c660293a2f9eb107f899f7ea049424ff67",
+        "audio-analysis.json": "ad1c98a038cba4fe345c5f69619f9d048dc4673ee57f9754b3e0aa0da2c59b36"
+      }
+    },
+    {
+      "directory": "video-short-capture-historical",
+      "source_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T150651Z-f98ron5n",
+      "frequency_hz": 880,
+      "pcm_analysis_status": "FAIL",
+      "interpretation": "API 16/16; resumed 880 Hz was present, but initial capture was too short for the fixed FFT coverage threshold.",
+      "raw_bytes": 1751824,
+      "raw_sha256": "0ad1e45e24617f807b29cee1decd4535ee2ab69509036341fdfa20d9efddae4d",
+      "raw_format": "s16le/48000Hz/stereo",
+      "files": {
+        "result.json": "6f8f6e36f41578555aa0e332f8d88a1c587a55fea167f8ed7230bae6cfa9ebec",
+        "mmf-probe.log": "8be7a277210b0f1222f33fd57ca265030e843cccc8ab99d0dc2649060e4ad690",
+        "audio-analysis.json": "6b0dbb7efdebe17876f671f13515c81bd4a8c33b4184b70ee226cbb3a473ba93"
+      }
+    }
+  ],
+  "archive_note": "The three committed full FLAC captures are from clean host ff218e2e. Earlier trace-host successful audio is now external, with original metadata/logs/hashes preserved."
+}

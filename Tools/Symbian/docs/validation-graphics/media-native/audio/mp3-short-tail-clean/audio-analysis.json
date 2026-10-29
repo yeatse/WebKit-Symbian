@@ -1,0 +1,748 @@
+{
+  "status": "FAIL",
+  "scope": "Known-frequency tone and audible control sequence; continuity observations are separate",
+  "analysis_script": "/workspace/symbian-media-work/analyze-native-audio.py",
+  "analysis_script_sha256": "af1b57177f057d304884e184b24b09b1e031fd9c227a6bed7a2ae5c205cf6379",
+  "numpy_version": "2.3.5",
+  "expected_frequency_hz": 660.0,
+  "pcm": {
+    "format": "s16le",
+    "rate_hz": 48000,
+    "channels": 2,
+    "frames": 513022,
+    "duration_s": 10.687958333333333,
+    "sha256": "812c03da47cece26ee2a035d94d2e8d66fff45dba6fa4cecee335fb3bc9119b0",
+    "peak_s16_per_channel": [
+      2758.0,
+      2758.0
+    ],
+    "stereo_max_difference_s16": 0.0
+  },
+  "guest_phase_times_s": {
+    "initial": 0.046,
+    "pause": 1.578,
+    "resume": 2.234,
+    "stop": 10.109
+  },
+  "audible_intervals_s": [
+    [
+      0.56,
+      2.08
+    ],
+    [
+      2.79,
+      10.59
+    ]
+  ],
+  "exact_zero_spans_s": [
+    [
+      0.0,
+      0.55
+    ],
+    [
+      2.0732708333333334,
+      2.788479166666667
+    ],
+    [
+      10.588333333333333,
+      10.687958333333333
+    ]
+  ],
+  "pause_duration_difference_s": 0.05920833333333353,
+  "fitted_guest_minus_pcm_offsets_s": {
+    "pause": -0.4952708333333333,
+    "resume": -0.5544791666666669,
+    "stop": -0.47933333333333294
+  },
+  "offset_spread_s": 0.07514583333333391,
+  "timing_limit": "PCM capture lacks a shared monotonic timestamp; offsets are fitted from the observed transitions, not independently measured latency",
+  "checks": {
+    "guest_and_host_controls_passed": true,
+    "initial_interval_has_expected_tone": true,
+    "final_audible_interval_has_expected_tone": true,
+    "pause_silence_matches_guest_within_100ms": true,
+    "pause_resume_stop_align_with_one_offset_within_100ms": true,
+    "stop_followed_by_at_least_100ms_silence": false,
+    "no_clipping": true,
+    "no_unexpected_silence_over_1ms": true
+  },
+  "unexpected_silent_spans_over_1ms": [],
+  "continuity_without_unexpected_silence": true,
+  "initial_tone_windows": 5,
+  "resumed_tone_windows": 30,
+  "spectral_method": "250ms Hann FFT per channel; 4Hz bins; expected +/-8Hz band; >=95% spectral power, dominant frequency +/-2Hz and RMS>100 s16 required inside both audible intervals",
+  "windows": [
+    {
+      "start_s": 0.0,
+      "end_s": 0.25,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "dominant_hz": [
+        null,
+        null
+      ],
+      "expected_band_power_fraction": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "start_s": 0.25,
+      "end_s": 0.5,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "dominant_hz": [
+        null,
+        null
+      ],
+      "expected_band_power_fraction": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "start_s": 0.5,
+      "end_s": 0.75,
+      "rms_s16": [
+        1667.4339941458952,
+        1667.4339941458952
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.984602815685218,
+        0.984602815685218
+      ]
+    },
+    {
+      "start_s": 0.75,
+      "end_s": 1.0,
+      "rms_s16": [
+        1926.057751903267,
+        1926.057751903267
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997834864403,
+        0.9999997834864403
+      ]
+    },
+    {
+      "start_s": 1.0,
+      "end_s": 1.25,
+      "rms_s16": [
+        1926.1403952161259,
+        1926.1403952161259
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997715177905,
+        0.9999997715177905
+      ]
+    },
+    {
+      "start_s": 1.25,
+      "end_s": 1.5,
+      "rms_s16": [
+        1926.0918870431217,
+        1926.0918870431217
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997764271182,
+        0.9999997764271182
+      ]
+    },
+    {
+      "start_s": 1.5,
+      "end_s": 1.75,
+      "rms_s16": [
+        1926.1103974936984,
+        1926.1103974936984
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997771519742,
+        0.9999997771519742
+      ]
+    },
+    {
+      "start_s": 1.75,
+      "end_s": 2.0,
+      "rms_s16": [
+        1926.1300194950495,
+        1926.1300194950495
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997858377763,
+        0.9999997858377763
+      ]
+    },
+    {
+      "start_s": 2.0,
+      "end_s": 2.25,
+      "rms_s16": [
+        1042.4235832904012,
+        1042.4235832904012
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.6809464813210984,
+        0.6809464813210984
+      ]
+    },
+    {
+      "start_s": 2.25,
+      "end_s": 2.5,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "dominant_hz": [
+        null,
+        null
+      ],
+      "expected_band_power_fraction": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "start_s": 2.5,
+      "end_s": 2.75,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "dominant_hz": [
+        null,
+        null
+      ],
+      "expected_band_power_fraction": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "start_s": 2.75,
+      "end_s": 3.0,
+      "rms_s16": [
+        1718.2936278228663,
+        1718.2936278228663
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9928890111413216,
+        0.9928890111413216
+      ]
+    },
+    {
+      "start_s": 3.0,
+      "end_s": 3.25,
+      "rms_s16": [
+        1926.0886449832296,
+        1926.0886449832296
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997650650971,
+        0.9999997650650971
+      ]
+    },
+    {
+      "start_s": 3.25,
+      "end_s": 3.5,
+      "rms_s16": [
+        1926.095417288562,
+        1926.095417288562
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.999999782361281,
+        0.999999782361281
+      ]
+    },
+    {
+      "start_s": 3.5,
+      "end_s": 3.75,
+      "rms_s16": [
+        1926.107339276985,
+        1926.107339276985
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997805492947,
+        0.9999997805492947
+      ]
+    },
+    {
+      "start_s": 3.75,
+      "end_s": 4.0,
+      "rms_s16": [
+        1926.0827260054712,
+        1926.0827260054712
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.999999777038967,
+        0.999999777038967
+      ]
+    },
+    {
+      "start_s": 4.0,
+      "end_s": 4.25,
+      "rms_s16": [
+        1926.1384211032187,
+        1926.1384211032187
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997794668769,
+        0.9999997794668769
+      ]
+    },
+    {
+      "start_s": 4.25,
+      "end_s": 4.5,
+      "rms_s16": [
+        1926.046575912258,
+        1926.046575912258
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997803490682,
+        0.9999997803490682
+      ]
+    },
+    {
+      "start_s": 4.5,
+      "end_s": 4.75,
+      "rms_s16": [
+        1926.064291394068,
+        1926.064291394068
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997851655699,
+        0.9999997851655699
+      ]
+    },
+    {
+      "start_s": 4.75,
+      "end_s": 5.0,
+      "rms_s16": [
+        1926.1230448970111,
+        1926.1230448970111
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997724740006,
+        0.9999997724740006
+      ]
+    },
+    {
+      "start_s": 5.0,
+      "end_s": 5.25,
+      "rms_s16": [
+        1926.0899036000371,
+        1926.0899036000371
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997713733675,
+        0.9999997713733675
+      ]
+    },
+    {
+      "start_s": 5.25,
+      "end_s": 5.5,
+      "rms_s16": [
+        1926.0447666785942,
+        1926.0447666785942
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997807373189,
+        0.9999997807373189
+      ]
+    },
+    {
+      "start_s": 5.5,
+      "end_s": 5.75,
+      "rms_s16": [
+        1926.0625470546554,
+        1926.0625470546554
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997649918034,
+        0.9999997649918034
+      ]
+    },
+    {
+      "start_s": 5.75,
+      "end_s": 6.0,
+      "rms_s16": [
+        1926.056212791655,
+        1926.056212791655
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997737925139,
+        0.9999997737925139
+      ]
+    },
+    {
+      "start_s": 6.0,
+      "end_s": 6.25,
+      "rms_s16": [
+        1926.0908590977738,
+        1926.0908590977738
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997710348212,
+        0.9999997710348212
+      ]
+    },
+    {
+      "start_s": 6.25,
+      "end_s": 6.5,
+      "rms_s16": [
+        1926.0944005075833,
+        1926.0944005075833
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997682000447,
+        0.9999997682000447
+      ]
+    },
+    {
+      "start_s": 6.5,
+      "end_s": 6.75,
+      "rms_s16": [
+        1926.131796027122,
+        1926.131796027122
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997640947,
+        0.9999997640947
+      ]
+    },
+    {
+      "start_s": 6.75,
+      "end_s": 7.0,
+      "rms_s16": [
+        1926.154947535807,
+        1926.154947535807
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997778885522,
+        0.9999997778885522
+      ]
+    },
+    {
+      "start_s": 7.0,
+      "end_s": 7.25,
+      "rms_s16": [
+        1926.0778945177683,
+        1926.0778945177683
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997687069517,
+        0.9999997687069517
+      ]
+    },
+    {
+      "start_s": 7.25,
+      "end_s": 7.5,
+      "rms_s16": [
+        1926.0921704754076,
+        1926.0921704754076
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997705343737,
+        0.9999997705343737
+      ]
+    },
+    {
+      "start_s": 7.5,
+      "end_s": 7.75,
+      "rms_s16": [
+        1926.1675433789935,
+        1926.1675433789935
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997735669603,
+        0.9999997735669603
+      ]
+    },
+    {
+      "start_s": 7.75,
+      "end_s": 8.0,
+      "rms_s16": [
+        1926.064761826559,
+        1926.064761826559
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997733164312,
+        0.9999997733164312
+      ]
+    },
+    {
+      "start_s": 8.0,
+      "end_s": 8.25,
+      "rms_s16": [
+        1926.0716155126042,
+        1926.0716155126042
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997769650236,
+        0.9999997769650236
+      ]
+    },
+    {
+      "start_s": 8.25,
+      "end_s": 8.5,
+      "rms_s16": [
+        1926.1143219142868,
+        1926.1143219142868
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997692378363,
+        0.9999997692378363
+      ]
+    },
+    {
+      "start_s": 8.5,
+      "end_s": 8.75,
+      "rms_s16": [
+        1926.029261113825,
+        1926.029261113825
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997638573627,
+        0.9999997638573627
+      ]
+    },
+    {
+      "start_s": 8.75,
+      "end_s": 9.0,
+      "rms_s16": [
+        1926.072135244853,
+        1926.072135244853
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997695100142,
+        0.9999997695100142
+      ]
+    },
+    {
+      "start_s": 9.0,
+      "end_s": 9.25,
+      "rms_s16": [
+        1926.1482609515465,
+        1926.1482609515465
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997495552854,
+        0.9999997495552854
+      ]
+    },
+    {
+      "start_s": 9.25,
+      "end_s": 9.5,
+      "rms_s16": [
+        1926.0658070922707,
+        1926.0658070922707
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997697295798,
+        0.9999997697295798
+      ]
+    },
+    {
+      "start_s": 9.5,
+      "end_s": 9.75,
+      "rms_s16": [
+        1926.0328893219867,
+        1926.0328893219867
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997720090626,
+        0.9999997720090626
+      ]
+    },
+    {
+      "start_s": 9.75,
+      "end_s": 10.0,
+      "rms_s16": [
+        1926.0996145492234,
+        1926.0996145492234
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997736441844,
+        0.9999997736441844
+      ]
+    },
+    {
+      "start_s": 10.0,
+      "end_s": 10.25,
+      "rms_s16": [
+        1926.1060409108668,
+        1926.1060409108668
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997775025504,
+        0.9999997775025504
+      ]
+    },
+    {
+      "start_s": 10.25,
+      "end_s": 10.5,
+      "rms_s16": [
+        1926.051817817129,
+        1926.051817817129
+      ],
+      "dominant_hz": [
+        660.0,
+        660.0
+      ],
+      "expected_band_power_fraction": [
+        0.9999997687638403,
+        0.9999997687638403
+      ]
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "input": "/workspace/symbian-media-work/reproducible-native-patches/build/mediaclientvideo_v100_elf.elf",
+  "symbol": "_ZTV19CVideoPlayerUtility",
+  "passed": 21,
+  "cases": [
+    {
+      "case": "unmodified",
+      "passed": true,
+      "diagnostic": []
+    },
+    {
+      "case": "dynamic-zero-size",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTV19CVideoPlayerUtility"
+      ]
+    },
+    {
+      "case": "dynamic-out-of-bounds",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTV19CVideoPlayerUtility"
+      ]
+    },
+    {
+      "case": "dynamic-misaligned",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTV19CVideoPlayerUtility"
+      ]
+    },
+    {
+      "case": "dynamic-undefined",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTV19CVideoPlayerUtility"
+      ]
+    },
+    {
+      "case": "dynamic-invalid-section",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTV19CVideoPlayerUtility"
+      ]
+    },
+    {
+      "case": "dynamic-notype",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTV19CVideoPlayerUtility"
+      ]
+    },
+    {
+      "case": "dynamic-tls-type",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTV19CVideoPlayerUtility"
+      ]
+    },
+    {
+      "case": "dynamic-hidden",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTV19CVideoPlayerUtility"
+      ]
+    },
+    {
+      "case": "static-zero-size",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: DLL export must be a defined visible function or read-only object matching its frozen definition"
+      ]
+    },
+    {
+      "case": "static-out-of-bounds",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: DLL export must be a defined visible function or read-only object matching its frozen definition"
+      ]
+    },
+    {
+      "case": "static-misaligned",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: DLL export must be a defined visible function or read-only object matching its frozen definition"
+      ]
+    },
+    {
+      "case": "static-undefined",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unresolved external reference"
+      ]
+    },
+    {
+      "case": "static-invalid-section",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Relocation needs an external symbol: type=2 target=.text location=41212"
+      ]
+    },
+    {
+      "case": "static-notype",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: DLL export must be a defined visible function or read-only object matching its frozen definition"
+      ]
+    },
+    {
+      "case": "static-tls-type",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: DLL export must be a defined visible function or read-only object matching its frozen definition"
+      ]
+    },
+    {
+      "case": "static-hidden",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: DLL export must be a defined visible function or read-only object matching its frozen definition"
+      ]
+    },
+    {
+      "case": "writable",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTVN19CVideoPlayerUtility5CBodyE"
+      ]
+    },
+    {
+      "case": "executable",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTVN19CVideoPlayerUtility5CBodyE"
+      ]
+    },
+    {
+      "case": "tls-section",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Data/TLS/constructors unsupported"
+      ]
+    },
+    {
+      "case": "import-version-on-local-object",
+      "passed": true,
+      "diagnostic": [
+        "UNIMPLEMENTED: Unreferenced dynamic symbol is not a bounded local function/object: _ZTV19CVideoPlayerUtility"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "source": "https://raw.githubusercontent.com/pulseaudio/pulseaudio/v17.0/src/modules/module-null-sink.c",
+  "source_sha256": "60f9acbd5926419b0237b4e274513c5312c8f34b3f3ba62bb32853501749d918",
+  "server_changed": false,
+  "observed_idle_sink": {
+    "configured_latency_usec": 2000000,
+    "sampled_latency_usec": 715273
+  },
+  "source_findings": [
+    {
+      "lines": "60-61",
+      "finding": "Default block=2 seconds; norewinds mode sets a 50 ms maximum."
+    },
+    {
+      "lines": "157-168",
+      "finding": "Requested-latency callback updates block size and maximum request/rewind without resetting the already-rendered timestamp."
+    },
+    {
+      "lines": "231-258",
+      "finding": "Render fills up to now + block_usec and advances timestamp by rendered frames."
+    },
+    {
+      "lines": "282-293",
+      "finding": "Opened sinks including IDLE render only once timestamp <= now, unless a requested rewind pulls timestamp back."
+    }
+  ],
+  "supported_module_options": [
+    "sink_name",
+    "sink_properties",
+    "format",
+    "rate",
+    "channels",
+    "channel_map",
+    "formats",
+    "norewinds"
+  ],
+  "interpretation": "Up to 2 seconds of idle rendering can couple to first-stream/monitor startup. The recorder readiness delay of 1.917 seconds is consistent; this is not proof that every observed media startup failure has this cause.",
+  "current_observation_chain": "parec --latency-msec=50; require >=19200 bytes of complete s16le stereo frames before launching guest, bounded by 3 seconds.",
+  "comparison_run": "/workspace/symbian-graphics-work/native-validation/runs/mmf-20261029T152219Z-sbal00az",
+  "comparison_result": "API 8/8 and strict independent 660 Hz PCM play/pause/resume/stop PASS; no unexpected silence >1ms."
+}

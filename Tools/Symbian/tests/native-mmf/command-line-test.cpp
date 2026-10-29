@@ -17,6 +17,10 @@ int main()
     assert(parseNativeArguments(unclosed, argv, 32) == -1);
     char tooMany[] = "audio file test.wav";
     assert(parseNativeArguments(tooMany, argv, 4) == -1);
+    char noStorage[] = "";
+    assert(parseNativeArguments(noStorage, nullptr, 0) == -1);
+    char* singleSlot[1] = {nullptr};
+    assert(parseNativeArguments(noStorage, singleSlot, 1) == -1 && !singleSlot[0]);
     char empty[] = " \t";
     assert(parseNativeArguments(empty, argv, 32) == 1 && !argv[1]);
     char emptyArgument[] = "audio file ''";

@@ -75,6 +75,7 @@
 #include <WebCore/MemoryCache.h>
 #include <WebCore/NetworkStorageSession.h>
 #include <WebCore/Page.h>
+#include <WebCore/PageIdentifier.h>
 #include <WebCore/PageConfiguration.h>
 #include <WebCore/PlatformKeyboardEvent.h>
 #include <WebCore/PlatformMouseEvent.h>
@@ -286,7 +287,7 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
     , m_scaleTimer([this] { updateScale(); })
 {
     auto storageProvider = PageStorageSessionProvider::create();
-    auto configuration = pageConfigurationWithEmptyClients(std::nullopt, PAL::SessionID::defaultSessionID());
+    auto configuration = pageConfigurationWithEmptyClients(PageIdentifier::generate(), PAL::SessionID::defaultSessionID());
     configuration.editorClient = makeUniqueRef<SymbianEditorClient>(*this);
     configuration.socketProvider = LegacySocketProvider::create();
     configuration.userContentProvider = UserContentController::create();

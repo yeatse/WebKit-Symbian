@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "failure": null,
+  "probe": "mmf",
+  "image_sha256": "51d338b9b88420cedb2005584bbab4f2f629fb23d23ab42e617c926658cca5c6",
+  "emulator_sha256": "1e418ff2d4af12755a62f6093b2bba79da1248c111336e760f559f50888ae42b",
+  "arguments": [
+    "audio",
+    "file",
+    "C:/Data/WebKit/media/audio.wav",
+    "10000"
+  ],
+  "host_exit": 0,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "native-mmf",
+    "version": 1,
+    "mode": "audio",
+    "transport": "file",
+    "passed": 8,
+    "failed": 0,
+    "openCallbacks": 1,
+    "prepareCallbacks": 0,
+    "playCallbacks": 0,
+    "resourceCallbacks": 0,
+    "positionAdvances": 2,
+    "cancelled": false
+  },
+  "guest_log": "mmf-probe.log",
+  "screenshots": [],
+  "audio": "audio.raw",
+  "audio_format": "s16le/48000Hz/stereo"
+}

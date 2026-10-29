@@ -1,0 +1,8 @@
+15:48:14.159 WebKit Browser starting
+15:48:14.174 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+15:48:16.106 network: connected through "Host network"
+15:48:16.121 load http://localhost:8775/media.html?autorun=1&run=c1884e1c4d474805b748330cc3a33f96
+console: http://localhost:8775/media.html?autorun=1&run=c1884e1c4d474805b748330cc3a33f96:17: PASS: format rejection

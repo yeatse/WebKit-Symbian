@@ -95,9 +95,14 @@ void CWebContainer::ConstructL(const TRect& aRect)
     iExtendedInputCapabilities = CAknExtendedInputCapabilities::NewL();
     iExtendedInputCapabilities->SetEditorType(CAknExtendedInputCapabilities::EEdwinBased);
 
-    // The page leaves holes (alpha 0) where video plays in the window's
-    // background, so the window keeps the bitmap's alpha.
+    // SetRequiredDisplayMode does not enable window transparency on NGA.
     Window().SetRequiredDisplayMode(EColor16MA);
+#if SYMBIAN_BROWSER_MEDIA
+    // Preserve the page's alpha-zero video holes over MMF background surfaces,
+    // including the window server's clear before a redraw.
+    User::LeaveIfError(Window().SetTransparencyAlphaChannel());
+    Window().SetBackgroundColor(TRgb(0, 0, 0, 0));
+#endif
     iWebView = WebView::create(*this, Size().iWidth, Size().iHeight);
     ActivateL();
     // EGL consumes an RWindow pointer, not the window server's handle.

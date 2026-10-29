@@ -1,0 +1,182 @@
+[
+  {
+    "capture": "wav-local-clean",
+    "host_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+    "probe_sha256": "afcaa039d0220983895a50dfe449d287bf1cd7b9107513841b8609b7039c15b1",
+    "host_exit": 0,
+    "guest_exit": 0,
+    "invalid_ordinal_messages": 0,
+    "MMFSTART_trace_messages": 0,
+    "host_log_original_sha256": "e1471c35f44da9f98cb8d79bcad3c8d0113fa7c4a76ba8f409b18727ea083c55",
+    "host_log_archive": "../audio/wav-local-clean/emulator.log.gz",
+    "dll_assets": {
+      "mediaclientaudio_general.dll": {
+        "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+        "bytes": 72620
+      },
+      "mediaclientaudio.dll.map": {
+        "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+        "bytes": 48796
+      },
+      "mediaclientvideo_v100.dll": {
+        "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+        "bytes": 52556
+      },
+      "mediaclientvideo.dll.map": {
+        "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+        "bytes": 11393
+      }
+    },
+    "pcm_analysis_status": "PASS"
+  },
+  {
+    "capture": "mp3-local-clean",
+    "host_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+    "probe_sha256": "afcaa039d0220983895a50dfe449d287bf1cd7b9107513841b8609b7039c15b1",
+    "host_exit": 0,
+    "guest_exit": 0,
+    "invalid_ordinal_messages": 0,
+    "MMFSTART_trace_messages": 0,
+    "host_log_original_sha256": "2a517806bbb7cf8f64ddcfceb2af03f650fa7031a719768f05c09794a9a9b438",
+    "host_log_archive": "../audio/mp3-local-clean/emulator.log.gz",
+    "dll_assets": {
+      "mediaclientaudio_general.dll": {
+        "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+        "bytes": 72620
+      },
+      "mediaclientaudio.dll.map": {
+        "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+        "bytes": 48796
+      },
+      "mediaclientvideo_v100.dll": {
+        "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+        "bytes": 52556
+      },
+      "mediaclientvideo.dll.map": {
+        "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+        "bytes": 11393
+      }
+    },
+    "pcm_analysis_status": "PASS"
+  },
+  {
+    "capture": "video-local-clean",
+    "host_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+    "probe_sha256": "afcaa039d0220983895a50dfe449d287bf1cd7b9107513841b8609b7039c15b1",
+    "host_exit": 0,
+    "guest_exit": 0,
+    "invalid_ordinal_messages": 0,
+    "MMFSTART_trace_messages": 0,
+    "host_log_original_sha256": "2a007215c9128f21732a3009b3c0d57671f7f1906a181169a3d7d2f79ac7aa6b",
+    "host_log_archive": "../audio/video-local-clean/emulator.log.gz",
+    "dll_assets": {
+      "mediaclientaudio_general.dll": {
+        "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+        "bytes": 72620
+      },
+      "mediaclientaudio.dll.map": {
+        "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+        "bytes": 48796
+      },
+      "mediaclientvideo_v100.dll": {
+        "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+        "bytes": 52556
+      },
+      "mediaclientvideo.dll.map": {
+        "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+        "bytes": 11393
+      }
+    },
+    "pcm_analysis_status": "PASS"
+  },
+  {
+    "capture": "wav-https-clean",
+    "host_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+    "probe_sha256": "afcaa039d0220983895a50dfe449d287bf1cd7b9107513841b8609b7039c15b1",
+    "host_exit": 0,
+    "guest_exit": 0,
+    "invalid_ordinal_messages": 0,
+    "MMFSTART_trace_messages": 0,
+    "host_log_original_sha256": "469e61169edbfd476b73159968f2a8095723b692611f836270a22407a486fd37",
+    "host_log_archive": "../audio/wav-https-clean/emulator.log.gz",
+    "dll_assets": {
+      "mediaclientaudio_general.dll": {
+        "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+        "bytes": 72620
+      },
+      "mediaclientaudio.dll.map": {
+        "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+        "bytes": 48796
+      },
+      "mediaclientvideo_v100.dll": {
+        "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+        "bytes": 52556
+      },
+      "mediaclientvideo.dll.map": {
+        "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+        "bytes": 11393
+      }
+    },
+    "pcm_analysis_status": "PASS"
+  },
+  {
+    "capture": "mp3-native-only-candidate",
+    "host_sha256": "6b31d8e5b4fee52792dca10e822363e604befd7a499c4dba8294f5a240d0a87d",
+    "probe_sha256": "afcaa039d0220983895a50dfe449d287bf1cd7b9107513841b8609b7039c15b1",
+    "host_exit": 0,
+    "guest_exit": 0,
+    "invalid_ordinal_messages": 0,
+    "MMFSTART_trace_messages": 35,
+    "host_log_original_sha256": "7cd6e9b1faea6cd58842cdf152e2a911258d276fa795e854f7235a0e7e11183d",
+    "host_log_archive": "../audio/mp3-native-only-candidate/emulator.log.gz",
+    "dll_assets": {
+      "mediaclientaudio_general.dll": {
+        "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+        "bytes": 72620
+      },
+      "mediaclientaudio.dll.map": {
+        "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+        "bytes": 48796
+      },
+      "mediaclientvideo_v100.dll": {
+        "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+        "bytes": 52556
+      },
+      "mediaclientvideo.dll.map": {
+        "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+        "bytes": 11393
+      }
+    },
+    "pcm_analysis_status": "PASS"
+  },
+  {
+    "capture": "video-native-only-candidate",
+    "host_sha256": "6b31d8e5b4fee52792dca10e822363e604befd7a499c4dba8294f5a240d0a87d",
+    "probe_sha256": "afcaa039d0220983895a50dfe449d287bf1cd7b9107513841b8609b7039c15b1",
+    "host_exit": 0,
+    "guest_exit": 0,
+    "invalid_ordinal_messages": 0,
+    "MMFSTART_trace_messages": 18,
+    "host_log_original_sha256": "6e6de24eb8b420fe4fffff3c2b00cde8e7c6a9f08d68525d8f88ef9fd88de60c",
+    "host_log_archive": "../audio/video-native-only-candidate/emulator.log.gz",
+    "dll_assets": {
+      "mediaclientaudio_general.dll": {
+        "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+        "bytes": 72620
+      },
+      "mediaclientaudio.dll.map": {
+        "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+        "bytes": 48796
+      },
+      "mediaclientvideo_v100.dll": {
+        "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+        "bytes": 52556
+      },
+      "mediaclientvideo.dll.map": {
+        "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+        "bytes": 11393
+      }
+    },
+    "pcm_analysis_status": "PASS"
+  }
+]

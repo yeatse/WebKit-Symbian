@@ -15,6 +15,24 @@ const trace = [];
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 function assert(value, message) { if (!value) throw new Error(message); }
 function log(message) { output.textContent += message + '\n'; console.log(message); }
+async function bounded(promise, description, timeout=12000) {
+    let timer;
+    try {
+        return await Promise.race([promise, new Promise((resolve, reject) => {
+            timer=setTimeout(() => reject(new Error('timeout: ' + description())), timeout);
+        })]);
+    } finally { clearTimeout(timer); }
+}
+function mediaState(element) {
+    return {source:element.currentSrc, ready:element.readyState, network:element.networkState,
+        paused:element.paused, seeking:element.seeking, time:element.currentTime,
+        duration:element.duration, error:element.error ? element.error.code : 0};
+}
+async function startPlayback(element) {
+    trace.push({playRequested:mediaState(element), at:Math.round(performance.now())});
+    await bounded(element.play(), () => 'play() promise ' + JSON.stringify(mediaState(element)));
+    trace.push({playResolved:mediaState(element), at:Math.round(performance.now())});
+}
 async function until(predicate, description, timeout=12000) {
     const deadline = performance.now() + timeout;
     while (performance.now() < deadline) {
@@ -25,7 +43,16 @@ async function until(predicate, description, timeout=12000) {
 }
 function source(name) { return new URL(name, location.href).href; }
 function transferURL(name, suffix) { return source(name) + '?token=' + encodeURIComponent(runToken + '-' + suffix); }
-async function transferState(suffix) { return (await fetch(source('transfer-state') + '?token=' + encodeURIComponent(runToken + '-' + suffix))).json(); }
+async function transferState(suffix) {
+    const controller=new AbortController();
+    try {
+        return await bounded((async () => {
+            const response=await fetch(source('transfer-state') + '?token=' + encodeURIComponent(runToken + '-' + suffix), {signal:controller.signal});
+            assert(response.ok, 'transfer-state HTTP ' + response.status);
+            return response.json();
+        })(), () => 'transfer-state ' + suffix, 5000);
+    } finally { controller.abort(); }
+}
 async function media(kind, task) {
     const element = document.createElement(kind);
     element.preload = 'auto'; element.controls = true;
@@ -48,7 +75,7 @@ async function advance(element, delta=.3, timeout=12000) {
     assert(!element.error, 'playback error code=' + (element.error && element.error.code));
 }
 async function play(element) {
-    await element.play();
+    await startPlayback(element);
     await advance(element);
 }
 async function seek(element, position) {
@@ -68,7 +95,7 @@ async function controls(element, name) {
     assert(Math.abs(element.currentTime-paused) < .12, 'position advanced while paused');
     await seek(element, 4);
     element.volume = .5;
-    await element.play();
+    await startPlayback(element);
     await advance(element);
     element.muted = true;
     log('CAPTURE: ' + name + ' muted');
@@ -107,9 +134,14 @@ async function run() {
             await load(element, source('video.mp4'));
             let ended=0; element.addEventListener('ended',()=>++ended);
             await seek(element,element.duration-1);
-            await element.play();
-            await until(()=>element.ended || !!element.error,'natural end',7000);
-            assert(!element.error && element.ended && ended===1, 'wrong end/error event');
+            await startPlayback(element);
+            // ended reflects the playback position before the queued media
+            // event runs. Wait for that event before load() in our cleanup can
+            // cancel it; a missing or duplicate event must still fail.
+            await until(()=>ended>0 || !!element.error,'natural ended event',7000);
+            assert(!element.error && ended===1 && element.ended && element.paused
+                && !element.seeking && Math.abs(element.currentTime-element.duration)<.15,
+                'wrong end/error event: ' + JSON.stringify({ended,...mediaState(element)}));
         })],
         ['invalid media error', () => expectError(source('unsupported.mp4'))],
     ];

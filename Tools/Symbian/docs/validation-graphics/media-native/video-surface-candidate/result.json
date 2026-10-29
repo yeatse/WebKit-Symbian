@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "failure": null,
+  "probe": "mmf",
+  "image_sha256": "bdf413bb312c55f8783449ee1213ae808ad9ee92ff6bc89a6794985e2d32fc76",
+  "emulator_sha256": "1fa5453793bd538954a21a42f534b26952249f908a1e43d16524a01a1fb189ca",
+  "emulator_patch_assets": {
+    "mediaclientaudio_general.dll": {
+      "sha256": "1312a4c3c9b62fe7fc1e35c2680fffb704846e583b536d77c5839c0705f9775f",
+      "bytes": 168328
+    },
+    "mediaclientaudio.dll.map": {
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "bytes": 48796
+    },
+    "mediaclientvideo_v100.dll": {
+      "sha256": "0c264eeecf003ea73893dacbe48a8533009cc9fdead02a4de7059a526f7f3035",
+      "bytes": 148140
+    },
+    "mediaclientvideo.dll.map": {
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "bytes": 11393
+    }
+  },
+  "arguments": [
+    "video",
+    "file",
+    "C:/Data/native-mmf-fixtures/video.mp4",
+    "10000",
+    "--surface-events"
+  ],
+  "host_exit": 0,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "native-mmf",
+    "version": 1,
+    "mode": "video",
+    "transport": "file",
+    "passed": 16,
+    "failed": 0,
+    "openCallbacks": 1,
+    "prepareCallbacks": 1,
+    "playCallbacks": 0,
+    "resourceCallbacks": 0,
+    "positionAdvances": 2,
+    "cancelled": false
+  },
+  "guest_log": "mmf-probe.log",
+  "screenshots": [
+    "screenshot-1.png",
+    "screenshot-2.png"
+  ],
+  "audio": null,
+  "audio_format": "s16le/48000Hz/stereo",
+  "audio_archived": false,
+  "audio_capture_sha256": "0ad1e45e24617f807b29cee1decd4535ee2ab69509036341fdfa20d9efddae4d"
+}

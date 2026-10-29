@@ -1,0 +1,41 @@
+{
+  "status": "FAIL",
+  "scope": "11 console groups pass; full HTTP14 suite fails on guest access violation after progressive cleanup",
+  "source_run": "browser-20261029T163118Z-wovd4jgf",
+  "original_observation_sha256": "289ccb610e44df3ed9592a689ca479e309c24ec745bcfcea243f1e091d6b8e05",
+  "original_emulator_log_sha256": "f75b512fb82dd011c43be4be023562d0b80f1fa7bfc740dafe489daba823bcb6",
+  "presentation": "Actual decoded test-pattern pixels change while playing and remain fixed during pause; WebView log proves native video selects software page painting.",
+  "pixel_comparison": {
+    "box_ltrb": [
+      274,
+      137,
+      390,
+      185
+    ],
+    "note": "Decoded picture interior excludes controls; screenshots themselves are unmodified. Whole-page layout changes are not mistaken for video motion.",
+    "pixels": 5568,
+    "playing_different_rgb_pixels": 1117,
+    "paused_different_rgb_pixels": 0
+  },
+  "pcm": "FAIL: initial video playback contains a 30.75 ms exact-zero gap, then 577 ms more audio before pause; analysis is retained with original external PCM SHA-256.",
+  "jit_addresses": {
+    "pc": "0x1bb3f480",
+    "lr": "0x1ba98ad8",
+    "chunk_base": "0x1b9ea000",
+    "note": "Generated-code addresses, not directly symbolizable from browser ELF; root cause unresolved."
+  },
+  "artifacts": {
+    "console.log": "590d5797ac758a05f597fffdbdc5c13d19abd732163777fd44ed1611c3a9c8ec",
+    "result.json": "d68ad92999339575ec9433111cf6d944bf9a214465d8d451379076faea7a8da2",
+    "video-03.png": "231788044af985433cbeb72827271d6512d965bd52a917ff6a8f32aacb0d6e70",
+    "video-04.png": "499e14351d425c9afd329ad680a1673ee011a8da3c028fa4145572677d9dc36a",
+    "video-06.png": "815bccb4a0da50d0fee79fdbdbfb67292231a34fc9930e51a872463c6cf7ce3d",
+    "crash-excerpt.log": "38326d9c7de8fd804cc74d323080967d56e52ff038f8e6d046b1194e5c768f4c",
+    "observation.json": "cda5408090099fb40d98160a518e895a87e71b469bc8ad6839c79a9f5ee7b0bd",
+    "video-01.png": "7e0b9fefd60749d40cb5d6de07c65b962c9d24e0fb4634bee003aa8277533e15",
+    "video-02.png": "cab01978d85176dbd11e342d2f7d6bde3b70eda7f6daa468c885f93a86bfcedd",
+    "video-05.png": "74acd4216ea0010e71ac4740807ae5738ae63556ae1714f5dd984fcc77705e9e",
+    "video-07.png": "bddffc63a3477cb673e4ac3ccd2a3a5da2a9825e3f28d5df11f68f0f7f215424",
+    "audio-control-analysis.json": "66b33c248aa27a236071ead86e95bddc64ec7bb7d2cf3c8da7c9526b82eb407d"
+  }
+}

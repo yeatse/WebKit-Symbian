@@ -1,0 +1,27 @@
+16:31:19.324 WebKit Browser starting
+16:31:19.340 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+16:31:21.271 network: connected through "Host network"
+16:31:21.288 load http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: format rejection
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: CAPTURE: audio.wav playing
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: CAPTURE: audio.wav paused
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: CAPTURE: audio.wav muted
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: CAPTURE: audio.wav unmuted
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: WAV playback controls
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: MP3 playback
+Symbian compositor: native video window requires software painting
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: CAPTURE: video.mp4 playing
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: CAPTURE: video.mp4 paused
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: CAPTURE: video.mp4 muted
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: CAPTURE: video.mp4 unmuted
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: MP4 video controls
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: natural end notification
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: invalid media error
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: HTTP redirect playback
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: HTTP missing media error
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: source replacement during open
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: cancel pending open
+console: http://localhost:8775/media.html?autorun=1&run=f932cc9806e147dfadfd68d4fced2772:17: PASS: progressive playback before completion

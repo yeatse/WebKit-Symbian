@@ -107,3 +107,8 @@ override `c++`). The test includes the production `CommandLine.h` and checks
 quoted paths/URLs, preserved backslashes, empty input, unmatched quotes and
 argument-array overflow. It does not call `User::CommandLine`, exercise the
 SDK startup, or execute MMF; those require the E32 probe on a guest/device.
+
+Cancellation observes callbacks for three seconds after Close, exceeding the
+media fixture server's two-second delayed response. The run fails if any old
+open callback arrives during that interval. Playback timing thresholds are
+unchanged.

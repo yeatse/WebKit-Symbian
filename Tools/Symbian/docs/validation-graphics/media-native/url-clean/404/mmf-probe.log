@@ -1,0 +1,14 @@
+MMF t=15 BEGIN native-mmf version=1 mode=audio transport=url hold-ms=10000 timeout-ms=30000 cancel-open-ms=-1 source=http://localhost:8775/missing.wav
+MMF t=46 WINDOW displayMode=12 alpha-channel enabled
+MMF t=46 WINDOW visible width=320 height=360 videoRect=8,40,304,312
+MMF t=46 OPEN call kind=url source=http://localhost:8775/missing.wav
+MMF t=62 OPEN returned leave=0
+MMF t=62 WINDOW event=11
+MMF t=125 AUDIO init duration-us=0
+MMF t=125 CALLBACK MapcInitComplete openOnStack=0 cancelled=0
+MMF t=125 OPEN complete error=-1
+MMF t=125 PASS expected open error observed
+MMF t=125 SURFACE counts created=0 changed=0 removed=0 live=0
+MMF t=125 RESULT {"probe":"native-mmf","version":1,"mode":"audio","transport":"url","passed":1,"failed":0,"openCallbacks":1,"prepareCallbacks":0,"playCallbacks":0,"resourceCallbacks":0,"positionAdvances":0,"cancelled":false}
+MMF t=125 PASS native-mmf checks=1 failures=0
+MMF t=125 native-mmf exiting 0

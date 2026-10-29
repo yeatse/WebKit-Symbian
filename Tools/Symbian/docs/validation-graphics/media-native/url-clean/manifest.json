@@ -1,0 +1,54 @@
+[
+  {
+    "case": "404",
+    "source_run": "mmf-20261029T155555Z-0umxuwf_",
+    "status": "PASS",
+    "artifacts": {
+      "mmf-probe.log": "3ee585dd3718f0d439d3371795b6d42d15a2ca44faa47c489660cc4d9e4ddac7",
+      "result.json": "e4efd33fb11bea1162edb69888bbb0259c90e180f21e4b75ffa474ec3d2778cb"
+    }
+  },
+  {
+    "case": "wrong-host",
+    "source_run": "mmf-20261029T155555Z-nygqgdrz",
+    "status": "PASS",
+    "artifacts": {
+      "mmf-probe.log": "7d921e1654fcb31f4b0a90e0ead18bb1a436646aa656540317462ee924613c52",
+      "result.json": "37b95b352205bf3bd45a216749631b657e248c6003244ae8237cef5d0cb37784"
+    }
+  },
+  {
+    "case": "untrusted",
+    "source_run": "mmf-20261029T155556Z-_bij7kaf",
+    "status": "PASS",
+    "artifacts": {
+      "mmf-probe.log": "1fc0fc29fe306ec750bd9a323f6fff249eba9aa3a750c70afe490687988780b9",
+      "result.json": "42994621b25c48e19a2af2654ec200b820445e4fea2233f13d7bd1f9d6ca0140"
+    }
+  },
+  {
+    "case": "cancel-1500ms",
+    "source_run": "mmf-20261029T155557Z-8ctlloxv",
+    "status": "PASS",
+    "artifacts": {
+      "mmf-probe.log": "0bc0f3379200c5b61d6b728a73b35a6c43813964132ffc4fbe843a7d4576eb27",
+      "result.json": "25afddb856d2e1f85e0ff1f2fbe55d68bf6891ce38da4011aa6cb7286687a72b"
+    },
+    "role": "historical shorter observation",
+    "observation_ms": 1500
+  },
+  {
+    "case": "cancel",
+    "role": "representative cancellation",
+    "source_run": "mmf-20261029T160434Z-qxu_0tc2",
+    "status": "PASS",
+    "observation_minimum_ms": 3000,
+    "observed_ms": 3063,
+    "close_guest_ms": 265,
+    "observation_finished_guest_ms": 3328,
+    "artifacts": {
+      "mmf-probe.log": "9d21821771dca9f5af9d5accb66049d01780b058846aadd8d46abc6d6ec3440d",
+      "result.json": "d89060ac4fda0baae84c405cb03caf60eaa1252b484db30b13ac959ad4aa1223"
+    }
+  }
+]

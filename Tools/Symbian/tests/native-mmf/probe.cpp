@@ -73,6 +73,11 @@ struct Options {
 class Window;
 class WindowRequest final : public CActive {
 public:
+    // CBase's inherited allocation uses the native user heap. This locally
+    // emitted deleting destructor must use the same heap, including leaves
+    // during construction, rather than the executable's portable delete.
+    static void operator delete(TAny* pointer) noexcept { User::Free(pointer); }
+    static void operator delete(TAny* pointer, TLeave) noexcept { User::Free(pointer); }
     WindowRequest(Window& window, bool redraw) : CActive(EPriorityStandard), owner(window), redraw(redraw) { CActiveScheduler::Add(this); }
     ~WindowRequest() { Cancel(); }
     void start();
@@ -91,16 +96,19 @@ public:
         User::LeaveIfError(RFbsSession::Connect()); fbsConnected = true;
         screen = new (ELeave) CWsScreenDevice(session);
         User::LeaveIfError(screen->Construct());
-        group = new (ELeave) RWindowGroup(session);
+        group = new RWindowGroup(session);
         User::LeaveIfError(group->Construct(1, ETrue)); groupOpen = true;
-        native = new (ELeave) RWindow(session);
+        native = new RWindow(session);
         User::LeaveIfError(native->Construct(*group, 2)); windowOpen = true;
         TSize size = screen->SizeInPixels();
         if (size.iWidth > 320) size.iWidth = 320;
         if (size.iHeight > 360) size.iHeight = 360;
         extent = TRect(TPoint(8, 40), TSize(size.iWidth - 16, size.iHeight - 48));
         group->SetOrdinalPosition(0);
-        native->SetRequiredDisplayMode(EColor16MA);
+        User::LeaveIfError(native->SetRequiredDisplayMode(EColor16MA));
+        User::LeaveIfError(native->SetTransparencyAlphaChannel());
+        native->SetBackgroundColor(TRgb(0, 0, 0, 0));
+        report("WINDOW displayMode=%d alpha-channel enabled", native->DisplayMode());
         native->SetExtent(TPoint(0, 0), size);
         User::LeaveIfError(screen->CreateContext(graphics));
         native->SetVisible(ETrue); native->Activate();
@@ -120,6 +128,13 @@ public:
         graphics->SetBrushStyle(CGraphicsContext::ESolidBrush);
         graphics->SetBrushColor(TRgb(32, 40, 64));
         graphics->Clear();
+        // Utility2 supplies a window background surface. Keep its video area
+        // transparent in the UI layer, rather than covering it with the probe.
+        graphics->SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+        graphics->SetBrushColor(TRgb(0, 0, 0, 0));
+        graphics->Clear(extent);
+        graphics->SetDrawMode(CGraphicsContext::EDrawModePEN);
+        graphics->SetBrushStyle(CGraphicsContext::ENullBrush);
         graphics->SetPenColor(TRgb(255, 255, 255));
         graphics->DrawRect(extent);
         graphics->Deactivate();
@@ -178,6 +193,8 @@ void WindowRequest::DoCancel()
 class Probe final : public CBase, public MVideoPlayerUtilityObserver,
     public MMdaAudioPlayerCallback, public MMMFAudioResourceNotificationCallback, public MMMFSurfaceEventHandler {
 public:
+    static void operator delete(TAny* pointer) noexcept { User::Free(pointer); }
+    static void operator delete(TAny* pointer, TLeave) noexcept { User::Free(pointer); }
     explicit Probe(const Options& options) : options(options) { }
     void startL()
     {
@@ -221,7 +238,8 @@ public:
             video->Close();
         }
         if (audio) audio->Close();
-        delete video; delete audio; delete source;
+        delete video; delete audio;
+        User::Free(source); // HBufC::NewL uses the native user heap; no resources to destruct.
     }
 
     bool done() const { return finished; }
@@ -343,7 +361,7 @@ private:
         cancelTime = elapsedMilliseconds();
         report("CLOSE cancel-open");
         if (options.video) video->Close(); else audio->Close();
-        report("CLOSE returned; observing callbacks for 1500 ms");
+        report("CLOSE returned; observing callbacks for 3000 ms");
     }
     void tickL()
     {
@@ -351,7 +369,7 @@ private:
         const TInt64 now = elapsedMilliseconds();
         if (now >= options.timeoutMilliseconds) { fail("strict probe timeout expired"); return; }
         if (cancelled) {
-            if (now - cancelTime >= 1500) { expect(true, "Close cancellation produced no late callback"); finish(); }
+            if (now - cancelTime >= 3000) { expect(true, "Close cancellation produced no late callback"); finish(); }
             return;
         }
         if (options.cancelOpenMilliseconds >= 0 && now - openStart >= options.cancelOpenMilliseconds) { cancelOpen(); return; }

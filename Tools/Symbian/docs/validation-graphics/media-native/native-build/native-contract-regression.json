@@ -1,0 +1,52 @@
+{
+  "mediaclientaudio_general": {
+    "target": "mediaclientaudio_general",
+    "sha256": "08891d9216ee2ab679ec088902561e5ce7f24cc76e7df734d60fcf62c912eeef",
+    "bytes": 72620,
+    "imports": [
+      "drtaeabi.dll",
+      "efsrv.dll",
+      "euser.dll",
+      "mediaclient.dll"
+    ],
+    "data_bytes": 0,
+    "bss_bytes": 0,
+    "exception_descriptor_offset": 23168,
+    "stateless_arithmetic_members": [],
+    "portable_crt_heap_tls": false,
+    "old_portable_image_rejected": "Native patch unexpectedly owns writable data/BSS"
+  },
+  "mediaclientvideo_v100": {
+    "target": "mediaclientvideo_v100",
+    "sha256": "2a41679fea0a29bf6aff739dcc108a811acdc29deee16766aab8a6213a173dbb",
+    "bytes": 52556,
+    "imports": [
+      "drtaeabi.dll",
+      "efsrv.dll",
+      "euser.dll",
+      "mediaclient.dll",
+      "ws32.dll"
+    ],
+    "data_bytes": 0,
+    "bss_bytes": 0,
+    "exception_descriptor_offset": 22256,
+    "stateless_arithmetic_members": [
+      "aeabi_dcmp.S.obj",
+      "aeabi_fcmp.S.obj",
+      "clzsi2.c.obj",
+      "cmpdf2.S.obj",
+      "comparesf2.S.obj",
+      "divdf3.S.obj",
+      "dnan2.c.obj",
+      "dnorm2.c.obj",
+      "dunder.c.obj",
+      "extendsfdf2.S.obj",
+      "fixdfsi.S.obj",
+      "floatsidf.S.obj",
+      "gedf2.S.obj",
+      "muldf3.S.obj"
+    ],
+    "portable_crt_heap_tls": false,
+    "old_portable_image_rejected": "Native patch unexpectedly owns writable data/BSS"
+  }
+}

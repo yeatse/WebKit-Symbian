@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "captures": [
+    {
+      "capture": "wav-local-clean",
+      "verification": "decoded PCM SHA and analysis match",
+      "pcm_status": "PASS"
+    },
+    {
+      "capture": "mp3-local-clean",
+      "verification": "decoded PCM SHA and analysis match",
+      "pcm_status": "PASS"
+    },
+    {
+      "capture": "video-local-clean",
+      "verification": "decoded PCM SHA and analysis match",
+      "pcm_status": "PASS"
+    },
+    {
+      "capture": "wav-https-clean",
+      "verification": "metadata hashes only; original PCM is external"
+    },
+    {
+      "capture": "wav-short-tail-clean",
+      "verification": "metadata hashes only; original PCM is external"
+    },
+    {
+      "capture": "mp3-short-tail-clean",
+      "verification": "metadata hashes only; original PCM is external"
+    },
+    {
+      "capture": "mp3-native-only-candidate",
+      "verification": "metadata hashes only; original PCM is external"
+    },
+    {
+      "capture": "video-native-only-candidate",
+      "verification": "metadata hashes only; original PCM is external"
+    },
+    {
+      "capture": "wav-http-historical",
+      "verification": "metadata hashes only; original PCM is external"
+    },
+    {
+      "capture": "wav-gap-historical",
+      "verification": "metadata hashes only; original PCM is external"
+    },
+    {
+      "capture": "mp3-silent-start-historical",
+      "verification": "metadata hashes only; original PCM is external"
+    },
+    {
+      "capture": "video-short-capture-historical",
+      "verification": "metadata hashes only; original PCM is external"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "images": [
+    {
+      "target": "mediaclientaudio_general",
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+      "bytes": 72620,
+      "imports": [
+        "drtaeabi.dll",
+        "efsrv.dll",
+        "euser.dll",
+        "mediaclient.dll"
+      ],
+      "data_bytes": 0,
+      "bss_bytes": 0,
+      "exception_descriptor_offset": 23168,
+      "stateless_arithmetic_members": [],
+      "portable_crt_heap_tls": false
+    },
+    {
+      "target": "mediaclientvideo_v100",
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+      "bytes": 52556,
+      "imports": [
+        "drtaeabi.dll",
+        "efsrv.dll",
+        "euser.dll",
+        "mediaclient.dll",
+        "ws32.dll"
+      ],
+      "data_bytes": 0,
+      "bss_bytes": 0,
+      "exception_descriptor_offset": 22256,
+      "stateless_arithmetic_members": [
+        "aeabi_dcmp.S.obj",
+        "aeabi_fcmp.S.obj",
+        "clzsi2.c.obj",
+        "cmpdf2.S.obj",
+        "comparesf2.S.obj",
+        "divdf3.S.obj",
+        "dnan2.c.obj",
+        "dnorm2.c.obj",
+        "dunder.c.obj",
+        "extendsfdf2.S.obj",
+        "fixdfsi.S.obj",
+        "floatsidf.S.obj",
+        "gedf2.S.obj",
+        "muldf3.S.obj"
+      ],
+      "portable_crt_heap_tls": false
+    }
+  ]
+}

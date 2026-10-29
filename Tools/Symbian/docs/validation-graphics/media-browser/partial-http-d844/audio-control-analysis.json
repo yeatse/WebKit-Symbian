@@ -1,0 +1,601 @@
+{
+  "status": "PARTIAL_WITH_FAILURES",
+  "whole_suite_status": "FAIL",
+  "whole_suite_passed": false,
+  "scope": "Only recorded named control windows; whole-suite status is copied from the runner, not established by this PCM diagnostic",
+  "analysis_script_sha256": "0a64b8edd0dbaa4fe536ab034faae300fdc647e8e9d1be6d37b65cd403be27f6",
+  "numpy_version": "2.3.5",
+  "pcm": {
+    "sha256": "e52cf1f1517c85fccb5240e08238c9876c5f6f649c72e3792c7e2d6a22f3e822",
+    "format": "s16le",
+    "rate_hz": 48000,
+    "channels": 2,
+    "duration_s": 47.04416666666667,
+    "peak_s16": [
+      4243.0,
+      4243.0
+    ],
+    "clipping": false
+  },
+  "timing": {
+    "estimated_origin_monotonic": 27955.16243109,
+    "end_estimated_origin_monotonic": 27955.168218293333,
+    "origin_difference_s": 0.005787203332147328,
+    "limit": "Host console timestamps are delayed observations; PCM origin is estimated from file delivery, not hardware timestamps. No exact guest latency or requested pause duration is claimed."
+  },
+  "spectral_method": "Two 250ms Hann windows per stage, 4Hz bins, expected +/-8Hz power >=95%, dominant +/-2Hz and RMS>100 per channel; active windows also reject exact-zero gaps >=1ms. Observation window is host CAPTURE estimate +100..600ms.",
+  "observations": [
+    {
+      "label": "audio.wav playing",
+      "expected_hz": 440,
+      "marker_estimated_pcm_s": 9.19804685499912,
+      "observation_window_s": [
+        9.29804685499912,
+        9.79804685499912
+      ],
+      "exact_zero": false,
+      "expected_silence": false,
+      "expected_tone_spectrum": true,
+      "extra_exact_zero_spans_over_1ms": [],
+      "observation_passed": true,
+      "rms_s16": [
+        2896.4454016086684,
+        2896.4454016086684
+      ],
+      "windows": [
+        {
+          "start_s": 9.298041666666666,
+          "rms_s16": [
+            2896.449725353437,
+            2896.449725353437
+          ],
+          "dominant_hz": [
+            440.0,
+            440.0
+          ],
+          "expected_band_power_fraction": [
+            0.9999999669628092,
+            0.9999999669628092
+          ]
+        },
+        {
+          "start_s": 9.548041666666666,
+          "rms_s16": [
+            2896.4410778574456,
+            2896.4410778574456
+          ],
+          "dominant_hz": [
+            440.0,
+            440.0
+          ],
+          "expected_band_power_fraction": [
+            0.999999966558764,
+            0.999999966558764
+          ]
+        }
+      ]
+    },
+    {
+      "label": "audio.wav paused",
+      "expected_hz": 440,
+      "marker_estimated_pcm_s": 10.20322688899978,
+      "observation_window_s": [
+        10.30322688899978,
+        10.80322688899978
+      ],
+      "exact_zero": true,
+      "expected_silence": true,
+      "expected_tone_spectrum": false,
+      "extra_exact_zero_spans_over_1ms": [],
+      "observation_passed": true,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "windows": [
+        {
+          "start_s": 10.303208333333334,
+          "rms_s16": [
+            0.0,
+            0.0
+          ],
+          "dominant_hz": [
+            null,
+            null
+          ],
+          "expected_band_power_fraction": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "start_s": 10.553208333333334,
+          "rms_s16": [
+            0.0,
+            0.0
+          ],
+          "dominant_hz": [
+            null,
+            null
+          ],
+          "expected_band_power_fraction": [
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "label": "audio.wav muted",
+      "expected_hz": 440,
+      "marker_estimated_pcm_s": 13.183546329997625,
+      "observation_window_s": [
+        13.283546329997625,
+        13.783546329997625
+      ],
+      "exact_zero": true,
+      "expected_silence": true,
+      "expected_tone_spectrum": false,
+      "extra_exact_zero_spans_over_1ms": [],
+      "observation_passed": true,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "windows": [
+        {
+          "start_s": 13.283541666666666,
+          "rms_s16": [
+            0.0,
+            0.0
+          ],
+          "dominant_hz": [
+            null,
+            null
+          ],
+          "expected_band_power_fraction": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "start_s": 13.533541666666666,
+          "rms_s16": [
+            0.0,
+            0.0
+          ],
+          "dominant_hz": [
+            null,
+            null
+          ],
+          "expected_band_power_fraction": [
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "label": "audio.wav unmuted",
+      "expected_hz": 440,
+      "marker_estimated_pcm_s": 14.191954953999812,
+      "observation_window_s": [
+        14.291954953999811,
+        14.791954953999811
+      ],
+      "exact_zero": false,
+      "expected_silence": false,
+      "expected_tone_spectrum": true,
+      "extra_exact_zero_spans_over_1ms": [],
+      "observation_passed": true,
+      "rms_s16": [
+        1448.2083320434253,
+        1448.2083320434253
+      ],
+      "windows": [
+        {
+          "start_s": 14.2919375,
+          "rms_s16": [
+            1448.2087131176913,
+            1448.2087131176913
+          ],
+          "dominant_hz": [
+            440.0,
+            440.0
+          ],
+          "expected_band_power_fraction": [
+            0.9999998623294951,
+            0.9999998623294951
+          ]
+        },
+        {
+          "start_s": 14.5419375,
+          "rms_s16": [
+            1448.2079509690589,
+            1448.2079509690589
+          ],
+          "dominant_hz": [
+            440.0,
+            440.0
+          ],
+          "expected_band_power_fraction": [
+            0.9999998627834841,
+            0.9999998627834841
+          ]
+        }
+      ]
+    },
+    {
+      "label": "video.mp4 playing",
+      "expected_hz": 880,
+      "marker_estimated_pcm_s": 21.388418939000985,
+      "observation_window_s": [
+        21.488418939000987,
+        21.988418939000987
+      ],
+      "exact_zero": false,
+      "expected_silence": false,
+      "expected_tone_spectrum": false,
+      "extra_exact_zero_spans_over_1ms": [
+        {
+          "start_s": 21.546625,
+          "end_s": 21.577375,
+          "duration_ms": 30.75
+        }
+      ],
+      "observation_passed": false,
+      "rms_s16": [
+        2805.1502370194007,
+        2805.1502370194007
+      ],
+      "windows": [
+        {
+          "start_s": 21.488416666666666,
+          "rms_s16": [
+            2712.6617813966413,
+            2712.6617813966413
+          ],
+          "dominant_hz": [
+            880.0,
+            880.0
+          ],
+          "expected_band_power_fraction": [
+            0.9314755176777685,
+            0.9314755176777685
+          ]
+        },
+        {
+          "start_s": 21.738416666666666,
+          "rms_s16": [
+            2894.6850889604557,
+            2894.6850889604557
+          ],
+          "dominant_hz": [
+            880.0,
+            880.0
+          ],
+          "expected_band_power_fraction": [
+            0.9999984298243519,
+            0.9999984298243519
+          ]
+        }
+      ]
+    },
+    {
+      "label": "video.mp4 paused",
+      "expected_hz": 880,
+      "marker_estimated_pcm_s": 22.221267093998904,
+      "observation_window_s": [
+        22.321267093998905,
+        22.821267093998905
+      ],
+      "exact_zero": true,
+      "expected_silence": true,
+      "expected_tone_spectrum": false,
+      "extra_exact_zero_spans_over_1ms": [],
+      "observation_passed": true,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "windows": [
+        {
+          "start_s": 22.32125,
+          "rms_s16": [
+            0.0,
+            0.0
+          ],
+          "dominant_hz": [
+            null,
+            null
+          ],
+          "expected_band_power_fraction": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "start_s": 22.57125,
+          "rms_s16": [
+            0.0,
+            0.0
+          ],
+          "dominant_hz": [
+            null,
+            null
+          ],
+          "expected_band_power_fraction": [
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "label": "video.mp4 muted",
+      "expected_hz": 880,
+      "marker_estimated_pcm_s": 25.21979550800097,
+      "observation_window_s": [
+        25.319795508000972,
+        25.819795508000972
+      ],
+      "exact_zero": true,
+      "expected_silence": true,
+      "expected_tone_spectrum": false,
+      "extra_exact_zero_spans_over_1ms": [],
+      "observation_passed": true,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "windows": [
+        {
+          "start_s": 25.319791666666667,
+          "rms_s16": [
+            0.0,
+            0.0
+          ],
+          "dominant_hz": [
+            null,
+            null
+          ],
+          "expected_band_power_fraction": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "start_s": 25.569791666666667,
+          "rms_s16": [
+            0.0,
+            0.0
+          ],
+          "dominant_hz": [
+            null,
+            null
+          ],
+          "expected_band_power_fraction": [
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "label": "video.mp4 unmuted",
+      "expected_hz": 880,
+      "marker_estimated_pcm_s": 26.18963725899812,
+      "observation_window_s": [
+        26.28963725899812,
+        26.78963725899812
+      ],
+      "exact_zero": false,
+      "expected_silence": false,
+      "expected_tone_spectrum": true,
+      "extra_exact_zero_spans_over_1ms": [],
+      "observation_passed": true,
+      "rms_s16": [
+        1447.7169196128548,
+        1447.7169196128548
+      ],
+      "windows": [
+        {
+          "start_s": 26.289625,
+          "rms_s16": [
+            1447.195361120951,
+            1447.195361120951
+          ],
+          "dominant_hz": [
+            880.0,
+            880.0
+          ],
+          "expected_band_power_fraction": [
+            0.999998599620856,
+            0.999998599620856
+          ]
+        },
+        {
+          "start_s": 26.539625,
+          "rms_s16": [
+            1448.2382902743136,
+            1448.2382902743136
+          ],
+          "dominant_hz": [
+            880.0,
+            880.0
+          ],
+          "expected_band_power_fraction": [
+            0.9999986406977845,
+            0.9999986406977845
+          ]
+        }
+      ]
+    }
+  ],
+  "unmuted_to_initial_rms_ratio": {
+    "audio.wav": [
+      0.4999950391742579,
+      0.4999950391742579
+    ],
+    "video.mp4": [
+      0.516092471806829,
+      0.516092471806829
+    ]
+  },
+  "initial_playback_pcm_context": {
+    "audio.wav": {
+      "between_long_silences_s": [
+        8.145020833333334,
+        10.152270833333333
+      ],
+      "following_long_silence_s": [
+        10.152270833333333,
+        12.156104166666667
+      ],
+      "interior_short_silences": [],
+      "meaning": "PCM geometry independent of console transition timestamps; a short interior hole followed by more tone is distinct from the following sustained pause."
+    },
+    "video.mp4": {
+      "between_long_silences_s": [
+        20.165166666666668,
+        22.154375
+      ],
+      "following_long_silence_s": [
+        22.154375,
+        24.143916666666666
+      ],
+      "interior_short_silences": [
+        {
+          "start_s": 21.546625,
+          "end_s": 21.577375,
+          "duration_ms": 30.75,
+          "seconds_after_audible_start": 1.381458333333331,
+          "seconds_of_audio_after_gap": 0.5770000000000017
+        }
+      ],
+      "meaning": "PCM geometry independent of console transition timestamps; a short interior hole followed by more tone is distinct from the following sustained pause."
+    }
+  },
+  "all_exact_zero_spans_over_1ms": [
+    {
+      "start_s": 0.0,
+      "end_s": 8.145020833333334,
+      "duration_ms": 8145.020833333333
+    },
+    {
+      "start_s": 10.152270833333333,
+      "end_s": 12.156104166666667,
+      "duration_ms": 2003.8333333333333
+    },
+    {
+      "start_s": 13.136229166666666,
+      "end_s": 14.137645833333334,
+      "duration_ms": 1001.4166666666666
+    },
+    {
+      "start_s": 15.134083333333333,
+      "end_s": 16.135,
+      "duration_ms": 1000.9166666666666
+    },
+    {
+      "start_s": 17.128854166666667,
+      "end_s": 20.165166666666668,
+      "duration_ms": 3036.3125
+    },
+    {
+      "start_s": 21.546625,
+      "end_s": 21.577375,
+      "duration_ms": 30.75
+    },
+    {
+      "start_s": 22.154375,
+      "end_s": 24.143916666666666,
+      "duration_ms": 1989.5416666666667
+    },
+    {
+      "start_s": 25.144145833333333,
+      "end_s": 26.142083333333332,
+      "duration_ms": 997.9375
+    },
+    {
+      "start_s": 27.15175,
+      "end_s": 29.159541666666666,
+      "duration_ms": 2007.7916666666667
+    },
+    {
+      "start_s": 30.130395833333335,
+      "end_s": 32.17129166666667,
+      "duration_ms": 2040.8958333333333
+    },
+    {
+      "start_s": 33.152791666666666,
+      "end_s": 36.154333333333334,
+      "duration_ms": 3001.5416666666665
+    },
+    {
+      "start_s": 36.154375,
+      "end_s": 36.15575,
+      "duration_ms": 1.375
+    },
+    {
+      "start_s": 40.143541666666664,
+      "end_s": 45.1618125,
+      "duration_ms": 5018.270833333333
+    },
+    {
+      "start_s": 46.27372916666667,
+      "end_s": 47.04416666666667,
+      "duration_ms": 770.4375
+    }
+  ],
+  "audible_intervals_10ms_rms_gt100": [
+    {
+      "start_s": 8.14,
+      "end_s": 10.16
+    },
+    {
+      "start_s": 12.15,
+      "end_s": 13.14
+    },
+    {
+      "start_s": 14.13,
+      "end_s": 15.14
+    },
+    {
+      "start_s": 16.15,
+      "end_s": 17.13
+    },
+    {
+      "start_s": 20.16,
+      "end_s": 21.55
+    },
+    {
+      "start_s": 21.57,
+      "end_s": 22.16
+    },
+    {
+      "start_s": 24.14,
+      "end_s": 25.15
+    },
+    {
+      "start_s": 26.14,
+      "end_s": 27.16
+    },
+    {
+      "start_s": 29.15,
+      "end_s": 30.14
+    },
+    {
+      "start_s": 32.17,
+      "end_s": 33.16
+    },
+    {
+      "start_s": 36.17,
+      "end_s": 40.15
+    },
+    {
+      "start_s": 45.16,
+      "end_s": 46.28
+    }
+  ]
+}

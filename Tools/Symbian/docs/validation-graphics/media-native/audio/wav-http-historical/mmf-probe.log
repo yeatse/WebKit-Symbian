@@ -1,0 +1,41 @@
+MMF t=15 BEGIN native-mmf version=1 mode=audio transport=url hold-ms=10000 timeout-ms=30000 cancel-open-ms=-1 source=http://localhost:8775/audio.wav
+MMF t=31 WINDOW visible width=320 height=360 videoRect=8,40,304,312
+MMF t=31 OPEN call kind=url source=http://localhost:8775/audio.wav
+MMF t=31 OPEN returned leave=0
+MMF t=31 WINDOW event=11
+MMF t=109 AUDIO init duration-us=12000000
+MMF t=109 CALLBACK MapcInitComplete openOnStack=0 cancelled=0
+MMF t=109 OPEN complete error=0
+MMF t=109 PASS open succeeded
+MMF t=109 PREPARE audio initialization completed with MapcInitComplete
+MMF t=109 READY duration-us=12000000
+MMF t=109 PASS fixture has at least six seconds for playback controls
+MMF t=109 VOLUME max=10 set=7 error=0
+MMF t=109 POSITION before-play us=0
+MMF t=109 PLAY call initial
+MMF t=1671 POSITION playing us=801814
+MMF t=1671 PASS position advanced while playing
+MMF t=1671 PAUSE call
+MMF t=1671 POSITION paused-start us=803356
+MMF t=2328 POSITION paused-end us=805555
+MMF t=2328 PASS position stayed stable while paused
+MMF t=2328 SEEK call target-us=3000000
+MMF t=2328 POSITION after-seek us=3000045
+MMF t=2328 PASS seek position is within 500 ms
+MMF t=2328 PLAY call resume
+MMF t=3421 POSITION resumed us=4092698
+MMF t=3421 PASS position advanced after resume
+MMF t=4515 POSITION capture-hold us=5186643
+MMF t=5609 POSITION capture-hold us=6280657
+MMF t=6703 POSITION capture-hold us=7374603
+MMF t=7796 POSITION capture-hold us=8468639
+MMF t=8890 POSITION capture-hold us=9562471
+MMF t=9984 POSITION capture-hold us=10656439
+MMF t=10203 STOP call
+MMF t=10203 STOP returned error=0
+MMF t=10203 PASS stop succeeded
+MMF t=10203 PASS both playback intervals advanced
+MMF t=10203 SURFACE counts created=0 changed=0 removed=0 live=0
+MMF t=10203 RESULT {"probe":"native-mmf","version":1,"mode":"audio","transport":"url","passed":8,"failed":0,"openCallbacks":1,"prepareCallbacks":0,"playCallbacks":0,"resourceCallbacks":0,"positionAdvances":2,"cancelled":false}
+MMF t=10203 PASS native-mmf checks=8 failures=0
+MMF t=10203 native-mmf exiting 0

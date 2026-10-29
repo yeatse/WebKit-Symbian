@@ -4,7 +4,7 @@
 #include <stddef.h>
 inline int parseNativeArguments(char* text, char** arguments, size_t capacity)
 {
-    if (!capacity) return -1;
+    if (capacity < 2) return -1;
     size_t count = 1;
     arguments[0] = const_cast<char*>("mmf_probe");
     char* read = text;

@@ -1,0 +1,50 @@
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=46 POSITION before-play us=0
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=46 PLAY call initial
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/player_shared.cpp:95 [Driver.Audio]: MMFSTART play player=0x7ff1b41d08b0 existing_stream=0x0 completed=true start_us=0 freq=44100 channels=1
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/player_shared.cpp:134 [Driver.Audio]: MMFSTART create-output begin elapsed_us=11
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/player_shared.cpp:139 [Driver.Audio]: MMFSTART create-output end elapsed_us=691
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:181 [Driver.Audio]: MMFSTART start stream=0x7ff1b46b9a40 pausing=false in_action=false driver_suspended=false
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/player_shared.cpp:148 [Driver.Audio]: MMFSTART play return started=true elapsed_us=1078
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:93 [Driver.Audio]: MMFSTART callback base=0x7ff1b46b9a80 frames=826 channels=1 idle=false idled=0 in_action=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:109 [Driver.Audio]: MMFSTART callback copied=826 nonzero=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:93 [Driver.Audio]: MMFSTART callback base=0x7ff1b46b9a80 frames=275 channels=1 idle=false idled=0 in_action=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:109 [Driver.Audio]: MMFSTART callback copied=275 nonzero=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:93 [Driver.Audio]: MMFSTART callback base=0x7ff1b46b9a80 frames=287 channels=1 idle=false idled=0 in_action=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:109 [Driver.Audio]: MMFSTART callback copied=287 nonzero=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:93 [Driver.Audio]: MMFSTART callback base=0x7ff1b46b9a80 frames=283 channels=1 idle=false idled=0 in_action=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:109 [Driver.Audio]: MMFSTART callback copied=283 nonzero=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:93 [Driver.Audio]: MMFSTART callback base=0x7ff1b46b9a80 frames=279 channels=1 idle=false idled=0 in_action=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:109 [Driver.Audio]: MMFSTART callback copied=279 nonzero=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:93 [Driver.Audio]: MMFSTART callback base=0x7ff1b46b9a80 frames=278 channels=1 idle=false idled=0 in_action=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:109 [Driver.Audio]: MMFSTART callback copied=278 nonzero=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:93 [Driver.Audio]: MMFSTART callback base=0x7ff1b46b9a80 frames=278 channels=1 idle=false idled=0 in_action=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:109 [Driver.Audio]: MMFSTART callback copied=278 nonzero=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:93 [Driver.Audio]: MMFSTART callback base=0x7ff1b46b9a80 frames=279 channels=1 idle=false idled=0 in_action=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:109 [Driver.Audio]: MMFSTART callback copied=279 nonzero=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=9952 idled=0 in_action=true idle=false
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=1578 POSITION playing us=225668
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=10009 idled=0 in_action=true idle=true
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=1578 POSITION paused-start us=226961
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=38885 idled=29030 in_action=true idle=true
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=2234 POSITION paused-end us=223469
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=38932 idled=29030 in_action=true idle=true
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=38939 idled=29030 in_action=true idle=true
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=2234 POSITION after-seek us=3000158
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=2234 PLAY call resume
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/player_shared.cpp:95 [Driver.Audio]: MMFSTART play player=0x7ff1b41d08b0 existing_stream=0x7ff1b46b9a40 completed=false start_us=3000000 freq=44100 channels=1
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:181 [Driver.Audio]: MMFSTART start stream=0x7ff1b46b9a40 pausing=true in_action=true driver_suspended=false
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=87132 idled=29030 in_action=true idle=false
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=3328 POSITION resumed us=4092970
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=135366 idled=29030 in_action=true idle=false
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=4421 POSITION capture-hold us=5186712
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=183606 idled=29030 in_action=true idle=false
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=5515 POSITION capture-hold us=6280589
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=231848 idled=29030 in_action=true idle=false
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=6609 POSITION capture-hold us=7374512
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=280092 idled=29030 in_action=true idle=false
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=7703 POSITION capture-hold us=8468480
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=328334 idled=29030 in_action=true idle=false
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=8796 POSITION capture-hold us=9562403
+I /workspace/EKA2L1-validation/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp:116 [Driver.Audio]: MMFSTART position base=0x7ff1b46b9a80 result=0 raw=376577 idled=29030 in_action=true idle=false
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=9890 POSITION capture-hold us=10656349
+T /workspace/EKA2L1-validation/src/emu/kernel/src/svc.cpp:3214 [Emulated.Stdout]: MMF t=10109 RESULT {"probe":"native-mmf","version":1,"mode":"audio","transport":"file","passed":6,"failed":2,"openCallbacks":1,"prepareCallbacks":0,"playCallbacks":0,"resourceCallbacks":0,"positionAdvances":1,"cancelled":false}

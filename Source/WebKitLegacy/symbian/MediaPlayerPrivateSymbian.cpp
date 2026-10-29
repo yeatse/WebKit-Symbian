@@ -565,7 +565,9 @@ void MediaPlayerPrivateSymbian::mediaPlayerOpened(int error, double duration, in
             player.setNetworkState(WebCore::MediaPlayer::NetworkState::Loaded);
         if (!player.isCurrentLoad(generation) || !player.m_backend)
             return;
-        if (!player.m_paused) {
+        // readyStateChanged may synchronously enter play() when the element
+        // requested playback before metadata arrived. Do not start MMF twice.
+        if (!player.m_paused && !player.m_playing) {
             if (!player.handleNativeError(player.m_backend->play()))
                 return;
             player.m_playing = true;

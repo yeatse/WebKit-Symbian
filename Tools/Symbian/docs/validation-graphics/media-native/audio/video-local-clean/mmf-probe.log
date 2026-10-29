@@ -1,0 +1,58 @@
+MMF t=15 BEGIN native-mmf version=1 mode=video transport=file hold-ms=10000 timeout-ms=30000 cancel-open-ms=-1 source=C:/Data/native-mmf-fixtures/video.mp4
+MMF t=46 WINDOW displayMode=12 alpha-channel enabled
+MMF t=46 WINDOW visible width=320 height=360 videoRect=8,40,304,312
+MMF t=46 OPEN call kind=file source=C:/Data/native-mmf-fixtures/video.mp4
+MMF t=62 OPEN returned leave=0
+MMF t=62 CALLBACK MvpuoOpenComplete openOnStack=0 cancelled=0
+MMF t=62 OPEN complete error=0
+MMF t=62 PASS open succeeded
+MMF t=62 DISPLAY AddDisplayWindowL error=0
+MMF t=62 CALLBACK surface-created display=0 id=00000001:00000000:00000000:21000000 crop=0,0,320,180 aspect=1/1
+MMF t=62 PASS surface creation carries a real identity and crop
+MMF t=62 PASS previous surface was removed before replacement
+MMF t=62 DISPLAY AddDisplayL error=0
+MMF t=62 PREPARE call
+MMF t=62 CALLBACK MvpuoPrepareComplete openOnStack=0 cancelled=0
+MMF t=62 PREPARE complete error=0
+MMF t=62 READY duration-us=12000000
+MMF t=62 PASS fixture has at least six seconds for playback controls
+MMF t=62 VOLUME max=10 set=7
+MMF t=62 POSITION before-play us=0
+MMF t=62 PLAY call initial
+MMF t=62 WINDOW event=11
+MMF t=1593 POSITION playing us=1533333
+MMF t=1593 PASS position advanced while playing
+MMF t=1593 PAUSE call
+MMF t=1593 POSITION paused-start us=1533333
+MMF t=2250 POSITION paused-end us=1533333
+MMF t=2250 PASS position stayed stable while paused
+MMF t=2250 PASS surface crop has usable dimensions
+MMF t=2250 SURFACE SetCropRegionL rect=1,1,318,178
+MMF t=2250 CALLBACK surface-changed crop=1,1,318,178 aspect=1/1
+MMF t=2250 PASS surface change matches active surface
+MMF t=2250 SEEK call target-us=3000000
+MMF t=2250 POSITION after-seek us=3000000
+MMF t=2250 PASS seek position is within 500 ms
+MMF t=2250 PLAY call resume
+MMF t=3343 POSITION resumed us=4133333
+MMF t=3343 PASS position advanced after resume
+MMF t=4437 POSITION capture-hold us=5200000
+MMF t=5531 POSITION capture-hold us=6333333
+MMF t=6625 POSITION capture-hold us=7400000
+MMF t=7718 POSITION capture-hold us=8466667
+MMF t=8812 POSITION capture-hold us=9600000
+MMF t=9906 POSITION capture-hold us=10666667
+MMF t=10125 STOP call
+MMF t=10125 STOP returned error=0
+MMF t=10125 PASS stop succeeded
+MMF t=10125 PASS both playback intervals advanced
+MMF t=10125 SURFACE Close call; observing removal for 1000 ms
+MMF t=10125 CALLBACK surface-removed id=00000001:00000000:00000000:21000000
+MMF t=10125 PASS surface removal matches active surface
+MMF t=11218 PASS surface creation callback observed
+MMF t=11218 PASS surface crop change callback observed
+MMF t=11218 PASS Close removed the observed surface
+MMF t=11218 SURFACE counts created=1 changed=1 removed=1 live=0
+MMF t=11218 RESULT {"probe":"native-mmf","version":1,"mode":"video","transport":"file","passed":16,"failed":0,"openCallbacks":1,"prepareCallbacks":1,"playCallbacks":0,"resourceCallbacks":0,"positionAdvances":2,"cancelled":false}
+MMF t=11218 PASS native-mmf checks=16 failures=0
+MMF t=11218 native-mmf exiting 0

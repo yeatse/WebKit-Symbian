@@ -1,3 +1,4 @@
 # Preserve captured emulator output exactly, including native log whitespace.
 browser-final/*/emulator.log -text -whitespace
 compositing-text/*/emulator.log -text -whitespace
+media-browser/partial-http-d844/crash-excerpt.log -text -whitespace

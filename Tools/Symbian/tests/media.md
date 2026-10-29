@@ -25,8 +25,15 @@ Use a fresh token for each launch; the server rejects duplicate reports.
 Keep the report, exact image/host/DLL/fixture hashes and this launch's console
 and emulator logs. Allow at least 120 seconds for all groups. Any missing
 group, timeout, panic, nonzero guest/host exit, or absent fresh report fails
-the run. For local playback, copy the page and fixtures into the same guest
-directory and use `file:///C:/Data/WebKit/media/media.html?autorun=1&run=TOKEN`.
+the run. Each awaited `play()` Promise has a 12-second failure deadline and
+records media state before and after settlement; transfer-state queries have a
+five-second deadline. A stalled Promise fails its group so later groups can run.
+The natural-end group waits up to seven seconds for the actual `ended` event,
+then requires exactly one event, `ended` and `paused`, no pending seek, and a
+position within 150 ms of the duration. Polling the `ended` property alone is
+insufficient: it can become true before the queued event is dispatched.
+For local playback, copy the page and fixtures into the same guest
+directory and use `file:///C:/Data/media-tests/media.html?autorun=1&run=TOKEN`.
 The local report is the unique console `RESULT` JSON.
 
 For HTTP/TLS page automation, use the shared strict browser runner:

@@ -1,0 +1,14 @@
+{
+  "status": "FAIL",
+  "scope": "HTML HTTP media first integration; native playback results are independent",
+  "observation": "Only format rejection passed. The first WAV load opened its native file but its play Promise did not settle before the 180-second driver deadline.",
+  "host_exit": 0,
+  "panic": false,
+  "report_received": false,
+  "original_result_sha256": "0c38a324abbbd4102b3107a9dfa2879360551b1a90e7449a66ee5600dfbf2743",
+  "original_emulator_log_sha256": "aa6dcff94a348748053fe70211fe99ee601725ea5ef473aebbe8f39a9ee11726",
+  "artifacts": {
+    "console.log": "7325f859da3671fa7be66a831fa26fad74049a11d9a95484245bca591bbf263c",
+    "result.json": "a814eef890d10b50bf04215e43d7508f08a1a0f15de893f889de2efd5c4261a3"
+  }
+}

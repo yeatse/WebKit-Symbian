@@ -1,0 +1,22 @@
+{
+  "stage": "native-only DLL candidate; diagnostic host; clean-host repetition pending",
+  "source_run": "mmf-20261029T152547Z-8s8u7srw",
+  "api_and_surface": "16/16 PASS; guest and host exit 0; no panic",
+  "first_frame": {
+    "timecode": "00:00:05.200",
+    "frame": 78
+  },
+  "second_frame": {
+    "timecode": "00:00:07.333",
+    "frame": 110
+  },
+  "visual_inspection": "Real test-pattern pixels and moving shapes change between captures; after Close the video region is black with the probe border retained, with no stale decoded frame.",
+  "audio_evidence": "../audio/README.md",
+  "artifacts": {
+    "mmf-probe.log": "076a5403f1bd00ed9830b4066d96ba32eb563b53eef337f43c123858124bdb7c",
+    "screenshot-1.png": "7e09f840ccd5d61e02a422eb33cf73ab1c48d9a1a811f40055c9e9d41b1b748d",
+    "screenshot-2.png": "9665ec875557acaba860a87f8fbaa3e94d47fc959c38674720c4b4a4d4beff99",
+    "screenshot-final.png": "351b314334cc0e34e142e9ab66c81cbd7f9eee925579a1ffee291aca2373b422",
+    "result.json": "94eaea56b4d2ae5aadce62d8322a1cd6ffa19693e2c5f14f2ef7f1aca6d85535"
+  }
+}
