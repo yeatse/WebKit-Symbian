@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Lists the ICU data items JavaScriptCore does not use, for icupkg --remove.
+"""Lists ICU data unused by the Symbian browser/JSC, for icupkg --remove.
 
 Usage: icu-filter.py LIST [LANG ...]
 
 LIST is the output of `icupkg -l`. Charset converters, character names,
-transliterators, spell-out rules, spoof checking, IDNA and StringPrep data are
-always dropped. With LANG arguments, locale data for every other language is
-dropped as well; build-icu.sh then rewrites each tree's res_index to match.
+transliterators, spell-out rules, spoof checking and legacy StringPrep data
+are always dropped. Keep uts46.nrm: WTF URLParser uses ICU UTS #46 for domain
+names, independently of the selected UI/Intl languages. With LANG arguments,
+locale data for every other language is dropped as well; build-icu.sh then
+rewrites each tree's res_index to match.
 """
 import sys
 
@@ -16,7 +18,7 @@ NOT_LOCALES = {"root", "pool", "res_index", "plurals", "metadata", "icustd", "ic
 
 
 def unused(name):
-    return (name.endswith((".cnv", ".spp", ".cfu")) or name in ("unames.icu", "uts46.nrm")
+    return (name.endswith((".cnv", ".spp", ".cfu")) or name == "unames.icu"
             or name.startswith(("translit/", "rbnf/")))
 
 

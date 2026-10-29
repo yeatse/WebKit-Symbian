@@ -1,0 +1,23 @@
+{
+  "old_package": {
+    "sha256": "5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f",
+    "bytes": 10202528,
+    "uidna_openUTS46": "U_FILE_ACCESS_ERROR",
+    "error_code": 4,
+    "pointer": "null"
+  },
+  "only_uts46_restored": {
+    "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+    "bytes": 10261824,
+    "uidna_openUTS46": "U_ZERO_ERROR",
+    "error_code": 0,
+    "pointer": "non-null"
+  },
+  "restored_item": {
+    "name": "uts46.nrm",
+    "bytes": 59264,
+    "sha256": "dd3cf35414c034133986b38adfb5c02ecaaac820d1b02136c911a4437fed7f4a"
+  },
+  "isolation": "ICU70 host libicuuc.a and empty host/stubdata/libicudata.a; UDATA_NO_FILES; only explicit package via udata_setCommonData",
+  "shared_icu_data_modified": false
+}

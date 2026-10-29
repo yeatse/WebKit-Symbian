@@ -1,0 +1,17 @@
+16:02:23.173 WebKit Browser starting
+16:02:23.190 network: starting the connection
+Fontconfig error: Cannot load default config file: No such file: (null)
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+16:02:24.801 load file:///C:/Data/WebKit/idna.html
+Symbian compositor: native EGL/GLES2 presented 360x532
+16:02:25.365 network: connected through "Host network"
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS ASCII host
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS Latin international host
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS Chinese international host
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS punycode host
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS nontransitional sharp s
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS width and case mapping
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS invalid ContextJ rejected
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS invalid bidi label rejected
+console: file:///C:/Data/WebKit/idna.html:21: IDNA PASS invalid punycode rejected
+console: file:///C:/Data/WebKit/idna.html:39: IDNA RESULT 9/9 PASS
