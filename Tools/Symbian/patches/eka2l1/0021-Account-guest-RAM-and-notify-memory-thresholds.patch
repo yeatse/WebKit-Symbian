@@ -1,0 +1,397 @@
+Subject: [PATCH] Account committed guest RAM and deliver memory threshold notifications
+
+Apply in the EKA2L1 root after 0018/0020 (0019 is a separate Dynarmic patch).
+Keep the existing per-version emulated RAM totals and allocation behaviour.
+Report free RAM from unique non-ROM kernel chunks, not host RAM or guest VA
+reservations. Use explicit EKA notification defaults (8/24 MiB), not claimed
+firmware settings; the privileged SetMemoryThresholds Exec remains unsupported.
+
+Follow Symbian's strict low/inclusive good crossing, initial change mask and
+pending event coalescing. Completion only writes the guest request and wakes
+its thread. Reject dead, exited or address-reused requesters and suppress all
+completion during kernel teardown. No client callback or GC runs here.
+
+diff --git a/src/emu/kernel/include/kernel/chunk.h b/src/emu/kernel/include/kernel/chunk.h
+--- a/src/emu/kernel/include/kernel/chunk.h
++++ b/src/emu/kernel/include/kernel/chunk.h
+@@ -86,7 +86,7 @@
+             bool is_heap;
+ 
+             chunk_type type;
+-            chunk_access pos_access;
++            chunk_access pos_access = chunk_access::local;
+ 
+         public:
+             explicit chunk(kernel_system *kern, memory_system *mem)
+@@ -171,6 +171,9 @@
+             const std::size_t max_size() const;
+             const std::size_t committed() const;
+ 
++            // ROM/ROFS mappings use ROM backing, not the emulated writable RAM pool.
++            bool counts_as_guest_ram() const { return pos_access != chunk_access::rom; }
++
+             const std::uint32_t bottom_offset() const;
+             const std::uint32_t top_offset() const;
+ 
+diff --git a/src/emu/kernel/include/kernel/kernel.h b/src/emu/kernel/include/kernel/kernel.h
+--- a/src/emu/kernel/include/kernel/kernel.h
++++ b/src/emu/kernel/include/kernel/kernel.h
+@@ -309,6 +309,8 @@
+         std::vector<kernel_obj_unq_ptr> semas_;
+         std::vector<kernel_obj_unq_ptr> condvars_;
+         std::vector<kernel_obj_unq_ptr> change_notifiers_;
++        std::uint64_t last_free_guest_ram_ = 0;
++        bool guest_ram_sample_valid_ = false;
+         std::vector<kernel_obj_unq_ptr> libraries_;
+         std::vector<kernel_obj_unq_ptr> codesegs_;
+         std::vector<kernel_obj_unq_ptr> timers_;
+@@ -619,6 +621,12 @@
+         bool is_wiping() const {
+             return wiping_;
+         }
++
++        // HLE thread / kernel lock only. Counts each non-ROM kernel chunk once,
++        // regardless of how many processes map it; never uses host RAM or RSS.
++        std::uint64_t total_guest_ram() const;
++        std::uint64_t free_guest_ram() const;
++        void guest_memory_changed();
+ 
+         // Whether the given raw thread pointer still refers to a live kernel thread.
+         // A destroyed thread is erased from threads_, so a stale pointer will not match.
+@@ -774,7 +782,12 @@
+             switch (obj_type) {
+                 ADD_OBJECT_TO_CONTAINER(kernel::object_type::thread, threads_, )
+                 ADD_OBJECT_TO_CONTAINER(kernel::object_type::process, processes_, setup_new_process(reinterpret_cast<process_ptr>(obj.get())));
+-                ADD_OBJECT_TO_CONTAINER(kernel::object_type::chunk, chunks_, )
++                case kernel::object_type::chunk: {
++                    T *result = obj.get();
++                    chunks_.push_back(std::move(obj));
++                    guest_memory_changed();
++                    return result;
++                }
+                 ADD_OBJECT_TO_CONTAINER(kernel::object_type::server, servers_, )
+                 ADD_OBJECT_TO_CONTAINER(kernel::object_type::prop, props_, )
+                 ADD_OBJECT_TO_CONTAINER(kernel::object_type::prop_ref, prop_refs_, )
+diff --git a/src/emu/kernel/include/kernel/change_notifier.h b/src/emu/kernel/include/kernel/change_notifier.h
+--- a/src/emu/kernel/include/kernel/change_notifier.h
++++ b/src/emu/kernel/include/kernel/change_notifier.h
+@@ -12,6 +12,12 @@
+ 
+     class change_notifier : public eka2l1::kernel::kernel_obj {
+         epoc::notify_info req_info_;
++        // Symbian initially reports all change classes except LowMemory; this is
++        // an initial state notification, not evidence of an allocation failure.
++        std::uint32_t changes_ = 0x17F;
++        std::uint64_t requester_uid_ = 0;
++
++        void complete(std::int32_t result);
+ 
+     public:
+         explicit change_notifier(kernel_system *kern);
+@@ -19,7 +25,9 @@
+         bool logon(eka2l1::ptr<epoc::request_status> request_sts);
+         bool logon_cancel();
+ 
+-        void notify_change_requester();
++        void notify_change_requester(std::uint32_t changes);
++
++        int destroy() override;
+ 
+         void do_state(common::chunkyseri &seri) override;
+     };
+diff --git a/src/emu/kernel/src/chunk.cpp b/src/emu/kernel/src/chunk.cpp
+--- a/src/emu/kernel/src/chunk.cpp
++++ b/src/emu/kernel/src/chunk.cpp
+@@ -173,6 +173,8 @@
+ 
+             mmc_impl_ = nullptr;
+ 
++            kern->guest_memory_changed();
++
+             if (own)
+                 own->decrease_access_count();
+ 
+@@ -218,6 +220,8 @@
+             }
+ 
+             std::size_t ret_value = mmc_impl_->commit(offset, size, false);
++            // Count the actual result, including a partial commit on failure.
++            kern->guest_memory_changed();
+ 
+             if (ret_value == 0) {
+                 return epoc::error_no_memory;
+@@ -233,11 +237,9 @@
+                 return false;
+             }
+ 
+-            if (mmc_impl_->commit(offset, size) == 0) {
+-                return false;
+-            }
+-
+-            return true;
++            const bool result = mmc_impl_->commit(offset, size) != 0;
++            kern->guest_memory_changed();
++            return result;
+         }
+ 
+         bool chunk::decommit(uint32_t offset, size_t size) {
+@@ -246,6 +248,7 @@
+             }
+ 
+             mmc_impl_->decommit(offset, size);
++            kern->guest_memory_changed();
+             return true;
+         }
+ 
+@@ -254,7 +257,9 @@
+                 return false;
+             }
+ 
+-            return mmc_impl_->adjust(0xFFFFFFFF, static_cast<address>(adj_size));
++            const bool result = mmc_impl_->adjust(0xFFFFFFFF, static_cast<address>(adj_size));
++            kern->guest_memory_changed();
++            return result;
+         }
+ 
+         bool chunk::adjust_de(size_t nbottom, size_t ntop) {
+@@ -262,7 +267,9 @@
+                 return false;
+             }
+ 
+-            return mmc_impl_->adjust(static_cast<address>(nbottom), static_cast<address>(ntop));
++            const bool result = mmc_impl_->adjust(static_cast<address>(nbottom), static_cast<address>(ntop));
++            kern->guest_memory_changed();
++            return result;
+         }
+ 
+         std::int32_t chunk::allocate(size_t size) {
+@@ -270,7 +277,9 @@
+                 return -1;
+             }
+ 
+-            return mmc_impl_->allocate(size);
++            const std::int32_t result = mmc_impl_->allocate(size);
++            kern->guest_memory_changed();
++            return result;
+         }
+ 
+         void *chunk::host_base() {
+diff --git a/src/emu/kernel/src/kernel.cpp b/src/emu/kernel/src/kernel.cpp
+--- a/src/emu/kernel/src/kernel.cpp
++++ b/src/emu/kernel/src/kernel.cpp
+@@ -42,6 +42,7 @@
+ 
+ #include <kernel/kernel.h>
+ #include <kernel/libmanager.h>
++#include <kernel/memory_pressure.h>
+ #include <kernel/guomen_process.h>
+ #include <kernel/scheduler.h>
+ #include <kernel/thread.h>
+@@ -183,6 +184,7 @@
+ 
+     void kernel_system::reset() {
+         wipeout();
++        guest_ram_sample_valid_ = false;
+ 
+         thr_sch_ = std::make_unique<kernel::thread_scheduler>(this, timing_, cpu_);
+ 
+@@ -497,6 +499,43 @@
+         mem_ = new_mem;
+     }
+ 
++    std::uint64_t kernel_system::total_guest_ram() const {
++        // Preserve the existing HAL capacities; this is not a new allocation limit.
++        if (kern_ver_ >= epocver::epoc10)
++            return common::MB(256);
++        if (kern_ver_ >= epocver::epoc91)
++            return common::MB(128);
++        if (kern_ver_ >= epocver::epoc80)
++            return common::MB(64);
++        return common::MB(32);
++    }
++
++    std::uint64_t kernel_system::free_guest_ram() const {
++        std::uint64_t free = total_guest_ram();
++        for (const auto &object : chunks_) {
++            const auto *chunk = static_cast<const kernel::chunk *>(object.get());
++            if (chunk->counts_as_guest_ram())
++                free = kernel::remaining_guest_ram(free, chunk->committed());
++        }
++        return free;
++    }
++
++    void kernel_system::guest_memory_changed() {
++        if (wiping_)
++            return;
++        const std::uint64_t free = free_guest_ram();
++        const std::uint32_t changes = guest_ram_sample_valid_
++            ? kernel::memory_threshold_changes(last_free_guest_ram_, free) : 0;
++        last_free_guest_ram_ = free;
++        guest_ram_sample_valid_ = true;
++        if (!changes)
++            return;
++        // Only completes request statuses and wakes guest threads. No guest code,
++        // host client callback, GC or object destruction runs inside this loop.
++        for (const auto &object : change_notifiers_)
++            static_cast<kernel::change_notifier *>(object.get())->notify_change_requester(changes);
++    }
++
+     bool kernel_system::is_address_in_rom(const address addr) const {
+         const address rom_start = rom_info_->header.rom_base;
+         return (addr >= rom_start) && (addr - rom_start < rom_info_->header.rom_size);
+@@ -505,6 +544,7 @@
+     // For user-provided EPOC version
+     void kernel_system::set_epoc_version(const epocver ver) {
+         kern_ver_ = ver;
++        guest_ram_sample_valid_ = false;
+         lib_mngr_ = std::make_unique<hle::lib_manager>(this, io_, mem_);
+ 
+         // Set CPU SVC handler
+diff --git a/src/emu/kernel/src/change_notifier.cpp b/src/emu/kernel/src/change_notifier.cpp
+--- a/src/emu/kernel/src/change_notifier.cpp
++++ b/src/emu/kernel/src/change_notifier.cpp
+@@ -35,6 +35,8 @@
+             : eka2l1::kernel::kernel_obj(kern, "changenotifier" + common::to_string(eka2l1::random()),
+                 nullptr, kernel::access_type::local_access) {
+             obj_type = object_type::change_notifier;
++            req_info_.requester = nullptr;
++            req_info_.is_eka1 = kern->is_eka1();
+         }
+ 
+         bool change_notifier::logon(eka2l1::ptr<epoc::request_status> request_sts) {
+@@ -44,6 +46,7 @@
+             }
+ 
+             req_info_.requester = kern->crr_thread();
++            requester_uid_ = req_info_.requester->unique_id();
+             req_info_.sts = request_sts;
+ 
+             // NOTE: EKA1's change notifier does not change status to pending in euser.dll
+@@ -51,24 +54,59 @@
+             // This should fix stray signal
+             req_info_.pending();
+ 
++            if (changes_)
++                complete(static_cast<std::int32_t>(changes_));
++
+             return true;
+         }
+ 
+         bool change_notifier::logon_cancel() {
+-            if (req_info_.empty()) {
++            if (req_info_.empty() || req_info_.requester != kern->crr_thread()
++                || requester_uid_ != kern->crr_thread()->unique_id()) {
+                 return false;
+             }
+ 
+-            req_info_.complete(epoc::error_cancel);
++            complete(epoc::error_cancel);
+             return true;
+         }
+ 
+-        void change_notifier::notify_change_requester() {
+-            req_info_.complete(epoc::error_none);
++        void change_notifier::complete(std::int32_t result) {
++            if (req_info_.empty())
++                return;
++            // Clear ownership before signalling. The completion queues a guest
++            // request; it never calls guest CActive::RunL on the kernel stack.
++            epoc::notify_info pending = req_info_;
++            const std::uint64_t requester_uid = requester_uid_;
++            req_info_.sts = 0;
++            req_info_.requester = nullptr;
++            requester_uid_ = 0;
++            changes_ = 0;
++            if (!kern->is_wiping() && kern->is_thread_alive(pending.requester)
++                && pending.requester->unique_id() == requester_uid
++                && pending.requester->get_exit_type() == entity_exit_type::pending)
++                pending.complete(result);
++        }
++
++        void change_notifier::notify_change_requester(std::uint32_t changes) {
++            changes_ |= changes;
++            if (!req_info_.empty())
++                complete(static_cast<std::int32_t>(changes_));
++        }
++
++        int change_notifier::destroy() {
++            // Closing a notifier cancels its pending request while the owner is
++            // alive. Kernel teardown or an exited requester must not be signalled.
++            complete(epoc::error_general);
++            return kernel_obj::destroy();
+         }
+ 
+         void change_notifier::do_state(common::chunkyseri &seri) {
+-            req_info_.do_state(seri);
++            seri.absorb(changes_);
++            seri.absorb(requester_uid_);
++            bool pending = !req_info_.empty();
++            seri.absorb(pending);
++            if (pending)
++                req_info_.do_state(seri);
+         }
+     }
+ }
+diff --git a/src/emu/system/src/hal.cpp b/src/emu/system/src/hal.cpp
+--- a/src/emu/system/src/hal.cpp
++++ b/src/emu/system/src/hal.cpp
+@@ -83,23 +83,13 @@
+             des8 *buf = reinterpret_cast<des8 *>(a1);
+             epoc::memory_info_v1 mem_info;
+ 
+-            epocver system_version = sys->get_symbian_version_use();
+-            int system_ram_size = 0;
+-
+-            if (system_version >= epocver::epoc10) {
+-                system_ram_size = static_cast<int>(common::MB(256));
+-            } else if (system_version >= epocver::epoc91) {
+-                system_ram_size = static_cast<int>(common::MB(128));
+-            } else if (system_version >= epocver::epoc80) {
+-                system_ram_size = static_cast<int>(common::MB(64));
+-            } else {
+-                system_ram_size = static_cast<int>(common::MB(32));
+-            }
++            kernel_system *kern = sys->get_kernel_system();
++            const int system_ram_size = static_cast<int>(kern->total_guest_ram());
+ 
+             mem_info.total_ram_in_bytes_ = system_ram_size;
+             mem_info.rom_is_reprogrammable_ = false;
+             mem_info.max_free_ram_in_bytes_ = system_ram_size;
+-            mem_info.free_ram_in_bytes_ = system_ram_size;
++            mem_info.free_ram_in_bytes_ = static_cast<int>(kern->free_guest_ram());
+             mem_info.total_rom_in_bytes_ = sys->get_rom_info()->header.rom_size;
+ 
+             // This value is appr. the same as rom.
+diff --git a/src/emu/kernel/include/kernel/memory_pressure.h b/src/emu/kernel/include/kernel/memory_pressure.h
+new file mode 100644
+--- /dev/null
++++ b/src/emu/kernel/include/kernel/memory_pressure.h
+@@ -0,0 +1,28 @@
++#pragma once
++
++#include <cstdint>
++
++namespace eka2l1::kernel {
++    // EKA2L1 notification defaults, not firmware thresholds or an allocation cap.
++    // A real Symbian OOM service configures these through UserSvr::SetMemoryThresholds;
++    // this HLE kernel does not run that service or implement that privileged Exec call.
++    constexpr std::uint64_t memory_low_threshold = 8ULL * 1024 * 1024;
++    constexpr std::uint64_t memory_good_threshold = 24ULL * 1024 * 1024;
++    constexpr std::uint32_t changes_free_memory = 0x20;
++    constexpr std::uint32_t changes_low_memory = 0x80;
++
++    constexpr std::uint64_t remaining_guest_ram(std::uint64_t total, std::uint64_t committed) {
++        // The existing emulator permits allocations beyond its reported RAM size.
++        // Preserve that behaviour; only saturate the reported free amount.
++        return committed < total ? total - committed : 0;
++    }
++
++    constexpr std::uint32_t memory_threshold_changes(std::uint64_t before, std::uint64_t after) {
++        // Match K::CheckFreeMemoryLevel: low is exclusive, good is inclusive.
++        if (before >= memory_low_threshold && after < memory_low_threshold)
++            return changes_free_memory | changes_low_memory;
++        if (before < memory_good_threshold && after >= memory_good_threshold)
++            return changes_free_memory;
++        return 0;
++    }
++}

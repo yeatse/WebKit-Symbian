@@ -1,0 +1,30 @@
+PASS: official request 33 remains pending
+PASS: wrong plugin cannot cancel subscription
+PASS: payload cannot impersonate requester thread
+PASS: same low 32 bits do not match different 64 bit thread IDs
+PASS: duplicate cannot replace pending request
+PASS: cancel requires exact 12 byte stream
+PASS: cancel requires exact 12 byte stream
+PASS: cancel requires exact 12 byte stream
+PASS: short output cannot cancel pending request
+PASS: unknown sync operation does not cancel or fake success
+PASS: cancel clears pending before completion and replies after original status
+PASS: repeated cancel never completes original twice
+PASS: new subscription accepted after cancellation
+PASS: unload cancels only matching plugin across its threads
+PASS: close cancels remaining request without duplicates
+PASS: unknown explicit cancellation command is rejected
+PASS: outer message ID 33 is not misinterpreted as policy opcode
+PASS: dead requester not completed
+PASS: reused thread address with new UID not completed
+PASS: exited requester not completed
+PASS: kernel wipe does not signal guest
+PASS: unmapped status not dereferenced
+PASS: legacy outer opcode offset uses same protocol
+PASS: unknown outer operation rejected
+PASS: invalid async input rejected
+PASS: unsupported async command not retained
+PASS: subscription must have exact official input length
+PASS: disabled effects known synchronous response retained
+PASS: descriptor write failure not reported as success
+RESULT: passed=29 failed=0

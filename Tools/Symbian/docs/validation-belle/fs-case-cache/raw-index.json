@@ -1,0 +1,23 @@
+[
+  {
+    "source": "/workspace/symbian-belle-work/native-idb-copy-runtime/runs/idb-copy-20261029T211054Z-6reyb13d/result.json",
+    "archive": "native-before/result.json",
+    "original_bytes": 1260,
+    "original_sha256": "786b57042de098b3fd4766918cf55f00d64672442f951718377b9615a5ceefee",
+    "archive_sha256": "786b57042de098b3fd4766918cf55f00d64672442f951718377b9615a5ceefee"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/native-idb-copy-runtime/runs/idb-copy-20261029T211054Z-6reyb13d/idb-copy-probe.log",
+    "archive": "native-before/idb-copy-probe.log",
+    "original_bytes": 856,
+    "original_sha256": "f65ccb8bb573f14364b204ab4333f86e7e29f49d61407b5674cf331babe6bf37",
+    "archive_sha256": "f65ccb8bb573f14364b204ab4333f86e7e29f49d61407b5674cf331babe6bf37"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/native-idb-copy-runtime/runs/idb-copy-20261029T211054Z-6reyb13d/emulator.log",
+    "archive": "native-before/emulator.log.gz",
+    "original_bytes": 40814,
+    "original_sha256": "e1193a47807f9ed7c93985202a80e1e59959702d789dde6850dcfcd01298abea",
+    "archive_sha256": "3998b01605961f2f992360a6df392029859d271c863bc25a2b87198c9f381824"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "status": "HOST_AND_SAME_IMAGE_GUEST_EXIT_PASS",
+  "baseline_contract": "EXPECTED_FAIL_UNCOMPLETED_ASYNC_STATUS",
+  "files": {
+    "README.md": "7d670b2a78d687adbd64f5db44aa8f7b9351039e678b8d72f13770aaa90c7ba3",
+    "baseline-contract.json": "eb00f496ffe5b642d3954e90c06053db6ac1adc191a21ca1a2fe680156c54786",
+    "baseline-contract.log": "8b8caa1c3854699095eae55047080d6021ae2b29be8744988890b7897215a2b1",
+    "chain-0022.json": "cd7e810e049540fc065f5497d5bc772126003aaa6473dfd751e61656090bc201",
+    "host-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host-tests.json": "90f4cc9e31696a28d2c30e950f677a5560dfa10b86e22e77515ddcc6e5dec090",
+    "host-tests.log": "f1f0f27fac5c9dbef19208c127f53eed07d57586063c84aba7521a6a4e1b4054",
+    "provenance.json": "6fbe15e1f6476b40f9f633490a3ee55ad93463a24f8f49d637dcd852d7364c58",
+    "translation-unit.json": "5146429ad7b18420bfaa4d82e9506f2c2abb23fae94e9a9b38189cd03938c743"
+  },
+  "guest_evidence": "../ui/exit-candidate9-host0022/README.md"
+}

@@ -1,0 +1,38 @@
+Subject: [PATCH] Invalidate folded name lookup after successful file creation
+
+The directory cache uses a second-resolution host mtime. A preceding negative
+lookup otherwise survives a successful w/a creation in the same second and
+lets an exclusive guest create miss a differently cased existing name.
+
+This changes no names and does not merge or remove pre-existing host case
+collisions. Existing-file truncation leaves the directory index intact.
+
+diff --git a/src/emu/common/src/fileutils.cpp b/src/emu/common/src/fileutils.cpp
+--- a/src/emu/common/src/fileutils.cpp
++++ b/src/emu/common/src/fileutils.cpp
+@@ -1188,13 +1188,22 @@
+         }
+ #endif
+ 
++        // A same-second create can leave the folded directory index unchanged:
++        // its host modification stamp has only second precision. Invalidate after
++        // a successful creating open, just as mkdir/rename/remove already do.
++        // Truncating an existing file does not change the directory's names.
++        const bool may_create_entry = mode && (mode[0] == 'w' || mode[0] == 'a')
++            && !common::exists(target_file);
+ #if EKA2L1_PLATFORM(WIN32)
+         std::wstring target_file_w = common::utf8_to_wstr(target_file);
+         std::wstring target_mode_w = common::utf8_to_wstr(mode);
+ 
+-        return _wfopen(target_file_w.c_str(), target_mode_w.c_str());
++        FILE *result = _wfopen(target_file_w.c_str(), target_mode_w.c_str());
+ #else
+-        return fopen(target_file.c_str(), mode);
+-#endif
++        FILE *result = fopen(target_file.c_str(), mode);
++#endif
++        if (result && may_create_entry)
++            invalidate_folded_directory_indexes();
++        return result;
+     }
+ }

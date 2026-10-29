@@ -44,6 +44,17 @@ Graphics/media validation adds the subsequent EGL/GLES and MMF patches in numeri
 
 Belle storage validation additionally applies root-repository patch `0018`, which reports capacity and available space for the actual mapped volume and honors the RFs session's default drive. Patch `0019` is different: apply it inside `src/external/dynarmic`, at submodule revision `855e885288fc21a616ed07ee4437f34abe7c3922`. It repairs invalid TLB entries and null host mappings; do not apply it to the emulator root or treat it as a fix for the guest's underlying null access. The [native-volume evidence](validation-quota/native-volume/README.md) and [actual JIT regression](validation-belle/tlb/README.md) record their separate validation scopes. Rebuild the host and restore its native MMF DLLs after these patches too.
 
+The later Belle validation host also applies root patches `0020`–`0024` in order.
+They implement native connection observation, committed-RAM accounting and memory
+notifications, ALF policy cancellation during application exit, case-fold cache
+invalidation on file creation, and native descriptor/file-I/O semantics. The
+file-I/O repair follows the SDK contract: descriptor lengths use 28 bits, reads
+respect output capacity, and positioned RFile writes beyond EOF begin at EOF.
+Open C implements POSIX file extension with SetSize before writing. These host
+repairs do not by themselves establish browser support for the corresponding
+APIs. The [native-dialog exit result](validation-belle/ui/exit-candidate9-host0022/README.md)
+records a complete normal application exit with the unchanged candidate 9 image.
+
 SQLite uses directory locks and DELETE journals because Open C has no POSIX record locking. The SQLite build shim must keep `O_BINARY` zero: this SDK aliases it to write buffering, which makes incomplete journal metadata visible during rollback. See [the guest SQLite regression](../tests/sqlite-probe/README.md) for locking, rollback and persistence checks.
 
 Current ARM11 results are in [ARM11-JIT.md](ARM11-JIT.md). The initial C_LOOP reconstruction is recorded in [Port-2.52.md](Port-2.52.md); historical design and 2.32 results are retained in [Development-2.32.md](Development-2.32.md).

@@ -1,0 +1,54 @@
+{
+  "repository": "https://github.com/SymbianSource/oss.FCL.sf.mw.uiaccelerator",
+  "revision": "773fc5e215e04584c3e00a1b1fa05c5a8c50440a",
+  "sources": [
+    {
+      "path": "uiacceltk/hitchcock/plugins/alftranseffect/alfgfxtransadapter/src/gfxtransenginetfx.cpp",
+      "git_blob": "2f7298dc4a5cfa7cb44628d2bb47a6f25942fee4",
+      "sha256": "bb1a950631e48232dd9f140f5b2ea841f4309c2fca79283fd598fbf6c27cca37"
+    },
+    {
+      "path": "uiaccelerator_plat/alf_extended_visual_api/inc/alf/AlfTransEffectPlugin.h",
+      "git_blob": "301c8388f0d667e9a03ac5bd8f70cad47bfd7409",
+      "sha256": "e9901e8f693b7367dfa03244fabb139b565b2e04e7a3011c426e5d0a447acfbc"
+    },
+    {
+      "path": "uiacceltk/hitchcock/AlfDecoderServerClient/src/alfdecoderserverclient.cpp",
+      "git_blob": "1a927f0381e2b1e579368685ed093b462d71f883",
+      "sha256": "02f1ba3b1476ec1674e35a2d494737ff23633fdf747a20af025a6b055b7cbe1f"
+    },
+    {
+      "path": "uiacceltk/hitchcock/ServerCore/Src/alfwindowmanager.cpp",
+      "git_blob": "8011f5784a1427f3b25e821232aea41aa85b139a",
+      "sha256": "78d0637a0da933805e4e5421a09a44007dcdabad239035fa54928ddbb44e369e"
+    },
+    {
+      "path": "uiacceltk/hitchcock/plugins/alftranseffect/alftranseffectplugin/src/alfgfxeffects.cpp",
+      "git_blob": "2782cfed4c46886cc61315e4bf1cd38b3926d6cc",
+      "sha256": "23affe7a5f86000fdecd827d98cb4ea3a2f7a3ef0daaa12321665871e44e03e8"
+    },
+    {
+      "path": "uiacceltk/hitchcock/ServerCore/Src/alfstreamerserver.cpp",
+      "git_blob": "f53b09a315169ff4ceb75042dea2355cb0f158ec",
+      "sha256": "0426542f2275b84e6c4f6a2b30cd4720a918f68dc0449aaaff34dfcf3f95b4c6"
+    }
+  ],
+  "protocol": {
+    "subscribe": {
+      "outer": 3,
+      "arg0": "plugin UID",
+      "arg1_bytes": 4,
+      "inner": 33,
+      "identity": "IPC requester unique_id"
+    },
+    "cancel": {
+      "outer": 2,
+      "arg0": "same plugin UID",
+      "arg1_bytes": 12,
+      "inner": 35,
+      "thread": "uint64 little endian; must equal cancellation caller and subscription identity"
+    },
+    "outer4": "plugin message ID, not TOp; official GfxEffects CancelMessage is unimplemented; no policy cancellation inferred"
+  },
+  "rom_cross_check": "See docs/validation-belle/ui/exit-candidate9; gfxtransadapter +0x566 movs r6,#0x23 and SendSynchronousData import. No ROM binaries distributed."
+}

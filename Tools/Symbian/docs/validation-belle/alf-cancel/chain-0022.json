@@ -1,0 +1,108 @@
+{
+  "base": "5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a",
+  "status": "PASS",
+  "patches": [
+    {
+      "patch": "0001-qt-Add-installdevice-to-install-a-device-from-the-co.patch",
+      "sha256": "0c318c8cd5f9a2d8f4ac5b5db632ff47a8bdb82c54589b58451cf846fedb79aa",
+      "check_exit": 0
+    },
+    {
+      "patch": "0005-kernel-dump-registers-and-stack-of-threads-that-pani.patch",
+      "sha256": "9a380025f1b03949dae9a1eac4c3ceffe937c4c6e8d15b656b27f888fef98cd9",
+      "check_exit": 0
+    },
+    {
+      "patch": "0006-Observe-message-window-canvas-destruction.patch",
+      "sha256": "c436e0f8ed23b0bc8d916f17b034d4513c047ba3ed655b50f8483906351d6005",
+      "check_exit": 0
+    },
+    {
+      "patch": "0007-Avoid-property-notifications-during-kernel-wipeout.patch",
+      "sha256": "8abad9f2defb476ac273b5621534266499453fdd4fc46dc904ad5e0b5c04a31d",
+      "check_exit": 0
+    },
+    {
+      "patch": "0008-Make-RFile-writes-visible-to-file-metadata-queries.patch",
+      "sha256": "0ba2faed1a01feb0b3fb6db8e84aebe99caf8d926a9adf98a634795d5d16e47e",
+      "check_exit": 0
+    },
+    {
+      "patch": "0009-Implement-EGL-GLES2-queries-and-program-validation.patch",
+      "sha256": "907519155ebe44a757c98c9c0fcfb1d2aa5aafb492a8ab46a6426a1a1d26cb96",
+      "check_exit": 0
+    },
+    {
+      "patch": "0010-Implement-asynchronous-MMF-URL-media-and-surface-lifetimes.patch",
+      "sha256": "4ef7ac65bb0f42ed18b3f67561996183bcf2fb1012ae3ac53e58928e77497bec",
+      "check_exit": 0
+    },
+    {
+      "patch": "0011-Load-native-desktop-GL-shader-precision-functions.patch",
+      "sha256": "aeb303b87da282c8d8cf8bf12bf02dc085067c62dc032720e2e66b7e6ce2b869",
+      "check_exit": 0
+    },
+    {
+      "patch": "0012-Retain-generated-GLES-guest-object-names.patch",
+      "sha256": "434e99fe86df4c258d374cbbba750f0fe98fcda06a37a00e45caab6dbb16c848",
+      "check_exit": 0
+    },
+    {
+      "patch": "0013-Avoid-invalid-object-lookup-for-default-framebuffer-reads.patch",
+      "sha256": "a44d70d23dae071ab6c890cdaa358e81acc1d7fcb3aeadf7aafe1efd05b3d2b8",
+      "check_exit": 0
+    },
+    {
+      "patch": "0014-Query-current-GLES-viewport-in-guest-coordinates.patch",
+      "sha256": "1810f339294fc538ed4b2a46c9701c286a4648b3924d1eff46e43c0ce24e7a54",
+      "check_exit": 0
+    },
+    {
+      "patch": "0015-Make-audio-pause-state-and-position-accounting-thread-safe.patch",
+      "sha256": "8dca4815876caf77488499c3459b1f0641fd319c7711b23e4be954c40c64f06d",
+      "check_exit": 0
+    },
+    {
+      "patch": "0016-Support-depth-only-framebuffers-and-attachment-detach.patch",
+      "sha256": "61cf4a190e8f5bee785d23ddb13aacc4ca286a5cec6c99e3b1446b61b3ed539f",
+      "check_exit": 0
+    },
+    {
+      "patch": "0017-Fill-decoded-audio-while-reading-video-packets.patch",
+      "sha256": "3f2e57338948271b251d7d3c1d3ae71557f5a9b44ccc2eea06d731d191f67ad3",
+      "check_exit": 0
+    },
+    {
+      "patch": "0018-Report-space-for-the-actual-mapped-filesystem-volume.patch",
+      "sha256": "16c79789bf2c0465d334d3590c833ef44cf156825c94f32ee647c1d67db81e2a",
+      "check_exit": 0
+    },
+    {
+      "patch": "0020-Observe-real-RConnection-state-through-ConnMon.patch",
+      "sha256": "a2bbe5fb3baa71fc0384d662af95d8c7ca1747e2c447e93469bb65e2a2c9608e",
+      "check_exit": 0
+    },
+    {
+      "patch": "0021-Account-guest-RAM-and-notify-memory-thresholds.patch",
+      "sha256": "4ef6d2b625b638520c96283c814c520551eb2787c032d5375b49e44f1e8ffaee",
+      "check_exit": 0
+    },
+    {
+      "patch": "0022-Complete-ALF-policy-cancellation-before-client-teardown.patch",
+      "sha256": "494a875357978863b6d263c08d114369119afc4200802d7647ee776dcd1f1ec8",
+      "check_exit": 0
+    }
+  ],
+  "owned_sources": {
+    "src/emu/services/include/services/audio/alf/alf.h": {
+      "baseline_sha256": "5a67e42151efbe635966dec36ed3e9abc0d794d8d91a23e77bc82c6d7a73f0ce",
+      "patched_sha256": "ba35f50ebfcbf3c4a9f814f693a2fe79bf49a2df0c0d90496e3badbfe397d8ad",
+      "replay_byte_identical": true
+    },
+    "src/emu/services/src/audio/alf/alf.cpp": {
+      "baseline_sha256": "7440d8daea3b8d4824d7b76777ef426cf393661374aed6ae9fb02c16d0359633",
+      "patched_sha256": "d0f78eaed45293075c837b675d64b3805e7a183940ec0cd0ceb9ce6f475ebeaa",
+      "replay_byte_identical": true
+    }
+  }
+}

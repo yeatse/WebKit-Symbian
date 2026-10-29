@@ -26,7 +26,7 @@ SDK 0.3.0 的原生头文件/导入库，日期为 2026-10-29。系统有 API �
 | P1.3 | **已打包字体配置并接通 WOFF2** | [字体运行证据](validation-belle-fonts/README.md)；固定版本 Brotli/WOFF2，修复 fontconfig 盘符路径 | WOFF2 7 项通过；系统字体 7 项分别在两次启动通过，包括中英/等宽字形、真实 fallback 像素与磁盘缓存复用 |
 | P1.4 | **已补 AES-CTR**；RSA/ECDSA/ECDH 仍缺 | [WebCrypto 29 项](validation-belle/webcrypto/README.md)及 [ARM32 计数器 35 项](validation-belle/aes-ctr-counter/README.md) | 继续 RSA/ECDSA/ECDH 标准向量、导入/导出及错误拒绝；密钥持久包装另需系统密钥方案 |
 | P1.5 | HTTP 认证没有 UI；IAP 代理未接 | CAknMultiLineDataQueryDialog、ConnectionMethod/IAP 属性、curl 凭据机制 | 401 输入/取消/重试限制；407 独立代理凭据路径；IAP 切换、代理排除、TLS 验证和来源间凭据隔离 |
-| P1.6 | **已接原生 prompt**；系统剪贴板未接 | CClipboard、原生文本流、CAknTextQueryDialog | prompt 默认值、空串和取消已实际 UI 验证；继续跨应用 UTF-16 纯文本复制粘贴。富文本与 Async Clipboard 权限另列；原生对话框中退出应用的额外故障正在处理 |
+| P1.6 | **已接原生 prompt**；系统剪贴板未接 | CClipboard、原生文本流、CAknTextQueryDialog | prompt 默认值、空串和取消已实际 UI 验证；原生对话框中正常退出应用已通过。继续跨应用 UTF-16 纯文本复制粘贴；富文本与 Async Clipboard 权限另列 |
 | P1.7 | 内存压力通知为空，online 状态恒 true | RChangeNotifier、EChangesFreeMemory、HAL、连接监视 API | 实际低内存通知及有界缓存回收；连接变化触发 online/offline。不能把系统剩余 RAM 当作进程可分配容量 |
 | P1.8 | IPv6、HTTP/2 没有编入 curl | Open C IPv6/getaddrinfo 接口、nghttp2 可移植库 | IPv6-only、AAAA/IPv4 回退、HTTPS/WSS、HTTP/2 多路复用和资源限额；先核实 SDK/模拟器实际实现 |
 | P1.9 | CookieStore 暴露但 curl DOM 方法为空；无 HTTP 磁盘缓存 | 现有 Cookie DB/SQLite/RFile；内存缓存已有 | CookieStore 读写/删除/权限/变更事件；小容量 GET 缓存的 ETag/304/Vary/no-store/认证隔离/中断写；不能直接搬 WebKit2 网络进程 |

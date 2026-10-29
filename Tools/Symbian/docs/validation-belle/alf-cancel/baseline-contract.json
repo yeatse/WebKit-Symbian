@@ -1,0 +1,33 @@
+{
+  "status": "FAIL",
+  "scope": "actual ALF source, fake IPC/kernel boundaries",
+  "inputs": {
+    "src/emu/services/src/audio/alf/alf.cpp": "7440d8daea3b8d4824d7b76777ef426cf393661374aed6ae9fb02c16d0359633",
+    "src/emu/services/include/services/audio/alf/alf.h": "5a67e42151efbe635966dec36ed3e9abc0d794d8d91a23e77bc82c6d7a73f0ce",
+    "fakes/kernel/thread.h": "4ed49735005c968f01cbe804605bbd9a6e133a334768568db43b6417524ba7cc",
+    "fakes/services/framework.h": "8ae2ff6eb5e1c717e9746bfe02d8816127c2d9c6c64a2c471d128173d9675d15",
+    "fakes/system/epoc.h": "4ed49735005c968f01cbe804605bbd9a6e133a334768568db43b6417524ba7cc",
+    "test-alf.cpp": "2f511b397be72626ccbd7320bdbe928ddd972e9d98c2ac343b20f0a71741395f",
+    "run-host.py": "7b5914daee74ff7e0fc8e1965e5ec82336f84a1f26901ff0a548cfade063152c"
+  },
+  "command": [
+    "g++",
+    "-std=c++20",
+    "-g",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-pie",
+    "-no-pie",
+    "-I/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/alf-cancel/fakes",
+    "-I/workspace/symbian-alf-cancel-work/base/src/emu/services/include",
+    "-I/workspace/symbian-alf-cancel-work/base/src/emu/utils/include",
+    "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/alf-cancel/test-alf.cpp",
+    "/workspace/symbian-alf-cancel-work/base/src/emu/services/src/audio/alf/alf.cpp",
+    "-o",
+    "/workspace/symbian-alf-cancel-work/baseline-contract/test-alf"
+  ]
+}
