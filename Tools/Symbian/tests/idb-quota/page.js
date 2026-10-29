@@ -35,6 +35,20 @@
         try { await done; assert(!abort, 'clear abort must not commit'); } catch (error) { if (!abort) throw error; }
     }
     async function blobText(blob) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = () => reject(reader.error); reader.readAsText(blob); }); }
+    async function assertBlobPattern(blob, blocks) {
+        assert(blob.size === blocks * MiB, 'Blob metadata length matches expected blocks');
+        for (let index = 0; index < blocks; ++index) {
+            const bytes = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(new Uint8Array(reader.result));
+                reader.onerror = () => reject(reader.error);
+                reader.readAsArrayBuffer(blob.slice(index * MiB, (index + 1) * MiB));
+            });
+            assert(bytes.length === MiB && bytes[0] === 17 && bytes[MiB - 1] === 239, 'physical Blob block length/endpoints ' + index);
+            for (let byte = 1; byte < MiB - 1; ++byte)
+                if (bytes[byte] !== 0) throw new Error('physical Blob payload block ' + index + ' byte ' + byte);
+        }
+    }
     async function fill(name, maximum) {
         const db = await open(name); let stored = 0; let errorName = '';
         for (let index = 0; index < maximum; ++index) {
@@ -63,8 +77,9 @@
         const transactions = databases.map(db => db.transaction('data', 'readwrite'));
         let stopped = false; let quotaError = ''; let unexpectedCommit = false;
         const added = [0, 0];
-        const outcomes = transactions.map(tx => new Promise(resolve => {
-            tx.onabort = resolve; tx.onerror = () => {};
+        const abortErrors = ['', ''];
+        const outcomes = transactions.map((tx, index) => new Promise(resolve => {
+            tx.onabort = () => { abortErrors[index] = tx.error ? tx.error.name : 'explicit'; resolve(); }; tx.onerror = () => {};
             tx.oncomplete = () => { unexpectedCommit = true; resolve(); };
         }));
         function stop() { if (stopped) return; stopped = true; for (const tx of transactions) { try { tx.abort(); } catch (_) {} } }
@@ -73,11 +88,11 @@
             const store = transactions[index].objectStore('data');
             // Keep a completed writer alive while its peer still holds space.
             const req = added[index] < 20 ? store.put(block, added[index]) : store.get(0);
-            req.onerror = event => { event.preventDefault(); quotaError = req.error.name; stop(); };
+            req.onerror = event => { event.preventDefault(); if (!quotaError) quotaError = req.error.name; stop(); };
             req.onsuccess = () => { if (added[index] < 20) ++added[index]; if (added[0] === 20 && added[1] === 20) stop(); else step(index); };
         }
         step(0); step(1); await Promise.all(outcomes);
-        assert(!unexpectedCommit && quotaError === 'QuotaExceededError' && added[0] > 0 && added[1] > 0 && added[0] + added[1] >= 24 && added[0] + added[1] < 32, 'same-origin databases must share pending reservations at the expected boundary');
+        assert(!unexpectedCommit && quotaError === 'QuotaExceededError' && added[0] > 0 && added[1] > 0 && added[0] + added[1] >= 24 && added[0] + added[1] < 32, 'same-origin databases must share pending reservations at the expected boundary: ' + JSON.stringify({ added, quotaError, unexpectedCommit, abortErrors }));
         assert(await count(databases[0]) === 0 && await count(databases[1]) === 0, 'both explicit aborts must release all pending writes');
         databases.forEach(close); await remove('pending-a'); await remove('pending-b'); return { added };
     }
@@ -89,6 +104,20 @@
             try {
                 if (message.command === 'fill') value = await fill(message.name, message.maximum);
                 else if (message.command === 'delete') { await remove(message.name); value = true; }
+                else if (message.command === 'stageBlob') {
+                    const db = await open('blob-persistent');
+                    await put(db, 'payload', new Blob(new Array(20).fill(block)));
+                    close(db); value = true;
+                } else if (message.command === 'verifyBlob') {
+                    const db = await open('blob-persistent');
+                    assert(await count(db) === 1, 'one committed large Blob after process restart');
+                    await assertBlobPattern(await get(db, 'payload'), 20);
+                    close(db); value = true;
+                } else if (message.command === 'verifyBlobDeleted') {
+                    const db = await open('blob-persistent');
+                    assert(await count(db) === 0, 'large Blob deletion survives second process restart');
+                    close(db); await remove('blob-persistent'); value = true;
+                }
                 else throw new Error('Unknown peer command');
             } catch (exception) { error = String(exception); }
             parent.postMessage({ run, id: message.id, value, error }, expectedOrigin);
@@ -112,7 +141,7 @@
     }
     async function test(name, body) {
         let details; let error;
-        try { details = await body(); } catch (exception) { error = String(exception && exception.stack || exception); }
+        try { details = await body(); } catch (exception) { error = String(exception) + (exception && exception.stack ? '\n' + exception.stack : ''); }
         const result = { name, pass: !error, details: details || null, error: error || null }; results.push(result);
         const line = 'IDB_QUOTA_CASE run=' + run + ' phase=' + phase + ' ' + (result.pass ? 'PASS ' : 'FAIL ') + name + (error ? ' ' + error : '');
         console.log(line); output.textContent += '\n' + line;
@@ -191,6 +220,10 @@
             for (let index = 1; index < 24; ++index) await put(db, index, block);
             await put(db, 'blob', new Blob(['persist:' + run]));
             await put(db, 'marker', run); close(db);
+            // A distinct origin keeps the original 24 MiB restart accounting
+            // unchanged. Verify the large sidecar only after the process exits:
+            // same-process IDB reads may reuse the source Blob's memory URL.
+            await independent('stageBlob', {});
         });
     } else if (phase === 'read') {
         await test('restart recovers committed array and Blob payloads', async () => {
@@ -202,6 +235,7 @@
                 assert(stored.length === MiB && stored[0] === 17 && stored[MiB - 1] === 239, 'persisted block ' + index);
             }
             assert(await blobText(await get(db, 'blob')) === 'persist:' + run && await get(db, 'marker') === run, 'persisted Blob and run marker'); close(db);
+            const remote = await peer(1); await remote('verifyBlob', {});
         });
         await test('restart reloads committed origin usage before granting space', async () => {
             const db = await open('persistent'); let added = 0; let errorName = '';
@@ -212,15 +246,19 @@
             assert(await count(db) === 26 + added, 'failed restarted write must not add a record');
             close(db); return { addedMiB: added };
         });
-        await test('delete committed data before second restart', async () => { await remove('persistent'); });
+        await test('delete committed data before second restart', async () => {
+            await remove('persistent');
+            const remote = await peer(1); await remote('delete', { name: 'blob-persistent' });
+        });
     } else if (phase === 'erased') {
         await test('second restart observes deletion and allows fresh write', async () => {
             const db = await open('persistent'); assert(await count(db) === 0, 'deleted database stays empty'); await put(db, 'new', block);
             assert((await get(db, 'new')).length === MiB, 'fresh allocation after restart'); close(db); await remove('persistent');
+            const remote = await peer(1); await remote('verifyBlobDeleted', {});
         });
     } else if (phase === 'cleanup') {
         await test('remove only this run token across all test origins', async () => {
-            const names = ['blob', 'bigblob', 'clear-capacity-a', 'clear-capacity-b', 'atomic', 'pending-a', 'pending-b', 'full', 'reuse', 'persistent', 'isolated', 'port-limit'];
+            const names = ['blob', 'bigblob', 'clear-capacity-a', 'clear-capacity-b', 'atomic', 'pending-a', 'pending-b', 'full', 'reuse', 'persistent', 'blob-persistent', 'isolated', 'port-limit'];
             for (const name of names) await remove(name);
             for (let index = 1; index <= 5; ++index) {
                 const remote = await peer(index);

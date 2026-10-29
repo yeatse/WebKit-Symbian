@@ -327,7 +327,7 @@ static bool copy(const String& target, const String& source, bool overwrite)
     int input = open(nativePath(source).c_str(), O_RDONLY | O_NONBLOCK);
     if (input < 0)
         return false;
-    struct stat sourceInfo;
+    struct stat sourceInfo { };
     if (fstat(input, &sourceInfo) || !S_ISREG(sourceInfo.st_mode)) {
         close(input);
         return false;
@@ -337,11 +337,16 @@ static bool copy(const String& target, const String& source, bool overwrite)
         close(input);
         return false;
     }
-    struct stat targetInfo;
-    bool success = !fstat(output, &targetInfo) && S_ISREG(targetInfo.st_mode)
-        && !(sourceInfo.st_dev == targetInfo.st_dev && sourceInfo.st_ino == targetInfo.st_ino);
-    // Compare descriptors before truncation: symlinks and alternate names may alias.
-    success = success && !ftruncate(output, 0);
+    struct stat targetInfo { };
+    bool success = !fstat(output, &targetInfo) && S_ISREG(targetInfo.st_mode);
+    // OpenC does not provide inode identity for ordinary files. O_EXCL has
+    // already proved a newly created destination cannot alias the open source.
+    // For overwrite, keep the conservative descriptor check before truncating;
+    // unknown equal inode values must not risk destroying the source contents.
+    if (overwrite) {
+        success = success && !(sourceInfo.st_dev == targetInfo.st_dev && sourceInfo.st_ino == targetInfo.st_ino);
+        success = success && !ftruncate(output, 0);
+    }
     uint8_t buffer[16384];
     while (success) {
         ssize_t count = read(input, buffer, sizeof(buffer));

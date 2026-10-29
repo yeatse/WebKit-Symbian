@@ -29,6 +29,7 @@
 #if OS(SYMBIAN)
 #include "IDBBlobCommit.h"
 #include <algorithm>
+#include <cerrno>
 #include <wtf/CheckedArithmetic.h>
 #endif
 #include "IndexedDB.h"
@@ -103,15 +104,28 @@ IDBError SQLiteIDBTransaction::commit()
             return true; // Added and then deleted/replaced in this transaction.
         auto target = FileSystem::pathByAppendingComponent(m_backingStore->databaseDirectory(), entry.second);
         auto sourceSize = FileSystem::fileSize(entry.first);
-        if (!sourceSize || FileSystem::fileExists(target))
+        if (!sourceSize) {
+            WTFLogAlways("SymbianIDB Blob prepare failed stage=source-size errno=%d", errno);
             return false;
+        }
+        if (FileSystem::fileExists(target)) {
+            WTFLogAlways("SymbianIDB Blob prepare failed stage=destination-exists");
+            return false;
+        }
         // Symbian copy uses O_EXCL and cleans its own partial destination on
         // failure. Acquire cleanup ownership only after successful creation;
         // otherwise a racing creator's file could be removed on rollback.
-        if (!FileSystem::hardLinkOrCopyFile(entry.first, target))
+        if (!FileSystem::hardLinkOrCopyFile(entry.first, target)) {
+            WTFLogAlways("SymbianIDB Blob prepare failed stage=copy errno=%d sourceBytes=%llu", errno, static_cast<unsigned long long>(*sourceSize));
             return false;
+        }
         preparedPaths.append(target);
-        return FileSystem::fileSize(target) == sourceSize;
+        auto targetSize = FileSystem::fileSize(target);
+        if (targetSize != sourceSize) {
+            WTFLogAlways("SymbianIDB Blob prepare failed stage=verify-size sourceBytes=%llu destinationKnown=%d destinationBytes=%llu", static_cast<unsigned long long>(*sourceSize), !!targetSize, static_cast<unsigned long long>(targetSize.value_or(0)));
+            return false;
+        }
+        return true;
     }, [&] {
         for (auto& path : preparedPaths)
             FileSystem::deleteFile(path);

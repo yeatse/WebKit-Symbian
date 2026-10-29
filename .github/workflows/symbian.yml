@@ -89,6 +89,20 @@ jobs:
           tests/native-memory/run.sh
           python3 tests/native-memory/run-aligned-pool.py
 
+      - name: Belle storage, native UI and callback regressions
+        run: |
+          tests/native-filesystem/run.sh
+          tests/idb-quota/run-ledger.sh
+          python3 tests/idb-quota/run-producer.py --work "$RUNNER_TEMP/idb-producer"
+          python3 tests/idb-quota/test-contract.py
+          python3 tests/idb-quota/test-server.py
+          python3 tests/cookie-samesite/test-host.py
+          python3 tests/cookie-samesite/test-runner.py
+          python3 tests/belle-storage/test-contract.py
+          python3 tests/belle-ui/app-exit/test-validator.py
+          python3 tests/test-native-probe-runner.py
+          python3 tests/runloop-wakeup/run.py --output "$RUNNER_TEMP/runloop-wakeup"
+
       - name: symbian-platform SDK
         uses: actions/cache/restore@v4
         id: sdk
@@ -141,8 +155,11 @@ jobs:
         uses: actions/cache/restore@v4
         id: deps
         with:
-          path: WebKitBuild/Symbian/deps/install
-          key: deps-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/scripts/patch-fontconfig-paths.py', 'Tools/Symbian/cmake/woff2/**', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**') }}
+          path: |
+            WebKitBuild/Symbian/deps/install
+            WebKitBuild/Symbian/deps/src/sqlite-amalgamation-3350500
+            WebKitBuild/Symbian/deps/src/curl-7.88.1
+          key: deps-belle-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/scripts/patch-fontconfig-paths.py', 'Tools/Symbian/cmake/woff2/**', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**', 'Tools/Symbian/tests/idb-quota/run-blob.sh', 'Tools/Symbian/tests/curl-address-family/run-host.sh') }}
       - name: Restore the compiler cache
         uses: actions/cache/restore@v4
         with:
@@ -247,8 +264,15 @@ jobs:
         if: steps.deps.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          path: WebKitBuild/Symbian/deps/install
+          path: |
+            WebKitBuild/Symbian/deps/install
+            WebKitBuild/Symbian/deps/src/sqlite-amalgamation-3350500
+            WebKitBuild/Symbian/deps/src/curl-7.88.1
           key: ${{ steps.deps.outputs.cache-primary-key }}
+      - name: Real SQLite Blob commits and curl address-family regression
+        run: |
+          TEST_WORK="$RUNNER_TEMP/idb-blob" tests/idb-quota/run-blob.sh
+          tests/curl-address-family/run-host.sh "$SYMBIAN_WEBKIT_WORK/deps/src/curl-7.88.1"
       - name: WebCore
         run: scripts/build-webcore.sh
       - name: browser.exe

@@ -20,6 +20,16 @@ static bool failWorkingDirectory;
 static bool failDirectoryOpen;
 static bool failDirectoryRead;
 static bool readDirectoryEntry;
+static bool zeroInodes;
+
+extern "C" int __real_fstat(int, struct stat*);
+extern "C" int __wrap_fstat(int descriptor, struct stat* info)
+{
+    int result = __real_fstat(descriptor, info);
+    if (!result && zeroInodes)
+        info->st_ino = 0; // The actual OpenC backend has no inode identity.
+    return result;
+}
 
 extern "C" DIR* __real_opendir(const char*);
 extern "C" struct dirent* __real_readdir(DIR*);
@@ -208,6 +218,22 @@ int main()
     failWrite = false;
     assert(!fileExists("C:/Data/failed-copy"));
     std::puts("PASS short writes, read/write EINTR, failed exclusive-copy cleanup");
+
+    zeroInodes = true;
+    assert(hardLinkOrCopyFile("C:/Data/source", "C:/Data/zero-inode-copy"));
+    assert(contents("C:/Data/zero-inode-copy") == contents("C:/Data/source"));
+    assert(!hardLinkOrCopyFile("C:/Data/source", "C:/Data/source"));
+    assert(!hardLinkOrCopyFile("C:/Data/source", "C:/Data/alias"));
+    assert(!hardLinkOrCopyFile("C:/Data/source", "C:/Data/zero-inode-copy"));
+    assert(!copyFile("C:/Data/source", "C:/Data/source"));
+    assert(contents("C:/Data/source") == std::string(40000, 'x'));
+    failWrite = true;
+    assert(!hardLinkOrCopyFile("C:/Data/source", "C:/Data/zero-inode-failure"));
+    failWrite = false;
+    assert(!fileExists("C:/Data/zero-inode-failure"));
+    assert(deleteFile("C:/Data/zero-inode-copy"));
+    zeroInodes = false;
+    std::puts("PASS OpenC zero-inode exclusive copy, alias refusal and rollback cleanup");
 
     crossDevice = true;
     assert(moveFile("C:/Data/target", "E:/other/moved"));

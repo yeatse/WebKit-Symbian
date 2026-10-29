@@ -106,10 +106,14 @@ and requires its exact per-case console lines plus an immutable JSON report.
 The write deadline is 240 seconds; the other page phases have 60-second bounds.
 
 The suite checks Blob replacement/repeated put/clear/abort, oversized Blob
-rejection without damaging its source or the old record, one oversized
+rejection without damaging its source or the old record, exact physical payload
+readback of a 20 MiB Blob after a full process restart (not just Blob metadata
+sizes or a same-process Blob URL), one oversized
 transaction, two simultaneous same-origin database transactions, committed
 32 MiB and shared 128 MiB limits, origin isolation, deletion/reuse, and rebuilding
-the quota baseline after restart. Deliberately filling the drive to the 16 MiB
+the quota baseline after restart. The large restart Blob uses the second
+origin after the shared-port test, leaving the first origin's original 24 MiB
+array baseline and quota thresholds unchanged. Deliberately filling the drive to the 16 MiB
 reserve is **not** part of the guest suite; injected ledger boundaries and the
 separate real native-volume probe cover those layers.
 
