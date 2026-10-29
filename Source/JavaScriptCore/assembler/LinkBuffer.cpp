@@ -484,7 +484,9 @@ void LinkBuffer::linkCode(MacroAssembler& macroAssembler, JITCompilationEffort e
     ASSERT(m_code);
     AssemblerBuffer& buffer = macroAssembler.m_assembler.buffer();
     void* code = m_code.dataLocation();
-#if CPU(ARM64)
+#if CPU(ARM_TRADITIONAL)
+    macroAssembler.m_assembler.prepareExecutableCopy(code);
+#elif CPU(ARM64)
     RELEASE_ASSERT(roundUpToMultipleOf<Assembler::instructionSize>(code) == code);
 #endif
     performJITMemcpy<jitMemcpyRepatch>(code, buffer.data(), buffer.codeSize());

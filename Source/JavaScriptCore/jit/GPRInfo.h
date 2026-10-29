@@ -464,9 +464,9 @@ static_assert(GPRInfo::returnValueGPR2 == X86Registers::edx);
 
 #endif // CPU(X86_64)
 
-#if CPU(ARM_THUMB2)
+#if CPU(ARM)
 #define NUMBER_OF_ARGUMENT_REGISTERS 4u
-// Callee Saves includes r10, r11, and FP registers d8..d15, which are twice the size of a GPR
+// Callee saves include metadataTable, jitData and d8..d15 (two GPR words each).
 #define NUMBER_OF_CALLEE_SAVES_REGISTERS 18u
 
 class GPRInfo {
@@ -485,7 +485,12 @@ public:
     static constexpr GPRReg regT6 = ARMRegisters::r8;
     static constexpr GPRReg regT7 = ARMRegisters::r9;
     static constexpr GPRReg regCS0 = ARMRegisters::r10; // metadataTable in LLInt/Baseline / WasmInstance
+#if CPU(ARM_TRADITIONAL)
+    // ARM-state AAPCS uses r11 as the frame pointer; keep jitData in r7.
+    static constexpr GPRReg regCS1 = ARMRegisters::r7;
+#else
     static constexpr GPRReg regCS1 = ARMRegisters::r11; // jitData / IPIntPC
+#endif
 
     // These registers match the baseline JIT.
     static constexpr GPRReg callFrameRegister = ARMRegisters::fp;
@@ -539,7 +544,11 @@ public:
         ASSERT(reg != InvalidGPRReg);
         ASSERT(static_cast<int>(reg) < 16);
         static const unsigned indexForRegister[16] =
+#if CPU(ARM_TRADITIONAL)
+            { 0, 1, 2, 3, 4, 5, InvalidIndex, 9, 6, 7, 8, InvalidIndex, InvalidIndex, InvalidIndex, InvalidIndex, InvalidIndex };
+#else
             { 0, 1, 2, 3, 4, 5, InvalidIndex, InvalidIndex, 6, 7, 8, 9, InvalidIndex, InvalidIndex, InvalidIndex, InvalidIndex };
+#endif
         unsigned result = indexForRegister[reg];
         return result;
     }
@@ -1059,7 +1068,7 @@ public:
             GPRInfo::argumentGPR0, GPRInfo::argumentGPR1, GPRInfo::argumentGPR2,
             GPRInfo::argumentGPR3, GPRInfo::argumentGPR4, GPRInfo::argumentGPR5);
 #elif USE(JSVALUE32_64)
-#if CPU(ARM_THUMB2)
+#if CPU(ARM)
         // Be careful about GPRInfo::regCS0. It is used as a metadataTable register.
         // So, if you clobber it, you need to restore it.
         return pickJSR<OperationType, ArgNum>(

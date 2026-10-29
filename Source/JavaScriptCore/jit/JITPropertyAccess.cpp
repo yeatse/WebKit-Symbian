@@ -261,7 +261,7 @@ void JIT::emit_op_put_by_val(const JSInstruction* currentInstruction)
 
     gen.generateDataICFastPath(*this);
     resetSP(); // We might OSR exit here, so we need to conservatively reset SP
-#if CPU(ARM_THUMB2)
+#if CPU(ARM)
     // ARMv7 clobbers metadataTable register. Thus we need to restore them back here.
     emitMaterializeMetadataAndConstantPoolRegisters();
 #endif

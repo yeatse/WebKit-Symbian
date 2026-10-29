@@ -533,6 +533,9 @@ static constexpr size_t prologueSizeInBytesDataIC = 8;
 static constexpr size_t prologueSizeInBytesDataIC = 4;
 #elif CPU(ARM_THUMB2)
 static constexpr size_t prologueSizeInBytesDataIC = 6;
+#elif CPU(ARM_TRADITIONAL)
+// Two A32 pushes and the outgoing-argument stack adjustment.
+static constexpr size_t prologueSizeInBytesDataIC = 12;
 #elif CPU(RISCV64)
 static constexpr size_t prologueSizeInBytesDataIC = 12;
 #else

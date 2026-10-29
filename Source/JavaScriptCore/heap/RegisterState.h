@@ -75,7 +75,7 @@ struct RegisterState {
     SAVE_REG(r14, registers.r14); \
     SAVE_REG(r15, registers.r15)
 
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
 struct RegisterState {
     uint32_t r4;
     uint32_t r5;

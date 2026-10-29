@@ -143,7 +143,12 @@
 #endif
 
 /* Set WTF_ARM_ARCH_VERSION */
-#if   defined(__ARM_ARCH_4__) \
+/* The Symbian SDK also defines __MARM_ARMV5__ for its ABI headers. Prefer
+   the compiler's actual instruction-set target over that compatibility flag. */
+#if defined(__ARM_ARCH)
+#define WTF_ARM_ARCH_VERSION __ARM_ARCH
+
+#elif defined(__ARM_ARCH_4__) \
     || defined(__ARM_ARCH_4T__) \
     || defined(__MARM_ARMV4__)
 #define WTF_ARM_ARCH_VERSION 4

@@ -90,6 +90,16 @@ ARM_EXTRA_GPRS = [SpecialRegister.new("r9"), SpecialRegister.new("lr"), SpecialR
 ARM_SCRATCH_FPR = SpecialRegister.new("d7")
 OS_DARWIN = ((RUBY_PLATFORM =~ /darwin/i) != nil)
 
+# ARM denotes ARMv6 in ARM state, with VFPv2 and the base (softfp) AAPCS.
+def isARMTraditional
+    $activeBackend == "ARM"
+end
+
+def armExtraGPRs
+    # Unlike the Thumb backend, r12 is available: CFR is r11 and PB is r7.
+    isARMTraditional ? [SpecialRegister.new("r12"), SpecialRegister.new("lr"), SpecialRegister.new("r6")] : ARM_EXTRA_GPRS
+end
+
 def armMoveImmediate(value, register)
     # Currently we only handle the simple cases, and fall back to mov/movt for the complex ones.
     if value.is_a? String
@@ -98,6 +108,14 @@ def armMoveImmediate(value, register)
         $asm.puts "mov #{register.armOperand}, \##{value}"
     elsif (~value) >= 0 && (~value) < 256
         $asm.puts "mvn #{register.armOperand}, \##{~value}"
+    elsif isARMTraditional
+        # A32 rotated-byte immediates avoid literal-pool reach constraints.
+        value &= 0xffffffff
+        $asm.puts "mov #{register.armOperand}, \##{value & 0xff}"
+        [8, 16, 24].each do |shift|
+            chunk = value & (0xff << shift)
+            $asm.puts "orr #{register.armOperand}, #{register.armOperand}, \##{chunk}" unless chunk.zero?
+        end
     else
         $asm.puts "movw #{register.armOperand}, \##{value & 0xffff}"
         if (value & 0xffff0000) != 0
@@ -122,7 +140,7 @@ class RegisterID
         when "t5"
             "r5"
         when "cfr"
-            "r7"
+            isARMTraditional ? "r11" : "r7"
         when "t6"
             "r8"
         when "t7"
@@ -130,7 +148,7 @@ class RegisterID
         when "csr0"
             "r10"
         when "csr1"
-            "r11"
+            isARMTraditional ? "r7" : "r11"
         when "csr2"
             "r12"
         when "lr"
@@ -207,7 +225,11 @@ end
 class BaseIndex
     def armOperand
         raise "Bad offset at #{codeOriginString}" if offset.value != 0
-        "[#{base.armOperand}, #{index.armOperand}, lsl \##{scaleShift}]"
+        if scaleShift.zero?
+            "[#{base.armOperand}, #{index.armOperand}]"
+        else
+            "[#{base.armOperand}, #{index.armOperand}, lsl \##{scaleShift}]"
+        end
     end
 end
 
@@ -329,7 +351,65 @@ def armLowerLabelReferences(list)
     newList
 end
 
+# Lower operations with tighter A32 constraints before scratch allocation.
+def armLowerTraditionalInstructions(list)
+    list.flat_map do |node|
+        next node unless node.is_a?(Instruction) && ["load2ia", "store2ia", "tzcnti"].include?(node.opcode)
+        origin = node.codeOrigin
+        tmp = Tmp.new(origin, :gpr)
+        case node.opcode
+        when "tzcnti"
+            # rbit is ARMv7. Isolate the low bit and use clz; zero is a
+            # separate case. Allocate tmp with the other lowered temporaries
+            # so a loaded source cannot alias an implicit scratch register.
+            src, dst = node.operands
+            zero = LocalLabel.unique(origin, "arm_tzcnti_zero")
+            done = LocalLabel.unique(origin, "arm_tzcnti_done")
+            [Instruction.new(origin, "bieq", [src, Immediate.new(origin, 0), LocalLabelReference.new(origin, zero)]),
+             Instruction.new(origin, "move", [src, tmp]),
+             Instruction.new(origin, "negi", [tmp]),
+             Instruction.new(origin, "andi", [src, tmp]),
+             Instruction.new(origin, "lzcnti", [tmp, dst]),
+             Instruction.new(origin, "move", [Immediate.new(origin, 31), tmp]),
+             Instruction.new(origin, "subi", [tmp, dst, dst]),
+             Instruction.new(origin, "jmp", [LocalLabelReference.new(origin, done)]),
+             zero,
+             Instruction.new(origin, "move", [Immediate.new(origin, 32), dst]),
+             done]
+        when "load2ia"
+            # A32 ldrd/strd require consecutive even/odd pairs, whereas
+            # offlineasm permits any pair, including address/destination
+            # aliases. Capture the address before loading either word.
+            address, lo, hi = node.operands
+            [Instruction.new(origin, "leap", [address, tmp]),
+             Instruction.new(origin, "loadi", [Address.new(origin, tmp, Immediate.new(origin, 0)), lo]),
+             Instruction.new(origin, "loadi", [Address.new(origin, tmp, Immediate.new(origin, 4)), hi])]
+        else
+            lo, hi, address = node.operands
+            [Instruction.new(origin, "leap", [address, tmp]),
+             Instruction.new(origin, "storei", [lo, Address.new(origin, tmp, Immediate.new(origin, 0))]),
+             Instruction.new(origin, "storei", [hi, Address.new(origin, tmp, Immediate.new(origin, 4))])]
+        end
+    end
+end
+
+# Keep symbolic literals adjacent to their load, behind a branch. This also
+# works for differences between LLInt labels and never needs a distant .ltorg.
+def emitARMTraditionalLiteral(value, destination)
+    uid = $asm.newUID
+    $asm.puts "ldr #{destination.armOperand}, .Lofflineasm_arm_literal_#{uid}"
+    $asm.puts "b .Lofflineasm_arm_literal_end_#{uid}"
+    $asm.puts ".Lofflineasm_arm_literal_#{uid}:"
+    $asm.puts ".word #{value}"
+    $asm.puts ".Lofflineasm_arm_literal_end_#{uid}:"
+end
+
 class Sequence
+    def getModifiedListARM
+        raise unless isARMTraditional
+        getModifiedListARMCommon
+    end
+
     def getModifiedListARMv7
         raise unless $activeBackend == "ARMv7"
         getModifiedListARMCommon
@@ -337,6 +417,7 @@ class Sequence
 
     def getModifiedListARMCommon
         result = @list
+        result = armLowerTraditionalInstructions(result) if isARMTraditional
         result = riscDropTags(result)
         result = riscLowerSimpleBranchOps(result)
         result = riscLowerHardBranchOps(result)
@@ -352,10 +433,11 @@ class Sequence
                     false
                 end
             else
+                extraLoadStore = isARMTraditional && ["loadh", "loadhsi", "storeh", "loadbsi"].include?(node.opcode)
                 if address.is_a? BaseIndex
-                    address.offset.value == 0 && node.opcode
+                    address.offset.value == 0 && (!extraLoadStore || address.scaleShift.zero?)
                 elsif address.is_a? Address
-                    (-0xff..0xfff).include? address.offset.value
+                    (-0xff..(extraLoadStore ? 0xff : 0xfff)).include? address.offset.value
                 else
                     false
                 end
@@ -366,7 +448,7 @@ class Sequence
         result = riscLowerMalformedImmediates(result, 0..0xff, 0..0x0ff)
         result = riscLowerMisplacedAddresses(result)
         result = riscLowerRegisterReuse(result)
-        result = assignRegistersToTemporaries(result, :gpr, ARM_EXTRA_GPRS)
+        result = assignRegistersToTemporaries(result, :gpr, armExtraGPRs)
         result = armLowerStackPointerInComparison(result)
         return result
     end
@@ -441,7 +523,7 @@ def emitArmDoubleCompare(operands, code)
     $asm.puts "mov #{operands[2].armOperand}, \#0"
     $asm.puts "vcmp.f64 #{armOperands(operands[0..1])}"
     $asm.puts "vmrs APSR_nzcv, FPSCR"
-    $asm.puts "it #{code}"
+    $asm.puts "it #{code}" unless isARMTraditional
     $asm.puts "mov#{code} #{operands[2].armOperand}, \#1"
 end
 
@@ -449,21 +531,21 @@ def emitArmFloatCompare(operands, code)
     $asm.puts "mov #{operands[2].armOperand}, \#0"
     $asm.puts "vcmp.f32 #{operands[0].armSingle}, #{operands[1].armSingle}"
     $asm.puts "vmrs APSR_nzcv, FPSCR"
-    $asm.puts "it #{code}"
+    $asm.puts "it #{code}" unless isARMTraditional
     $asm.puts "mov#{code} #{operands[2].armOperand}, \#1"
 end
 
 def emitArmCompare(operands, code)
     $asm.puts "movs #{operands[2].armOperand}, \#0"
     $asm.puts "cmp #{operands[0].armOperand}, #{operands[1].armOperand}"
-    $asm.puts "it #{code}"
+    $asm.puts "it #{code}" unless isARMTraditional
     $asm.puts "mov#{code} #{operands[2].armOperand}, \#1"
 end
 
 def emitArmTestSet(operands, code)
     $asm.puts "movs #{operands[-1].armOperand}, \#0"
     emitArmTest(operands)
-    $asm.puts "it #{code}"
+    $asm.puts "it #{code}" unless isARMTraditional
     $asm.puts "mov#{code} #{operands[-1].armOperand}, \#1"
 end
 
@@ -481,6 +563,11 @@ def emitArmTruncateFloat(codeOrigin, to, from, operands)
 end
 
 class Instruction
+    def lowerARM
+        raise unless isARMTraditional
+        lowerARMCommon
+    end
+
     def lowerARMv7
         raise unless $activeBackend == "ARMv7"
         lowerARMCommon
@@ -555,6 +642,7 @@ class Instruction
         when "rrotatei"
             $asm.puts "ror #{armFlippedOperands(operands)}"
         when "tzcnti"
+            raise "Unlowered ARMv6 tzcnti" if isARMTraditional
             $asm.puts "rbit #{armFlippedOperands(operands)}"
             $asm.puts "clz #{operands[1].armOperand}, #{operands[1].armOperand}"
         when "lzcnti"
@@ -570,21 +658,21 @@ class Instruction
         when "loadb"
             $asm.puts "ldrb #{armFlippedOperands(operands)}"
         when "loadbsi"
-            $asm.puts "ldrsb.w #{armFlippedOperands(operands)}"
+            $asm.puts "#{isARMTraditional ? "ldrsb" : "ldrsb.w"} #{armFlippedOperands(operands)}"
         when "storeb"
             $asm.puts "strb #{armOperands(operands)}"
         when "loadh"
             $asm.puts "ldrh #{armFlippedOperands(operands)}"
         when "loadhsi"
-            $asm.puts "ldrsh.w #{armFlippedOperands(operands)}"
+            $asm.puts "#{isARMTraditional ? "ldrsh" : "ldrsh.w"} #{armFlippedOperands(operands)}"
         when "storeh"
             $asm.puts "strh #{armOperands(operands)}"
         when "transferi", "transferp"
-            tmp = ARM_EXTRA_GPRS[-1]
+            tmp = armExtraGPRs[-1]
             $asm.puts "ldr #{tmp.armOperand}, #{operands[0].armOperand}"
             $asm.puts "str #{tmp.armOperand}, #{operands[1].armOperand}"
         when "transferq"
-            tmp1, tmp2 = ARM_EXTRA_GPRS[-2..-1]
+            tmp1, tmp2 = armExtraGPRs[-2..-1]
             $asm.puts "ldp #{tmp1.armOperand}, #{tmp2.armOperand}, #{operands[0].armOperand}"
             $asm.puts "stp #{tmp1.armOperand}, #{tmp2.armOperand}, #{operands[1].armOperand}"
         when "loadlinkb"
@@ -652,7 +740,7 @@ class Instruction
         when "negd"
             $asm.puts "vneg.f64 #{armFlippedOperands(operands)}"
         when "orf"
-            (tmpLhs, tmpRhs) = ARM_EXTRA_GPRS[-2..-1]
+            (tmpLhs, tmpRhs) = armExtraGPRs[-2..-1]
             Sequence.new(codeOrigin, [
               rawInstruction(codeOrigin,  "vmov #{tmpLhs.armOperand}, #{operands[0].armSingle}"),
               rawInstruction(codeOrigin,  "vmov #{tmpRhs.armOperand}, #{operands[1].armSingle}"),
@@ -660,7 +748,7 @@ class Instruction
               rawInstruction(codeOrigin,  "vmov #{operands[1].armSingle}, #{tmpRhs.armOperand}")
             ]).lower($activeBackend)
         when "andf"
-            (tmpLhs, tmpRhs) = ARM_EXTRA_GPRS[-2..-1]
+            (tmpLhs, tmpRhs) = armExtraGPRs[-2..-1]
             Sequence.new(codeOrigin, [
               rawInstruction(codeOrigin,  "vmov #{tmpLhs.armOperand}, #{operands[0].armSingle}"),
               rawInstruction(codeOrigin,  "vmov #{tmpRhs.armOperand}, #{operands[1].armSingle}"),
@@ -668,7 +756,7 @@ class Instruction
               rawInstruction(codeOrigin,  "vmov #{operands[1].armSingle}, #{tmpRhs.armOperand}")
             ]).lower($activeBackend)
         when "ord"
-            (tmpLhs, tmpRhs) = ARM_EXTRA_GPRS[-2..-1]
+            (tmpLhs, tmpRhs) = armExtraGPRs[-2..-1]
             Sequence.new(codeOrigin, [
               rawInstruction(codeOrigin,  "vmov #{tmpLhs.armOperand}, #{operands[0].armSingle}"),
               rawInstruction(codeOrigin,  "vmov #{tmpRhs.armOperand}, #{operands[1].armSingle}"),
@@ -680,7 +768,7 @@ class Instruction
               rawInstruction(codeOrigin,  "vmov #{operands[1].armSingleHi}, #{tmpRhs.armOperand}")
             ]).lower($activeBackend)
         when "andd"
-            (tmpLhs, tmpRhs) = ARM_EXTRA_GPRS[-2..-1]
+            (tmpLhs, tmpRhs) = armExtraGPRs[-2..-1]
             Sequence.new(codeOrigin, [
               rawInstruction(codeOrigin,  "vmov #{tmpLhs.armOperand}, #{operands[0].armSingle}"),
               rawInstruction(codeOrigin,  "vmov #{tmpRhs.armOperand}, #{operands[1].armSingle}"),
@@ -766,8 +854,12 @@ class Instruction
             armMoveImmediate(operands[0].value >> 32, operands[1])
             armMoveImmediate(operands[0].value & 0xffffffff, operands[2])
         when "mvlbl"
+            if isARMTraditional
+                emitARMTraditionalLiteral(operands[0].value, operands[1])
+            else
                 $asm.puts "movw #{operands[1].armOperand}, \#:lower16:#{operands[0].value}"
                 $asm.puts "movt #{operands[1].armOperand}, \#:upper16:#{operands[0].value}"
+            end
         when "sxb2i"
             $asm.puts "sxtb #{armFlippedOperands(operands)}"
         when "sxh2i"
@@ -947,11 +1039,11 @@ class Instruction
             raise "Wrong number of arguments to smull in #{self.inspect} at #{codeOriginString}" unless operands.length == 4
             $asm.puts "#{opcode[0..-2]} #{operands[2].armOperand}, #{operands[3].armOperand}, #{operands[0].armOperand}, #{operands[1].armOperand}"
         when "memfence"
-            $asm.puts "dmb sy"
+            $asm.puts(isARMTraditional ? "mcr p15, 0, r0, c7, c10, 5" : "dmb sy")
         when "fence"
-            $asm.puts "dmb ish"
+            $asm.puts(isARMTraditional ? "mcr p15, 0, r0, c7, c10, 5" : "dmb ish")
         when "writefence"
-            $asm.puts "dmb ishst"
+            $asm.puts(isARMTraditional ? "mcr p15, 0, r0, c7, c10, 5" : "dmb ishst")
         when "clrbp"
             $asm.puts "bic #{operands[2].armOperand}, #{operands[0].armOperand}, #{operands[1].armOperand}"
         when "globaladdr"
@@ -959,6 +1051,12 @@ class Instruction
             dest = operands[1]
             temp = operands[2]
             raise "Destination interferes with scratch in #{self.inspect} at #{codeOriginString}" unless dest.armOperand != temp.armOperand
+
+            if isARMTraditional
+                # Symbian's E32 loader relocates absolute words in the code section.
+                emitARMTraditionalLiteral(labelRef.asmLabel, dest)
+                return
+            end
 
             uid = $asm.newUID
 

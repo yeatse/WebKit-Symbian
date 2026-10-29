@@ -1087,7 +1087,11 @@ public:
     void emitNops(size_t memoryToFillWithNopsInBytes)
     {
 #if CPU(ARM64) || CPU(ARM)
-        constexpr size_t nopSize = is32Bit() ? 2 : 4;
+        #if CPU(ARM_THUMB2)
+        constexpr size_t nopSize = 2;
+#else
+        constexpr size_t nopSize = 4;
+#endif
         RELEASE_ASSERT(memoryToFillWithNopsInBytes % nopSize == 0);
         for (unsigned i = 0; i < memoryToFillWithNopsInBytes / nopSize; ++i)
             m_assembler.nop();

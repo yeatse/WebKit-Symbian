@@ -32,6 +32,17 @@ ICU_LOCALES=${ICU_LOCALES:-"en zh ja ko es fr de ru pt it ar hi tr vi id th nl p
 OPTIMIZE=${OPTIMIZE:--Os}
 release_flags=(-DCMAKE_C_FLAGS_RELEASE="$OPTIMIZE -DNDEBUG" -DCMAKE_CXX_FLAGS_RELEASE="$OPTIMIZE -DNDEBUG")
 
+# Keep an explicit interpreter fallback and allow each execution tier to be
+# built independently. Use separate build directories when switching modes.
+SYMBIAN_JSC_MODE=${SYMBIAN_JSC_MODE:-dfg}
+case "$SYMBIAN_JSC_MODE" in
+  dfg)      jit_flags=(-DENABLE_JIT=ON -DENABLE_DFG_JIT=ON -DENABLE_C_LOOP=OFF) ;;
+  baseline) jit_flags=(-DENABLE_JIT=ON -DENABLE_DFG_JIT=OFF -DENABLE_C_LOOP=OFF) ;;
+  llint)    jit_flags=(-DENABLE_JIT=OFF -DENABLE_DFG_JIT=OFF -DENABLE_C_LOOP=OFF) ;;
+  cloop)    jit_flags=(-DENABLE_JIT=OFF -DENABLE_DFG_JIT=OFF -DENABLE_C_LOOP=ON) ;;
+  *) echo "Unknown SYMBIAN_JSC_MODE: $SYMBIAN_JSC_MODE (use dfg, baseline, llint or cloop)" >&2; exit 1 ;;
+esac
+
 step() { printf '\n== %s\n' "$*"; }
 
 require_sdk() {

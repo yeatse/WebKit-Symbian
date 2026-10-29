@@ -5069,7 +5069,7 @@ class YarrGenerator final : public YarrJITInfo {
         } else if (m_pattern.hasDuplicateNamedCaptureGroups())
             registers.add(X86Registers::r14, IgnoreVectors);
 #elif CPU(ARM64)
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
         registers.add(ARMRegisters::r4, IgnoreVectors);
         registers.add(ARMRegisters::r5, IgnoreVectors);
         registers.add(ARMRegisters::r6, IgnoreVectors);
@@ -5082,7 +5082,7 @@ class YarrGenerator final : public YarrJITInfo {
 
     void generateEnter()
     {
-#if CPU(X86_64) || CPU(ARM_THUMB2) || CPU(RISCV64)
+#if CPU(X86_64) || CPU(ARM) || CPU(RISCV64)
         m_jit.emitFunctionPrologue();
 #elif CPU(ARM64)
         // JITCage code is doing prologue and epilogue in thunk.
@@ -5116,7 +5116,7 @@ class YarrGenerator final : public YarrJITInfo {
 #endif
 
         m_jit.emitRestoreCalleeSavesFor(&m_calleeSaves);
-#if CPU(X86_64) || CPU(ARM_THUMB2) || CPU(RISCV64)
+#if CPU(X86_64) || CPU(ARM) || CPU(RISCV64)
         m_jit.emitFunctionEpilogue();
 #elif CPU(ARM64)
         // JITCage code is doing prologue and epilogue in thunk.
@@ -5296,10 +5296,15 @@ public:
             functionChecks<YarrCodeBlock::YarrJITCode16>();
             functionChecks<YarrCodeBlock::YarrJITCodeMatchOnly8>();
             functionChecks<YarrCodeBlock::YarrJITCodeMatchOnly16>();
-#if CPU(ARM_THUMB2)
+#if CPU(ARM)
             // Not enough argument registers: try to load the 5th argument from the stack
             MacroAssembler::RegisterID matchingContext = m_regs.regT1;
             unsigned offset = POKE_ARGUMENT_OFFSET;
+#if CPU(ARM_TRADITIONAL)
+            // The prologue pushed the caller frame pointer and LR below the
+            // incoming stack arguments before setting the frame pointer.
+            offset += 2;
+#endif
             m_jit.loadPtr(MacroAssembler::Address(GPRInfo::callFrameRegister, offset * sizeof(void*)), matchingContext);
 #else
             MacroAssembler::RegisterID matchingContext = m_regs.matchingContext;

@@ -14,7 +14,7 @@ cmake -S "$WEBKIT_SRC" -B "$build" -G Ninja -DPORT=Symbian \
   -DCMAKE_BUILD_TYPE=Release "${release_flags[@]}" \
   -DCMAKE_TOOLCHAIN_FILE="$REPO/toolchain/symbian-armv6.cmake" \
   -DCMAKE_FIND_ROOT_PATH="$D;$I" -DCMAKE_PREFIX_PATH="$D;$I" \
-  -DDEVELOPER_MODE=OFF \
+  -DDEVELOPER_MODE=OFF "${jit_flags[@]}" \
   -DICU_INCLUDE_DIR="$I/include" -DICU_UC_LIBRARY_RELEASE="$I/lib/libicuuc.a" \
   -DICU_I18N_LIBRARY_RELEASE="$I/lib/libicui18n.a" -DICU_DATA_LIBRARY_RELEASE="$I/lib/libicudata.a" \
   -DFREETYPE_INCLUDE_DIRS="$sdk_portable/freetype" -DFREETYPE_LIBRARY="$sdk_lib/libsymbian_portable_freetype.a" \

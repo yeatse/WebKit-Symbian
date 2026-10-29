@@ -553,7 +553,7 @@ public:
 
 #endif // CPU(X86_64)
 
-#if CPU(ARM_THUMB2) || CPU(ARM64)
+#if CPU(ARM) || CPU(ARM64)
     void emitFunctionPrologue()
     {
         tagReturnAddress();
@@ -1389,7 +1389,7 @@ public:
 #elif CPU(X86_64)
             GPRInfo::regT6,
             GPRInfo::regT7,
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
             GPRInfo::regT6,
             GPRInfo::regT7,
 #elif CPU(RISCV64)

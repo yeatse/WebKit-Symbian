@@ -1,0 +1,15 @@
+{
+  "probe": "arm11-exec-probe",
+  "utc": "2026-10-29T11:51:47.140406Z",
+  "target": "armv6-none-eabi / ARM state / soft float",
+  "device": "RM-707 / Nokia X7-00 / Symbian 10.0",
+  "image_sha256": "4b862d73b988ecebcb66e6ac42379fc971f5bce289a54f8bbea871927bae6f1d",
+  "validation_emulator_sha256": "c6c98382236bb8e83f31ae545c3e11edb126dd5d61f87e5b4ff07a22cd92fb1c",
+  "checks_passed": 20,
+  "checks_total": 20,
+  "guest_exit": 0,
+  "host_exit": 0,
+  "panic_or_access_violation": false,
+  "guest_log": "arm11-exec-probe.log",
+  "scope": "Executable RChunk allocation, ARM code execution, instruction rewrite and IMB_Range, near branches, code-page reuse and data reservation regression. Does not validate Baseline/DFG or physical ARM11 caches."
+}

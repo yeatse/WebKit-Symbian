@@ -138,7 +138,7 @@ inline void*& CPUState::pc()
     return *reinterpret_cast<void**>(&spr(X86Registers::eip));
 #elif CPU(ARM64)
     return *reinterpret_cast<void**>(&spr(ARM64Registers::pc));
-#elif CPU(ARM_THUMB2)
+#elif (CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL))
     return *reinterpret_cast<void**>(&gpr(ARMRegisters::pc));
 #elif CPU(RISCV64)
     return *reinterpret_cast<void**>(&spr(RISCV64Registers::pc));
@@ -153,7 +153,7 @@ inline void*& CPUState::fp()
     return *reinterpret_cast<void**>(&gpr(X86Registers::ebp));
 #elif CPU(ARM64)
     return *reinterpret_cast<void**>(&gpr(ARM64Registers::fp));
-#elif CPU(ARM_THUMB2)
+#elif (CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL))
     return *reinterpret_cast<void**>(&gpr(ARMRegisters::fp));
 #elif CPU(RISCV64)
     return *reinterpret_cast<void**>(&gpr(RISCV64Registers::fp));
@@ -168,7 +168,7 @@ inline void*& CPUState::sp()
     return *reinterpret_cast<void**>(&gpr(X86Registers::esp));
 #elif CPU(ARM64)
     return *reinterpret_cast<void**>(&gpr(ARM64Registers::sp));
-#elif CPU(ARM_THUMB2)
+#elif (CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL))
     return *reinterpret_cast<void**>(&gpr(ARMRegisters::sp));
 #elif CPU(RISCV64)
     return *reinterpret_cast<void**>(&gpr(RISCV64Registers::sp));

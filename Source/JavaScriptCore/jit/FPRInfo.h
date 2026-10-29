@@ -156,9 +156,9 @@ public:
     static constexpr FPRReg fpRegCS4 = ARMRegisters::d12;
     static constexpr FPRReg fpRegCS5 = ARMRegisters::d13;
 
-    // ARMv7 doesn't pass arguments in fp registers. The return
-    // value is also actually in integer registers, for now
-    // we'll return in d0 for simplicity.
+    // JIT-internal FP values use d0. CCallHelpers translates base-PCS softfp
+    // arguments/results through core-register pairs on ARM_TRADITIONAL;
+    // ARM_THUMB2 uses the hard-float C ABI.
     static constexpr FPRReg returnValueFPR = ARMRegisters::d0; // fpRegT0
     static constexpr FPRReg argumentFPR0 = ARMRegisters::d0; // fpRegT0
     static constexpr FPRReg argumentFPR1 = ARMRegisters::d1; // fpRegT1

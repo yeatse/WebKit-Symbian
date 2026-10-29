@@ -33,9 +33,9 @@
 
 namespace WTF {
 
-void* OSAllocator::tryReserveUncommitted(size_t bytes, Usage, void* address, bool, bool executable, bool, unsigned guards)
+void* OSAllocator::tryReserveUncommitted(size_t bytes, Usage, void* address, bool writable, bool executable, bool, unsigned guards)
 {
-    if (address)
+    if (address || (executable && !writable))
         return nullptr;
     return SymbianSystem::reserve(bytes, executable, pageSize(), guards);
 }
@@ -47,9 +47,9 @@ void* OSAllocator::reserveUncommitted(size_t bytes, Usage usage, void* address, 
     return result;
 }
 
-void* OSAllocator::tryReserveUncommittedAligned(size_t bytes, size_t alignment, Usage, void* address, bool, bool executable, bool, unsigned guards)
+void* OSAllocator::tryReserveUncommittedAligned(size_t bytes, size_t alignment, Usage, void* address, bool writable, bool executable, bool, unsigned guards)
 {
-    if (address)
+    if (address || (executable && !writable))
         return nullptr;
     return SymbianSystem::reserve(bytes, executable, alignment, guards);
 }
@@ -59,7 +59,7 @@ void* OSAllocator::tryReserveAndCommit(size_t bytes, Usage usage, void* address,
     if (!writable)
         return nullptr;
     void* result = tryReserveUncommitted(bytes, usage, address, writable, executable, jitCageEnabled, guards);
-    if (result && !SymbianSystem::commit(result, bytes)) {
+    if (result && !SymbianSystem::commit(result, bytes, executable)) {
         SymbianSystem::release(result);
         return nullptr;
     }
@@ -75,13 +75,13 @@ void* OSAllocator::reserveAndCommit(size_t bytes, Usage usage, void* address, bo
 
 void OSAllocator::commit(void* address, size_t bytes, bool writable, bool executable)
 {
-    RELEASE_ASSERT(writable && !executable);
-    RELEASE_ASSERT(SymbianSystem::commit(address, bytes));
+    RELEASE_ASSERT(writable);
+    RELEASE_ASSERT(SymbianSystem::commit(address, bytes, executable));
 }
 
 void OSAllocator::decommit(void* address, size_t bytes)
 {
-    RELEASE_ASSERT(SymbianSystem::decommit(address, bytes));
+    RELEASE_ASSERT(SymbianSystem::decommit(address, bytes, true));
 }
 
 void OSAllocator::hintMemoryNotNeededSoon(void*, size_t) { }

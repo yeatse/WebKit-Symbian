@@ -330,6 +330,14 @@ private:
 
     ALWAYS_INLINE unsigned calculatePokeOffset(unsigned currentGPRArgument, unsigned currentFPRArgument, unsigned numCrossSources, unsigned extraGPRArgs, unsigned nonArgGPRs, unsigned extraPoke)
     {
+#if CPU(ARM_TRADITIONAL)
+        // AAPCS base PCS: double arguments consume aligned pairs of core-register
+        // words, then aligned stack words. extraGPRArgs includes these FP words.
+        UNUSED_PARAM(currentFPRArgument);
+        UNUSED_PARAM(numCrossSources);
+        UNUSED_PARAM(nonArgGPRs);
+        return POKE_ARGUMENT_OFFSET + extraPoke + std::max(currentGPRArgument + extraGPRArgs, GPRInfo::numberOfArgumentRegisters) - GPRInfo::numberOfArgumentRegisters;
+#else
         // Clang claims that it cannot find the symbol for FPRReg/GPRReg::numberOfArgumentRegisters when they are passed directly to std::max... seems like a bug
         unsigned numberOfFPArgumentRegisters = FPRInfo::numberOfArgumentRegisters;
         unsigned numberOfGPArgumentRegisters = GPRInfo::numberOfArgumentRegisters;
@@ -347,6 +355,7 @@ private:
         pokeOffset += std::max(currentGPRArgument, numberOfGPArgumentRegisters) - numberOfGPArgumentRegisters;
         pokeOffset += std::max(currentFPRArgument, numberOfFPArgumentRegisters) - numberOfFPArgumentRegisters;
         return pokeOffset;
+#endif
     }
 
     template<typename ArgType>
@@ -421,13 +430,35 @@ private:
     }
 
 #else // USE(JSVALUE64)
-#if CPU(ARM_THUMB2)
+#if CPU(ARM)
 
     template<typename OperationType, unsigned numGPRArgs, unsigned numGPRSources, unsigned numFPRArgs, unsigned numFPRSources, unsigned numCrossSources, unsigned extraGPRArgs, unsigned nonArgGPRs, unsigned extraPoke, typename... Args>
     void setupArgumentsImpl(ArgCollection<numGPRArgs, numGPRSources, numFPRArgs, numFPRSources, numCrossSources, extraGPRArgs, nonArgGPRs, extraPoke> argSourceRegs, FPRReg arg, Args... args)
     {
         static_assert(std::is_same_v<CURRENT_ARGUMENT_TYPE, double>, "We should only be passing FPRRegs to a double. We use moveDouble / loadDouble / storeDouble exclusively");
 
+#if CPU(ARM_TRADITIONAL)
+        constexpr unsigned currentGPRCount = numGPRArgs + extraGPRArgs;
+        constexpr unsigned alignedGPRCount = roundUpToMultipleOf<2>(currentGPRCount);
+        if constexpr (alignedGPRCount + 1 < GPRInfo::numberOfArgumentRegisters) {
+            auto collected = argSourceRegs.pushRegArg(arg, GPRInfo::toArgumentRegister(alignedGPRCount)).addGPRExtraArg().addGPRExtraArg();
+            if constexpr (alignedGPRCount != currentGPRCount)
+                setupArgumentsImpl<OperationType>(collected.addGPRExtraArg(), args...);
+            else
+                setupArgumentsImpl<OperationType>(collected, args...);
+        } else if constexpr (currentGPRCount < GPRInfo::numberOfArgumentRegisters) {
+            // The only remaining core register is r3: skip it, since a double
+            // cannot straddle the register/stack boundary in the base PCS.
+            pokeForArgument(arg, numGPRArgs, numFPRArgs, numCrossSources, extraGPRArgs + 1, nonArgGPRs, extraPoke);
+            setupArgumentsImpl<OperationType>(argSourceRegs.addStackArg(arg).addGPRExtraArg().addGPRExtraArg().addGPRExtraArg(), args...);
+        } else if (stackAligned(numGPRArgs, numFPRArgs, numCrossSources, extraGPRArgs, nonArgGPRs, extraPoke)) {
+            pokeForArgument(arg, numGPRArgs, numFPRArgs, numCrossSources, extraGPRArgs, nonArgGPRs, extraPoke);
+            setupArgumentsImpl<OperationType>(argSourceRegs.addStackArg(arg).addGPRExtraArg().addGPRExtraArg(), args...);
+        } else {
+            pokeForArgument(arg, numGPRArgs, numFPRArgs, numCrossSources, extraGPRArgs, nonArgGPRs, extraPoke + 1);
+            setupArgumentsImpl<OperationType>(argSourceRegs.addStackArg(arg).addGPRExtraArg().addGPRExtraArg().addPoke(), args...);
+        }
+#else
         // ARM (hardfp, which we require) passes FP arguments in FP registers.
         unsigned numberOfFPArgumentRegisters = FPRInfo::numberOfArgumentRegisters;
         unsigned currentFPArgCount = argSourceRegs.argCount(arg);
@@ -446,6 +477,7 @@ private:
             pokeForArgument(arg, numGPRArgs, numFPRArgs, numCrossSources, extraGPRArgs, nonArgGPRs, extraPoke + 1);
             setupArgumentsImpl<OperationType>(argSourceRegs.addStackArg(arg).addPoke().addPoke(), args...);
         }
+#endif
     }
 
     template<typename OperationType, unsigned numGPRArgs, unsigned numGPRSources, unsigned numFPRArgs, unsigned numFPRSources, unsigned numCrossSources, unsigned extraGPRArgs, unsigned nonArgGPRs, unsigned extraPoke, typename... Args>
@@ -529,7 +561,7 @@ private:
             pokeArgumentsAligned<OperationType>(argSourceRegs, arg.payloadGPR(), arg.tagGPR(), args...);
     }
 
-#endif // CPU(ARM_THUMB2)
+#endif // CPU(ARM)
 #endif // USE(JSVALUE64)
 
     template<typename OperationType, unsigned numGPRArgs, unsigned numGPRSources, unsigned numFPRArgs, unsigned numFPRSources, unsigned numCrossSources, unsigned extraGPRArgs, unsigned nonArgGPRs, unsigned extraPoke, typename Arg, typename... Args>
@@ -659,7 +691,18 @@ private:
         static_assert(fprArgsCount<TraitsType>(std::make_index_sequence<TraitsType::arity>()) == numFPRArgs);
 
         shuffleRegisters<GPRReg, numGPRSources>(clampArrayToSize<numGPRSources, GPRReg>(argSourceRegs.gprSources), clampArrayToSize<numGPRSources, GPRReg>(argSourceRegs.gprDestinations));
+#if CPU(ARM_TRADITIONAL)
+        // All GPR sources have reached their destinations before any FP source
+        // overwrites a core argument pair. No FPR shuffle is needed for softfp.
+        if constexpr (numCrossSources) {
+            for (unsigned i = 0; i < numCrossSources; ++i) {
+                auto low = argSourceRegs.crossDestinations[i];
+                moveDoubleToInts(argSourceRegs.crossSources[i], low, static_cast<GPRReg>(low + 1));
+            }
+        }
+#else
         static_assert(!numCrossSources, "shouldn't be used on this architecture.");
+#endif
 
         shuffleRegisters<FPRReg, numFPRSources>(clampArrayToSize<numFPRSources, FPRReg>(argSourceRegs.fprSources), clampArrayToSize<numFPRSources, FPRReg>(argSourceRegs.fprDestinations));
     }
@@ -740,8 +783,13 @@ public:
     
     void setupResults(FPRReg destA)
     {
-        if (destA != InvalidFPRReg)
+        if (destA != InvalidFPRReg) {
+#if CPU(ARM_TRADITIONAL)
+            moveIntsToDouble(GPRInfo::returnValueGPR, GPRInfo::returnValueGPR2, destA);
+#else
             moveDouble(FPRInfo::returnValueFPR, destA);
+#endif
+        }
     }
 
     void jumpToExceptionHandler(VM& vm)
@@ -844,7 +892,7 @@ public:
 
         // We don't need the current frame beyond this point. Masquerade as our
         // caller.
-#if CPU(ARM_THUMB2) || CPU(ARM64) || CPU(RISCV64)
+#if CPU(ARM) || CPU(ARM64) || CPU(RISCV64)
         loadPtr(Address(framePointerRegister, CallFrame::returnPCOffset()), linkRegister);
         subPtr(TrustedImm32(2 * sizeof(void*)), newFrameSizeGPR);
 #if CPU(ARM64E)

@@ -506,7 +506,9 @@ WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
 // For the spacer instruction, we'll choose a breakpoint instruction. However, we can
 // also just emit an unused piece of data. A breakpoint instruction is preferable.
 
-#if CPU(ARM_THUMB2)
+#if CPU(ARM_TRADITIONAL)
+#define OFFLINE_ASM_BEGIN_SPACER "udf #0\n"
+#elif CPU(ARM_THUMB2)
 #define OFFLINE_ASM_BEGIN_SPACER "bkpt #0\n"
 #elif CPU(ARM64)
 #define OFFLINE_ASM_BEGIN_SPACER "brk #" STRINGIZE_VALUE_OF(WTF_FATAL_CRASH_CODE) "\n"
@@ -595,6 +597,8 @@ WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
 #define OFFLINE_ASM_ALIGN_TRAP(align) OFFLINE_ASM_BEGIN_SPACER "\n .balignl " #align ", 0xd4388e20\n" // pad with brk instructions
 #elif CPU(X86_64)
 #define OFFLINE_ASM_ALIGN_TRAP(align) OFFLINE_ASM_BEGIN_SPACER "\n .balign " #align ", 0xcc\n" // pad with int 3 instructions
+#elif CPU(ARM_TRADITIONAL)
+#define OFFLINE_ASM_ALIGN_TRAP(align) OFFLINE_ASM_BEGIN_SPACER "\n .balignl " #align ", 0xe7f000f0\n" // ARM-state udf
 #elif CPU(ARM)
 #define OFFLINE_ASM_ALIGN_TRAP(align) OFFLINE_ASM_BEGIN_SPACER "\n .balignw " #align ", 0xde00\n" // pad with udf instructions
 #elif CPU(RISCV64)
@@ -624,7 +628,7 @@ WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
     LOCAL_LABEL_STRING(label) ":\n" \
     OFFLINE_ASM_ALT_GLOBAL_LABEL(label)
 
-#if OS(LINUX)
+#if OS(LINUX) || OS(SYMBIAN)
 #define OFFLINE_ASM_OPCODE_DEBUG_LABEL(label)  #label ":\n"
 #else
 #define OFFLINE_ASM_OPCODE_DEBUG_LABEL(label)
@@ -666,15 +670,23 @@ __asm__(
     ".cfi_offset fp, -16\n"
     OFFLINE_ASM_BEGIN_SPACER
 );
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
 __asm__(
     ".cfi_startproc\n"
     OFFLINE_ASM_BEGIN_SPACER
+#if CPU(ARM_TRADITIONAL)
+    ".cfi_def_cfa r11, 8\n"
+#else
     ".cfi_def_cfa r7, 8\n"
+#endif
     ".cfi_offset lr, -4\n"
     ".cfi_offset fp, -8\n"
     OFFLINE_ASM_BEGIN_SPACER
+#if CPU(ARM_TRADITIONAL)
+    ".cfi_def_cfa r11, 8\n"
+#else
     ".cfi_def_cfa r7, 8\n"
+#endif
     ".cfi_offset lr, -4\n"
     ".cfi_offset fp, -8\n"
     OFFLINE_ASM_BEGIN_SPACER
@@ -688,7 +700,7 @@ __asm__(
 
 // See GdbJIT.cpp for a detailed explanation.
 #if !OS(DARWIN) && COMPILER(CLANG)
-#if CPU(ARM64) || CPU(ARM_THUMB2)
+#if CPU(ARM64) || CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
 __asm__(
     ".cfi_endproc\n"
 );

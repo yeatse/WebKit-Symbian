@@ -102,7 +102,7 @@ RegisterSet RegisterSetBuilder::macroClobberedGPRs()
     return RegisterSetBuilder(MacroAssembler::s_scratchRegister).buildAndValidate();
 #elif CPU(ARM64) || CPU(RISCV64)
     return RegisterSetBuilder(MacroAssembler::dataTempRegister, MacroAssembler::memoryTempRegister).buildAndValidate();
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     return RegisterSetBuilder(MacroAssembler::dataTempRegister, MacroAssembler::addressTempRegister).buildAndValidate();
 #else
     return { };
@@ -124,7 +124,7 @@ RegisterSet RegisterSetBuilder::macroClobberedFPRs()
     builder.add(MacroAssembler::fpTempRegister, IgnoreVectors);
     builder.add(MacroAssembler::fpTempRegister2, IgnoreVectors);
     return builder.buildAndValidate();
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     RegisterSetBuilder builder;
     builder.add(MacroAssembler::fpTempRegister, IgnoreVectors);
     return builder.buildAndValidate();
@@ -179,7 +179,7 @@ RegisterSet RegisterSetBuilder::vmCalleeSaveRegisters()
     result.add(FPRInfo::fpRegCS5, Width64);
     result.add(FPRInfo::fpRegCS6, Width64);
     result.add(FPRInfo::fpRegCS7, Width64);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     result.add(GPRInfo::regCS0, IgnoreVectors);
     result.add(GPRInfo::regCS1, IgnoreVectors);
     result.add(FPRInfo::fpRegCS0, IgnoreVectors);
@@ -227,7 +227,7 @@ RegisterSet RegisterSetBuilder::llintBaselineCalleeSaveRegisters()
     result.add(GPRInfo::regCS2, IgnoreVectors);
     result.add(GPRInfo::regCS3, IgnoreVectors);
     result.add(GPRInfo::regCS4, IgnoreVectors);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     result.add(GPRInfo::regCS0, IgnoreVectors);
     result.add(GPRInfo::regCS1, IgnoreVectors);
 #elif CPU(ARM64) || CPU(RISCV64)
@@ -256,7 +256,7 @@ RegisterSet RegisterSetBuilder::dfgCalleeSaveRegisters()
     result.add(GPRInfo::regCS2, IgnoreVectors);
     result.add(GPRInfo::regCS3, IgnoreVectors);
     result.add(GPRInfo::regCS4, IgnoreVectors);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     result.add(GPRInfo::regCS0, IgnoreVectors);
     result.add(GPRInfo::regCS1, IgnoreVectors);
 #elif CPU(ARM64) || CPU(RISCV64)

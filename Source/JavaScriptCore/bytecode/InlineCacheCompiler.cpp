@@ -1220,7 +1220,7 @@ void InlineCacheCompiler::emitDataICPrologue(CCallHelpers& jit)
     static_assert(!maxFrameExtentForSlowPathCall);
     jit.tagReturnAddress();
     jit.pushPair(CCallHelpers::framePointerRegister, CCallHelpers::linkRegister);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
     static_assert(maxFrameExtentForSlowPathCall);
     jit.pushPair(CCallHelpers::framePointerRegister, CCallHelpers::linkRegister);
     jit.subPtr(CCallHelpers::TrustedImm32(maxFrameExtentForSlowPathCall), CCallHelpers::stackPointerRegister);
@@ -1465,8 +1465,8 @@ static MacroAssemblerCodeRef<JITThunkPtrTag> putByValSlowPathCodeGenerator(VM& v
     jit.prepareCallOperation(vm);
     jit.setupArguments<SlowOperatoin>(baseJSR, propertyJSR, valueJSR, stubInfoGPR, profileGPR);
     jit.call(CCallHelpers::Address(stubInfoGPR, StructureStubInfo::offsetOfSlowOperation()), OperationPtrTag);
-#if CPU(ARM_THUMB2)
-    // ARMv7 clobbers metadataTable register. Thus we need to restore them back here.
+#if CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
+    // The ARM32 call setup clobbers the metadataTable register.
     JIT::emitMaterializeMetadataAndConstantPoolRegisters(jit);
 #endif
 
@@ -4188,8 +4188,8 @@ void InlineCacheCompiler::emitProxyObjectAccess(unsigned index, AccessCase& acce
         // We *always* know that the proxy function, if non-null, is a cell.
         jit.move(CCallHelpers::TrustedImm32(JSValue::CellTag), BaselineJITRegisters::Call::calleeJSR.tagGPR());
 #endif
-#if CPU(ARM_THUMB2)
-        // ARMv7 clobbers metadataTable register. Thus we need to restore them back here.
+#if CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
+        // The ARM32 call setup clobbers the metadataTable register.
         JIT::emitMaterializeMetadataAndConstantPoolRegisters(jit);
 #endif
         m_callLinkInfos[index] = makeUnique<OptimizingCallLinkInfo>(m_stubInfo.codeOrigin, nullptr);

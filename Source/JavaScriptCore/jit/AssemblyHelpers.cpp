@@ -935,7 +935,9 @@ void AssemblyHelpers::emitAllocateWithNonNullAllocator(GPRReg resultGPR, const J
     if (allocator.isConstant())
         move(TrustedImmPtr(allocator.allocator().localAllocator()), allocatorGPR);
 
-#if CPU(ARM) || CPU(ARM64)
+#if CPU(ARM_TRADITIONAL)
+    constexpr auto dataTempRegister = MacroAssembler::dataTempRegister;
+#elif CPU(ARM) || CPU(ARM64)
     auto dataTempRegister = getCachedDataTempRegisterIDAndInvalidate();
 #endif
 

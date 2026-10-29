@@ -66,10 +66,13 @@ bool displaySize(int& width, int& height);
 // Address space backed by a local RChunk. Data reservations use a
 // disconnected chunk and commit page ranges on demand; executable
 // reservations use a code chunk and are committed in full up front.
-// commit() returns false if the pages could not be committed.
+// Code chunks are RWX and do not support guard pages or page protections.
+// Executable commit/decommit only track logical use within that allocation;
+// their physical memory is retained until release(). Data chunks retain
+// demand commitment, guard pages, and zero-on-recommit behavior.
 void* reserve(size_t, bool executable, size_t alignment = 4096, unsigned guardPages = 0);
-bool commit(void*, size_t);
-bool decommit(void*, size_t);
+bool commit(void*, size_t, bool executable = false);
+bool decommit(void*, size_t, bool allowExecutable = false);
 void release(void*);
 
 // User::IMB_Range.

@@ -46,6 +46,7 @@ API/MarkedJSValueRefArray.cpp
 API/OpaqueJSString.cpp
 
 assembler/AbstractMacroAssembler.cpp
+assembler/ARMAssembler.cpp @no-unify
 assembler/AssemblerBuffer.cpp
 assembler/AssemblyComments.cpp
 assembler/CPU.cpp
@@ -53,6 +54,7 @@ assembler/JITOperationList.cpp
 assembler/LinkBuffer.cpp
 assembler/MacroAssembler.cpp
 assembler/MacroAssemblerARM64.cpp @no-unify
+assembler/MacroAssemblerARM.cpp @no-unify
 assembler/MacroAssemblerARMv7.cpp @no-unify
 assembler/MacroAssemblerCodeRef.cpp
 assembler/MacroAssemblerPrinter.cpp

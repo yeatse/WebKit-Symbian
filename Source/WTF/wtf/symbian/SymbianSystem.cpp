@@ -110,6 +110,7 @@ struct Reservation {
     TInt handle;
     size_t offset;
     unsigned char* committed;
+    bool executable;
 };
 static constexpr size_t memoryPageSize = 4096;
 static constexpr int maxReservations = 256;
@@ -143,8 +144,9 @@ bool displaySize(int& width, int& height)
 
 void* reserve(size_t bytes, bool executable, size_t alignment, unsigned guardPages)
 {
-    // C_LOOP needs data chunks only; EKA2 has no general read-only protection.
-    if (executable || !bytes || bytes % memoryPageSize || alignment < memoryPageSize || (alignment & (alignment - 1)))
+    // Local code chunks are contiguous and fully committed. Do not claim that
+    // their padding is protected: guarded reservations remain data-only.
+    if ((executable && guardPages) || !bytes || bytes % memoryPageSize || alignment < memoryPageSize || (alignment & (alignment - 1)))
         return nullptr;
     if (bytes > INT_MAX || alignment > INT_MAX || guardPages > static_cast<size_t>(INT_MAX) / (2 * memoryPageSize))
         return nullptr;
@@ -157,7 +159,10 @@ void* reserve(size_t bytes, bool executable, size_t alignment, unsigned guardPag
     if (!committed)
         return nullptr;
     RChunk chunk;
-    if (chunk.CreateDisconnectedLocal(0, 0, static_cast<TInt>(total), EOwnerProcess) != KErrNone) {
+    TInt error = executable
+        ? chunk.CreateLocalCode(static_cast<TInt>(total), static_cast<TInt>(total), EOwnerProcess)
+        : chunk.CreateDisconnectedLocal(0, 0, static_cast<TInt>(total), EOwnerProcess);
+    if (error != KErrNone) {
         free(committed);
         return nullptr;
     }
@@ -167,7 +172,7 @@ void* reserve(size_t bytes, bool executable, size_t alignment, unsigned guardPag
     for (auto& reservation : reservations) {
         if (reservation.handle)
             continue;
-        reservation = { reinterpret_cast<TUint8*>(base), bytes, chunk.Handle(), base - chunkBase, committed };
+        reservation = { reinterpret_cast<TUint8*>(base), bytes, chunk.Handle(), base - chunkBase, committed, executable };
         pthread_mutex_unlock(&reservationLock);
         return reservation.base;
     }
@@ -177,13 +182,13 @@ void* reserve(size_t bytes, bool executable, size_t alignment, unsigned guardPag
     return nullptr;
 }
 
-bool commit(void* address, size_t bytes)
+bool commit(void* address, size_t bytes, bool executable)
 {
     if (!bytes)
         return true;
     pthread_mutex_lock(&reservationLock);
     auto* reservation = reservationContaining(address, bytes);
-    if (!reservation) {
+    if (!reservation || reservation->executable != executable) {
         pthread_mutex_unlock(&reservationLock);
         return false;
     }
@@ -195,7 +200,7 @@ bool commit(void* address, size_t bytes)
     for (size_t page = first; page < end; ++page) {
         if (reservation->committed[page])
             continue;
-        if (chunk.Commit(reservation->offset + page * memoryPageSize, memoryPageSize) != KErrNone) {
+        if (!reservation->executable && chunk.Commit(reservation->offset + page * memoryPageSize, memoryPageSize) != KErrNone) {
             success = false;
             break;
         }
@@ -213,13 +218,13 @@ bool commit(void* address, size_t bytes)
     return success;
 }
 
-bool decommit(void* address, size_t bytes)
+bool decommit(void* address, size_t bytes, bool allowExecutable)
 {
     if (!bytes)
         return true;
     pthread_mutex_lock(&reservationLock);
     auto* reservation = reservationContaining(address, bytes);
-    if (!reservation) {
+    if (!reservation || (reservation->executable && !allowExecutable)) {
         pthread_mutex_unlock(&reservationLock);
         return false;
     }
@@ -231,7 +236,7 @@ bool decommit(void* address, size_t bytes)
     for (size_t page = first; page < end; ++page) {
         if (!reservation->committed[page])
             continue;
-        if (chunk.Decommit(reservation->offset + page * memoryPageSize, memoryPageSize) != KErrNone) {
+        if (!reservation->executable && chunk.Decommit(reservation->offset + page * memoryPageSize, memoryPageSize) != KErrNone) {
             success = false;
             break;
         }

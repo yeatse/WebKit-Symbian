@@ -27,9 +27,19 @@
 
 #include <wtf/Platform.h>
 
-#if CPU(ARM_THUMB2)
+#if (CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL))
 
 #define RegisterNames ARMRegisters
+
+#if CPU(ARM_TRADITIONAL)
+#define ARM_R7_IS_CALLEE_SAVE 1
+#define ARM_R11_IS_CALLEE_SAVE 0
+#define FOR_EACH_FP_ALIAS(macro) macro(fp, "fp"_s, r11)
+#else
+#define ARM_R7_IS_CALLEE_SAVE 0
+#define ARM_R11_IS_CALLEE_SAVE 1
+#define FOR_EACH_FP_ALIAS(macro) macro(fp, "fp"_s, r7)
+#endif
 
 #define FOR_EACH_REGISTER(macro)                \
     FOR_EACH_GP_REGISTER(macro)                 \
@@ -47,11 +57,11 @@
     macro(r4,  "r4"_s,  0, 1)                     \
     macro(r5,  "r5"_s,  0, 1)                     \
     macro(r6,  "r6"_s,  0, 1)                     \
-    macro(r7,  "r7"_s,  0, 0)                     \
+    macro(r7,  "r7"_s,  0, ARM_R7_IS_CALLEE_SAVE)                     \
     macro(r8,  "r8"_s,  0, 1)                     \
     macro(r9,  "r9"_s,  0, 1)                     \
     macro(r10, "r10"_s, 0, 1)                     \
-    macro(r11, "r11"_s, 0, 1)                     \
+    macro(r11, "r11"_s, 0, ARM_R11_IS_CALLEE_SAVE)                     \
     macro(r12, "ip"_s,  0, 0)                     \
     macro(r13, "sp"_s,  0, 0)                     \
     macro(r14, "lr"_s,  1, 0)                     \
@@ -65,11 +75,11 @@
     macro(r4,  "r4"_s,  0, 1)                     \
     macro(r5,  "r5"_s,  0, 1)                     \
     macro(r6,  "r6"_s,  0, 1)                     \
-    macro(r7,  "r7"_s,  0, 0)                     \
+    macro(r7,  "r7"_s,  0, ARM_R7_IS_CALLEE_SAVE)                     \
     macro(r8,  "r8"_s,  0, 1)                     \
     macro(r9,  "r9"_s,  0, 0)                     \
     macro(r10, "r10"_s, 0, 1)                     \
-    macro(r11, "r11"_s, 0, 1)                     \
+    macro(r11, "r11"_s, 0, ARM_R11_IS_CALLEE_SAVE)                     \
     macro(r12, "ip"_s,  0, 0)                     \
     macro(r13, "sp"_s,  0, 0)                     \
     macro(r14, "lr"_s,  1, 0)                     \
@@ -77,7 +87,7 @@
 #endif
 
 #define FOR_EACH_REGISTER_ALIAS(macro)          \
-    macro(fp, "fp"_s, r7)                         \
+    FOR_EACH_FP_ALIAS(macro)                      \
     macro(sb, "sb"_s, r9)                         \
     macro(sl, "sl"_s, r10)                        \
     macro(ip, "ip"_s, r12)                        \
@@ -197,4 +207,4 @@
     macro(q15, "q15"_s, 0, 0)
 #endif
 
-#endif // CPU(ARM_THUMB2)
+#endif // (CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL))

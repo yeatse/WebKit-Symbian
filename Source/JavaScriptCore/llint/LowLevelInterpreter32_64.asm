@@ -130,7 +130,7 @@ end
 macro cCall2(function)
     if C_LOOP
         cloopCallSlowPath function, a0, a1
-    elsif ARMv7
+    elsif ARMv7 or ARM
         call function
     else
         error
@@ -148,7 +148,7 @@ end
 macro cCall3(function)
     if C_LOOP
         cloopCallSlowPath3 function, a0, a1, a2
-    elsif ARMv7
+    elsif ARMv7 or ARM
         call function
     else
         error
@@ -158,7 +158,7 @@ end
 macro cCall4(function)
     if C_LOOP
         cloopCallSlowPath4 function, a0, a1, a2, a3
-    elsif ARMv7
+    elsif ARMv7 or ARM
         call function
     else
         error
@@ -197,7 +197,7 @@ macro doVMEntry(makeCall)
     # Since we have the guarantee that tX != aY when X != Y, we are safe from
     # aliasing problems with our arguments.
 
-    if ARMv7
+    if ARMv7 or ARM
         vmEntryRecord(cfr, t3)
         move t3, sp
     else
@@ -213,7 +213,7 @@ macro doVMEntry(makeCall)
     storep t4, VMEntryRecord::m_prevTopEntryFrame[sp]
 
     # Align stack pointer
-    if ARMv7
+    if ARMv7 or ARM
         addp CallFrameAlignSlots * SlotSize, sp, t3
         clrbp t3, StackAlignmentMask, t3
         subp t3, CallFrameAlignSlots * SlotSize, t3
@@ -289,7 +289,7 @@ macro doVMEntry(makeCall)
 
     makeCall(entry, protoCallFrame, t3, t4)
 
-    if ARMv7
+    if ARMv7 or ARM
         vmEntryRecord(cfr, t3)
         move t3, sp
     else
@@ -302,7 +302,7 @@ macro doVMEntry(makeCall)
     loadp VMEntryRecord::m_prevTopEntryFrame[sp], t4
     storep t4, VM::topEntryFrame[t5]
 
-    if ARMv7
+    if ARMv7 or ARM
         subp cfr, CalleeRegisterSaveSize, t5
         move t5, sp
     else
@@ -324,7 +324,7 @@ _llint_throw_stack_overflow_error_from_vm_entry:
     move protoCallFrame, a1
     cCall2(_llint_throw_stack_overflow_error)
 
-    if ARMv7
+    if ARMv7 or ARM
         vmEntryRecord(cfr, t3)
         move t3, sp
     else
@@ -341,7 +341,7 @@ _llint_throw_stack_overflow_error_from_vm_entry:
     move UndefinedTag, r1
     move 0, r0
 
-    if ARMv7
+    if ARMv7 or ARM
         subp cfr, CalleeRegisterSaveSize, t5
         move t5, sp
     else
@@ -391,7 +391,7 @@ op(llint_handle_uncaught_exception, macro()
     storep 0, VM::callFrameForCatch[t3]
 
     loadp VM::topEntryFrame[t3], cfr
-    if ARMv7
+    if ARMv7 or ARM
         vmEntryRecord(cfr, t3)
         move t3, sp
     else
@@ -408,7 +408,7 @@ op(llint_handle_uncaught_exception, macro()
     move UndefinedTag, r1
     move 0, r0
 
-    if ARMv7
+    if ARMv7 or ARM
         subp cfr, CalleeRegisterSaveSize, t3
         move t3, sp
     else
@@ -2409,7 +2409,7 @@ macro doCallVarargs(opcodeName, size, get, opcodeStruct, valueProfileName, dstVi
         move r1, sp
     else
         # The calleeFrame is not stack aligned, move down by CallerFrameAndPCSize to align
-        if ARMv7
+        if ARMv7 or ARM
             subp r1, CallerFrameAndPCSize, t2
             move t2, sp
         else

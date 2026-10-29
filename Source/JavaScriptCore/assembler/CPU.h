@@ -53,7 +53,11 @@ constexpr bool isARM_THUMB2()
 
 constexpr bool hasUnalignedFPMemoryAccess()
 {
+    #if CPU(ARM_TRADITIONAL)
+    return false;
+#else
     return !isARM_THUMB2();
+#endif
 }
 
 constexpr bool isARM64()
@@ -206,7 +210,7 @@ constexpr size_t prologueStackPointerDelta()
 #elif CPU(X86_64)
     // Prologue only saves the framePointerRegister
     return sizeof(CPURegister);
-#elif CPU(ARM_THUMB2) || CPU(ARM64) || CPU(RISCV64)
+#elif CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL) || CPU(ARM64) || CPU(RISCV64)
     // Prologue saves the framePointerRegister and linkRegister
     return 2 * sizeof(CPURegister);
 #else

@@ -897,6 +897,32 @@ typedef MathThunkCallingConvention(*MathThunk)(MathThunkCallingConvention);
     } \
     static MathThunk UnaryDoubleOpWrapper(function) = &function##Thunk;
 
+#elif CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
+
+// Specialized math thunks use d0 internally. The Symbian base PCS uses
+// r0:r1 for doubles, and regT3/r3 holds the JIT caller's return address.
+// Save both r3 and lr to retain eight-byte alignment across the C call.
+#define defineUnaryDoubleOpWrapper(function) \
+    __asm__( \
+        ".text\n" \
+        ".align 2\n" \
+        ".arm\n" \
+        ".globl " SYMBOL_STRING(function##Thunk) "\n" \
+        HIDE_SYMBOL(function##Thunk) "\n" \
+        SYMBOL_STRING(function##Thunk) ":\n" \
+        "push {r3, lr}\n" \
+        "vmov r0, r1, d0\n" \
+        "bl " GLOBAL_REFERENCE(function) "\n" \
+        "vmov d0, r0, r1\n" \
+        "pop {r3, pc}\n" \
+        ".previous\n" \
+    ); \
+    extern "C" { \
+        MathThunkCallingConvention function##Thunk(MathThunkCallingConvention); \
+        JSC_ANNOTATE_JIT_OPERATION(function##Thunk); \
+    } \
+    static MathThunk UnaryDoubleOpWrapper(function) = &function##Thunk;
+
 #elif CPU(ARM64)
 
 #define defineUnaryDoubleOpWrapper(function) \

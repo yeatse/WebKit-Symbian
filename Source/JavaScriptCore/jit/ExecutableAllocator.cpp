@@ -92,6 +92,8 @@ static constexpr size_t minimumPoolSizeForSegregatedHeap = 256 * MB;
 
 #if defined(FIXED_EXECUTABLE_MEMORY_POOL_SIZE_IN_MB) && FIXED_EXECUTABLE_MEMORY_POOL_SIZE_IN_MB > 0
 static constexpr size_t fixedExecutableMemoryPoolSize = FIXED_EXECUTABLE_MEMORY_POOL_SIZE_IN_MB * MB;
+#elif CPU(ARM_TRADITIONAL)
+static constexpr size_t fixedExecutableMemoryPoolSize = 16 * MB;
 #elif CPU(ARM64)
 #if ENABLE(JUMP_ISLANDS)
 static constexpr size_t fixedExecutableMemoryPoolSize = 512 * MB;
@@ -392,6 +394,10 @@ static ALWAYS_INLINE JITReservation initializeJITPageReservation()
 #endif
 
     auto tryCreatePageReservation = [] (size_t reservationSize, void* hintAddress) {
+#if OS(SYMBIAN)
+        // RChunk code allocations cannot leave guard pages uncommitted.
+        return PageReservation::tryReserve(reservationSize, OSAllocator::JSJITCodePages, hintAddress, EXECUTABLE_POOL_WRITABLE, true);
+#else
 #if OS(LINUX)
         // On Linux, if we use uncommitted reservation, mmap operation is recorded with small page size in perf command's output.
         // This makes the following JIT code logging broken and some of JIT code is not recorded correctly.
@@ -402,6 +408,7 @@ static ALWAYS_INLINE JITReservation initializeJITPageReservation()
         if (Options::useJITCage() && JSC_ALLOW_JIT_CAGE_SPECIFIC_RESERVATION)
             return PageReservation::tryReserve(reservationSize, OSAllocator::JSJITCodePages, hintAddress, EXECUTABLE_POOL_WRITABLE, true, false, Options::useJITCage());
         return PageReservation::tryReserveWithGuardPages(reservationSize, OSAllocator::JSJITCodePages, hintAddress, EXECUTABLE_POOL_WRITABLE, true, false, false);
+#endif
     };
 
     void* addressHint = reinterpret_cast<void*>(Options::jitMemoryReservationAddress());

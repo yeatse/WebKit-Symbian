@@ -37,6 +37,7 @@ end
 BACKENDS =
     [
      "X86_64",
+     "ARM",
      "ARMv7",
      "ARM64",
      "ARM64E",
@@ -52,6 +53,7 @@ BACKENDS =
 WORKING_BACKENDS =
     [
      "X86_64",
+     "ARM",
      "ARMv7",
      "ARM64",
      "ARM64E",

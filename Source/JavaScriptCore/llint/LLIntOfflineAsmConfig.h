@@ -35,6 +35,7 @@
 
 #if ENABLE(C_LOOP)
 #define OFFLINE_ASM_C_LOOP 1
+#define OFFLINE_ASM_ARM 0
 #define OFFLINE_ASM_ARMv7 0
 #define OFFLINE_ASM_ARM64 0
 #define OFFLINE_ASM_ARM64E 0
@@ -57,6 +58,12 @@
 #define OFFLINE_ASM_ARMv7s 1
 #else
 #define OFFLINE_ASM_ARMv7s 0
+#endif
+
+#if CPU(ARM_TRADITIONAL)
+#define OFFLINE_ASM_ARM 1
+#else
+#define OFFLINE_ASM_ARM 0
 #endif
 
 #if CPU(ARM_THUMB2)

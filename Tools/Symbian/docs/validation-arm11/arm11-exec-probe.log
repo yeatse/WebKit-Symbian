@@ -1,0 +1,23 @@
+BEGIN: arm11-exec-probe
+PASS: reserve 16 MB executable pool
+PASS: commit executable pool endpoints
+PASS: execute generated ARM code
+PASS: execute rewritten ARM code after IMB_Range
+PASS: ARM B forward across 16 MB pool
+PASS: ARM B backward across 16 MB pool
+PASS: data commit rejects executable reservation
+PASS: data protection rejects executable reservation
+PASS: logically decommit executable page
+PASS: recommit executable page clears old code
+PASS: execute after executable page reuse
+PASS: executable guard pages rejected
+PASS: aligned data reservation with guard pages
+PASS: data reservation cannot become executable
+PASS: commit data page
+PASS: repeat data commit preserves bytes
+PASS: out-of-range commit leaves existing data intact
+PASS: decommit data page
+PASS: recommit data page
+PASS: recommitted data page is zero-filled
+PASS: arm11-exec-probe 20/20
+arm11-exec-probe exiting 0
