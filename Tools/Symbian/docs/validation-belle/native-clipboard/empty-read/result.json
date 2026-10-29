@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "failure": null,
+  "probe": "native-clipboard",
+  "image_sha256": "4306de273e66ecd061798faf3f2fb49547ca7b983817388537a3574d5f5657b7",
+  "emulator_sha256": "71cbce0aa8a8eff9d167614a34f2870d26387df18b3940cf4818a34524933093",
+  "emulator_patch_assets": {
+    "mediaclientaudio_general.dll": {
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+      "bytes": 72620
+    },
+    "mediaclientaudio.dll.map": {
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "bytes": 48796
+    },
+    "mediaclientvideo_v100.dll": {
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+      "bytes": 52556
+    },
+    "mediaclientvideo.dll.map": {
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "bytes": 11393
+    }
+  },
+  "arguments": [
+    "empty-read"
+  ],
+  "host_exit": 0,
+  "host_pid": 432994,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "result": {
+    "probe": "native-clipboard",
+    "mode": "empty-read",
+    "passed": 3,
+    "failed": 0,
+    "payloadUTF16Units": 20
+  },
+  "guest_log": "clipboard-probe.log",
+  "screenshots": [],
+  "audio": null,
+  "final_screenshot": null,
+  "audio_format": null,
+  "audio_capture_timing": null
+}

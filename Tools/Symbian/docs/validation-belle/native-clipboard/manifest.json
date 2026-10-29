@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "scope": "native system clipboard; WebCore integration is not tested",
+  "image_sha256": "4306de273e66ecd061798faf3f2fb49547ca7b983817388537a3574d5f5657b7",
+  "emulator_sha256": "71cbce0aa8a8eff9d167614a34f2870d26387df18b3940cf4818a34524933093",
+  "total_native_checks": 14,
+  "physical_device_tested": false,
+  "original_store_existed": false,
+  "original_clipboard_restored": true,
+  "reader_left_store_bytes_unchanged": true,
+  "separate_host_processes": [
+    432931,
+    432952,
+    432973,
+    432994
+  ],
+  "external_summary_sha256": "ecea23b3930392f1e5479036e5a67e7f27b4211593cbe09b6fe678a92bb3d3b4",
+  "sources": {
+    "Tools/Symbian/tests/native-clipboard/CMakeLists.txt": "680ea29570c71c971c2d3bd54590964a7b7b5630725592f38001daf9aefe399c",
+    "Tools/Symbian/tests/native-clipboard/probe.cpp": "ae80c0c42b7945d136aea43b81f8a3de3dc3dd5a3793c7873de0c4d9abfcdd47",
+    "Tools/Symbian/tests/native-clipboard/build.sh": "5a51252f0cd97239a4f190b3a7bedff85f74f7f8c25a09d576aa05b379c11e88"
+  },
+  "runs": [
+    {
+      "mode": "inspect",
+      "artifacts": {
+        "clipboard-probe.log": {
+          "bytes": 367,
+          "sha256": "a08e19104796fd633e4d00b155e6187025ff46adfd604053ecd8ead7842af52f"
+        },
+        "result.json": {
+          "bytes": 1278,
+          "sha256": "730d229afbbab0c4599d6baddcb01cc596058f7f870c1871e48893eff2cdc45c"
+        }
+      },
+      "host_log_sha256": "b1fd9f11002b8c590047a95256881cd12e0f0c51c78ec1553e43a4d682d82d9d",
+      "host_log_bytes": 28026
+    },
+    {
+      "mode": "write",
+      "artifacts": {
+        "clipboard-probe.log": {
+          "bytes": 327,
+          "sha256": "a4f18d76dd4a8ba91405486c99344c23eeab8e4ae3e0f0da5748227b8b5c4cd7"
+        },
+        "result.json": {
+          "bytes": 1296,
+          "sha256": "23ab05d0e597e0f09d89717dea05647695486b309264e457fbab4eac1f891567"
+        }
+      },
+      "host_log_sha256": "837df91620a3fd6fd0c187a7ac2e764014b7acf8ed4a8bd978369553c700eec8",
+      "host_log_bytes": 28061
+    },
+    {
+      "mode": "read",
+      "artifacts": {
+        "clipboard-probe.log": {
+          "bytes": 353,
+          "sha256": "f6a9a6e567fb332039744200e499f3f05aeeb6a9a718823550145cc5e49c1f1d"
+        },
+        "result.json": {
+          "bytes": 1294,
+          "sha256": "78b44b45d59e73f1a5175e96c1e4a35802d53b882db6b848de20671ed88c49ac"
+        }
+      },
+      "host_log_sha256": "793cd53cdf4231dfcb0de20dfd9aa6a74a578d86363ef77d5cadbc7b7069fd24",
+      "host_log_bytes": 27913
+    },
+    {
+      "mode": "empty-write",
+      "artifacts": {
+        "clipboard-probe.log": {
+          "bytes": 339,
+          "sha256": "6792bed9f1d0cd1d35c59dc216157baad456f233432e85f8c4610f6396259d2b"
+        },
+        "result.json": {
+          "bytes": 1308,
+          "sha256": "80affe7e5c2b7e74099203977aa0973e9b55505c8dab1a8af46f2c01fb1734d9"
+        }
+      },
+      "host_log_sha256": "ac876ca86d6cb4b20343002a75908759fbbffd317d3ae3cf91665b48825217bf",
+      "host_log_bytes": 27909
+    },
+    {
+      "mode": "empty-read",
+      "artifacts": {
+        "clipboard-probe.log": {
+          "bytes": 365,
+          "sha256": "b53415cfffcb93e746bc8b9b206daaee3191a8ac6124e1487316d1eade32e786"
+        },
+        "result.json": {
+          "bytes": 1306,
+          "sha256": "03ea9a5784fcde9b74c7ecfe21f882d7f882eb8ca3998f94cec77f60d12dc93d"
+        }
+      },
+      "host_log_sha256": "3a7ef305cdc6ae105634c2afbd7c662191491a65326c163311c80013afba093d",
+      "host_log_bytes": 27913
+    }
+  ]
+}

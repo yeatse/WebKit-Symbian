@@ -18,10 +18,14 @@ if mode=='host-failure':raise SystemExit(7)
 if mode=='panic':print('KERN-EXEC guest panicked',flush=True);raise SystemExit(0)
 name='angle-probe' if probe=='angle' else 'native-mmf'
 log='angle-probe.log' if probe=='angle' else 'mmf-probe.log'
+if probe=='native-clipboard':name,log='native-clipboard','clipboard-probe.log'
 p=pathlib.Path(os.environ['XDG_DATA_HOME'])/'EKA2L1/data/drives/c/Data/WebKit'/log
 prefix='' if probe=='angle' else 'MMF t=100 '
 lines=[]
-if mode!='missing-result':lines.append(prefix+'RESULT '+json.dumps({'probe':name,'passed':5,'failed':1 if mode=='failed-check' else 0}))
+result={'probe':name,'passed':5,'failed':1 if mode=='failed-check' else 0}
+if probe=='native-clipboard':
+ result.update(mode='read' if mode=='wrong-clipboard-mode' else 'write',passed=2 if mode=='short-clipboard-checks' else 3,payloadUTF16Units=20)
+if mode!='missing-result':lines.append(prefix+'RESULT '+json.dumps(result))
 lines.append(prefix+('PASS: ' if probe=='angle' else 'PASS ')+name+' 5/5')
 if mode!='missing-exit':lines.append(prefix+name+' exiting '+('1' if mode=='guest-failure' else '0'))
 if mode=='mixed-negative-exit':lines.append(prefix+name+' exiting -1')
@@ -67,6 +71,22 @@ class NativeRunner(unittest.TestCase):
         proc, report = self.run_fixture('success', 'mmf')
         self.assertEqual(proc.returncode, 0, proc.stdout+proc.stderr)
         self.assertEqual(report['result']['probe'], 'native-mmf')
+
+    def test_clipboard_effective_mode_and_complete_checks(self):
+        proc, report = self.run_fixture('success', 'native-clipboard', ('--', 'write'))
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertGreater(report['host_pid'], 0)
+        self.assertEqual(report['result']['mode'], 'write')
+
+    def test_clipboard_wrong_effective_mode_is_failure(self):
+        proc, report = self.run_fixture('wrong-clipboard-mode', 'native-clipboard', ('--', 'write'))
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertIn('clipboard arguments or check count', report['failure'])
+
+    def test_clipboard_missing_operation_check_is_failure(self):
+        proc, report = self.run_fixture('short-clipboard-checks', 'native-clipboard', ('--', 'write'))
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertIn('clipboard arguments or check count', report['failure'])
 
     def test_host_nonzero_is_failure(self):
         proc, report = self.run_fixture('host-failure')

@@ -1,0 +1,8 @@
+BEGIN native-clipboard version=1 mode=write
+PASS: native clipboard drive resolved
+INFO native clipboard drive=D:
+PASS: source UTF-16 length
+PASS: real clipboard store committed
+RESULT {"probe":"native-clipboard","mode":"write","passed":3,"failed":0,"payloadUTF16Units":20}
+PASS: native-clipboard 3/3
+native-clipboard exiting 0

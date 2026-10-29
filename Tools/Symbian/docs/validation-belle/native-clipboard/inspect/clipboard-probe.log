@@ -1,0 +1,8 @@
+BEGIN native-clipboard version=1 mode=inspect
+PASS: native clipboard drive resolved
+INFO native clipboard drive=D:
+INFO read-only open status=0
+PASS: read-only inspection has defined success or missing-store result
+RESULT {"probe":"native-clipboard","mode":"inspect","passed":2,"failed":0,"payloadUTF16Units":20}
+PASS: native-clipboard 2/2
+native-clipboard exiting 0
