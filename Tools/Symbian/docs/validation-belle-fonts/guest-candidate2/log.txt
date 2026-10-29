@@ -1,0 +1,14 @@
+18:39:11.631 WebKit Browser starting
+18:39:11.647 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+18:39:13.215 load file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4
+Symbian compositor: native EGL/GLES2 presented 360x532
+18:39:13.764 network: connected through "Host network"
+console: file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4:26: WEBFONT PASS CSS WOFF2 loaded
+console: file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4:26: WEBFONT PASS WOFF2 em-square metrics
+console: file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4:26: WEBFONT PASS WOFF2 glyph rasterized
+console: file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4:26: WEBFONT PASS existing TTF metrics
+console: file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4:26: WEBFONT PASS truncated.woff2 rejected
+console: file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4:26: WEBFONT PASS invalid-flavor.woff2 rejected
+console: file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4:26: WEBFONT PASS valid font survives corrupt loads
+console: file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4:34: WEBFONT RESULT 7/7 PASS

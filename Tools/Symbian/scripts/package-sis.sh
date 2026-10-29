@@ -67,6 +67,7 @@ if [ -f "$browser/browser.exe" ]; then
     --file "$browser/browser_loc.rsc=!:\\resource\\apps\\browser_loc.rsc" \
     --file "$browser/browser_ui.rsc=!:\\resource\\apps\\browser_ui.rsc" \
     --file "$REPO/browser/test.html=c:\\data\\webkit\\test.html" \
-    --file "$cacert=c:\\resource\\webkit\\cacert.pem"
+    --file "$cacert=c:\\resource\\webkit\\cacert.pem" \
+    --file "$REPO/resources/fonts.conf=c:\\resource\\fontconfig\\fonts.conf"
 fi
 ls -l "$out"/*.sis

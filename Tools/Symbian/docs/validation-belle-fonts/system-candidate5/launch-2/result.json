@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "suite": "systemfonts",
+  "browser_sha256": "139e140d0802e9de9b202e6bb3d292ad7507415d68fbe86979f5af5f6756a7ff",
+  "emulator_sha256": "5f8704eb1c2461ceeb160eabd927a4f828765cad353e9107ae43f463127e292a",
+  "url": "file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=0e8c0c6984f64d2f82671b05cf0104d2",
+  "expected_checks": 7,
+  "fixtures": {
+    "README.md": "ca747c5515033de8922c98c313cb716cd4b73006fc748760ea83054b69ecf845",
+    "fontconfig-path-test.c": "044b7a9f38fc00ed06ac22f4de5134a93223882298de413fbb54d726858aa674",
+    "truncated.woff2": "1f37acfc651539e406e348e65e4a4e1156caa2fb7557547436d417cab16cd56e",
+    "index.html": "45aaf52bd817a81ef2dda2d0da0d61e37c874c85580b4fba2264f71cb624ebdb",
+    "Ahem.ttf": "f0a92cd0cc45735591c9b5b1fa8aecd5194e8dc518895ca22af94a46c23550dc",
+    "system-fonts.html": "c3bab56e516c338a5076b6e79bb1da40d8d3895e9fa9be4600912ab6ca8c8e28",
+    "Ahem.woff2": "0d5e4a15a398278a929fd0457211c959c61372333cb3fac16b47bfece26561f9",
+    "decoder-test.cpp": "5fa60321f0dbe632835e585262ad05b1aa877b43a7b064805fd40c6730a5424c",
+    "fonts.json": "7683555f4989bb9b9e93d7ccf0e49698ec9448a3657ba60a2c6cb2934b310e37",
+    "invalid-flavor.woff2": "2f564bf2fdca40f365ad5e4a230e735126cca66fb98d76619b2c446399d6ad71"
+  },
+  "ca_before": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "driver_exit": 0,
+  "source_run": "/workspace/symbian-belle-work/runs/browser-20261029T190919Z-1imw18gk",
+  "ca_after": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+  "passed_checks": 7,
+  "marker": "SYSTEMFONT RESULT 7/7 PASS",
+  "screenshot_sha256": "ba9ed58ec9d3340ea44b281e73781217a50e2df28f7a924b5a19e83a79807bed",
+  "guest_panic": false,
+  "shutdown": "normal WM close/host exit 0"
+}

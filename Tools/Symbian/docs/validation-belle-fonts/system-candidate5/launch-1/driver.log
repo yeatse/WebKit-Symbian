@@ -1,0 +1,18 @@
+logs: /workspace/symbian-belle-work/runs/browser-20261029T190732Z-1k34pewn
+19:07:33.277 WebKit Browser starting
+19:07:33.294 network: starting the connection
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+19:07:34.861 load file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b
+Symbian compositor: native EGL/GLES2 presented 360x532
+19:07:35.412 network: connected through "Host network"
+console: file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b:30: SYSTEMFONT PASS default English raster
+console: file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b:30: SYSTEMFONT PASS monospace i/W equal advances
+console: file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b:30: SYSTEMFONT PASS monospace distinct visible glyphs
+console: file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b:30: SYSTEMFONT PASS Chinese 中 differs from tofu
+console: file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b:30: SYSTEMFONT PASS Chinese 国 differs from tofu
+console: file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b:30: SYSTEMFONT PASS Chinese fallback glyphs differ
+console: file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b:30: SYSTEMFONT PASS serif/sans distinct raster
+console: file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b:41: SYSTEMFONT DETAILS {"run":"f68814ae068d40c4950a61a7161e8a0b","passed":7,"failed":0,"total":7,"checks":[{"name":"default English raster","passed":true},{"name":"monospace i/W equal advances","passed":true},{"name":"monospace distinct visible glyphs","passed":true},{"name":"Chinese 中 differs from tofu","passed":true},{"name":"Chinese 国 differs from tofu","passed":true},{"name":"Chinese fallback glyphs differ","passed":true},{"name":"serif/sans distinct raster","passed":true}],"renders":[{"name":"default Latin","text":"WebKit ABCxyz","family":"sans-serif","advance":220,"inkPixels":2035,"alphaHash":"14c26280"},{"name":"Latin missing-glyph control","text":"􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿","family":"sans-serif","advance":234,"inkPixels":3304,"alphaHash":"5f8d3f05"},{"name":"monospace i","text":"iiiiii","family":"monospace","advance":132,"inkPixels":546,"alphaHash":"f4a82ff1"},{"name":"monospace W","text":"WWWWWW","family":"monospace","advance":132,"inkPixels":1236,"alphaHash":"c61db8f1"},{"name":"monospace sample","text":"iii WWW 012","family":"monospace","advance":242,"inkPixels":1258,"alphaHash":"dfc641ba"},{"name":"Arial fallback U+4E2D","text":"中","family":"Arial","advance":36,"inkPixels":355,"alphaHash":"10b4da0c"},{"name":"Arial fallback U+56FD","text":"国","family":"Arial","advance":36,"inkPixels":567,"alphaHash":"903f7294"},{"name":"Arial missing U+10FFFF","text":"􏿿","family":"Arial","advance":27,"inkPixels":274,"alphaHash":"8f620085"},{"name":"generic serif","text":"AgMWil","family":"serif","advance":130,"inkPixels":1324,"alphaHash":"49646dcb"},{"name":"generic sans","text":"AgMWil","family":"sans-serif","advance":113,"inkPixels":1146,"alphaHash":"a5af6a9e"}]}
+console: file:///C:/Data/WebKit/web-fonts/system-fonts.html?autorun=1&run=f68814ae068d40c4950a61a7161e8a0b:42: SYSTEMFONT RESULT 7/7 PASS
+
+Browser observation completed; inspect screenshot and test outcomes: /workspace/symbian-belle-work/runs/browser-20261029T190732Z-1k34pewn/browser.png

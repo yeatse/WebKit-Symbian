@@ -1,0 +1,27 @@
+{
+  "source_sha256": {
+    "Source/cmake/OptionsSymbian.cmake": "3b73a0c528c3ec186a9ece9761591074fcf7cfb45579c598484192bf9a7e3a3b",
+    "Tools/Symbian/scripts/build-deps.sh": "119d18fd2745259efe7d5299adc8b6962a2bac1eba639ee6daf3660ddf9d07a3",
+    "Tools/Symbian/scripts/patch-fontconfig-paths.py": "5cc941b3fb621e0bc070ea13f57fe9d5b9e8082a0dc15ee61fb8b264786f93d8",
+    "Tools/Symbian/cmake/woff2/CMakeLists.txt": "f4fc2b2f7ca832056267989eaa63dbf9a59f02b8a8dbbccf38a4beae57db04e0",
+    "Tools/Symbian/resources/fonts.conf": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c",
+    "Tools/Symbian/tests/web-fonts/decoder-test.cpp": "5fa60321f0dbe632835e585262ad05b1aa877b43a7b064805fd40c6730a5424c",
+    "Tools/Symbian/tests/web-fonts/fontconfig-path-test.c": "47f167526a6e62d6e4ae1b3480a68436d1c7eab15d4c052143583baf2c1143aa",
+    "Tools/Symbian/tests/web-fonts/index.html": "45aaf52bd817a81ef2dda2d0da0d61e37c874c85580b4fba2264f71cb624ebdb"
+  },
+  "arm_cross_link_smoke": "PASS: actual OptionsSymbian WOFF2 block and decoder API resolve using all four target archives",
+  "fontconfig_host_checks": 11,
+  "decoder_host_checks": 7,
+  "guest_status": "PENDING: root engine build and EKA browser fixture have not run",
+  "sdk_freetype_unchanged": true,
+  "known_rom_families_read_only": [
+    "Nokia Sans S60",
+    "Nokia Sans TitleSmBd S60",
+    "Arial",
+    "Times New Roman",
+    "Georgia",
+    "Courier New",
+    "MHeiM-C-GB18030-S60"
+  ],
+  "rom_note": "Observed local RM-707 image only; no claim that every Belle image contains these families."
+}

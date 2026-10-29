@@ -30,8 +30,9 @@ set(shell_sources
 set(browser_media OFF)
 set(browser_compositing OFF)
 set(browser_webgl OFF)
+set(browser_woff2 OFF)
 if (NOT BROWSER_STUB_ENGINE)
-  foreach(feature IN ITEMS ENABLE_VIDEO USE_TEXTURE_MAPPER ENABLE_WEBGL)
+  foreach(feature IN ITEMS ENABLE_VIDEO USE_TEXTURE_MAPPER ENABLE_WEBGL USE_WOFF2)
     file(STRINGS "${WEBKIT_BUILD_DIR}/cmakeconfig.h" feature_enabled
       REGEX "^#define ${feature} 1$")
     if(feature_enabled)
@@ -39,8 +40,10 @@ if (NOT BROWSER_STUB_ENGINE)
         set(browser_media ON)
       elseif(feature STREQUAL "USE_TEXTURE_MAPPER")
         set(browser_compositing ON)
-      else()
+      elseif(feature STREQUAL "ENABLE_WEBGL")
         set(browser_webgl ON)
+      else()
+        set(browser_woff2 ON)
       endif()
     endif()
   endforeach()
@@ -99,6 +102,12 @@ if (NOT BROWSER_STUB_ENGINE)
   if(browser_webgl)
     list(APPEND graphics_libraries "${L}/libGLESv2.a" "${L}/libANGLE.a")
   endif()
+  set(font_decoder_libraries)
+  if(browser_woff2)
+    list(APPEND font_decoder_libraries
+      "${D}/libwoff2dec.a" "${D}/libwoff2common.a"
+      "${D}/libbrotlidec.a" "${D}/libbrotlicommon.a")
+  endif()
   target_link_libraries(browser PRIVATE
     --start-group
     "${L}/libWebKitLegacy.a"
@@ -107,6 +116,7 @@ if (NOT BROWSER_STUB_ENGINE)
     "${L}/libJavaScriptCore.a"
     "${L}/libWTF.a"
     ${graphics_libraries}
+    ${font_decoder_libraries}
     "${D}/libcairo.a" "${D}/libpixman-1.a" "${D}/libharfbuzz-icu.a" "${D}/libharfbuzz.a"
     "${D}/libfontconfig.a" "${D}/libxslt.a" "${D}/libxml2.a" "${D}/libsqlite3.a" "${D}/libpsl.a"
     "${D}/libwebpdemux.a" "${D}/libwebp.a" "${D}/libcurl.a" "${D}/libmbedtls_fs.a"

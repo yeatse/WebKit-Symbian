@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "reason": "Candidate2 exposed an optional C:/C:/resource/fontconfig/conf.avail probe. FcConfigFileExists prepended a slash to a Symbian absolute drive path.",
+  "patch": "Share the existing Windows absolute-drive guard on Symbian and use the existing per-platform FC_DIR_SEPARATOR_S when joining relative names.",
+  "before": {
+    "checks": 13,
+    "passed": 11,
+    "failed": [
+      "absolute configuration path keeps drive",
+      "absolute FONTCONFIG_FILE keeps drive"
+    ]
+  },
+  "after": {
+    "checks": 13,
+    "passed": 13,
+    "failures": 0
+  },
+  "patched_source_sha256": {
+    "src/fcstr.c": "bdb63f2ba3179feb5af097ffb97a59b1a275d2213c18a28bfdb17fffb6a2875d",
+    "src/fcint.h": "b8b69ae80624c18561dabfb029c4e055c5c68f732d3d6dee7243e354761da45f",
+    "src/fccfg.c": "2096b963e027332cf7ff1d1a4122271e803f588960f1c7783a593f7b0a4bc015"
+  },
+  "script_sha256": "69f99152206986fefe07b02dc28ee1c0a8a841b19e1744269fa87eeaf420fee0",
+  "regression_source_sha256": "044b7a9f38fc00ed06ac22f4de5134a93223882298de413fbb54d726858aa674",
+  "patch_idempotent": true,
+  "unknown_source_rejected_without_writes": true,
+  "fontconfig_arm_archive": {
+    "path": "/workspace/symbian-work/deps/install/lib/libfontconfig.a",
+    "bytes": 486960,
+    "sha256": "5dc8313a9970a7d85f1d61f24109f6ab221956ef1a00fbbd5ee1772cd03c4635"
+  },
+  "unchanged_woff2_brotli_archives": {
+    "libwoff2dec.a": "66034d1f03776c839f3bbae03a3f0aae2124ba1139b1530c4b503e79e808ec3d",
+    "libwoff2common.a": "3a1c6df45a575613c880f39e327cee9788ced482f37793fcb13471e27aca58af",
+    "libbrotlidec.a": "2c10c7bca30547a41b28dba3fdd481dd55765f86ba37b234bbc343a5cc12b01b",
+    "libbrotlicommon.a": "563e4d3342a3921362043d4545a0cb8a19820ac8024000bcdffc4ce810b2efef"
+  },
+  "guest_status": "Candidate3 verification pending; candidate2 seven-check success remains separately recorded."
+}

@@ -1,0 +1,26 @@
+{
+  "platform": "ARMv6/VFPv2 base PCS",
+  "sdk_freetype_modified": false,
+  "libraries": {
+    "libfontconfig.a": {
+      "bytes": 486880,
+      "sha256": "7efbb190f6b16a0410217bba4c4fe755b071512e211ac61dea1f261ed88f5462"
+    },
+    "libwoff2dec.a": {
+      "bytes": 74704,
+      "sha256": "66034d1f03776c839f3bbae03a3f0aae2124ba1139b1530c4b503e79e808ec3d"
+    },
+    "libwoff2common.a": {
+      "bytes": 10098,
+      "sha256": "3a1c6df45a575613c880f39e327cee9788ced482f37793fcb13471e27aca58af"
+    },
+    "libbrotlidec.a": {
+      "bytes": 58994,
+      "sha256": "2c10c7bca30547a41b28dba3fdd481dd55765f86ba37b234bbc343a5cc12b01b"
+    },
+    "libbrotlicommon.a": {
+      "bytes": 136108,
+      "sha256": "563e4d3342a3921362043d4545a0cb8a19820ac8024000bcdffc4ce810b2efef"
+    }
+  }
+}

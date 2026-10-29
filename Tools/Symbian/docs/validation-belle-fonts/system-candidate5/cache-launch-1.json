@@ -1,0 +1,28 @@
+{
+  "before": {
+    "CACHEDIR.TAG": {
+      "bytes": 200,
+      "mtime_ns": 1793267835550794574,
+      "sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682"
+    },
+    "891ec524e23f23b7ea346974caef44ad-le32d8.cache-7": {
+      "bytes": 60432,
+      "mtime_ns": 1793267835553239371,
+      "sha256": "2ada96e691be656e8587c9b84712dba22b98bf023dc47e4c99e4ac3740622e59"
+    }
+  },
+  "after": {
+    "CACHEDIR.TAG": {
+      "bytes": 200,
+      "mtime_ns": 1793267835550794574,
+      "sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682"
+    },
+    "891ec524e23f23b7ea346974caef44ad-le32d8.cache-7": {
+      "bytes": 60432,
+      "mtime_ns": 1793267835553239371,
+      "sha256": "2ada96e691be656e8587c9b84712dba22b98bf023dc47e4c99e4ac3740622e59"
+    }
+  },
+  "cleared": false,
+  "driver_exit": 1
+}

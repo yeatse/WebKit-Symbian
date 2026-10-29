@@ -1,0 +1,118 @@
+{
+  "run": "0e8c0c6984f64d2f82671b05cf0104d2",
+  "passed": 7,
+  "failed": 0,
+  "total": 7,
+  "checks": [
+    {
+      "name": "default English raster",
+      "passed": true
+    },
+    {
+      "name": "monospace i/W equal advances",
+      "passed": true
+    },
+    {
+      "name": "monospace distinct visible glyphs",
+      "passed": true
+    },
+    {
+      "name": "Chinese 中 differs from tofu",
+      "passed": true
+    },
+    {
+      "name": "Chinese 国 differs from tofu",
+      "passed": true
+    },
+    {
+      "name": "Chinese fallback glyphs differ",
+      "passed": true
+    },
+    {
+      "name": "serif/sans distinct raster",
+      "passed": true
+    }
+  ],
+  "renders": [
+    {
+      "name": "default Latin",
+      "text": "WebKit ABCxyz",
+      "family": "sans-serif",
+      "advance": 220,
+      "inkPixels": 2035,
+      "alphaHash": "14c26280"
+    },
+    {
+      "name": "Latin missing-glyph control",
+      "text": "􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿􏿿",
+      "family": "sans-serif",
+      "advance": 234,
+      "inkPixels": 3304,
+      "alphaHash": "5f8d3f05"
+    },
+    {
+      "name": "monospace i",
+      "text": "iiiiii",
+      "family": "monospace",
+      "advance": 132,
+      "inkPixels": 546,
+      "alphaHash": "f4a82ff1"
+    },
+    {
+      "name": "monospace W",
+      "text": "WWWWWW",
+      "family": "monospace",
+      "advance": 132,
+      "inkPixels": 1236,
+      "alphaHash": "c61db8f1"
+    },
+    {
+      "name": "monospace sample",
+      "text": "iii WWW 012",
+      "family": "monospace",
+      "advance": 242,
+      "inkPixels": 1258,
+      "alphaHash": "dfc641ba"
+    },
+    {
+      "name": "Arial fallback U+4E2D",
+      "text": "中",
+      "family": "Arial",
+      "advance": 36,
+      "inkPixels": 355,
+      "alphaHash": "10b4da0c"
+    },
+    {
+      "name": "Arial fallback U+56FD",
+      "text": "国",
+      "family": "Arial",
+      "advance": 36,
+      "inkPixels": 567,
+      "alphaHash": "903f7294"
+    },
+    {
+      "name": "Arial missing U+10FFFF",
+      "text": "􏿿",
+      "family": "Arial",
+      "advance": 27,
+      "inkPixels": 274,
+      "alphaHash": "8f620085"
+    },
+    {
+      "name": "generic serif",
+      "text": "AgMWil",
+      "family": "serif",
+      "advance": 130,
+      "inkPixels": 1324,
+      "alphaHash": "49646dcb"
+    },
+    {
+      "name": "generic sans",
+      "text": "AgMWil",
+      "family": "sans-serif",
+      "advance": 113,
+      "inkPixels": 1146,
+      "alphaHash": "a5af6a9e"
+    }
+  ]
+}

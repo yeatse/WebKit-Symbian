@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "browser_sha256": "139e140d0802e9de9b202e6bb3d292ad7507415d68fbe86979f5af5f6756a7ff",
+  "emulator_sha256": "5f8704eb1c2461ceeb160eabd927a4f828765cad353e9107ae43f463127e292a",
+  "launches": [
+    {
+      "status": "PASS",
+      "kind": "Independent offline verification of already completed guest run",
+      "run_token": "f68814ae068d40c4950a61a7161e8a0b",
+      "guest_checks": 7,
+      "inner_driver_exit": 0,
+      "original_wrapper_status": "FAIL",
+      "wrapper_note": "Original launch1 FAIL is retained: url.split(run=) accidentally matched autorun=. Standard URL query parsing matches the recorded nonce exactly.",
+      "cache_open_observed": true,
+      "chinese_font_file_open_observed": true,
+      "cache_unchanged": true,
+      "screenshot_sha256": "c85cfce6444e57e99aec2b571538cf2d05b3587e3125a48571ac026b48b16957"
+    },
+    {
+      "status": "PASS",
+      "kind": "Independent offline verification of already completed guest run",
+      "run_token": "0e8c0c6984f64d2f82671b05cf0104d2",
+      "guest_checks": 7,
+      "inner_driver_exit": 0,
+      "original_wrapper_status": "PASS",
+      "wrapper_note": "Original wrapper PASS retained.",
+      "cache_open_observed": true,
+      "chinese_font_file_open_observed": true,
+      "cache_unchanged": true,
+      "screenshot_sha256": "ba9ed58ec9d3340ea44b281e73781217a50e2df28f7a924b5a19e83a79807bed"
+    }
+  ],
+  "identical_render_measurements": true,
+  "content_roi": [
+    271,
+    102,
+    631,
+    634
+  ],
+  "content_pixels_identical": true,
+  "whole_screenshot_difference_bounds": [
+    357,
+    67,
+    576,
+    78
+  ],
+  "difference_explanation": "Only the fresh-run URL token differs; both pages visibly show Latin, monospace and distinct 中/国 glyphs plus missing-glyph boxes.",
+  "cache_observation": "Both launches opened the same existing 60432-byte cache; before/after SHA, mtime_ns and size remain identical. No cache cleared.",
+  "scope": "System-font raster/fallback and persisted cache reuse in named RM-707 fixture; no proprietary fonts copied."
+}

@@ -12,6 +12,7 @@ chmod 700 "$XDG_RUNTIME_DIR"
 export EKA2L1_DATA=${EKA2L1_DATA:-$XDG_DATA_HOME/EKA2L1/data}
 export SYMBIAN_BROWSER_WORK=$WORK SYMBIAN_BROWSER_TESTS=$REPO/tests
 export SYMBIAN_BROWSER_PAGE=$REPO/browser/test.html
+export SYMBIAN_BROWSER_FONTCONFIG=$REPO/resources/fonts.conf
 export SYMBIAN_BROWSER_ICU=$ICU_DIR/install/share/icu/icudt70l.dat
 export SYMBIAN_BROWSER_CLOSE_WINDOW=$REPO/eka2l1/close-emulator-window.py
 python3 - "$@" <<'PY'
@@ -37,7 +38,7 @@ work=Path(os.environ['SYMBIAN_BROWSER_WORK'])
 runs=work/'runs';runs.mkdir(parents=True,exist_ok=True)
 run=Path(tempfile.mkdtemp(prefix='browser-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ-'),dir=runs))
 c=data/'drives/c'
-for directory in ['sys/bin','Data/WebKit','private/10003a3f/import/apps','resource/apps','resource/icu']:
+for directory in ['sys/bin','Data/WebKit','private/10003a3f/import/apps','resource/apps','resource/icu','resource/fontconfig']:
     (c/directory).mkdir(parents=True,exist_ok=True)
 for src,dst in [(exe,'sys/bin/browser.exe'),(exe.parent/'browser_reg.rsc','private/10003a3f/import/apps/browser_reg.rsc'),(exe.parent/'browser_loc.rsc','resource/apps/browser_loc.rsc'),(Path(os.environ['SYMBIAN_BROWSER_ICU']),'resource/icu/icudt70l.dat'),(Path(os.environ['SYMBIAN_BROWSER_PAGE']),'Data/WebKit/test.html')]:
     shutil.copy2(src,c/dst)
@@ -46,6 +47,7 @@ for src,dst in [(exe,'sys/bin/browser.exe'),(exe.parent/'browser_reg.rsc','priva
 ui_resource=exe.parent/'browser_ui.rsc'
 if ui_resource.is_file():
     shutil.copy2(ui_resource,c/'resource/apps/browser_ui.rsc')
+shutil.copy2(Path(os.environ['SYMBIAN_BROWSER_FONTCONFIG']),c/'resource/fontconfig/fonts.conf')
 for page in Path(os.environ['SYMBIAN_BROWSER_TESTS']).glob('*.html'):
     shutil.copy2(page,c/'Data/WebKit'/page.name)
 for name in ['log.txt','log.old.txt','curl.txt']:

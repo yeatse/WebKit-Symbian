@@ -142,7 +142,7 @@ jobs:
         id: deps
         with:
           path: WebKitBuild/Symbian/deps/install
-          key: deps-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**') }}
+          key: deps-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/scripts/patch-fontconfig-paths.py', 'Tools/Symbian/cmake/woff2/**', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**') }}
       - name: Restore the compiler cache
         uses: actions/cache/restore@v4
         with:

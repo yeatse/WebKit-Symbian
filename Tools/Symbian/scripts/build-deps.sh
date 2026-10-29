@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Static ARMv6 builds of the libraries WebCore needs beyond the SDK's own
 # (FreeType, libpng, libjpeg, zlib, mbedTLS): pixman, cairo, HarfBuzz,
-# libxml2, libxslt, SQLite, fontconfig, libpsl, libwebp and curl, plus the mbedTLS
+# libxml2, libxslt, SQLite, fontconfig, WOFF2/Brotli decoders, libpsl, libwebp and curl, plus the mbedTLS
 # file functions the SDK leaves out (shims/mbedtls-fs.c). Installed into
 # $DEPS_DIR/install.
 #
@@ -34,6 +34,19 @@ fetch() {  # fetch URL DIR
       *.zip) (cd "$src" && unzip -q "$archive") ;;
       *) tar -xf "$archive" -C "$src" ;;
     esac
+  fi
+}
+
+fetch_checked() { # fetch_checked URL ARCHIVE DIR SHA256
+  local url=$1 archive=$src/$2 directory=$3 checksum=$4
+  if [ ! -f "$archive" ]; then
+    curl -sSfL -o "$archive.tmp" "$url"
+    echo "$checksum  $archive.tmp" | sha256sum -c --quiet
+    mv "$archive.tmp" "$archive"
+  fi
+  echo "$checksum  $archive" | sha256sum -c --quiet
+  if [ ! -d "$src/$directory" ]; then
+    tar -xf "$archive" -C "$src"
   fi
 }
 
@@ -192,7 +205,9 @@ build_libxslt() {
 }
 
 build_fontconfig() {
-  fetch https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.94.tar.xz fontconfig-2.13.94
+  fetch_checked https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.94.tar.xz \
+    fontconfig-2.13.94.tar.xz fontconfig-2.13.94 \
+    a5f052cb73fd479ffb7b697980510903b563bbb55b8f7a2b001fcfb94026003c
   # WebCore's FreeType font code selects fonts through fontconfig. The phone's
   # fonts are in Z:\resource\fonts; the configuration and cache live on C:.
   # Configuration files are parsed with libxml2 (built above) instead of expat.
@@ -203,22 +218,7 @@ build_fontconfig() {
 #define timercmp(a, b, CMP) (((a)->tv_sec == (b)->tv_sec) ? ((a)->tv_usec CMP (b)->tv_usec) : ((a)->tv_sec CMP (b)->tv_sec))
 #endif
 EOF2
-  # Paths start with a drive letter, as on Windows; fontconfig would take
-  # "Z:/resource/fonts" for a relative path and prefix the working directory.
-  python3 - "$src/fontconfig-2.13.94/src/fcstr.c" <<'EOF2'
-import sys
-path = sys.argv[1]
-s = open(path).read()
-s = s.replace("""#ifdef _WIN32
-    if (*s == '\\\\' ||""", """#if defined(_WIN32) || defined(__SYMBIAN32__)
-    if (*s == '\\\\' ||""", 1)
-s = s.replace("""#else
-    if (s[0] == '/')
-	return FcStrCanonAbsoluteFilename (s);""", """#else
-    if (s[0] == '/' || (isalpha (s[0]) && s[1] == ':' && s[2] == '/'))
-	return FcStrCanonAbsoluteFilename (s);""", 1)
-open(path, "w").write(s)
-EOF2
+  python3 "$REPO/scripts/patch-fontconfig-paths.py" "$src/fontconfig-2.13.94"
   (cd "$src/fontconfig-2.13.94" && CFLAGS="$cflags -include $src/fontconfig-2.13.94/symbian-compat.h" LIBXML2_CFLAGS="-I$P/include/libxml2" \
      LIBXML2_LIBS="-L$P/lib -lxml2" ./configure --host=arm-linux-gnueabi --prefix="$P" \
      --enable-static --disable-shared --enable-libxml2 --disable-docs --disable-cache-build \
@@ -230,6 +230,41 @@ EOF2
   make -C "$src/fontconfig-2.13.94/src" install
   make -C "$src/fontconfig-2.13.94" install-pkgconfigDATA
   make -C "$src/fontconfig-2.13.94/fontconfig" install
+}
+
+build_woff2() {
+  # Release commits: Brotli 028fb5a23661f123017c060daa546b55cf4bde29,
+  # WOFF2 1bccf208bca986e53a647dfe4811322adb06ecf8. Checksums pin bytes.
+  fetch_checked https://codeload.github.com/google/brotli/tar.gz/refs/tags/v1.2.0 \
+    brotli-1.2.0.tar.gz brotli-1.2.0 \
+    816c96e8e8f193b40151dad7e8ff37b1221d019dbcb9c35cd3fadbfe6477dfec
+  fetch_checked https://codeload.github.com/google/woff2/tar.gz/refs/tags/v1.0.2 \
+    woff2-1.0.2.tar.gz woff2-1.0.2 \
+    add272bb09e6384a4833ffca4896350fdb16e0ca22df68c0384773c67a175594
+  # This decoder only uses integer std::abs. <complex> unnecessarily requires
+  # long-double math declarations absent from Open C; <cstdlib> owns this API.
+  python3 - "$src/woff2-1.0.2/src/woff2_dec.cc" <<'EOF'
+import pathlib
+import sys
+path = pathlib.Path(sys.argv[1])
+source = path.read_text()
+before = '#include <complex>'
+after = '#include <cstdlib> // Symbian: integer std::abs, no complex arithmetic.'
+if before in source:
+    if source.count(before) != 1:
+        raise SystemExit('Unexpected WOFF2 decoder source')
+    path.write_text(source.replace(before, after))
+elif after not in source:
+    raise SystemExit('Unexpected WOFF2 decoder source')
+EOF
+  # Upstream's install also builds encoder command-line programs, which
+  # are not guest apps. Build/install only decoder and common libraries.
+  cmake -S "$REPO/cmake/woff2" -B "$DEPS_DIR/woff2-build" -G Ninja \
+    -DCMAKE_TOOLCHAIN_FILE="$REPO/toolchain/symbian-armv6.cmake" \
+    -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="$cflags" -DCMAKE_CXX_FLAGS="$cflags" \
+    "${release_flags[@]}" -DCMAKE_INSTALL_PREFIX="$P" \
+    -DBROTLI_SOURCE_DIR="$src/brotli-1.2.0" -DWOFF2_SOURCE_DIR="$src/woff2-1.0.2"
+  ninja -C "$DEPS_DIR/woff2-build" -j"$JOBS" install
 }
 
 build_libpsl() {
@@ -315,7 +350,7 @@ if [ "${1:-}" = --one ]; then
   "build_$2"
   exit
 fi
-all=(pixman sqlite libxml2 libxslt fontconfig cairo harfbuzz libpsl webp mbedtls_fs curl)
+all=(pixman sqlite libxml2 libxslt fontconfig cairo harfbuzz woff2 libpsl webp mbedtls_fs curl)
 sdk_pkgconfig
 for name in "${@:-${all[@]}}"; do
   step "$name"

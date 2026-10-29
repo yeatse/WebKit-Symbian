@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "kind": "Independent offline verification of already completed guest run",
+  "run_token": "f68814ae068d40c4950a61a7161e8a0b",
+  "guest_checks": 7,
+  "inner_driver_exit": 0,
+  "original_wrapper_status": "FAIL",
+  "wrapper_note": "Original launch1 FAIL is retained: url.split(run=) accidentally matched autorun=. Standard URL query parsing matches the recorded nonce exactly.",
+  "cache_open_observed": true,
+  "chinese_font_file_open_observed": true,
+  "cache_unchanged": true,
+  "screenshot_sha256": "c85cfce6444e57e99aec2b571538cf2d05b3587e3125a48571ac026b48b16957"
+}

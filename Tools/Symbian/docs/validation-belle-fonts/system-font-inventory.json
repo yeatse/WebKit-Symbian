@@ -1,0 +1,65 @@
+{
+  "scope": "Read-only fontTools cmap inspection of the existing RM-707 ROM fixture; no proprietary font files copied. This inventory alone does not prove guest fallback.",
+  "fonts": [
+    {
+      "guest_path": "Z:/resource/fonts/arial.ttf",
+      "sha256": "2cb4b62a291d4ed3236c5c5413473ecffd390fc56c5f39a69b255888fdc890a9",
+      "family": "Arial",
+      "unicode_cmap": {
+        "U+0069": "i",
+        "U+0057": "W",
+        "U+4E2D": null,
+        "U+56FD": null,
+        "U+10FFFF": null
+      }
+    },
+    {
+      "guest_path": "Z:/resource/fonts/cour.ttf",
+      "sha256": "e3539b3605acdd2f6a5533ff06475bed90a8aaaa5da8cde816fce58feedf86d0",
+      "family": "Courier New",
+      "unicode_cmap": {
+        "U+0069": "i",
+        "U+0057": "W",
+        "U+4E2D": null,
+        "U+56FD": null,
+        "U+10FFFF": null
+      }
+    },
+    {
+      "guest_path": "Z:/resource/fonts/times.ttf",
+      "sha256": "94e3927b3f67f32010ee7f0242cbefd447468a59bca31062fe5ec85fea898c52",
+      "family": "Times New Roman",
+      "unicode_cmap": {
+        "U+0069": "i",
+        "U+0057": "W",
+        "U+4E2D": null,
+        "U+56FD": null,
+        "U+10FFFF": null
+      }
+    },
+    {
+      "guest_path": "Z:/resource/fonts/nosnr60.ttf",
+      "sha256": "eb972f8656593a8d79628970e3ffdfbde793655295261689a4340603467fe222",
+      "family": "Nokia Sans S60",
+      "unicode_cmap": {
+        "U+0069": "i",
+        "U+0057": "W",
+        "U+4E2D": null,
+        "U+56FD": null,
+        "U+10FFFF": null
+      }
+    },
+    {
+      "guest_path": "Z:/resource/fonts/s60sc_c.ttf",
+      "sha256": "6ae3fcb81ffc5160d609788ff0f7e24b2b61bebfbd98077204c2f623c898c47f",
+      "family": "MHeiM-C-GB18030-S60",
+      "unicode_cmap": {
+        "U+0069": "i",
+        "U+0057": "W",
+        "U+4E2D": "uni4E2D",
+        "U+56FD": "uni56FD",
+        "U+10FFFF": null
+      }
+    }
+  ]
+}

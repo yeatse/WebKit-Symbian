@@ -1,0 +1,12 @@
+FONTCONFIG PASS Z:/resource/fonts
+FONTCONFIG PASS C:\resource\fontconfig\fonts.conf
+FONTCONFIG PASS E:/fonts//test/../Ahem.ttf
+FONTCONFIG PASS fonts\Ahem.ttf
+FONTCONFIG PASS create configuration
+FONTCONFIG PASS parse shipped fonts.conf
+FONTCONFIG PASS ROM font directory preserves drive
+FONTCONFIG PASS writable font directory preserves drive
+FONTCONFIG PASS no host or HOME font directories
+FONTCONFIG PASS writable cache directory
+FONTCONFIG PASS semicolon search path keeps drive colon
+FONTCONFIG RESULT 0 failures

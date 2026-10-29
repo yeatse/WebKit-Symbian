@@ -1,0 +1,111 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>System font raster and fallback regression</title>
+<style>
+body { margin: 10px; font: 14px sans-serif; background: white; color: black; }
+h1 { font-size: 19px; margin: 6px 0; }
+canvas { display: block; max-width: 100%; }
+.glyphs { display: flex; }
+.glyphs > div { width: 100px; }
+pre { font-size: 12px; white-space: pre-wrap; }
+</style>
+<h1>System fonts: English / 中文</h1>
+<div id="samples"></div>
+<pre id="results"></pre>
+<script>
+(async function () {
+    'use strict';
+    var passed = 0, failed = 0, finished = false;
+    var records = [], details = [];
+    var samples = document.getElementById('samples');
+    var output = document.getElementById('results');
+    var unsupported = String.fromCodePoint(0x10ffff);
+    var run = new URL(location.href).searchParams.get('run') || 'manual';
+    function check(name, ok) {
+        if (finished) return;
+        if (ok) ++passed; else ++failed;
+        var line = 'SYSTEMFONT ' + (ok ? 'PASS ' : 'FAIL ') + name;
+        output.textContent += line + '\n';
+        console.log(line);
+        records.push({ name: name, passed: !!ok });
+    }
+    function finish() {
+        if (finished) return;
+        finished = true;
+        var line = 'SYSTEMFONT RESULT ' + passed + '/' + (passed + failed) + ' ' + (failed ? 'FAIL' : 'PASS');
+        output.textContent += line + '\n';
+        document.title = line;
+        var report = { run: run, passed: passed, failed: failed, total: passed + failed, checks: records, renders: details };
+        window.systemFontTestResult = report;
+        console.log('SYSTEMFONT DETAILS ' + JSON.stringify(report));
+        console.log(line);
+    }
+    function render(name, text, family, parent, canvasWidth) {
+        var canvas = document.createElement('canvas');
+        canvas.width = canvasWidth || 320;
+        canvas.height = 56;
+        var context = canvas.getContext('2d');
+        context.font = '36px ' + family;
+        context.fillStyle = '#000';
+        context.fillText(text, 2, 40);
+        var pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        var alpha = new Uint8Array(canvas.width * canvas.height);
+        var ink = 0, hash = 2166136261;
+        for (var i = 0; i < alpha.length; ++i) {
+            alpha[i] = pixels[i * 4 + 3];
+            if (alpha[i]) ++ink;
+            hash = Math.imul(hash ^ alpha[i], 16777619) >>> 0;
+        }
+        var width = context.measureText(text).width;
+        details.push({ name: name, text: text, family: family, advance: width, inkPixels: ink, alphaHash: hash.toString(16) });
+        if (parent) parent.appendChild(canvas);
+        return { alpha: alpha, ink: ink, width: width, canvas: canvas };
+    }
+    function differs(left, right) {
+        for (var i = 0; i < left.alpha.length; ++i)
+            if (left.alpha[i] !== right.alpha[i]) return true;
+        return false;
+    }
+    var timeout = setTimeout(function () { check('bounded completion', false); finish(); }, 15000);
+    try {
+        await document.fonts.ready;
+        var latin = render('default Latin', 'WebKit ABCxyz', 'sans-serif', samples);
+        var latinMissing = render('Latin missing-glyph control', unsupported.repeat(13), 'sans-serif');
+        check('default English raster', latin.ink > 10 && latin.width > 0 && differs(latin, latinMissing));
+
+        var narrow = render('monospace i', 'iiiiii', 'monospace');
+        var wide = render('monospace W', 'WWWWWW', 'monospace');
+        render('monospace sample', 'iii WWW 012', 'monospace', samples);
+        check('monospace i/W equal advances', narrow.width > 0 && Math.abs(narrow.width - wide.width) < 0.01);
+        check('monospace distinct visible glyphs', narrow.ink > 10 && wide.ink > 10 && differs(narrow, wide));
+
+        var glyphs = document.createElement('div');
+        glyphs.className = 'glyphs';
+        samples.appendChild(glyphs);
+        function glyphCell(label) {
+            var cell = document.createElement('div');
+            cell.textContent = label;
+            glyphs.appendChild(cell);
+            return cell;
+        }
+        var middle = render('Arial fallback U+4E2D', '中', 'Arial', glyphCell('Arial → 中'), 80);
+        var country = render('Arial fallback U+56FD', '国', 'Arial', glyphCell('Arial → 国'), 80);
+        var missing = render('Arial missing U+10FFFF', unsupported, 'Arial', glyphCell('unsupported'), 80);
+        // The recorded RM-707 Arial cmap contains neither Chinese character.
+        // Compare the full alpha masks; nontransparent tofu alone cannot pass.
+        check('Chinese 中 differs from tofu', middle.ink > 10 && middle.width > 0 && differs(middle, missing));
+        check('Chinese 国 differs from tofu', country.ink > 10 && country.width > 0 && differs(country, missing));
+        check('Chinese fallback glyphs differ', differs(middle, country));
+
+        var serif = render('generic serif', 'AgMWil', 'serif');
+        var sans = render('generic sans', 'AgMWil', 'sans-serif');
+        // This fixture's RM-707 inventory includes Times New Roman and Nokia Sans.
+        check('serif/sans distinct raster', serif.ink > 10 && sans.ink > 10 && differs(serif, sans));
+    } catch (error) {
+        check('unexpected exception: ' + error, false);
+    }
+    clearTimeout(timeout);
+    finish();
+}());
+</script>

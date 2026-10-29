@@ -1,0 +1,25 @@
+{
+  "source": "Source/ThirdParty/skia/resources/fonts/ahem.ttf",
+  "source_sha256": "f0a92cd0cc45735591c9b5b1fa8aecd5194e8dc518895ca22af94a46c23550dc",
+  "font": "Ahem 1.50",
+  "license": "Public domain / CC0; copyright and source URL retained in the font name table.",
+  "encoder": "fontTools 4.61.1, Brotli 1.2.0; recalcTimestamp=False",
+  "files": {
+    "truncated.woff2": {
+      "bytes": 48,
+      "sha256": "1f37acfc651539e406e348e65e4a4e1156caa2fb7557547436d417cab16cd56e"
+    },
+    "Ahem.ttf": {
+      "bytes": 22572,
+      "sha256": "f0a92cd0cc45735591c9b5b1fa8aecd5194e8dc518895ca22af94a46c23550dc"
+    },
+    "Ahem.woff2": {
+      "bytes": 2916,
+      "sha256": "0d5e4a15a398278a929fd0457211c959c61372333cb3fac16b47bfece26561f9"
+    },
+    "invalid-flavor.woff2": {
+      "bytes": 2916,
+      "sha256": "2f564bf2fdca40f365ad5e4a230e735126cca66fb98d76619b2c446399d6ad71"
+    }
+  }
+}

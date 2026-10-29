@@ -1,0 +1,8 @@
+WEBFONT PASS static TTF metrics
+WEBFONT PASS Ahem.woff2
+WEBFONT PASS Ahem.woff2
+WEBFONT PASS truncated.woff2
+WEBFONT PASS truncated.woff2
+WEBFONT PASS invalid-flavor.woff2
+WEBFONT PASS invalid-flavor.woff2
+WEBFONT RESULT 0 failures

@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "browser_sha256": "91cf3692692f07b39ab495d32c6a4efa8270a66918ada79c681b2dbb446d0168",
+  "emulator_sha256": "12c275e7f7b3fa8da4fa58ef4d048799db278baaeca7a45d3f78debad3051a4c",
+  "fresh_run_url": "file:///C:/Data/WebKit/web-fonts/index.html?autorun=1&run=c7e7681852684c2b9a51070cfa7816f4",
+  "exact_result_markers": 1,
+  "passed_check_markers": 7,
+  "normal_host_exit": 0,
+  "visual_review": "Both 200px Ahem sample bars and all seven PASS lines visible; no missing glyph boxes.",
+  "fonts_conf": {
+    "path": "C:/resource/fontconfig/fonts.conf",
+    "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c",
+    "bytes": 935,
+    "matches_repository": true
+  },
+  "fixtures": [
+    {
+      "path": "C:/Data/WebKit/web-fonts/README.md",
+      "sha256": "14cc44419d14570f6a08b76a3cf89f5dbf5186bd52abd4f58359fbec461d4556",
+      "bytes": 3493
+    },
+    {
+      "path": "C:/Data/WebKit/web-fonts/fontconfig-path-test.c",
+      "sha256": "47f167526a6e62d6e4ae1b3480a68436d1c7eab15d4c052143583baf2c1143aa",
+      "bytes": 2399
+    },
+    {
+      "path": "C:/Data/WebKit/web-fonts/truncated.woff2",
+      "sha256": "1f37acfc651539e406e348e65e4a4e1156caa2fb7557547436d417cab16cd56e",
+      "bytes": 48
+    },
+    {
+      "path": "C:/Data/WebKit/web-fonts/index.html",
+      "sha256": "45aaf52bd817a81ef2dda2d0da0d61e37c874c85580b4fba2264f71cb624ebdb",
+      "bytes": 3097
+    },
+    {
+      "path": "C:/Data/WebKit/web-fonts/Ahem.ttf",
+      "sha256": "f0a92cd0cc45735591c9b5b1fa8aecd5194e8dc518895ca22af94a46c23550dc",
+      "bytes": 22572
+    },
+    {
+      "path": "C:/Data/WebKit/web-fonts/Ahem.woff2",
+      "sha256": "0d5e4a15a398278a929fd0457211c959c61372333cb3fac16b47bfece26561f9",
+      "bytes": 2916
+    },
+    {
+      "path": "C:/Data/WebKit/web-fonts/decoder-test.cpp",
+      "sha256": "5fa60321f0dbe632835e585262ad05b1aa877b43a7b064805fd40c6730a5424c",
+      "bytes": 1989
+    },
+    {
+      "path": "C:/Data/WebKit/web-fonts/fonts.json",
+      "sha256": "7683555f4989bb9b9e93d7ccf0e49698ec9448a3657ba60a2c6cb2934b310e37",
+      "bytes": 894
+    },
+    {
+      "path": "C:/Data/WebKit/web-fonts/invalid-flavor.woff2",
+      "sha256": "2f564bf2fdca40f365ad5e4a230e735126cca66fb98d76619b2c446399d6ad71",
+      "bytes": 2916
+    }
+  ],
+  "artifacts": {
+    "result.json": {
+      "bytes": 1665,
+      "sha256": "f28e5e170138f636093132ac37819af799844be68a2f7887ddb5402277a7a59b"
+    },
+    "log.txt": {
+      "bytes": 1497,
+      "sha256": "c992d245cf189f9df8cc6cc9fc39324dda2ef6ce5cbe41310a8cd5b4d4bccd67"
+    },
+    "browser.png": {
+      "bytes": 49552,
+      "sha256": "0c0fbcc2c85057d321c4bfdc71b5731f2a5deac4c5a2f43dfb550f36396be393"
+    },
+    "emulator.log.gz": {
+      "bytes": 18316,
+      "sha256": "8a586d599b7932060d661e7159fb12e436129d0600fc1f466e5bacc6685e1fff"
+    }
+  },
+  "known_limit": "An optional conf.avail absolute lookup still probes C:/C:/resource/fontconfig/conf.avail. Main fonts.conf, ROM font discovery, WOFF2/TTF loading and seven fixture checks passed. This run does not establish arbitrary absolute FONTCONFIG_FILE lookup or SIS installation."
+}
