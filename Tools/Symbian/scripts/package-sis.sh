@@ -34,8 +34,16 @@ fi
 platforms=(--platform 0x20022E6D=S60ProductID --platform 0x20032DE7=S60ProductID)
 make_sis() { python3 "$REPO/scripts/make-sis.py" --vendor "$vendor" --version "$version" "${platforms[@]}" "${sign[@]}" "$@"; }
 
-make_sis --uid 0xE1A5C013 --name "Symbian WebKit ICU data" --output "$out/symbian-webkit-icu.sis" \
-  --file "$icu=c:\\resource\\icu\\icudt70l.dat"
+case "$ICU_DATA" in
+  file)
+    make_sis --uid 0xE1A5C013 --name "Symbian WebKit ICU data" --output "$out/symbian-webkit-icu.sis" \
+      --file "$icu=c:\\resource\\icu\\icudt70l.dat"
+    ;;
+  static)
+    rm -f "$out/symbian-webkit-icu.sis"
+    ;;
+  *) echo "ICU_DATA must be file or static" >&2; exit 1 ;;
+esac
 
 if [ -f "$jsc" ]; then
   make_sis --uid 0xE1A5C011 --name "JavaScriptCore shell" --output "$out/jsc.sis" \

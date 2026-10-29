@@ -9,7 +9,7 @@ Usage:
               --output PACKAGE.sis
 
 TARGET is an install path such as '!:\\sys\\bin\\browser.exe' ('!' lets the
-user choose the drive) or 'c:\\resource\\icu\\icudt63l.dat'. E32 images get
+user choose the drive) or 'c:\\resource\\icu\\icudt70l.dat'. E32 images get
 their header's capabilities in the file description, which the installer
 checks against the image. A package may hold data files only.
 

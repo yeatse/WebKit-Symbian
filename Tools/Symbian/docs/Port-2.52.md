@@ -12,7 +12,14 @@ Updated: 2026-10-29 (Asia/Singapore).
 
 ## Current checkpoint
 
-The source port is being reconstructed. ICU 70.1 and all third-party target dependencies have compiled. JSC has compiled, linked and converted to E32: `jsc.exe` is 14,305,772 bytes, SHA256 `77a73defd8f84e260455d9416e6b191f803f7a128912d43d5baf297780aa3b02`. ICU data SHA256 is `5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f`. No guest runtime pass is claimed yet.
+The source port is being reconstructed. ICU 70.1 and all third-party target dependencies have compiled. JSC has compiled, linked and converted to E32: `jsc.exe` is 14,305,772 bytes, SHA256 `77a73defd8f84e260455d9416e6b191f803f7a128912d43d5baf297780aa3b02`. ICU data SHA256 is `5fe6ac8866742956f7fac9bcee571b6450cb56808445c19e544c08bdea66755f`. All four fresh EKA2L1/X7 runs pass with the expected PASS marker, `jsc exiting 0`, host exit 0 and no guest panic/access violation:
+
+- basic: `jsc-20261029T091922Z-483yuvby`
+- language: `jsc-20261029T091940Z-1qf4zvv_`
+- Intl: `jsc-20261029T091942Z-fp4lf4fw`
+- RAB/GSAB/GC: `jsc-20261029T091943Z-a6ugcdvw`, with `--useSharedArrayBuffer=true`
+
+Run directories are under the local work directory's `runs/`. RAB covers page growth/data preservation, shrinking/regrowth zeroing and bounds; GSAB covers growth and rejected shrinking. Guest OOM fault injection and physical-device behavior have not been tested.
 
 WebCore configuration succeeds and PAL has compiled and archived. The AVKON shell's 11 ARM objects have compiled; 21 WebCore/PAL platform and crypto translation units and 6 Legacy embedding translation units pass actual ARM/C++23 syntax checks. Full WebCore/Legacy archives, final browser ELF/E32, SIS and guest execution are still pending.
 
@@ -26,13 +33,10 @@ Verified environment preparation: SDK compiler, linker and stock E32 converter b
 
 ## Required validation
 
-- WTF/JSC cross compilation, final ELF and E32 conversion.
-- Fresh EKA JSC basic/language/Intl/RAB/GSAB tests.
 - WebCore/PAL/Legacy and browser compilation, ELF, E32 and SIS.
 - Local browser DOM/JS/Chinese rendering and input.
 - WebCrypto standard vectors and error inputs.
 - HTTP, WebSocket, HTTPS, WSS, untrusted certificates and hostname mismatch.
-- Converter malformed/large exception-index fixtures and idempotent SDK patches.
 
 ## Boundaries
 
