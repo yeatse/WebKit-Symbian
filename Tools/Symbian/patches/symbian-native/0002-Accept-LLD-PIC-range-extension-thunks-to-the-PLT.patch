@@ -1,0 +1,188 @@
+diff --git a/cpp/symbian/e32/imports.cc b/cpp/symbian/e32/imports.cc
+index 795ee1c..fde626d 100644
+--- a/cpp/symbian/e32/imports.cc
++++ b/cpp/symbian/e32/imports.cc
+@@ -591,6 +591,11 @@ absl::StatusOr<ResolvedImports> ResolveImports(
+ absl::Status CheckImportCall(std::string_view elf, const Segment& code,
+                              uint32_t location, uint32_t type,
+                              uint32_t slot_offset) {
++  if (!Within(elf.size(), code.offset, code.size) ||
++      location < code.address ||
++      !Within(code.size, location - code.address, 4)) {
++    return absl::DataLossError("Import call instruction outside code");
++  }
+   const size_t p = code.offset + location - code.address;
+   int64_t target = 0;
+   if (type == 28 || type == 29) {
+@@ -616,27 +621,69 @@ absl::Status CheckImportCall(std::string_view elf, const Segment& code,
+       return absl::DataLossError("Thumb import instruction is unaligned");
+     }
+     const uint16_t first = Read16(elf, p), second = Read16(elf, p + 2);
+-    if ((first & 0xf800) != 0xf000 || (second & 0xf800) != 0xe800) {
++    // BLX to the PLT, or BL to an LLD Thumb range-extension thunk.
++    const bool exchange = (second & 0xf800) == 0xe800;
++    if ((first & 0xf800) != 0xf000 ||
++        (!exchange && (second & 0xf800) != 0xf800)) {
+       return absl::UnimplementedError("Requires ARMv5 Thumb BLX import call");
+     }
+     int64_t displacement = ((first & 0x7ff) << 12) | ((second & 0x7ff) << 1);
+     if (first & 0x400) {
+       displacement -= int64_t{1} << 23;
+     }
+-    target = ((location + 4) & ~uint32_t{3}) + displacement;
++    if (exchange) {
++      target = ((location + 4) & ~uint32_t{3}) + displacement;
++    } else {
++      // A Thumb thunk switches to ARM ("bx pc; nop") before the ARM thunk.
++      const int64_t thunk = location + 4 + displacement;
++      if (thunk < code.address || thunk % 4 ||
++          !Within(code.size, static_cast<uint64_t>(thunk - code.address), 4) ||
++          Read16(elf, code.offset + static_cast<size_t>(thunk - code.address)) !=
++              0x4778) {
++        return absl::UnimplementedError(
++            "Requires an LLD Thumb-to-ARM thunk for a Thumb BL import call");
++      }
++      target = thunk + 4;
++    }
+   } else {
+     return absl::UnimplementedError("Unsupported external call relocation");
+   }
+   if (target < code.address || target % 4 ||
+-      !Within(code.size, static_cast<uint64_t>(target - code.address), 12)) {
++      !Within(code.size, static_cast<uint64_t>(target - code.address), 4)) {
+     return absl::DataLossError("Import call target outside code");
+   }
+-  const size_t t = code.offset + static_cast<size_t>(target - code.address);
++  size_t t = code.offset + static_cast<size_t>(target - code.address);
++  // A call beyond a BL's +-32 MB reaches the PLT through an LLD
++  // position-independent range-extension thunk (--pic-veneer):
++  //   ldr ip, [pc, #4]; add ip, pc, ip; bx ip; .word target - (thunk + 12)
++  // It needs no relocation, so the call may go through it.
++  const uint32_t thunk_word = Read32(elf, t);
++  if ((thunk_word & 0xff000000) == 0xea000000) {
++    // LLD also relaxes an ARM thunk to a single unconditional branch.
++    int64_t displacement = static_cast<int64_t>(thunk_word & 0xffffff) * 4;
++    if (thunk_word & 0x800000) {
++      displacement -= int64_t{1} << 26;
++    }
++    target += 8 + displacement;
++  } else if (Within(code.size,
++                    static_cast<uint64_t>(target - code.address), 16) &&
++             thunk_word == 0xe59fc004 && Read32(elf, t + 4) == 0xe08fc00c &&
++             Read32(elf, t + 8) == 0xe12fff1c) {
++    target = static_cast<int64_t>(
++        static_cast<uint32_t>(target + 12 + Read32(elf, t + 12)));
++  }
++  if (target < code.address || target % 4 ||
++      !Within(code.size, static_cast<uint64_t>(target - code.address), 12)) {
++    return absl::DataLossError("Import call thunk target outside code");
++  }
++  t = code.offset + static_cast<size_t>(target - code.address);
+   const uint32_t a = Read32(elf, t), b = Read32(elf, t + 4),
+                  c = Read32(elf, t + 8);
+   if ((a & 0xfffff000) != 0xe28fc000 || (b & 0xfffff000) != 0xe28cc000 ||
+       (c & 0xfffff000) != 0xe5bcf000) {
+-    return absl::UnimplementedError("Requires PC-relative ARM LLD PLT veneer");
++    return absl::UnimplementedError(absl::StrCat(
++        "Requires PC-relative ARM LLD PLT veneer: call at 0x",
++        absl::Hex(location), " targets 0x", absl::Hex(target)));
+   }
+   auto immediate = [](uint32_t instruction) {
+     const uint32_t value = instruction & 0xff;
+diff --git a/cpp/tests/e32_test.cc b/cpp/tests/e32_test.cc
+index c9a0bf2..6555ba7 100644
+--- a/cpp/tests/e32_test.cc
++++ b/cpp/tests/e32_test.cc
+@@ -353,6 +353,92 @@ TEST(E32Test, ImportCallMustReachItsOwnPcRelativeVeneerSlot) {
+   EXPECT_FALSE(internal::CheckImportCall(elf, code, 0x8000, 28, 64).ok());
+ }
+ 
++TEST(E32Test, AcceptsSingleBranchImportThunkInEitherDirection) {
++  for (uint32_t thunk : {32U, 124U}) {
++    std::string elf(128, '\0');
++    const internal::Segment code{0, 0x8000, 128};
++    Put32(elf, 0, 0xeb000000 | ((thunk - 8) / 4));
++    const int32_t displacement = 64 - static_cast<int32_t>(thunk) - 8;
++    Put32(elf, thunk,
++          0xea000000 | (static_cast<uint32_t>(displacement / 4) & 0xffffff));
++    Put32(elf, 64, 0xe28fc000);
++    Put32(elf, 68, 0xe28cc000);
++    Put32(elf, 72, 0xe5bcf018);  // Slot at code + 96.
++    EXPECT_TRUE(internal::CheckImportCall(elf, code, 0x8000, 28, 96).ok());
++    EXPECT_FALSE(internal::CheckImportCall(elf, code, 0x8000, 28, 100).ok());
++  }
++}
++
++TEST(E32Test, RejectsUnverifiedSingleBranchImportThunks) {
++  for (uint32_t branch : {0x0a000006U, 0xeb000006U, 0xea7fffffU,
++                          0xea800000U, 0xeafffffeU, 0xea000015U}) {
++    std::string elf(128, '\0');
++    const internal::Segment code{0, 0x8000, 128};
++    Put32(elf, 0, 0xeb000006);
++    Put32(elf, 32, branch);
++    Put32(elf, 64, 0xe28fc000);
++    Put32(elf, 68, 0xe28cc000);
++    Put32(elf, 72, 0xe5bcf018);
++    EXPECT_FALSE(internal::CheckImportCall(elf, code, 0x8000, 28, 96).ok())
++        << std::hex << branch;
++  }
++}
++
++TEST(E32Test, AcceptsArmAndThumbPicImportThunks) {
++  for (bool thumb : {false, true}) {
++    std::string elf(128, '\0');
++    const internal::Segment code{0, 0x8000, 128};
++    if (thumb) {
++      Put16(elf, 0, 0xf000);
++      Put16(elf, 2, 0xf80c);  // Thumb BL to code + 28.
++      Put16(elf, 28, 0x4778);
++      Put16(elf, 30, 0x46c0);
++    } else {
++      Put32(elf, 0, 0xeb000006);
++    }
++    Put32(elf, 32, 0xe59fc004);
++    Put32(elf, 36, 0xe08fc00c);
++    Put32(elf, 40, 0xe12fff1c);
++    Put32(elf, 44, 64 - 44);
++    Put32(elf, 64, 0xe28fc000);
++    Put32(elf, 68, 0xe28cc000);
++    Put32(elf, 72, 0xe5bcf018);
++    EXPECT_TRUE(internal::CheckImportCall(elf, code, 0x8000,
++                                         thumb ? 10 : 28, 96).ok());
++    EXPECT_FALSE(internal::CheckImportCall(elf, code, 0x8000,
++                                          thumb ? 10 : 28, 100).ok());
++  }
++}
++
++TEST(E32Test, RejectsMalformedPicThunksAndTruncatedImportInstructions) {
++  std::string original(128, '\0');
++  const internal::Segment code{0, 0x8000, 128};
++  Put32(original, 0, 0xeb000006);
++  Put32(original, 32, 0xe59fc004);
++  Put32(original, 36, 0xe08fc00c);
++  Put32(original, 40, 0xe12fff1c);
++  Put32(original, 44, 20);
++  Put32(original, 64, 0xe28fc000);
++  Put32(original, 68, 0xe28cc000);
++  Put32(original, 72, 0xe5bcf018);
++  for (const auto& [offset, value] :
++       std::vector<std::pair<uint32_t, uint32_t>>{
++           {32, 0xe59fc000}, {36, 0xe08fc004}, {40, 0xe12fff10},
++           {44, 21}, {44, 128}, {44, 0xffff0000}, {72, 0xe5bcf01c}}) {
++    auto elf = original;
++    Put32(elf, offset, value);
++    EXPECT_FALSE(internal::CheckImportCall(elf, code, 0x8000, 28, 96).ok());
++  }
++  EXPECT_FALSE(internal::CheckImportCall(original, code, 0x7ffc, 28, 96).ok());
++  EXPECT_FALSE(internal::CheckImportCall(original, code, 0x807e, 10, 96).ok());
++  EXPECT_FALSE(internal::CheckImportCall(original.substr(0, 127), code,
++                                        0x8000, 28, 96).ok());
++  Put32(original, 0, 0xeb00001c);  // Truncated long thunk at code + 120.
++  Put32(original, 120, 0xe59fc004);
++  Put32(original, 124, 0xe08fc00c);
++  EXPECT_FALSE(internal::CheckImportCall(original, code, 0x8000, 28, 96).ok());
++}
++
+ TEST(E32PointerTest, EmitsRuntimeFixupWithoutReapplyingLinkedSymbol) {
+   std::string elf = Executable();
+   Put32(elf, 100, 0x8019);

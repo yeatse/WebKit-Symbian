@@ -12,7 +12,13 @@ Updated: 2026-10-29 (Asia/Singapore).
 
 ## Current checkpoint
 
-The source port is being reconstructed. Build tools have been migrated to ICU70/C_LOOP, the reference tooling is retained, and platform API migration is in progress. No new JSC or browser runtime pass is claimed at this checkpoint.
+The source port is being reconstructed. ICU 70.1 and all third-party target dependencies have compiled. JSC and WebCore CMake configurations succeed; full builds and Legacy API adaptation are in progress. No new JSC or browser runtime pass is claimed at this checkpoint.
+
+The E32 converter's 47 host regression tests pass, including a valid exception index larger than 64 KiB, malformed table/descriptor rejection and strict single-branch ARM import thunks. Clean sequential patch application, reverse checks and repeated cached builds pass. Converter SHA256: `6639323282ca92f09c823a9ea7178b318c2198cfdf27c5e0bb9e50cef6d5f27d`. This does not establish full-browser E32 conversion.
+
+Host fault injection compiles the actual `SymbianSystem.cpp` against fake kernel interfaces and passes reservation/commit rollback, data preservation, decommit/zeroing, slot limit/reuse and entropy failure/short-fill checks. Six fake-emulator runner regressions pass. These validate algorithms and harness behavior; they do not substitute for guest kernel or JSC execution.
+
+Browser fixture pages cover HTTP/WebSocket and TLS. WebCrypto vectors have supplementary host checks, but all browser fixture outcomes still need to be established in the Symbian engine.
 
 Verified environment preparation: SDK compiler, linker and stock E32 converter built the SDK hello-time example. This does not validate WebKit. SDK entropy source uses the checked kernel secure RNG path with a 1024-byte request limit; emulator behavior cannot establish physical-device entropy quality.
 
