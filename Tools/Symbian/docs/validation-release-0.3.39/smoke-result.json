@@ -1,0 +1,128 @@
+{
+  "status": "PASS",
+  "browser_sha256": "2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd",
+  "launch_path": "E:/sys/bin/browser.exe",
+  "exe_resources_icu_test_html_copy": false,
+  "suites": [
+    {
+      "name": "local",
+      "status": "PASS",
+      "url": "file:///C:/data/webkit/test.html?autorun=1&run=d8dffba1b0044813abfcb14e7bf1c4e3",
+      "expected_checks": 1,
+      "driver_exit": 0,
+      "passed_checks": 1,
+      "marker": "PASS: browser-local",
+      "screenshot_sha256": "0003de879ee0edb63794062904b364b5295d9d40d4dd78ea24e1ce80dff068ce",
+      "guest_panic": false,
+      "shutdown": "normal WM close/host exit 0",
+      "source_run_id": "browser-20261029T173017Z-e6m1qifc",
+      "files": {
+        "guest.log.gz": {
+          "uncompressed_sha256": "f9d57c18cbfd31f5e9aceb16b766620a29eeb7998bd1d35e26a8eb445dd8caa4",
+          "uncompressed_bytes": 550,
+          "sha256": "44302279bb2d3aac1534eba35019bdda1e03a86ef3393fc52da6ad649bcfc57f"
+        },
+        "browser.png": {
+          "sha256": "0003de879ee0edb63794062904b364b5295d9d40d4dd78ea24e1ce80dff068ce",
+          "bytes": 56580
+        }
+      },
+      "host_log": {
+        "archived": false,
+        "sha256": "7ffab48128563def23b53ad0d4d3b00dd52fa70e2dd89c5d1816ead5f81ca2c1",
+        "bytes": 208887,
+        "panic_or_access_violation": false
+      }
+    },
+    {
+      "name": "idna",
+      "status": "PASS",
+      "url": "file:///C:/Data/WebKit/idna.html?autorun=1&run=eae590c9507a4a47a4cf09b5bd753c04",
+      "expected_checks": 9,
+      "driver_exit": 0,
+      "passed_checks": 9,
+      "marker": "IDNA RESULT 9/9 PASS",
+      "screenshot_sha256": "a3a69abaa736224314e76b2bbd464496c04cf8e2ae2a7950060af611b808bf9d",
+      "guest_panic": false,
+      "shutdown": "normal WM close/host exit 0",
+      "source_run_id": "browser-20261029T173048Z-xpd4y0dc",
+      "files": {
+        "guest.log.gz": {
+          "uncompressed_sha256": "38a2d19af1d3f99a7806c8bd459265e667f4413f7c302e1d985549fc9b77dadd",
+          "uncompressed_bytes": 1682,
+          "sha256": "9eea5de40201ed2f3e55d0a9d2e30d349d466f24a45359d1b330c1527dc18996"
+        },
+        "browser.png": {
+          "sha256": "a3a69abaa736224314e76b2bbd464496c04cf8e2ae2a7950060af611b808bf9d",
+          "bytes": 50666
+        }
+      },
+      "host_log": {
+        "archived": false,
+        "sha256": "27de98ee04e1ca0de3375fb613a76237249cf61b72be01fa98f932bb0737442f",
+        "bytes": 194251,
+        "panic_or_access_violation": false
+      }
+    },
+    {
+      "name": "dom",
+      "status": "PASS",
+      "url": "file:///C:/Data/WebKit/arm11-dom.html?autorun=1&run=8b3e757514564a02b6d946d35eb166aa",
+      "expected_checks": 8,
+      "driver_exit": 0,
+      "passed_checks": 8,
+      "marker": "ARM11-DOM DONE PASS 8/8 passed; 0 failed",
+      "screenshot_sha256": "76f236c60ac061835f15357b187b79e3caa9fc9e7ec83fec072625615b32dcb1",
+      "guest_panic": false,
+      "shutdown": "normal WM close/host exit 0",
+      "source_run_id": "browser-20261029T173109Z-6pq0mkq5",
+      "files": {
+        "guest.log.gz": {
+          "uncompressed_sha256": "d28753a1651a35af8eee63b720b86b744506b44d760ac9a5da2da8e545340d4b",
+          "uncompressed_bytes": 1690,
+          "sha256": "e00d3544a542bdfb35de69953129e99ef334a1ae450a3f31b118f46204d65658"
+        },
+        "browser.png": {
+          "sha256": "76f236c60ac061835f15357b187b79e3caa9fc9e7ec83fec072625615b32dcb1",
+          "bytes": 56953
+        }
+      },
+      "host_log": {
+        "archived": false,
+        "sha256": "a5267ed3065f19d89b09a4d674beb7f575b1dc4c541f867f8f56548fe33a7c28",
+        "bytes": 195331,
+        "panic_or_access_violation": false
+      }
+    },
+    {
+      "name": "crypto",
+      "status": "PASS",
+      "url": "file:///C:/Data/WebKit/webcrypto.html?autorun=1&run=2564d4e24ee24b56a12c0d34cf25c9a7",
+      "expected_checks": 19,
+      "driver_exit": 0,
+      "passed_checks": 19,
+      "marker": "WEBCRYPTO DONE PASS 19/19 passed; 0 failed",
+      "screenshot_sha256": "d391268a105a24e1936efbeae14e60ef27ce07aa6dd763ca3283b76edb5ed64e",
+      "guest_panic": false,
+      "shutdown": "normal WM close/host exit 0",
+      "source_run_id": "browser-20261029T173210Z-5z08rtv8",
+      "files": {
+        "guest.log.gz": {
+          "uncompressed_sha256": "984682266c9c6b2f39b47e1acab491ef6f8270693a01fdbb559048ad665f8c90",
+          "uncompressed_bytes": 3586,
+          "sha256": "0898e5c8b1e0c227b81f0fbb622cb04e67b164504b7d6607ee807f0461727101"
+        },
+        "browser.png": {
+          "sha256": "d391268a105a24e1936efbeae14e60ef27ce07aa6dd763ca3283b76edb5ed64e",
+          "bytes": 77324
+        }
+      },
+      "host_log": {
+        "archived": false,
+        "sha256": "4f201ffb090901a26331bf39eb508059a8c08c1ca58272e9b5df52d1dea8466f",
+        "bytes": 196216,
+        "panic_or_access_violation": false
+      }
+    }
+  ]
+}

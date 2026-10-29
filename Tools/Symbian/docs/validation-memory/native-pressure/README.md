@@ -10,6 +10,14 @@ or executable code pool is present. The default 8 KiB pthread stack is unchanged
 | `single-pool-negative` | FAIL, 0/2; guest 1, host 0 | The released `17cf20` single pool stops at 4,095 live 16 KiB blocks (67,092,480 bytes). The aligned base consumes the remaining edge of its 64 MiB reservation. Only the pool class comes from that release. |
 | `growth-stack-failure` | FAIL, guest access violation; host killed | The first five growth/zeroing/content/fragmentation checks passed, then an 8 KiB pthread overflowed. The aggregate-reset expression produced a 34 KiB temporary in every allocation's frame. This is not a successful run. |
 | `growth-final` | PASS, 7/7; guest 0, host 0, no panic | 80 MiB of simultaneously committed and fully written aligned blocks, retained patterns, hole reuse, zero-on-recommit, fragmentation-driven growth and four concurrent pthreads all pass. |
+| `final-pagemap` | PASS, 7/7; guest 0, host 0, no panic | The same final allocator and unchanged 8 KiB threads pass after linking the rebuilt SDK page-map runtime; its independent mimalloc address budget remains 64 MiB. |
+
+The final combined image is
+`9e8bd952509da86148d39c619dd640149c35c2470e2b3588303778ec88452ab3`.
+`final-pagemap/linked-sdk.json` associates it with runtime archive
+`726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26`,
+the exact allocator/bridge source hashes, and the separate SDK rebuild evidence.
+The prior `10b7f95a…` image and its result remain in `growth-final`.
 
 The stack fix resets only the two fields changed by reservation before the
 first commitment succeeds. `stack-frames.json` records disassembly and compiler

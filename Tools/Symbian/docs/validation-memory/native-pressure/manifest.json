@@ -181,6 +181,69 @@
         "audio_format": null,
         "audio_capture_timing": null
       }
+    },
+    {
+      "name": "final-pagemap",
+      "runID": "aligned-pressure-20261029T172224Z-w9tu4n7j",
+      "files": [
+        {
+          "file": "final-pagemap/aligned-pressure.log.gz",
+          "uncompressedBytes": 985,
+          "uncompressedSHA256": "b58cabe0459fa2ed660348aec2c41c3adce7d74e14496ebf937306489518eb67"
+        },
+        {
+          "file": "final-pagemap/result.json",
+          "uncompressedBytes": 1241,
+          "uncompressedSHA256": "5c4ec4c4708105d2cff5097103112009e52c66a90767c2c14b51db32cf742ba3"
+        }
+      ],
+      "hostLog": {
+        "bytes": 33995,
+        "sha256": "3e65450554a973442e90a8fb90e2163de3a220e3b947f227a7ce917529c74de4",
+        "stored": false
+      },
+      "result": {
+        "status": "PASS",
+        "failure": null,
+        "probe": "aligned-pressure",
+        "image_sha256": "9e8bd952509da86148d39c619dd640149c35c2470e2b3588303778ec88452ab3",
+        "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+        "emulator_patch_assets": {
+          "mediaclientaudio_general.dll": {
+            "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+            "bytes": 72620
+          },
+          "mediaclientaudio.dll.map": {
+            "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+            "bytes": 48796
+          },
+          "mediaclientvideo_v100.dll": {
+            "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+            "bytes": 52556
+          },
+          "mediaclientvideo.dll.map": {
+            "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+            "bytes": 11393
+          }
+        },
+        "arguments": [],
+        "host_exit": 0,
+        "guest_exit": 0,
+        "panic_or_access_violation": false,
+        "result": {
+          "probe": "aligned-pressure",
+          "passed": 7,
+          "failed": 0,
+          "retainedBytes": 83886080
+        },
+        "guest_log": "aligned-pressure.log",
+        "screenshots": [],
+        "audio": null,
+        "final_screenshot": null,
+        "audio_format": null,
+        "audio_capture_timing": null
+      },
+      "sdkRuntimeSHA256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26"
     }
   ]
 }

@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "runID": "jsc-20261029T170251Z-vi8o02uz",
+  "guestExit": 0,
+  "hostExit": 0,
+  "panicOrAccessViolation": false,
+  "imageSHA256": "286bd58cbf8f3c669eec5b2ca7676f934435e0d439257ba6d222de63cbfad640",
+  "emulatorSHA256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "source": "Tools/Symbian/tests/jsc-cell-pressure.js",
+  "sourceSHA256": "22ca712688f8c60a41d7c2587aa0197fac54366157acb51f74dda3085fb587f1",
+  "profile": "default JIT options, no overrides",
+  "version": "Final aligned-pool stack reset, old SDK and body-only IC fix; not the final complete IC boundary fix.",
+  "guestLog": {
+    "file": "guest.log.gz",
+    "uncompressedBytes": 2618,
+    "uncompressedSHA256": "704f522ee1b9da9e0faa7958aa959e64698d8a45f7a0e8cd799866d5b2d5869c"
+  },
+  "externalLogs": {
+    "host": {
+      "bytes": 30348,
+      "sha256": "0dbd2feb29664b97f7777d86337e90191cceaa951bad5aa4919270b2b5a47a1d"
+    },
+    "runner": {
+      "bytes": 2744,
+      "sha256": "3e0d863f2b18a66273cbed62e6084e5ba9d99b40b2a6feca4a13c076cf0a5c3c"
+    }
+  },
+  "result": {
+    "test": "jsc-cell-pressure",
+    "target": 75497472,
+    "baseline": {
+      "objectBytes": 81152,
+      "objectCapacity": 425984,
+      "extraBytes": 15897,
+      "objects": 2028
+    },
+    "retained": {
+      "count": 1179648,
+      "objectBytes": 75582544,
+      "objectCapacity": 77463552,
+      "extraBytes": 38519,
+      "objects": 1181732
+    },
+    "released": {
+      "objectBytes": 86336,
+      "objectCapacity": 77463552,
+      "extraBytes": 51628,
+      "objects": 2095
+    },
+    "reused": {
+      "count": 1179648,
+      "objectBytes": 75583792,
+      "objectCapacity": 77463552,
+      "extraBytes": 51453,
+      "objects": 1181746
+    },
+    "final": {
+      "objectBytes": 86288,
+      "objectCapacity": 77463552,
+      "extraBytes": 51326,
+      "objects": 2097
+    },
+    "elapsedMS": 12999.94
+  }
+}

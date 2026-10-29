@@ -1,0 +1,13 @@
+{
+  "archive": "lib/armv6/libsymbian_guest_runtime.a",
+  "sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+  "mimallocAddressBudgetBytes": 67108864,
+  "buildEvidence": "../../sdk-mimalloc/production-verification.json",
+  "sameAlignedPoolAndBridgeAs": "../growth-final/source-hashes.json",
+  "sourceHashes": {
+    "Source/WTF/wtf/FastMalloc.cpp": "7a9f1ba61b5d12b6fdf66ed568ee7576757c49d04e3038a7637711d705523f16",
+    "Source/WTF/wtf/symbian/SymbianSystem.cpp": "2396e250d9b4ab8adfe8032c05b409a11f94afbeebb2a6f7350f27e933f7823c",
+    "Source/JavaScriptCore/heap/LocalAllocator.cpp": "32a625703ad72ea5f0bab0cbff82ebceb26e8a1b0613d3a90c7fa72cb04e0c6e",
+    "Source/JavaScriptCore/jit/JITInlineCacheGenerator.cpp": "115b001e7cc0947208425a4761ee270392eadc9ee20bcf7e9668b922498deb7e"
+  }
+}

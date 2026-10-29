@@ -1,0 +1,19 @@
+{
+  "original_driver_sha256": "7e6d6a7460c83f17bd9e8118738b069ee457aca4fff30ed75df55b531400ff8c",
+  "adapted_driver_sha256": "c1e92e6a79623ae4565f71565ca174d208ef4b16469829aaf0cc07f0f29cdf16",
+  "changes": [
+    "absolute common.sh include",
+    "replace installed payload copy loop with exact validation of all 11 SIS-installed payloads",
+    "launch E:\\sys\\bin\\browser.exe explicitly"
+  ],
+  "unchanged": [
+    "fresh logs",
+    "non-package HTML fixture copy",
+    "strict observation deadline",
+    "panic/access violation checks",
+    "WM_DELETE normal host exit",
+    "screenshot capture",
+    "expected marker checks"
+  ],
+  "does_not_overwrite_installed_payloads": true
+}

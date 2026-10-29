@@ -1,0 +1,40 @@
+{
+  "status": "recorded historical failures",
+  "first_icu_attempt": {
+    "host_exit": -11,
+    "installation_markers_present": true,
+    "gui_ready_marker_present": false,
+    "accepted_as_success": false,
+    "original_log_sha256": "e9fe9ac1a38e3b469c10006087937e86105042e2ad2cd00b6103c57f9174db67",
+    "original_log_bytes": 34845,
+    "followup": "Unmodified command under GDB reached GUI readiness and closed normally; subsequent plain CLI installs passed. Initial GUI startup crash was not reproduced or claimed fixed."
+  },
+  "browser_path_validation": {
+    "status": "FAIL in validation harness after successful installer host exit 0",
+    "cause": "Both prior runner directory Data/WebKit and installer directory Data/webkit existed. Case-insensitive path resolver rejected duplicate names. Resolver now prefers exact spelling from SIS target before case-insensitive fallback. Browser was reinstalled and all exact target payloads verified.",
+    "accepted_as_success": false
+  },
+  "log_inventory": [
+    {
+      "package": "symbian-webkit-icu",
+      "original_log_bytes": 35369,
+      "original_log_sha256": "42529c2b82084e01e229c980c4e2837d6f8590bf3d6607707d13f2882f1add6b",
+      "excerpt": "symbian-webkit-icu-markers.log",
+      "excerpt_is_original_bytes": false
+    },
+    {
+      "package": "jsc",
+      "original_log_bytes": 35820,
+      "original_log_sha256": "de2ba0329e9fdc0f9c0d8861e3cca1924f00cfa42e21af855d7687dda0c35ac0",
+      "excerpt": "jsc-markers.log",
+      "excerpt_is_original_bytes": false
+    },
+    {
+      "package": "browser",
+      "original_log_bytes": 35870,
+      "original_log_sha256": "b2016eab6cece32528f149073b9cdd929d0c9b2f10d86eeb3a50ae067f823198",
+      "excerpt": "browser-markers.log",
+      "excerpt_is_original_bytes": false
+    }
+  ]
+}

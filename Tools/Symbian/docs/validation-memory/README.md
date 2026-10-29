@@ -62,8 +62,13 @@ The separate [JSC integration run](jsc-cell-pressure/README.md) retains over
 object graphs, and observes them fall below 87 KiB after root release and GC.
 That first successful shell predates the stack fix and is explicitly identified
 as such; its main-thread result does not validate the failed threaded version.
-Only candidates built from the final stack-reset source should be considered
-for delivery, together with the independent JIT and browser checks.
+The appended final combined results use SDK runtime `726c69c4…` with the same
+64-MiB mimalloc address budget: native image `9e8bd952…` passes all seven checks
+including unchanged 8-KiB pthreads, and shell `d26cf9ca…` passes both measured
+72-MiB JSCell rounds in 14 seconds. Their source, runtime and image hashes are
+linked in the respective `final-pagemap/` directories. Both include the final
+stack reset; the shell also contains the complete IC end-label reservation fix.
+JIT and browser workload validation remains separately recorded.
 
 Failure diagnostics use a fixed stack buffer and direct stderr writes, without
 WTF strings or buffered FILE output. `reason`, `request`, and `alignment` locate

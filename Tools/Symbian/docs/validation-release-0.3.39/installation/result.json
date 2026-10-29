@@ -1,0 +1,148 @@
+{
+  "status": "PASS",
+  "emulator_sha256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "packages": [
+    {
+      "status": "PASS",
+      "package": "symbian-webkit-icu.sis",
+      "sis_sha256": "aa0520f96c91926d36df7351625bfa143ec893bbd56ce27e477553855a0b11f3",
+      "uid": "0xe1a5c013",
+      "version": "0.3.39",
+      "files": [
+        {
+          "path": "c/resource/icu/icudt70l.dat",
+          "bytes": 10261824,
+          "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+          "matches_sis_payload": true
+        }
+      ],
+      "installation_marker": true,
+      "host_exit": 0,
+      "guest_panic": false,
+      "controller_byte_identical_to_sis": true,
+      "registry": [
+        {
+          "file": "00000000.reg",
+          "bytes": 319,
+          "sha256": "1c0cef011a65bd1559af3a49a2bccc26c4920ef368a683906629c1071115cce7"
+        },
+        {
+          "file": "00000000_0000.ctl",
+          "bytes": 692,
+          "sha256": "b75dd83c1f4c3667f735e37da6910fbc172c6ac93ab085fe7a95f3f096143c2b"
+        }
+      ]
+    },
+    {
+      "status": "PASS",
+      "package": "jsc.sis",
+      "sis_sha256": "26d1e5dfa5fbbf6ed4eec9b352fdd9d44a3982c700be6460dc5bdb84b99b11f6",
+      "uid": "0xe1a5c011",
+      "version": "0.3.39",
+      "files": [
+        {
+          "path": "e/sys/bin/jsc.exe",
+          "bytes": 18846844,
+          "sha256": "d26cf9cad3c4e47a0d3a559598bd16ba2bfad772dabeb21c17cb8eb211b44bcc",
+          "matches_sis_payload": true
+        },
+        {
+          "path": "c/Data/es2020.js",
+          "bytes": 2587,
+          "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+          "matches_sis_payload": true
+        },
+        {
+          "path": "c/Data/intl.js",
+          "bytes": 1462,
+          "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+          "matches_sis_payload": true
+        },
+        {
+          "path": "c/Data/basic.js",
+          "bytes": 186,
+          "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+          "matches_sis_payload": true
+        },
+        {
+          "path": "c/Data/resizable-arraybuffer.js",
+          "bytes": 2715,
+          "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+          "matches_sis_payload": true
+        }
+      ],
+      "installation_marker": true,
+      "host_exit": 0,
+      "guest_panic": false,
+      "controller_byte_identical_to_sis": true,
+      "registry": [
+        {
+          "file": "00000000.reg",
+          "bytes": 590,
+          "sha256": "a0171f9e274f9de3e37c60d7aec93f8f462288fdcf7b81c00833964edece95ee"
+        },
+        {
+          "file": "00000000_0000.ctl",
+          "bytes": 1180,
+          "sha256": "c7eae2f07a39b5332d7977bb8fe2572bd342af35fb5ab1114310e9d94b2c9a90"
+        }
+      ]
+    },
+    {
+      "status": "PASS",
+      "package": "browser.sis",
+      "sis_sha256": "6f6c9749f81081d2337bdb3ae1ca867ec0eacb084eb6ea14333fab4531380e35",
+      "uid": "0xe1a5c012",
+      "version": "0.3.39",
+      "files": [
+        {
+          "path": "e/sys/bin/browser.exe",
+          "bytes": 58398088,
+          "sha256": "2db5f84970bfe15bdf107afc7c6a72f52a6acd6d3dce02493796173ea1d9e3cd",
+          "matches_sis_payload": true
+        },
+        {
+          "path": "e/private/10003a3f/import/apps/browser_reg.rsc",
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+          "matches_sis_payload": true
+        },
+        {
+          "path": "e/resource/apps/browser_loc.rsc",
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+          "matches_sis_payload": true
+        },
+        {
+          "path": "c/Data/webkit/test.html",
+          "bytes": 2254,
+          "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+          "matches_sis_payload": true
+        },
+        {
+          "path": "c/resource/webkit/cacert.pem",
+          "bytes": 188900,
+          "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+          "matches_sis_payload": true
+        }
+      ],
+      "installation_marker": true,
+      "host_exit": 0,
+      "guest_panic": false,
+      "controller_byte_identical_to_sis": true,
+      "registry": [
+        {
+          "file": "00000000.reg",
+          "bytes": 640,
+          "sha256": "28dbedd37daf42be1b41ecc2e0b4e40d9339cf2382dfbe7a46037ccc2a5f7e2d"
+        },
+        {
+          "file": "00000000_0000.ctl",
+          "bytes": 1292,
+          "sha256": "e3055e7fe982e9bd800ffc0e4d1cad1edac68141101d866fe66a08fb491bd8b2"
+        }
+      ]
+    }
+  ],
+  "executables_copied_outside_installer": false
+}

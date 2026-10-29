@@ -40,3 +40,11 @@ Recorded evidence is in
 This tests real ARM code emission and repatching data, not execution of the
 generated inline cache or the complete browser workload. The production
 Symbian TU is checked separately with its actual SDK build flags.
+
+The optional binary MathIC review uses the same command arguments with
+`review-math.py` instead of `reproduce.py`. It checks Add/Sub/Mul with empty,
+int32 and double profiles at the same literal boundaries, using the real
+12-byte out-of-line replacement snippet size. It first verifies that the
+prebuilt QEMU checkout's MathIC/assembler sources match the requested checkout;
+mixing versions is rejected. It does not execute the generated arithmetic or
+test unary negation.

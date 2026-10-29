@@ -1,0 +1,73 @@
+{
+  "status": "PASS",
+  "runID": "jsc-20261029T172143Z-jd8xju7w",
+  "guestExit": 0,
+  "hostExit": 0,
+  "panicOrAccessViolation": false,
+  "imageSHA256": "d26cf9cad3c4e47a0d3a559598bd16ba2bfad772dabeb21c17cb8eb211b44bcc",
+  "emulatorSHA256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+  "source": "Tools/Symbian/tests/jsc-cell-pressure.js",
+  "sourceSHA256": "22ca712688f8c60a41d7c2587aa0197fac54366157acb51f74dda3085fb587f1",
+  "profile": "default JIT options, no overrides",
+  "version": "Final aligned-pool stack reset, complete IC boundary fix 7d6528262db and new SDK page-map runtime defd29c69bd.",
+  "guestLog": {
+    "file": "guest.log.gz",
+    "uncompressedBytes": 2628,
+    "uncompressedSHA256": "3c90976fca69f50192ccb2d67b8e02a3c1e4312ce91e0c3b8a3f9452f7bf8a59"
+  },
+  "externalLogs": {
+    "host": {
+      "bytes": 30355,
+      "sha256": "2fe321db5744d2c1e276a7b021e3ca44df821790299c016e2c0e0699b34eff07"
+    },
+    "runner": {
+      "bytes": 2754,
+      "sha256": "ceb1a7f9b8a8e644ad60fd3cc6d360cfd328599b1b7ad306865a10a736494ac7"
+    }
+  },
+  "result": {
+    "test": "jsc-cell-pressure",
+    "target": 75497472,
+    "baseline": {
+      "objectBytes": 81152,
+      "objectCapacity": 425984,
+      "extraBytes": 15897,
+      "objects": 2028
+    },
+    "retained": {
+      "count": 1179648,
+      "objectBytes": 75582544,
+      "objectCapacity": 77463552,
+      "extraBytes": 38519,
+      "objects": 1181732
+    },
+    "released": {
+      "objectBytes": 86336,
+      "objectCapacity": 77463552,
+      "extraBytes": 51628,
+      "objects": 2095
+    },
+    "reused": {
+      "count": 1179648,
+      "objectBytes": 75583632,
+      "objectCapacity": 77463552,
+      "extraBytes": 51149,
+      "objects": 1181745
+    },
+    "final": {
+      "objectBytes": 86448,
+      "objectCapacity": 77463552,
+      "extraBytes": 51628,
+      "objects": 2098
+    },
+    "elapsedMS": 13999.460000000001
+  },
+  "sdkRuntimeSHA256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+  "mimallocAddressBudgetBytes": 67108864,
+  "sourceHashes": {
+    "Source/WTF/wtf/FastMalloc.cpp": "7a9f1ba61b5d12b6fdf66ed568ee7576757c49d04e3038a7637711d705523f16",
+    "Source/WTF/wtf/symbian/SymbianSystem.cpp": "2396e250d9b4ab8adfe8032c05b409a11f94afbeebb2a6f7350f27e933f7823c",
+    "Source/JavaScriptCore/heap/LocalAllocator.cpp": "32a625703ad72ea5f0bab0cbff82ebceb26e8a1b0613d3a90c7fa72cb04e0c6e",
+    "Source/JavaScriptCore/jit/JITInlineCacheGenerator.cpp": "115b001e7cc0947208425a4761ee270392eadc9ee20bcf7e9668b922498deb7e"
+  }
+}

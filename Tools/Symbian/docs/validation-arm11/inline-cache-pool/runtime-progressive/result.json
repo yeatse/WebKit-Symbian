@@ -1,0 +1,73 @@
+{
+  "runs": [
+    {
+      "case": "original-failure",
+      "status": "FAIL",
+      "runID": "browser-20261029T165408Z-vnz_lcu5",
+      "browserSHA256": "d8443239a3c89f491cc5350f487799ff87a237a7f1af387ceec78817e59ea510",
+      "emulatorSHA256": "d9c7b4f7e4d10f01cd6b9721438ed8a6e6edb7606af19eca329b1b965d35cd01",
+      "source": "Tools/Symbian/tests/media-progressive-diagnostic.html",
+      "sourceSHA256": "85aea5dd0eef38308b53535fbd97443dd7c3bd9ab5af825c1415a8369d4864fe",
+      "iterationsRequested": 10,
+      "iterationsCompleted": 2,
+      "driverExit": 1,
+      "hostExit": null,
+      "panicOrAccessViolation": true,
+      "guestLog": {
+        "file": "original-failure/guest.log.gz",
+        "uncompressedBytes": 6635,
+        "uncompressedSHA256": "d63e1435e0b5ea6f147245381b4d1277ffae9f8a97d995db92929c2be32d2983"
+      },
+      "externalLogs": {
+        "host": {
+          "bytes": 250977,
+          "sha256": "98b29ca1d44d2e855c93066b881d88402331463d93d982d5f4dbb34cff592c45"
+        },
+        "driver": {
+          "bytes": 6767,
+          "sha256": "77dbbab89c2fe03d27015225fb4f4eed6d5c81803e3afd9af23ce4e6ebf1b0ce"
+        }
+      },
+      "fault": {
+        "pc": "0x1ba58420",
+        "lr": "0x1ba36f18",
+        "badRead": "0xea000001",
+        "stage": "iteration 2 create after iterations 0 and 1 returned"
+      }
+    },
+    {
+      "case": "body-only-limited-pass",
+      "status": "PASS",
+      "runID": "browser-20261029T165734Z-4p5mhb_p",
+      "browserSHA256": "86877e0a4c5671f87b49777034dd9f4d3e5a16597f5c0c69ac987369ef338d72",
+      "emulatorSHA256": "ff218e2e687c183c993aad2245824354e726f4c8bbefdff9b093b604602e18b1",
+      "source": "Tools/Symbian/tests/media-progressive-diagnostic.html",
+      "sourceSHA256": "85aea5dd0eef38308b53535fbd97443dd7c3bd9ab5af825c1415a8369d4864fe",
+      "iterationsRequested": 10,
+      "iterationsCompleted": 10,
+      "driverExit": 0,
+      "hostExit": 0,
+      "panicOrAccessViolation": false,
+      "guestLog": {
+        "file": "body-only-limited-pass/guest.log.gz",
+        "uncompressedBytes": 30944,
+        "uncompressedSHA256": "05835965ad1648d7bd3eb0610f5c5ef3f02d822d89e6bd41b24bcb737488a663"
+      },
+      "externalLogs": {
+        "host": {
+          "bytes": 251034,
+          "sha256": "5cf0849bb5b59333e0afe37bd0a3dadc667c39615fea78515345940f6a1c8938"
+        },
+        "driver": {
+          "bytes": 31176,
+          "sha256": "8df3accb6aae5bc866ae8782dae0a4e5d3831e23df5dd27ebd11901ebf2375ff"
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Original run used an exception-only diagnostic host; later run used the clean host.",
+    "The body-only candidate contains multiple changes and still fails the separate full HTTP suite.",
+    "These finite browser observations are not full JIT correctness proofs."
+  ]
+}

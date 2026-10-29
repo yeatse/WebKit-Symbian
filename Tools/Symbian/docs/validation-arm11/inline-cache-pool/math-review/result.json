@@ -1,0 +1,18 @@
+{
+  "guestExit": 0,
+  "sourceHashes": {
+    "Source/JavaScriptCore/jit/JITMathIC.h": "c73c4f0a9037f26daa2068a80cee589d405f2d668f1d62d329f87af37f16c922",
+    "Source/JavaScriptCore/jit/JITAddGenerator.cpp": "9dcc334dbe59dd8ad5cc4b74a6d569ba07b4e9513b88127f5f06c456ee1623a0",
+    "Source/JavaScriptCore/jit/JITSubGenerator.cpp": "5e3bafb2156263f4aaba86f9f6276a992b709d9744cd5d6ee3847a06cd06f0d0",
+    "Source/JavaScriptCore/jit/JITMulGenerator.cpp": "4492b80c55a922e1ad0d21e18a4890f25cbf41277a064a3ad262c3def932322b",
+    "Source/JavaScriptCore/assembler/MacroAssemblerARM.h": "72f4b48d24afd7e3b340a2d5671d185e2e4f71404155206d5a9f966e5f1e78c4",
+    "Source/JavaScriptCore/assembler/ARMAssembler.h": "44a41a3f03227889ee7f54e54dca228a2594be88474c0d539ba34a12887a278a",
+    "Source/JavaScriptCore/assembler/AssemblerBufferWithConstantPool.h": "ef250e1ac2315bf351e984bfe25bbf6f78e108a3cc517f038b6cddac0cf97988"
+  },
+  "fixtureSHA256": "1885aa1aebdf0b562a7ca172a8d25404bb8aa10e1f6e5ae5e5fdcbd26d41f458",
+  "guestLogSHA256": "dd031f29c7bfc37741862d284a965861e35fe40c1902054e258b997d81a17994",
+  "cases": 29700,
+  "repatched": 26400,
+  "corruptions": 0,
+  "scope": "Add/Sub/Mul empty/int/double profiles, emission and 12-byte replacement-prefix preservation; no generated arithmetic execution"
+}
