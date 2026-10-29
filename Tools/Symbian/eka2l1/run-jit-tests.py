@@ -91,10 +91,11 @@ def run_profile(args, mode, run):
         (run / "jsc.log").write_text(text)
     if PANIC.search(read(host) + text):
         failure = failure or "guest panic or access violation"
-    if "jsc exiting 0" not in text.splitlines():
+    failed_exits = [line for line in text.splitlines() if re.match(r"jsc exiting (?!0$)", line)]
+    if failed_exits:
+        failure = failure or "guest reported a failure exit: " + ", ".join(failed_exits)
+    elif "jsc exiting 0" not in text.splitlines():
         failure = failure or "missing successful guest exit marker"
-    if any(re.match(r"jsc exiting (?!0$)", line) for line in text.splitlines()):
-        failure = failure or "guest reported a failure exit"
     if not failure:
         try:
             result = validate_output(text, mode)

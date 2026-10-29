@@ -725,6 +725,25 @@ void WTFCrashWithInfoImpl(int, const char*, const char*, int, uint64_t reason)
     __builtin_unreachable();
 }
 
+#elif OS(SYMBIAN)
+
+// The Open C abort path does not retain register-based crash information.
+// Preserve the assertion location before terminating the native process.
+[[noreturn]] static void crashWithSymbianInfo(int line, const char* file, const char* function)
+{
+    WTFLogAlways("CRASH: %s:%d (%s)", file, line, function);
+    fflush(stderr);
+    CRASH();
+}
+
+void WTFCrashWithInfoImpl(int line, const char* file, const char* function, int, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t) { crashWithSymbianInfo(line, file, function); }
+void WTFCrashWithInfoImpl(int line, const char* file, const char* function, int, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t) { crashWithSymbianInfo(line, file, function); }
+void WTFCrashWithInfoImpl(int line, const char* file, const char* function, int, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t) { crashWithSymbianInfo(line, file, function); }
+void WTFCrashWithInfoImpl(int line, const char* file, const char* function, int, uint64_t, uint64_t, uint64_t, uint64_t) { crashWithSymbianInfo(line, file, function); }
+void WTFCrashWithInfoImpl(int line, const char* file, const char* function, int, uint64_t, uint64_t, uint64_t) { crashWithSymbianInfo(line, file, function); }
+void WTFCrashWithInfoImpl(int line, const char* file, const char* function, int, uint64_t, uint64_t) { crashWithSymbianInfo(line, file, function); }
+void WTFCrashWithInfoImpl(int line, const char* file, const char* function, int, uint64_t) { crashWithSymbianInfo(line, file, function); }
+
 #else
 
 void WTFCrashWithInfoImpl(int, const char*, const char*, int, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t) { CRASH(); }

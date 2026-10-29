@@ -1,6 +1,6 @@
 # WebKit 2.52.6 Symbian reconstruction
 
-Validated: 2026-10-29 (Asia/Singapore). The reconstructed source, build tools, tests and this record are saved on `2.52.6-symbian`. The final engine revision is `93fca3f63fe5ad74424d8cfaf09388f182924821`; later commits preserve tests and evidence.
+Validated: 2026-10-29 (Asia/Singapore). This record covers the initial C_LOOP reconstruction at engine revision `93fca3f63fe5ad74424d8cfaf09388f182924821`, saved on `2.52.6-symbian`. Its artifact hashes remain historical evidence. The subsequent ARM11 Baseline/DFG implementation and its separate validation are documented in [ARM11-JIT.md](ARM11-JIT.md).
 
 ## Provenance
 

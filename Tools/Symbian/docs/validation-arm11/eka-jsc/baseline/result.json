@@ -1,0 +1,80 @@
+{
+  "mode": "baseline",
+  "options": [
+    "--useDollarVM=true",
+    "--useSharedArrayBuffer=true",
+    "--useFTLJIT=false",
+    "--useConcurrentJIT=false",
+    "--jitPolicyScale=0.05",
+    "--useJIT=true",
+    "--useBaselineJIT=true",
+    "--useDFGJIT=false"
+  ],
+  "host_exit": 0,
+  "failure": null,
+  "result": {
+    "mode": "baseline",
+    "completed": [
+      "execution-tier",
+      "osr-entry",
+      "osr-exit",
+      "inline-caches",
+      "call-arity",
+      "softfp-math",
+      "number-guards",
+      "bitwise-unsigned",
+      "double-comparisons",
+      "gc-live-values",
+      "rab-gsab",
+      "exceptions"
+    ],
+    "digest": [
+      5000,
+      -1474936480,
+      59.125,
+      31672,
+      45,
+      4.125,
+      1610612737.75,
+      4294967295.5,
+      162,
+      234,
+      29,
+      42
+    ],
+    "tiers": [
+      true,
+      true,
+      false
+    ],
+    "compiled": {
+      "osr-entry": 1000000,
+      "osr-exit": 1000000,
+      "inline-caches": 1000000,
+      "call-arity": 1000000,
+      "softfp-math": 1000000,
+      "number-guards": 1000000,
+      "bitwise-unsigned": 1000000,
+      "double-comparisons": 1000000,
+      "gc-live-values": 1000000,
+      "rab-gsab": 1000000,
+      "exceptions": 1000000
+    },
+    "dfgBodies": {},
+    "osrEntry": {
+      "sum": -1474936480,
+      "startedInDFG": false,
+      "enteredDFG": false
+    },
+    "osrExit": {
+      "before": false,
+      "after": false
+    },
+    "rabTransition": {
+      "value": 17,
+      "before": false,
+      "after": false,
+      "attempts": 1
+    }
+  }
+}

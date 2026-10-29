@@ -1,0 +1,308 @@
+{
+  "started": "2026-10-29T12:36:12.050884+00:00",
+  "cpu": "arm1136",
+  "abi": "ARM state, ARMv6, VFPv2, softfp",
+  "jsc": "${WORK}/qemu/build/bin/jsc",
+  "jsc_sha256": "7eaf26301b3818cee28177a291cd84928099d7876e89e32507175cafca3e6372",
+  "test_sha256": "2d22d81d03c0b4f26a41d5e67438b32695039eb465dce24dcff7246c3d0e5b45",
+  "qemu": "${WORK}/qemu/sysroot/usr/bin/qemu-arm",
+  "qemu_sha256": "94f4d938a299230026c759b348a5c8f8eaf05969ee5d7a6819598de8c6d342bb",
+  "sysroot": "${WORK}/qemu/sysroot/usr/arm-linux-gnueabi",
+  "profiles": [
+    {
+      "mode": "llint",
+      "command_template": [
+        "${WORK}/qemu/sysroot/usr/bin/qemu-arm",
+        "-cpu",
+        "arm1136",
+        "-L",
+        "${WORK}/qemu/sysroot/usr/arm-linux-gnueabi",
+        "-U",
+        "LD_LIBRARY_PATH",
+        "-U",
+        "LD_PRELOAD",
+        "${WORK}/qemu/build/bin/jsc",
+        "--useDollarVM=true",
+        "--useSharedArrayBuffer=true",
+        "--useFTLJIT=false",
+        "--useConcurrentJIT=false",
+        "--jitPolicyScale=0.05",
+        "--useJIT=false",
+        "--useDFGJIT=false",
+        "${WEBKIT_SRC}/Tools/Symbian/tests/arm11-jit.js",
+        "--",
+        "llint"
+      ],
+      "log": "llint.log",
+      "status": "PASS",
+      "seconds": 1.0569794930015632,
+      "result": {
+        "mode": "llint",
+        "completed": [
+          "execution-tier",
+          "osr-entry",
+          "osr-exit",
+          "inline-caches",
+          "call-arity",
+          "softfp-math",
+          "number-guards",
+          "bitwise-unsigned",
+          "double-comparisons",
+          "gc-live-values",
+          "rab-gsab",
+          "exceptions"
+        ],
+        "digest": [
+          5000,
+          -1474936480,
+          59.125,
+          31672,
+          45,
+          4.125,
+          1610612737.75,
+          4294967295.5,
+          162,
+          234,
+          29,
+          42
+        ],
+        "tiers": [
+          true,
+          false,
+          false
+        ],
+        "compiled": {
+          "osr-entry": 1000000,
+          "osr-exit": 1000000,
+          "inline-caches": 1000000,
+          "call-arity": 1000000,
+          "softfp-math": 1000000,
+          "number-guards": 1000000,
+          "bitwise-unsigned": 1000000,
+          "double-comparisons": 1000000,
+          "gc-live-values": 1000000,
+          "rab-gsab": 1000000,
+          "exceptions": 1000000
+        },
+        "dfgBodies": {},
+        "osrEntry": {
+          "sum": -1474936480,
+          "startedInDFG": false,
+          "enteredDFG": false
+        },
+        "osrExit": {
+          "before": false,
+          "after": false
+        },
+        "rabTransition": {
+          "value": 17,
+          "before": false,
+          "after": false,
+          "attempts": 1
+        }
+      }
+    },
+    {
+      "mode": "baseline",
+      "command_template": [
+        "${WORK}/qemu/sysroot/usr/bin/qemu-arm",
+        "-cpu",
+        "arm1136",
+        "-L",
+        "${WORK}/qemu/sysroot/usr/arm-linux-gnueabi",
+        "-U",
+        "LD_LIBRARY_PATH",
+        "-U",
+        "LD_PRELOAD",
+        "${WORK}/qemu/build/bin/jsc",
+        "--useDollarVM=true",
+        "--useSharedArrayBuffer=true",
+        "--useFTLJIT=false",
+        "--useConcurrentJIT=false",
+        "--jitPolicyScale=0.05",
+        "--useJIT=true",
+        "--useBaselineJIT=true",
+        "--useDFGJIT=false",
+        "${WEBKIT_SRC}/Tools/Symbian/tests/arm11-jit.js",
+        "--",
+        "baseline"
+      ],
+      "log": "baseline.log",
+      "status": "PASS",
+      "seconds": 1.0712650479999866,
+      "result": {
+        "mode": "baseline",
+        "completed": [
+          "execution-tier",
+          "osr-entry",
+          "osr-exit",
+          "inline-caches",
+          "call-arity",
+          "softfp-math",
+          "number-guards",
+          "bitwise-unsigned",
+          "double-comparisons",
+          "gc-live-values",
+          "rab-gsab",
+          "exceptions"
+        ],
+        "digest": [
+          5000,
+          -1474936480,
+          59.125,
+          31672,
+          45,
+          4.125,
+          1610612737.75,
+          4294967295.5,
+          162,
+          234,
+          29,
+          42
+        ],
+        "tiers": [
+          true,
+          true,
+          false
+        ],
+        "compiled": {
+          "osr-entry": 1000000,
+          "osr-exit": 1000000,
+          "inline-caches": 1000000,
+          "call-arity": 1000000,
+          "softfp-math": 1000000,
+          "number-guards": 1000000,
+          "bitwise-unsigned": 1000000,
+          "double-comparisons": 1000000,
+          "gc-live-values": 1000000,
+          "rab-gsab": 1000000,
+          "exceptions": 1000000
+        },
+        "dfgBodies": {},
+        "osrEntry": {
+          "sum": -1474936480,
+          "startedInDFG": false,
+          "enteredDFG": false
+        },
+        "osrExit": {
+          "before": false,
+          "after": false
+        },
+        "rabTransition": {
+          "value": 17,
+          "before": false,
+          "after": false,
+          "attempts": 1
+        }
+      }
+    },
+    {
+      "mode": "dfg",
+      "command_template": [
+        "${WORK}/qemu/sysroot/usr/bin/qemu-arm",
+        "-cpu",
+        "arm1136",
+        "-L",
+        "${WORK}/qemu/sysroot/usr/arm-linux-gnueabi",
+        "-U",
+        "LD_LIBRARY_PATH",
+        "-U",
+        "LD_PRELOAD",
+        "${WORK}/qemu/build/bin/jsc",
+        "--useDollarVM=true",
+        "--useSharedArrayBuffer=true",
+        "--useFTLJIT=false",
+        "--useConcurrentJIT=false",
+        "--jitPolicyScale=0.05",
+        "--useJIT=true",
+        "--useBaselineJIT=true",
+        "--useDFGJIT=true",
+        "${WEBKIT_SRC}/Tools/Symbian/tests/arm11-jit.js",
+        "--",
+        "dfg"
+      ],
+      "log": "dfg.log",
+      "status": "PASS",
+      "seconds": 1.5375825949995487,
+      "result": {
+        "mode": "dfg",
+        "completed": [
+          "execution-tier",
+          "osr-entry",
+          "osr-exit",
+          "inline-caches",
+          "call-arity",
+          "softfp-math",
+          "number-guards",
+          "bitwise-unsigned",
+          "double-comparisons",
+          "gc-live-values",
+          "rab-gsab",
+          "exceptions"
+        ],
+        "digest": [
+          5000,
+          -1474936480,
+          59.125,
+          31672,
+          45,
+          4.125,
+          1610612737.75,
+          4294967295.5,
+          162,
+          234,
+          29,
+          42
+        ],
+        "tiers": [
+          true,
+          true,
+          true
+        ],
+        "compiled": {
+          "osr-entry": 1,
+          "osr-exit": 2,
+          "inline-caches": 3,
+          "call-arity": 2,
+          "softfp-math": 2,
+          "number-guards": 2,
+          "bitwise-unsigned": 4,
+          "double-comparisons": 2,
+          "gc-live-values": 2,
+          "rab-gsab": 3,
+          "exceptions": 2
+        },
+        "dfgBodies": {
+          "osr-exit": true,
+          "inline-caches": true,
+          "call-arity": true,
+          "softfp-math": true,
+          "number-guards": true,
+          "bitwise-unsigned": true,
+          "double-comparisons": true,
+          "gc-live-values": true,
+          "rab-gsab": true,
+          "exceptions": true
+        },
+        "osrEntry": {
+          "sum": -1474936480,
+          "startedInDFG": false,
+          "enteredDFG": true
+        },
+        "osrExit": {
+          "before": true,
+          "after": false
+        },
+        "rabTransition": {
+          "value": 17,
+          "before": true,
+          "after": false,
+          "attempts": 221
+        }
+      }
+    }
+  ],
+  "status": "PASS",
+  "finished": "2026-10-29T12:36:15.828094+00:00",
+  "source_run": "arm11-jit-n4dnpzih"
+}

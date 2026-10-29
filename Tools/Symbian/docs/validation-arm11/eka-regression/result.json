@@ -1,0 +1,31 @@
+{
+  "image_sha256": "86fc45d8ccf82c39c3519366f8633c5d1465aeb742dd3ee1404ad8dea5c448a7",
+  "emulator_sha256": "c6c98382236bb8e83f31ae545c3e11edb126dd5d61f87e5b4ff07a22cd92fb1c",
+  "script_sha256": {
+    "basic.js": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+    "es2020.js": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+    "intl.js": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+    "resizable-arraybuffer.js": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac"
+  },
+  "arguments": [
+    "--useSharedArrayBuffer=true",
+    "-x",
+    "C:/Data/basic.js",
+    "C:/Data/es2020.js",
+    "C:/Data/intl.js",
+    "C:/Data/resizable-arraybuffer.js"
+  ],
+  "host_exit": 0,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "default_jit_thresholds": true,
+  "default_concurrent_jit": true,
+  "guest_log": "jsc.log",
+  "passed": [
+    "basic",
+    "es2020",
+    "intl",
+    "resizable-arraybuffer"
+  ],
+  "runner": "Tools/Symbian/eka2l1/run.sh"
+}

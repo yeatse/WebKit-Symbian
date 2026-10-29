@@ -1,0 +1,15 @@
+PASS: execution-tier
+PASS: osr-entry
+PASS: osr-exit
+PASS: inline-caches
+PASS: call-arity
+PASS: softfp-math
+PASS: number-guards
+PASS: bitwise-unsigned
+PASS: double-comparisons
+PASS: gc-live-values
+PASS: rab-gsab
+PASS: exceptions
+RESULT {"mode":"dfg","completed":["execution-tier","osr-entry","osr-exit","inline-caches","call-arity","softfp-math","number-guards","bitwise-unsigned","double-comparisons","gc-live-values","rab-gsab","exceptions"],"digest":[5000,-1474936480,59.125,31672,45,4.125,1610612737.75,4294967295.5,162,234,29,42],"tiers":[true,true,true],"compiled":{"osr-entry":1,"osr-exit":2,"inline-caches":3,"call-arity":2,"softfp-math":2,"number-guards":2,"bitwise-unsigned":4,"double-comparisons":2,"gc-live-values":2,"rab-gsab":3,"exceptions":2},"dfgBodies":{"osr-exit":true,"inline-caches":true,"call-arity":true,"softfp-math":true,"number-guards":true,"bitwise-unsigned":true,"double-comparisons":true,"gc-live-values":true,"rab-gsab":true,"exceptions":true},"osrEntry":{"sum":-1474936480,"startedInDFG":false,"enteredDFG":true},"osrExit":{"before":true,"after":false},"rabTransition":{"value":17,"before":true,"after":false,"attempts":221}}
+PASS: arm11-jit 12/12
+jsc exiting 0

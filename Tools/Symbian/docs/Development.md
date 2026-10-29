@@ -1,6 +1,6 @@
 # Building the Symbian 2.52.6 port
 
-Use symbian-platform SDK 0.3.0 (Clang 23.1.2), CMake, Ninja, host Clang/LLD, Ruby with ERB/JSON, Perl, gperf, flex, bison, Python, pkg-config and autotools. The build uses C++23, ARMv6 with VFPv2 and softfp, C_LOOP, and ICU 70.1.
+Use symbian-platform SDK 0.3.0 (Clang 23.1.2), CMake, Ninja, host Clang/LLD, Ruby with ERB/JSON, Perl, gperf, flex, bison, Python, pkg-config and autotools. The build uses C++23, ARMv6 with VFPv2 and softfp, ARM LLInt/Baseline/DFG, and ICU 70.1. [ARM11-JIT.md](ARM11-JIT.md) documents the execution tiers, validation and the `SYMBIAN_JSC_MODE=cloop` fallback.
 
 The sparse checkout must contain `Source/JavaScriptCore`, `Source/WTF`, `Source/WebCore`, `Source/WebKitLegacy`, `Source/bmalloc`, `Source/cmake`, `Source/ThirdParty/unifdef`, `Tools/Scripts` and `Tools/Symbian`.
 
@@ -32,4 +32,4 @@ The recorded EKA2L1/X7 browser runs use `yeatse/EKA2L1` branch `webkit-symbian` 
 
 SQLite uses directory locks and DELETE journals because Open C has no POSIX record locking. The SQLite build shim must keep `O_BINARY` zero: this SDK aliases it to write buffering, which makes incomplete journal metadata visible during rollback. See [the guest SQLite regression](../tests/sqlite-probe/README.md) for locking, rollback and persistence checks.
 
-Current results are in [Port-2.52.md](Port-2.52.md). Historical design and 2.32 results are retained in [Development-2.32.md](Development-2.32.md).
+Current ARM11 results are in [ARM11-JIT.md](ARM11-JIT.md). The initial C_LOOP reconstruction is recorded in [Port-2.52.md](Port-2.52.md); historical design and 2.32 results are retained in [Development-2.32.md](Development-2.32.md).

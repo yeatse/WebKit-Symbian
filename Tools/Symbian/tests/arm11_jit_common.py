@@ -50,8 +50,8 @@ def validate_output(text, mode):
             type(value) is not int or value < 0 for value in compiled.values()):
         raise ValueError("Missing per-function DFG compilation counts")
     if mode == "dfg":
-        if not all(compiled.values()):
-            raise ValueError("At least one kernel was never compiled by DFG")
+        if any(value == 0 or value == 1000000 for value in compiled.values()):
+            raise ValueError("At least one kernel lacks a genuine DFG compilation count")
         bodies = result.get("dfgBodies", {})
         if not isinstance(bodies, dict) or not all(bodies.get(name) is True for name in CASES[2:]):
             raise ValueError("DFG compilation occurred without executing every kernel body")
@@ -60,8 +60,22 @@ def validate_output(text, mode):
             raise ValueError("No observed OSR entry during the first call")
         if not isinstance(exit_state, dict) or exit_state.get("before") is not True or exit_state.get("after") is not False:
             raise ValueError("No observed DFG OSR exit with recovered live values")
-    elif any(compiled.values()):
-        raise ValueError("DFG compiled code in a profile that disabled DFG")
+        rab = result.get("rabTransition", {})
+        if (not isinstance(rab, dict) or rab.get("before") is not True or rab.get("after") is not False or rab.get("value") != 17
+                or type(rab.get("attempts")) is not int or not 1 <= rab["attempts"] <= 4000):
+            raise ValueError("No observed 32-bit RAB guard OSR exit with the correct value")
+    else:
+        # TestRunnerUtils deliberately pretends to have many compiles when any
+        # required JIT tier is disabled. This sentinel is not compilation evidence.
+        if any(value not in (0, 1000000) for value in compiled.values()):
+            raise ValueError("Unexpected compilation count in a profile that disabled DFG")
+        bodies = result.get("dfgBodies", {})
+        if not isinstance(bodies, dict) or any(bodies.values()):
+            raise ValueError("DFG code ran in a profile that disabled DFG")
+        rab = result.get("rabTransition", {})
+        if (not isinstance(rab, dict) or rab.get("before") is not False or rab.get("after") is not False or rab.get("value") != 17
+                or type(rab.get("attempts")) is not int or rab["attempts"] != 1):
+            raise ValueError("Invalid RAB result in a profile that disabled DFG")
     return result
 
 

@@ -22,6 +22,7 @@ def fixture_output(mode):
               "tiers": [True, mode != "llint", mode == "dfg"],
               "compiled": {name: int(mode == "dfg") for name in CASES[1:]},
               "dfgBodies": {name: mode == "dfg" for name in CASES[2:]},
+              "rabTransition": {"value": 17, "before": mode == "dfg", "after": False, "attempts": 1},
               "osrEntry": {"startedInDFG": False, "enteredDFG": mode == "dfg"},
               "osrExit": {"before": mode == "dfg", "after": False}}
     failure = os.environ.get("ARM11_FIXTURE", "")
@@ -30,7 +31,8 @@ def fixture_output(mode):
     if failure == "different-result" and mode == "dfg":
         result["digest"][0] += 1
     return "\n".join([*("PASS: " + name for name in CASES), "RESULT " + json.dumps(result),
-                      f"PASS: arm11-jit {len(CASES)}/{len(CASES)}", "jsc exiting 0", ""])
+                      f"PASS: arm11-jit {len(CASES)}/{len(CASES)}",
+                      "jsc exiting 3" if failure == "guest-failure" else "jsc exiting 0", ""])
 
 
 def fake_emulator():
@@ -95,6 +97,11 @@ class RunnerTest(unittest.TestCase):
         process, report = self.run_fixture("exit-seven", ("llint",))
         self.assertNotEqual(process.returncode, 0)
         self.assertEqual(report["profiles"][0]["host_exit"], 7)
+
+    def test_guest_failure_reports_exit_code(self):
+        process, report = self.run_fixture("guest-failure", ("llint",))
+        self.assertNotEqual(process.returncode, 0)
+        self.assertEqual(report["failure"], "guest reported a failure exit: jsc exiting 3")
 
     def test_pass_cannot_hide_timeout(self):
         process, report = self.run_fixture("timeout", ("llint",))

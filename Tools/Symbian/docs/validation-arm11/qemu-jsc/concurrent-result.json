@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "started": "2026-10-29T12:40:10.900450+00:00",
+  "cpu": "arm1136",
+  "timeout": 60,
+  "jsc_sha256": "7eaf26301b3818cee28177a291cd84928099d7876e89e32507175cafca3e6372",
+  "test_sha256": "11ca7f24b3babfa8cf2108d5edb52112bf997c1673fd6841dab0c7efb2263655",
+  "qemu_sha256": "94f4d938a299230026c759b348a5c8f8eaf05969ee5d7a6819598de8c6d342bb",
+  "seconds": 0.8716079719997651,
+  "result": {
+    "test": "arm11-concurrent-jit",
+    "useConcurrentJIT": true,
+    "compilerThreads": 2,
+    "budgetMS": 50000,
+    "elapsedMS": 547.88,
+    "batches": 8,
+    "calls": 512,
+    "yields": 7,
+    "compiled": {
+      "numeric": 1,
+      "allocation": 1
+    },
+    "numericDFGExecutions": 360,
+    "allocationDFGExecutions": 191,
+    "collections": 9,
+    "dfgCollections": 2,
+    "dfgReturnsAfterGC": 2,
+    "collectionsBeforeAllBodiesObserved": 6,
+    "retainedRoots": 32
+  },
+  "finished": "2026-10-29T12:40:11.864182+00:00",
+  "source_run": "arm11-concurrent-q0qmfit0",
+  "command_template": [
+    "${WORK}/qemu/sysroot/usr/bin/qemu-arm",
+    "-cpu",
+    "arm1136",
+    "-L",
+    "${WORK}/qemu/sysroot/usr/arm-linux-gnueabi",
+    "-U",
+    "LD_LIBRARY_PATH",
+    "-U",
+    "LD_PRELOAD",
+    "${WORK}/qemu/build/bin/jsc",
+    "--useDollarVM=true",
+    "--useFTLJIT=false",
+    "${WEBKIT_SRC}/Tools/Symbian/tests/arm11-concurrent-jit.js"
+  ]
+}

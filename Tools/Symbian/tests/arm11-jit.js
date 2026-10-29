@@ -17,7 +17,8 @@
         for (let i = 0; i < 4000; ++i)
             fn(...argumentsForIteration(i));
         if (mode === "dfg") {
-            check(numberOfDFGCompiles(fn) > 0, name + " was never compiled by DFG");
+            const count = numberOfDFGCompiles(fn);
+            check(count > 0 && count !== 1000000, name + " has no genuine DFG compilation count");
             check(seen[name] === true, name + " never executed its DFG body");
         }
     }
@@ -167,22 +168,39 @@
     finish("gc-live-values", 234);
 
     function typedKernel(view, index) {
+        const before = $vm.dfgTrue();
         const answer = view[index];
-        if ($vm.dfgTrue()) seen["rab-gsab"] = true;
-        return answer;
+        const after = $vm.dfgTrue();
+        if (after) seen["rab-gsab"] = true;
+        return {value: answer, before, after};
     }
+    // JSVALUE32_64 deliberately exits optimized typed-array access for RAB/GSAB
+    // (UnexpectedResizableArrayBufferView). First prove the ordinary load runs
+    // in DFG, then require that guard to recover into baseline for a RAB. The
+    // first different view structure can exit at an earlier CheckStructure;
+    // bounded warm-up lets the profile include that structure too.
+    const ordinary = new Uint8Array(128);
+    ordinary[0] = 17;
+    warmed("rab-gsab", typedKernel, () => [ordinary, 0]);
     const buffer = new ArrayBuffer(128, {maxByteLength: 256});
     const tracking = new Uint8Array(buffer), fixed = new Uint8Array(buffer, 0, 128);
     tracking[0] = 17; tracking[127] = 29;
-    warmed("rab-gsab", typedKernel, () => [tracking, 0]);
+    let rabTransition;
+    for (let attempt = 1; attempt <= 4000; ++attempt) {
+        rabTransition = typedKernel(tracking, 0);
+        rabTransition.attempts = attempt;
+        check(rabTransition.value === 17, "RAB guard exit lost the loaded value");
+        if (mode !== "dfg" || (rabTransition.before && !rabTransition.after)) break;
+    }
+    if (mode === "dfg") check(rabTransition.before && !rabTransition.after, "No observed 32-bit RAB guard OSR exit");
     buffer.resize(64);
-    check(typedKernel(tracking, 127) === undefined && typedKernel(fixed, 0) === undefined, "RAB shrink invalidates compiled bounds");
+    check(typedKernel(tracking, 127).value === undefined && typedKernel(fixed, 0).value === undefined, "RAB shrink invalidates compiled bounds");
     buffer.resize(256);
     gc();
-    check(typedKernel(tracking, 0) === 17 && typedKernel(tracking, 127) === 0 && fixed.length === 128, "RAB regrowth/GC preserves only live bytes");
+    check(typedKernel(tracking, 0).value === 17 && typedKernel(tracking, 127).value === 0 && fixed.length === 128, "RAB regrowth/GC preserves only live bytes");
     const shared = new SharedArrayBuffer(16, {maxByteLength: 64}), sharedView = new Int32Array(shared);
     Atomics.store(sharedView, 0, 9); shared.grow(64);
-    check(sharedView.length === 16 && Atomics.add(sharedView, 0, 3) === 9 && typedKernel(sharedView, 0) === 12, "GSAB growth/atomic access");
+    check(sharedView.length === 16 && Atomics.add(sharedView, 0, 3) === 9 && typedKernel(sharedView, 0).value === 12, "GSAB growth/atomic access");
     finish("rab-gsab", 29);
 
     function exceptionKernel(object) {
@@ -198,8 +216,10 @@
     finish("exceptions", 42);
 
     const compiled = {};
+    // TestRunnerUtils returns a 1000000 sentinel when DFG is disabled. Keep raw
+    // values for diagnosis; they are compilation evidence only in the DFG run.
     for (const name of Object.keys(functions)) compiled[name] = numberOfDFGCompiles(functions[name]);
     print("RESULT " + JSON.stringify({mode, completed, digest, tiers, compiled, dfgBodies: seen,
-        osrEntry: entry, osrExit: {before: exited[2], after: exited[3]}}));
+        osrEntry: entry, osrExit: {before: exited[2], after: exited[3]}, rabTransition}));
     print("PASS: arm11-jit " + completed.length + "/" + completed.length);
 })();

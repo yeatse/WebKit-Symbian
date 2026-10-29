@@ -1,6 +1,6 @@
 # ARM11 Baseline JIT and DFG
 
-The `arm11-jit-dfg` work branch restores the traditional ARM backend for
+The Symbian port restores the traditional ARM backend for
 WebKitGTK 2.52.6. Its target is ARMv6 in ARM state, VFPv2, and the softfp/base
 procedure-call standard used by Symbian^3. It does not require Thumb-2, NEON,
 integer divide, or VFPv3 instructions. FTL and WebAssembly remain disabled.
@@ -30,7 +30,7 @@ Tools/Symbian/scripts/build-jsc.sh
 Tools/Symbian/scripts/link-e32.sh
 ```
 
-`build-jsc.sh` also accepts `CONFIGURE_ONLY=1`. As with the existing port,
+Both build scripts also accept `CONFIGURE_ONLY=1`. As with the existing port,
 the SDK, ICU, dependencies and patched E32 converter must already be prepared.
 
 ## Architecture details
@@ -67,9 +67,27 @@ floating-point comparisons, halfword addressing, register pairs and in-place
 trailing-zero counts. An intentionally corrupted constant is detected and
 returns a failing process status.
 
-Full JSC compilation and execution-tier validation are still in progress.
-Configuration flags, syntax checks, and the allocator probe alone do not
-establish that Baseline or DFG executes correctly. The tier tests must observe
-execution inside the requested tier and compare results across LLInt,
-Baseline and DFG. Physical-device validation remains separate from emulator
-validation.
+Full JSC compilation, linking and E32 conversion pass. Both EKA2L1/X7 and
+QEMU ARM1136 pass 12 cases under each of LLInt, Baseline and DFG, with identical
+semantic results. The tests observe actual tier execution, per-function DFG
+compilation, entry into DFG during the first hot-loop invocation, and OSR exit
+with live integer, double and object values. They also cover inline caches,
+argument adaptation, softfp/libm, unsigned conversion, NaN comparisons, GC,
+typed arrays and exceptions. [Symbian evidence](validation-arm11/eka-jsc/)
+and [Linux ARM evidence](validation-arm11/qemu-jsc/) retain hashes and results.
+
+Default concurrent DFG compilation also passes on both platforms: two
+functions execute DFG code produced by background compiler threads, and
+optimized allocation code retains live values across GC. No thresholds or
+concurrent-compilation settings are changed in this additional smoke test.
+The existing JavaScript, Intl and resizable-buffer suites pass with the
+default JIT configuration.
+
+Upstream WebKit 2.52 only optimizes dynamic RAB/GSAB lengths in JSValue64.
+JSValue32_64 deliberately exits DFG with `UnexpectedResizableArrayBufferView`.
+The ARM11 tests verify a normal typed-array read in DFG, then observe the
+RAB guard's exit and check shrink/regrowth/GSAB results in the fallback.
+This is correct fallback behavior, not in-DFG RAB length optimization.
+
+The complete browser build and runtime verification are still in progress.
+Physical-device validation remains separate from emulator validation.

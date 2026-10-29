@@ -1,0 +1,41 @@
+{
+  "image_sha256": "86fc45d8ccf82c39c3519366f8633c5d1465aeb742dd3ee1404ad8dea5c448a7",
+  "emulator_sha256": "c6c98382236bb8e83f31ae545c3e11edb126dd5d61f87e5b4ff07a22cd92fb1c",
+  "script_sha256": {
+    "arm11-concurrent-jit.js": "11ca7f24b3babfa8cf2108d5edb52112bf997c1673fd6841dab0c7efb2263655"
+  },
+  "arguments": [
+    "-x",
+    "--useDollarVM=true",
+    "--useFTLJIT=false",
+    "C:/Data/arm11-concurrent-jit.js"
+  ],
+  "host_exit": 0,
+  "guest_exit": 0,
+  "panic_or_access_violation": false,
+  "default_jit_thresholds": true,
+  "default_concurrent_jit": true,
+  "guest_log": "jsc.log",
+  "result": {
+    "test": "arm11-concurrent-jit",
+    "useConcurrentJIT": true,
+    "compilerThreads": 1,
+    "budgetMS": 50000,
+    "elapsedMS": 4999.040000000001,
+    "batches": 5,
+    "calls": 320,
+    "yields": 4,
+    "compiled": {
+      "numeric": 1,
+      "allocation": 1
+    },
+    "numericDFGExecutions": 128,
+    "allocationDFGExecutions": 128,
+    "collections": 6,
+    "dfgCollections": 2,
+    "dfgReturnsAfterGC": 2,
+    "collectionsBeforeAllBodiesObserved": 4,
+    "retainedRoots": 32
+  },
+  "runner": "Tools/Symbian/eka2l1/run.sh"
+}

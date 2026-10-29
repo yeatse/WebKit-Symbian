@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "started": "2026-10-29T12:38:42.909052+00:00",
+  "cpu": "arm1136",
+  "jsc_sha256": "7eaf26301b3818cee28177a291cd84928099d7876e89e32507175cafca3e6372",
+  "qemu_sha256": "94f4d938a299230026c759b348a5c8f8eaf05969ee5d7a6819598de8c6d342bb",
+  "tests": [
+    {
+      "test": "es2020",
+      "command_template": [
+        "${WORK}/qemu/sysroot/usr/bin/qemu-arm",
+        "-cpu",
+        "arm1136",
+        "-L",
+        "${WORK}/qemu/sysroot/usr/arm-linux-gnueabi",
+        "-U",
+        "LD_LIBRARY_PATH",
+        "-U",
+        "LD_PRELOAD",
+        "${WORK}/qemu/build/bin/jsc",
+        "${WEBKIT_SRC}/Tools/Symbian/tests/es2020.js"
+      ],
+      "test_sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+      "status": "PASS",
+      "seconds": 0.565452432998427
+    },
+    {
+      "test": "intl",
+      "command_template": [
+        "${WORK}/qemu/sysroot/usr/bin/qemu-arm",
+        "-cpu",
+        "arm1136",
+        "-L",
+        "${WORK}/qemu/sysroot/usr/arm-linux-gnueabi",
+        "-U",
+        "LD_LIBRARY_PATH",
+        "-U",
+        "LD_PRELOAD",
+        "${WORK}/qemu/build/bin/jsc",
+        "${WEBKIT_SRC}/Tools/Symbian/tests/intl.js"
+      ],
+      "test_sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+      "status": "PASS",
+      "seconds": 0.5653370090003591
+    },
+    {
+      "test": "resizable-arraybuffer",
+      "command_template": [
+        "${WORK}/qemu/sysroot/usr/bin/qemu-arm",
+        "-cpu",
+        "arm1136",
+        "-L",
+        "${WORK}/qemu/sysroot/usr/arm-linux-gnueabi",
+        "-U",
+        "LD_LIBRARY_PATH",
+        "-U",
+        "LD_PRELOAD",
+        "${WORK}/qemu/build/bin/jsc",
+        "${WEBKIT_SRC}/Tools/Symbian/tests/resizable-arraybuffer.js"
+      ],
+      "test_sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+      "status": "PASS",
+      "seconds": 0.6169758409996575
+    }
+  ],
+  "finished": "2026-10-29T12:38:44.752448+00:00",
+  "source_run": "arm11-feature-regressions-4ykto6ql"
+}

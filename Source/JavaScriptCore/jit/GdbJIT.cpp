@@ -868,7 +868,7 @@ private:
     {
         ASSERT(!writer->position());
         Writer::Slot<ELFHeader> header = writer->createSlotHere<ELFHeader>();
-#if CPU(ARM_THUMB2)
+#if CPU(ARM)
         const uint8_t ident[16] = {
             0x7F, 'E', 'L', 'F', 1, 1, 1, 0,
             0, 0, 0, 0, 0, 0, 0, 0
@@ -888,7 +888,7 @@ private:
         // System V ABI, AMD64 Supplement
         // http://www.x86-64.org/documentation/abi.pdf
         header->machine = 62;
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
         // Set to EM_ARM, defined as 40, in "ARM ELF File Format" at
         // infocenter.arm.com/help/topic/com.arm.doc.dui0101a/DUI0101A_Elf.pdf
         header->machine = 40;
@@ -977,7 +977,7 @@ public:
 
     Binding binding() const { return static_cast<Binding>(m_info >> 4); }
 
-#if CPU(ARM_THUMB2)
+#if CPU(ARM)
     struct SerializedLayout {
         SerializedLayout(uint32_t name, uintptr_t value, uintptr_t size, Binding binding, Type type, uint16_t section)
             : m_name(name)
@@ -1166,6 +1166,9 @@ private:
 #elif CPU(ARM64)
         RegisterFP = 29,
         RegisterLR = 30,
+#elif CPU(ARM_TRADITIONAL)
+        RegisterFP = 11,
+        RegisterLR = 14,
 #else
         RegisterFP = 7,
         RegisterLR = 14,
@@ -1307,7 +1310,7 @@ void UnwindInfoSection::writeFDEState(Ref<Writer> writer)
     writer->writeULEB128(RegisterFP);
     writer->writeSLEB128(0);
     writer->write<uint8_t>(AdvanceLoc1);
-    writer->write<uint8_t>(is32Bit() ? 2 : 4);
+    writer->write<uint8_t>(isARM_THUMB2() ? 2 : 4);
     writer->write<uint8_t>(DefCFASF);
     writer->writeULEB128(RegisterFP);
     writer->writeSLEB128(static_cast<int32_t>(sizeof(CallerFrameAndPC)));

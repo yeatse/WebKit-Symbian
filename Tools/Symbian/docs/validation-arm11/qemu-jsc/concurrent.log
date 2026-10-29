@@ -1,0 +1,2 @@
+RESULT {"test":"arm11-concurrent-jit","useConcurrentJIT":true,"compilerThreads":2,"budgetMS":50000,"elapsedMS":547.88,"batches":8,"calls":512,"yields":7,"compiled":{"numeric":1,"allocation":1},"numericDFGExecutions":360,"allocationDFGExecutions":191,"collections":9,"dfgCollections":2,"dfgReturnsAfterGC":2,"collectionsBeforeAllBodiesObserved":6,"retainedRoots":32}
+PASS: arm11-concurrent-jit

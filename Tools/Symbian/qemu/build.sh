@@ -38,6 +38,7 @@ fi
 cmake -S "$WEBKIT_SRC" -B "$Q/build" -G Ninja -DPORT=JSCOnly \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_TOOLCHAIN_FILE="$REPO/qemu/toolchain-linux-armv6.cmake" \
+  -DCMAKE_PROJECT_INCLUDE="$REPO/qemu/static-icu.cmake" \
   "-DCMAKE_FIND_ROOT_PATH=$linux_sysroot;$ICU" \
   -DENABLE_STATIC_JSC=ON -DUSE_SYSTEM_MALLOC=ON -DENABLE_API_TESTS=OFF \
   -DDEVELOPER_MODE=OFF "${jit_flags[@]}" \

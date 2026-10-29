@@ -11,9 +11,10 @@ def result_for(mode):
     return {"mode": mode, "completed": list(CASES), "digest": list(range(len(CASES))),
             "tiers": [mode == "llint", mode == "baseline", mode == "dfg"],
             "compiled": {name: int(mode == "dfg") for name in CASES[1:]},
-            "dfgBodies": {name: True for name in CASES[2:]},
+            "dfgBodies": {name: mode == "dfg" for name in CASES[2:]},
             "osrEntry": {"startedInDFG": False, "enteredDFG": True},
-            "osrExit": {"before": True, "after": False}}
+            "osrExit": {"before": True, "after": False},
+            "rabTransition": {"before": mode == "dfg", "after": False, "value": 17, "attempts": 1}}
 
 
 def output_for(result):
@@ -63,12 +64,32 @@ class EvidenceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_output(text + text, "dfg")
 
+    def test_rab_requires_observed_guard_exit_and_recovered_value(self):
+        for replacement in ({}, {"before": False, "after": False, "value": 17},
+                            {"before": True, "after": True, "value": 17},
+                            {"before": True, "after": False, "value": 0},
+                            {"before": True, "after": False, "value": 17, "attempts": 4001}):
+            value = result_for("dfg")
+            value["rabTransition"] = replacement
+            with self.subTest(replacement=replacement), self.assertRaises(ValueError):
+                validate_output(output_for(value), "dfg")
+
     def test_tier_result_differences_are_failures(self):
         baseline = result_for("baseline")
         dfg = copy.deepcopy(result_for("dfg"))
         dfg["digest"][5] += 0.125
         with self.assertRaises(ValueError):
             compare_results([baseline, dfg])
+
+    def test_disabled_dfg_sentinel_is_never_compilation_evidence(self):
+        for mode in ("llint", "baseline"):
+            value = result_for(mode)
+            value["compiled"] = {name: 1000000 for name in CASES[1:]}
+            validate_output(output_for(value), mode)
+        value = result_for("dfg")
+        value["compiled"]["softfp-math"] = 1000000
+        with self.assertRaises(ValueError):
+            validate_output(output_for(value), "dfg")
 
 
 if __name__ == "__main__":
