@@ -94,11 +94,11 @@ CPageList::CPageList(TInt aMaxCount)
 CPageList::~CPageList()
 {
     for (TInt i = 0; i < iPages.Count(); ++i) {
-        delete iPages[i].iUrl;
-        delete iPages[i].iTitle;
+        User::Free(iPages[i].iUrl);
+        User::Free(iPages[i].iTitle);
     }
     iPages.Close();
-    delete iPath;
+    User::Free(iPath);
 }
 
 void CPageList::ConstructL(const char* aPath)
@@ -228,7 +228,7 @@ void CPageList::SetTitleL(const TDesC& aUrl, const TDesC& aTitle)
         CleanupStack::PopAndDestroy(title);
         return;
     }
-    delete iPages[index].iTitle;
+    User::Free(iPages[index].iTitle);
     iPages[index].iTitle = title;
     CleanupStack::Pop(title);
     Save();
@@ -249,7 +249,7 @@ void CPageList::Reset()
 
 void CPageList::Drop(TInt aIndex)
 {
-    delete iPages[aIndex].iUrl;
-    delete iPages[aIndex].iTitle;
+    User::Free(iPages[aIndex].iUrl);
+    User::Free(iPages[aIndex].iTitle);
     iPages.Remove(aIndex);
 }

@@ -102,7 +102,7 @@ CWebContainer::~CWebContainer()
     delete iBitmap;
     delete iEditorState;
     delete iExtendedInputCapabilities;
-    delete iInlineText;
+    User::Free(iInlineText);
     delete iSelfTest;
 }
 
@@ -250,7 +250,7 @@ void CWebContainer::UpdateEditorStateL()
     iEditable = type != InputType::None;
     if (iInlineEditing && !iEditable) {
         iInlineEditing = EFalse;
-        delete iInlineText;
+        User::Free(iInlineText);
         iInlineText = nullptr;
     }
 
@@ -425,7 +425,7 @@ void CWebContainer::StartFepInlineEditL(TBool& aSetToTrue, const TCursorSelectio
 void CWebContainer::UpdateFepInlineTextL(const TDesC& aNewInlineText, TInt aPositionOfInsertionPointInInlineText)
 {
     HBufC* text = aNewInlineText.AllocL();
-    delete iInlineText;
+    User::Free(iInlineText);
     iInlineText = text;
     iUpdatingForFep = ETrue;
     iWebView->setComposition(ToText(*iInlineText), aPositionOfInsertionPointInInlineText);
@@ -444,7 +444,7 @@ void CWebContainer::CancelFepInlineEdit()
     iUpdatingForFep = ETrue;
     iWebView->cancelComposition();
     iUpdatingForFep = EFalse;
-    delete iInlineText;
+    User::Free(iInlineText);
     iInlineText = nullptr;
 }
 
@@ -456,7 +456,7 @@ void CWebContainer::DoCommitFepInlineEditL()
     iUpdatingForFep = ETrue;
     iWebView->confirmComposition(iInlineText ? ToText(*iInlineText) : Text { });
     iUpdatingForFep = EFalse;
-    delete iInlineText;
+    User::Free(iInlineText);
     iInlineText = nullptr;
 }
 

@@ -335,11 +335,11 @@ CBrowserAppUi::~CBrowserAppUi()
     delete iUrlBar;
     delete iSoftkeys;
     delete iRunLoop;
-    delete iPendingUrl;
+    User::Free(iPendingUrl);
     delete iHistory;
     delete iBookmarks;
-    delete iUrl;
-    delete iTitle;
+    User::Free(iUrl);
+    User::Free(iTitle);
     delete iNetwork;
     delete iHeartbeat;
     BrowserLog("WebKit Browser exiting");
@@ -403,7 +403,7 @@ void CBrowserAppUi::LoadUrlL(const TDesC& aUrl)
     // Load once the connection is up, or has failed (the page then shows
     // the error).
     HBufC* url = aUrl.AllocL();
-    delete iPendingUrl;
+    User::Free(iPendingUrl);
     iPendingUrl = url;
     iUrlBar->SetUrlL(aUrl);
     iUrlBar->SetProgress(ETrue, 5);
@@ -554,7 +554,7 @@ TBool CBrowserAppUi::ShowPageListL(const TDesC& aTitle, const CPageList& aPages,
 void CBrowserAppUi::WebTitleChanged(const TDesC& aTitle)
 {
     HBufC* title = aTitle.AllocL();
-    delete iTitle;
+    User::Free(iTitle);
     iTitle = title;
     if (iUrl)
         iHistory->SetTitleL(*iUrl, aTitle);
@@ -566,10 +566,10 @@ void CBrowserAppUi::WebUrlChanged(const TDesC& aUrl)
     if (iUrl && *iUrl == aUrl)
         return;
     HBufC* url = aUrl.AllocL();
-    delete iUrl;
+    User::Free(iUrl);
     iUrl = url;
     // The title comes after the address; until then the page has none.
-    delete iTitle;
+    User::Free(iTitle);
     iTitle = nullptr;
     _LIT(KAboutBlank, "about:blank");
     if (aUrl.Length() && aUrl != KAboutBlank)

@@ -367,6 +367,7 @@ To build the dependencies and the image for Symbian, the following were also nee
 * curl has no default CA bundle or path (`CURL_CA_BUNDLE=none`, `CURL_CA_PATH=none`). Its CMake build otherwise takes them from the build machine, and the missing `/etc/ssl/certs` failed every HTTPS load with "problem with the SSL CA cert" (77).
 * SQLite treats paths with a drive as absolute. Its Unix VFS put the current directory (the app's private directory) in front of `C:\Data\WebKit\cookies.db`, so cookies were never stored.
 * WebCore's curl thread waits 5 ms between polls when no transfer has a descriptor to wait on, as while curl's resolver thread looks up a host name (there is no `socketpair()` to wake it). It spun instead.
+* The shell frees its `HBufC`s with `User::Free`. They come from the user heap, and `delete` handed them to the SDK runtime's mimalloc: replacing a page already in the history crashed the browser (KERN-EXEC 3 in `mi_free`).
 * WTF threads get a 128 KB stack. Open C's default is 8 KB, which curl's thread overflowed in the TLS handshake: HTTPS loads crashed the browser.
 * WTF threads run at `EPriorityLess`, below the UI thread. EKA2 does not share the processor with lower priorities: a busy thread above the UI freezes it, one at its priority slows it. HTTPS loads hung the browser in curl's TLS handshake.
 * The E32 converter accepts symbol names longer than 512 characters (WebCore's templates), and ELF input up to 256 MB.

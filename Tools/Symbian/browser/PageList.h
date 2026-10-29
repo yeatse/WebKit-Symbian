@@ -30,6 +30,8 @@ public:
     void Reset();
 
 private:
+    // HBufCs come from the user heap: they are freed with User::Free, as
+    // delete would hand them to the SDK runtime's allocator.
     struct TPage {
         HBufC* iUrl;
         HBufC* iTitle;
