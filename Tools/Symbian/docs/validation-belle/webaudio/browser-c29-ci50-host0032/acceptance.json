@@ -1,0 +1,172 @@
+{
+  "status": "PASS",
+  "scope": "Controlled deployment and execution of the actual audited CI50 browser payload: strict offline vectors and unsupported APIs, real 997Hz stereo PCM, four real XTest controls, normal close and scoped restoration",
+  "utc": "2026-11-01T12:11:56.328353+00:00",
+  "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+  "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+  "ci_run": 41299027063,
+  "package_version": "0.3.50",
+  "artifact_zip_sha256": "c8ba4322797ad1cd26000334b2be5840d76969e32830ca04d410086fd8515aee",
+  "browser": {
+    "path": "/workspace/symbian-belle-work/candidate29/browser.exe",
+    "bytes": 59863884,
+    "sha256": "30fd5b179a1ca595216c77da1e4bf4561e9d362dcc2dcde9fd4354d4cb1c0429"
+  },
+  "public_api": {
+    "status": "PUBLIC_API_COMPLETE",
+    "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+    "stage": "complete",
+    "failures": [],
+    "native_audio_verified": false,
+    "scope": "public browser reports only; Root must verify captured native PCM, trusted XTest input, normal owned-parent close, unchanged pins, and full restoration"
+  },
+  "real_trusted_input_actions": 4,
+  "host_exit": 0,
+  "forced_cleanup": false,
+  "deadline_expired": false,
+  "guest_profile_and_resources_restored": true,
+  "configuration_bindings_Qt_devices_restored": true,
+  "pins_unchanged": true,
+  "native_expected_pinned_copies": 14,
+  "pcm": {
+    "sha256": "b7ed4045048998e220d33385ab58e13f31ee48073e8c407c9a3b1627f03093bf",
+    "bytes": 4567540,
+    "duration_seconds": 23.789270833333333,
+    "format": "s16le",
+    "sample_rate": 48000,
+    "channels": 2
+  },
+  "pcm_observations": [
+    {
+      "label": "native-running",
+      "pcm_window_seconds": [
+        14.802208333333333,
+        15.313520833333333
+      ],
+      "marker_monotonic": 271419.637395299,
+      "observation_passed": true,
+      "expected": "997Hz-running",
+      "frames": 24543,
+      "rms_s16": [
+        3474.947189487432,
+        3474.947189487432
+      ],
+      "peak_s16": [
+        4916.0,
+        4916.0
+      ],
+      "dominant_hz": [
+        997.4330766409976,
+        997.4330766409976
+      ],
+      "expected_band_power_fraction": [
+        0.9999962130850197,
+        0.9999962130850197
+      ],
+      "exact_zero": false,
+      "maximum_exact_zero_gap_seconds": 2.0833333333333333e-05
+    },
+    {
+      "label": "native-suspended",
+      "pcm_window_seconds": [
+        17.25025,
+        17.761583333333334
+      ],
+      "marker_monotonic": 271422.085440114,
+      "observation_passed": true,
+      "expected": "quiet-rms<=2",
+      "frames": 24544,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "peak_s16": [
+        0.0,
+        0.0
+      ],
+      "dominant_hz": [
+        null,
+        null
+      ],
+      "expected_band_power_fraction": [
+        0.0,
+        0.0
+      ],
+      "exact_zero": true,
+      "maximum_exact_zero_gap_seconds": 0.5113333333333333
+    },
+    {
+      "label": "native-resumed",
+      "pcm_window_seconds": [
+        19.985708333333335,
+        20.497020833333334
+      ],
+      "marker_monotonic": 271424.820894516,
+      "observation_passed": true,
+      "expected": "997Hz-running",
+      "frames": 24543,
+      "rms_s16": [
+        3475.067406624668,
+        3475.067406624668
+      ],
+      "peak_s16": [
+        4916.0,
+        4916.0
+      ],
+      "dominant_hz": [
+        997.4330766409976,
+        997.4330766409976
+      ],
+      "expected_band_power_fraction": [
+        0.9999962111917045,
+        0.9999962111917045
+      ],
+      "exact_zero": false,
+      "maximum_exact_zero_gap_seconds": 2.0833333333333333e-05
+    },
+    {
+      "label": "quiet",
+      "pcm_window_seconds": [
+        22.77166666666667,
+        23.283
+      ],
+      "marker_monotonic": 271427.606858741,
+      "observation_passed": true,
+      "expected": "quiet-rms<=2",
+      "frames": 24544,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "peak_s16": [
+        0.0,
+        0.0
+      ],
+      "dominant_hz": [
+        null,
+        null
+      ],
+      "expected_band_power_fraction": [
+        0.0,
+        0.0
+      ],
+      "exact_zero": true,
+      "maximum_exact_zero_gap_seconds": 0.5113333333333333
+    }
+  ],
+  "timing_alignment_verified": false,
+  "timing_limit": "Host delivery estimates select windows; their spread cannot bound an unknown constant queue delay. These observations do not prove exact synchronization, guest latency, input trust, API completion, host health or restoration.",
+  "SIS_installer_tested": false,
+  "phone_tested": false,
+  "not_verified": [
+    "genuine native resource-loss notification",
+    "seamless pause",
+    "official EndTask"
+  ],
+  "unsupported": [
+    "AudioWorklet interfaces disabled",
+    "MMF media-element PCM sources explicitly NotSupportedError"
+  ],
+  "external_raw_pcm": "/workspace/webaudio-c29-ci50-pcm-01/audio.raw",
+  "metadata_sha256": "4869f3ca993e787ab509c5563a15bb618e629d9828ffda026b821d816bac98fb"
+}

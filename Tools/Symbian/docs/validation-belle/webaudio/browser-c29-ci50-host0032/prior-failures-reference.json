@@ -1,0 +1,21 @@
+{
+  "scope": "Preserved originals remain FAIL; references only.",
+  "failures": [
+    {
+      "case": "c26",
+      "status": "FAIL",
+      "original_run": "/workspace/webaudio-c26-native-01",
+      "committed_public_archive": "../browser-c28-host0032/prior-failures/c26",
+      "public_state_sha256": "ad71c6384e5ba813289073b13500f6506ba61843f07f4be0f494f3e7fd509ac7",
+      "copied_or_reclassified": false
+    },
+    {
+      "case": "c27",
+      "status": "FAIL",
+      "original_run": "/workspace/webaudio-c27-native-01",
+      "committed_public_archive": "../browser-c28-host0032/prior-failures/c27",
+      "public_state_sha256": "98a4d765f6d86dc4e403f1de62abfef4179448e901ced28c15c2ea9a8b5793cf",
+      "copied_or_reclassified": false
+    }
+  ]
+}

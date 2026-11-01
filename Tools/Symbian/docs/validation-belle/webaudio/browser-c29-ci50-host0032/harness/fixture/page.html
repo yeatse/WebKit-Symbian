@@ -1,0 +1,81 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/favicon.ico?run=%%TOKEN%%">
+<title>Classic WebAudio positive fixture</title>
+<style>body{font:17px sans-serif;margin:12px}h2{font-size:21px}button{display:block;width:100%;min-height:64px;font:20px sans-serif;margin:18px 0;padding:12px}pre{font:13px monospace;white-space:pre-wrap;overflow-wrap:anywhere}</style>
+<h2>Classic WebAudio</h2><p>离线测试完成后，依次点击开始、暂停、继续、关闭。</p>
+<button id="action" disabled>正在检查离线音频…</button><pre id="status">Preparing</pre>
+<script>
+'use strict';
+const run=%%RUN%%,rate=32768,q='?run='+encodeURIComponent(run),button=document.getElementById('action'),status=document.getElementById('status');
+let step='offline',busy=false,context,oscillator,level,sequence=0,outcomeSent=false;
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+function require(ok){if(!ok)throw Error('assertion');}
+function rect(element){const r=element.getBoundingClientRect();return{x:r.left,y:r.top,width:r.width,height:r.height,disabled:element.disabled};}
+function layout(){const v=window.visualViewport;return{innerWidth,innerHeight,devicePixelRatio,scrollX,scrollY,button:rect(button),visualViewport:v?{offsetLeft:v.offsetLeft,offsetTop:v.offsetTop,width:v.width,height:v.height,scale:v.scale}:null};}
+async function event(kind,data){const response=await fetch('/event'+q,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({run,sequence:sequence++,kind},data))});if(!response.ok)throw Error('event-rejected');}
+function outcome(code){if(outcomeSent)return;outcomeSent=true;console.log('WEBAUDIO-RESULT '+JSON.stringify({run,kind:'result',status:code}));}
+async function fail(code){button.disabled=true;step='failed';status.textContent='FAIL '+code;try{await event('error',{code});}catch(e){}outcome('FAIL');}
+function enable(next,label){step=next;button.textContent=label;busy=false;button.disabled=false;}
+function mismatch(actual,expected){let count=0;for(let i=0;i<actual.length;i++)if(actual[i]!==expected(i))count++;return count;}
+async function offlineTests(){
+ require(isSecureContext&&location.hostname==='localhost');
+ require(typeof AudioContext==='function'&&typeof OfflineAudioContext==='function');
+ context=new AudioContext();
+ await event('capabilities',{secure:isSecureContext,audio_context:typeof AudioContext==='function',offline_context:typeof OfflineAudioContext==='function',audio_worklet:'AudioWorklet' in window,audio_worklet_node:'AudioWorkletNode' in window,audio_worklet_processor:'AudioWorkletProcessor' in window,context_worklet:'audioWorklet' in context,base_worklet:'audioWorklet' in BaseAudioContext.prototype});
+ require(!('AudioWorklet' in window)&&!('AudioWorkletNode' in window)&&!('AudioWorkletProcessor' in window)&&!('audioWorklet' in context)&&!('audioWorklet' in BaseAudioContext.prototype));
+ const before=context.currentTime,beforeState=context.state;let factory='NoError',constructor='NoError';
+ try{context.createMediaElementSource(document.createElement('audio'));}catch(e){factory=e.name;}
+ try{new MediaElementAudioSourceNode(context,{mediaElement:document.createElement('audio')});}catch(e){constructor=e.name;}
+ await sleep(120);
+ await event('unsupported-media',{state_before:beforeState,state_after:context.state,time_before:before,time_after:context.currentTime,factory,constructor});
+ require(factory==='NotSupportedError'&&constructor==='NotSupportedError'&&beforeState==='suspended'&&context.state==='suspended'&&before===0&&context.currentTime===0);
+ {
+  const c=new OfflineAudioContext(1,128,rate),b=c.createBuffer(1,128,rate),values=[1,-1,.5,-.5,.25,-.25,0,.125];b.getChannelData(0).set(values);
+  const source=c.createBufferSource(),gain=c.createGain();source.buffer=b;gain.gain.value=.5;source.connect(gain);gain.connect(c.destination);source.start();const out=await c.startRendering(),samples=out.getChannelData(0),errors=mismatch(samples,i=>i<8?values[i]*.5:0);
+  await event('gain',{sample_rate:out.sampleRate,channels:out.numberOfChannels,frames:out.length,head:Array.from(samples.slice(0,8)),mismatches:errors});require(errors===0);
+ }
+ {
+  const c=new OfflineAudioContext(2,512,rate),b=c.createBuffer(2,512,rate);b.getChannelData(0)[0]=1;b.getChannelData(0)[1]=-.5;b.getChannelData(1)[3]=.25;
+  const source=c.createBufferSource(),split=c.createChannelSplitter(2),merge=c.createChannelMerger(2),delay=c.createDelay(.1);source.buffer=b;delay.delayTime.value=1/256;source.connect(split);split.connect(delay,0,0);delay.connect(merge,0,1);split.connect(merge,1,0);merge.connect(c.destination);source.start();
+  const out=await c.startRendering(),left=out.getChannelData(0),right=out.getChannelData(1),errors=mismatch(left,i=>i===3?.25:0)+mismatch(right,i=>i===128?1:i===129?-.5:0);
+  await event('delay-channel',{sample_rate:out.sampleRate,channels:out.numberOfChannels,frames:out.length,probes:[left[3],right[128],right[129]],mismatches:errors});require(errors===0);
+ }
+ {
+  const c=new OfflineAudioContext(1,4096,rate),o=c.createOscillator();o.type='sine';o.frequency.value=1024;o.connect(c.destination);o.start();const out=await c.startRendering(),samples=out.getChannelData(0);let sum=0,finite=true,peak=0;const crossings=[];
+  for(let i=256;i<samples.length;i++){const x=samples[i];finite=finite&&Number.isFinite(x);sum+=x*x;peak=Math.max(peak,Math.abs(x));if(i>256&&samples[i-1]<=0&&x>0)crossings.push(i-1-samples[i-1]/(x-samples[i-1]));}
+  const rms=Math.sqrt(sum/(samples.length-256)),frequency=(crossings.length-1)*rate/(crossings[crossings.length-1]-crossings[0]);
+  await event('oscillator',{sample_rate:out.sampleRate,frames:out.length,finite,rms,peak,frequency,crossings:crossings.length});require(finite&&Math.abs(rms-Math.SQRT1_2)<.01&&Math.abs(frequency-1024)<2&&peak>.98&&peak<=1.01);
+ }
+ {
+  const c=new OfflineAudioContext(1,4096,rate),b=c.createBuffer(1,4096,rate),samples=b.getChannelData(0);for(let i=0;i<samples.length;i++)samples[i]=Math.sin(2*Math.PI*i/32);
+  const source=c.createBufferSource(),analyser=c.createAnalyser();source.buffer=b;analyser.fftSize=1024;analyser.smoothingTimeConstant=0;source.connect(analyser);analyser.connect(c.destination);source.start();await c.startRendering();
+  const bins=new Float32Array(analyser.frequencyBinCount);analyser.getFloatFrequencyData(bins);let peakBin=1;for(let i=2;i<bins.length;i++)if(bins[i]>bins[peakBin])peakBin=i;
+  const peakDb=bins[peakBin],lower=bins[16],upper=bins[48];require((Number.isFinite(lower)||lower===-Infinity)&&(Number.isFinite(upper)||upper===-Infinity));const lowerGap=Number.isFinite(lower)?Math.min(200,peakDb-lower):200,upperGap=Number.isFinite(upper)?Math.min(200,peakDb-upper):200;
+  await event('analyser',{sample_rate:c.sampleRate,fft_size:analyser.fftSize,bin_count:bins.length,peak_bin:peakBin,peak_db:peakDb,lower_gap_db:lowerGap,upper_gap_db:upperGap});require(Math.abs(peakBin-32)<=1&&Number.isFinite(peakDb)&&peakDb>-30&&lowerGap>=20&&upperGap>=20);
+ }
+ {
+  const c=new OfflineAudioContext(1,128,rate),response=await fetch('/fixture.wav'+q,{cache:'no-store'});require(response.ok);const out=await c.decodeAudioData(await response.arrayBuffer()),expected=[-32768,-16384,-1,0,1,8192,16384,32767].map(x=>x/32768),samples=Array.from(out.getChannelData(0));
+  await event('wav-decode',{sample_rate:out.sampleRate,channels:out.numberOfChannels,frames:out.length,samples});require(out.sampleRate===rate&&out.numberOfChannels===1&&out.length===8&&samples.every((x,i)=>x===expected[i]));
+  let errorName='NoError';try{await c.decodeAudioData(new Uint8Array([78,79,84,45,65,85,68,73,79]).buffer);}catch(e){errorName=e.name;}
+  await event('unsupported-decode',{error_name:errorName});require(errorName==='EncodingError');
+ }
+ enable('start','开始音频 997 Hz');status.textContent='OFFLINE_API_COMPLETE — 等待真实点击';await event('native-ready',{state:context.state,current_time:context.currentTime,sample_rate:context.sampleRate,layout:layout()});
+}
+button.addEventListener('click',async e=>{
+ if(busy||button.disabled||!e.isTrusted)return;busy=true;button.disabled=true;const action=step;
+ try{
+  if(action==='start'){
+   require(context.state==='suspended'&&context.currentTime===0);oscillator=context.createOscillator();level=context.createGain();oscillator.type='sine';oscillator.frequency.value=997;level.gain.value=.15;oscillator.connect(level);level.connect(context.destination);
+   const pending=context.resume();oscillator.start();await pending;require(context.state==='running');await event('native-start',{trusted:e.isTrusted,state:context.state,current_time:context.currentTime,frequency:oscillator.frequency.value,gain:level.gain.value});
+   const t=context.currentTime,wall=performance.now();await sleep(1000);require(context.state==='running'&&context.currentTime-t>.1);enable('suspend','暂停音频');await event('native-running',{state:context.state,time_before:t,time_after:context.currentTime,elapsed_ms:performance.now()-wall,layout:layout()});
+  }else if(action==='suspend'){
+   await context.suspend();require(context.state==='suspended');const t=context.currentTime,wall=performance.now();await sleep(700);require(context.currentTime===t);enable('resume','继续音频');await event('native-suspended',{trusted:e.isTrusted,state:context.state,time_before:t,time_after:context.currentTime,elapsed_ms:performance.now()-wall,layout:layout()});
+  }else if(action==='resume'){
+   await context.resume();require(context.state==='running');const t=context.currentTime,wall=performance.now();await sleep(1000);require(context.currentTime-t>.1);enable('close','关闭音频');await event('native-resumed',{trusted:e.isTrusted,state:context.state,time_before:t,time_after:context.currentTime,elapsed_ms:performance.now()-wall,layout:layout()});
+  }else if(action==='close'){
+   oscillator.stop();await context.close();require(context.state==='closed');step='closed';button.textContent='音频已关闭';await event('native-closed',{trusted:e.isTrusted,state:context.state,current_time:context.currentTime,layout:layout()});const t=context.currentTime,wall=performance.now();await sleep(1000);await event('quiet',{state:context.state,time_before:t,time_after:context.currentTime,elapsed_ms:performance.now()-wall});require(context.state==='closed'&&context.currentTime===t);status.textContent='PUBLIC_API_COMPLETE — 原生 PCM 证据由外层验证';outcome('PUBLIC_API_COMPLETE');
+  }else throw Error('step');
+ }catch(error){await fail('native-'+action);}finally{busy=false;}
+});
+offlineTests().catch(()=>fail('offline'));
+</script>

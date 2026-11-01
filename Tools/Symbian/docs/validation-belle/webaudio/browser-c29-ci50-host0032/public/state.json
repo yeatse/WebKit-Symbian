@@ -1,0 +1,274 @@
+{
+  "suite": "classic-webaudio",
+  "version": 1,
+  "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+  "provenance": "browser-reported",
+  "events": [
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 0,
+      "kind": "capabilities",
+      "secure": true,
+      "audio_context": true,
+      "offline_context": true,
+      "audio_worklet": false,
+      "audio_worklet_node": false,
+      "audio_worklet_processor": false,
+      "context_worklet": false,
+      "base_worklet": false
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 1,
+      "kind": "unsupported-media",
+      "state_before": "suspended",
+      "state_after": "suspended",
+      "time_before": 0,
+      "time_after": 0,
+      "factory": "NotSupportedError",
+      "constructor": "NotSupportedError"
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 2,
+      "kind": "gain",
+      "sample_rate": 32768,
+      "channels": 1,
+      "frames": 128,
+      "head": [
+        0.5,
+        -0.5,
+        0.25,
+        -0.25,
+        0.125,
+        -0.125,
+        0,
+        0.0625
+      ],
+      "mismatches": 0
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 3,
+      "kind": "delay-channel",
+      "sample_rate": 32768,
+      "channels": 2,
+      "frames": 512,
+      "probes": [
+        0.25,
+        1,
+        -0.5
+      ],
+      "mismatches": 0
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 4,
+      "kind": "oscillator",
+      "sample_rate": 32768,
+      "frames": 4096,
+      "finite": true,
+      "rms": 0.7071067485981672,
+      "peak": 1,
+      "frequency": 1024,
+      "crossings": 120
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 5,
+      "kind": "analyser",
+      "sample_rate": 32768,
+      "fft_size": 1024,
+      "bin_count": 512,
+      "peak_bin": 32,
+      "peak_db": -13.555614471435547,
+      "lower_gap_db": 179.61214065551758,
+      "upper_gap_db": 167.22470474243164
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 6,
+      "kind": "wav-decode",
+      "sample_rate": 32768,
+      "channels": 1,
+      "frames": 8,
+      "samples": [
+        -1,
+        -0.5,
+        -3.0517578125e-05,
+        0,
+        3.0517578125e-05,
+        0.25,
+        0.5,
+        0.999969482421875
+      ]
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 7,
+      "kind": "unsupported-decode",
+      "error_name": "EncodingError"
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 8,
+      "kind": "native-ready",
+      "state": "suspended",
+      "current_time": 0,
+      "sample_rate": 44100,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": false
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 9,
+      "kind": "native-start",
+      "trusted": true,
+      "state": "running",
+      "current_time": 0.06965986394557823,
+      "frequency": 997,
+      "gain": 0.15000000596046448
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 10,
+      "kind": "native-running",
+      "state": "running",
+      "time_before": 0.09287981859410431,
+      "time_after": 1.0913378684807256,
+      "elapsed_ms": 1015,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": false
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 11,
+      "kind": "native-suspended",
+      "trusted": true,
+      "state": "suspended",
+      "time_before": 2.809614512471655,
+      "time_after": 2.809614512471655,
+      "elapsed_ms": 718,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": false
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 12,
+      "kind": "native-resumed",
+      "trusted": true,
+      "state": "running",
+      "time_before": 2.8792743764172335,
+      "time_after": 3.900952380952381,
+      "elapsed_ms": 1016,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": false
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 13,
+      "kind": "native-closed",
+      "trusted": true,
+      "state": "closed",
+      "current_time": 5.5495691609977325,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": true
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+      "sequence": 14,
+      "kind": "quiet",
+      "state": "closed",
+      "time_before": 5.5495691609977325,
+      "time_after": 5.5495691609977325,
+      "elapsed_ms": 1015
+    }
+  ],
+  "received_monotonic": [
+    271358.049939169,
+    271358.765834407,
+    271358.957798982,
+    271359.039216218,
+    271359.491591627,
+    271359.55997851,
+    271359.641300795,
+    271359.672319472,
+    271359.782457187,
+    271418.543583998,
+    271419.579879374,
+    271422.030398692,
+    271424.763481243,
+    271426.48686248,
+    271427.578536923
+  ],
+  "errors": [],
+  "page_requests": 1,
+  "wav_requests": 1,
+  "serve_requested": true,
+  "deadline_expired": false
+}

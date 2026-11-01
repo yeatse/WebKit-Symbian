@@ -1,0 +1,202 @@
+{
+  "acceptance.json": {
+    "source": "/workspace/symbian-belle-work/webaudio-c29-ci50-acceptance/acceptance.json",
+    "bytes": 4951,
+    "sha256": "2f7cfabc21da9bab66bdf17ba282c76d78efc0163119adb967886d1a44679eb6"
+  },
+  "public/state.json": {
+    "source": "/workspace/webaudio-c29-ci50-native-01/server/state.json",
+    "bytes": 6450,
+    "sha256": "3a2ccbaa258529b335045c67120d77221b7fc74dda50753b1dd9b49ffdf1103d"
+  },
+  "public/manifest.json": {
+    "source": "/workspace/webaudio-c29-ci50-native-01/server/manifest.json",
+    "bytes": 1463,
+    "sha256": "838a80d5051998248ada0d2c85f1466c27f6ddb910aa5ab05dbe3359ddcd7362"
+  },
+  "public/ready.json": {
+    "source": "/workspace/webaudio-c29-ci50-native-01/server/ready.json",
+    "bytes": 231,
+    "sha256": "316eb28dbf254173accd9aeae7f116ee1677634232185328de0dbb983aa0d6e7"
+  },
+  "public/calibration.json": {
+    "source": "/workspace/webaudio-c29-ci50-native-01/public/calibration.json",
+    "bytes": 304,
+    "sha256": "18b61a369641f52ccf36d26f6bb2775aa5f33a7eb141f4ddf9edc46f3ca68b93"
+  },
+  "public/actions.jsonl": {
+    "source": "/workspace/webaudio-c29-ci50-native-01/public/actions.jsonl",
+    "bytes": 275,
+    "sha256": "21793c63e4cdeabc57ff765bcdc47d1ba47e6786008898157e0ddcc4f34bee43"
+  },
+  "public/native-ready.png": {
+    "source": "/workspace/webaudio-c29-ci50-native-01/public/native-ready.png",
+    "bytes": 35191,
+    "sha256": "f7366cdd8fedd621d04eca0add6b29ae73cf5cd96eaab51be4350f0e85ca2717"
+  },
+  "public/trusted-input.jsonl": {
+    "source": "/workspace/webaudio-c29-ci50-native-01/trusted-input.jsonl",
+    "bytes": 1939,
+    "sha256": "692d2cc96cb63416309ec409f60ca217580ea7b9fc9cf4748a165b98ef778277"
+  },
+  "pcm/analysis.json": {
+    "source": "/workspace/webaudio-c29-ci50-pcm-01/analysis.json",
+    "bytes": 4106,
+    "sha256": "755fdcd0454840df54ccb8a76fa67f043f8b0763a9d91503e494983279cd7692"
+  },
+  "pcm/capture.json": {
+    "source": "/workspace/webaudio-c29-ci50-pcm-01/capture.json",
+    "bytes": 34509,
+    "sha256": "e962d4b6ca26d9c6da6301bd0dcc0e6fd9f2d6d8d98894279c44645b17a6f521"
+  },
+  "pcm/marks.json": {
+    "source": "/workspace/webaudio-c29-ci50-pcm-01/marks.json",
+    "bytes": 901,
+    "sha256": "8875a2c903cab90e89bfd416421c7d3335fbbf2ac77620364b8c5e85acc83da8"
+  },
+  "pcm/ready.json": {
+    "source": "/workspace/webaudio-c29-ci50-pcm-01/ready.json",
+    "bytes": 96,
+    "sha256": "cafccf8acaf43eac5b2043bec8e624f92af0ad07fe40d0943a1c5877d57f08ef"
+  },
+  "identity/runtime-metadata.json": {
+    "source": "/workspace/symbian-belle-work/candidate29/runtime-metadata.json",
+    "bytes": 10894,
+    "sha256": "4869f3ca993e787ab509c5563a15bb618e629d9828ffda026b821d816bac98fb"
+  },
+  "harness/fixture/fixture.py": {
+    "source": "/workspace/symbian-webaudio-classic-fixture-work/fixture.py",
+    "bytes": 6227,
+    "sha256": "55a048d703dadbe4467a731b3570a020e4414b2298a9e7fa852122f98b0c408b"
+  },
+  "harness/fixture/page.html": {
+    "source": "/workspace/symbian-webaudio-classic-fixture-work/page.html",
+    "bytes": 10672,
+    "sha256": "db0e17d8a33a58954ec7042e9b1567f7222e759c99bf8ba1e1f4a247e9d008ba"
+  },
+  "harness/fixture/protocol.py": {
+    "source": "/workspace/symbian-webaudio-classic-fixture-work/protocol.py",
+    "bytes": 5114,
+    "sha256": "8d37be2f02be7608bee65a8211ae1201d7a952f0f793b67f8dec2a3a3834345f"
+  },
+  "harness/fixture/validate.py": {
+    "source": "/workspace/symbian-webaudio-classic-fixture-work/validate.py",
+    "bytes": 6761,
+    "sha256": "00211d4e6c8b7ad3906894b9360030432d09dbf3e0a1e000d2348d93bab336c0"
+  },
+  "harness/fixture/test_guards.py": {
+    "source": "/workspace/symbian-webaudio-classic-fixture-work/test_guards.py",
+    "bytes": 4441,
+    "sha256": "1450760a028ccc3ca36324c1ff3cb8d5c80b75492243b745ea8f30d36d9ba992"
+  },
+  "harness/fixture/README.md": {
+    "source": "/workspace/symbian-webaudio-classic-fixture-work/README.md",
+    "bytes": 5951,
+    "sha256": "77ea5452a61227671fc196707401759977f5fd4383a523e8d2cbe80acffd1fc5"
+  },
+  "harness/fixture/runner-plan.md": {
+    "source": "/workspace/symbian-webaudio-classic-fixture-work/runner-plan.md",
+    "bytes": 3768,
+    "sha256": "02721a056f1a374c7cb500a3316abdc8fb6fee17e7a6d065af623270b028fa6b"
+  },
+  "harness/fixture/preparation-verification.json": {
+    "source": "/workspace/symbian-webaudio-classic-fixture-work/preparation-verification.json",
+    "bytes": 466,
+    "sha256": "8d0a9703f2356638162faba5e980aa6695d271e26ea2ee3155f4b1392ead4ccd"
+  },
+  "harness/fixture/fixture-pins.json": {
+    "source": "/workspace/symbian-webaudio-classic-fixture-work/fixture-pins.json",
+    "bytes": 702,
+    "sha256": "9b60cc00760a5a1590b741741fc6edb473feef069cac533243c9bebc83362db7"
+  },
+  "harness/wrapper/run.py": {
+    "source": "/workspace/symbian-webaudio-classic-runtime-c29-ci50-work/run.py",
+    "bytes": 21122,
+    "sha256": "c6919045c28d46ef99debadc8f3e875e15c5a57b6bf85305b95be29f697e9680"
+  },
+  "harness/wrapper/ci_metadata.py": {
+    "source": "/workspace/symbian-webaudio-classic-runtime-c29-ci50-work/ci_metadata.py",
+    "bytes": 19203,
+    "sha256": "d950d6b3e2108b8c5dde500655f45e4fe7c0ba9ace5442d239228f5d7fd4de6c"
+  },
+  "harness/wrapper/freeze_metadata.py": {
+    "source": "/workspace/symbian-webaudio-classic-runtime-c29-ci50-work/freeze_metadata.py",
+    "bytes": 2281,
+    "sha256": "b689a12dda441eb2230b5132b67573a7f0220ded70d57d6f34c4b71667e93f18"
+  },
+  "harness/wrapper/test_gates.py": {
+    "source": "/workspace/symbian-webaudio-classic-runtime-c29-ci50-work/test_gates.py",
+    "bytes": 6243,
+    "sha256": "dbe0ef6f86d423ea97b3cbcecbdf93a99e2072a92c9b4a38b156895b75dab3ed"
+  },
+  "harness/wrapper/test_ci_metadata.py": {
+    "source": "/workspace/symbian-webaudio-classic-runtime-c29-ci50-work/test_ci_metadata.py",
+    "bytes": 13779,
+    "sha256": "7a47cd85996b4727c6b4aad07b2e32e04a962988c7333ececeae1d9a30ddfec8"
+  },
+  "harness/wrapper/README.md": {
+    "source": "/workspace/symbian-webaudio-classic-runtime-c29-ci50-work/README.md",
+    "bytes": 6011,
+    "sha256": "b3426335af7c66215a43425d29771dc16c45cccc736e4e58d1bc89e1f60ddefe"
+  },
+  "harness/helpers/preservation.py": {
+    "source": "/workspace/symbian-cookie-store-runtime-c21-work/runtime_support.py",
+    "bytes": 22816,
+    "sha256": "0deded8b62c096774b94ebbc2bfc86a9df51ef6b95a7dee7e1e23f7d7ba46a9b"
+  },
+  "harness/helpers/configuration.py": {
+    "source": "/workspace/symbian-cookie-store-runtime-c21-work/config_preservation.py",
+    "bytes": 4741,
+    "sha256": "e6679c12d66fadb4ad6c69f46f0deede57470f379d5f64591d1e6c312b8015d0"
+  },
+  "harness/helpers/close_window.py": {
+    "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/close-emulator-window.py",
+    "bytes": 4825,
+    "sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f"
+  },
+  "harness/helpers/preserved_runner.py": {
+    "source": "/workspace/symbian-multi-upload-work/runtime-c25-v2-host0032/run.py",
+    "bytes": 16911,
+    "sha256": "1b2177f47770b075b3d140c49ff2288d94353e8387e2befccdf3140f07a2c2a7"
+  },
+  "harness/input/classic-audio-owned-click.py": {
+    "source": "/workspace/symbian-belle-work/classic-audio-owned-click.py",
+    "bytes": 3851,
+    "sha256": "3076c332a36b86ad7d6d57db946c3f782b2700e1cca742741012405bacf51011"
+  },
+  "harness/input/native-interact.py": {
+    "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+    "bytes": 20789,
+    "sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0"
+  },
+  "harness/pcm/capture.py": {
+    "source": "/workspace/symbian-webaudio-pcm-capture-work/capture.py",
+    "bytes": 7653,
+    "sha256": "528ed28507112881a9d474657743cae6b87cf3ec593c74a2c197b44bf620535b"
+  },
+  "harness/pcm/mark.py": {
+    "source": "/workspace/symbian-webaudio-pcm-capture-work/mark.py",
+    "bytes": 1503,
+    "sha256": "0f3745043ab76f8548affb11eecde384657fe92fb05e00e24c76aac634c24313"
+  },
+  "harness/pcm/analyze.py": {
+    "source": "/workspace/symbian-webaudio-pcm-capture-work/analyze.py",
+    "bytes": 8259,
+    "sha256": "2b1aa9ee7fd06a40054488ee8826037556a2efb167e57e6a6f93d4c2f00cf8fb"
+  },
+  "harness/pcm/test_guards.py": {
+    "source": "/workspace/symbian-webaudio-pcm-capture-work/test_guards.py",
+    "bytes": 4621,
+    "sha256": "546dce7801c1002f691e8214aa3dc39477d0c7062553b8e16ff6620ebf4cbaec"
+  },
+  "harness/pcm/README.md": {
+    "source": "/workspace/symbian-webaudio-pcm-capture-work/README.md",
+    "bytes": 5438,
+    "sha256": "fb31009af6f049a86775b276259a422cc827119cade914339c66d63255b92364"
+  },
+  "harness/pcm/validation.json": {
+    "source": "/workspace/symbian-webaudio-pcm-capture-work/validation.json",
+    "bytes": 1279,
+    "sha256": "13c653abbf70406a01a988ce94be39879cd9873f35eee3b4e4d43133a80ae79a"
+  }
+}

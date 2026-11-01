@@ -1,0 +1,23 @@
+{
+  "status": "PASS_SCOPED_NUMERIC_RECOMPUTATION",
+  "reported_by": "/root/webaudio_fixture_prepare/c29_archive_independent",
+  "method": "Pure offline analyze() on existing external raw PCM; no capture, playback, input or guest execution.",
+  "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+  "compared_fields": [
+    "pcm",
+    "thresholds",
+    "observations",
+    "estimated_origin_range_monotonic"
+  ],
+  "all_compared_values_identical": true,
+  "raw_bytes": 4567540,
+  "raw_sha256": "b7ed4045048998e220d33385ab58e13f31ee48073e8c407c9a3b1627f03093bf",
+  "running_dominant_hz": [
+    997.4330766409976,
+    997.4330766409976
+  ],
+  "suspended_and_closed_exact_zero": true,
+  "timing_alignment_verified": false,
+  "whole_run_verified": false,
+  "raw_copied_or_played": false
+}

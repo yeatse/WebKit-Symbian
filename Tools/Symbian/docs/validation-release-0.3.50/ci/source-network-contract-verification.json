@@ -1,0 +1,125 @@
+{
+  "status": "PASS_SOURCE_ONLY_ARTIFACT_PENDING",
+  "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+  "checks": {
+    "pinned_nghttp2_1_68_0": true,
+    "curl_ipv6_threaded_nghttp2_mbedtls_enabled": true,
+    "runtime_protocol_version_detected": true,
+    "https_h2_TLS_ALPN": true,
+    "WSS_forced_HTTP1_1": true,
+    "connection_pool_8_8_4": true,
+    "streams_8": true,
+    "session_budget_512KiB": true,
+    "flow_window_256KiB": true,
+    "native_resolver_selector_early_return": true,
+    "nghttp2_new3_budget_allocator": true,
+    "CI_dependency_cache_contains_patcher": true,
+    "CI_native_cache_contains_helper": true,
+    "native_shims_copied_into_curl": true,
+    "native_c_and_cpp_added_to_curl": true,
+    "native_selector_survives_final_cmake_property": true,
+    "actual_object_nm_selector_assertion": true,
+    "actual_archive_nm_exactly_one_bridge_definitions": true,
+    "version2_stamp_after_actual_nm_check": true,
+    "outer_build_requires_version2": true,
+    "private_abi_fixed_16_records_253_hostname": true,
+    "native_async_getbyname_next_with_timeout": true,
+    "native_full_ipv6_and_scope_copy": true,
+    "curl_owned_native_results": true,
+    "socket_import_proxies_linked_all_three_paths": true
+  },
+  "files": [
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Source/WebCore/platform/network/curl/CurlContext.cpp",
+      "git_blob": "b28ed4b6614f9e458ad6d0d9317a5bd22120406e",
+      "bytes": 30803,
+      "sha256": "0df385cc70b0836679186b7a28bcda69ace962ce44b33efe30e88c305e7273c5"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Source/WebCore/platform/network/curl/CurlContext.h",
+      "git_blob": "e81eff1923484ac3b78ed879c607e6cba63582ce",
+      "bytes": 11019,
+      "sha256": "b2e6a228e02dce7a70d5e486f6895805bae9e781e64cdc22dccb9eea830a6a26"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/scripts/build-deps.sh",
+      "git_blob": "dcfda4aa6a4ac4f29e5c1340f51a630989a34149",
+      "bytes": 20651,
+      "sha256": "e06bdb77e780acad2e27b04edfa8a2dac95564643b8eff1059d97b5618635848"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/scripts/patch-curl-network.py",
+      "git_blob": "cfb1683a0956b4060edfc67c4a0762f5a0bc9fe6",
+      "bytes": 6735,
+      "sha256": "f460cdcf92dfe37e598fed161799ab986de1e52c6dd0818c4a546fd7ed2ae799"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/scripts/link-webcore.sh",
+      "git_blob": "2163293e01c12d01cfee075967d5344e2f357fbf",
+      "bytes": 2810,
+      "sha256": "e42f429c9e13960d64d700f61aa0c11d075ee373d27d58158619bdddace4b445"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/shims/curl-h2-budget.h",
+      "git_blob": "d54a80d86ae97fb4edcd8a364cdbd9c2e126fb8a",
+      "bytes": 2439,
+      "sha256": "d5d4beb4998289d1b5d7519a2061d8cb1c5181d8a24a38ec8e0bb84389f88b4a"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/browser/CMakeLists.txt",
+      "git_blob": "c0200c50346a21ad3b430b3b21f750e02806189f",
+      "bytes": 8833,
+      "sha256": "7a2bfa1e04879f3d004ed7b27656af6e97d263f6550f8ee0e4af66d2c27ce230"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/build.sh",
+      "git_blob": "ea28f87bb2bbf22b150911b3b25efa5c8a5d1524",
+      "bytes": 1586,
+      "sha256": "80e05173302b76c085c2a52674f8b6b4fe62a39185bc2247131ac68a1c03479b"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": ".github/workflows/symbian.yml",
+      "git_blob": "672ca0f020881f0c73026217692a6d73bc0f5495",
+      "bytes": 19121,
+      "sha256": "15452cbae305904c6b7db73945713dc3c3aef7f0e814141121b4a190e212398b"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/shims/curl-symbian-resolver.h",
+      "git_blob": "487082d06c3c31a903c3b22ffd27dfa29fc953b1",
+      "bytes": 957,
+      "sha256": "a867e6d5d4fa424f58aaa34b67544c94ec562be0090cb416168afca8b746d983"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/shims/curl-symbian-resolver.c",
+      "git_blob": "b3cdd285da7e23b475cc13801d225bf0ffd08a2a",
+      "bytes": 3784,
+      "sha256": "7e29cd2e2d7dea6982bae425fc9c0556346848d9e406521154c97c88ffae406e"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/shims/curl-symbian-resolver.cpp",
+      "git_blob": "6ceed6c7a01378cdf5ecfed88639278155fa0fd6",
+      "bytes": 4911,
+      "sha256": "65d4de6b1d703328805c60566058c03e3594359ca0e042b0ae1dda9ba615319a"
+    },
+    {
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+      "source_path": "Tools/Symbian/tests/network-protocols/build-sdk.sh",
+      "git_blob": "3023d9a2692c1208cff113bc2a5ff0cfd4f55b8a",
+      "bytes": 1108,
+      "sha256": "4984ac84c71af04ca7b0befa4413d37731a1e279484d10b6b926b5562857738e"
+    }
+  ],
+  "scope": "Exact source and CI dependency contracts only; no actual CI binary linkage or runtime inference"
+}

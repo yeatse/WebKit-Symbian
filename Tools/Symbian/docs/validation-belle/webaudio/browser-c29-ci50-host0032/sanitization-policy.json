@@ -1,0 +1,10 @@
+{
+  "method": "Explicit public whitelist, no recursive runtime/profile/config copy.",
+  "original_result_copied": false,
+  "profile_config_backups_journals_inventory_private_diagnostics_copied": false,
+  "credentials_or_environment_copied": false,
+  "host_guest_fixture_logs_copied": false,
+  "raw_PCM_or_binary_packages_copied": false,
+  "public_screenshot_visually_reviewed": true,
+  "archive_preparation_started_runtime_or_deployment": false
+}

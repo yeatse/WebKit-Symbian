@@ -1,0 +1,241 @@
+{
+  "schema": "classic-webaudio-c29-ci-v1",
+  "candidate_id": "C29",
+  "audit_contract": {
+    "path": "/workspace/symbian-ci50-validation/c29-materialization/audit-contract.json",
+    "sha256": "f5e25fa48aa0c8c1a7f2a5beee1956057c987fc9169fc4b1d9432ea8e75dcda4"
+  },
+  "ci": {
+    "repository": "yeatse/WebKit-Symbian",
+    "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+    "run_id": 41299027063,
+    "run_number": 50,
+    "job_id": 124825909684,
+    "package_version": "0.3.50",
+    "artifact_id": 13082244726
+  },
+  "artifact_zip": {
+    "path": "/workspace/symbian-ci50-validation/ci50-sis.zip",
+    "bytes": 34183411,
+    "sha256": "c8ba4322797ad1cd26000334b2be5840d76969e32830ca04d410086fd8515aee",
+    "artifact_id": 13082244726
+  },
+  "reports": {
+    "archive": {
+      "path": "/workspace/symbian-ci50-validation/archive-verification.json",
+      "sha256": "bd1b8305e21f4ed15d3e5f716790865b3fefd02b69974c96410f67528a3583e5"
+    },
+    "artifacts": {
+      "path": "/workspace/symbian-ci50-validation/artifacts.json",
+      "sha256": "8c176849e0d09b2daa97eba11cb943dfe5313a48f47c77fc975bbdd562d3c02a"
+    },
+    "auth_resource": {
+      "path": "/workspace/symbian-ci50-validation/auth-resource-verification.json",
+      "sha256": "6980e1e332a0a0a73db144f15979db85c3ef87fc066433dbe7e88177e7628fc9"
+    },
+    "e32_imports": {
+      "path": "/workspace/symbian-ci50-validation/e32-imports-verification.json",
+      "sha256": "24d8552f2aac2961e550edff18653b03566d9a253b45d3cb88fc05d93bd23afb"
+    },
+    "package": {
+      "path": "/workspace/symbian-ci50-validation/package-verification.json",
+      "sha256": "9d228702c87fbd93d68d1e0c7d17990d3a4fcd04ad00d8c51851fd4bc59ccd3e"
+    },
+    "run": {
+      "path": "/workspace/symbian-ci50-validation/run.json",
+      "sha256": "bd2a2b24347b65cb7b04dd1d934685065bf61f65a922de43bfc386aac94790f4"
+    },
+    "sis_payload": {
+      "path": "/workspace/symbian-ci50-validation/sis-payload-verification.json",
+      "sha256": "9f8a5264c7aa45c004ba61ff7195c6f18be4399835c8209531f6b698bfef7a6c"
+    },
+    "verification": {
+      "path": "/workspace/symbian-ci50-validation/verification.json",
+      "sha256": "c30d6aa389ad76e16d223c00fc672f83b2219c4f59d22f4bd20a5a7b6a613575"
+    }
+  },
+  "packages": [
+    {
+      "name": "symbian-webkit-icu.sis",
+      "path": "/workspace/symbian-ci50-validation/sis/symbian-webkit-icu.sis",
+      "bytes": 4768936,
+      "sha256": "6708729acc698ed780a808831d0992a8b72f6151f334d180774bc1a5caaa0305",
+      "uid": "0xe1a5c013",
+      "version": "0.3.50"
+    },
+    {
+      "name": "jsc.sis",
+      "path": "/workspace/symbian-ci50-validation/sis/jsc.sis",
+      "bytes": 6895108,
+      "sha256": "ef52eb78135e4d3661ffbd87179a1533859e272d57960a8174b06c3247aaf518",
+      "uid": "0xe1a5c011",
+      "version": "0.3.50"
+    },
+    {
+      "name": "browser.sis",
+      "path": "/workspace/symbian-ci50-validation/sis/browser.sis",
+      "bytes": 22518636,
+      "sha256": "0280ea2ecce01b5dd28b30e1921d3a92a639e448c66c1bd7d22bcf7821d1359a",
+      "uid": "0xe1a5c012",
+      "version": "0.3.50"
+    }
+  ],
+  "assets": {
+    "browser": {
+      "path": "/workspace/symbian-belle-work/candidate29/browser.exe",
+      "bytes": 59863884,
+      "sha256": "30fd5b179a1ca595216c77da1e4bf4561e9d362dcc2dcde9fd4354d4cb1c0429",
+      "package": "browser.sis",
+      "target": "!:/sys/bin/browser.exe"
+    },
+    "registration": {
+      "path": "/workspace/symbian-belle-work/candidate29/browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "package": "browser.sis",
+      "target": "!:/private/10003a3f/import/apps/browser_reg.rsc"
+    },
+    "localization": {
+      "path": "/workspace/symbian-belle-work/candidate29/browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "package": "browser.sis",
+      "target": "!:/resource/apps/browser_loc.rsc"
+    },
+    "ui": {
+      "path": "/workspace/symbian-belle-work/candidate29/browser_ui.rsc",
+      "bytes": 242,
+      "sha256": "fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8",
+      "package": "browser.sis",
+      "target": "!:/resource/apps/browser_ui.rsc"
+    },
+    "icu": {
+      "path": "/workspace/symbian-belle-work/candidate29/icudt70l.dat",
+      "bytes": 10261824,
+      "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+      "package": "symbian-webkit-icu.sis",
+      "target": "c:/resource/icu/icudt70l.dat"
+    },
+    "fontconfig": {
+      "path": "/workspace/symbian-belle-work/candidate29/fonts.conf",
+      "bytes": 935,
+      "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c",
+      "package": "browser.sis",
+      "target": "c:/resource/fontconfig/fonts.conf"
+    }
+  },
+  "source_files": [
+    {
+      "relative": "Source/WebCore/Modules/webaudio/AudioContext.cpp",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/Modules/webaudio/AudioContext.cpp",
+      "bytes": 27975,
+      "sha256": "7481c8c86fa850695079248bef4b1affcbb711bd13e8a0f8a4b4fde122165a45",
+      "git_blob": "c669ec4cb7428b131cd564134411d06572b55047",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/Modules/webaudio/AudioNodeOutput.cpp",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/Modules/webaudio/AudioNodeOutput.cpp",
+      "bytes": 7960,
+      "sha256": "3b60a2a65036ba6ea96c688d266b4e5759783f42ab4d90ffde50cc3a0da3b913",
+      "git_blob": "ad8e862f63fde48aa4f21cb8db7d19b4994e1203",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/Modules/webaudio/AudioWorklet.idl",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/Modules/webaudio/AudioWorklet.idl",
+      "bytes": 1723,
+      "sha256": "f3de1c14df8e01c26964b1eceaac2fc84d2105b191e5f716688e76a6bbac228a",
+      "git_blob": "57c80ab154573e8ecd36e5dd5c8b81004208ad26",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/Modules/webaudio/AudioWorkletNode.idl",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/Modules/webaudio/AudioWorkletNode.idl",
+      "bytes": 2018,
+      "sha256": "67a39f0de635ff5e4803dedffe632e1f39acd82cc5d8875e457f10f9bb80cc58",
+      "git_blob": "2350089d20edb496a6880fa9afa2678680389199",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/Modules/webaudio/BaseAudioContext.idl",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/Modules/webaudio/BaseAudioContext.idl",
+      "bytes": 3817,
+      "sha256": "83bd1017e26d738a32b013902f3ece4195d4008432417990aede759a6f1dcf02",
+      "git_blob": "34297ce676af849d07bd617bad0bccdcfa322e34",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/Modules/webaudio/MediaElementAudioSourceNode.cpp",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/Modules/webaudio/MediaElementAudioSourceNode.cpp",
+      "bytes": 7051,
+      "sha256": "b3e0c954d178880346304faef7d56497988ecd6adcdfcb44d6506ed266161e62",
+      "git_blob": "8b46d1f32de87860c4d704434a6a87b7401959c3",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/page/Settings.yaml",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/page/Settings.yaml",
+      "bytes": 12794,
+      "sha256": "7b587c4ee88b3dda9ee34ef51844ea1029aa5e837d1d4f9125448557f955b5dd",
+      "git_blob": "8eceb62d1aaae99265452a61966778bb234bd351",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/platform/audio/symbian/AudioDestinationSymbian.cpp",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/platform/audio/symbian/AudioDestinationSymbian.cpp",
+      "bytes": 13502,
+      "sha256": "1599686ad2f3769078b52f1135da6c211701bdbe2515b4e90bafefa473056ba2",
+      "git_blob": "e2061e067eb003016914af74f999f6f133166b27",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/platform/audio/symbian/AudioDestinationSymbianNative.cpp",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/platform/audio/symbian/AudioDestinationSymbianNative.cpp",
+      "bytes": 17991,
+      "sha256": "c7cd751f20c09ee0ad6611d9f84909bc9f50abfb3315dabd08a60a4f6d6e49d0",
+      "git_blob": "43d108d1466d31d6af249e81250289d8f8e5e731",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/platform/audio/symbian/AudioFileReaderSymbian.cpp",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/platform/audio/symbian/AudioFileReaderSymbian.cpp",
+      "bytes": 1567,
+      "sha256": "99bc69cea6c32894fc62623e7e65a566c94e034b5d05887b85a6678501805d40",
+      "git_blob": "d52c714323ed1407c80d8a7a011f32612d642504",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebCore/platform/audio/symbian/FFTFrameSymbian.cpp",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebCore/platform/audio/symbian/FFTFrameSymbian.cpp",
+      "bytes": 5237,
+      "sha256": "04a9e9ece6f5d548c2884d56c358ba28c871b21d7e72761ae36a125c93491ab1",
+      "git_blob": "6f25b216ee479df77ac480bd5b2811788f0917d3",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/WebKitLegacy/symbian/WebViewImpl.cpp",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/WebKitLegacy/symbian/WebViewImpl.cpp",
+      "bytes": 50067,
+      "sha256": "326d4a948f0abbef853ccf0e3c8d94b8c7b87ba88ba80c28decb7356a83b54bc",
+      "git_blob": "996786aa352eea7b870434f3f5ab8e321a4f24ab",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    },
+    {
+      "relative": "Source/cmake/OptionsSymbian.cmake",
+      "path": "/workspace/symbian-belle-work/candidate29/source/Source/cmake/OptionsSymbian.cmake",
+      "bytes": 8120,
+      "sha256": "a0d934e14bcd486a42f4afebeacbcb616fab3757e93bd1671b6af3e4644495c8",
+      "git_blob": "2da296f696b37d92137441140b9cab8fb1780053",
+      "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6"
+    }
+  ],
+  "release_default_web_audio": "ON",
+  "runtime_audio_worklet_enabled": false,
+  "claims": {
+    "scope": "Actual CI browser payload provenance; controlled runtime acceptance is separate",
+    "sis_installer_tested": false,
+    "physical_phone_tested": false,
+    "runtime_verified_by_metadata": false
+  }
+}

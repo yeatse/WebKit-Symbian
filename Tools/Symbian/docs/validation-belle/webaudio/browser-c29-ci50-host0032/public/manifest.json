@@ -1,0 +1,54 @@
+{
+  "status": "SERVING",
+  "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+  "sources": {
+    "fixture.py": {
+      "sha256": "55a048d703dadbe4467a731b3570a020e4414b2298a9e7fa852122f98b0c408b",
+      "bytes": 6227
+    },
+    "page.html": {
+      "sha256": "db0e17d8a33a58954ec7042e9b1567f7222e759c99bf8ba1e1f4a247e9d008ba",
+      "bytes": 10672
+    },
+    "protocol.py": {
+      "sha256": "8d37be2f02be7608bee65a8211ae1201d7a952f0f793b67f8dec2a3a3834345f",
+      "bytes": 5114
+    },
+    "validate.py": {
+      "sha256": "00211d4e6c8b7ad3906894b9360030432d09dbf3e0a1e000d2348d93bab336c0",
+      "bytes": 6761
+    },
+    "test_guards.py": {
+      "sha256": "1450760a028ccc3ca36324c1ff3cb8d5c80b75492243b745ea8f30d36d9ba992",
+      "bytes": 4441
+    },
+    "README.md": {
+      "sha256": "77ea5452a61227671fc196707401759977f5fd4383a523e8d2cbe80acffd1fc5",
+      "bytes": 5951
+    },
+    "runner-plan.md": {
+      "sha256": "02721a056f1a374c7cb500a3316abdc8fb6fee17e7a6d065af623270b028fa6b",
+      "bytes": 3768
+    },
+    "preparation-verification.json": {
+      "sha256": "8d0a9703f2356638162faba5e980aa6695d271e26ea2ee3155f4b1392ead4ccd",
+      "bytes": 466
+    }
+  },
+  "wav": {
+    "bytes": 60,
+    "sha256": "dfd9c10c46b1f37a1d7044e3ef32674915ccfa3253235a5d3eac000aac6cd5a3",
+    "sample_rate": 32768,
+    "pcm16": [
+      -32768,
+      -16384,
+      -1,
+      0,
+      1,
+      8192,
+      16384,
+      32767
+    ]
+  },
+  "guest_display_audio_started": false
+}

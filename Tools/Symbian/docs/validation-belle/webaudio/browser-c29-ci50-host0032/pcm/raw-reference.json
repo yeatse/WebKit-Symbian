@@ -1,0 +1,12 @@
+{
+  "path": "/workspace/webaudio-c29-ci50-pcm-01/audio.raw",
+  "sha256": "b7ed4045048998e220d33385ab58e13f31ee48073e8c407c9a3b1627f03093bf",
+  "bytes": 4567540,
+  "duration_seconds": 23.789270833333333,
+  "format": "s16le",
+  "sample_rate": 48000,
+  "channels": 2,
+  "copied": false,
+  "played_for_archive": false,
+  "runtime_executed_for_archive": false
+}

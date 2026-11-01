@@ -1,0 +1,57 @@
+{
+  "status": "PASS_SOURCE_GATED_ACTUAL_CI_PREREQUISITES",
+  "source_commit": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+  "run_id": 41299027063,
+  "job_id": 124825909684,
+  "actual_steps_success": [
+    "E32 converter",
+    "Rebuild and verify the 32-bit SDK allocator",
+    "Rebuild and verify the SDK math member",
+    "Rebuild and verify the SDK complex members"
+  ],
+  "native_patch_count": 9,
+  "native_owned_files": 15,
+  "actual_patch_stack_host_tests": 18,
+  "actual_math_install_summary": {
+    "status": "INSTALLED",
+    "profiles": [
+      "default",
+      "streams",
+      "native_atomic64"
+    ],
+    "installed": true,
+    "output": "/home/runner/work/WebKit-Symbian/WebKit-Symbian/WebKitBuild/Symbian/sdk-math"
+  },
+  "actual_complex_install_summary": {
+    "status": "INSTALLED",
+    "installed": true,
+    "upstream_revision": "85ac560262434c9ccfc0c183ec22d4138ed647fb",
+    "source_files": {
+      "compiler-rt/LICENSE.TXT": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d",
+      "compiler-rt/lib/builtins/divdc3.c": "f6ebfa99e5a208078e998cf87e539f25a92d86e4e316fe983f4031f1745d938a",
+      "compiler-rt/lib/builtins/fp_lib.h": "cf3a5301c95986a9b392edba32dfe7ac27d3352d266e284e528a09413f84f6cc",
+      "compiler-rt/lib/builtins/int_endianness.h": "ec5175561075845b7b16a92ad5ecdfd42a284de2736dd07e4ca7011b75c37709",
+      "compiler-rt/lib/builtins/int_lib.h": "a5735bf1bfacecd6cf5785ed19ae62a981ff2f0923c38caa99f4af47f2be57b5",
+      "compiler-rt/lib/builtins/int_math.h": "ddc3abe104d4500630174d7e0c3190d203c968213eb189097f70aec55a33c352",
+      "compiler-rt/lib/builtins/int_types.h": "198552b25faf8a75b077ea145591cd7f6762b7f2712321b18f5e38fee8cc2a1e",
+      "compiler-rt/lib/builtins/int_util.h": "63d06198ab720a75c20bfd84be895c2746581b129168bae6201e7384bbb0473b",
+      "compiler-rt/lib/builtins/muldc3.c": "500d1094775c04917d1bd7d9f8ede3c83960400b3c61df2c67455677ab02bd63",
+      "compiler-rt/test/builtins/Unit/divdc3_test.c": "3e30e899117c78f96ef74c247ab869f56ae546c18403db7407cbdc816479f064",
+      "compiler-rt/test/builtins/Unit/muldc3_test.c": "161abb26c61c0f8e115d84605752da33dbc0997843951b324c3ddb6fde647982"
+    },
+    "original_members_unchanged": 296,
+    "scope": "Complete unmodified upstream builtins and actual std::complex ARM ELF links; no guest/loader execution. Only three archive files can be installed, with caught-exception rollback; not a cross-file power-failure transaction. Headers/source remain unchanged."
+  },
+  "math_before_complex_observed": true,
+  "exact_builder_source_gate_scope": {
+    "math_profiles": 3,
+    "complex_profiles": 3,
+    "complex_actual_ARM_canary_link_gate_completed": true,
+    "complex_complete_positive_definition_gate_completed": true,
+    "original_complex_input_members_checked_unchanged": 296,
+    "complex_per_member_hash_tables_downloaded": false,
+    "complex_raw_nm_output_downloaded_or_directly_audited": false,
+    "actual_evidence": "Successful unskipped step and exact printed INSTALLED/source SHA summary; committed helper source unconditionally checks members, definitions and links all three actual staged archives before install/print."
+  },
+  "scope": "Actual CI steps and stdout summaries, bounded by exact committed helper control flow. No downloaded SDK archive/raw nm table or final ELF symbol audit; no guest/phone result."
+}

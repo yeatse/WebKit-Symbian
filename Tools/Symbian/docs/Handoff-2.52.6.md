@@ -1,5 +1,18 @@
 # WebKit 2.52.6 Symbian 交接（续接状态）
 
+## CI50 实际载荷音频验收（2026-11-01）
+
+本节覆盖下文“最新CI49／CI包尚未运行”的历史状态。Classic WebAudio 默认ON的源码已推送：`886d227f1780298cc17cf99695a3c78c0b7d9ff6`。**0.3.50实际三份SIS核验通过，且从这次SIS提取的浏览器载荷已在受控模拟器完成音频验收。没有执行SIS安装器或真机测试。**
+
+- [CI50实际验包档案](validation-release-0.3.50/ci/README.md)：[run41299027063](https://github.com/yeatse/WebKit-Symbian/actions/runs/41299027063)，artifact13082244726；ZIP34,183,411B / `c8ba4322797ad1cd26000334b2be5840d76969e32830ca04d410086fd8515aee`。三SIS、13payload、ICU八组、Auth255资源、精确来源、SDK九patch及math/complex检查通过；E32真实导入表含mediaclientaudiostream.dll。CI档案的“未运行”描述记录的是独立验包阶段，之后的运行见下项。
+- [C29实际CI浏览器运行](validation-belle/webaudio/browser-c29-ci50-host0032/README.md)：EXE59,863,884B / `30fd5b179a1ca595216c77da1e4bf4561e9d362dcc2dcde9fd4354d4cb1c0429`。13项源码快照来自CI精确commit，实际242B资源也来自SIS，没有混用本地Cookie/Multi开发镜像。原strict 15个公开事件完整、九项离线检查通过；四次真实XTest输入分别开始、暂停、恢复和关闭。
+- 实际PCM为48kHz/s16le/双声道，4,567,540B / `b7ed4045048998e220d33385ab58e13f31ee48073e8c407c9a3b1627f03093bf`。播放与恢复窗口均约997.43Hz、每声道RMS3475、目标带功率99.9996%；暂停和关闭窗口exactzero。正常关闭host0，无deadline或强制清理，所选guest profile/资源及config/bindings/Qt/devices恢复，14native pins不变。host delivery估计不能证明精确硬件延迟或音画同步。
+- 当前active host仍0032（692abe69...），FEP仍fd6092f2...，两处ostream仍8559122f...；七类×两目录共14资产须继续核对。C29没有部署新host0033。C26/C27原始FAIL、C28本地WIP镜像的独立结果均保留。
+- AudioWorklet隐藏、MMF媒体元素PCM源明确NotSupported；真机路由、真正资源丢失通知、无缝pause及官方EndTask未验收。CookieStore/online/内存整轮旧FAIL与多文件GUI/FormData问题仍未解决；自动安全审查拒绝的弹窗堆/内存布局诊断继续停止。
+- 下一条线是IAP/代理。外部host0033已编译（65,488,776B / `a3237ab5e5864d8dbebcf440c3e6c9026c264e052f336d62266439ce2261ba73`），只修所选IAP的真实IAPService读取；尚未运行或部署。原生Start/GetIntSetting canary与完整C/D/E克隆隔离仍属prepare-only，CommDB存储副作用范围未知，不得宣称代理路由已通过。隔离合同在`/workspace/symbian-iap-owned-start-canary-work/containment-plan.md`。
+
+Root组合验收：`/workspace/symbian-belle-work/webaudio-c29-ci50-acceptance/acceptance.json`；实际运行与原始PCM分别保留在`/workspace/webaudio-c29-ci50-native-01`、`/workspace/webaudio-c29-ci50-pcm-01`。CI50原ZIP及SIS/13payload仍保留供复核。主树与开发树先核对`git status`；开发树剩余72个未提交文件须保留，不能整树add/reset/clean。旧build19–27的九份逐字节相同派生EXE仅在匹配冻结candidate后清理，恢复清单为`/workspace/symbian-belle-work/verified-duplicate-build-exe-cleanup-19-27.json`，冻结候选未改动。
+
 ## 经典 WebAudio 续接状态（2026-11-01）
 
 本节覆盖下文“Audio默认OFF/仍在构建/stream未部署”等历史检查点。**经典WebAudio现默认ON**，实际C28受控模拟器验收已通过；新推送的CI包仍须单独核验，不能把本地C28当作CI包已装测。AudioWorklet仍隐藏，MMF媒体元素PCM源两入口明确NotSupportedError。

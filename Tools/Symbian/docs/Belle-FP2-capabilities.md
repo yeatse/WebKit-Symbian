@@ -37,6 +37,8 @@ EKA0032按类型选择 KUndefinedProtocol 默认 TCP/UDP。未应用旧 capacity
 真机 IAP/ISP DNS/延迟、Scope/DNS64、导航取消及预算耗尽仍需独立验收。
 这些本地候选和部分验收不等于第二批已全部完成，也不替代真机验证。
 
+Classic WebAudio现默认ON。除本地C28外，[C29已独立运行CI50/0.3.50实际浏览器载荷](validation-belle/webaudio/browser-c29-ci50-host0032/README.md)：原strict离线检查、四次真实输入、997Hz双声道PCM及暂停/恢复/关闭通过，正常退出与所选范围恢复通过。三SIS另经[实际验包](validation-release-0.3.50/ci/README.md)；未执行安装器或真机测试。Worklet、媒体元素PCM、真实资源中断和无缝pause仍有明确限制。
+
 | 顺序 | 能力和现状 | Belle/现有代码基础 | 实施与验收要求 |
 | --- | --- | --- | --- |
 | P0.1 | **已接通** localStorage 和 BroadcastChannel | 真实 namespace/registry；[20 项运行检查](validation-belle/storage/README.md) | 已验证跨进程重启、localStorage 配额、来源隔离、同来源消息、关闭后不投递及 Worker 通信 |

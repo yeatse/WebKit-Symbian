@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "head_sha": "886d227f1780298cc17cf99695a3c78c0b7d9ff6",
+  "run_id": 41299027063,
+  "job_id": 124825909684,
+  "step": "E32 converter",
+  "step_conclusion": "success",
+  "patch_count": 9,
+  "base_commit": "b105f752f84d1b5640052f64c4a703017810d7b8",
+  "verified_files": 15,
+  "first_build_status": "APPLIED",
+  "first_build_from_prefix": 0,
+  "native_E32_ctest_passed": true,
+  "post_build_status": "ALREADY_APPLIED",
+  "post_build_from_prefix": 9,
+  "patches": [
+    {
+      "name": "0001-Raise-E32-converter-limits-for-large-images.patch",
+      "sha256": "e7d526647d2bcdbf919c85506226c4f77218f20d3a6bcbae6304086189fbe0d4"
+    },
+    {
+      "name": "0002-Accept-LLD-PIC-range-extension-thunks-to-the-PLT.patch",
+      "sha256": "47522c168093f2f72aa40733cf49f7a430a67c3a134341ec85f8f5c3e19bbe7e"
+    },
+    {
+      "name": "0003-Support-explicit-ARMv6-VFPv2-with-base-AAPCS.patch",
+      "sha256": "5259045f9b77cafc5344b9908b608a5a8205305e5b0b6e60031f024655639699"
+    },
+    {
+      "name": "0004-Support-bounded-read-only-DLL-object-exports.patch",
+      "sha256": "5a2f9dc3444056b2a105acbdf2842fe64dde0494a293cca4126c0acc7088312d"
+    },
+    {
+      "name": "0005-Support-explicit-NetworkControl-capability.patch",
+      "sha256": "b16bc89494ec8b0bc71ebd81f7e88bc5e19ce4a701b76f8ceb39063ee2200964"
+    },
+    {
+      "name": "0006-Support-explicit-ECom-plugin-identities.patch",
+      "sha256": "1d8f15bb6bd349f8d88fa446962bc808da1c305d7bc4c65267f783b86f51249e"
+    },
+    {
+      "name": "0007-Provide-C99-atan2l-in-the-real-guest-runtime.patch",
+      "sha256": "41febb2fcd757409023705b46ae5da0293d7aee1aa345a0342847aa9b7096ea6"
+    },
+    {
+      "name": "0008-Support-explicit-MMF-client-DLL-identities.patch",
+      "sha256": "04617a51bb52f28fd085a8cb82d36f07d8bb122847ec23c64c7d62197e7da0f4"
+    },
+    {
+      "name": "0009-Build-complete-LLVM-double-complex-runtime.patch",
+      "sha256": "e660a9d45739d9041b8b8f06f883384b09e3abb42559ac0456de9828342b9d4b"
+    }
+  ],
+  "actual_CI_log_excerpt_sha256": "a03bd1c4e4bf2a504259fb72d91710a6d73704c504a08015120655834a06ad51",
+  "scope": "Actual CI native converter step and repeated full postimage verification; no guest or SDK mutation"
+}

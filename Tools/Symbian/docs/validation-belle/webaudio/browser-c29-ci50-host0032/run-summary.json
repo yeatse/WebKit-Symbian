@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "status": "CI_BROWSER_PAYLOAD_RUN_COMPLETE",
+  "run": "wa-c7d0ac26357e4bf0a7a27108fb86dc2f",
+  "scope": "Only whitelisted booleans; original result/profile/config/journals/items/inventory/logs excluded.",
+  "booleans": {
+    "native_audio_verified": false,
+    "root_pcm_capture_required": true,
+    "root_trusted_input_required": true,
+    "deadline_expired": false,
+    "forced_cleanup": false,
+    "wm_close_sent": true,
+    "wm_close_after_functional": true,
+    "owned_host_stopped_before_restore": true,
+    "inputs_unchanged": true,
+    "private_data_archived": false,
+    "wrapper_screenshots_taken": false,
+    "tls_verification_disabled": false,
+    "host_exit_zero": true,
+    "guest_profile_and_resources_restored": true,
+    "configuration_bindings_Qt_devices_restored": true,
+    "restoration_errors_empty": true
+  }
+}
