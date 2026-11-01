@@ -1,0 +1,124 @@
+{
+  "status": "PASS",
+  "run": "owner-3a92944433fe492aa18b8dc6b73e93a0",
+  "host_exit": 0,
+  "natural_host_exit": true,
+  "normal_worker_completion": true,
+  "api_assertions_failed": false,
+  "forced_cleanup": false,
+  "wm_close_sent": false,
+  "deadline_expired": false,
+  "inputs_unchanged": true,
+  "server_started": false,
+  "screenshots_taken": false,
+  "private_data_archived": false,
+  "restoration": {
+    "guest": {
+      "restored": true
+    },
+    "configuration": {
+      "restored": true
+    }
+  },
+  "api_log": {
+    "status": "LOG_CONTRACT_PASS_PENDING_TARGET_EXIT",
+    "run": "owner-3a92944433fe492aa18b8dc6b73e93a0",
+    "complete": true,
+    "cases": 3,
+    "passed": 3,
+    "failed": 0,
+    "worker_exit": 0,
+    "rows": [
+      {
+        "api": "WTF::FileSystem",
+        "file": 0,
+        "pass": true,
+        "exists": true,
+        "exists_errno": 0,
+        "size_available": true,
+        "size": 1024,
+        "size_errno": 0,
+        "mtime_available": true,
+        "mtime": 1700000000.0,
+        "mtime_ok": true,
+        "mtime_errno": 0,
+        "opened": true,
+        "open_errno": 0,
+        "read_ok": true,
+        "read_errno": 0,
+        "eof": true,
+        "bounded": true,
+        "bytes": 1024,
+        "exact": true,
+        "hash_ok": true,
+        "sha256": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9"
+      },
+      {
+        "api": "WTF::FileSystem",
+        "file": 1,
+        "pass": true,
+        "exists": true,
+        "exists_errno": 0,
+        "size_available": true,
+        "size": 0,
+        "size_errno": 0,
+        "mtime_available": true,
+        "mtime": 1700000000.0,
+        "mtime_ok": true,
+        "mtime_errno": 0,
+        "opened": true,
+        "open_errno": 0,
+        "read_ok": true,
+        "read_errno": 0,
+        "eof": true,
+        "bounded": true,
+        "bytes": 0,
+        "exact": true,
+        "hash_ok": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "api": "WTF::FileSystem",
+        "file": 2,
+        "pass": true,
+        "exists": true,
+        "exists_errno": 0,
+        "size_available": true,
+        "size": 24,
+        "size_errno": 0,
+        "mtime_available": true,
+        "mtime": 1700000000.0,
+        "mtime_ok": true,
+        "mtime_errno": 0,
+        "opened": true,
+        "open_errno": 0,
+        "read_ok": true,
+        "read_errno": 0,
+        "eof": true,
+        "bounded": true,
+        "bytes": 24,
+        "exact": true,
+        "hash_ok": true,
+        "sha256": "8a4a90e74c3d9c754d0f3ab6b391646f7de56516d70a5ad20c05e49030a481da"
+      }
+    ],
+    "abi": {
+      "wchar": 2,
+      "wchar_align": 2,
+      "char16": 2,
+      "unicode_units": [
+        23383,
+        55357,
+        56832
+      ]
+    }
+  },
+  "source_reference": "/workspace/wtf-file-owner-run-01/result.json",
+  "source_result_archived": false,
+  "sanitization": "Only fixed three-public-file API records and explicit health/restored booleans are retained. Original profile/configuration payloads, restoration metadata, original identities, directory listings and item counts are omitted. Raw result, host log, backup and journals are not archived.",
+  "public_harness_source_sha256": {
+    "runtime/run.py": "80ef12b9d48cd865e43a9821cb3d738b83e8ff50773e94b102b8560a7f540f73",
+    "runtime/gates.py": "34afabf1c645ce5c2e72c0cf80bf5890902038aac575f4cef8deed294393f8c8",
+    "validate.py": "e1c9481bcb8200820b0413dd57d39e99f43b46617a195483762da580032a9721"
+  }
+}

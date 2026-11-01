@@ -1,0 +1,32 @@
+{
+  "patch_sha256": "cd49f65d0854d9998df6c62cb12c210b5bd2f2a297b6f8ec61575cc50a4c673f",
+  "files": [
+    {
+      "path": "Source/WTF/wtf/posix/FileSystemPOSIX.cpp",
+      "before_sha256": "12b3a6abee1d1f239f9358b7212257886aee65e1caed357465d91b71db5c03a2",
+      "after_sha256": "cdc752ed03f389eb2b38f6cb1209633bbb8b7aba410a7fada8462f0f0a1ae267"
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/FileSystemSymbian.cpp",
+      "before_sha256": "ad60af085cd8a1012784da76254c3037592614f1a87324642af1af5a8d801c87",
+      "after_sha256": "a4a058c7305844f44e93b56ced229aa0109e72968d401f8f394e337cc8879091"
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/SymbianFilePath.h",
+      "before_sha256": null,
+      "after_sha256": "3bbd101e779bf3aaf1dbe5e0c3805ad76f3b752444fcd6534e5bbd50118acb36"
+    }
+  ],
+  "apply_check_exit": 0,
+  "scope": "ordinary UTF16 file open/following-metadata/existence only; no-follow lstat and unrelated operations unchanged",
+  "delivery": {
+    "readme": "README.md",
+    "actual_arm_tus": "arm/results.json",
+    "selected_branch_proof": "arm/branch-gates.json",
+    "string_checks": {
+      "log": "string-contract/test.log",
+      "assertions": 373
+    },
+    "runtime_scope": "prior Root file9case covers wstat/wopen; waccess compile/import only; actual WTF/FileReader/FormData/GUI not executed"
+  }
+}

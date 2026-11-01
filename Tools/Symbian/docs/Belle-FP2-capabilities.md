@@ -59,6 +59,9 @@ EKA0032按类型选择 KUndefinedProtocol 默认 TCP/UDP。未应用旧 capacity
 | P3.1 | Service Worker 缺整条服务链 | 系统能执行后台线程和保存文件，但 Legacy 没有现成完整实现 | 注册数据库、更新、生命周期、fetch 拦截、CacheStorage、配额/终止；需独立架构工作 |
 | P3.2 | MSE、MediaStream、WebRTC、WebCodecs 尚未接通 | MMF/DevVideo/ECam 仅提供部分底层能力 | 需要新分段解码/采集/时钟/网络后端和权限体系；先逐项探测 API/控制器，不承诺靠开关即可支持 |
 
+补充文件接口验收：UTF-16路径打开、metadata及存在性已通过[实际WTF三文件检查](validation-belle/file-utf16/wtf-owner/README.md)，含非BMP文件名与空文件。此结果不代表多选GUI/FormData已通过；旧窄字符8/9对照FAIL保留。
+
+
 ## 代码依据
 
 - 页面配置：`Source/WebKitLegacy/symbian/WebViewImpl.cpp`；默认值还需对照

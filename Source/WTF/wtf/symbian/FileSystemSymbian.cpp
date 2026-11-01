@@ -25,6 +25,7 @@
 #include "config.h"
 #include <wtf/FileSystem.h>
 #include "FileSystemSymbianNative.h"
+#include "SymbianFilePath.h"
 
 #include <dirent.h>
 #include <fcntl.h>
@@ -158,7 +159,11 @@ bool isAncestor(const String& ancestor, const String& child)
     return c.size() >= a.size() && equalIgnoringASCIICase(String::fromUTF8(c.substr(0, a.size()).c_str()), String::fromUTF8(a.c_str()));
 }
 
-bool fileExists(const String& path) { return !access(nativePath(path).c_str(), F_OK); }
+bool fileExists(const String& path)
+{
+    SymbianFilePath name(path);
+    return name && !waccess(name.data(), F_OK);
+}
 bool deleteFile(const String& path) { return !unlink(nativePath(path).c_str()); }
 bool deleteEmptyDirectory(const String& path) { return !rmdir(nativePath(path).c_str()); }
 
@@ -185,9 +190,17 @@ bool makeAllDirectories(const String& input)
 static std::optional<FileType> getType(const String& path, bool follow)
 {
     struct stat info;
-    auto name = nativePath(path);
-    if ((follow ? stat(name.c_str(), &info) : lstat(name.c_str(), &info)))
-        return std::nullopt;
+    if (follow) {
+        SymbianFilePath name(path);
+        if (!name || wstat(name.data(), &info))
+            return std::nullopt;
+    } else {
+        // The SDK provides no wlstat. Preserve the existing no-follow path;
+        // using wstat here would silently change symbolic-link semantics.
+        auto name = nativePath(path);
+        if (lstat(name.c_str(), &info))
+            return std::nullopt;
+    }
     if (S_ISDIR(info.st_mode))
         return FileType::Directory;
     if (S_ISLNK(info.st_mode))
@@ -202,7 +215,8 @@ std::optional<FileType> fileTypeFollowingSymlinks(const String& path) { return g
 std::optional<uint64_t> fileSize(const String& path)
 {
     struct stat info;
-    if (stat(nativePath(path).c_str(), &info) || !S_ISREG(info.st_mode) || info.st_size < 0)
+    SymbianFilePath name(path);
+    if (!name || wstat(name.data(), &info) || !S_ISREG(info.st_mode) || info.st_size < 0)
         return std::nullopt;
     return info.st_size;
 }
@@ -391,7 +405,8 @@ bool moveFile(const String& source, const String& target)
 std::optional<WallTime> fileModificationTime(const String& path)
 {
     struct stat info;
-    if (stat(nativePath(path).c_str(), &info))
+    SymbianFilePath name(path);
+    if (!name || wstat(name.data(), &info))
         return std::nullopt;
     return WallTime::fromRawSeconds(info.st_mtime);
 }

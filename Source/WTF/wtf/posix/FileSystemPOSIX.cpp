@@ -50,6 +50,9 @@
 #include <wtf/text/ParsingUtilities.h>
 #include <wtf/text/StringBuilder.h>
 #include <wtf/text/WTFString.h>
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianFilePath.h>
+#endif
 
 #if USE(GLIB)
 #include <glib.h>
@@ -61,10 +64,15 @@ namespace FileSystemImpl {
 
 FileHandle openFile(const String& path, FileOpenMode mode, FileAccessPermission permission, OptionSet<FileLockMode> lockMode, bool failIfFileExists)
 {
+#if OS(SYMBIAN)
+    SymbianFilePath fsRep(path);
+    if (!fsRep)
+        return { };
+#else
     CString fsRep = fileSystemRepresentation(path);
-
     if (fsRep.isNull())
         return { };
+#endif
 
 #if OS(SYMBIAN)
     int platformFlag = 0;
@@ -97,7 +105,12 @@ FileHandle openFile(const String& path, FileOpenMode mode, FileAccessPermission 
     else if (permission == FileAccessPermission::All)
         permissionFlag |= (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
+#if OS(SYMBIAN)
+    // Explicit mode is required by the Open C wrapper even for read-only opens.
+    return FileHandle::adopt(wopen(fsRep.data(), platformFlag, permissionFlag), lockMode);
+#else
     return FileHandle::adopt(open(fsRep.data(), platformFlag, permissionFlag), lockMode);
+#endif
 }
 
 std::optional<WallTime> fileCreationTime(const String& path)
@@ -208,12 +221,22 @@ std::pair<String, FileHandle> openTemporaryFile(StringView prefix, StringView su
 
 std::optional<int32_t> getFileDeviceId(const String& path)
 {
+#if OS(SYMBIAN)
+    SymbianFilePath fsFile(path);
+    if (!fsFile)
+        return std::nullopt;
+#else
     auto fsFile = fileSystemRepresentation(path);
     if (fsFile.isNull())
         return std::nullopt;
+#endif
 
     struct stat fileStat;
+#if OS(SYMBIAN)
+    if (wstat(fsFile.data(), &fileStat) == -1)
+#else
     if (stat(fsFile.data(), &fileStat) == -1)
+#endif
         return std::nullopt;
 
     return fileStat.st_dev;

@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "scope": "actual preprocessed production functions and normal undefined-import names only; no runtime execution",
+  "gates": {
+    "openFile_OS_branch_wopen_explicit_mode": true,
+    "device_stat_OS_branch_wstat": true,
+    "fileSize_wide_boundary": true,
+    "fileModificationTime_wide_boundary": true,
+    "fileExists_wide_boundary": true,
+    "following_type_wide_nofollow_lstat_unchanged": true,
+    "FileSystemPOSIX_normal_imports": [
+      "wopen",
+      "wstat"
+    ],
+    "FileSystemSymbian_normal_imports": [
+      "wstat",
+      "waccess",
+      "lstat"
+    ]
+  },
+  "preprocessed_sha256": {
+    "FileSystemPOSIX": "141ff8fd6133caeccf3c50ccd50a38ba24222582eb70f8b31f5a88f9695f4a42",
+    "FileSystemSymbian": "b605a38be47bcf85944e6baff9b8f5102537606e15dfdaf702a3c31ece293c70"
+  }
+}

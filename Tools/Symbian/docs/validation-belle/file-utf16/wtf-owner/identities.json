@@ -1,0 +1,35 @@
+{
+  "artifacts": {
+    "direct_worker": {
+      "path": "/workspace/symbian-file-io-contract-work/artifacts/file_io_contract.exe",
+      "bytes": 81464,
+      "sha256": "bd1c2133d8b0b20f855e628aa41306533966b0ded4eaf530f15bf3e9ba9878c7",
+      "binary_archived": false
+    },
+    "wtf_owner_worker": {
+      "path": "/workspace/symbian-wtf-file-owner-contract-work/artifacts/wtf_file_owner_contract.exe",
+      "bytes": 178376,
+      "sha256": "8818c12aa7af3db53fc5622089dbc2149f7c7ec907f9c88b886e75111ad2c44a",
+      "binary_archived": false
+    },
+    "libWTF": {
+      "path": "/workspace/symbian-graphics-work/build/webcore/lib/libWTF.a",
+      "bytes": 358396,
+      "sha256": "045b0ebab6a9888a6649f10ab113c7936ee681ed23a83472b6ce3c57f0c59f33",
+      "binary_archived": false
+    }
+  },
+  "public_runtime_inputs": {
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "bytes": 65484680,
+      "sha256": "692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd"
+    },
+    "fep": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "bytes": 99488,
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    }
+  },
+  "note": "Worker and libWTF identities are measured from the actual current artifacts; runtime identities are allowlisted from the preserved runner result. No executable/archive binary or original runtime state is copied."
+}

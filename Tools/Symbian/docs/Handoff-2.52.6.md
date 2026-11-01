@@ -1,5 +1,15 @@
 # WebKit 2.52.6 Symbian 交接（续接状态）
 
+## UTF-16 文件接口修复（2026-11-01）
+
+普通 WTF 文件接口已在受控 Belle 模拟器内通过三文件验收：ASCII 1024B、空文件和 `字😀.dat` 24B 的存在性、大小、mtime、完整字节、EOF及SHA全部通过，worker/host自然退出0、无强制清理、全部恢复。
+此前直接API对照仍为8/9整体FAIL：窄字符stat/open无法读取非BMP文件名；原生及宽字符对照正确。
+生产修复将文件打开、跟随链接的metadata和存在性检查保留为UTF-16，使用真实wopen/wstat/waccess；无跟随lstat及其它文件操作未扩展。
+见[精确源码、ARM编译及运行档案](validation-belle/file-utf16/wtf-owner/README.md)。该CLI结果不代表FileReader/FormData或多选GUI已通过，相关旧FAIL保留。
+
+Classic WebAudio仍在本地完整实验构建，发布默认OFF。整编发现并修复log2f调用可见性及既有兼容函数生成空函数体的问题；该三文件数学修复尚未随本次文件接口改动提交。
+本地实验镜像C26尚未产出、stream新DLL尚未部署、实际PCM尚未验证；勿把已通过的文件CLI验收移作音频或真机验收。
+
 ## 最新验包及本地实验状态（2026-11-01）
 
 本节覆盖下文CI版本和WebAudio本地状态的旧检查点。**CI47实际0.3.47安装包核验及独立审计PASS，未安装或运行本次包，也没有真机验收。**

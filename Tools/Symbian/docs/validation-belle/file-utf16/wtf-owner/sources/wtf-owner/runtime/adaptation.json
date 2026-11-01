@@ -1,0 +1,14 @@
+{
+  "reuse": "Existing file9case finite preserved CLI wrapper; no guest execution in preparation",
+  "base": {
+    "/workspace/symbian-file-io-contract-work/runtime/run.py": "13b6a47a80962fdcc82b753b8cd4af1fd5e56dd77f7be80e2c00e45ed96e6917",
+    "/workspace/symbian-file-io-contract-work/runtime/gates.py": "d2ba11d86d230a50403572ed2f44213618211e33e556379d11db8ff83b78d8ba"
+  },
+  "changes": [
+    "owned worker/suite/log/directory identities and pins",
+    "three actual owner API cases instead of nine direct API comparisons",
+    "fixed fresh fixture mtimes 1700000000",
+    "removed unused overridden historical completion function",
+    "same SavedFiles/PrivateConfigurations/double locks/natural exit/restoration gates"
+  ]
+}
