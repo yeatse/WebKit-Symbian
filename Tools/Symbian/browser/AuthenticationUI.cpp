@@ -2,6 +2,7 @@
 
 #include "browser_ui.rsg"
 #include <AknQueryDialog.h>
+#include <eikseced.h>
 #include <avkon.hrh>
 
 using namespace WebKitSymbian;
@@ -16,12 +17,12 @@ constexpr TInt maximumOriginLength = 512;
 class CAuthenticationQueryDialog final : public CAknTextQueryDialog {
 public:
     SYMBIAN_BROWSER_NATIVE_DELETE
-    CAuthenticationQueryDialog(TDes& value, CAuthenticationQueryDialog*& active)
+    CAuthenticationQueryDialog(TDes& value, CAuthenticationQueryDialog*& active, TInt maximumLength)
         : CAknTextQueryDialog(value)
         , iActive(active)
     {
         iActive = this;
-        SetMaxLength(maximumCredentialLength);
+        SetMaxLength(maximumLength);
         SetPredictiveTextInputPermitted(EFalse);
     }
 
@@ -98,12 +99,12 @@ TBool CAuthenticationUI::RunL(Text origin, unsigned attempt, TDes& username, TDe
     heading.Append(TPtrC(reinterpret_cast<const TText*>(origin.characters), origin.length));
     const TInt originHeadingLength = heading.Length();
     heading.Append(_L("\nUsername"));
-    auto* userDialog = new (ELeave) CAuthenticationQueryDialog(username, iDialog);
+    auto* userDialog = new (ELeave) CAuthenticationQueryDialog(username, iDialog, maximumCredentialLength);
     if (!userDialog->ExecuteLD(R_BROWSER_PROMPT, heading) || iCancelled)
         return EFalse;
     heading.SetLength(originHeadingLength);
     heading.Append(_L("\nPassword"));
     // ECodeLayout uses the native masked secret editor, not an ordinary EDWIN.
-    auto* passwordDialog = new (ELeave) CAuthenticationQueryDialog(password, iDialog);
+    auto* passwordDialog = new (ELeave) CAuthenticationQueryDialog(password, iDialog, CEikSecretEditor::EMaxSecEdSecArrayLength);
     return passwordDialog->ExecuteLD(R_BROWSER_AUTH_PASSWORD, heading) && !iCancelled;
 }

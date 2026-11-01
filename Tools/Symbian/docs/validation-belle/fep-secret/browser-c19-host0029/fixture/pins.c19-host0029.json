@@ -1,0 +1,14 @@
+{
+  "browser": {
+    "path": "/workspace/symbian-belle-work/candidate19/browser.exe",
+    "sha256": "6b6e8e0a430ff9c1ce0be935161d4b7e61804444e2947cb0218e74cb2e5420ae"
+  },
+  "host": {
+    "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+    "sha256": "07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3"
+  },
+  "fep": {
+    "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+    "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "status": "NATIVE_INPUT_AND_PAGE_PASS_PENDING_RUNNER_AND_MASK_REVIEW",
+  "run": "secret-c19-h29-empty-01",
+  "case": "empty",
+  "phase": "finish",
+  "pid": 530730,
+  "guest_log": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+  "pins": {
+    "browser": {
+      "path": "/workspace/symbian-belle-work/candidate19/browser.exe",
+      "sha256": "6b6e8e0a430ff9c1ce0be935161d4b7e61804444e2947cb0218e74cb2e5420ae"
+    },
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "sha256": "07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3"
+    },
+    "fep": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    }
+  },
+  "identities": {
+    "index.html": "2277d7851bb9752895a51e6bd7bb6a721ba753fcb94184065a4d2aa26de02a6b",
+    "drive.py": "0252e03ca0799b0c3aea27d23018b0b68e393b69b3ac885aff575ada103f90a5",
+    "server.py": "73a89730bdc489796b32af429d2ac701f2528c6857bfc9f0973a061d19c5369c"
+  },
+  "actions": [
+    {
+      "action": "native Ctrl+A, Backspace and fixed public test input",
+      "typed_utf16_length": 0
+    },
+    {
+      "action": "actual native Submit",
+      "empty": true
+    },
+    {
+      "action": "trusted finish click",
+      "point": [
+        450,
+        378
+      ],
+      "monotonic": 243308.853822819
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "selected-original-fep.png",
+      "sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "monotonic": 243307.277421422
+    },
+    {
+      "path": "cleared-fep.png",
+      "sha256": "3d511f710e45a2ce36a35f41e4e1ff989b22ef813cdc4cc5aea4a7e88f2d412f",
+      "monotonic": 243307.318782491
+    },
+    {
+      "path": "typed-settled-fep.png",
+      "sha256": "81fe21a5b07ee91cc3f8eda4465c64cf24973a8bbca110450e7dd9f2268383d6",
+      "monotonic": 243307.951088927
+    },
+    {
+      "path": "after-page-check.png",
+      "sha256": "02b9c528361676eb567beee4f5d1f98ccd2aac41dbb0a871d62190bd3fa43d8e",
+      "monotonic": 243309.020449918
+    }
+  ],
+  "mask_review_required": true,
+  "runner_normal_close_required": true,
+  "main_window": "0x60000b",
+  "ready": {
+    "run": "secret-c19-h29-empty-01",
+    "case": "empty",
+    "viewport": [
+      360,
+      532
+    ],
+    "rects": {
+      "start": {
+        "x": 180,
+        "y": 167.3125,
+        "width": 336,
+        "height": 49
+      },
+      "field": {
+        "x": 180,
+        "y": 234.3125,
+        "width": 336,
+        "height": 49
+      },
+      "finish": {
+        "x": 180,
+        "y": 301.3125,
+        "width": 336,
+        "height": 49
+      }
+    },
+    "publicDataOnly": true
+  },
+  "fep_window": "0x60005f",
+  "fep_geometry": [
+    241,
+    185,
+    400,
+    300
+  ],
+  "page_pass": {
+    "type": "password",
+    "trustedTap": true,
+    "utf16Length": 0,
+    "selection": [
+      0,
+      0
+    ],
+    "maskReviewRequired": true
+  }
+}

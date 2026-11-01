@@ -1,0 +1,10 @@
+{
+  "main_reviewed_actual_screenshot": false,
+  "main_size": [900, 700],
+  "content_rect": [270, 77, 360, 532],
+  "fep_reviewed_actual_screenshot": false,
+  "fep_size": null,
+  "edit_point": null,
+  "submit_point": null,
+  "note": "Main values are historical reference only: inspect actual current screenshot first. After open inspect opened-fep.png; fill actual secret QLineEdit/modal size and window-relative points. Old 400x300 multiline points are not valid."
+}

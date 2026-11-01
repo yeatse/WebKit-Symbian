@@ -1,0 +1,30 @@
+{
+  "run": "secret-c19-h29-cancel-01",
+  "case": "cancel",
+  "pid": 529986,
+  "window": "0x60000b",
+  "status": "CALIBRATION_CAPTURED",
+  "records": [],
+  "screenshots": [
+    {
+      "path": "calibration-main.png",
+      "sha256": "c9bbad02f6c293d353a5a799a9596f1e5871b316ac8540acc1ac83325015b766",
+      "target": "main",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "monotonic_ns": 243098232491879
+    }
+  ],
+  "input_source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+  "input_source_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+  "scope": "actual XTest input; no guest launch, injected JavaScript, dialog hooks or file mutation",
+  "main_size": [
+    900,
+    700
+  ],
+  "fep_size": null
+}

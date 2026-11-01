@@ -1,0 +1,16 @@
+{
+  "artifact_id": 13070386049,
+  "artifact_name": "sis",
+  "file_name": "ci43-sis.zip",
+  "utc": "2026-11-01T04:42:27.484709+00:00",
+  "primary": "GitHub plugin download_workflow_artifact returned an artifact-backed ZIP file reference; materialized that exact returned file over HTTPS using inherited proxy and normal TLS verification",
+  "returned_file_id": "file_000000009a948207b39864c27be0843f",
+  "materialized_bytes": 33695059,
+  "gh_api_fallback_attempt": {
+    "exit_code": 1,
+    "sanitized_error": "Redirect artifact blob returned Forbidden; no bytes retained from this attempt"
+  },
+  "temporary_download_reference_removed": true,
+  "credential_values_or_signed_download_query_archived": false,
+  "ELF_downloaded": false
+}

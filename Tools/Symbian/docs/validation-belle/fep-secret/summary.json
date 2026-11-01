@@ -1,0 +1,61 @@
+{
+  "status": "PATCH_UNIT_COMPILE_NATIVE_ABI_AND_INTEGRATED_HOST_DEPLOYMENT_CHECKED_UI_NOT_RUN",
+  "patch": "0029-Mask-secret-FEP-text-before-host-display.patch",
+  "patch_sha256": "65d65285d3881d66cf25febfb7405cd96afe9eb06a6b6b7a5a6346609103ecc2",
+  "api": "TCoeInputCapabilities::SupportsSecretText() != EFalse",
+  "secret_capability": "ESecretText = 0x00000100; nonzero TBool normalized",
+  "host_HLE": {
+    "legacy_A0_preserved": true,
+    "new_selector": "0xA6",
+    "matching_host_required": true
+  },
+  "unit_and_compile_checks": {
+    "host_TUs": 5,
+    "Qt_offscreen_widget_checks": 21,
+    "extracted_host_state_assertions": 51,
+    "extracted_selector_parameter_assertions": 12,
+    "guest_extracted_actual_method_cases": 40,
+    "guest_ARM_CPP_ASM_exit": [
+      0,
+      0
+    ],
+    "negative_control_wrong_ETrue_comparison_rejected": true
+  },
+  "native_build": {
+    "DLL": {
+      "bytes": 99488,
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "uid2": "0x10009d8d",
+    "uid3": "0x100056de",
+    "capabilities": 0,
+    "only_export_ordinal": 1,
+    "implementation_uid": "0x101fd65a",
+    "dynamic_import_DLLs": 9,
+    "dynamic_import_slots": 200,
+    "cone_SupportsSecretText_ordinal": 316,
+    "fepbase_slots": 32,
+    "native_inspection": "PASS",
+    "independent_EKA_static_parser": "PASS"
+  },
+  "root_integrated_host": {
+    "sha256": "07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3",
+    "bytes": 65484680
+  },
+  "independent_read_only_checks": {
+    "host_matches": true,
+    "ten_deployed_asset_hashes_match": true,
+    "fifteen_integrated_source_hashes_match": true,
+    "reverse_patch_check_exit": 0
+  },
+  "archive_task": {
+    "shared_sources_modified": false,
+    "shared_SDK_modified": false,
+    "host_built": false,
+    "assets_deployed": false,
+    "guest_run": false,
+    "display_run": false
+  },
+  "ui_acceptance": false,
+  "mobile": "Inspected Android/iOS source paths reject secret requests before plaintext UI; not compiled/run; masked mobile UI not implemented"
+}

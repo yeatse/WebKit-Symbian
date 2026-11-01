@@ -1,0 +1,32 @@
+[
+  [
+    "/workspace/host-sysroot/usr/lib/qt6/libexec/moc",
+    "/workspace/symbian-eka-fep-secret-work/host/overlay/src/emu/qt/include/qt/symbian_input_dialog.h",
+    "-o",
+    "/workspace/symbian-eka-fep-secret-work/host/moc_symbian_input_dialog.cpp"
+  ],
+  [
+    "/usr/bin/g++",
+    "-std=c++20",
+    "-fPIC",
+    "-I/workspace/symbian-eka-fep-secret-work/host/overlay/src/emu/qt/include",
+    "/workspace/symbian-eka-fep-secret-work/host/password-widget-tests.cpp",
+    "/workspace/symbian-eka-fep-secret-work/host/moc_symbian_input_dialog.cpp",
+    "/workspace/symbian-eka-fep-secret-work/host/inputdialog.o",
+    "-o",
+    "/workspace/symbian-eka-fep-secret-work/host/password-widget-tests",
+    "-I/workspace/host-sysroot/usr/include/x86_64-linux-gnu/qt6/QtWidgets",
+    "-I/workspace/host-sysroot/usr/include/x86_64-linux-gnu/qt6",
+    "-DQT_WIDGETS_LIB",
+    "-I/workspace/host-sysroot/usr/include/x86_64-linux-gnu/qt6/QtCore",
+    "-I/workspace/host-sysroot/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++",
+    "-I/workspace/host-sysroot/usr/include/x86_64-linux-gnu/qt6/QtGui",
+    "-DQT_GUI_LIB",
+    "-DQT_CORE_LIB",
+    "-L/workspace/host-sysroot/usr/lib/x86_64-linux-gnu",
+    "-lQt6Widgets",
+    "-lQt6Gui",
+    "-lQt6Core",
+    "-Wl,-rpath,/workspace/host-sysroot/usr/lib/x86_64-linux-gnu"
+  ]
+]

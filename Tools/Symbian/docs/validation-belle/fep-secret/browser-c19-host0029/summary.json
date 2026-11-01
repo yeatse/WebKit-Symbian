@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "scope": "public fixed-string ordinary password FEP on C19 browser/host0029; root sampled-mask review plus exact UI result, normal exit and restoration",
+  "cases": [
+    {
+      "case": "cancel",
+      "run": "secret-c19-h29-cancel-01",
+      "status": "PASS",
+      "exact_utf16_length": 17,
+      "exact_selection": [
+        1,
+        4
+      ],
+      "driver_exit": 0,
+      "runner_exit": 0,
+      "config_restored": true,
+      "restored_items": 7,
+      "all_before_after_equal": true,
+      "root_reviewed_mask_images": 21,
+      "immediate_key_images": 17,
+      "all_input_images": 23,
+      "raw_pending_statuses_retained": true
+    },
+    {
+      "case": "submit",
+      "run": "secret-c19-h29-submit-01",
+      "status": "PASS",
+      "exact_utf16_length": 18,
+      "exact_selection": [
+        18,
+        18
+      ],
+      "driver_exit": 0,
+      "runner_exit": 0,
+      "config_restored": true,
+      "restored_items": 7,
+      "all_before_after_equal": true,
+      "root_reviewed_mask_images": 22,
+      "immediate_key_images": 18,
+      "all_input_images": 24,
+      "raw_pending_statuses_retained": true
+    },
+    {
+      "case": "empty",
+      "run": "secret-c19-h29-empty-01",
+      "status": "PASS",
+      "exact_utf16_length": 0,
+      "exact_selection": [
+        0,
+        0
+      ],
+      "driver_exit": 0,
+      "runner_exit": 0,
+      "config_restored": true,
+      "restored_items": 7,
+      "all_before_after_equal": true,
+      "root_reviewed_mask_images": 4,
+      "immediate_key_images": 0,
+      "all_input_images": 6,
+      "raw_pending_statuses_retained": true
+    }
+  ],
+  "original_files": 103,
+  "total_archived_screenshots": 54,
+  "root_reviewed_mask_screenshots": 47,
+  "immediate_key_screenshots": 35,
+  "mask_review_attribution": "root acceptance.json; verifier confirms identity/completeness, not pixels or uninterrupted video"
+}

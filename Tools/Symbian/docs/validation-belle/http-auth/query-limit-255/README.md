@@ -1,0 +1,7 @@
+# HTTP认证密码查询255字符合同修复
+
+源码和构建检查通过，真实认证UI/网络矩阵待root验收。SDK CEikSecretEditor上限255；资源256及password SetMaxLength(256)均违反合同，EIKCTL13为EEikPanicSecretEditorTooLong。修后username保持256，password API取SDK enum255、资源WORD255，ECodeLayout/SECRETED保持。
+
+保留before/overlay、官方参考、ARM syntax/object命令、rcomp和ASan/UBSan主机合同。C21完整browser链接及E32转换已由root完成，其242B RSC与检查资源逐字相同（fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8）。镜像496bce2b06bd9a131939dd15b0cd414d4959fb3b297c640e2ae65f85adb8663f，58,813,448B；其中另含CookieStore，构建不代表其功能通过。
+
+旧C19校准02/03仍功能失败，host0与原CALIBRATION_ONLY不构成UI通过。普通password FEP三例不代替HTTP认证。candidate-README.md保留原交付阶段说明，root-c21-build单列随后构建。归档未运行guest/display/server、未重跑旧失败或加诊断、未读取或复制private凭据/profile/config/key。未纳入object/ELF/DLL/可执行镜像；RSC为非执行资源数据。

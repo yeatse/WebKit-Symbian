@@ -1,6 +1,35 @@
 # WebKit 2.52.6 Symbian 交接（续接状态）
 
-## 2026-11-01 续接更新：覆盖下面的暂停快照
+## 最新状态（2026-11-01）
+
+P1检查点 `903ab1fb43113ea312d280bbcddddd1b9cbb3fd9` 已推送 `2.52.6-symbian`。
+CI43 run41271896689/job124746192350全绿，实际0.3.43三SIS、13payload、CA和ICU八组IDNA已核验；
+见 `validation-release-0.3.43/ci/`。CI43镜像尚未安装或运行，不含下面本地C21认证长度修复。
+
+当前host是65,484,680B / `07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3`；
+native FEP是99,488B / `fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae`。
+0029已完整构建部署，公开password取消/提交/清空三例真实UI及逐字遮罩采样通过，见 `validation-belle/fep-secret/`。
+每次host构建后恢复五资产至 **build/bin/patch和DATAparent/patch两处**。原件在
+`/workspace/symbian-fep-secret-native-build-20261101/artifacts/`，部署记录在
+`/workspace/symbian-belle-work/fep-secret-deployment-20261101/deployment.json`。SDK/EKA自身仍不推送。
+
+C21修复password API和SECRETED资源超出255上限的问题；旧256会报EIKCTL13，username仍256。
+实际空Password查询及点击后新QLineEdit已打开，无target panic；这只是公开校准，HTTP认证16组仍待完成。
+C21 browser 58,813,448B / `496bce2b06bd9a131939dd15b0cd414d4959fb3b297c640e2ae65f85adb8663f`；
+UI242B / `fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8`，必须配对。
+旧C19校准02/03仍FAIL，host0不能掩盖guest错误；禁止归档凭据、Authorization、原始clipboard/private config。
+
+CookieStore本地代码已进入C20/C21，尚未随903ab1推送。C21真实HTTPS15/15及原页面validator通过，
+官方EndTask却触发target WebKit access violation/KERN-EXEC3，整轮FAIL，全部CA/profile/config/resources恢复。
+原件 `/workspace/symbian-cookie-store-runtime-c21-work/c21-01`，失败不可改判。目前只做普通源码生命周期审查，
+不重放旧崩溃、不加诊断shim或读dump。新测试CA仅临时加入该轮bundle；外部
+`/workspace/symbian-local-tls-20261101` 的private keys禁止打印或归档。
+
+后续：完成认证/关闭生命周期和其余下载验收，再合IPv6/H2及IAP proxy。IPv6需要验证真实backend.dll，
+不能用SDK导入proxy冒充运行实现修复；EKA新TCP候选应保留UDP广播/初始write-ready。CookieStore、IPv6/H2、
+IAP的本地WIP都须精确stage，禁止reset/clean或git add -A。内存/online旧失败、P2/P3和真机状态仍按下文保留。
+
+## 此前续接记录（以下旧状态以最新段为准）
 
 用户已说“继续”，当前在推进 Belle P1。下文 10 月 30 日内容保留作历史依据，
 其中“未推送”“目录不存在”“C11 最后构建”已过时，不能作为当前状态。

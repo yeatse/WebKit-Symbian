@@ -1,0 +1,108 @@
+--- a/Tools/Symbian/tests/http-auth/fakes/AknQueryDialog.h
++++ b/Tools/Symbian/tests/http-auth/fakes/AknQueryDialog.h
+@@ -1,5 +1,7 @@
+ #pragma once
+ #include "e32base.h"
++#include "eikseced.h"
++#include "browser_ui.rsg"
+ #include <deque>
+ #include <functional>
+ #include <memory>
+@@ -12,20 +14,25 @@
+ };
+ inline std::deque<DialogStep> dialogSteps;
+ inline std::vector<int> dialogResources;
++inline std::vector<int> dialogMaxLengths;
+ inline std::vector<std::u16string> dialogHeadings;
+ struct DialogState { bool cancelled = false; bool destroyed = false; };
+ class CAknTextQueryDialog : public CBase {
+ public:
+     explicit CAknTextQueryDialog(TDes& value) : value(value) { }
+     ~CAknTextQueryDialog() { if (state) state->destroyed = true; }
+-    void SetMaxLength(TInt n) { assert(n == 256); }
++    void SetMaxLength(TInt n) { assert(n > 0 && n <= value.MaxLength()); maximumLength = n; }
+     void SetPredictiveTextInputPermitted(bool allowed) { assert(!allowed); }
+     void MakeLeftSoftkeyVisible(bool visible) { leftVisible = visible; }
+     bool ExecuteLD(int resource, const TDesC& heading)
+     {
+         assert(!dialogSteps.empty());
+         auto step = std::move(dialogSteps.front()); dialogSteps.pop_front();
++        // Model the real secret editor bound, independently of buffer capacity.
++        if (resource == R_BROWSER_AUTH_PASSWORD)
++            assert(maximumLength <= CEikSecretEditor::EMaxSecEdSecArrayLength);
+         dialogResources.push_back(resource);
++        dialogMaxLengths.push_back(maximumLength);
+         dialogHeadings.emplace_back(heading.Ptr(), heading.Length());
+         UpdateLeftSoftKeyL();
+         assert(leftVisible); // Empty credentials must remain acceptable.
+@@ -33,7 +40,10 @@
+         auto* output = &value;
+         if (step.nested) step.nested();
+         bool accepted = step.accepted && !execution->cancelled && !step.leave;
+-        if (accepted) output->Copy(step.text);
++        if (accepted) {
++            assert(step.text.length() <= static_cast<size_t>(maximumLength));
++            output->Copy(step.text);
++        }
+         if (!execution->destroyed) delete this;
+         if (step.leave) throw step.leave;
+         return accepted;
+@@ -44,5 +54,6 @@
+ private:
+     TDes& value;
+     bool leftVisible = false;
++    TInt maximumLength = 0;
+     std::shared_ptr<DialogState> state;
+ };
+--- /dev/null
++++ b/Tools/Symbian/tests/http-auth/fakes/eikseced.h
+@@ -0,0 +1,3 @@
++#pragma once
++// Narrow host adapter for the official SDK bound; check.py checks it against the actual SDK.
++struct CEikSecretEditor { enum { EMaxSecEdSecArrayLength = 255 }; };
+--- a/Tools/Symbian/tests/http-auth/native-ui.cpp
++++ b/Tools/Symbian/tests/http-auth/native-ui.cpp
+@@ -10,7 +10,7 @@
+     std::u16string value;
+ };
+ static Text origin() { static const char16_t text[] = u"https://example.test:8443"; return { reinterpret_cast<const uint16_t*>(text), sizeof(text) / sizeof(char16_t) - 1 }; }
+-static void reset() { assert(dialogSteps.empty()); dialogResources.clear(); dialogHeadings.clear(); }
++static void reset() { assert(dialogSteps.empty()); dialogResources.clear(); dialogMaxLengths.clear(); dialogHeadings.clear(); }
+ int main()
+ {
+     auto* ui = new (ELeave) CAuthenticationUI;
+@@ -20,6 +20,7 @@
+         assert(ui->Run(10, origin(), 1, user, password));
+         assert(user.value == u"alice" && password.value == u"secret");
+         assert((dialogResources == std::vector<int>{R_BROWSER_PROMPT, R_BROWSER_AUTH_PASSWORD}));
++        assert((dialogMaxLengths == std::vector<int>{256, 255}));
+         assert(dialogHeadings[0].find(u"https://example.test:8443") != std::u16string::npos);
+         reset();
+     }
+@@ -28,7 +29,19 @@
+         dialogSteps = {{true, u""}, {true, u""}};
+         assert(ui->Run(10, origin(), 3, user, password));
+         assert(user.calls == 1 && password.calls == 1 && password.value.empty());
++        assert((dialogMaxLengths == std::vector<int>{256, 255}));
+         assert(dialogHeadings[0].find(u"(3/3)") != std::u16string::npos);
++        reset();
++    }
++    // Preserve username256 while honoring the native password255 boundary.
++    {
++        Result user, password;
++        const std::u16string maximumUser(256, u'u');
++        const std::u16string maximumPassword(255, u'p');
++        dialogSteps = {{true, maximumUser}, {true, maximumPassword}};
++        assert(ui->Run(10, origin(), 1, user, password));
++        assert(user.value == maximumUser && password.value == maximumPassword);
++        assert((dialogMaxLengths == std::vector<int>{256, 255}));
+         reset();
+     }
+     for (bool cancelPassword : {false, true}) {
+@@ -82,5 +95,5 @@
+         reset();
+     }
+     assert(!nativeAllocations);
+-    std::cout << "native auth: success, empty values, cancel, nested lifetime, Leave and attempt bounds passed\n";
++    std::cout << "native auth: success, empty values, username256/password255 bounds, cancel, nested lifetime, Leave and attempt bounds passed\n";
+ }

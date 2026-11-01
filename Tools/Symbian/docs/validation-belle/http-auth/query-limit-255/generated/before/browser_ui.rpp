@@ -1,0 +1,1336 @@
+CHARACTER_SET UTF8
+enum TEikAppResourceFileStandardOffset
+ {
+ ESignatureResourceOffset=1,
+ EDefaultNameResourceOffset,
+ EAppInfoResourceOffset
+ };
+enum TLafReferenceButtonGroupControls
+ {
+ ELafBgCba=100
+ };
+
+enum TAknEditorNumericKeymap
+    {
+    EAknEditorStandardNumberModeKeymap,
+    EAknEditorPlainNumberModeKeymap,
+    EAknEditorCalculatorNumberModeKeymap,
+    EAknEditorConverterNumberModeKeymap,
+    EAknEditorToFieldNumberModeKeymap,
+    EAknEditorFixedDiallingNumberModeKeymap,
+    EAknEditorSATNumberModeKeymap,
+    EAknEditorSATHiddenNumberModeKeymap,
+    EAknEditorAlphanumericNumberModeKeymap,
+    EAknEditorReservedInternalUseKeymap = 100
+    };
+enum EEikLabelStandardFont
+    {
+    EEikLabelFontNormal,
+    EEikLabelFontLegend,
+    EEikLabelFontAnnotation
+    };
+enum TEikStockControls
+    {
+    EEikCtCommandButton,
+    EEikCtLabeledButton,
+    EEikCtEdwin,
+    EEikCtRichTextEditor,
+    EEikCtSecretEd,
+    EEikCtCheckBox,
+    EEikCtChoiceList,
+    EEikCtOptionButton,
+    EEikCtHorOptionButList,
+    EEikCtFileNameSel,
+    EEikCtFileNameEd,
+    EEikCtFolderNameSel,
+    EEikCtFolderNameEd,
+    EEikCtDriveNameSel,
+    EEikCtListBox,
+    EEikCtCharMap,
+    EEikCtCharEd,
+    EEikCtImage,
+    EEikCtImageArray,
+    EEikCtLabel,
+    EEikCtComboBox,
+    EEikCtProgInfo,
+    EEikCtFlPtEd,
+    EEikCtFxPtEd,
+    EEikCtTwipsEd,
+    EEikCtNumberEditor,
+    EEikCtRangeEditor,
+    EEikCtTimeEditor,
+    EEikCtDateEditor,
+    EEikCtTimeAndDateEditor,
+    EEikCtDurationEditor,
+    EEikCtTimeOffsetEditor,
+    EEikCtLatitudeEditor_Not_Supported,
+    EEikCtLongitudeEditor_Not_Supported,
+    EEikCtBorderPreview,
+    EEikCtFontPreview,
+    EEikCtGraySelector,
+    EEikCtWorldSelector,
+    EEikCtGlobalTextEditor,
+    EEikCtSoundSelector,
+    EEikCtClock,
+    EEikCtPrintPreview,
+    EEikCtMenuButton,
+    EEikCtDirContentsListBox,
+    EAknCtIpFieldEditor,
+    EEikCtCalendar,
+    EEikCtSpacer,
+    EEikCtColListBox,
+    EEikCtRangeRefEditor,
+    EEikCtTextButton,
+    EEikCtBitmapButton,
+    EEikCtDialogToolBar,
+    EEikCtFileBrowser,
+    EEikCtFileNameLabel,
+    EEikCtUnifiedFileSel,
+    EEikCtTelephoneNumberEditor,
+    EEikCtTwoPictureCommandButton,
+    EEikCtInverterCommandButton,
+    EEikCtScrollBar,
+    EEikCtArrowHeadScrollBar,
+    EAknCtLocationEditor,
+    EAknCtUnitEditor
+    };
+enum TEikStockButtonGroupControls
+    {
+    EEikBgToolBar,
+    EEikBgButtonPanel,
+    EEikBgCba
+    };
+enum
+ {
+ EDialDlgButFreeDial=1,
+ EDialDlgButDial,
+ EDialDlgButDialOut,
+ EFreeDialDlgButClear,
+ EFreeDialDlgButRedial,
+ EDialDlgEdwin1,
+ EDialDlgEdwin2,
+ EDialDlgEdwin3,
+ EDialDlgEdwin4,
+ EDialDlgEdwin5,
+ EFreeDialDlgEdwin
+ };
+enum TEikProgressTextType
+ {
+ EEikProgressTextNone,
+ EEikProgressTextPercentage,
+ EEikProgressTextFraction
+ };
+enum
+ {
+ EEikCidImageType=1
+ };
+enum
+ {
+ EEikPopupOnTop = 1100,
+ EEikPopupGone
+ };
+enum
+ {
+ EEikKeyLockEnabled = 1110,
+ EEikKeyLockDisabled = 1111,
+ EEikLeyLockDisabled = 1111,
+ EEikKeyLockPowerKeyPressed,
+ EEikKeyLockLightsOnRequest,
+    EEikEcsQueryLights,
+    EEikSecurityQueryLights
+ };
+enum
+ {
+ EEikHeapFailSettingListId = 999
+ };
+enum TEikCommandOperationTypes
+ {
+ EEikCommandTypeAnyCommand,
+ EEikCommandTypeMenu,
+ EEikCommandTypeOpenItem,
+ EEikCommandTypeDeleteItem,
+ EEikCommandTypeOperatesItem,
+ EEikCommandTypeCreateItem,
+ EEikCommandTypePositiveAnswer,
+ EEikCommandTypeNegativeAnswer,
+ EEikCommandTypeCancel,
+ EEikCommandTypeExitOrBack,
+ EEikCommandTypeExitApplication
+ };
+enum TLocationEditorFlags
+ {
+ ELocationEdFlagLatitude = 1,
+ ELocationEdFlagLongitude = 2
+ };
+enum TAknUnitEditorFlags
+    {
+    EAknUnitEditorAllowUninitialized = 0x00000001
+    };
+enum TAknUnitEditorUnits
+    {
+    EAknUnitEditorCustomUnit,
+    EAknUnitEditorMeter,
+    EAknUnitEditorKilometer,
+    EAknUnitEditorFoot,
+    EAknUnitEditorMile,
+    EAknUnitEditorMetricSpeed,
+    EAknUnitEditorImperialSpeed
+    };
+enum TAknFontCategory
+ {
+ EAknFontCategoryUndefined = 0,
+ EAknFontCategoryPrimary = 1,
+ EAknFontCategorySecondary = 2,
+ EAknFontCategoryTitle = 3,
+ EAknFontCategoryPrimarySmall = 4,
+ EAknFontCategoryDigital = 5
+ };
+enum {EScalableFontIdOffset = (0x1000) };
+enum
+    {
+    EAknApplicationIconWidth = 42,
+    EAknApplicationIconHeight = 29
+    };
+enum
+    {
+    EAknDummyForProcessCommands = 4000,
+    EAknMarkAll,
+    EAknUnmarkAll,
+    EAknCmdHelp,
+    EAknCmdAddToPinboard,
+    EAknCmdFindPopupActivated,
+    EAknCmdEditModeT9,
+    EAknCmdEditModeMultitap,
+    EAknCmdEditModeNumber,
+    EAknCmdEditInsertNumber,
+    EAknCmdEditInsertSymbol,
+    EAknCmdInputLanguage,
+    EAknCmdPredictiveTextCascade,
+    EAknCmdT9PredictiveMatches,
+    EAknCmdT9PredictiveInsertWord,
+    EAknCmdT9PredictiveEditWord,
+    EAknCmdT9PredictiveT9Off,
+    EAknCmdMultitapPredictiveT9On,
+    EAknCmdExit,
+    EAknCmdEditTextMenu,
+    EAknCmdEditListMenu,
+    EAknCmdMark,
+    EAknCmdUnmark,
+    EAknCmdOpen,
+    EChinFepCmdInstructions,
+    EChinFepCmdModePinyin,
+    EChinFepCmdModeZhuyin,
+    EChinFepCmdModeStroke,
+    EChinFepCmdModeLatinUpper,
+    EChinFepCmdModeLatinLower,
+    EChinFepCmdModeNumber,
+    EChinFepCmdModeZhuyinFind,
+    EChinFepCmdModeStrokeFind,
+    EAknCmdEditModeArabicIndicNumber,
+    EAknCmdEditModeAlpha,
+    EAknCmdEditModeLatinText,
+    EAknCmdEditModeIndicNumber,
+    EJapanFepCmdModeHiragana,
+    EJapanFepCmdModeKatakana,
+    EJapanFepCmdModePictographs,
+    EJapanFepCmdModeFullWidth,
+    EJapanFepCmdModeHalfWidth,
+    EJapanFepCmdModePredictiveOn,
+    EJapanFepCmdModePredictiveOff,
+    EJapanFepCmdModeUserDic,
+    EJapanFepCmdModeKutenCodeInput,
+    EAknCmdEditInsertPictograph,
+    EJapanFepCmdPredictiveTextCascade,
+    EJapanFepCmdMultitapPredictiveT9On,
+    EJapanFepCmdEditModeAlpha,
+    EJapanFepCmdEditModeNumber,
+    EAknCmdInputMethod,
+    EChinFepCmdModeCangJie,
+    EChinFepCmdModeCangJieOption,
+    EAknCmdEditMenuSctSelected,
+    EPenInputCmdCut,
+    EPenInputCmdCopy,
+    EPenInputCmdPaste,
+    EPenInputCmdSetting,
+    EPenInputCmdHwrTraining,
+    EFepInputCmdHelp,
+    EAknCmdEditModeEasternArabicIndicNumber,
+    EAknCmdTaskSwapper,
+    EAknCmdEditInsertSymbolJp,
+    EAknCmdEditClearDirectionLeft,
+    EAknCmdEditClearDirectionRight,
+    EAknCmdPredictiveModeCascade,
+    EAknCmdPredictiveNormal,
+    EAknCmdPredictiveAutoWord,
+    EAknCmdEditItemPlaceHolder,
+    EPenInputJpCmdFullWidth,
+    EPenInputJpCmdHalfWidth,
+    EPenInputJpCmdConversionOn,
+    EPenInputJpCmdConversionOff,
+    EPenInputJpCmdPredictiveOn,
+    EPenInputJpCmdPredictiveOff,
+    EPenInputJpCmdSaveWord,
+    EPenInputJpCmdKutenCode,
+    EAknCmdEditMenuClose,
+    EAknCmdHideInBackground,
+    EPenInputPreview,
+    EPenInputCmdPreviewOn,
+    EPenInputCmdPreviewOff,
+    EAknFepCmdPredMatches,
+    EAknFepCmdPredActivate,
+    EAknFepCmdPredDeactivate,
+    EAknFepCmdPredSettings,
+    EAknFepCmdPredInputLanguage,
+    EAknFepCmdPredHelp,
+    EAknFepCmdPredAutoComplSetting,
+    EAknFepCmdPredAutoComplMultiSetting,
+    EAknFepCmdPredTypingCorrectionSetting,
+    EAknFepCmdPredNumberCandidateSetting,
+    EAknFepCmdPredSettingChange,
+    EAknFepCmdPredPrimaryCandidateSetting,
+    EPenInputCmdRomajiInputOn,
+    EPenInputCmdRomajiInputOff,
+    EPenInputCmdRecognitionWithDictionary,
+    EAknCmdEditModeKorean,
+    EAknCmdEditModeEnglish,
+    EAknFepCmdPredEditUserDictionary,
+    EAknFepPredDictionaryCmdEdit,
+    EAknFepPredDictionaryCmdAdd,
+    EAknFepPredDictionaryCmdDelete,
+    EAknFepPredDictionaryCmdMarkUnmark,
+    EAknCmdUserDBDlg,
+    EAknCmdEditInsertSmiley,
+    EPenInputCmdVITUT,
+    EPeninputCmdFSQ,
+    EAknDiscreetPopupCmdClose,
+    EAknCmdEnd = 4999
+    };
+enum
+    {
+    EAknSoftkeyOk = -2,
+    EAknSoftkeyCancel = -1,
+    EAknSoftkeySelect = -6,
+    EAknSoftkeyOptions = 3000,
+    EAknSoftkeyBack,
+    EAknSoftkeyMark,
+    EAknSoftkeyUnmark,
+    EAknSoftkeyInsert,
+    EAknSoftkeyYes,
+    EAknSoftkeyNo,
+    EAknSoftkeyDone,
+    EAknSoftkeyClose,
+    EAknSoftkeyExit,
+    EAknSoftkeyClear,
+    EAknSoftkeyUnlock,
+    EAknSoftkeySave,
+    EAknSoftkeyShow,
+    EAknSoftkeyListen,
+    EAknSoftkeyRead,
+    EAknSoftkeySearch,
+    EAknSoftkeyEmpty,
+    EAknSoftkeyLock,
+    EAknSoftkeyCall,
+    EAknSoftkeyAgain,
+    EAknSoftkeyQuit,
+    EAknSoftkeyDetails,
+    EAknSoftkeyNext,
+    EAknSoftkeyOther,
+    EAknSoftkeyEdit,
+    EAknSoftkeyOpen,
+    EAknSoftkeySend,
+    EAknSoftkeyView,
+    EAknSoftkeyContextOptions,
+    EAknSoftkeyChange,
+    EAknSoftkeyShiftMSK,
+    EAknSoftkeyForwardKeyEvent,
+    EAknSoftkeyHide,
+    EAknSoftkeyEmergencyCall,
+    EAknSoftkeyDialler
+    };
+enum
+    {
+    EAknSoftkeyDummyUsedWithShortcuts = 3200
+    };
+enum
+    {
+    EAknCBAFlagRespondWhenInvisible = 0x02
+    };
+enum
+    {
+    EAknCtTest = 5699,
+    EAknControlIdBase = 5700,
+    EAknCtFormattedListBox,
+    EAknCtSingleListBox,
+    EAknCtSingleNumberListBox,
+    EAknCtSingleHeadingListBox,
+    EAknCtSingleGraphicListBox,
+    EAknCtSingleGraphicHeadingListBox,
+    EAknCtSingleNumberHeadingListBox,
+    EAknCtSingleLargeListBox,
+    EAknCtDoubleListBox,
+    EAknCtDoubleNumberListBox,
+    EAknCtDoubleTimeListBox,
+    EAknCtDoubleLargeListBox,
+    EAknCtDoubleGraphicListBox,
+    EAknCtSettingListBox,
+    EAknCtSettingNumberListBox,
+    EAknCtSinglePopupMenuListBox,
+    EAknCtSingleGraphicPopupMenuListBox,
+    EAknCtSingleGraphicHeadingPopupMenuListBox,
+    EAknCtMenuDoublePopupMenuListBox,
+    EAknCtSinglePopupSubmenuListBox,
+    EAknCtDoubleLargeGraphicPopupMenuListBox,
+    EAknCtSingleHeadingPopupMenuListBox,
+    EAknSetListBox,
+    EAknFormGraphicListBox,
+    EAknCtAppGrid,
+    EAknCtPinbGrid,
+    EAknCtQdialGrid,
+    EAknCtCaleMonthGrid,
+    EAknCtTitlePane,
+    EAknCtContextPane,
+    EAknCtNaviPane,
+    EAknCtSignalPane,
+    EAknCtBatteryPane,
+    EAknCtIndicatorPane,
+    EAknCtIdleContextPane,
+    EAknCtNote,
+    EAknCtQuery,
+    EAknCtMultilineQuery,
+    EAknCtPopupField,
+    EAknCtPopupFieldText,
+    EAknCtFormLabelEditor,
+    EAknCtLAF,
+    EAknCtPopupHeadingPane,
+    EAknCtSearchField,
+    EAknCtSettingPage,
+    EAknCtVolumeControl,
+    EAknCtSlider,
+    EAknCtListQueryControl,
+    EAknCtSpecialCharacterMap,
+    EAknPhoneNumberEditor,
+    EAknCtNumericSecretEditor,
+    EAknCtPopupSettingList,
+    EAknCtMessageQuery,
+    EAknCtIntegerEdwin,
+    EAknCtFloatingPointEdwin,
+    EAknCtSelectionListFixedFind,
+    EAknCtSelectionListPopupFind,
+    EAknCtEmptyList,
+    EAknCtDouble2GraphicListBox,
+    EAknCtDouble2LargeListBox,
+    EAknCtDouble2PopupMenuListBox,
+    EAknCtSingle2GraphicListBox,
+    EAknCtDouble2GraphicLargeListBox,
+    EAknCtColourSelectionDialogNoneField,
+    EAknCtColourSelectionDialogGrid,
+    EAknCtListQuerySearchControl,
+    EAknExtCtQuery,
+    EAknExtCtMultilineQuery,
+    EAknCtBitmapAnimation,
+    EAknCtButton,
+    EAknCtSingle2GraphicPopupMenuListBox,
+    EAknCtDoubleGraphicPopupMenuListBox,
+    EAknCtColourSelectionGridDialog,
+    EAknCtDigitalClockPane,
+    EAknCtStatuspaneEmpty,
+    EAknListQueryWithMsgBox,
+    EAknCtUniversalIndicatorPane,
+    EAknCtSignalIndicatorContainerPane,
+    EAknCtBatteryIndicatorContainerPane,
+    EAknCtToolbarExtension,
+    EAknCtSelectionListAdaptiveFind,
+    EAknCtSmileyMap,
+    EAknSliderWithFeedbackStyle,
+    EAknCtLastControlId = 0x2000
+    };
+enum
+    {
+    ENaviDecoratorControlNone,
+    ENaviDecoratorControlTabGroup,
+    ENaviDecoratorLabel,
+    ENaviDecoratorImage,
+    ENaviDecoratorToolTip
+    };
+enum
+    {
+    EAknTabWidthWithTwoTabs = 36,
+    EAknTabWidthWithTwoLongTabs = 74,
+    EAknTabWidthWithThreeTabs = 22,
+    EAknTabWidthWithThreeLongTabs = 67,
+    EAknTabWidthWithFourTabs = 18,
+    EAknTabWidthWithOneTab = 107
+    };
+enum
+    {
+    EGeneralLayout = 1,
+    EConfirmationLayout,
+    EProgressLayout,
+    ENoteWithImageLayout,
+    ETextualNotificationLayout,
+    ENotificationWithGraphicsLayout,
+    EAknNoteControlAnimationCreationFailed,
+    EWaitLayout
+    };
+enum
+    {
+    EAknInvalidBorderCount = 1,
+    EAknInvalidDimensionArrayOutOfBounds,
+    EAknNoNoteControlDimensionDefined,
+    EAknNoteControlNullArgumentUsed
+    };
+enum EAknNoteItemType
+    {
+    EAknNoteNoType = 1,
+    EAknNoteBitmap,
+    EAknNoteNumberTypeIndication,
+    EAknNoteProgressBar,
+    EAknNoteLabel,
+    EAknNoteAnimation
+    };
+enum TNoteCtrlIds
+    {
+    EGeneralNote = 1
+    };
+enum
+    {
+    EDataLayout = 1,
+    EConfirmationQueryLayout,
+    ECodeLayout,
+    ETimeLayout,
+    EDateLayout,
+    EListLayout,
+    EMultiListLayout,
+    EMultiLineDataLayout,
+    EDurationLayout,
+    ETextSoftNotification,
+    ENumberLayout,
+    EPinLayout,
+    EPhoneLayout,
+    EMessageQueryLayout,
+    EStaticSizeDataLayout,
+    EFloatingPointLayout,
+    EIpLayout,
+    EFixedPointLayout,
+    EDataLayoutAllowEmptyInput,
+    ELocationLayout
+    };
+enum
+    {
+    ETextEditor=1,
+    ESecretEditor,
+    ETimeEditor,
+    EDateEditor,
+    ENumberEditor,
+    EDurationEditor,
+    EIpEditor,
+    EFixedPointEditor,
+    ELocationEditor
+    };
+enum EAknMultilineDataLayout
+    {
+    EMultiDataFirstEdwin = 1,
+    EMultiDataSecondEdwin,
+    EMultiDataFirstSecEd,
+    EMultiDataSecondSecEd,
+    EMultiDataFirstTimeEd,
+    EMultiDataSecondTimeEd,
+    EMultiDataFirstDateEd,
+    EMultiDataSecondDateEd,
+    EMultiDataFirstDurEd,
+    EMultiDataSecondDurEd,
+    EMultiDataFirstPhoneEd,
+    EMultiDataSecondPhoneEd,
+    EMultiDataFirstNumEd,
+    EMultiDataSecondNumEd,
+    EMultiDataFirstPinEd,
+    EMultiDataSecondPinEd,
+    EMultiDataFirstIpEd,
+    EMultiDataSecondIpEd,
+    EMultiDataFirstLocationEd,
+    EMultiDataSecondLocationEd,
+    EMultiDataFirstEdwinAllowEmpty,
+    EMultiDataSecondEdwinAllowEmpty
+    };
+enum TQueryCtrlIds
+    {
+    EGeneralQuery = 0x500,
+    EMultilineFirstLine,
+    EMultilineSecondLine
+    };
+enum TListQueryCtrlIds
+    {
+    EListQueryMainInboxList = 1,
+    EListQueryMainDraftList,
+    EListQueryMainOutboxList,
+    EListQueryAppViewLabel,
+    EListQueryMsgEditField,
+    EListQueryHeading,
+    EListQueryControl
+    };
+enum TSelectionListCtrlIds
+    {
+    ESelectionListControl = 1,
+    EFindControl,
+    EAknEmptyListControl,
+    EAknListQueryMessageBox
+    };
+enum
+    {
+    ELayoutNoCmd = 1,
+    ELayoutOptional,
+    ELayoutRightSeparator,
+    ELayoutTransparentCell,
+    ELayoutItemMark,
+    ELayoutNotFilled,
+    ELayoutNotAlwaysDrawn
+    };
+enum
+    {
+    ELayoutAlignNone,
+    ELayoutAlignCenter,
+    ELayoutAlignLeft,
+    ELayoutAlignRight,
+    ELayoutAlignBidi
+    };
+enum
+    {
+    EAknEditorAlignNone = ELayoutAlignNone,
+    EAknEditorAlignCenter = ELayoutAlignCenter,
+    EAknEditorAlignLeft = ELayoutAlignLeft,
+    EAknEditorAlignRight = ELayoutAlignRight,
+    EAknEditorAlignBidi = ELayoutAlignBidi
+    };
+enum
+    {
+    EAknEditorCharactersUpperCase = 0x1,
+    EAknEditorCharactersLowerCase = 0x2,
+    EAknEditorCharactersTextCase = 0x4
+    };
+enum
+    {
+    EFontNone = 0,
+    ELatinPlain12,
+    ELatinBold12,
+    ELatinBold13,
+    ELatinBold17,
+    ELatinBold19,
+    ENumberPlain5,
+    EClockBold30,
+    ELatinClock14,
+    EFontCustom,
+    EPlain12,
+    EPlain16,
+    EApacPlain12 = EPlain12,
+    EApacPlain16 = EPlain16,
+    EBold18,
+    EBold24,
+    ELatinBold16,
+    ECalcBold21,
+    ECalcOperBold21,
+    ECalcOperBold13,
+    EHighestFixedLayoutFont = ((0x100-1))
+    };
+enum TAknLogicalFontId
+    {
+    EAknLogicalFontPrimaryFont = ((0x100-1)) + 1,
+    EAknLogicalFontSecondaryFont = ((0x100-1)) + 2,
+    EAknLogicalFontTitleFont = ((0x100-1)) + 3,
+    EAknLogicalFontPrimarySmallFont = ((0x100-1)) + 4,
+    EAknLogicalFontDigitalFont = ((0x100-1)) + 5,
+    EAknHighestLogicalFont = ((0x1000)-1)
+    };
+enum
+    {
+    EAknLayoutFindPaneIconId = 1,
+    EAknLayoutFindPaneEditorId,
+    EAknLayoutMainPaneListGenPane,
+    EAknLayoutMainPaneListGenPaneWithFindBox,
+    EAknLayoutMainPaneFindPane,
+    EAknListSinglePane,
+    EAknListSingleNumberPane,
+    EAknListSingleHeadingPane,
+    EAknListSingleGraphicPane,
+    EAknListSingleGraphicHeadingPane,
+    EAknListSingleNumberHeadingPane,
+    EAknListSingleLargeGraphicPane,
+    EAknListDoubleNumberPane,
+    EAknListDoubleTimePane,
+    EAknListDoubleLargeGraphicPane,
+    EAknListDoubleGraphicPane,
+    EAknListSettingNumberPane,
+    EAknLayoutFindPaneVShadow,
+    EAknLayoutFindPaneHShadow,
+    EAknLayoutFindPaneOutlineRect,
+    EAknLayoutEmptyList1stLine,
+    EAknLayoutEmptyList2ndLine
+    };
+enum
+    {
+    EAknDialogQueryValueTextEditor1 = 1,
+    EAknDialogQueryValueNumberEditor1,
+    EAknDialogQueryValuePhoneEditor1,
+    EAknDialogQueryValueTimeEditor1,
+    EAknDialogQueryValueDateEditor1,
+    EAknDialogQueryValueDurationEditor1,
+    EAknFormQueryControl,
+    EAknPopupFieldEmptyListNote
+    };
+enum
+    {
+    EAknPopupSettingListFlagAllowsUserDefinedEntry = 0x001,
+    EAknPopupSettingListFlagInitialised = 0x002
+    };
+enum
+    {
+    EAknFormCmdEdit = 950,
+    EAknFormCmdAdd,
+    EAknFormCmdSave,
+    EAknFormCmdLabel,
+    EAknFormCmdDelete,
+    EAknFormMaxDefault
+    };
+enum TAknOrientation
+    {
+    EAknOrientationVertical = 0,
+    EAknOrientationHorizontal
+    };
+enum
+    {
+    EAknFormSliderLayout1 = 1,
+    EAknFormSliderLayout2,
+    EAknFormSliderLayout3,
+    EAknSettingsItemSliderLayout,
+    EAknSettingsItemSliderLayoutWithGraphics,
+    EAknMIDPFormSliderLayout,
+    EAknSliderLayoutVertical,
+    EAknSliderLayoutHorizontal
+    };
+enum
+    {
+    EAknSliderValueNone,
+    EAknSliderValueBareFigure,
+    EAknSliderValuePercentage,
+    EAknSliderValueFraction,
+    EAknSliderValueDecimal
+    };
+enum TAknFeedbackStyle
+    {
+    EAknSliderFbStable,
+    EAknSliderFbDynamic
+    };
+enum
+    {
+    ESettingsVolumeControl,
+    ENaviPaneVolumeControl,
+    EPopupVolumeControl
+    };
+enum TAknVolumeControlDynamicLayouts
+    {
+    EDynRangeSettingsVolumeControl = 3,
+    EDynRangeNaviPaneVolumeControl,
+    EDynRangePopupVolumeControl,
+    ESmallPopupVolumeControl,
+    ESmallPopupVolumeControlWithPercent
+    };
+enum
+    {
+    EAknIndicatorIrActive,
+    EAknIndicatorEnvelope,
+    EAknIndicatorEmailMessage,
+    EAknIndicatorDataMessage,
+    EAknIndicatorFaxMessage,
+    EAknIndicatorOtherMessage,
+    EAknIndicatorSecuredConnection,
+    EAknIndicatorVoiceMailWaiting,
+    EAknIndicatorVoiceMailWaitingOnLine1,
+    EAknIndicatorVoiceMailWaitingOnLine2,
+    EAknIndicatorVoiceMailWaitingOnBothLines,
+    EAknIndicatorHomeZone,
+    EAknIndicatorBluetooth,
+    EAknIndicatorBluetoothModuleOn,
+    EAknIndicatorOutbox,
+    EAknIndicatorKeyguard,
+    EAknIndicatorAllCallsForwarded,
+    EAknIndicatorCallsForwardedOnLine1,
+    EAknIndicatorCallsForwardedOnLine2,
+    EAknIndicatorCallsForwardedOnBothLines,
+    EAknIndicatorCallsForwardedToVoiceMailbox,
+    EAknIndicatorSelectedLine,
+    EAknIndicatorAlarmClock,
+    EAknIndicatorHeadset,
+    EAknIndicatorLoopset,
+    EAknIndicatorIHFActive,
+    EAknIndicatorInstantMessage,
+    EAknIndicatorTTY,
+    EAknIndicatorUSBConnection,
+    EAknIndicatorMissedCalls,
+    EAknIndicatorRemoteMailboxEmailMessage,
+    EAknIndicatorLocation,
+    EAknIndicatorHeadsetUnavailable,
+    EAknIndicatorRoaming,
+    EAknIndicatorLocationOn,
+    EAknIndicatorLocationOff,
+    EAknIndicatorPoC,
+    EAknIndicatorWlanAvailable,
+    EAknIndicatorWlanActive,
+    EAknIndicatorWlanActiveSecure,
+    EAknIndicatorCarkit,
+    EAknIndicatorPoCDnD,
+    EAknIndicatorPoCMissed,
+    EAknIndicatorTvOut,
+    EAknIndicatorVoIP,
+    EAknIndicatorTARM,
+    EAknIndicatorTARMModuleOn,
+    EAknIndicatorMobileTV,
+    EAknIndicatorMobileTVRec,
+    EAknIndicatorHAC,
+    EAknIndicatorMemoryCard,
+    EAknIndicatorVideoSharing,
+    EAknIndicatorSynchronization,
+    EAknIndicatorGPS,
+    EAknIndicatorBluetoothVisible,
+    EAknIndicatorBluetoothModuleOnVisible,
+    EAknIndicatorFMTxSending,
+    EAknIndicatorFMTxEnabled,
+    EAknIndicatorMissedCalendarAlarm,
+    EAknIndicatorUSBMemConnected,
+    EAknIndicatorUSBMemActive,
+    EAknIndicatorStopWatch,
+    EAknIndicatorMecoServiceTab,
+    EAknIndicatorHDMI,
+    EAknNaviPaneEditorIndicatorT9 = 100,
+    EAknNaviPaneEditorIndicatorUpperCase,
+    EAknNaviPaneEditorIndicatorLowerCase,
+    EAknNaviPaneEditorIndicatorTextCase,
+    EAknNaviPaneEditorIndicatorNumberCase,
+    EAknNaviPaneEditorIndicatorQuery,
+    EAknNaviPaneEditorIndicatorQwertyShift,
+    EAknNaviPaneEditorIndicatorUpperCaseSelect,
+    EAknNaviPaneEditorIndicatorLowerCaseSelect,
+    EAknNaviPaneEditorIndicatorTextCaseSelect,
+    EAknNaviPaneEditorIndicatorNumberCaseSelect,
+    EAknNaviPaneEditorIndicatorAutoComplete,
+    EAknNaviPaneEditorIndicatorArabicCase = 130,
+    EAknNaviPaneEditorIndicatorHebrewCase,
+    EAknNaviPaneEditorIndicatorArabicIndicNumberCase,
+    EAknNaviPaneEditorIndicatorDevanagariCase = 140,
+    EAknNaviPaneEditorIndicatorDevanagariIndicNumberCase,
+    EAknNaviPaneEditorIndicatorDevanagariPhoneticUpperCase,
+    EAknNaviPaneEditorIndicatorDevanagariPhoneticLowerCase,
+    EAknNaviPaneEditorIndicatorPinyin = 150,
+    EAknNaviPaneEditorIndicatorZhuyin,
+    EAknNaviPaneEditorIndicatorStroke,
+    EAknNaviPaneEditorIndicatorZhuyinFind,
+    EAknNaviPaneEditorIndicatorStrokeFind,
+    EAknNaviPaneEditorIndicatorCangJie,
+    EAknNaviPaneEditorIndicatorPinyinPhrase,
+    EAknNaviPaneEditorIndicatorZhuyinPhrase,
+    EAknNaviPaneEditorIndicatorStrokePhrase,
+    EAknNaviPaneEditorIndicatorStrokeTradPhrase,
+    EAknNaviPaneEditorIndicatorThai = 170,
+    EAknNaviPaneEditorIndicatorStrokeTrad,
+    EAknNaviPaneEditorIndicatorFarsiAndUrduCase,
+    EAknNaviPaneEditorIndicatorAudioAttached = 200,
+    EAknNaviPaneEditorIndicatorImageAttached,
+    EAknNaviPaneEditorIndicatorObjects,
+    EAknNaviPaneEditorIndicatorAttachment,
+    EAknNaviPaneEditorIndicatorMessageLength,
+    EAknNaviPaneEditorIndicatorMessageInfo,
+    EAknNaviPaneEditorIndicatorWaitBar,
+    EAknNaviPaneEditorIndicatorProgressBar,
+    EAknNaviPaneEditorIndicatorSecuredConnection,
+    EAknNaviPaneEditorIndicatorWmlWaitGlobe,
+    EAknNaviPaneEditorIndicatorGprs,
+    EAknNaviPaneEditorIndicatorFileSize,
+    EAknNaviPaneEditorIndicatorWmlWindows,
+    EAknNaviPaneEditorIndicatorMcePriorityHigh,
+    EAknNaviPaneEditorIndicatorMcePriorityLow,
+    EAknNaviPaneEditorIndicatorWmlWindowsText,
+    EAknNaviPaneEditorIndicatorWlanAvailable,
+    EAknNaviPaneEditorIndicatorWlanActive,
+    EAknNaviPaneEditorIndicatorWlanActiveSecure,
+    EAknNaviPaneEditorIndicatorJapaneseHiraganaKanji = 300,
+    EAknNaviPaneEditorIndicatorJapaneseHiragana,
+    EAknNaviPaneEditorIndicatorJapaneseFullKatakana,
+    EAknNaviPaneEditorIndicatorJapaneseHalfKatakana,
+    EAknNaviPaneEditorIndicatorJapaneseFullUpperAlphabet,
+    EAknNaviPaneEditorIndicatorJapaneseFullLowerAlphabet,
+    EAknNaviPaneEditorIndicatorJapaneseFullTextAlphabet,
+    EAknNaviPaneEditorIndicatorJapaneseFullNumeric,
+    EAknNaviPaneEditorIndicatorKoreanHangul,
+    EAknNaviPaneEditorIndicatorKoreanHangulSelect,
+    EAknNaviPaneEditorIndicatorVietnameseUpperCase = 400,
+    EAknNaviPaneEditorIndicatorVietnameseLowerCase,
+    EAknNaviPaneEditorIndicatorVietnameseTextCase,
+    EAknNaviPaneEditorIndicatorFnKeyPressed =500,
+    EAknNaviPaneEditorIndicatorFnKeyLocked,
+    EAknNaviPaneEditorIndicatorGreekUpperCase = 600,
+    EAknNaviPaneEditorIndicatorGreekLowerCase,
+    EAknNaviPaneEditorIndicatorGreekTextCase,
+    EAknNaviPaneEditorIndicatorCyrillicUpperCase = 700,
+    EAknNaviPaneEditorIndicatorCyrillicLowerCase,
+    EAknNaviPaneEditorIndicatorCyrillicTextCase,
+    EAknNaviPaneEditorIndicatorHybridLatin = 800,
+    EAknNaviPaneEditorIndicatorDynamicUidRangeFirst = 10000,
+    EAknNaviPaneEditorIndicatorDynamicUidRangeLast = 11000
+    };
+enum
+    {
+    EAknIndicatorStateOff,
+    EAknIndicatorStateOn,
+    EAknIndicatorStateAnimate
+    };
+enum
+    {
+    EAknSignalGprsIndicatorOff = 0,
+    EAknSignalGprsIndicatorAvailable,
+    EAknSignalGprsIndicatorAttached,
+    EAknSignalGprsIndicatorEstablishingContext,
+    EAknSignalGprsIndicatorContext,
+    EAknSignalGprsIndicatorSuspended,
+    EAknSignalGprsIndicatorMultipdp,
+    EAknSignalCommonPacketDataIndicatorOff = 0x100,
+    EAknSignalCommonPacketDataIndicatorAvailable,
+    EAknSignalCommonPacketDataIndicatorAttached,
+    EAknSignalCommonPacketDataIndicatorEstablishingContext,
+    EAknSignalCommonPacketDataIndicatorContext,
+    EAknSignalCommonPacketDataIndicatorSuspended,
+    EAknSignalCommonPacketDataIndicatorMultipdp,
+    EAknSignalWcdmaIndicatorOff = 0x200,
+    EAknSignalWcdmaIndicatorAvailable,
+    EAknSignalWcdmaIndicatorAttached,
+    EAknSignalWcdmaIndicatorEstablishingContext,
+    EAknSignalWcdmaIndicatorContext,
+    EAknSignalWcdmaIndicatorMultipdp,
+    EAknSignalWcdmaIndicatorSuspended,
+    EAknSignalCdmaIndicatorOff = 0x300,
+    EAknSignalCdmaIndicatorNoService,
+    EAknSignalCdmaIndicatorAvailable,
+    EAknSignalCdmaIndicatorNotAvailable,
+    EAknSignalCdmaIndicatorActive,
+    EAknSignalCdmaIndicatorDormant,
+    EAknSignalCdmaIndicatorSending,
+    EAknSignalCdmaIndicatorReceiving,
+    EAknSignalEdgeIndicatorOff = 0x400,
+    EAknSignalEdgeIndicatorAvailable,
+    EAknSignalEdgeIndicatorAttached,
+    EAknSignalEdgeIndicatorEstablishingContext,
+    EAknSignalEdgeIndicatorContext,
+    EAknSignalEdgeIndicatorSuspended,
+    EAknSignalEdgeIndicatorMultipdp,
+    EAknSignalHsdpaIndicatorOff = 0x500,
+    EAknSignalHsdpaIndicatorAvailable,
+    EAknSignalHsdpaIndicatorAttached,
+    EAknSignalHsdpaIndicatorEstablishingContext,
+    EAknSignalHsdpaIndicatorContext,
+    EAknSignalHsdpaIndicatorSuspended,
+    EAknSignalHsdpaIndicatorMultipdp
+    };
+enum
+    {
+    EAknSCTLowerCase,
+    EAknSCTUpperCase,
+    EAknSCTNumeric,
+    EAknSCTFullCase,
+    EAknSCTHalfCase,
+    EAknSCTQwerty,
+    EAknSCTChiChineseInputModes = EAknSCTUpperCase,
+    EAknSCTChiLatinInputModes = EAknSCTLowerCase,
+    EAknSCTPictograph = 10,
+    EAknSCTPictograph1,
+    EAknSCTPictograph2
+    };
+enum TSCTQueryCtrlIds
+    {
+    EAknSCTQueryHeadingId = 1,
+    EAknSCTQueryContentId
+    };
+enum TSmileyQueryCtrlIds
+    {
+    EAknSmileyQueryHeadingId = 1,
+    EAknSmileyQueryContentId
+    };
+enum TAvkonSKeyRepeatType
+    {
+    ESKeyTypeShort,
+    ESKeyTypeLong,
+    ESKeyTypeRepeat
+    };
+enum TAvkonSystemSID
+    {
+    EAvkonSIDNoSound = 1000,
+    EAvkonSIDDefaultSound = 1001,
+    EAvkonSIDStandardKeyClick = 1002,
+    EAvkonSIDConfirmationTone = 1003,
+    EAvkonSIDInformationTone = 1003,
+    EAvkonSIDWarningTone = 1004,
+    EAvkonSIDErrorTone = 1005,
+    EAvkonSIDVolumeMaxTone = 1006,
+    EAvkonSIDVolumeMinTone = 1007,
+    EAvkonSIDReadialCompleteTone = 1008,
+    EAvkonSIDBatteryLowTone = 1009,
+    EAvkonSIDChargingBatteryTone = 1010,
+    EAvkonSIDConnectionStartTone = 1011,
+    EAvkonSIDConnectionStopTone = 1012,
+    EAvkonSIDOperationReadyTone = 1013,
+    EAvkonSIDNameDiallerStartTone = 1014,
+    EAvkonSIDNameDiallerErrorTone = 1015,
+    EAvkonSIDNameDiallerAbortTone = 1016,
+    EAvkonSIDPowerOffTone = 1017,
+    EAvkonSIDPowerOnTone = 1018,
+    EAvkonSIDRechargeBatteryTone = 1019,
+    EAvkonSIDVoiceRecordingTone = 1020,
+    EAvkonSIDVoiceRecordingStartTone = 1021,
+    EAvkonSIDVoiceRecordingStopTone = 1022,
+    EAvkonSIDWrongCharger = 1023,
+    EAvkonSIDNetBusy = 1024,
+    EAvkonSIDNetCallWaiting = 1025,
+    EAvkonSIDNetReorder = 1026,
+    EAvkonSIDNetCongestion = 1027,
+    EAvkonSIDNetSpecialInformation = 1028,
+    EAvkonSIDNetRadioNotAvailable = 1029,
+    EAvkonSIDIHFActive = 1030,
+    EAvkonSIDRadioPathAcknowledge = 1031,
+    EAvkonSIDDial = 1032,
+    EAvkonSIDRingGoing = 1033,
+    EAvkonSIDLocationRequest = 1034
+    };
+enum TAvkonSoundsPriority
+    {
+    EAvkonKeyClickPriority = 45,
+    EAvkonPoweringTonesPriority = 50,
+    EAvkonLowLevelNotesPriority = 55,
+    EAvkonConfirmationNotePriority = 55,
+    EAvkonVolumeSettingTonesPriority = 60,
+    EAvkonConnectionTonesPriority = 65,
+    EAvkonHighLevelNotesPriority = 70,
+    EAvkonErrorNotePriority = 70,
+    EAvkonWarningNotePriority = 70,
+    EAvkonVoiceDiallingTonesPriority = 73,
+    EAvkonNetworkingTonesPriority = 75,
+    EAvkonRecordingTonesPriority = 80,
+    EAvkonChargingTonesPriority = 85,
+    EAvkonNewMessageTonesPriority = 90,
+    EAvkonAlarmTonesPriority = 95,
+    EAvkonRingingTonesPriority = 100
+    };
+enum TAvkonSoundsPreference
+    {
+    EAknAudioPrefIncomingCall = 0x01340001,
+    EAknAudioPrefIncomingCallLine2 = 0x01330001,
+    EAknAudioPrefIncomingDataCall = 0x01320001,
+    EAknAudioPrefAutoRedialCompleted = 0x01310001,
+    EAknAudioPrefAlarmClock = 0x01220001,
+    EAknAudioPrefCalendarAlarm = 0x01210001,
+    EAknAudioPrefNewSMS = 0x01120001,
+    EAknAudioPrefNewSpecialMessage = 0x01110001,
+    EAknAudioPrefBatteryLow = 0x01030001,
+    EAknAudioPrefRechargeBattery = 0x01020001,
+    EAknAudioPrefWrongCharger = 0x01010001,
+    EAknAudioPrefVoiceRecStart = 0x00930001,
+    EAknAudioPrefVoiceRecRecording = 0x00920001,
+    EAknAudioPrefVoiceRecStop = 0x00910001,
+    EAknAudioPrefRadioPathAck = 0x00890001,
+    EAknAudioPrefDial = 0x00880001,
+    EAknAudioPrefRingGoing = 0x00870001,
+    EAknAudioPrefBusy = 0x00860001,
+    EAknAudioPrefCallWaiting = 0x00850001,
+    EAknAudioPrefReorder = 0x00840001,
+    EAknAudioPrefCongestion = 0x00830001,
+    EAknAudioPrefSpecialInformation = 0x00820001,
+    EAknAudioPrefRadioNotAvailable = 0x00810001,
+    EAknAudioPrefError = 0x00720001,
+    EAknAudioPrefWarning = 0x00710001,
+    EAknAudioPrefVoiceStarting = 0x00630001,
+    EAknAudioPrefVoiceError = 0x00620001,
+    EAknAudioPrefVoiceAbort = 0x00610001,
+    EAknAudioPrefConnectionStart = 0x00530001,
+    EAknAudioPrefConnectionStop = 0x00520001,
+    EAknAudioPrefOperationReady = 0x00510001,
+    EAknAudioPrefFilePreview = 0x00440001,
+    EAknAudioPrefAudioVolumeMin = 0x00430001,
+    EAknAudioPrefAudioVolumeMax = 0x00420001,
+    EAknAudioPrefIHFActive = 0x00410001,
+    EAknAudioPrefCharging = 0x00330001,
+    EAknAudioPrefConfirmation = 0x00320001,
+    EAknAudioPrefDefaultTone = 0x00310001,
+    EAknAudioPrefPowerOn = 0x00220001,
+    EAknAudioPrefPowerOff = 0x00210001,
+    EAknAudioPrefKeyPressNonDTMF = 0x00140001,
+    EAknAudioPrefKeyDownDTMF = 0x00130001,
+    EAknAudioPrefKeyUpDTMF = 0x00120001,
+    EAknAudioPrefCamera = 0x00110001,
+    EAknAudioPrefVoiceRec = 0x00060001,
+    EAknAudioPrefComposer = 0x00050001,
+    EAknAudioPrefRingFilePreview = 0x00040001,
+    EAknAudioPrefVocosPlayback = 0x00030001,
+    EAknAudioPrefVocosTrain = 0x00020001,
+    EAknAudioPrefVocosRecog = 0x00010001,
+    EAvkonKeyClickPreference = 0x00140001,
+    EAvkonConfirmationNotePreference = 0x00320001,
+    EAvkonErrorNotePreference = 0x00720001,
+    EAvkonWarningNotePreference = 0x00710001
+    };
+enum TMessageQueryCtrlIds
+    {
+    EAknMessageQueryHeaderId = 1,
+    EAknMessageQueryContentId
+    };
+enum TAvkonIncallStatusBubbleFlags
+    {
+    EAknStatusBubbleAlerting = 0x00,
+    EAknStatusBubbleActive = 0x01,
+    EAknStatusBubbleOnHold = 0x02,
+    EAknStatusBubbleDisconnected = 0x03,
+    EAknStatusBubbleNoCiphering = 0x04,
+    EAknStatusBubbleMuted = 0x08,
+    EAknStatusBubbleVisible = 0x10,
+    EAknStatusBubbleFax = 0x20,
+    EAknStatusBubbleData = 0x40,
+    EAknStatusBubbleDataHscsd = 0x80,
+    EAknStatusBubbleLine2 = 0x100,
+    EAknStatusBubbleVideo = 0x200,
+    EAknStatusBubbleEmergency = 0x400,
+    EAknStatusBubbleVoIP = 0x800,
+    EAknStatusBubbleInputShow = 0x1000,
+    EAknStatusBubbleInputHide = 0x2000,
+    EAknStatusBubbleReservedInternal = 0x80000000
+    };
+enum TAknNoteDialogTimeout
+    {
+    EAknNoteDialogUndefinedTimeout = 0,
+    EAknNoteDialogShortTimeout = 1500000,
+    EAknNoteDialogLongTimeout = 3000000,
+    EAknConfirmationNoteTimeout = EAknNoteDialogShortTimeout,
+    EAknInformationNoteTimeout = EAknNoteDialogLongTimeout,
+    EAknErrorNoteTimeout = EAknNoteDialogLongTimeout,
+    EAknWarningNoteTimeout = EAknNoteDialogLongTimeout
+    };
+enum TAknNoteDialogTone
+    {
+    EAknNoteDialogNoTone = 0,
+    EAknNoteDialogConfirmationTone = EAvkonSIDConfirmationTone,
+    EAknNoteDialogWarningTone = EAvkonSIDWarningTone,
+    EAknNoteDialogErrorTone = EAvkonSIDErrorTone
+    };
+enum TAknSelectionListDialogFlags
+    {
+    EAknFlagFind = 0x0001
+    };
+enum TAknIconArrayType
+    {
+    EAknIconArrayNone,
+    EAknIconArraySimple,
+    EAknIconArrayComplex
+    };
+enum EVariantFlag
+   {
+   EEuropeanVariant=0,
+   EApacVariant
+   };
+enum ESubVariantFlag
+   {
+   ENoSubVariant = 0,
+   EPrcSubVariant,
+   EHongKongSubVariant,
+   ETaiwanSubVariant
+   };
+enum TAknKeyBlockMode
+    {
+    EDefaultBlockMode = 0,
+    ENoKeyBlock
+    };
+enum TAknSeparatorLinePosition
+    {
+    ENoLine,
+    EAColumn,
+    EABColumn,
+    EBCColumn,
+    EBCColumnStretched
+    };
+enum TAknColourSelectionDialogIds
+    {
+    ECtrlGridType = 100,
+    EColourGridPopup,
+    EColourGridPopupNone
+    };
+enum TAknCustomTextCursorIds
+    {
+    KAknCustomTextCursorIdLeftToRight = 0x101fdf03,
+    KAknCustomTextCursorIdRightToLeft = 0x101fdf04,
+    KAknCustomTextCursorIdLeftToRightThin = 0x101fe51c,
+    KAknCustomTextCursorIdRightToLeftThin = 0x101fe51d
+    };
+enum TAknNaviPaneBackgroundTypes
+    {
+    EAknNaviPaneBackgroundTypeNotDefined = 0,
+    EAknNaviPaneBackgroundTypeWipe = 1,
+    EAknNaviPaneBackgroundTypeSolid = 2
+    };
+enum TAknStylusPopUpCmdLinkIds
+    {
+    EAknStylusPopUpCmdLink1 = 0,
+    EAknStylusPopUpCmdLink2
+    };
+enum TAknBatteryIndicatorStates
+    {
+    EAknBatteryIndicatorNormal = 1,
+    EAknBatteryIndicatorPowerSave
+    };
+enum TAknSCTCategoryButtons
+    {
+    EAknSCTCategoryButtonHalfCase = 0,
+    EAknSCTCategoryButtonFullCase,
+    EAknSCTCategoryButtonPicto,
+    EAknSCTCategoryButtonPicto1,
+    EAknSCTCategoryButtonPicto2,
+    EAknSCTCategoryButtonLastId
+    };
+enum TAknFepDualLanguageSettingDualInput
+    {
+    EAknFepDualLanguageSettingDualInputPrimary,
+    EAknFepDualLanguageSettingDualInputSecondary
+    };
+enum TAknSctTableNaviButtons
+    {
+    EAknSctTableNaviExit = 0,
+    EAknSctTableNaviSpecialChar,
+    EAknSctTableNaviEmotion,
+    EAknSctTableNaviLastId
+    };
+enum TAknSctPageNaviButtons
+    {
+    EAknSctPageNaviPrevPage = 0,
+    EAknSctPageNaviNextPage,
+    EAknSctPageNaviLastId
+    };
+STRUCT BA_RSS_SIGNATURE
+    {
+    LONG signature=0;
+    SRLINK self;
+    }
+STRUCT EDWIN
+    {
+    LONG flags=0;
+    WORD width=0;
+    WORD lines=1;
+    WORD maxlength=0;
+ WORD default_case=0x4; WORD allowed_case_modes=0x1 | 0x2 | 0x4; WORD numeric_keymap=EAknEditorAlphanumericNumberModeKeymap; WORD allowed_input_modes=0x1 | 0x2 | 0x4 | 0x8 | 0x10 | 0x20 | 0x40 | 0x80 | 0x200; WORD default_input_mode=0x1; LLINK special_character_table=-1; WORD avkon_flags=0x000; WORD max_view_height_in_lines=0; WORD base_line_delta=0; WORD spare=0;
+    }
+STRUCT SECRETED
+    {
+    WORD num_letters=8;
+    }
+STRUCT CBA
+ {
+ LONG flags=0x01;
+ WORD breadth=80;
+ LLINK related_buttons=0;
+    STRUCT buttons[];
+ }
+STRUCT CBA_BUTTON
+ {
+ BYTE version=0;
+ WORD id=0;
+    LTEXT txt="";
+ LTEXT bmpfile="";
+   WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+ }
+STRUCT DIALOG
+    {
+    LONG flags=0;
+    LTEXT title="";
+ LLINK pages=0;
+    LLINK buttons=0;
+    STRUCT items[];
+ LLINK form=0;
+    }
+STRUCT DLG_LINE
+    {
+    WORD type;
+    LTEXT prompt;
+    WORD id=0;
+ LONG itemflags=0;
+    STRUCT control;
+ LTEXT trailer="";
+ LTEXT bmpfile = "" ;
+ WORD bmpid = 0xffff ;
+ WORD bmpmask ;
+ LTEXT tooltip = "" ;
+    }
+STRUCT AVKON_DATA_QUERY
+    {
+    WORD layout;
+    LTEXT label;
+    STRUCT control;
+    }
+
+NAME WBUI
+RESOURCE BA_RSS_SIGNATURE { signature = 4; }
+RESOURCE CBA r_browser_prompt_buttons
+{
+    buttons =
+    {
+        CBA_BUTTON { id = EAknSoftkeyOk; txt = "OK"; },
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = "Cancel"; }
+    };
+}
+RESOURCE DIALOG r_browser_prompt
+{
+    flags = ((0x001|0x200 | 0x040 | 0x2000));
+    buttons = r_browser_prompt_buttons;
+    items =
+    {
+        DLG_LINE
+        {
+            type = EAknCtQuery;
+            prompt = "";
+            id = EGeneralQuery;
+            bmpmask = 0xffff;
+            control = AVKON_DATA_QUERY
+            {
+                layout = EDataLayoutAllowEmptyInput;
+                label = "";
+                control = EDWIN
+                {
+                    flags = 0x00010000 | 0x00040000;
+                    maxlength = 4096;
+                    width = 16;
+                    lines = 1;
+                    max_view_height_in_lines = 5;
+                };
+            };
+        }
+    };
+}
+RESOURCE DIALOG r_browser_auth_password
+{
+    flags = ((0x001|0x200 | 0x040 | 0x2000));
+    buttons = r_browser_prompt_buttons;
+    items =
+    {
+        DLG_LINE
+        {
+            type = EAknCtQuery;
+            prompt = "";
+            id = EGeneralQuery;
+            bmpmask = 0xffff;
+            control = AVKON_DATA_QUERY
+            {
+                layout = ECodeLayout;
+                label = "";
+                control = SECRETED { num_letters = 256; };
+            };
+        }
+    };
+}
+RESOURCE CBA r_browser_popup_buttons
+{
+    buttons =
+    {
+        CBA_BUTTON { id = EAknSoftkeySelect; txt = "Select"; },
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = "Cancel"; }
+    };
+}

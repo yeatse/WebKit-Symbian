@@ -1,0 +1,42 @@
+[
+  {
+    "source": "/workspace/eka-validation/xdg/data/EKA2L1/config.yml",
+    "backup": "/workspace/symbian-belle-work/p1-validation/touch-c17-preservation-20261101/settings.private/config.yml",
+    "before": {
+      "exists": true,
+      "inode": 931485,
+      "device": 27,
+      "mode": 384,
+      "mtime_ns": 1793265562916029575,
+      "sha256": "7a800bc6bd5cfc96bb49137cce4a655c1d5f5915493ff493dd209ff22f500c39"
+    },
+    "restored": true,
+    "after": {
+      "exists": true,
+      "inode": 931485,
+      "device": 27,
+      "mode": 384,
+      "mtime_ns": 1793265562916029575,
+      "sha256": "7a800bc6bd5cfc96bb49137cce4a655c1d5f5915493ff493dd209ff22f500c39"
+    }
+  },
+  {
+    "source": "/workspace/eka-validation/xdg/data/EKA2L1/bindings",
+    "backup": "/workspace/symbian-belle-work/p1-validation/touch-c17-preservation-20261101/settings.private/bindings",
+    "before": {
+      "exists": true,
+      "inode": 932532,
+      "device": 27,
+      "mode": 448,
+      "mtime_ns": 1793505506493902767
+    },
+    "restored": true,
+    "after": {
+      "exists": true,
+      "inode": 932532,
+      "device": 27,
+      "mode": 448,
+      "mtime_ns": 1793505506493902767
+    }
+  }
+]

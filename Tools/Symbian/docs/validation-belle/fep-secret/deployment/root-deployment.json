@@ -1,0 +1,61 @@
+{
+  "utc": "2026-11-01T04:09:01.926955+00:00",
+  "host": {
+    "sha256": "07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3",
+    "bytes": 65484680
+  },
+  "assets": [
+    {
+      "name": "mediaclientaudio_general.dll",
+      "source": "/workspace/symbian-media-work/native-patches-20261029T151914Z/mediaclientaudio_general.dll",
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+      "bytes": 72620
+    },
+    {
+      "name": "mediaclientvideo_v100.dll",
+      "source": "/workspace/symbian-media-work/native-patches-20261029T151914Z/mediaclientvideo_v100.dll",
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+      "bytes": 52556
+    },
+    {
+      "name": "mediaclientaudio.dll.map",
+      "source": "/workspace/symbian-media-work/native-patches-20261029T151914Z/mediaclientaudio.dll.map",
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "bytes": 48796
+    },
+    {
+      "name": "mediaclientvideo.dll.map",
+      "source": "/workspace/symbian-media-work/native-patches-20261029T151914Z/mediaclientvideo.dll.map",
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "bytes": 11393
+    },
+    {
+      "name": "avkonfep_general.dll",
+      "source": "/workspace/symbian-fep-secret-native-build-20261101/artifacts/avkonfep_general.dll",
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae",
+      "bytes": 99488
+    }
+  ],
+  "deployed_assets": [
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio_general.dll",
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo_v100.dll",
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio.dll.map",
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo.dll.map",
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/avkonfep_general.dll",
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    }
+  ]
+}

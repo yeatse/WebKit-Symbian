@@ -1,0 +1,31 @@
+{
+  "case": "navigation",
+  "run": "29b9719020fd4bfd9f4f2c1c4d93e537",
+  "pid": 527717,
+  "status": "INPUT_AND_PAGE_PASS",
+  "native_input": [
+    {
+      "motion": [
+        450,
+        337
+      ],
+      "monotonic": 242321.477231318
+    },
+    {
+      "button1": true,
+      "monotonic": 242321.47732787
+    },
+    {
+      "button1": false,
+      "monotonic": 242322.677747267
+    }
+  ],
+  "ready": "console: http://localhost:8783/?case=navigation&run=29b9719020fd4bfd9f4f2c1c4d93e537:35: SYMBIAN TOUCH navigation READY {\"run\":\"29b9719020fd4bfd9f4f2c1c4d93e537\",\"maxTouchPoints\":8,\"instruction\":\"Press and hold: this page navigates after 250 ms; old contacts must be cancelled.\",\"viewport\":{\"width\":360,\"height\":532},\"pad\":{\"left\":10,\"top\":94,\"width\":340,\"height\":196}}",
+  "window_geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "completion": "console: http://localhost:8783/?case=landing&run=29b9719020fd4bfd9f4f2c1c4d93e537:35: SYMBIAN TOUCH landing DONE PASS old page native contact cancelled before navigation {}"
+}

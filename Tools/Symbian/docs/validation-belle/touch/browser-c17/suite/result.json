@@ -1,0 +1,313 @@
+{
+  "status": "PASS",
+  "browser_sha256": "0d91d91ea1e016b7725097bac0768a9aa2fdf9710b765795769d2da07608a1c8",
+  "host_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+  "fixture_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+  "fep_sha256": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b",
+  "content_rect": [
+    270,
+    77,
+    360,
+    532
+  ],
+  "calibration_image_sha256": "23ea9b476a42b6b275d969a83eab49240c17f5fad269a5dc20130ced5acad806",
+  "cases": [
+    {
+      "case": "prevent-start",
+      "run": "5037023d0891479896e0fccdc3282f16",
+      "url": "http://localhost:8783/?case=prevent-start&run=5037023d0891479896e0fccdc3282f16",
+      "status": "PASS",
+      "ready": {
+        "run": "5037023d0891479896e0fccdc3282f16",
+        "maxTouchPoints": 8,
+        "instruction": "Tap once: touchstart.preventDefault must suppress compatibility mouse/click.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 94,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "527325",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "prevent-start",
+        "--run",
+        "5037023d0891479896e0fccdc3282f16",
+        "--start",
+        "450",
+        "337",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c17-regression-20261101/prevent-start/input"
+      ],
+      "input_exit": 0,
+      "launcher_exit": 0
+    },
+    {
+      "case": "prevent-move",
+      "run": "fb0a189071844e22924b8f5b065a4fed",
+      "url": "http://localhost:8783/?case=prevent-move&run=fb0a189071844e22924b8f5b065a4fed",
+      "status": "PASS",
+      "ready": {
+        "run": "fb0a189071844e22924b8f5b065a4fed",
+        "maxTouchPoints": 8,
+        "instruction": "Drag upward at least 30 px: touchmove.preventDefault must prevent scrolling.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 94,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "527382",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "prevent-move",
+        "--run",
+        "fb0a189071844e22924b8f5b065a4fed",
+        "--start",
+        "450",
+        "337",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c17-regression-20261101/prevent-move/input",
+        "--end",
+        "450",
+        "201"
+      ],
+      "input_exit": 0,
+      "launcher_exit": 0
+    },
+    {
+      "case": "pan",
+      "run": "ca4f641c18364fee943a4398f1b26200",
+      "url": "http://localhost:8783/?case=pan&run=ca4f641c18364fee943a4398f1b26200",
+      "status": "PASS",
+      "ready": {
+        "run": "ca4f641c18364fee943a4398f1b26200",
+        "maxTouchPoints": 8,
+        "instruction": "Drag upward at least 30 px: native scrolling must cancel DOM touch/pointer streams.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 94,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "527439",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "pan",
+        "--run",
+        "ca4f641c18364fee943a4398f1b26200",
+        "--start",
+        "450",
+        "337",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c17-regression-20261101/pan/input",
+        "--end",
+        "450",
+        "201"
+      ],
+      "input_exit": 0,
+      "launcher_exit": 0
+    },
+    {
+      "case": "pointer-pan",
+      "run": "f0cb270da01d44abba25d5e795581c13",
+      "url": "http://localhost:8783/?case=pointer-pan&run=f0cb270da01d44abba25d5e795581c13",
+      "status": "PASS",
+      "ready": {
+        "run": "f0cb270da01d44abba25d5e795581c13",
+        "maxTouchPoints": 8,
+        "instruction": "Drag upward at least 30 px: pointerdown.preventDefault must still allow native scrolling.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 111,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "527492",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "pointer-pan",
+        "--run",
+        "f0cb270da01d44abba25d5e795581c13",
+        "--start",
+        "450",
+        "354",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c17-regression-20261101/pointer-pan/input",
+        "--end",
+        "450",
+        "218"
+      ],
+      "input_exit": 0,
+      "launcher_exit": 0
+    },
+    {
+      "case": "none",
+      "run": "2a0c03c9a6ec40c09bf7e7b4c51d6526",
+      "url": "http://localhost:8783/?case=none&run=2a0c03c9a6ec40c09bf7e7b4c51d6526",
+      "status": "PASS",
+      "ready": {
+        "run": "2a0c03c9a6ec40c09bf7e7b4c51d6526",
+        "maxTouchPoints": 8,
+        "instruction": "Drag upward at least 30 px: touch-action:none keeps DOM events and prevents native scrolling.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 94,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "527587",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "none",
+        "--run",
+        "2a0c03c9a6ec40c09bf7e7b4c51d6526",
+        "--start",
+        "450",
+        "337",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c17-regression-20261101/none/input",
+        "--end",
+        "450",
+        "201"
+      ],
+      "input_exit": 0,
+      "launcher_exit": 0
+    },
+    {
+      "case": "capture",
+      "run": "1f1a4efefd4148828e1a0495c5939966",
+      "url": "http://localhost:8783/?case=capture&run=1f1a4efefd4148828e1a0495c5939966",
+      "status": "PASS",
+      "ready": {
+        "run": "1f1a4efefd4148828e1a0495c5939966",
+        "maxTouchPoints": 8,
+        "instruction": "Press blue panel, drag outside its right edge, then release: pointer capture must retain delivery.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 94,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "527640",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "capture",
+        "--run",
+        "1f1a4efefd4148828e1a0495c5939966",
+        "--start",
+        "450",
+        "337",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c17-regression-20261101/capture/input",
+        "--end",
+        "625",
+        "337"
+      ],
+      "input_exit": 0,
+      "launcher_exit": 0
+    },
+    {
+      "case": "navigation",
+      "run": "29b9719020fd4bfd9f4f2c1c4d93e537",
+      "url": "http://localhost:8783/?case=navigation&run=29b9719020fd4bfd9f4f2c1c4d93e537",
+      "status": "PASS",
+      "ready": {
+        "run": "29b9719020fd4bfd9f4f2c1c4d93e537",
+        "maxTouchPoints": 8,
+        "instruction": "Press and hold: this page navigates after 250 ms; old contacts must be cancelled.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 94,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "527717",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "navigation",
+        "--run",
+        "29b9719020fd4bfd9f4f2c1c4d93e537",
+        "--start",
+        "450",
+        "337",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c17-regression-20261101/navigation/input"
+      ],
+      "input_exit": 0,
+      "launcher_exit": 0
+    }
+  ],
+  "scope": "Seven real one-finger sequences; excludes physical multitouch and independent native focus cancellation",
+  "fixture_unchanged": true
+}

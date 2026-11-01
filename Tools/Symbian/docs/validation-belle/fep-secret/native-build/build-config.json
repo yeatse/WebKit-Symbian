@@ -1,0 +1,105 @@
+{
+  "eka_source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source",
+  "sdk_prefix": "/workspace/symbian-sdk",
+  "converter": "/workspace/symbian-fep-sdk-build-work/converter/symbian-native",
+  "uid2": "0x10009d8d",
+  "uid3": "0x100056de",
+  "capabilities": 0,
+  "export_definition": "source/avkonfep_general.def",
+  "originals": [
+    {
+      "source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source/src/patch/avkonfep/src/HostBridgedImeFEP.cpp",
+      "staged": "source/HostBridgedImeFEP.cpp",
+      "sha256": "b0f974e036e6894df64be938421559f4a466d2281c18b7ac2dbfc8b9a4bd854f"
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source/src/patch/avkonfep/inc/HostBridgedImeFEP.h",
+      "staged": "source/HostBridgedImeFEP.h",
+      "sha256": "8470d6f62a88eadb5a281c98ac827f08ce926a7722497105b1923d891ab0f6fc"
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source/src/patch/avkonfep/inc/Dispatch.h",
+      "staged": "source/Dispatch.h",
+      "sha256": "7801389fdbd9015bdb2a1a5c312ba78887f6b18c73282229508b1aa032f4cca1"
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source/src/patch/avkonfep/inc/aknextendedinputcapabilities.h",
+      "staged": "source/aknextendedinputcapabilities.h",
+      "sha256": "4026e252593fa72279d84ef396fabead1e6d02baf5f4f474e1012e49d0440cda"
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source/src/patch/priv/src/Log.cpp",
+      "staged": "source/Log.cpp",
+      "sha256": "b68092a55c0b7edb19cd1a249c7d98a4c2d9360de841a34b4a0899e1ec57917f"
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source/src/patch/priv/inc/Log.h",
+      "staged": "source/Log.h",
+      "sha256": "889ab7b8608aaa41baff4ac57aa21aab93e470ae383638fd533f170607135ca8"
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source/src/patch/priv/inc/sv.s",
+      "staged": "source/sv.s",
+      "sha256": "fcc3333eb8836da5bbc3fd602848eff38dbf5b4b4503fdf06bf6862139bc7b8e"
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source/src/patch/avkonfep/src/Dispatch.s",
+      "staged": "source/Dispatch.S",
+      "source_sha256": "3c4b3da6bc84a6529a199e61fb5d53f217aa147b27572959e1bda0814e72029a",
+      "staged_sha256": "982608f7f08ac69e3c68ec718f2874263affece1882f403155a5d6189a836ba1",
+      "changes": "Local include path and ARM function metadata only"
+    }
+  ],
+  "sdk_linker_sha256": "168c32fa0a22415a358678650349ba912ecddd4dc86f4fe39556f3a4148cdb75",
+  "identity_mmp": {
+    "source": "/workspace/symbian-fep-secret-native-build-20261101/eka-source/src/patch/avkonfep/group/general/avkonfep_general.mmp",
+    "sha256": "12157c0e677e7723e6b4285ef878ae74c2d08b801fa8519cd2f8229fe58b5cc7"
+  },
+  "official_sources": {
+    "fepitfr.h": {
+      "repository": "SymbianSource/oss.FCL.sf.os.textandloc",
+      "revision": "59666d6704fee305b0fdd74974f7b4f42659c6a6",
+      "path": "textrendering/texthandling/inc/FEPITFR.H",
+      "blob_sha": "72727614eb4a380f2941e53a67719402fb944077",
+      "sha256": "2333e6bdce3a1bb21c4726f33439e5ac1f7dbcb0d417882ee98de9e977653ca1",
+      "bytes": 4389
+    },
+    "FEPBASU.DEF": {
+      "repository": "SymbianSource/oss.FCL.sf.mw.inputmethods",
+      "revision": "51e877bef2e0a93793490fba6e97b04aaa1ee368",
+      "path": "fep/frontendprocessor/eabi/FEPBASU.DEF",
+      "blob_sha": "6e9f9ff80b400a72ce6a79116825482c211be439",
+      "sha256": "789fe52d7bbea6783cd2953b11083982ec3c2e678a7bc57e96823321ada9d174",
+      "bytes": 11711
+    },
+    "EPL-1.0.html": {
+      "origin": "SDK licenses/native/EPL-1.0.html",
+      "license": "EPL-1.0",
+      "sha256": "a40741b59364cc49449255e9b9bfe1fcfe6a2e7ab4d37ca89db3bacbfb14e9d2",
+      "bytes": 12637
+    }
+  },
+  "recipe_files": {
+    "build.py": "05756cffd6e8cdf094ad98a5d92b8596a56b34d4b933cf0446c9c73048ddc2f9",
+    "converter-launch.py": "8010588a0aa209847d4da898072616062a0af8ef21b2c9c2e7b243aab080e832",
+    "CMakeLists.txt": "fa042aeacd8914759c28306e39a8912de37eaf0bd40177998c4d149641103e6d",
+    "native-patch-compat.h": "e03aa798f2c823d0ec9e4624ffe65cf7e7d6bf918a0a25afb3cc36a1da8b9067"
+  },
+  "prepared_files": {
+    "source/CMakeLists.txt": "fa042aeacd8914759c28306e39a8912de37eaf0bd40177998c4d149641103e6d",
+    "source/Dispatch.S": "982608f7f08ac69e3c68ec718f2874263affece1882f403155a5d6189a836ba1",
+    "source/Dispatch.h": "7801389fdbd9015bdb2a1a5c312ba78887f6b18c73282229508b1aa032f4cca1",
+    "source/HostBridgedImeFEP.cpp": "b0f974e036e6894df64be938421559f4a466d2281c18b7ac2dbfc8b9a4bd854f",
+    "source/HostBridgedImeFEP.h": "8470d6f62a88eadb5a281c98ac827f08ce926a7722497105b1923d891ab0f6fc",
+    "source/Log.cpp": "b68092a55c0b7edb19cd1a249c7d98a4c2d9360de841a34b4a0899e1ec57917f",
+    "source/Log.h": "889ab7b8608aaa41baff4ac57aa21aab93e470ae383638fd533f170607135ca8",
+    "source/aknextendedinputcapabilities.h": "4026e252593fa72279d84ef396fabead1e6d02baf5f4f474e1012e49d0440cda",
+    "source/avkonfep_general.def": "e60b4776676338cd81083b9df3b0c9653cb9ce063f3361abb1a91903b2fda171",
+    "source/fep_unwind_image.ld": "37721c76216c810b99124d9a0e1197d8194a24c8f5416f57242e756b77adb7c4",
+    "source/native-patch-compat.h": "e03aa798f2c823d0ec9e4624ffe65cf7e7d6bf918a0a25afb3cc36a1da8b9067",
+    "source/sv.s": "fcc3333eb8836da5bbc3fd602848eff38dbf5b4b4503fdf06bf6862139bc7b8e",
+    "sdk-overlay/include/native/fepitfr.h": "2333e6bdce3a1bb21c4726f33439e5ac1f7dbcb0d417882ee98de9e977653ca1",
+    "sdk-overlay/licenses/native/EPL-1.0.html": "a40741b59364cc49449255e9b9bfe1fcfe6a2e7ab4d37ca89db3bacbfb14e9d2",
+    "sdk-overlay/share/symbian/native/defs/fepbase.dll.def": "789fe52d7bbea6783cd2953b11083982ec3c2e678a7bc57e96823321ada9d174"
+  }
+}

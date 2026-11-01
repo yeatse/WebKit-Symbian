@@ -1,0 +1,36 @@
+{
+  "built_utc": "2026-11-01T04:42:01.635721+00:00",
+  "artifacts": {
+    "browser.exe": {
+      "bytes": 58813448,
+      "sha256": "496bce2b06bd9a131939dd15b0cd414d4959fb3b297c640e2ae65f85adb8663f"
+    },
+    "browser_ui.rsc": {
+      "bytes": 242,
+      "sha256": "fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8"
+    },
+    "browser_reg.rsc": {
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "browser_loc.rsc": {
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "libraries.json": {
+      "bytes": 59,
+      "sha256": "d471e7e47cff37252dc9c741bdb82ce9cac4d4d68c48f504d544a48fb0cf5534"
+    }
+  },
+  "contains": [
+    "P1 baseline commit903ab1",
+    "C20 document CookieStore provider",
+    "C21 native password query255 limit in API and resource"
+  ],
+  "excludes": [
+    "IPv6HTTP2",
+    "IAP proxy",
+    "SW CookieStore manager",
+    "partitioned cookies"
+  ]
+}

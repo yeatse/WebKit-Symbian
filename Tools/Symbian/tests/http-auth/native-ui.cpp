@@ -10,7 +10,7 @@ struct Result : TextResult {
     std::u16string value;
 };
 static Text origin() { static const char16_t text[] = u"https://example.test:8443"; return { reinterpret_cast<const uint16_t*>(text), sizeof(text) / sizeof(char16_t) - 1 }; }
-static void reset() { assert(dialogSteps.empty()); dialogResources.clear(); dialogHeadings.clear(); }
+static void reset() { assert(dialogSteps.empty()); dialogResources.clear(); dialogMaxLengths.clear(); dialogHeadings.clear(); }
 int main()
 {
     auto* ui = new (ELeave) CAuthenticationUI;
@@ -20,6 +20,7 @@ int main()
         assert(ui->Run(10, origin(), 1, user, password));
         assert(user.value == u"alice" && password.value == u"secret");
         assert((dialogResources == std::vector<int>{R_BROWSER_PROMPT, R_BROWSER_AUTH_PASSWORD}));
+        assert((dialogMaxLengths == std::vector<int>{256, 255}));
         assert(dialogHeadings[0].find(u"https://example.test:8443") != std::u16string::npos);
         reset();
     }
@@ -28,7 +29,19 @@ int main()
         dialogSteps = {{true, u""}, {true, u""}};
         assert(ui->Run(10, origin(), 3, user, password));
         assert(user.calls == 1 && password.calls == 1 && password.value.empty());
+        assert((dialogMaxLengths == std::vector<int>{256, 255}));
         assert(dialogHeadings[0].find(u"(3/3)") != std::u16string::npos);
+        reset();
+    }
+    // Preserve username256 while honoring the native password255 boundary.
+    {
+        Result user, password;
+        const std::u16string maximumUser(256, u'u');
+        const std::u16string maximumPassword(255, u'p');
+        dialogSteps = {{true, maximumUser}, {true, maximumPassword}};
+        assert(ui->Run(10, origin(), 1, user, password));
+        assert(user.value == maximumUser && password.value == maximumPassword);
+        assert((dialogMaxLengths == std::vector<int>{256, 255}));
         reset();
     }
     for (bool cancelPassword : {false, true}) {
@@ -82,5 +95,5 @@ int main()
         reset();
     }
     assert(!nativeAllocations);
-    std::cout << "native auth: success, empty values, cancel, nested lifetime, Leave and attempt bounds passed\n";
+    std::cout << "native auth: success, empty values, username256/password255 bounds, cancel, nested lifetime, Leave and attempt bounds passed\n";
 }

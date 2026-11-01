@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "case": "submit",
+  "scope": "public fixed test string only; actual native Submit and exact value/caret",
+  "driver_exit": 0,
+  "runner_exit": 0,
+  "root_review": "all initial/selected/cleared, 18 immediate key frames and settled inspected; masked/empty as appropriate",
+  "sampled_frames": [
+    {
+      "name": "cleared-fep.png",
+      "sha256": "3d511f710e45a2ce36a35f41e4e1ff989b22ef813cdc4cc5aea4a7e88f2d412f"
+    },
+    {
+      "name": "opened-fep.png",
+      "sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c"
+    },
+    {
+      "name": "selected-original-fep.png",
+      "sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c"
+    },
+    {
+      "name": "typed-01-immediate-fep.png",
+      "sha256": "ad05d6bb591ea020362893528166820d619174b7b89b2635c0510bcc3d49485c"
+    },
+    {
+      "name": "typed-02-immediate-fep.png",
+      "sha256": "08c8ab7c5f8a359af7165dd3a36c4257bcc80e1f631158a0d19f1d399941cf45"
+    },
+    {
+      "name": "typed-03-immediate-fep.png",
+      "sha256": "92ad3f20b2c9123faa41e5ec5eecab871f61bb4ba762d93a525763e50bd23c51"
+    },
+    {
+      "name": "typed-04-immediate-fep.png",
+      "sha256": "e9d0fa15de11abf86352de5b1e7f2050d57611e7fe6c1e1d7dc812f8837286ab"
+    },
+    {
+      "name": "typed-05-immediate-fep.png",
+      "sha256": "798dc3bd6bded9baa88b521ae6505c6c262dc866409507380979b4ff8628799b"
+    },
+    {
+      "name": "typed-06-immediate-fep.png",
+      "sha256": "a05a9e4f3adaa382830203d8741a16bbc914bfe1ba73e9fbabf281155a2d0fa7"
+    },
+    {
+      "name": "typed-07-immediate-fep.png",
+      "sha256": "b3083effb8ed8f45eead0a15e453a1a0fee7dbbcf0b9add360ccf60804113723"
+    },
+    {
+      "name": "typed-08-immediate-fep.png",
+      "sha256": "657a2948c3add357965f9518e246c0f5130a1ad42a74a66088397223b3c291da"
+    },
+    {
+      "name": "typed-09-immediate-fep.png",
+      "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+    },
+    {
+      "name": "typed-10-immediate-fep.png",
+      "sha256": "e6ebe5c6940a8bea3de5a5585aaee4323c1cd64f8308ded343db304791de1761"
+    },
+    {
+      "name": "typed-11-immediate-fep.png",
+      "sha256": "eefe0af1f52348aad845a69e2b4d25fdb157ee3ea7106937f3f2a1f8234da2a3"
+    },
+    {
+      "name": "typed-12-immediate-fep.png",
+      "sha256": "3aba3c11ad8caed65c89d2c9f0a709e096cbb8cedc465a839f525820f2fff697"
+    },
+    {
+      "name": "typed-13-immediate-fep.png",
+      "sha256": "9b7eb14ff4f309e6bfa7f3446195eb80b54e82d2e994a2b0d05b9f17c4ce8a41"
+    },
+    {
+      "name": "typed-14-immediate-fep.png",
+      "sha256": "910740492819b69f589b5bd09f9ba591560e07b0e0e1797de33bd8c91f553c7f"
+    },
+    {
+      "name": "typed-15-immediate-fep.png",
+      "sha256": "ea751918a9d7f849a3358bb56480752efeba404fe08fe073c5fe601ee8719f6c"
+    },
+    {
+      "name": "typed-16-immediate-fep.png",
+      "sha256": "9a0a775e3791f82d8b2f376fd14a75f2dcf8daaf7f169bb59501e6ceb94dc113"
+    },
+    {
+      "name": "typed-17-immediate-fep.png",
+      "sha256": "f5426f02e29b37884a7bcf74aa8fe60a18296a498f902eb4481f6f20b9b9f704"
+    },
+    {
+      "name": "typed-18-immediate-fep.png",
+      "sha256": "2a700131d6a1b767b73fa4445c2d3df15deeefc286c26b9d90526ee158886ab8"
+    },
+    {
+      "name": "typed-settled-fep.png",
+      "sha256": "3d1fad26c9e2d94294503997118dc83a462297a2cd9073dc6324a46473e21f45"
+    }
+  ],
+  "original_result_retained": true
+}

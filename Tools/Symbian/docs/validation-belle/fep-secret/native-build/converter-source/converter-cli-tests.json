@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "default_dll_byte_identical_to_existing_converter": true,
+  "default_dll_sha256": "66a5884868400838202452e48d47c2c74e1b9319af6e939eae69baab76bce8f0",
+  "records": [
+    {
+      "name": "default old",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "default new",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "registered ECom plugin",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "registered uid old default rejected",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "INVALID_ARGUMENT: Experimental unprotected UID3 required\n=== Source Location Trace: ===\n/workspace/symbian-work/symbian-platform/cpp/symbian/e32/e32.cc:817\n\n"
+    },
+    {
+      "name": "plugin native image validation",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "{\"status\":\"PASS\",\"uid2\":268475789,\"uid3\":268457694,\"flags\":301989929,\"capabilities\":0,\"header_crc\":1546352096,\"exception_descriptor_offset\":0,\"exports\":[{\"ordinal\":1,\"address\":32792,\"absent\":false}],\"imports\":[]}\n",
+      "stderr": ""
+    },
+    {
+      "name": "zero UID2",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "INVALID_ARGUMENT: Unsupported E32 DLL UID2\n=== Source Location Trace: === \n/workspace/symbian-fep-sdk-build-work/converter/overlay/cpp/symbian/e32/e32.cc:828\n\n"
+    },
+    {
+      "name": "unknown UID2",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "INVALID_ARGUMENT: Unsupported E32 DLL UID2\n=== Source Location Trace: === \n/workspace/symbian-fep-sdk-build-work/converter/overlay/cpp/symbian/e32/e32.cc:828\n\n"
+    },
+    {
+      "name": "invalid UID2 number",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "INVALID_ARGUMENT: Expected an unsigned 32-bit number\n=== Source Location Trace: ===\n/workspace/symbian-fep-sdk-build-work/converter/overlay/cpp/symbian/tools/main.cc:105\n/workspace/symbian-fep-sdk-build-work/converter/overlay/cpp/symbian/tools/main.cc:212\n\n"
+    },
+    {
+      "name": "duplicate UID2",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "INVALID_ARGUMENT: Duplicate option: --uid2\n=== Source Location Trace: === \n/workspace/symbian-fep-sdk-build-work/converter/overlay/cpp/symbian/tools/main.cc:137\n\n"
+    },
+    {
+      "name": "plugin EKA1",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "UNIMPLEMENTED: EKA1 DLL publication\n=== Source Location Trace: === \n/workspace/symbian-fep-sdk-build-work/converter/overlay/cpp/symbian/tools/main.cc:205\n\n"
+    },
+    {
+      "name": "sentinel plugin UID3 0",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "INVALID_ARGUMENT: Invalid UID3 for selected E32 profile\n=== Source Location Trace: === \n/workspace/symbian-fep-sdk-build-work/converter/overlay/cpp/symbian/e32/e32.cc:831\n\n"
+    },
+    {
+      "name": "sentinel plugin UID3 0xffffffff",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "INVALID_ARGUMENT: Invalid UID3 for selected E32 profile\n=== Source Location Trace: ===\n/workspace/symbian-fep-sdk-build-work/converter/overlay/cpp/symbian/e32/e32.cc:831\n\n"
+    },
+    {
+      "name": "EXE option rejected",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "INVALID_ARGUMENT: Unknown option for convert-exe: --uid2\n=== Source Location Trace: ===\n/workspace/symbian-fep-sdk-build-work/converter/overlay/cpp/symbian/tools/main.cc:133\n\n"
+    }
+  ]
+}

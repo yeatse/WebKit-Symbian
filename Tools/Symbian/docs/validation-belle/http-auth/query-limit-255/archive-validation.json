@@ -1,0 +1,307 @@
+{
+  "status": "SOURCE_AND_BUILD_CHECKS_PASS_NATIVE_AUTH_UI_PENDING",
+  "raw_contract_SHA_entries_verified": 53,
+  "raw_contract_mismatches": [],
+  "applied_files_verified": 5,
+  "applied_mismatches": [],
+  "candidate21_resource_matches_checked": true,
+  "shared_tree_modified": false,
+  "guest_or_display_used": false,
+  "private_credentials_accessed": false,
+  "copied_originals": [
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/AuthenticationUI-arm-object.log",
+      "destination": "AuthenticationUI-arm-object.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/AuthenticationUI-arm-syntax.log",
+      "destination": "AuthenticationUI-arm-syntax.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/auth-query-limit-tests.patch",
+      "destination": "auth-query-limit-tests.patch",
+      "sha256": "5e956949d69d4bead7f67866106b97bd3b80f0e4e19d82db937c701294cbba5d",
+      "bytes": 4974
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/auth-query-limit-tests.patch.check.log",
+      "destination": "auth-query-limit-tests.patch.check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/auth-query-limit.patch",
+      "destination": "auth-query-limit.patch",
+      "sha256": "6595becb1f4788bd4fbb641cc9af6a7620e22bff4da1e484b0819e5481c8eb97",
+      "bytes": 2223
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/auth-query-limit.patch.check.log",
+      "destination": "auth-query-limit.patch.check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/before-native-build.log",
+      "destination": "before-native-build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/before-native-run.log",
+      "destination": "before-native-run.log",
+      "sha256": "3f23193edb9bcc7ec99b27976d71712f0aa30f22c62e5310ad74a4b528afc53a",
+      "bytes": 262
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/before-rcomp.log",
+      "destination": "before-rcomp.log",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/before-resource-preprocess.log",
+      "destination": "before-resource-preprocess.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/before/Tools/Symbian/browser/AuthenticationUI.cpp",
+      "destination": "before/Tools/Symbian/browser/AuthenticationUI.cpp",
+      "sha256": "a75ba73d0a9a6ba743bf9dc1c1e3bdd6291b9a6ad0d2f7e72cabf2821183ce83",
+      "bytes": 3564
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/before/Tools/Symbian/browser/browser_ui.rss",
+      "destination": "before/Tools/Symbian/browser/browser_ui.rss",
+      "sha256": "5914a4d7d63f8061bab7325b6d40d98d12a40a37f9dba44f2e4546d110693166",
+      "bytes": 1898
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/before/Tools/Symbian/tests/http-auth/fakes/AknQueryDialog.h",
+      "destination": "before/Tools/Symbian/tests/http-auth/fakes/AknQueryDialog.h",
+      "sha256": "10ebc284f0cd7c7e09e41349d7d40aa2cec8ad4d3b1cb5d138572316f1392c91",
+      "bytes": 1828
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/before/Tools/Symbian/tests/http-auth/native-ui.cpp",
+      "destination": "before/Tools/Symbian/tests/http-auth/native-ui.cpp",
+      "sha256": "9d578ec9cd1c7b9971340d40588fb67db15b7379d7ff3c83be0f8cff5f0dc4ed",
+      "bytes": 3628
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/check-commands.json",
+      "destination": "check-commands.json",
+      "sha256": "2da1045e1cfdbd80e686b40128f8a03ea7ca930ad8e3a05bf8e7034bff9fc2ca",
+      "bytes": 12575
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/check.py",
+      "destination": "check.py",
+      "sha256": "243cadf76f40d337e6a43f7481cbae6e54ba881ff11cfc32efbeeb88c86e86e8",
+      "bytes": 5409
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/generated/before/browser_ui.rpp",
+      "destination": "generated/before/browser_ui.rpp",
+      "sha256": "0855252323cc4d7eb93eba18d3fd0c5d85d37f2578ff80e5e15cfbd59d8ec28d",
+      "bytes": 36530
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/generated/before/browser_ui.rsc",
+      "destination": "generated/before/browser_ui.rsc",
+      "sha256": "251cfbede521cc5d0a3e36400cf108b12b6bb8eb7956e33a6781d8ef4bf5bc3d",
+      "bytes": 242
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/generated/before/browser_ui.rsg",
+      "destination": "generated/before/browser_ui.rsg",
+      "sha256": "1758cad0dcc344fbdacfcb9d6c2521612b96c3b7259062ec4024529fc8d76ab0",
+      "bytes": 244
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/generated/overlay/browser_ui.rpp",
+      "destination": "generated/overlay/browser_ui.rpp",
+      "sha256": "bf84b0351a673ad7edf86ce279b1f6368a2c34700edb01b4e8d4af330b10e491",
+      "bytes": 36530
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/generated/overlay/browser_ui.rsc",
+      "destination": "generated/overlay/browser_ui.rsc",
+      "sha256": "fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8",
+      "bytes": 242
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/generated/overlay/browser_ui.rsg",
+      "destination": "generated/overlay/browser_ui.rsg",
+      "sha256": "1758cad0dcc344fbdacfcb9d6c2521612b96c3b7259062ec4024529fc8d76ab0",
+      "bytes": 244
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay-native-build.log",
+      "destination": "overlay-native-build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay-native-run.log",
+      "destination": "overlay-native-run.log",
+      "sha256": "2fb4b4f64ea1fbcbd05678f6094b56a545630f413b33ea72d7e8ee77a76a11be",
+      "bytes": 125
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay-rcomp.log",
+      "destination": "overlay-rcomp.log",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay-resource-preprocess.log",
+      "destination": "overlay-resource-preprocess.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay.json",
+      "destination": "overlay.json",
+      "sha256": "2fa695a7275056e0cbfc79e5a45f3bb0be1d19399ea01651973d2a456152f69e",
+      "bytes": 518
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay/Tools/Symbian/browser/AuthenticationUI.cpp",
+      "destination": "overlay/Tools/Symbian/browser/AuthenticationUI.cpp",
+      "sha256": "f3aa46d17351693123c1e2af6f506347e5dcd377f12d4b737874e70f0caab3d9",
+      "bytes": 3664
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay/Tools/Symbian/browser/browser_ui.rss",
+      "destination": "overlay/Tools/Symbian/browser/browser_ui.rss",
+      "sha256": "f787d5b7b8cad2721019fde0b89785fba679fe67b2891f7d074c09c1c78636a2",
+      "bytes": 1991
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay/Tools/Symbian/tests/http-auth/fakes/AknQueryDialog.h",
+      "destination": "overlay/Tools/Symbian/tests/http-auth/fakes/AknQueryDialog.h",
+      "sha256": "e36f1bce16feb1b6955d65e799cc57567af3009b57dc87bfface769efd297e0e",
+      "bytes": 2351
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay/Tools/Symbian/tests/http-auth/fakes/eikseced.h",
+      "destination": "overlay/Tools/Symbian/tests/http-auth/fakes/eikseced.h",
+      "sha256": "cd52d109076bdb7b6a45c6656efceffcd0e98da14970ec1e0b2078da2bd11e35",
+      "bytes": 176
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/overlay/Tools/Symbian/tests/http-auth/native-ui.cpp",
+      "destination": "overlay/Tools/Symbian/tests/http-auth/native-ui.cpp",
+      "sha256": "131fcc8e6e59d3494d24783f58797bc1610a54a04770426b69ad6135049869df",
+      "bytes": 4338
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/reference/AknQueryControl.cpp",
+      "destination": "reference/AknQueryControl.cpp",
+      "sha256": "22d43c7be6c4f07f6e8fc4ddaea9aa7f04dc621bc20af70bc60bf999e6307eaf",
+      "bytes": 124764
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/reference/AknQueryDialog.cpp",
+      "destination": "reference/AknQueryDialog.cpp",
+      "sha256": "2ad8968df562876264fd912d9712e33ed46bf46b35d149ee869f1fa2db61d710",
+      "bytes": 88357
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/reference/EIKON.RH",
+      "destination": "reference/EIKON.RH",
+      "sha256": "f443fbd6532da4a66e8237fa338c4d051b2fbba4d9a71ae16c2e408a87167b69",
+      "bytes": 23715
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/reference/SDK-eikseced.h",
+      "destination": "reference/SDK-eikseced.h",
+      "sha256": "96100f14f72c3e62f112831d65e2f9d5771517f3a19dbbc5e3131a402101453e",
+      "bytes": 15118
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/reference/classicui-excerpts.json",
+      "destination": "reference/classicui-excerpts.json",
+      "sha256": "aceda35f2555249171ff88d18e32681eff2c21410504a3aa5ae75a85f51e00b0",
+      "bytes": 6659
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/resource-contract.json",
+      "destination": "resource-contract.json",
+      "sha256": "0193109b8f84454d178e2ec37e7f2d571e39baf18b718741402be88217a14955",
+      "bytes": 1354
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/source-identities.json",
+      "destination": "source-identities.json",
+      "sha256": "3d6b3a68b646457d9ddc2a7b80f7fe5a13786b3aa238ec11b5222b3805de8f7d",
+      "bytes": 2267
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/support/Source/WebKitLegacy/symbian/DownloadFile.h",
+      "destination": "support/Source/WebKitLegacy/symbian/DownloadFile.h",
+      "sha256": "a3b6e4f6cf784080b44e97139e696f740e98506cc985472dbcd430d7446e70b8",
+      "bytes": 1262
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/support/Source/WebKitLegacy/symbian/WebKitSymbian.h",
+      "destination": "support/Source/WebKitLegacy/symbian/WebKitSymbian.h",
+      "sha256": "05f3f68ccb554842347093566da1d23e6f8a41c47d51a48ae033706a4cc688d1",
+      "bytes": 11741
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/support/Source/WebKitLegacy/symbian/WebKitSymbianTouch.h",
+      "destination": "support/Source/WebKitLegacy/symbian/WebKitSymbianTouch.h",
+      "sha256": "7ec63086dcf7cc2f1b8da6cf6fae8499a92b70fc098753aeb464f953b3a561ba",
+      "bytes": 663
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/support/Tools/Symbian/browser/AuthenticationUI.h",
+      "destination": "support/Tools/Symbian/browser/AuthenticationUI.h",
+      "sha256": "d38a74cb4e00244d6f65d4de2e33feadeb1405fb0abf36d5c0a7e9c121d27782",
+      "bytes": 752
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/support/Tools/Symbian/browser/NativeHeapDelete.h",
+      "destination": "support/Tools/Symbian/browser/NativeHeapDelete.h",
+      "sha256": "62f8eb9bc1985d071b8d34d12a8cb7426fb0a457993c1713d322f8a6322a7643",
+      "bytes": 787
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/support/Tools/Symbian/browser/resources/BrowserQuery.rh",
+      "destination": "support/Tools/Symbian/browser/resources/BrowserQuery.rh",
+      "sha256": "be0959c0ca41aa64efbaad26768a1d187ad9ab5be6a0b13e5e65fd78c0389d9f",
+      "bytes": 2029
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/support/Tools/Symbian/tests/http-auth/fakes/avkon.hrh",
+      "destination": "support/Tools/Symbian/tests/http-auth/fakes/avkon.hrh",
+      "sha256": "77e2f461a970a9dcf6382cae3bf125d1ad6396748aa0b90efdbd681ea6aa6416",
+      "bytes": 50
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/support/Tools/Symbian/tests/http-auth/fakes/browser_ui.rsg",
+      "destination": "support/Tools/Symbian/tests/http-auth/fakes/browser_ui.rsg",
+      "sha256": "2a0b898727b42e3672f81e90479a8961f7e81a31bbc6d44038924cbbb6d22827",
+      "bytes": 92
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/support/Tools/Symbian/tests/http-auth/fakes/e32base.h",
+      "destination": "support/Tools/Symbian/tests/http-auth/fakes/e32base.h",
+      "sha256": "ed6008c30edf9250c4520e135539ee442b8fb55f9735453361f6b4261f9ef929",
+      "bytes": 2174
+    },
+    {
+      "source": "/workspace/symbian-auth-query-contract-work/validation.json",
+      "destination": "validation.json",
+      "sha256": "16aa071edb92a634173881897c3ad7740b280164340fc62b692999b04a3c2dde",
+      "bytes": 13874
+    }
+  ]
+}

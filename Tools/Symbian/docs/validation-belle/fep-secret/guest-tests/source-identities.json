@@ -1,0 +1,22 @@
+[
+  {
+    "path": "src/patch/avkonfep/inc/HostBridgedImeFEP.h",
+    "before_sha256": "6be973b70694aab9048a65f3ef3ff15f59bb9a2f8b037205d81b25f4906b3dde",
+    "after_sha256": "8470d6f62a88eadb5a281c98ac827f08ce926a7722497105b1923d891ab0f6fc"
+  },
+  {
+    "path": "src/patch/avkonfep/src/HostBridgedImeFEP.cpp",
+    "before_sha256": "16e0a5fbee6d21482b5059f2dcf05c127e7d56072ccef944da169eda6ebaf215",
+    "after_sha256": "b0f974e036e6894df64be938421559f4a466d2281c18b7ac2dbfc8b9a4bd854f"
+  },
+  {
+    "path": "src/patch/avkonfep/inc/Dispatch.h",
+    "before_sha256": "e3c519ca7499b8f03a452a3088dc9763121aee5779dfc5aaba3e731b0dfafbcc",
+    "after_sha256": "7801389fdbd9015bdb2a1a5c312ba78887f6b18c73282229508b1aa032f4cca1"
+  },
+  {
+    "path": "src/patch/avkonfep/src/Dispatch.s",
+    "before_sha256": "48d717af8c1f68fd8acfabf3523e1b9bba2077823683594de05206741d6ce7a4",
+    "after_sha256": "3c4b3da6bc84a6529a199e61fb5d53f217aa147b27572959e1bda0814e72029a"
+  }
+]

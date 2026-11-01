@@ -1,0 +1,44 @@
+{
+  "artifact_archive": {
+    "command": [
+      "python3",
+      "/workspace/symbian-ci43-validation/check-downloaded.py"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci43-validation/verify-archive.log"
+  },
+  "sis_payload_verification": {
+    "command": [
+      "python3",
+      "/workspace/symbian-ci43-validation/verify-payloads.py",
+      "/workspace/symbian-ci43-validation",
+      "--tools-root",
+      "/workspace/symbian-ci43-validation/verification-tools/Tools/Symbian"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci43-validation/verify-payloads.log",
+    "parser_matches_pinned_source": true
+  },
+  "source_payload_verification": {
+    "command": [
+      "python3",
+      "/workspace/symbian-ci43-validation/check-source-payloads.py"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci43-validation/verify-source.log"
+  },
+  "icu_data_verification": {
+    "command": [
+      "python3",
+      "/workspace/symbian-ci43-validation/verification-tools/Tools/Symbian/tests/icu-idna/run.py",
+      "--icu-root",
+      "/workspace/symbian-work/icu",
+      "--existing-data",
+      "/workspace/symbian-ci43-validation/payloads/icudt70l.dat",
+      "--output",
+      "/workspace/symbian-ci43-validation/icu-payload-idna.json"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci43-validation/icu-payload-idna.log"
+  }
+}

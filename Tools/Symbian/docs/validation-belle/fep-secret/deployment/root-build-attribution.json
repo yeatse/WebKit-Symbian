@@ -1,0 +1,15 @@
+{
+  "attribution": "Parent agent root reported actual integrated full-host build and deployment; archive task independently hashed results",
+  "full_host_build_reported_exit": 0,
+  "initial_failure": "Missing LIBRARY_PATH: ld could not find -lEGL; complete failure log retained under gzip",
+  "successful_retry": "Root restored prior host environment; ninja completed host link; complete success log retained under gzip",
+  "reported_host": {
+    "sha256": "07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3",
+    "bytes": 65484680
+  },
+  "reported_asset_directories": [
+    "EKA build/bin/patch",
+    "DATAparent/patch"
+  ],
+  "ui_acceptance_reported": false
+}

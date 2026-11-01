@@ -1,0 +1,14 @@
+logs: /workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/runs/browser-20261101T041653Z-ntzazkkc
+04:16:54.376 WebKit Browser starting
+04:16:54.390 network: starting the connection
+04:16:55.938 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+04:16:56.416 network: connected through "Host network"
+04:16:56.431 load http://localhost:8813/?run=secret-c19-h29-cancel-01&case=cancel
+console: http://localhost:8813/?run=secret-c19-h29-cancel-01&case=cancel:10: SECRET-FEP secret-c19-h29-cancel-01 cancel READY {"run":"secret-c19-h29-cancel-01","case":"cancel","viewport":[360,532],"rects":{"start":{"x":180,"y":167.3125,"width":336,"height":49},"field":{"x":180,"y":234.3125,"width":336,"height":49},"finish":{"x":180,"y":301.3125,"width":336,"height":49}},"publicDataOnly":true}
+console: http://localhost:8813/?run=secret-c19-h29-cancel-01&case=cancel:10: SECRET-FEP secret-c19-h29-cancel-01 cancel ARMED {"utf16Length":17,"selection":[1,4]}
+console: http://localhost:8813/?run=secret-c19-h29-cancel-01&case=cancel:10: SECRET-FEP secret-c19-h29-cancel-01 cancel FIELD-TAP {"utf16Length":17,"selection":[1,4]}
+console: http://localhost:8813/?run=secret-c19-h29-cancel-01&case=cancel:10: SECRET-FEP secret-c19-h29-cancel-01 cancel PAGE-PASS {"type":"password","trustedTap":true,"utf16Length":17,"selection":[1,4],"maskReviewRequired":true}
+
+Browser observation completed; inspect screenshot and test outcomes: null:

@@ -1,0 +1,15 @@
+{
+  "version": 0,
+  "roots": [
+    {
+      "type": "file",
+      "name": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/browser/AuthenticationUI.cpp",
+      "external-contents": "/workspace/symbian-auth-query-contract-work/overlay/Tools/Symbian/browser/AuthenticationUI.cpp"
+    },
+    {
+      "type": "file",
+      "name": "/workspace/symbian-graphics-work/build/browser-belle20/browser_ui.rsg",
+      "external-contents": "/workspace/symbian-auth-query-contract-work/generated/overlay/browser_ui.rsg"
+    }
+  ]
+}

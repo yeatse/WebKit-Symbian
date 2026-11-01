@@ -1,0 +1,121 @@
+{
+  "pins": [
+    {
+      "path": "/workspace/symbian-touch-c17-regression-prepared/run-touch-c17.py",
+      "bytes": 6262,
+      "sha256": "b611d59ed7e0dac6db4b93ba1b6b72e0730d70b169f90dad75ac841ce1b46ef4",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/symbian-touch-c17-regression-prepared/run-touch-c17.py"
+    },
+    {
+      "path": "/workspace/symbian-belle-work/p1-validation/run-touch-c13.py",
+      "bytes": 6092,
+      "sha256": "5205abd9062e5c7de6cc04388c3c0302233cefe27dd43924a1b12a03a8c89342",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/symbian-belle-work/p1-validation/run-touch-c13.py"
+    },
+    {
+      "path": "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+      "bytes": 4218,
+      "sha256": "cf0ad5365b58edb4dc55b9345e5ad25c3bf6f0d0441c9620f4abd74cae8e2a8a",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/symbian-belle-work/p1-validation/drive-touch.py"
+    },
+    {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-touch/index.html",
+      "bytes": 10822,
+      "sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-touch/index.html"
+    },
+    {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+      "bytes": 20789,
+      "sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py"
+    },
+    {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh",
+      "bytes": 7616,
+      "sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh"
+    },
+    {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/close-emulator-window.py",
+      "bytes": 4825,
+      "sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/close-emulator-window.py"
+    },
+    {
+      "path": "/workspace/symbian-p1-system-runtime-work/runtime_support.py",
+      "bytes": 22818,
+      "sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/symbian-p1-system-runtime-work/runtime_support.py"
+    },
+    {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "bytes": 65479136,
+      "sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+      "binary_copied": false,
+      "identity_scope": "Pinned before/after execution by wrapper; large binary is not copied to Git.",
+      "current_path_sha256_at_archive": "07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3",
+      "current_path_matches_runtime_pin": false
+    },
+    {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "bytes": 99272,
+      "sha256": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/symbian-fep-sdk-build-work/artifacts/avkonfep_general.dll"
+    },
+    {
+      "path": "/workspace/symbian-idna-work/icu/install/share/icu/icudt70l.dat",
+      "bytes": 10261824,
+      "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+      "binary_copied": false,
+      "identity_scope": "Pinned before/after execution by wrapper; large binary is not copied to Git.",
+      "current_path_sha256_at_archive": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+      "current_path_matches_runtime_pin": true
+    },
+    {
+      "path": "/workspace/symbian-belle-work/candidate17/browser.exe",
+      "bytes": 58795408,
+      "sha256": "0d91d91ea1e016b7725097bac0768a9aa2fdf9710b765795769d2da07608a1c8",
+      "binary_copied": false,
+      "identity_scope": "Pinned before/after execution by wrapper; large binary is not copied to Git.",
+      "current_path_sha256_at_archive": "0d91d91ea1e016b7725097bac0768a9aa2fdf9710b765795769d2da07608a1c8",
+      "current_path_matches_runtime_pin": true
+    },
+    {
+      "path": "/workspace/symbian-belle-work/candidate17/browser_ui.rsc",
+      "bytes": 242,
+      "sha256": "251cfbede521cc5d0a3e36400cf108b12b6bb8eb7956e33a6781d8ef4bf5bc3d",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/symbian-belle-work/candidate17/browser_ui.rsc"
+    },
+    {
+      "path": "/workspace/symbian-belle-work/candidate17/browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/symbian-belle-work/candidate17/browser_reg.rsc"
+    },
+    {
+      "path": "/workspace/symbian-belle-work/candidate17/browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "binary_copied": true,
+      "archived_source_path": "/workspace/symbian-belle-work/candidate17/browser_loc.rsc"
+    }
+  ],
+  "wrapper_source": {
+    "path": "run-preserved.py",
+    "bytes": 7471,
+    "sha256": "c1abffdcd988e999418b757a648d685de2e78dafb0805595b502dcc9255a97e0"
+  },
+  "wrapper_provenance": "Root explicitly confirmed tool session 38834 used this prepared wrapper; source still matches preparation manifest."
+}

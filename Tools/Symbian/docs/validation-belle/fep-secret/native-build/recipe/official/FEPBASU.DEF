@@ -1,0 +1,170 @@
+EXPORTS
+	_Z36FepObserverHandleStartOfTransactionLR15MCoeFepObserver @ 1 NONAME
+	_ZN15MCoeFepObserver25HandleStartOfTransactionLEv @ 2 NONAME
+	_ZN15MCoeFepObserver26MCoeFepObserver_Reserved_1Ev @ 3 NONAME
+	_ZN15MCoeFepObserver26MCoeFepObserver_Reserved_2Ev @ 4 NONAME
+	_ZN15MCoeFepObserver30HandleCompletionOfTransactionLEv @ 5 NONAME
+	_ZN17CCoeFepParameters4NewLERK18TFepOnOrOffKeyDataS2_i @ 6 NONAME ABSENT
+	_ZN17CCoeFepParameters5NewLCE @ 7 NONAME ABSENT
+	_ZN19MFepAttributeStorer18ReadAllAttributesLER7CCoeEnv @ 8 NONAME
+	_ZN19MFepAttributeStorer30MFepAttributeStorer_Reserved_1Ev @ 9 NONAME
+	_ZN19MFepAttributeStorer30MFepAttributeStorer_Reserved_2Ev @ 10 NONAME
+	_ZN19MFepAttributeStorer31WriteAttributeDataAndBroadcastLER7CCoeEnv4TUid @ 11 NONAME
+	_ZN19MFepAttributeStorer31WriteAttributeDataAndBroadcastLER7CCoeEnvRK6TArrayI4TUidE @ 12 NONAME
+	_ZN20CFepFastFileAccessor10RemoveFileERK7TDesC16 @ 13 NONAME ABSENT
+	_ZN20CFepFastFileAccessor13MFileObserver24MFileObserver_Reserved_1Ev @ 14 NONAME ABSENT
+	_ZN20CFepFastFileAccessor13MFileObserver24MFileObserver_Reserved_2Ev @ 15 NONAME ABSENT
+	_ZN20CFepFastFileAccessor15FileHasChangedLERK7TDesC16 @ 16 NONAME ABSENT
+	_ZN20CFepFastFileAccessor4NewLER7CCoeEnvPNS_13MFileObserverE @ 17 NONAME ABSENT
+	_ZN20CFepFastFileAccessor5NewLCER7CCoeEnvPNS_13MFileObserverE @ 18 NONAME ABSENT
+	_ZN20CFepFastFileAccessor8AddFileLERK7TDesC16 @ 19 NONAME ABSENT
+	_ZN20CFepFastFileAccessorD0Ev @ 20 NONAME ABSENT
+	_ZN20CFepFastFileAccessorD1Ev @ 21 NONAME ABSENT
+	_ZN20CFepFastFileAccessorD2Ev @ 22 NONAME ABSENT
+	_ZN22MCoeFepAwareTextEditor10Extension1ERi @ 23 NONAME
+	_ZN22MCoeFepAwareTextEditor10Extension1Ev @ 24 NONAME
+	_ZN22MCoeFepAwareTextEditor20CommitFepInlineEditLER7CCoeEnv @ 25 NONAME
+	_ZN22MCoeFepAwareTextEditor33MCoeFepAwareTextEditor_Reserved_2Ev @ 26 NONAME
+	_ZN22MCoeFepLayDocExtension33MCoeFepLayDocExtension_Reserved_1Ev @ 27 NONAME
+	_ZN22MCoeFepLayDocExtension33MCoeFepLayDocExtension_Reserved_2Ev @ 28 NONAME
+	_ZN25CFepGenericGlobalSettings12SetOnKeyDataERK18TFepOnOrOffKeyData @ 29 NONAME
+	_ZN25CFepGenericGlobalSettings13SetOffKeyDataERK18TFepOnOrOffKeyData @ 30 NONAME
+	_ZN25CFepGenericGlobalSettings25StoreChangesAndBroadcastLEv @ 31 NONAME
+	_ZN25CFepGenericGlobalSettings4NewLER7CCoeEnvRK18TFepOnOrOffKeyDataS4_i @ 32 NONAME
+	_ZN25CFepGenericGlobalSettings5NewLCER7CCoeEnvRK18TFepOnOrOffKeyDataS4_i @ 33 NONAME
+	_ZN25CFepGenericGlobalSettings7SetIsOnEi @ 34 NONAME
+	_ZN25CFepGenericGlobalSettings8RefreshLEv @ 35 NONAME
+	_ZN26MCoeCaptionRetrieverForFep37MCoeCaptionRetrieverForFep_Reserved_1Ev @ 36 NONAME
+	_ZN26MCoeCaptionRetrieverForFep37MCoeCaptionRetrieverForFep_Reserved_2Ev @ 37 NONAME
+	_ZN29MFepInlineTextFormatRetriever40MFepInlineTextFormatRetriever_Reserved_1Ev @ 38 NONAME
+	_ZN29MFepInlineTextFormatRetriever40MFepInlineTextFormatRetriever_Reserved_2Ev @ 39 NONAME
+	_ZN31CFepGlobalDynamicFrequencyTable15MCharacterArray26MCharacterArray_Reserved_1Ev @ 40 NONAME ABSENT
+	_ZN31CFepGlobalDynamicFrequencyTable15MCharacterArray26MCharacterArray_Reserved_2Ev @ 41 NONAME ABSENT
+	_ZN31CFepGlobalDynamicFrequencyTable29IncrementFrequencyOfCharacterEj @ 42 NONAME ABSENT
+	_ZN31CFepGlobalDynamicFrequencyTable4NewLEi @ 43 NONAME ABSENT
+	_ZN31CFepGlobalDynamicFrequencyTable5NewLCEi @ 44 NONAME ABSENT
+	_ZN31CFepGlobalDynamicFrequencyTable5ResetEv @ 45 NONAME ABSENT
+	_ZN31CFepGlobalDynamicFrequencyTable5SortLERNS_15MCharacterArrayEPFijjENS_9TSortTypeE @ 46 NONAME ABSENT
+	_ZN31CFepGlobalDynamicFrequencyTableD0Ev @ 47 NONAME ABSENT
+	_ZN31CFepGlobalDynamicFrequencyTableD1Ev @ 48 NONAME ABSENT
+	_ZN31CFepGlobalDynamicFrequencyTableD2Ev @ 49 NONAME ABSENT
+	_ZN33MCoeFepAwareTextEditor_Extension113SetCursorTypeERiRK11TTextCursor @ 50 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension119StartFepInlineEditLERiRK16TCursorSelectionRK7TDesC16iiPK15MFormCustomDrawR29MFepInlineTextFormatRetrieverR39MFepPointerEventHandlerDuringInlineEdit @ 51 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension121GetFepLayDocExtensionERi @ 52 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension144MCoeFepAwareTextEditor_Extension1_Reserved_4Ev @ 53 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CState14BaseConstructLEv @ 54 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CState17CState_Reserved_1Ev @ 55 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CState17CState_Reserved_2Ev @ 56 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CState17CState_Reserved_3Ev @ 57 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CState17CState_Reserved_4Ev @ 58 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CStateC1Ev @ 59 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CStateC2Ev @ 60 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CStateD0Ev @ 61 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CStateD1Ev @ 62 NONAME
+	_ZN33MCoeFepAwareTextEditor_Extension16CStateD2Ev @ 63 NONAME
+	_ZN39MFepPointerEventHandlerDuringInlineEdit50MFepPointerEventHandlerDuringInlineEdit_Reserved_1Ev @ 64 NONAME
+	_ZN39MFepPointerEventHandlerDuringInlineEdit50MFepPointerEventHandlerDuringInlineEdit_Reserved_2Ev @ 65 NONAME
+	_ZN7CCoeFep13OfferKeyEventERiRNS_14MKeyEventQueueERK9TKeyEvent10TEventCode @ 66 NONAME ABSENT
+	_ZN7CCoeFep14BaseConstructLERK17CCoeFepParameters @ 67 NONAME
+	_ZN7CCoeFep14HandleMessageLEm4TUidRK6TDesC8 @ 68 NONAME
+	_ZN7CCoeFep14MKeyEventQueue25MKeyEventQueue_Reserved_1Ev @ 69 NONAME ABSENT
+	_ZN7CCoeFep14MKeyEventQueue25MKeyEventQueue_Reserved_2Ev @ 70 NONAME ABSENT
+	_ZN7CCoeFep17OfferPointerEventERiRNS_14MKeyEventQueueERK13TPointerEventPK11CCoeControl @ 71 NONAME ABSENT
+	_ZN7CCoeFep18CCoeFep_Reserved_1Ev @ 72 NONAME
+	_ZN7CCoeFep18CCoeFep_Reserved_2Ev @ 73 NONAME
+	_ZN7CCoeFep18MModifiedCharacter29MModifiedCharacter_Reserved_1Ev @ 74 NONAME
+	_ZN7CCoeFep18MModifiedCharacter29MModifiedCharacter_Reserved_2Ev @ 75 NONAME
+	_ZN7CCoeFep18ReadAllAttributesLEv @ 76 NONAME
+	_ZN7CCoeFep18SimulateKeyEventsLERK6TArrayINS_18MModifiedCharacterEE @ 77 NONAME
+	_ZN7CCoeFep18SimulateKeyEventsLERK6TArrayIjE @ 78 NONAME
+	_ZN7CCoeFep21MDeferredFunctionCall32MDeferredFunctionCall_Reserved_1Ev @ 79 NONAME
+	_ZN7CCoeFep21MDeferredFunctionCall32MDeferredFunctionCall_Reserved_2Ev @ 80 NONAME
+	_ZN7CCoeFep24MakeDeferredFunctionCallERNS_21MDeferredFunctionCallE @ 81 NONAME
+	_ZN7CCoeFep27OfferEventToActiveSchedulerEPS_RiRNS_14MKeyEventQueueEi @ 82 NONAME ABSENT
+	_ZN7CCoeFep28MCoeFocusObserver_Reserved_1Ev @ 83 NONAME
+	_ZN7CCoeFep28MCoeFocusObserver_Reserved_2Ev @ 84 NONAME
+	_ZN7CCoeFep28OfferPointerBufferReadyEventERiRNS_14MKeyEventQueueEPK11CCoeControl @ 85 NONAME ABSENT
+	_ZN7CCoeFep30MCoeMessageObserver_Reserved_1Ev @ 86 NONAME
+	_ZN7CCoeFep30MCoeMessageObserver_Reserved_2Ev @ 87 NONAME
+	_ZN7CCoeFep30MFepAttributeStorer_Reserved_1Ev @ 88 NONAME
+	_ZN7CCoeFep30MFepAttributeStorer_Reserved_2Ev @ 89 NONAME
+	_ZN7CCoeFep31WriteAttributeDataAndBroadcastLE4TUid @ 90 NONAME
+	_ZN7CCoeFep31WriteAttributeDataAndBroadcastLERK6TArrayI4TUidE @ 91 NONAME
+	_ZN7CCoeFep33MCoeForegroundObserver_Reserved_1Ev @ 92 NONAME
+	_ZN7CCoeFep33MCoeForegroundObserver_Reserved_2Ev @ 93 NONAME
+	_ZN7CCoeFep43OnFinishingHandlingKeyEvent_NoDownUpFilterLE10TEventCodeRK9TKeyEvent12TKeyResponse @ 94 NONAME
+	_ZN7CCoeFep43OnStartingHandlingKeyEvent_NoDownUpFilterLCEv @ 95 NONAME
+	_ZN7CCoeFep45OnFinishingHandlingKeyEvent_WithDownUpFilterLE10TEventCodeRK9TKeyEvent12TKeyResponse @ 96 NONAME
+	_ZN7CCoeFep45OnStartingHandlingKeyEvent_WithDownUpFilterLCEv @ 97 NONAME
+	_ZThn8_N7CCoeFep33MCoeForegroundObserver_Reserved_2Ev @ 98 NONAME ; #<thunk>#
+	_ZN7CCoeFepC2ER7CCoeEnv @ 99 NONAME
+	_ZN7CCoeFepD0Ev @ 100 NONAME
+	_ZN7CCoeFepD1Ev @ 101 NONAME
+	_ZN7CCoeFepD2Ev @ 102 NONAME
+	_ZNK20CFepFastFileAccessor7GetDataERK7TDesC16RPKhRiPi @ 103 NONAME ABSENT
+	_ZNK25CFepGenericGlobalSettings10OffKeyDataEv @ 104 NONAME
+	_ZNK25CFepGenericGlobalSettings4IsOnEv @ 105 NONAME
+	_ZNK25CFepGenericGlobalSettings9OnKeyDataEv @ 106 NONAME
+	_ZNK7CCoeFep13IsTurnedOnByLERK9TKeyEvent @ 107 NONAME
+	_ZNK7CCoeFep14IsTurnedOffByLERK9TKeyEvent @ 108 NONAME
+	_ZNK7CCoeFep20IsSimulatingKeyEventEv @ 109 NONAME
+	_ZNK7CCoeFep4IsOnEv @ 110 NONAME
+	_ZTI15MCoeFepObserver @ 111 NONAME ; #<TI>#
+	_ZTI19MFepAttributeStorer @ 112 NONAME ; #<TI>#
+	_ZTI20CFepFastFileAccessor @ 113 NONAME ABSENT ; #<TI>#
+	_ZTI22MCoeFepAwareTextEditor @ 114 NONAME ; #<TI>#
+	_ZTI22MCoeFepLayDocExtension @ 115 NONAME ; #<TI>#
+	_ZTI26MCoeCaptionRetrieverForFep @ 116 NONAME ; #<TI>#
+	_ZTI29MFepInlineTextFormatRetriever @ 117 NONAME ; #<TI>#
+	_ZTI31CFepGlobalDynamicFrequencyTable @ 118 NONAME ABSENT ; #<TI>#
+	_ZTI33MCoeFepAwareTextEditor_Extension1 @ 119 NONAME ; #<TI>#
+	_ZTI39MFepPointerEventHandlerDuringInlineEdit @ 120 NONAME ; #<TI>#
+	_ZTI7CCoeFep @ 121 NONAME ; #<TI>#
+	_ZTIN20CFepFastFileAccessor13MFileObserverE @ 122 NONAME ABSENT ; #<TI>#
+	_ZTIN31CFepGlobalDynamicFrequencyTable15MCharacterArrayE @ 123 NONAME ABSENT ; #<TI>#
+	_ZTIN33MCoeFepAwareTextEditor_Extension16CStateE @ 124 NONAME ; #<TI>#
+	_ZTIN7CCoeFep14MKeyEventQueueE @ 125 NONAME ABSENT; #<TI>#
+	_ZTIN7CCoeFep18MModifiedCharacterE @ 126 NONAME ; #<TI>#
+	_ZTIN7CCoeFep21MDeferredFunctionCallE @ 127 NONAME ; #<TI>#
+	_ZTV15MCoeFepObserver @ 128 NONAME ; #<VT>#
+	_ZTV19MFepAttributeStorer @ 129 NONAME ; #<VT>#
+	_ZTV20CFepFastFileAccessor @ 130 NONAME ABSENT ; #<VT>#
+	_ZTV22MCoeFepAwareTextEditor @ 131 NONAME ; #<VT>#
+	_ZTV22MCoeFepLayDocExtension @ 132 NONAME ; #<VT>#
+	_ZTV26MCoeCaptionRetrieverForFep @ 133 NONAME ; #<VT>#
+	_ZTV29MFepInlineTextFormatRetriever @ 134 NONAME ; #<VT>#
+	_ZTV31CFepGlobalDynamicFrequencyTable @ 135 NONAME ABSENT ; #<VT>#
+	_ZTV33MCoeFepAwareTextEditor_Extension1 @ 136 NONAME ; #<VT>#
+	_ZTV39MFepPointerEventHandlerDuringInlineEdit @ 137 NONAME ; #<VT>#
+	_ZTV7CCoeFep @ 138 NONAME ; #<VT>#
+	_ZTVN20CFepFastFileAccessor13MFileObserverE @ 139 NONAME ABSENT ; #<VT>#
+	_ZTVN31CFepGlobalDynamicFrequencyTable15MCharacterArrayE @ 140 NONAME ABSENT ; #<VT>#
+	_ZTVN33MCoeFepAwareTextEditor_Extension16CStateE @ 141 NONAME ; #<VT>#
+	_ZTVN7CCoeFep14MKeyEventQueueE @ 142 NONAME ABSENT; #<VT>#
+	_ZTVN7CCoeFep18MModifiedCharacterE @ 143 NONAME ; #<VT>#
+	_ZTVN7CCoeFep21MDeferredFunctionCallE @ 144 NONAME ; #<VT>#
+	_ZThn16_N7CCoeFep28MCoeFocusObserver_Reserved_1Ev @ 145 NONAME ; #<thunk>#
+	_ZThn16_N7CCoeFep28MCoeFocusObserver_Reserved_2Ev @ 146 NONAME ; #<thunk>#
+	_ZThn24_N7CCoeFep14HandleMessageLEm4TUidRK6TDesC8 @ 147 NONAME ; #<thunk>#
+	_ZThn24_N7CCoeFep30MCoeMessageObserver_Reserved_1Ev @ 148 NONAME ; #<thunk>#
+	_ZThn24_N7CCoeFep30MCoeMessageObserver_Reserved_2Ev @ 149 NONAME ; #<thunk>#
+	_ZThn4_N7CCoeFep30MFepAttributeStorer_Reserved_1Ev @ 150 NONAME ; #<thunk>#
+	_ZThn4_N7CCoeFep30MFepAttributeStorer_Reserved_2Ev @ 151 NONAME ; #<thunk>#
+	_ZThn8_N7CCoeFep33MCoeForegroundObserver_Reserved_1Ev @ 152 NONAME ; #<thunk>#
+	_ZTI17TArrayTransformer @ 153 NONAME ; #<TI>#
+	_ZTIN7CCoeFep18CLowPriorityActiveE @ 154 NONAME ; #<TI>#
+	_ZTIN7CCoeFep19CHighPriorityActive12CFlagClearerE @ 155 NONAME ; #<TI>#
+	_ZTIN7CCoeFep19CHighPriorityActiveE @ 156 NONAME ; #<TI>#
+	_ZTV17TArrayTransformer @ 157 NONAME ; #<VT>#
+	_ZTVN7CCoeFep18CLowPriorityActiveE @ 158 NONAME ; #<VT>#
+	_ZTVN7CCoeFep19CHighPriorityActive12CFlagClearerE @ 159 NONAME ; #<VT>#
+	_ZTVN7CCoeFep19CHighPriorityActiveE @ 160 NONAME ; #<VT>#
+	_ZN25CFepGenericGlobalSettings11ReadOnStateER11CRepositoryRiPi @ 161 NONAME
+	_ZN25CFepGenericGlobalSettings18ReadOnOrOffKeyDataER11CRepositoryR18TFepOnOrOffKeyDatamPi @ 162 NONAME
+	_ZN25CFepGenericGlobalSettings25WriteOnStateAndBroadcastLER11CRepositoryim @ 163 NONAME
+	_ZN25CFepGenericGlobalSettings32WriteOnOrOffKeyDataAndBroadcastLER11CRepositoryRK18TFepOnOrOffKeyDatam @ 164 NONAME
+	_ZN25CFepGenericGlobalSettings4NewLEv @ 165 NONAME
+	_ZN25CFepGenericGlobalSettings5NewLCEv @ 166 NONAME
+	_ZNK18TFepOnOrOffKeyDataeqERKS_ @ 167 NONAME
+	_ZNK18TFepOnOrOffKeyDataneERKS_ @ 168 NONAME
+

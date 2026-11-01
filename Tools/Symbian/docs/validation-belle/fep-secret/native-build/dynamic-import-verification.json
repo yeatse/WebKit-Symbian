@@ -1,0 +1,1036 @@
+{
+  "status": "PASS",
+  "all_image_ordinals_match_present_proxy_bindings": true,
+  "supports_secret_text_cone_ordinal": 316,
+  "libraries": [
+    {
+      "status": "PASS",
+      "target_dll": "cone.dll",
+      "proxy_present_bindings": 707,
+      "used_bindings": [
+        {
+          "ordinal": 9,
+          "symbol": "_ZN11CCoeControl10Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 11,
+          "symbol": "_ZN11CCoeControl11MakeVisibleEi",
+          "data": false
+        },
+        {
+          "ordinal": 12,
+          "symbol": "_ZN11CCoeControl11MinimumSizeEv",
+          "data": false
+        },
+        {
+          "ordinal": 13,
+          "symbol": "_ZN11CCoeControl11SetAdjacentEi",
+          "data": false
+        },
+        {
+          "ordinal": 15,
+          "symbol": "_ZN11CCoeControl11SetNeighborEPS_",
+          "data": false
+        },
+        {
+          "ordinal": 18,
+          "symbol": "_ZN11CCoeControl11SizeChangedEv",
+          "data": false
+        },
+        {
+          "ordinal": 19,
+          "symbol": "_ZN11CCoeControl12FocusChangedE8TDrawNow",
+          "data": false
+        },
+        {
+          "ordinal": 29,
+          "symbol": "_ZN11CCoeControl15MopSupplyObjectE8TTypeUid",
+          "data": false
+        },
+        {
+          "ordinal": 30,
+          "symbol": "_ZN11CCoeControl15PositionChangedEv",
+          "data": false
+        },
+        {
+          "ordinal": 36,
+          "symbol": "_ZN11CCoeControl19HandlePointerEventLERK13TPointerEvent",
+          "data": false
+        },
+        {
+          "ordinal": 39,
+          "symbol": "_ZN11CCoeControl19SetContainerWindowLERKS_",
+          "data": false
+        },
+        {
+          "ordinal": 40,
+          "symbol": "_ZN11CCoeControl20HandleResourceChangeEi",
+          "data": false
+        },
+        {
+          "ordinal": 41,
+          "symbol": "_ZN11CCoeControl20PrepareForFocusGainLEv",
+          "data": false
+        },
+        {
+          "ordinal": 42,
+          "symbol": "_ZN11CCoeControl20PrepareForFocusLossLEv",
+          "data": false
+        },
+        {
+          "ordinal": 48,
+          "symbol": "_ZN11CCoeControl22ConstructFromResourceLER15TResourceReader",
+          "data": false
+        },
+        {
+          "ordinal": 51,
+          "symbol": "_ZN11CCoeControl25HandlePointerBufferReadyLEv",
+          "data": false
+        },
+        {
+          "ordinal": 56,
+          "symbol": "_ZN11CCoeControl7MopNextEv",
+          "data": false
+        },
+        {
+          "ordinal": 61,
+          "symbol": "_ZN11CCoeControl9ActivateLEv",
+          "data": false
+        },
+        {
+          "ordinal": 62,
+          "symbol": "_ZN11CCoeControl9SetDimmedEi",
+          "data": false
+        },
+        {
+          "ordinal": 65,
+          "symbol": "_ZN11CCoeControlC2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 68,
+          "symbol": "_ZN11CCoeControlD2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 92,
+          "symbol": "_ZN15MObjectProvider10MopGetByIdE8TTypeUid",
+          "data": false
+        },
+        {
+          "ordinal": 113,
+          "symbol": "_ZN21TCoeInputCapabilitiesaSERKS_",
+          "data": false
+        },
+        {
+          "ordinal": 182,
+          "symbol": "_ZN7CCoeEnv6StaticEv",
+          "data": false
+        },
+        {
+          "ordinal": 202,
+          "symbol": "_ZN9CCoeAppUi11AddToStackLEP11CCoeControlii",
+          "data": false
+        },
+        {
+          "ordinal": 211,
+          "symbol": "_ZN9CCoeAppUi15RemoveFromStackEP11CCoeControl",
+          "data": false
+        },
+        {
+          "ordinal": 263,
+          "symbol": "_ZNK11CCoeControl14GetHelpContextER15TCoeHelpContext",
+          "data": false
+        },
+        {
+          "ordinal": 265,
+          "symbol": "_ZNK11CCoeControl16ComponentControlEi",
+          "data": false
+        },
+        {
+          "ordinal": 266,
+          "symbol": "_ZNK11CCoeControl16GetColorUseListLER9CArrayFixI12TCoeColorUseE",
+          "data": false
+        },
+        {
+          "ordinal": 270,
+          "symbol": "_ZNK11CCoeControl17InputCapabilitiesEv",
+          "data": false
+        },
+        {
+          "ordinal": 271,
+          "symbol": "_ZNK11CCoeControl19WriteInternalStateLER12RWriteStream",
+          "data": false
+        },
+        {
+          "ordinal": 272,
+          "symbol": "_ZNK11CCoeControl22CountComponentControlsEv",
+          "data": false
+        },
+        {
+          "ordinal": 275,
+          "symbol": "_ZNK11CCoeControl4DrawERK5TRect",
+          "data": false
+        },
+        {
+          "ordinal": 288,
+          "symbol": "_ZNK11CCoeControl9HasBorderEv",
+          "data": false
+        },
+        {
+          "ordinal": 312,
+          "symbol": "_ZNK21TCoeInputCapabilities14ObjectProviderEv",
+          "data": false
+        },
+        {
+          "ordinal": 314,
+          "symbol": "_ZNK21TCoeInputCapabilities18FepAwareTextEditorEv",
+          "data": false
+        },
+        {
+          "ordinal": 316,
+          "symbol": "_ZNK21TCoeInputCapabilities18SupportsSecretTextEv",
+          "data": false
+        },
+        {
+          "ordinal": 327,
+          "symbol": "_ZNK21TCoeInputCapabilities6IsNoneEv",
+          "data": false
+        },
+        {
+          "ordinal": 329,
+          "symbol": "_ZNK21TCoeInputCapabilitiesneERKS_",
+          "data": false
+        },
+        {
+          "ordinal": 361,
+          "symbol": "_ZTI11CCoeControl",
+          "data": true
+        },
+        {
+          "ordinal": 396,
+          "symbol": "_ZThn4_N11CCoeControl15MopSupplyObjectE8TTypeUid",
+          "data": false
+        },
+        {
+          "ordinal": 397,
+          "symbol": "_ZThn4_N11CCoeControl7MopNextEv",
+          "data": false
+        },
+        {
+          "ordinal": 444,
+          "symbol": "_ZN11CCoeControl9SetParentEPS_",
+          "data": false
+        },
+        {
+          "ordinal": 474,
+          "symbol": "_ZN11CCoeControl17SetLayoutManagerLEP17MCoeLayoutManager",
+          "data": false
+        },
+        {
+          "ordinal": 477,
+          "symbol": "_ZNK11CCoeControl13GetTextDrawerERP18CCoeTextDrawerBasePKS_i",
+          "data": false
+        },
+        {
+          "ordinal": 478,
+          "symbol": "_ZN11CCoeControl22Reserved_CCoeControl_8Ev",
+          "data": false
+        },
+        {
+          "ordinal": 479,
+          "symbol": "_ZN11CCoeControl22Reserved_CCoeControl_9Ev",
+          "data": false
+        },
+        {
+          "ordinal": 482,
+          "symbol": "_ZN11CCoeControl15RequestRelayoutEPKS_",
+          "data": false
+        },
+        {
+          "ordinal": 502,
+          "symbol": "_ZN11CCoeControl22SetTextBaselineSpacingEi",
+          "data": false
+        },
+        {
+          "ordinal": 514,
+          "symbol": "_ZNK11CCoeControl18TextBaselineOffsetERK5TSize",
+          "data": false
+        },
+        {
+          "ordinal": 580,
+          "symbol": "_ZN11CCoeControl23Reserved_CCoeControl_10Ev",
+          "data": false
+        },
+        {
+          "ordinal": 581,
+          "symbol": "_ZN11CCoeControl23Reserved_CCoeControl_11Ev",
+          "data": false
+        },
+        {
+          "ordinal": 582,
+          "symbol": "_ZN11CCoeControl23Reserved_CCoeControl_12Ev",
+          "data": false
+        },
+        {
+          "ordinal": 583,
+          "symbol": "_ZN11CCoeControl23Reserved_CCoeControl_13Ev",
+          "data": false
+        },
+        {
+          "ordinal": 584,
+          "symbol": "_ZN11CCoeControl24HandleControlArrayEventLEN16CCoeControlArray6TEventEPKS0_PS_i",
+          "data": false
+        },
+        {
+          "ordinal": 638,
+          "symbol": "_ZN15MObjectProvider25MObjectProvider_Reserved1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 639,
+          "symbol": "_ZN15MObjectProvider25MObjectProvider_Reserved2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 658,
+          "symbol": "_ZN21TCoeInputCapabilitiesC1Ev",
+          "data": false
+        }
+      ],
+      "proxy_source": "/workspace/symbian-sdk/proxies/cone/cone.dso",
+      "proxy_sha256": "07d3358d36e986cdec73198a6c89fe29f04ee34a088870eda695d0dc9de10e74",
+      "image_slots": 59,
+      "distinct_image_ordinals": 58
+    },
+    {
+      "status": "PASS",
+      "target_dll": "drtaeabi.dll",
+      "proxy_present_bindings": 227,
+      "used_bindings": [
+        {
+          "ordinal": 123,
+          "symbol": "_ZTVN10__cxxabiv117__class_type_infoE",
+          "data": true
+        },
+        {
+          "ordinal": 127,
+          "symbol": "_ZTVN10__cxxabiv120__si_class_type_infoE",
+          "data": true
+        },
+        {
+          "ordinal": 128,
+          "symbol": "_ZTVN10__cxxabiv121__vmi_class_type_infoE",
+          "data": true
+        },
+        {
+          "ordinal": 135,
+          "symbol": "__aeabi_idivmod",
+          "data": false
+        },
+        {
+          "ordinal": 139,
+          "symbol": "__aeabi_ldivmod",
+          "data": false
+        },
+        {
+          "ordinal": 140,
+          "symbol": "__aeabi_llsl",
+          "data": false
+        },
+        {
+          "ordinal": 141,
+          "symbol": "__aeabi_llsr",
+          "data": false
+        },
+        {
+          "ordinal": 142,
+          "symbol": "__aeabi_lmul",
+          "data": false
+        },
+        {
+          "ordinal": 146,
+          "symbol": "__aeabi_memcpy",
+          "data": false
+        },
+        {
+          "ordinal": 147,
+          "symbol": "__aeabi_memcpy4",
+          "data": false
+        },
+        {
+          "ordinal": 148,
+          "symbol": "__aeabi_memcpy8",
+          "data": false
+        },
+        {
+          "ordinal": 155,
+          "symbol": "__aeabi_uidivmod",
+          "data": false
+        },
+        {
+          "ordinal": 157,
+          "symbol": "__aeabi_uldivmod",
+          "data": false
+        },
+        {
+          "ordinal": 158,
+          "symbol": "__aeabi_unwind_cpp_pr0",
+          "data": false
+        },
+        {
+          "ordinal": 159,
+          "symbol": "__aeabi_unwind_cpp_pr1",
+          "data": false
+        },
+        {
+          "ordinal": 160,
+          "symbol": "__aeabi_unwind_cpp_pr2",
+          "data": false
+        },
+        {
+          "ordinal": 180,
+          "symbol": "__cxa_begin_catch",
+          "data": false
+        },
+        {
+          "ordinal": 181,
+          "symbol": "__cxa_begin_cleanup",
+          "data": false
+        },
+        {
+          "ordinal": 183,
+          "symbol": "__cxa_end_catch",
+          "data": false
+        },
+        {
+          "ordinal": 184,
+          "symbol": "__cxa_end_cleanup",
+          "data": false
+        },
+        {
+          "ordinal": 189,
+          "symbol": "__cxa_pure_virtual",
+          "data": false
+        },
+        {
+          "ordinal": 213,
+          "symbol": "_ZSt9terminatev",
+          "data": false
+        },
+        {
+          "ordinal": 217,
+          "symbol": "__cxa_type_match",
+          "data": false
+        },
+        {
+          "ordinal": 218,
+          "symbol": "_Unwind_VRS_Get",
+          "data": false
+        },
+        {
+          "ordinal": 220,
+          "symbol": "_Unwind_VRS_Set",
+          "data": false
+        },
+        {
+          "ordinal": 223,
+          "symbol": "__aeabi_uidiv",
+          "data": false
+        }
+      ],
+      "proxy_source": "/workspace/symbian-sdk/proxies/drtaeabi/drtaeabi.dso",
+      "proxy_sha256": "855b2710c083718a1cc36c58e7e505cff5ebd3e9b68ba37eac0ffb195c74c2b6",
+      "image_slots": 36,
+      "distinct_image_ordinals": 26
+    },
+    {
+      "status": "PASS",
+      "target_dll": "ecom.dll",
+      "proxy_present_bindings": 39,
+      "used_bindings": [
+        {
+          "ordinal": 19,
+          "symbol": "_ZN12REComSession23DestroyedImplementationE4TUid",
+          "data": false
+        }
+      ],
+      "proxy_source": "/workspace/symbian-sdk/proxies/ecom/ecom.dso",
+      "proxy_sha256": "ac059da017032f6e3729abe989bc176688d54d9922fc8b808ab89acdae0b1e4a",
+      "image_slots": 1,
+      "distinct_image_ordinals": 1
+    },
+    {
+      "status": "PASS",
+      "target_dll": "eikcoctl.dll",
+      "proxy_present_bindings": 1978,
+      "used_bindings": [
+        {
+          "ordinal": 269,
+          "symbol": "_ZN14CAknEdwinState11SetObserverEP19MAknEdStateObserver",
+          "data": false
+        }
+      ],
+      "proxy_source": "/workspace/symbian-sdk/proxies/eikcoctl/eikcoctl.dso",
+      "proxy_sha256": "1c15c5754cfe6ba35a00367a24d61bbb4ba952869dcadb4f97e117a8b099dee5",
+      "image_slots": 1,
+      "distinct_image_ordinals": 1
+    },
+    {
+      "status": "PASS",
+      "target_dll": "eikctl.dll",
+      "proxy_present_bindings": 700,
+      "used_bindings": [
+        {
+          "ordinal": 654,
+          "symbol": "_ZN29CAknExtendedInputCapabilities16RegisterObserverEPNS_17MAknEventObserverE",
+          "data": false
+        },
+        {
+          "ordinal": 655,
+          "symbol": "_ZN29CAknExtendedInputCapabilities18UnregisterObserverEPNS_17MAknEventObserverE",
+          "data": false
+        }
+      ],
+      "proxy_source": "/workspace/symbian-sdk/proxies/eikctl/eikctl.dso",
+      "proxy_sha256": "117568cd7b374bedd40152d0354b6e0ccabe889e0fe5df8984b72b3ff8a36e12",
+      "image_slots": 2,
+      "distinct_image_ordinals": 2
+    },
+    {
+      "status": "PASS",
+      "target_dll": "euser.dll",
+      "proxy_present_bindings": 2539,
+      "used_bindings": [
+        {
+          "ordinal": 120,
+          "symbol": "_ZN11RHandleBase5CloseEv",
+          "data": false
+        },
+        {
+          "ordinal": 203,
+          "symbol": "_ZN12CleanupStack13PopAndDestroyEv",
+          "data": false
+        },
+        {
+          "ordinal": 205,
+          "symbol": "_ZN12CleanupStack3PopEv",
+          "data": false
+        },
+        {
+          "ordinal": 208,
+          "symbol": "_ZN12CleanupStack5PushLEP5CBase",
+          "data": false
+        },
+        {
+          "ordinal": 424,
+          "symbol": "_ZN16CActiveScheduler3AddEP7CActive",
+          "data": false
+        },
+        {
+          "ordinal": 593,
+          "symbol": "_ZN4User12LeaveIfErrorEi",
+          "data": false
+        },
+        {
+          "ordinal": 641,
+          "symbol": "_ZN4User4ExitEi",
+          "data": false
+        },
+        {
+          "ordinal": 644,
+          "symbol": "_ZN4User4FreeEPv",
+          "data": false
+        },
+        {
+          "ordinal": 645,
+          "symbol": "_ZN4User5AfterE27TTimeIntervalMicroSeconds32",
+          "data": false
+        },
+        {
+          "ordinal": 650,
+          "symbol": "_ZN4User5PanicERK7TDesC16i",
+          "data": false
+        },
+        {
+          "ordinal": 654,
+          "symbol": "_ZN4User7AllocZLEi",
+          "data": false
+        },
+        {
+          "ordinal": 669,
+          "symbol": "_ZN4User9InvariantEv",
+          "data": false
+        },
+        {
+          "ordinal": 674,
+          "symbol": "_ZN4User9TickCountEv",
+          "data": false
+        },
+        {
+          "ordinal": 908,
+          "symbol": "_ZN6RChunk23CreateDisconnectedLocalEiii10TOwnerType",
+          "data": false
+        },
+        {
+          "ordinal": 914,
+          "symbol": "_ZN6RDebug5PrintE11TRefByValueIK7TDesC16Ez",
+          "data": false
+        },
+        {
+          "ordinal": 944,
+          "symbol": "_ZN6TDes1616AppendFormatListERK7TDesC16St9__va_listP14TDes16Overflow",
+          "data": false
+        },
+        {
+          "ordinal": 988,
+          "symbol": "_ZN6TDes169SetLengthEi",
+          "data": false
+        },
+        {
+          "ordinal": 1026,
+          "symbol": "_ZN6TPtr16C1EPti",
+          "data": false
+        },
+        {
+          "ordinal": 1087,
+          "symbol": "_ZN7CActive5DequeEv",
+          "data": false
+        },
+        {
+          "ordinal": 1088,
+          "symbol": "_ZN7CActive6CancelEv",
+          "data": false
+        },
+        {
+          "ordinal": 1089,
+          "symbol": "_ZN7CActive8RunErrorEi",
+          "data": false
+        },
+        {
+          "ordinal": 1090,
+          "symbol": "_ZN7CActive9SetActiveEv",
+          "data": false
+        },
+        {
+          "ordinal": 1091,
+          "symbol": "_ZN7CActiveC2Ei",
+          "data": false
+        },
+        {
+          "ordinal": 1094,
+          "symbol": "_ZN7CActiveD2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 1116,
+          "symbol": "_ZN7HBufC163DesEv",
+          "data": false
+        },
+        {
+          "ordinal": 1118,
+          "symbol": "_ZN7HBufC164NewLEi",
+          "data": false
+        },
+        {
+          "ordinal": 1119,
+          "symbol": "_ZN7HBufC165NewLCEi",
+          "data": false
+        },
+        {
+          "ordinal": 1169,
+          "symbol": "_ZN7TPtrC16C1EPKt",
+          "data": false
+        },
+        {
+          "ordinal": 1196,
+          "symbol": "_ZN7UserHal10TickPeriodER27TTimeIntervalMicroSeconds32",
+          "data": false
+        },
+        {
+          "ordinal": 1202,
+          "symbol": "_ZN7UserHal15PageSizeInBytesERi",
+          "data": false
+        },
+        {
+          "ordinal": 1415,
+          "symbol": "_ZN9RFastLock11CreateLocalE10TOwnerType",
+          "data": false
+        },
+        {
+          "ordinal": 1416,
+          "symbol": "_ZN9RFastLock4WaitEv",
+          "data": false
+        },
+        {
+          "ordinal": 1417,
+          "symbol": "_ZN9RFastLock6SignalEv",
+          "data": false
+        },
+        {
+          "ordinal": 1702,
+          "symbol": "_ZNK6RChunk4BaseEv",
+          "data": false
+        },
+        {
+          "ordinal": 1706,
+          "symbol": "_ZNK6RChunk6CommitEii",
+          "data": false
+        },
+        {
+          "ordinal": 1709,
+          "symbol": "_ZNK6RChunk8DecommitEii",
+          "data": false
+        },
+        {
+          "ordinal": 1793,
+          "symbol": "_ZNK7RThread2IdEv",
+          "data": false
+        },
+        {
+          "ordinal": 1807,
+          "symbol": "_ZNK7TDesC163PtrEv",
+          "data": false
+        },
+        {
+          "ordinal": 1901,
+          "symbol": "_ZTI7CActive",
+          "data": true
+        },
+        {
+          "ordinal": 1955,
+          "symbol": "memset",
+          "data": false
+        },
+        {
+          "ordinal": 2060,
+          "symbol": "_ZN4User16MarkCleanupStackEv",
+          "data": false
+        },
+        {
+          "ordinal": 2061,
+          "symbol": "_ZN4User18UnMarkCleanupStackEP12TTrapHandler",
+          "data": false
+        },
+        {
+          "ordinal": 2082,
+          "symbol": "_ZNK15XLeaveException9GetReasonEv",
+          "data": false
+        },
+        {
+          "ordinal": 2123,
+          "symbol": "_ZN5CBase10Extension_EjRPvS0_",
+          "data": false
+        },
+        {
+          "ordinal": 2126,
+          "symbol": "_ZN5CBaseD2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 2128,
+          "symbol": "_ZN7CActive10Extension_EjRPvS0_",
+          "data": false
+        },
+        {
+          "ordinal": 2132,
+          "symbol": "_ZTI5CBase",
+          "data": true
+        },
+        {
+          "ordinal": 2280,
+          "symbol": "__e32_atomic_add_ord32",
+          "data": false
+        },
+        {
+          "ordinal": 2296,
+          "symbol": "__e32_atomic_and_ord32",
+          "data": false
+        },
+        {
+          "ordinal": 2328,
+          "symbol": "__e32_atomic_cas_ord32",
+          "data": false
+        },
+        {
+          "ordinal": 2344,
+          "symbol": "__e32_atomic_ior_ord32",
+          "data": false
+        },
+        {
+          "ordinal": 2356,
+          "symbol": "__e32_atomic_load_acq32",
+          "data": false
+        },
+        {
+          "ordinal": 2360,
+          "symbol": "__e32_atomic_store_ord32",
+          "data": false
+        },
+        {
+          "ordinal": 2372,
+          "symbol": "__e32_atomic_swp_ord32",
+          "data": false
+        }
+      ],
+      "proxy_source": "/workspace/symbian-sdk/proxies/euser/euser.dso",
+      "proxy_sha256": "e7b8404151473ebd99bcc55437232f82b0d83d7aad24f3d2679008726c29408a",
+      "image_slots": 57,
+      "distinct_image_ordinals": 54
+    },
+    {
+      "status": "PASS",
+      "target_dll": "fepbase.dll",
+      "proxy_present_bindings": 129,
+      "used_bindings": [
+        {
+          "ordinal": 24,
+          "symbol": "_ZN22MCoeFepAwareTextEditor10Extension1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 25,
+          "symbol": "_ZN22MCoeFepAwareTextEditor20CommitFepInlineEditLER7CCoeEnv",
+          "data": false
+        },
+        {
+          "ordinal": 38,
+          "symbol": "_ZN29MFepInlineTextFormatRetriever40MFepInlineTextFormatRetriever_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 39,
+          "symbol": "_ZN29MFepInlineTextFormatRetriever40MFepInlineTextFormatRetriever_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 64,
+          "symbol": "_ZN39MFepPointerEventHandlerDuringInlineEdit50MFepPointerEventHandlerDuringInlineEdit_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 65,
+          "symbol": "_ZN39MFepPointerEventHandlerDuringInlineEdit50MFepPointerEventHandlerDuringInlineEdit_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 67,
+          "symbol": "_ZN7CCoeFep14BaseConstructLERK17CCoeFepParameters",
+          "data": false
+        },
+        {
+          "ordinal": 68,
+          "symbol": "_ZN7CCoeFep14HandleMessageLEm4TUidRK6TDesC8",
+          "data": false
+        },
+        {
+          "ordinal": 72,
+          "symbol": "_ZN7CCoeFep18CCoeFep_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 73,
+          "symbol": "_ZN7CCoeFep18CCoeFep_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 83,
+          "symbol": "_ZN7CCoeFep28MCoeFocusObserver_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 84,
+          "symbol": "_ZN7CCoeFep28MCoeFocusObserver_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 86,
+          "symbol": "_ZN7CCoeFep30MCoeMessageObserver_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 87,
+          "symbol": "_ZN7CCoeFep30MCoeMessageObserver_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 88,
+          "symbol": "_ZN7CCoeFep30MFepAttributeStorer_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 89,
+          "symbol": "_ZN7CCoeFep30MFepAttributeStorer_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 92,
+          "symbol": "_ZN7CCoeFep33MCoeForegroundObserver_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 93,
+          "symbol": "_ZN7CCoeFep33MCoeForegroundObserver_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 98,
+          "symbol": "_ZThn8_N7CCoeFep33MCoeForegroundObserver_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 99,
+          "symbol": "_ZN7CCoeFepC2ER7CCoeEnv",
+          "data": false
+        },
+        {
+          "ordinal": 102,
+          "symbol": "_ZN7CCoeFepD2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 117,
+          "symbol": "_ZTI29MFepInlineTextFormatRetriever",
+          "data": true
+        },
+        {
+          "ordinal": 120,
+          "symbol": "_ZTI39MFepPointerEventHandlerDuringInlineEdit",
+          "data": true
+        },
+        {
+          "ordinal": 121,
+          "symbol": "_ZTI7CCoeFep",
+          "data": true
+        },
+        {
+          "ordinal": 145,
+          "symbol": "_ZThn16_N7CCoeFep28MCoeFocusObserver_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 146,
+          "symbol": "_ZThn16_N7CCoeFep28MCoeFocusObserver_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 147,
+          "symbol": "_ZThn24_N7CCoeFep14HandleMessageLEm4TUidRK6TDesC8",
+          "data": false
+        },
+        {
+          "ordinal": 148,
+          "symbol": "_ZThn24_N7CCoeFep30MCoeMessageObserver_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 149,
+          "symbol": "_ZThn24_N7CCoeFep30MCoeMessageObserver_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 150,
+          "symbol": "_ZThn4_N7CCoeFep30MFepAttributeStorer_Reserved_1Ev",
+          "data": false
+        },
+        {
+          "ordinal": 151,
+          "symbol": "_ZThn4_N7CCoeFep30MFepAttributeStorer_Reserved_2Ev",
+          "data": false
+        },
+        {
+          "ordinal": 152,
+          "symbol": "_ZThn8_N7CCoeFep33MCoeForegroundObserver_Reserved_1Ev",
+          "data": false
+        }
+      ],
+      "proxy_source": "/workspace/symbian-fep-secret-native-build-20261101/work/sdk-overlay/proxies/fepbase/fepbase.dso",
+      "proxy_sha256": "44edaa2f6d84672c83f8acb6839ae27b2a9265cc389b34885f500ac2b8c2470b",
+      "image_slots": 32,
+      "distinct_image_ordinals": 32
+    },
+    {
+      "status": "PASS",
+      "target_dll": "libc.dll",
+      "proxy_present_bindings": 597,
+      "used_bindings": [
+        {
+          "ordinal": 6,
+          "symbol": "__errno",
+          "data": false
+        },
+        {
+          "ordinal": 18,
+          "symbol": "__stderr",
+          "data": false
+        },
+        {
+          "ordinal": 20,
+          "symbol": "__stdout",
+          "data": false
+        },
+        {
+          "ordinal": 380,
+          "symbol": "strtol",
+          "data": false
+        }
+      ],
+      "proxy_source": "/workspace/symbian-sdk/proxies/libc/libc.dso",
+      "proxy_sha256": "b8950f6e7e395e471df9bab7d3b9807b2b2a9c2136f4cffadc9cf4483534a887",
+      "image_slots": 4,
+      "distinct_image_ordinals": 4
+    },
+    {
+      "status": "PASS",
+      "target_dll": "libpthread.dll",
+      "proxy_present_bindings": 52,
+      "used_bindings": [
+        {
+          "ordinal": 26,
+          "symbol": "pthread_getspecific",
+          "data": false
+        },
+        {
+          "ordinal": 28,
+          "symbol": "pthread_key_create",
+          "data": false
+        },
+        {
+          "ordinal": 29,
+          "symbol": "pthread_key_delete",
+          "data": false
+        },
+        {
+          "ordinal": 30,
+          "symbol": "pthread_mutex_destroy",
+          "data": false
+        },
+        {
+          "ordinal": 32,
+          "symbol": "pthread_mutex_lock",
+          "data": false
+        },
+        {
+          "ordinal": 34,
+          "symbol": "pthread_mutex_trylock",
+          "data": false
+        },
+        {
+          "ordinal": 35,
+          "symbol": "pthread_mutex_unlock",
+          "data": false
+        },
+        {
+          "ordinal": 45,
+          "symbol": "pthread_setspecific",
+          "data": false
+        }
+      ],
+      "proxy_source": "/workspace/symbian-sdk/proxies/libpthread/libpthread.dso",
+      "proxy_sha256": "cbee209ec783e887ff49062319ef392e03d8476f53dfa1c24719ded652de3b28",
+      "image_slots": 8,
+      "distinct_image_ordinals": 8
+    }
+  ]
+}

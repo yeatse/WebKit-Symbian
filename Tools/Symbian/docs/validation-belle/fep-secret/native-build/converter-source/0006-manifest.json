@@ -1,0 +1,95 @@
+{
+  "status": "PASS",
+  "patch": "0006-Support-explicit-ECom-plugin-identities.patch",
+  "patch_sha256": "1d8f15bb6bd349f8d88fa446962bc808da1c305d7bc4c65267f783b86f51249e",
+  "sdk_baseline": "b105f752f84d1b5640052f64c4a703017810d7b8",
+  "apply_order": "0001 through 0006",
+  "production_files_byte_identical_to_prior_tested_overlay": true,
+  "source_files": [
+    {
+      "path": "cpp/symbian/e32/e32.cc",
+      "sha256": "32b11332b8a2bcf3ab0ecee6df7f57f822979d13c8a5d655db6edb9b27045517",
+      "equals_previously_tested_overlay": true
+    },
+    {
+      "path": "cpp/symbian/e32/e32.h",
+      "sha256": "abd50e11467babb40c230cb4c98b43180ff11a4c32e8f909aec8cfa8068292e3",
+      "equals_previously_tested_overlay": true
+    },
+    {
+      "path": "cpp/symbian/tools/main.cc",
+      "sha256": "f8e6e0295e4197bfd23f4a4243510b8da7c15eadab1f307be787f37e362e138e",
+      "equals_previously_tested_overlay": true
+    },
+    {
+      "path": "cpp/tests/CMakeLists.txt",
+      "sha256": "127c071dbd69e69969f4e345a85e1a7948d95c477d92235f985e5d20d871c325",
+      "equals_previously_tested_overlay": true
+    },
+    {
+      "path": "cpp/tests/e32_plugin_identity_test.cc",
+      "sha256": "6ab515d153bef7f108f2d463a9cd889c16474b17f9e5f74a14a26d11ed2da11b",
+      "equals_previously_tested_overlay": true
+    }
+  ],
+  "dev_experiment_notes_removed": true,
+  "contains_machine_local_paths": false,
+  "license": "Apache-2.0, symbian-platform source and owned test extension",
+  "new_host_build_performed_in_portable_stage": false,
+  "previous_host_evidence": {
+    "scope": "original external source build, not a new portable rebuild",
+    "e32_tests": 62,
+    "cli_checks": 13,
+    "converter_sha256": "b538f427aefd004d3c4491b5d07a50c02fcab75a132672a8b2ccb2e647657c4a"
+  },
+  "test_wiring": {
+    "new_source": "cpp/tests/e32_plugin_identity_test.cc",
+    "target": "symbian_e32_test",
+    "existing_script": "Tools/Symbian/scripts/build-symbian-native.sh",
+    "existing_script_sha256": "dcc6b25ceedd462b067da26cdc7c0a24a18e0c89241a2043b61f2bd3cd17a979",
+    "script_change_required": false,
+    "script_default": "SYMBIAN_NATIVE_TESTS=ON",
+    "script_builds_target_and_runs_matching_ctest": true,
+    "script_bash_n": "PASS"
+  },
+  "patch_chain_replay": [
+    {
+      "name": "0001-Raise-E32-converter-limits-for-large-images.patch",
+      "sha256": "e7d526647d2bcdbf919c85506226c4f77218f20d3a6bcbae6304086189fbe0d4",
+      "apply_check": true,
+      "applied_in_disposable_replay_only": true
+    },
+    {
+      "name": "0002-Accept-LLD-PIC-range-extension-thunks-to-the-PLT.patch",
+      "sha256": "47522c168093f2f72aa40733cf49f7a430a67c3a134341ec85f8f5c3e19bbe7e",
+      "apply_check": true,
+      "applied_in_disposable_replay_only": true
+    },
+    {
+      "name": "0003-Support-explicit-ARMv6-VFPv2-with-base-AAPCS.patch",
+      "sha256": "5259045f9b77cafc5344b9908b608a5a8205305e5b0b6e60031f024655639699",
+      "apply_check": true,
+      "applied_in_disposable_replay_only": true
+    },
+    {
+      "name": "0004-Support-bounded-read-only-DLL-object-exports.patch",
+      "sha256": "5a2f9dc3444056b2a105acbdf2842fe64dde0494a293cca4126c0acc7088312d",
+      "apply_check": true,
+      "applied_in_disposable_replay_only": true
+    },
+    {
+      "name": "0005-Support-explicit-NetworkControl-capability.patch",
+      "sha256": "b16bc89494ec8b0bc71ebd81f7e88bc5e19ce4a701b76f8ceb39063ee2200964",
+      "apply_check": true,
+      "applied_in_disposable_replay_only": true
+    },
+    {
+      "name": "0006-Support-explicit-ECom-plugin-identities.patch",
+      "sha256": "1d8f15bb6bd349f8d88fa446962bc808da1c305d7bc4c65267f783b86f51249e",
+      "apply_check": true,
+      "applied_in_disposable_replay_only": true
+    }
+  ],
+  "reverse_applied_check": true,
+  "existing_patches_modified": false
+}

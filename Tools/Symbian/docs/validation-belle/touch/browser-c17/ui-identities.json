@@ -1,0 +1,223 @@
+{
+  "cases": [
+    {
+      "case": "prevent-start",
+      "run": "5037023d0891479896e0fccdc3282f16",
+      "url": "http://localhost:8783/?case=prevent-start&run=5037023d0891479896e0fccdc3282f16",
+      "status": "PASS",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "pid": 527325,
+      "window_geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "main_window_id": null,
+      "main_window_id_scope": "Raw drive-touch.py stored PID/geometry, not the XID; same-PID/focus guards are in the pinned native helper.",
+      "images": [
+        {
+          "archive_path": "suite/prevent-start/input/after.png",
+          "sha256": "11a34814076462c6132a9b11264660da4fac82844d47243ee2fbad90c524e77d",
+          "bytes": 31730,
+          "sha_recorded_at_capture": false
+        },
+        {
+          "archive_path": "suite/prevent-start/input/before.png",
+          "sha256": "11a34814076462c6132a9b11264660da4fac82844d47243ee2fbad90c524e77d",
+          "bytes": 31730,
+          "sha_recorded_at_capture": false
+        }
+      ]
+    },
+    {
+      "case": "prevent-move",
+      "run": "fb0a189071844e22924b8f5b065a4fed",
+      "url": "http://localhost:8783/?case=prevent-move&run=fb0a189071844e22924b8f5b065a4fed",
+      "status": "PASS",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "pid": 527382,
+      "window_geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "main_window_id": null,
+      "main_window_id_scope": "Raw drive-touch.py stored PID/geometry, not the XID; same-PID/focus guards are in the pinned native helper.",
+      "images": [
+        {
+          "archive_path": "suite/prevent-move/input/after.png",
+          "sha256": "b4a3435b0b6bf136682d0fb7bdd9adf41f7b959219c55c0a059d44957446553f",
+          "bytes": 41806,
+          "sha_recorded_at_capture": false
+        },
+        {
+          "archive_path": "suite/prevent-move/input/before.png",
+          "sha256": "3dc4cee230b65cf42a3ee161b5e28dcf62d1b08d169d7a9abbd8b1997db3114e",
+          "bytes": 32063,
+          "sha_recorded_at_capture": false
+        }
+      ]
+    },
+    {
+      "case": "pan",
+      "run": "ca4f641c18364fee943a4398f1b26200",
+      "url": "http://localhost:8783/?case=pan&run=ca4f641c18364fee943a4398f1b26200",
+      "status": "PASS",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "pid": 527439,
+      "window_geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "main_window_id": null,
+      "main_window_id_scope": "Raw drive-touch.py stored PID/geometry, not the XID; same-PID/focus guards are in the pinned native helper.",
+      "images": [
+        {
+          "archive_path": "suite/pan/input/after.png",
+          "sha256": "7d5b1ace07b2817e99c046a49a6c7f2a935f5e8cda7410342c4bdb1bb34b2634",
+          "bytes": 38972,
+          "sha_recorded_at_capture": false
+        },
+        {
+          "archive_path": "suite/pan/input/before.png",
+          "sha256": "3531b4691fea9597e61372c5648c69b20d836b21eb644cef7d4cd4aacd2c4138",
+          "bytes": 32664,
+          "sha_recorded_at_capture": false
+        }
+      ]
+    },
+    {
+      "case": "pointer-pan",
+      "run": "f0cb270da01d44abba25d5e795581c13",
+      "url": "http://localhost:8783/?case=pointer-pan&run=f0cb270da01d44abba25d5e795581c13",
+      "status": "PASS",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "pid": 527492,
+      "window_geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "main_window_id": null,
+      "main_window_id_scope": "Raw drive-touch.py stored PID/geometry, not the XID; same-PID/focus guards are in the pinned native helper.",
+      "images": [
+        {
+          "archive_path": "suite/pointer-pan/input/after.png",
+          "sha256": "ec19a149e41de32bc5fa8545a4776be6b5aa3418e9bdab40caccd471918d051d",
+          "bytes": 39838,
+          "sha_recorded_at_capture": false
+        },
+        {
+          "archive_path": "suite/pointer-pan/input/before.png",
+          "sha256": "54013cfdec6bb9762987e186c91149eb5318c77405f0239584f6bcfda1679bbb",
+          "bytes": 32814,
+          "sha_recorded_at_capture": false
+        }
+      ]
+    },
+    {
+      "case": "none",
+      "run": "2a0c03c9a6ec40c09bf7e7b4c51d6526",
+      "url": "http://localhost:8783/?case=none&run=2a0c03c9a6ec40c09bf7e7b4c51d6526",
+      "status": "PASS",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "pid": 527587,
+      "window_geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "main_window_id": null,
+      "main_window_id_scope": "Raw drive-touch.py stored PID/geometry, not the XID; same-PID/focus guards are in the pinned native helper.",
+      "images": [
+        {
+          "archive_path": "suite/none/input/after.png",
+          "sha256": "b81ca0b3a453ec974be9cd73a46fa89a3cc49ccbe4aad848e70bc98483caf907",
+          "bytes": 41886,
+          "sha_recorded_at_capture": false
+        },
+        {
+          "archive_path": "suite/none/input/before.png",
+          "sha256": "41d39d377b924b062ef00ebbb6da2db75961ad5d919e3782bafd716e180652fb",
+          "bytes": 32815,
+          "sha_recorded_at_capture": false
+        }
+      ]
+    },
+    {
+      "case": "capture",
+      "run": "1f1a4efefd4148828e1a0495c5939966",
+      "url": "http://localhost:8783/?case=capture&run=1f1a4efefd4148828e1a0495c5939966",
+      "status": "PASS",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "pid": 527640,
+      "window_geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "main_window_id": null,
+      "main_window_id_scope": "Raw drive-touch.py stored PID/geometry, not the XID; same-PID/focus guards are in the pinned native helper.",
+      "images": [
+        {
+          "archive_path": "suite/capture/input/after.png",
+          "sha256": "af2e3bcd24457eb9f3813f4917685f37692d0d3147f3f77ccadb5effaad5dbcc",
+          "bytes": 42869,
+          "sha_recorded_at_capture": false
+        },
+        {
+          "archive_path": "suite/capture/input/before.png",
+          "sha256": "fbd9e8f8eab9662b7332ef032840ac2e8d7839b41c6c1f6a02cddd51a05932cb",
+          "bytes": 31938,
+          "sha_recorded_at_capture": false
+        }
+      ]
+    },
+    {
+      "case": "navigation",
+      "run": "29b9719020fd4bfd9f4f2c1c4d93e537",
+      "url": "http://localhost:8783/?case=navigation&run=29b9719020fd4bfd9f4f2c1c4d93e537",
+      "status": "PASS",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "pid": 527717,
+      "window_geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "main_window_id": null,
+      "main_window_id_scope": "Raw drive-touch.py stored PID/geometry, not the XID; same-PID/focus guards are in the pinned native helper.",
+      "images": [
+        {
+          "archive_path": "suite/navigation/input/after.png",
+          "sha256": "d27b84b7c95b5546e7aab642f8110bd50cd861d9a35d15ba7e51456c4983eed4",
+          "bytes": 31686,
+          "sha_recorded_at_capture": false
+        },
+        {
+          "archive_path": "suite/navigation/input/before.png",
+          "sha256": "61b717aff19ae6c41dc19ee4778eca7587a0bff073d73d2e281461d39d04cddb",
+          "bytes": 31993,
+          "sha_recorded_at_capture": false
+        }
+      ]
+    }
+  ],
+  "image_hash_scope": "Images were not hashed by the original drive-touch.py at capture time; this archive records their retained bytes now without inventing capture-time hashes or window IDs.",
+  "fep_scope": "The FEP DLL identity is pinned; these touch cases do not constitute native editor or FEP dialog acceptance."
+}

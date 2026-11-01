@@ -1,0 +1,932 @@
+{
+  "scope": "whitelisted public fixed-string secret FEP runs only; no private/previous/originals contents copied",
+  "files": [
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/index.html",
+      "destination": "fixture/index.html",
+      "source_bytes": 3498,
+      "source_sha256": "2277d7851bb9752895a51e6bd7bb6a721ba753fcb94184065a4d2aa26de02a6b",
+      "archived_bytes": 3498,
+      "archived_sha256": "2277d7851bb9752895a51e6bd7bb6a721ba753fcb94184065a4d2aa26de02a6b",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/drive.py",
+      "destination": "fixture/drive.py",
+      "source_bytes": 10187,
+      "source_sha256": "0252e03ca0799b0c3aea27d23018b0b68e393b69b3ac885aff575ada103f90a5",
+      "archived_bytes": 10187,
+      "archived_sha256": "0252e03ca0799b0c3aea27d23018b0b68e393b69b3ac885aff575ada103f90a5",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/server.py",
+      "destination": "fixture/server.py",
+      "source_bytes": 1156,
+      "source_sha256": "73a89730bdc489796b32af429d2ac701f2528c6857bfc9f0973a061d19c5369c",
+      "archived_bytes": 1156,
+      "archived_sha256": "73a89730bdc489796b32af429d2ac701f2528c6857bfc9f0973a061d19c5369c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-preserved.py",
+      "destination": "fixture/run-preserved.py",
+      "source_bytes": 3422,
+      "source_sha256": "150f7c6fa9990e0c757f2014d4f3938a8abbf86579520bffddbf68936ec5b552",
+      "archived_bytes": 3422,
+      "archived_sha256": "150f7c6fa9990e0c757f2014d4f3938a8abbf86579520bffddbf68936ec5b552",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/check-contracts.py",
+      "destination": "fixture/check-contracts.py",
+      "source_bytes": 2187,
+      "source_sha256": "b1aa8e6df91988d0dabacef41147f4ff1fc7013df50df829a3da190f547a82c2",
+      "archived_bytes": 2187,
+      "archived_sha256": "b1aa8e6df91988d0dabacef41147f4ff1fc7013df50df829a3da190f547a82c2",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/pins.c19-host0029.json",
+      "destination": "fixture/pins.c19-host0029.json",
+      "source_bytes": 513,
+      "source_sha256": "b2b5186d2a428c44c105fc25207823c3de256655830f3ce8cc5873c91ec73439",
+      "archived_bytes": 513,
+      "archived_sha256": "b2b5186d2a428c44c105fc25207823c3de256655830f3ce8cc5873c91ec73439",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/pins.template.json",
+      "destination": "fixture/pins.template.json",
+      "source_bytes": 131,
+      "source_sha256": "07fc899a90aa5669c11401fbe77b9cb0b1fd867fb606d06d4d2b077a1e315aba",
+      "archived_bytes": 131,
+      "archived_sha256": "07fc899a90aa5669c11401fbe77b9cb0b1fd867fb606d06d4d2b077a1e315aba",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/calibration.template.json",
+      "destination": "fixture/calibration.template.json",
+      "source_bytes": 466,
+      "source_sha256": "574e304c2ab6cd2cb9c93cc61d2a17682fbcc6dc43b022f7948b42ba989a70ed",
+      "archived_bytes": 466,
+      "archived_sha256": "574e304c2ab6cd2cb9c93cc61d2a17682fbcc6dc43b022f7948b42ba989a70ed",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/README.md",
+      "destination": "fixture/PREPARATION-README.md",
+      "source_bytes": 6650,
+      "source_sha256": "275211d76e16e84d5c398aba10b7f340645d1c4f06a3ecf1ad1957797e7f9da5",
+      "archived_bytes": 6650,
+      "archived_sha256": "275211d76e16e84d5c398aba10b7f340645d1c4f06a3ecf1ad1957797e7f9da5",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+      "destination": "harness/native-interact.py",
+      "source_bytes": 20789,
+      "source_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+      "archived_bytes": 20789,
+      "archived_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-p1-system-runtime-work/runtime_support.py",
+      "destination": "harness/runtime_support.py",
+      "source_bytes": 22818,
+      "source_sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9",
+      "archived_bytes": 22818,
+      "archived_sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh",
+      "destination": "harness/eka2l1/run-browser.sh",
+      "source_bytes": 7616,
+      "source_sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+      "archived_bytes": 7616,
+      "archived_sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/close-emulator-window.py",
+      "destination": "harness/eka2l1/close-emulator-window.py",
+      "source_bytes": 4825,
+      "source_sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f",
+      "archived_bytes": 4825,
+      "archived_sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/scripts/common.sh",
+      "destination": "harness/scripts/common.sh",
+      "source_bytes": 2510,
+      "source_sha256": "af7477423c01e51438ca2bbee63d9109013e12e54e2e7d8ebd955f2c6c77f13a",
+      "archived_bytes": 2510,
+      "archived_sha256": "af7477423c01e51438ca2bbee63d9109013e12e54e2e7d8ebd955f2c6c77f13a",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/acceptance.json",
+      "destination": "cases/cancel/acceptance.json",
+      "source_bytes": 3316,
+      "source_sha256": "90e61caeefe87ac53cbce742cbd4af8619181ecd52d2edabad26a2c044f02d22",
+      "archived_bytes": 3316,
+      "archived_sha256": "90e61caeefe87ac53cbce742cbd4af8619181ecd52d2edabad26a2c044f02d22",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/result.json",
+      "destination": "cases/cancel/result.json",
+      "source_bytes": 7057,
+      "source_sha256": "e9025dd81db4d79d65522b7981f3d0ea75345061cfaf316edcb924f350d523ed",
+      "archived_bytes": 7057,
+      "archived_sha256": "e9025dd81db4d79d65522b7981f3d0ea75345061cfaf316edcb924f350d523ed",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/calibration.json",
+      "destination": "cases/cancel/calibration.json",
+      "source_bytes": 549,
+      "source_sha256": "e98cd68618747ede6abd417aa1c56c43f705468919d10952a5bd3aa470977b8e",
+      "archived_bytes": 549,
+      "archived_sha256": "e98cd68618747ede6abd417aa1c56c43f705468919d10952a5bd3aa470977b8e",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/runner.log",
+      "destination": "cases/cancel/runner.log",
+      "source_bytes": 1551,
+      "source_sha256": "ec5b800d4ecfcea2031284215721ba2753147aacce04af84bd13300debfc75c9",
+      "archived_bytes": 1551,
+      "archived_sha256": "ec5b800d4ecfcea2031284215721ba2753147aacce04af84bd13300debfc75c9",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/open-driver.log",
+      "destination": "cases/cancel/open-driver.log",
+      "source_bytes": 50,
+      "source_sha256": "01f8e870b210f734b73770f10e7efd047e71361eebcc1c60001e795e55dd4cb8",
+      "archived_bytes": 50,
+      "archived_sha256": "01f8e870b210f734b73770f10e7efd047e71361eebcc1c60001e795e55dd4cb8",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/finish-driver.log",
+      "destination": "cases/cancel/finish-driver.log",
+      "source_bytes": 58,
+      "source_sha256": "1cbec7a5287b3695bc56565c4330d3983b230f358cc0fa7be24032b9bbc71e86",
+      "archived_bytes": 58,
+      "archived_sha256": "1cbec7a5287b3695bc56565c4330d3983b230f358cc0fa7be24032b9bbc71e86",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/open-result.json",
+      "destination": "cases/cancel/input/open-result.json",
+      "source_bytes": 2710,
+      "source_sha256": "eb641b58d6150f271901977ac3f823fd29320bbea04067ffd0296e3f6c82699e",
+      "archived_bytes": 2710,
+      "archived_sha256": "eb641b58d6150f271901977ac3f823fd29320bbea04067ffd0296e3f6c82699e",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/session.json",
+      "destination": "cases/cancel/input/session.json",
+      "source_bytes": 2710,
+      "source_sha256": "eb641b58d6150f271901977ac3f823fd29320bbea04067ffd0296e3f6c82699e",
+      "archived_bytes": 2710,
+      "archived_sha256": "eb641b58d6150f271901977ac3f823fd29320bbea04067ffd0296e3f6c82699e",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/interaction.json",
+      "destination": "cases/cancel/input/interaction.json",
+      "source_bytes": 6014,
+      "source_sha256": "ab316027b986a0d2e403fbbf9511eb36c328446eee6063fd6a44b81a837cbae9",
+      "archived_bytes": 6014,
+      "archived_sha256": "ab316027b986a0d2e403fbbf9511eb36c328446eee6063fd6a44b81a837cbae9",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/after-page-check.png",
+      "destination": "cases/cancel/input/after-page-check.png",
+      "source_bytes": 29017,
+      "source_sha256": "d34913f0b3b3df71a4aa756a4123f1a913746ae6b50d0ab0e32bbceceaa3cdb4",
+      "archived_bytes": 29017,
+      "archived_sha256": "d34913f0b3b3df71a4aa756a4123f1a913746ae6b50d0ab0e32bbceceaa3cdb4",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/before-start.png",
+      "destination": "cases/cancel/input/before-start.png",
+      "source_bytes": 28601,
+      "source_sha256": "c9bbad02f6c293d353a5a799a9596f1e5871b316ac8540acc1ac83325015b766",
+      "archived_bytes": 28601,
+      "archived_sha256": "c9bbad02f6c293d353a5a799a9596f1e5871b316ac8540acc1ac83325015b766",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/cleared-fep.png",
+      "destination": "cases/cancel/input/cleared-fep.png",
+      "source_bytes": 1565,
+      "source_sha256": "3d511f710e45a2ce36a35f41e4e1ff989b22ef813cdc4cc5aea4a7e88f2d412f",
+      "archived_bytes": 1565,
+      "archived_sha256": "3d511f710e45a2ce36a35f41e4e1ff989b22ef813cdc4cc5aea4a7e88f2d412f",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/opened-fep.png",
+      "destination": "cases/cancel/input/opened-fep.png",
+      "source_bytes": 3448,
+      "source_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "archived_bytes": 3448,
+      "archived_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/selected-original-fep.png",
+      "destination": "cases/cancel/input/selected-original-fep.png",
+      "source_bytes": 3448,
+      "source_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "archived_bytes": 3448,
+      "archived_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-01-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-01-immediate-fep.png",
+      "source_bytes": 1762,
+      "source_sha256": "ad05d6bb591ea020362893528166820d619174b7b89b2635c0510bcc3d49485c",
+      "archived_bytes": 1762,
+      "archived_sha256": "ad05d6bb591ea020362893528166820d619174b7b89b2635c0510bcc3d49485c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-02-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-02-immediate-fep.png",
+      "source_bytes": 2980,
+      "source_sha256": "08c8ab7c5f8a359af7165dd3a36c4257bcc80e1f631158a0d19f1d399941cf45",
+      "archived_bytes": 2980,
+      "archived_sha256": "08c8ab7c5f8a359af7165dd3a36c4257bcc80e1f631158a0d19f1d399941cf45",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-03-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-03-immediate-fep.png",
+      "source_bytes": 3177,
+      "source_sha256": "92ad3f20b2c9123faa41e5ec5eecab871f61bb4ba762d93a525763e50bd23c51",
+      "archived_bytes": 3177,
+      "archived_sha256": "92ad3f20b2c9123faa41e5ec5eecab871f61bb4ba762d93a525763e50bd23c51",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-04-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-04-immediate-fep.png",
+      "source_bytes": 3177,
+      "source_sha256": "e9d0fa15de11abf86352de5b1e7f2050d57611e7fe6c1e1d7dc812f8837286ab",
+      "archived_bytes": 3177,
+      "archived_sha256": "e9d0fa15de11abf86352de5b1e7f2050d57611e7fe6c1e1d7dc812f8837286ab",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-05-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-05-immediate-fep.png",
+      "source_bytes": 3186,
+      "source_sha256": "798dc3bd6bded9baa88b521ae6505c6c262dc866409507380979b4ff8628799b",
+      "archived_bytes": 3186,
+      "archived_sha256": "798dc3bd6bded9baa88b521ae6505c6c262dc866409507380979b4ff8628799b",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-06-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-06-immediate-fep.png",
+      "source_bytes": 3137,
+      "source_sha256": "a05a9e4f3adaa382830203d8741a16bbc914bfe1ba73e9fbabf281155a2d0fa7",
+      "archived_bytes": 3137,
+      "archived_sha256": "a05a9e4f3adaa382830203d8741a16bbc914bfe1ba73e9fbabf281155a2d0fa7",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-07-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-07-immediate-fep.png",
+      "source_bytes": 3131,
+      "source_sha256": "b3083effb8ed8f45eead0a15e453a1a0fee7dbbcf0b9add360ccf60804113723",
+      "archived_bytes": 3131,
+      "archived_sha256": "b3083effb8ed8f45eead0a15e453a1a0fee7dbbcf0b9add360ccf60804113723",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-08-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-08-immediate-fep.png",
+      "source_bytes": 3124,
+      "source_sha256": "657a2948c3add357965f9518e246c0f5130a1ad42a74a66088397223b3c291da",
+      "archived_bytes": 3124,
+      "archived_sha256": "657a2948c3add357965f9518e246c0f5130a1ad42a74a66088397223b3c291da",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-09-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-09-immediate-fep.png",
+      "source_bytes": 3129,
+      "source_sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438",
+      "archived_bytes": 3129,
+      "archived_sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-10-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-10-immediate-fep.png",
+      "source_bytes": 3158,
+      "source_sha256": "e6ebe5c6940a8bea3de5a5585aaee4323c1cd64f8308ded343db304791de1761",
+      "archived_bytes": 3158,
+      "archived_sha256": "e6ebe5c6940a8bea3de5a5585aaee4323c1cd64f8308ded343db304791de1761",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-11-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-11-immediate-fep.png",
+      "source_bytes": 3278,
+      "source_sha256": "eefe0af1f52348aad845a69e2b4d25fdb157ee3ea7106937f3f2a1f8234da2a3",
+      "archived_bytes": 3278,
+      "archived_sha256": "eefe0af1f52348aad845a69e2b4d25fdb157ee3ea7106937f3f2a1f8234da2a3",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-12-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-12-immediate-fep.png",
+      "source_bytes": 3304,
+      "source_sha256": "3aba3c11ad8caed65c89d2c9f0a709e096cbb8cedc465a839f525820f2fff697",
+      "archived_bytes": 3304,
+      "archived_sha256": "3aba3c11ad8caed65c89d2c9f0a709e096cbb8cedc465a839f525820f2fff697",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-13-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-13-immediate-fep.png",
+      "source_bytes": 3312,
+      "source_sha256": "9b7eb14ff4f309e6bfa7f3446195eb80b54e82d2e994a2b0d05b9f17c4ce8a41",
+      "archived_bytes": 3312,
+      "archived_sha256": "9b7eb14ff4f309e6bfa7f3446195eb80b54e82d2e994a2b0d05b9f17c4ce8a41",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-14-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-14-immediate-fep.png",
+      "source_bytes": 3311,
+      "source_sha256": "910740492819b69f589b5bd09f9ba591560e07b0e0e1797de33bd8c91f553c7f",
+      "archived_bytes": 3311,
+      "archived_sha256": "910740492819b69f589b5bd09f9ba591560e07b0e0e1797de33bd8c91f553c7f",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-15-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-15-immediate-fep.png",
+      "source_bytes": 3309,
+      "source_sha256": "ea751918a9d7f849a3358bb56480752efeba404fe08fe073c5fe601ee8719f6c",
+      "archived_bytes": 3309,
+      "archived_sha256": "ea751918a9d7f849a3358bb56480752efeba404fe08fe073c5fe601ee8719f6c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-16-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-16-immediate-fep.png",
+      "source_bytes": 3313,
+      "source_sha256": "9a0a775e3791f82d8b2f376fd14a75f2dcf8daaf7f169bb59501e6ceb94dc113",
+      "archived_bytes": 3313,
+      "archived_sha256": "9a0a775e3791f82d8b2f376fd14a75f2dcf8daaf7f169bb59501e6ceb94dc113",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-17-immediate-fep.png",
+      "destination": "cases/cancel/input/typed-17-immediate-fep.png",
+      "source_bytes": 3317,
+      "source_sha256": "f5426f02e29b37884a7bcf74aa8fe60a18296a498f902eb4481f6f20b9b9f704",
+      "archived_bytes": 3317,
+      "archived_sha256": "f5426f02e29b37884a7bcf74aa8fe60a18296a498f902eb4481f6f20b9b9f704",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/input/typed-settled-fep.png",
+      "destination": "cases/cancel/input/typed-settled-fep.png",
+      "source_bytes": 3300,
+      "source_sha256": "825621fb9d473f13d8eb1e1f5276cf838786c194d90ff83a214cb1186bdc0ed1",
+      "archived_bytes": 3300,
+      "archived_sha256": "825621fb9d473f13d8eb1e1f5276cf838786c194d90ff83a214cb1186bdc0ed1",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/main-calibration/calibration-main.png",
+      "destination": "cases/cancel/main-calibration/calibration-main.png",
+      "source_bytes": 28601,
+      "source_sha256": "c9bbad02f6c293d353a5a799a9596f1e5871b316ac8540acc1ac83325015b766",
+      "archived_bytes": 28601,
+      "archived_sha256": "c9bbad02f6c293d353a5a799a9596f1e5871b316ac8540acc1ac83325015b766",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/main-calibration/calibration.json",
+      "destination": "cases/cancel/main-calibration/calibration.json",
+      "source_bytes": 809,
+      "source_sha256": "5b1e1f1f01a27f34f518905f26a9afc5b460577a79f814daa73d244d509c9a9c",
+      "archived_bytes": 809,
+      "archived_sha256": "5b1e1f1f01a27f34f518905f26a9afc5b460577a79f814daa73d244d509c9a9c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/main-calibration-driver.log",
+      "destination": "cases/cancel/main-calibration-driver.log",
+      "source_bytes": 809,
+      "source_sha256": "5b1e1f1f01a27f34f518905f26a9afc5b460577a79f814daa73d244d509c9a9c",
+      "archived_bytes": 809,
+      "archived_sha256": "5b1e1f1f01a27f34f518905f26a9afc5b460577a79f814daa73d244d509c9a9c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/runs/browser-20261101T041653Z-ntzazkkc/log.txt",
+      "destination": "cases/cancel/runs/browser-20261101T041653Z-ntzazkkc/log.txt",
+      "source_bytes": 1365,
+      "source_sha256": "35f19e57324e91ced37ab13f0029a3d3035f2b29eccf7ea2b2a5854635b621e7",
+      "archived_bytes": 1365,
+      "archived_sha256": "35f19e57324e91ced37ab13f0029a3d3035f2b29eccf7ea2b2a5854635b621e7",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-cancel-01/runs/browser-20261101T041653Z-ntzazkkc/emulator.log",
+      "destination": "cases/cancel/runs/browser-20261101T041653Z-ntzazkkc/emulator.log.gz",
+      "source_bytes": 216552,
+      "source_sha256": "64be3dfe17b43ec63b443d70013288de768acd30983c980cfe52d04d3232e780",
+      "archived_bytes": 18924,
+      "archived_sha256": "68b29c035be9e0a3f4a794a3a4960a412d12d395d8e410a9d10cd3a51a847979",
+      "gzip": true
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/acceptance.json",
+      "destination": "cases/submit/acceptance.json",
+      "source_bytes": 3409,
+      "source_sha256": "96359ccb4d1600d0ee444b554799047f3833e9512ffb51d6cbd50a1680083265",
+      "archived_bytes": 3409,
+      "archived_sha256": "96359ccb4d1600d0ee444b554799047f3833e9512ffb51d6cbd50a1680083265",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/result.json",
+      "destination": "cases/submit/result.json",
+      "source_bytes": 7057,
+      "source_sha256": "6a634ec72a1ebc07e9899ef3d130b28a7d59796d05127e87828da2b6a6431675",
+      "archived_bytes": 7057,
+      "archived_sha256": "6a634ec72a1ebc07e9899ef3d130b28a7d59796d05127e87828da2b6a6431675",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/calibration.json",
+      "destination": "cases/submit/calibration.json",
+      "source_bytes": 549,
+      "source_sha256": "e98cd68618747ede6abd417aa1c56c43f705468919d10952a5bd3aa470977b8e",
+      "archived_bytes": 549,
+      "archived_sha256": "e98cd68618747ede6abd417aa1c56c43f705468919d10952a5bd3aa470977b8e",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/runner.log",
+      "destination": "cases/submit/runner.log",
+      "source_bytes": 1553,
+      "source_sha256": "1fff5a037d425d033503d67093f22e8ae0cb20928271a79245a3995b7a401045",
+      "archived_bytes": 1553,
+      "archived_sha256": "1fff5a037d425d033503d67093f22e8ae0cb20928271a79245a3995b7a401045",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/open-driver.log",
+      "destination": "cases/submit/open-driver.log",
+      "source_bytes": 50,
+      "source_sha256": "01f8e870b210f734b73770f10e7efd047e71361eebcc1c60001e795e55dd4cb8",
+      "archived_bytes": 50,
+      "archived_sha256": "01f8e870b210f734b73770f10e7efd047e71361eebcc1c60001e795e55dd4cb8",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/finish-driver.log",
+      "destination": "cases/submit/finish-driver.log",
+      "source_bytes": 58,
+      "source_sha256": "1cbec7a5287b3695bc56565c4330d3983b230f358cc0fa7be24032b9bbc71e86",
+      "archived_bytes": 58,
+      "archived_sha256": "1cbec7a5287b3695bc56565c4330d3983b230f358cc0fa7be24032b9bbc71e86",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/open-result.json",
+      "destination": "cases/submit/input/open-result.json",
+      "source_bytes": 2709,
+      "source_sha256": "7b442d73e5a70db6f4a095d578bf75e7e3a23ee2ff0b021967cfdb1b0c3a1cbb",
+      "archived_bytes": 2709,
+      "archived_sha256": "7b442d73e5a70db6f4a095d578bf75e7e3a23ee2ff0b021967cfdb1b0c3a1cbb",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/session.json",
+      "destination": "cases/submit/input/session.json",
+      "source_bytes": 2709,
+      "source_sha256": "7b442d73e5a70db6f4a095d578bf75e7e3a23ee2ff0b021967cfdb1b0c3a1cbb",
+      "archived_bytes": 2709,
+      "archived_sha256": "7b442d73e5a70db6f4a095d578bf75e7e3a23ee2ff0b021967cfdb1b0c3a1cbb",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/interaction.json",
+      "destination": "cases/submit/input/interaction.json",
+      "source_bytes": 6194,
+      "source_sha256": "1ec2027936947b1a00eba00d4b94fea6778ca7ce152cecd1040ced009988aa9b",
+      "archived_bytes": 6194,
+      "archived_sha256": "1ec2027936947b1a00eba00d4b94fea6778ca7ce152cecd1040ced009988aa9b",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/after-page-check.png",
+      "destination": "cases/submit/input/after-page-check.png",
+      "source_bytes": 29237,
+      "source_sha256": "d71e623a6b67f8bd45d88987505ef1f7cc8fab5c2fc7e3c53380062b25368993",
+      "archived_bytes": 29237,
+      "archived_sha256": "d71e623a6b67f8bd45d88987505ef1f7cc8fab5c2fc7e3c53380062b25368993",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/before-start.png",
+      "destination": "cases/submit/input/before-start.png",
+      "source_bytes": 28818,
+      "source_sha256": "338302a38bffc083b6b1810fc321e62e09eef8866948ba02f1fc1ee6cfb4a8f3",
+      "archived_bytes": 28818,
+      "archived_sha256": "338302a38bffc083b6b1810fc321e62e09eef8866948ba02f1fc1ee6cfb4a8f3",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/cleared-fep.png",
+      "destination": "cases/submit/input/cleared-fep.png",
+      "source_bytes": 1565,
+      "source_sha256": "3d511f710e45a2ce36a35f41e4e1ff989b22ef813cdc4cc5aea4a7e88f2d412f",
+      "archived_bytes": 1565,
+      "archived_sha256": "3d511f710e45a2ce36a35f41e4e1ff989b22ef813cdc4cc5aea4a7e88f2d412f",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/opened-fep.png",
+      "destination": "cases/submit/input/opened-fep.png",
+      "source_bytes": 3448,
+      "source_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "archived_bytes": 3448,
+      "archived_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/selected-original-fep.png",
+      "destination": "cases/submit/input/selected-original-fep.png",
+      "source_bytes": 3448,
+      "source_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "archived_bytes": 3448,
+      "archived_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-01-immediate-fep.png",
+      "destination": "cases/submit/input/typed-01-immediate-fep.png",
+      "source_bytes": 1762,
+      "source_sha256": "ad05d6bb591ea020362893528166820d619174b7b89b2635c0510bcc3d49485c",
+      "archived_bytes": 1762,
+      "archived_sha256": "ad05d6bb591ea020362893528166820d619174b7b89b2635c0510bcc3d49485c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-02-immediate-fep.png",
+      "destination": "cases/submit/input/typed-02-immediate-fep.png",
+      "source_bytes": 2980,
+      "source_sha256": "08c8ab7c5f8a359af7165dd3a36c4257bcc80e1f631158a0d19f1d399941cf45",
+      "archived_bytes": 2980,
+      "archived_sha256": "08c8ab7c5f8a359af7165dd3a36c4257bcc80e1f631158a0d19f1d399941cf45",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-03-immediate-fep.png",
+      "destination": "cases/submit/input/typed-03-immediate-fep.png",
+      "source_bytes": 3177,
+      "source_sha256": "92ad3f20b2c9123faa41e5ec5eecab871f61bb4ba762d93a525763e50bd23c51",
+      "archived_bytes": 3177,
+      "archived_sha256": "92ad3f20b2c9123faa41e5ec5eecab871f61bb4ba762d93a525763e50bd23c51",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-04-immediate-fep.png",
+      "destination": "cases/submit/input/typed-04-immediate-fep.png",
+      "source_bytes": 3177,
+      "source_sha256": "e9d0fa15de11abf86352de5b1e7f2050d57611e7fe6c1e1d7dc812f8837286ab",
+      "archived_bytes": 3177,
+      "archived_sha256": "e9d0fa15de11abf86352de5b1e7f2050d57611e7fe6c1e1d7dc812f8837286ab",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-05-immediate-fep.png",
+      "destination": "cases/submit/input/typed-05-immediate-fep.png",
+      "source_bytes": 3186,
+      "source_sha256": "798dc3bd6bded9baa88b521ae6505c6c262dc866409507380979b4ff8628799b",
+      "archived_bytes": 3186,
+      "archived_sha256": "798dc3bd6bded9baa88b521ae6505c6c262dc866409507380979b4ff8628799b",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-06-immediate-fep.png",
+      "destination": "cases/submit/input/typed-06-immediate-fep.png",
+      "source_bytes": 3137,
+      "source_sha256": "a05a9e4f3adaa382830203d8741a16bbc914bfe1ba73e9fbabf281155a2d0fa7",
+      "archived_bytes": 3137,
+      "archived_sha256": "a05a9e4f3adaa382830203d8741a16bbc914bfe1ba73e9fbabf281155a2d0fa7",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-07-immediate-fep.png",
+      "destination": "cases/submit/input/typed-07-immediate-fep.png",
+      "source_bytes": 3131,
+      "source_sha256": "b3083effb8ed8f45eead0a15e453a1a0fee7dbbcf0b9add360ccf60804113723",
+      "archived_bytes": 3131,
+      "archived_sha256": "b3083effb8ed8f45eead0a15e453a1a0fee7dbbcf0b9add360ccf60804113723",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-08-immediate-fep.png",
+      "destination": "cases/submit/input/typed-08-immediate-fep.png",
+      "source_bytes": 3124,
+      "source_sha256": "657a2948c3add357965f9518e246c0f5130a1ad42a74a66088397223b3c291da",
+      "archived_bytes": 3124,
+      "archived_sha256": "657a2948c3add357965f9518e246c0f5130a1ad42a74a66088397223b3c291da",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-09-immediate-fep.png",
+      "destination": "cases/submit/input/typed-09-immediate-fep.png",
+      "source_bytes": 3129,
+      "source_sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438",
+      "archived_bytes": 3129,
+      "archived_sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-10-immediate-fep.png",
+      "destination": "cases/submit/input/typed-10-immediate-fep.png",
+      "source_bytes": 3158,
+      "source_sha256": "e6ebe5c6940a8bea3de5a5585aaee4323c1cd64f8308ded343db304791de1761",
+      "archived_bytes": 3158,
+      "archived_sha256": "e6ebe5c6940a8bea3de5a5585aaee4323c1cd64f8308ded343db304791de1761",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-11-immediate-fep.png",
+      "destination": "cases/submit/input/typed-11-immediate-fep.png",
+      "source_bytes": 3278,
+      "source_sha256": "eefe0af1f52348aad845a69e2b4d25fdb157ee3ea7106937f3f2a1f8234da2a3",
+      "archived_bytes": 3278,
+      "archived_sha256": "eefe0af1f52348aad845a69e2b4d25fdb157ee3ea7106937f3f2a1f8234da2a3",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-12-immediate-fep.png",
+      "destination": "cases/submit/input/typed-12-immediate-fep.png",
+      "source_bytes": 3304,
+      "source_sha256": "3aba3c11ad8caed65c89d2c9f0a709e096cbb8cedc465a839f525820f2fff697",
+      "archived_bytes": 3304,
+      "archived_sha256": "3aba3c11ad8caed65c89d2c9f0a709e096cbb8cedc465a839f525820f2fff697",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-13-immediate-fep.png",
+      "destination": "cases/submit/input/typed-13-immediate-fep.png",
+      "source_bytes": 3312,
+      "source_sha256": "9b7eb14ff4f309e6bfa7f3446195eb80b54e82d2e994a2b0d05b9f17c4ce8a41",
+      "archived_bytes": 3312,
+      "archived_sha256": "9b7eb14ff4f309e6bfa7f3446195eb80b54e82d2e994a2b0d05b9f17c4ce8a41",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-14-immediate-fep.png",
+      "destination": "cases/submit/input/typed-14-immediate-fep.png",
+      "source_bytes": 3311,
+      "source_sha256": "910740492819b69f589b5bd09f9ba591560e07b0e0e1797de33bd8c91f553c7f",
+      "archived_bytes": 3311,
+      "archived_sha256": "910740492819b69f589b5bd09f9ba591560e07b0e0e1797de33bd8c91f553c7f",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-15-immediate-fep.png",
+      "destination": "cases/submit/input/typed-15-immediate-fep.png",
+      "source_bytes": 3309,
+      "source_sha256": "ea751918a9d7f849a3358bb56480752efeba404fe08fe073c5fe601ee8719f6c",
+      "archived_bytes": 3309,
+      "archived_sha256": "ea751918a9d7f849a3358bb56480752efeba404fe08fe073c5fe601ee8719f6c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-16-immediate-fep.png",
+      "destination": "cases/submit/input/typed-16-immediate-fep.png",
+      "source_bytes": 3313,
+      "source_sha256": "9a0a775e3791f82d8b2f376fd14a75f2dcf8daaf7f169bb59501e6ceb94dc113",
+      "archived_bytes": 3313,
+      "archived_sha256": "9a0a775e3791f82d8b2f376fd14a75f2dcf8daaf7f169bb59501e6ceb94dc113",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-17-immediate-fep.png",
+      "destination": "cases/submit/input/typed-17-immediate-fep.png",
+      "source_bytes": 3317,
+      "source_sha256": "f5426f02e29b37884a7bcf74aa8fe60a18296a498f902eb4481f6f20b9b9f704",
+      "archived_bytes": 3317,
+      "archived_sha256": "f5426f02e29b37884a7bcf74aa8fe60a18296a498f902eb4481f6f20b9b9f704",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-18-immediate-fep.png",
+      "destination": "cases/submit/input/typed-18-immediate-fep.png",
+      "source_bytes": 3341,
+      "source_sha256": "2a700131d6a1b767b73fa4445c2d3df15deeefc286c26b9d90526ee158886ab8",
+      "archived_bytes": 3341,
+      "archived_sha256": "2a700131d6a1b767b73fa4445c2d3df15deeefc286c26b9d90526ee158886ab8",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/input/typed-settled-fep.png",
+      "destination": "cases/submit/input/typed-settled-fep.png",
+      "source_bytes": 3318,
+      "source_sha256": "3d1fad26c9e2d94294503997118dc83a462297a2cd9073dc6324a46473e21f45",
+      "archived_bytes": 3318,
+      "archived_sha256": "3d1fad26c9e2d94294503997118dc83a462297a2cd9073dc6324a46473e21f45",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/runs/browser-20261101T041850Z-x8_d1pks/log.txt",
+      "destination": "cases/submit/runs/browser-20261101T041850Z-x8_d1pks/log.txt",
+      "source_bytes": 1367,
+      "source_sha256": "424802171e3c2eda9e1e542a9dbbed22aef95b20a663f53c8276cf95ffdc978b",
+      "archived_bytes": 1367,
+      "archived_sha256": "424802171e3c2eda9e1e542a9dbbed22aef95b20a663f53c8276cf95ffdc978b",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-submit-01/runs/browser-20261101T041850Z-x8_d1pks/emulator.log",
+      "destination": "cases/submit/runs/browser-20261101T041850Z-x8_d1pks/emulator.log.gz",
+      "source_bytes": 216550,
+      "source_sha256": "52492753e1c9b7d77748f9732125e5068bebaa6853d5711177e246542e64c766",
+      "archived_bytes": 18914,
+      "archived_sha256": "a9809786acf60bf51fe7925e6ce82a86595e36a7249faab0c837d459fe0070b6",
+      "gzip": true
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/acceptance.json",
+      "destination": "cases/empty/acceptance.json",
+      "source_bytes": 875,
+      "source_sha256": "428b809628f0e5daafe897bcfcfa24a0d91266e718801ce496c1280ef7053b5d",
+      "archived_bytes": 875,
+      "archived_sha256": "428b809628f0e5daafe897bcfcfa24a0d91266e718801ce496c1280ef7053b5d",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/result.json",
+      "destination": "cases/empty/result.json",
+      "source_bytes": 7047,
+      "source_sha256": "993f3d39027ec8f1a04158455f6ceb452c04e1e175e6b64507ab2e89e594108b",
+      "archived_bytes": 7047,
+      "archived_sha256": "993f3d39027ec8f1a04158455f6ceb452c04e1e175e6b64507ab2e89e594108b",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/calibration.json",
+      "destination": "cases/empty/calibration.json",
+      "source_bytes": 549,
+      "source_sha256": "e98cd68618747ede6abd417aa1c56c43f705468919d10952a5bd3aa470977b8e",
+      "archived_bytes": 549,
+      "archived_sha256": "e98cd68618747ede6abd417aa1c56c43f705468919d10952a5bd3aa470977b8e",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/runner.log",
+      "destination": "cases/empty/runner.log",
+      "source_bytes": 1529,
+      "source_sha256": "fd5043ce2c3232c684bccff55f23a8fbda6fbd0e791985ce21bc7c6d6850ce51",
+      "archived_bytes": 1529,
+      "archived_sha256": "fd5043ce2c3232c684bccff55f23a8fbda6fbd0e791985ce21bc7c6d6850ce51",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/open-driver.log",
+      "destination": "cases/empty/open-driver.log",
+      "source_bytes": 50,
+      "source_sha256": "01f8e870b210f734b73770f10e7efd047e71361eebcc1c60001e795e55dd4cb8",
+      "archived_bytes": 50,
+      "archived_sha256": "01f8e870b210f734b73770f10e7efd047e71361eebcc1c60001e795e55dd4cb8",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/finish-driver.log",
+      "destination": "cases/empty/finish-driver.log",
+      "source_bytes": 58,
+      "source_sha256": "1cbec7a5287b3695bc56565c4330d3983b230f358cc0fa7be24032b9bbc71e86",
+      "archived_bytes": 58,
+      "archived_sha256": "1cbec7a5287b3695bc56565c4330d3983b230f358cc0fa7be24032b9bbc71e86",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/input/open-result.json",
+      "destination": "cases/empty/input/open-result.json",
+      "source_bytes": 2706,
+      "source_sha256": "266fb152021f0ecd119da3eb775e4b26fc3048ed4a611b89bfac7b0b7c3727fb",
+      "archived_bytes": 2706,
+      "archived_sha256": "266fb152021f0ecd119da3eb775e4b26fc3048ed4a611b89bfac7b0b7c3727fb",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/input/session.json",
+      "destination": "cases/empty/input/session.json",
+      "source_bytes": 2706,
+      "source_sha256": "266fb152021f0ecd119da3eb775e4b26fc3048ed4a611b89bfac7b0b7c3727fb",
+      "archived_bytes": 2706,
+      "archived_sha256": "266fb152021f0ecd119da3eb775e4b26fc3048ed4a611b89bfac7b0b7c3727fb",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/input/interaction.json",
+      "destination": "cases/empty/input/interaction.json",
+      "source_bytes": 3002,
+      "source_sha256": "be119c94dfc0bc9c4957856a41f67df3cd0d8f2ee5df3c7b15018f45ab709e32",
+      "archived_bytes": 3002,
+      "archived_sha256": "be119c94dfc0bc9c4957856a41f67df3cd0d8f2ee5df3c7b15018f45ab709e32",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/input/after-page-check.png",
+      "destination": "cases/empty/input/after-page-check.png",
+      "source_bytes": 29426,
+      "source_sha256": "02b9c528361676eb567beee4f5d1f98ccd2aac41dbb0a871d62190bd3fa43d8e",
+      "archived_bytes": 29426,
+      "archived_sha256": "02b9c528361676eb567beee4f5d1f98ccd2aac41dbb0a871d62190bd3fa43d8e",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/input/before-start.png",
+      "destination": "cases/empty/input/before-start.png",
+      "source_bytes": 29195,
+      "source_sha256": "78cb1555eb6ff5ba20eeee1cc92b3115be681938be81ba8fc7bc39e0fa846509",
+      "archived_bytes": 29195,
+      "archived_sha256": "78cb1555eb6ff5ba20eeee1cc92b3115be681938be81ba8fc7bc39e0fa846509",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/input/cleared-fep.png",
+      "destination": "cases/empty/input/cleared-fep.png",
+      "source_bytes": 1565,
+      "source_sha256": "3d511f710e45a2ce36a35f41e4e1ff989b22ef813cdc4cc5aea4a7e88f2d412f",
+      "archived_bytes": 1565,
+      "archived_sha256": "3d511f710e45a2ce36a35f41e4e1ff989b22ef813cdc4cc5aea4a7e88f2d412f",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/input/opened-fep.png",
+      "destination": "cases/empty/input/opened-fep.png",
+      "source_bytes": 3448,
+      "source_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "archived_bytes": 3448,
+      "archived_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/input/selected-original-fep.png",
+      "destination": "cases/empty/input/selected-original-fep.png",
+      "source_bytes": 3448,
+      "source_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "archived_bytes": 3448,
+      "archived_sha256": "def06a9b9b7ffce5b63f4e1abcab5a9429a5be00a2b7bdee025b9013e6a5353c",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/input/typed-settled-fep.png",
+      "destination": "cases/empty/input/typed-settled-fep.png",
+      "source_bytes": 1560,
+      "source_sha256": "81fe21a5b07ee91cc3f8eda4465c64cf24973a8bbca110450e7dd9f2268383d6",
+      "archived_bytes": 1560,
+      "archived_sha256": "81fe21a5b07ee91cc3f8eda4465c64cf24973a8bbca110450e7dd9f2268383d6",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/runs/browser-20261101T041945Z-wi_b5xvj/log.txt",
+      "destination": "cases/empty/runs/browser-20261101T041945Z-wi_b5xvj/log.txt",
+      "source_bytes": 1344,
+      "source_sha256": "c11523664f75b910507fcd06421ce20b35940886f4f7e63167986523807d24a2",
+      "archived_bytes": 1344,
+      "archived_sha256": "c11523664f75b910507fcd06421ce20b35940886f4f7e63167986523807d24a2",
+      "gzip": false
+    },
+    {
+      "source": "/workspace/symbian-fep-secret-runtime-work/run-c19-h29-empty-01/runs/browser-20261101T041945Z-wi_b5xvj/emulator.log",
+      "destination": "cases/empty/runs/browser-20261101T041945Z-wi_b5xvj/emulator.log.gz",
+      "source_bytes": 216535,
+      "source_sha256": "5ea8fe7601329be0a5023604b5c76896efd36b11997a6aebc26860c271b561a6",
+      "archived_bytes": 18916,
+      "archived_sha256": "666ae7309f83f2d2a1d70d88ad60f21d29b00e5097312d0d46db5ade4130a7ba",
+      "gzip": true
+    }
+  ]
+}

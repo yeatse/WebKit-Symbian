@@ -1,0 +1,69 @@
+{
+  "shared_source_mutated": false,
+  "runtime_asset_before_sha256": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b",
+  "sources": [
+    {
+      "source": "/workspace/EKA2L1-validation/src/patch/avkonfep/inc/HostBridgedImeFEP.h",
+      "source_sha256": "6be973b70694aab9048a65f3ef3ff15f59bb9a2f8b037205d81b25f4906b3dde",
+      "staged": "eka-source/src/patch/avkonfep/inc/HostBridgedImeFEP.h",
+      "staged_sha256": "8470d6f62a88eadb5a281c98ac827f08ce926a7722497105b1923d891ab0f6fc",
+      "guest0029_overlay": true
+    },
+    {
+      "source": "/workspace/EKA2L1-validation/src/patch/avkonfep/inc/Dispatch.h",
+      "source_sha256": "e3c519ca7499b8f03a452a3088dc9763121aee5779dfc5aaba3e731b0dfafbcc",
+      "staged": "eka-source/src/patch/avkonfep/inc/Dispatch.h",
+      "staged_sha256": "7801389fdbd9015bdb2a1a5c312ba78887f6b18c73282229508b1aa032f4cca1",
+      "guest0029_overlay": true
+    },
+    {
+      "source": "/workspace/EKA2L1-validation/src/patch/avkonfep/inc/aknextendedinputcapabilities.h",
+      "source_sha256": "4026e252593fa72279d84ef396fabead1e6d02baf5f4f474e1012e49d0440cda",
+      "staged": "eka-source/src/patch/avkonfep/inc/aknextendedinputcapabilities.h",
+      "staged_sha256": "4026e252593fa72279d84ef396fabead1e6d02baf5f4f474e1012e49d0440cda",
+      "guest0029_overlay": false
+    },
+    {
+      "source": "/workspace/EKA2L1-validation/src/patch/avkonfep/src/HostBridgedImeFEP.cpp",
+      "source_sha256": "16e0a5fbee6d21482b5059f2dcf05c127e7d56072ccef944da169eda6ebaf215",
+      "staged": "eka-source/src/patch/avkonfep/src/HostBridgedImeFEP.cpp",
+      "staged_sha256": "b0f974e036e6894df64be938421559f4a466d2281c18b7ac2dbfc8b9a4bd854f",
+      "guest0029_overlay": true
+    },
+    {
+      "source": "/workspace/EKA2L1-validation/src/patch/avkonfep/src/Dispatch.s",
+      "source_sha256": "48d717af8c1f68fd8acfabf3523e1b9bba2077823683594de05206741d6ce7a4",
+      "staged": "eka-source/src/patch/avkonfep/src/Dispatch.s",
+      "staged_sha256": "3c4b3da6bc84a6529a199e61fb5d53f217aa147b27572959e1bda0814e72029a",
+      "guest0029_overlay": true
+    },
+    {
+      "source": "/workspace/EKA2L1-validation/src/patch/avkonfep/group/general/avkonfep_general.mmp",
+      "source_sha256": "12157c0e677e7723e6b4285ef878ae74c2d08b801fa8519cd2f8229fe58b5cc7",
+      "staged": "eka-source/src/patch/avkonfep/group/general/avkonfep_general.mmp",
+      "staged_sha256": "12157c0e677e7723e6b4285ef878ae74c2d08b801fa8519cd2f8229fe58b5cc7",
+      "guest0029_overlay": false
+    },
+    {
+      "source": "/workspace/EKA2L1-validation/src/patch/priv/src/Log.cpp",
+      "source_sha256": "b68092a55c0b7edb19cd1a249c7d98a4c2d9360de841a34b4a0899e1ec57917f",
+      "staged": "eka-source/src/patch/priv/src/Log.cpp",
+      "staged_sha256": "b68092a55c0b7edb19cd1a249c7d98a4c2d9360de841a34b4a0899e1ec57917f",
+      "guest0029_overlay": false
+    },
+    {
+      "source": "/workspace/EKA2L1-validation/src/patch/priv/inc/Log.h",
+      "source_sha256": "889ab7b8608aaa41baff4ac57aa21aab93e470ae383638fd533f170607135ca8",
+      "staged": "eka-source/src/patch/priv/inc/Log.h",
+      "staged_sha256": "889ab7b8608aaa41baff4ac57aa21aab93e470ae383638fd533f170607135ca8",
+      "guest0029_overlay": false
+    },
+    {
+      "source": "/workspace/EKA2L1-validation/src/patch/priv/inc/sv.s",
+      "source_sha256": "fcc3333eb8836da5bbc3fd602848eff38dbf5b4b4503fdf06bf6862139bc7b8e",
+      "staged": "eka-source/src/patch/priv/inc/sv.s",
+      "staged_sha256": "fcc3333eb8836da5bbc3fd602848eff38dbf5b4b4503fdf06bf6862139bc7b8e",
+      "guest0029_overlay": false
+    }
+  ]
+}

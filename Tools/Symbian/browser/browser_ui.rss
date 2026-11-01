@@ -60,7 +60,8 @@ RESOURCE DIALOG r_browser_auth_password
             {
                 layout = ECodeLayout;
                 label = "";
-                control = SECRETED { num_letters = 256; };
+                // CEikSecretEditor::EMaxSecEdSecArrayLength; larger values panic EIKCTL 13.
+                control = SECRETED { num_letters = 255; };
             };
         }
     };
