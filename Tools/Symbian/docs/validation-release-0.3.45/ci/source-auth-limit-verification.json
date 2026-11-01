@@ -1,0 +1,91 @@
+{
+  "status": "PASS_SOURCE_ONLY_ARTIFACT_PENDING",
+  "source_commit": "e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5",
+  "baseline_commit_for_resource_order": "207c9995d511a510bef15a966f27100de1cf7455",
+  "created_utc": "2026-11-01T06:03:47.699323+00:00",
+  "scope": "New exact git-show snapshots and public SDK contract; no binary, guest, UI or artifact claim",
+  "checks": {
+    "SDK_official_maximum_255": true,
+    "SDK_documents_resource_and_API_EIKCTL13": true,
+    "username_limit_remains_256": true,
+    "password_API_uses_official_SDK_enum": true,
+    "constructor_applies_per_role_limit": true,
+    "password_resource_maximum_255": true,
+    "password_uses_ECodeLayout": true,
+    "no_secret_resource_256": true,
+    "named_resource_order_unchanged": true,
+    "auth_API_source_unchanged_from_207c": true,
+    "resource_source_unchanged_from_207c": true
+  },
+  "named_resources": [
+    "r_browser_prompt_buttons",
+    "r_browser_prompt",
+    "r_browser_auth_password",
+    "r_browser_popup_buttons"
+  ],
+  "source_payload_count": 6,
+  "extra_source_files": [
+    {
+      "source_commit": "e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5",
+      "source_path": "Tools/Symbian/browser/AuthenticationUI.cpp",
+      "git_blob": "cdbab1fb03e5a660cbf8ea38add90d4be80c3b60",
+      "bytes": 3664,
+      "sha256": "f3aa46d17351693123c1e2af6f506347e5dcd377f12d4b737874e70f0caab3d9"
+    },
+    {
+      "source_commit": "e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5",
+      "source_path": "Tools/Symbian/browser/browser_ui.rss",
+      "git_blob": "d7b7833d1cfee938123ddacfc7b398227e88a428",
+      "bytes": 1991,
+      "sha256": "f787d5b7b8cad2721019fde0b89785fba679fe67b2891f7d074c09c1c78636a2"
+    },
+    {
+      "source_commit": "e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5",
+      "source_path": "Tools/Symbian/browser/resources/BrowserQuery.rh",
+      "git_blob": "a5e7a8e00117783eb12e0ddc1ef4de8d15cf6de1",
+      "bytes": 2029,
+      "sha256": "be0959c0ca41aa64efbaad26768a1d187ad9ab5be6a0b13e5e65fd78c0389d9f"
+    },
+    {
+      "source_commit": "e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5",
+      "source_path": "Tools/Symbian/tests/http-auth/README.md",
+      "git_blob": "24b8f0a9d291ae45836c16cd57d4b0acdeecb549",
+      "bytes": 2243,
+      "sha256": "df355105e82a324f7071bbec0b84a96452c43dadc7c4bbc029716701075d69b5"
+    },
+    {
+      "source_commit": "e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5",
+      "source_path": "Tools/Symbian/tests/http-auth/fakes/eikseced.h",
+      "git_blob": "8f8f7bd53505aef08c5c22a3087caf918fe339e8",
+      "bytes": 176,
+      "sha256": "cd52d109076bdb7b6a45c6656efceffcd0e98da14970ec1e0b2078da2bd11e35"
+    },
+    {
+      "source_commit": "e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5",
+      "source_path": "Tools/Symbian/tests/http-auth/native-ui.cpp",
+      "git_blob": "a247ffada8e6003543f9a658f073e8f24524f758",
+      "bytes": 4338,
+      "sha256": "131fcc8e6e59d3494d24783f58797bc1610a54a04770426b69ad6135049869df"
+    },
+    {
+      "source_commit": "e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5",
+      "source_path": "Tools/Symbian/scripts/package-sis.sh",
+      "git_blob": "9899b3383fea3a9d612d5176c3be289b21c72deb",
+      "bytes": 3370,
+      "sha256": "4c57262be3c5d7279542992811da00cb1587efba62c4c31a1b0016174c73b228"
+    }
+  ],
+  "sdk_reference": {
+    "source_path": "/workspace/symbian-sdk/include/native/eikseced.h",
+    "snapshot": "source-inputs/reference/SDK-eikseced.h",
+    "bytes": 15118,
+    "sha256": "96100f14f72c3e62f112831d65e2f9d5771517f3a19dbbc5e3131a402101453e",
+    "enum": "CEikSecretEditor::EMaxSecEdSecArrayLength",
+    "value": 255
+  },
+  "expected_runtime_UI_resource": {
+    "bytes": 242,
+    "sha256": "fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8",
+    "verification": "parent must compare actual downloaded payload"
+  }
+}

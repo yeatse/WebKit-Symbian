@@ -1,0 +1,12 @@
+{
+  "artifact_id": 13073290575,
+  "artifact_name": "sis",
+  "file_name": "ci45-sis.zip",
+  "utc": "2026-11-01T06:17:02.491824+00:00",
+  "primary": "GitHub plugin download_workflow_artifact returned an artifact-backed ZIP file reference; materialized that exact returned file over HTTPS using inherited proxy and normal TLS verification",
+  "returned_file_id": "file_000000006290820787d5a2f6859646ca",
+  "materialized_bytes": 33695107,
+  "credential_values_or_signed_download_query_archived": false,
+  "temporary_download_reference_written_to_disk": false,
+  "ELF_downloaded": false
+}

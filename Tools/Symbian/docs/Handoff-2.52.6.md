@@ -2,9 +2,32 @@
 
 ## 最新状态（2026-11-01）
 
-P1检查点 `903ab1fb43113ea312d280bbcddddd1b9cbb3fd9` 已推送 `2.52.6-symbian`。
-CI43 run41271896689/job124746192350全绿，实际0.3.43三SIS、13payload、CA和ICU八组IDNA已核验；
-见 `validation-release-0.3.43/ci/`。CI43镜像尚未安装或运行，不含下面本地C21认证长度修复。
+最新实现提交 `e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5` 已推送 `2.52.6-symbian`；
+包括前一提交 `207c9995d511a510bef15a966f27100de1cf7455` 的 Auth password 255 上限和 EKA0029 导出证据，
+以及 native converter 的完整 patch stack 幂等修复。SDK/EKA 仓库自身仍未推送，CookieStore 仍是开发树 WIP。
+
+**CI45 实际安装包核验 PASS，尚未安装或运行，也没有真机验收。**
+[Run41279144446](https://github.com/yeatse/WebKit-Symbian/actions/runs/41279144446) /
+job124767283934 全绿，精确来源为上述 `e0e2f321`；实际 `sis` artifact13073290575 为33,695,107B，
+ZIP SHA256 `ecc98707ca1edb7e9ede0bbe68add4b913eefac6e9ff69458f97fe0b42600844`，匹配 GitHub digest。
+三个实际 unsigned SIS 均为 **0.3.45**：13 payload、全部 CRC/SHA1/长度、E32 UID3/64位能力/VFP、
+六项精确来源输入、固定 CA 和实际 ICU 数据的8组 host IDNA 均通过；未下载 ELF。
+完整报告及50文件文本归档见 [validation-release-0.3.45/ci/](validation-release-0.3.45/ci/README.md)。
+CI45 browser.exe 为58,734,680B / `00bc0eb3a62bcb31e4a2cceef8169fc7d23e71ab33e274093434f8aa54ce894d`；
+其实际 UI RSC 为242B / `fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8`，
+11项源码/API/RSS 255上限检查通过。它不包含本地 CookieStore，不能与下面 C21 镜像混用验收结论。
+
+CI44 run41277714685 在 E32 converter 失败，完整失败证据保留于
+[validation-release-0.3.44/ci-failed/](validation-release-0.3.44/ci-failed/README.md)，没有 SIS。
+根因是旧逐 patch reverse-check 无法识别0006叠加后的完整缓存树；修复证据见
+[validation-release-0.3.44/native-patch-stack-fix/](validation-release-0.3.44/native-patch-stack-fix/README.md)。
+真实 upstream fixture 的11项回归已过；CI45 首次 `APPLIED/from_prefix=0`，native E32 ctest 1/1通过，
+构建后再次完整校验6 patch/12文件并返回 `ALREADY_APPLIED/from_prefix=6`，没有删除0006或跳过校验。
+
+主树 `/workspace/WebKit-Symbian` 的实现基线与开发树 `/workspace/WebKit-Symbian-graphics` 均已到 `e0e2f321`；
+随后文档提交只归档 CI45 结果和本文，不生成新包，最终文档 HEAD 以 `git log -1` 为准。
+开发树 `belle-fp2-capabilities` 的60个 tracked/untracked WIP 文件在上次快进前后内容和模式完全保留；
+CookieStore 不在任何 CI45 来源提交中。CI43 的0.3.43包仍保留为历史证据，未安装/运行；其来源不含 Auth 255 修复。
 
 当前host是65,484,680B / `07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3`；
 native FEP是99,488B / `fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae`。
@@ -15,11 +38,12 @@ native FEP是99,488B / `fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1b
 
 C21修复password API和SECRETED资源超出255上限的问题；旧256会报EIKCTL13，username仍256。
 实际空Password查询及点击后新QLineEdit已打开，无target panic；这只是公开校准，HTTP认证16组仍待完成。
+本轮普通认证12例正在由主任务单独实测，尚未在本文记录最终结果；CI45验包不能替代认证运行验收。
 C21 browser 58,813,448B / `496bce2b06bd9a131939dd15b0cd414d4959fb3b297c640e2ae65f85adb8663f`；
 UI242B / `fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8`，必须配对。
 旧C19校准02/03仍FAIL，host0不能掩盖guest错误；禁止归档凭据、Authorization、原始clipboard/private config。
 
-CookieStore本地代码已进入C20/C21，尚未随903ab1推送。C21真实HTTPS15/15及原页面validator通过，
+CookieStore本地代码已进入C20/C21，截至CI45来源 `e0e2f321` 仍未推送。C21真实HTTPS15/15及原页面validator通过，
 官方EndTask却触发target WebKit access violation/KERN-EXEC3，整轮FAIL，全部CA/profile/config/resources恢复。
 原件 `/workspace/symbian-cookie-store-runtime-c21-work/c21-01`，失败不可改判。目前只做普通源码生命周期审查，
 不重放旧崩溃、不加诊断shim或读dump。新测试CA仅临时加入该轮bundle；外部
