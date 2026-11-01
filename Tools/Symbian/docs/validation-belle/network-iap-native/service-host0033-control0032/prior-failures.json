@@ -1,0 +1,224 @@
+{
+  "raw_results_or_private_diagnostics_copied": false,
+  "runs": [
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": false,
+        "originals_retained": false
+      },
+      "error_code": "AMBIGUOUS_CLONE_COMPONENT",
+      "public_output_directory": "/workspace/symbian-iap-root-run-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "01",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": true,
+        "originals_retained": false
+      },
+      "error_code": "SANDBOX_OR_AUDIT_FAILED",
+      "public_output_directory": "/workspace/symbian-iap-root-run02-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "02",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": true,
+        "originals_retained": false
+      },
+      "error_code": "SANDBOX_OR_AUDIT_FAILED",
+      "public_output_directory": "/workspace/symbian-iap-root-run03-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "03",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": true,
+        "originals_retained": false
+      },
+      "error_code": "SANDBOX_OR_AUDIT_FAILED",
+      "public_output_directory": "/workspace/symbian-iap-root-run04-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "04",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": true,
+        "originals_retained": false
+      },
+      "error_code": "SANDBOX_OR_AUDIT_FAILED",
+      "public_output_directory": "/workspace/symbian-iap-root-run05-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "05",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": true,
+        "original_ROM_bytes_unchanged": true,
+        "originals_retained": false
+      },
+      "error_code": "SANDBOX_OR_AUDIT_FAILED",
+      "public_output_directory": "/workspace/symbian-iap-root-run06-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "06",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": true,
+        "original_ROM_bytes_unchanged": true,
+        "originals_retained": false
+      },
+      "error_code": "SANDBOX_OR_AUDIT_FAILED",
+      "public_output_directory": "/workspace/symbian-iap-root-run08-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "08",
+      "separate_native_record_does_not_override_outer_fail": true,
+      "separate_strict_native_record_available": true,
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": true,
+        "original_ROM_bytes_unchanged": true,
+        "originals_retained": false
+      },
+      "error_code": "SANDBOX_OR_AUDIT_FAILED",
+      "public_output_directory": "/workspace/symbian-iap-root-run09-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "09",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": true,
+        "original_ROM_bytes_unchanged": true,
+        "originals_retained": false
+      },
+      "error_code": "SANDBOX_OR_AUDIT_FAILED",
+      "public_output_directory": "/workspace/symbian-iap-root-run10-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "10",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": false,
+        "original_ROM_bytes_unchanged": true,
+        "originals_retained": false
+      },
+      "error_code": "SPACE_FOR_ADDITIONAL_PRIVATE_STATE",
+      "public_output_directory": "/workspace/symbian-iap-root-run11-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "11",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": false,
+        "originals_retained": false
+      },
+      "error_code": "SPACE_BEFORE_CLONE",
+      "public_output_directory": "/workspace/symbian-iap-root-run12-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "12",
+      "status": "FAIL"
+    },
+    {
+      "booleans": {
+        "configuration_restored": true,
+        "drives_restored": true,
+        "forced_cleanup": false,
+        "host_stopped": true,
+        "inputs_unchanged": true,
+        "lockkeeper_retained": false,
+        "native_guest_launch_attempted": true,
+        "original_ROM_bytes_unchanged": true,
+        "originals_retained": false
+      },
+      "candidates_prove_call_stack": false,
+      "diagnostic_public_literal_candidates": [
+        "j2me/include/j2me/applist.h:35",
+        "j2me/include/j2me/applist.h:36",
+        "j2me/src/common.cpp:56"
+      ],
+      "error_code": "SANDBOX_OR_AUDIT_FAILED",
+      "public_output_directory": "/workspace/symbian-iap-root-run13-20261101",
+      "reclassified_as_pass": false,
+      "run_number": "13",
+      "status": "FAIL"
+    }
+  ],
+  "status": "PRESERVED_FAILURE_REFERENCES"
+}

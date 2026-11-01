@@ -1,0 +1,28 @@
+{
+  "unchanged_public_copies": [
+    {
+      "archive": "native-public-record.txt",
+      "bytes": 579,
+      "public_source": "/workspace/symbian-iap-root-host34-readonly-rom-run01-20261101/native-public-record.txt",
+      "sha256": "74be95d458509a8cb665b87602fdd5d6f8ffdf3adc761bd93a854a54faebd34f"
+    },
+    {
+      "archive": "validate.py",
+      "bytes": 4054,
+      "public_source": "/workspace/symbian-iap-root-harness-20261101-host34-readonly-rom/validate.py",
+      "sha256": "667fa28ff1ce68efcf131ba410b7497755b74bf2480361e77a36862a6b7d3eba"
+    },
+    {
+      "archive": "cow/cow_canary.cpp",
+      "bytes": 7313,
+      "public_source": "/workspace/symbian-iap-cow-mapfile-fix-work/cow_canary.cpp",
+      "sha256": "71dfa86fcc6ddef51757493ab82b18bb28c1023940609d791decf28ecae69c9a"
+    },
+    {
+      "archive": "cow/posix-private-cow-readonly.patch",
+      "bytes": 551,
+      "public_source": "/workspace/symbian-iap-cow-mapfile-fix-work/posix-private-cow-readonly.patch",
+      "sha256": "5f8c13d28a5de3cd928e3e7f309c698558dd8840316b8111703747258a9ba785"
+    }
+  ]
+}

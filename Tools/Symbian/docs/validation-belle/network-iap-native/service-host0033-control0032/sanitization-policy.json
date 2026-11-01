@@ -1,0 +1,18 @@
+{
+  "excluded": [
+    "original result JSON",
+    "configuration/catalog/device values",
+    "ROM/J2ME contents or hashes",
+    "inventories",
+    "private journals",
+    "host logs",
+    "sandbox specs",
+    "raw traces",
+    "raw user data",
+    "binaries"
+  ],
+  "host_checker_launches_no_subprocess_or_network": true,
+  "policy": "Explicit file and field whitelists only",
+  "public_native_records_strictly_validated_before_acceptance": true,
+  "source_refs_are_diagnostic_candidates_not_stack_proof": true
+}

@@ -1,0 +1,111 @@
+{
+  "binary_bytes_copied": false,
+  "canary": {
+    "capabilities_requested": "0x2000",
+    "elf_needed_libraries": [
+      "euser.dso",
+      "esock.dso",
+      "libc.dso",
+      "drtaeabi.dso",
+      "libpthread.dso"
+    ],
+    "exe_bytes": 84716,
+    "exe_sha256": "3f52a5ca2f5241bbb719f740cbbdefe68e2865fcc447675bfe900b2d917a5895",
+    "source_sha256": "3d52a60725fd9f71fa59640fcdd13a50abb3d20f6fd0115cfd727d68cd0bfdfe",
+    "uid3_requested": "0xe0000932"
+  },
+  "hosts": {
+    "host0032": {
+      "bytes": 65484680,
+      "run_image": "/workspace/symbian-iap-root-host32-control-20261101/eka2l1_qt",
+      "sha256": "692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd"
+    },
+    "host0033": {
+      "bytes": 65488776,
+      "run_image": "/workspace/symbian-iap-host0033-relink-work/eka2l1_qt",
+      "sha256": "a3237ab5e5864d8dbebcf440c3e6c9026c264e052f336d62266439ce2261ba73"
+    }
+  },
+  "public_asset_pins": [
+    {
+      "bytes": 72620,
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio_general.dll",
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    {
+      "bytes": 52556,
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo_v100.dll",
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    {
+      "bytes": 48796,
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio.dll.map",
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    {
+      "bytes": 11393,
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo.dll.map",
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    },
+    {
+      "bytes": 99488,
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/avkonfep_general.dll",
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    {
+      "bytes": 40384,
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream_general.dll",
+      "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+    },
+    {
+      "bytes": 5027,
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream.dll.map",
+      "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+    },
+    {
+      "bytes": 72620,
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio_general.dll",
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    {
+      "bytes": 52556,
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo_v100.dll",
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    {
+      "bytes": 48796,
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio.dll.map",
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    {
+      "bytes": 11393,
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo.dll.map",
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    },
+    {
+      "bytes": 99488,
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    {
+      "bytes": 40384,
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream_general.dll",
+      "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+    },
+    {
+      "bytes": 5027,
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream.dll.map",
+      "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+    },
+    {
+      "bytes": 65484680,
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "sha256": "692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd"
+    }
+  ],
+  "root_attestations": {
+    "all_15_public_asset_pins_postverified_unchanged": true,
+    "basis": "Root post-run verification reported with archive task; no private WIP inventory copied",
+    "source_WIP_files_postverified_unchanged": 72
+  }
+}

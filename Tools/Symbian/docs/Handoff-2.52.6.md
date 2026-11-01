@@ -1,5 +1,17 @@
 # WebKit 2.52.6 Symbian 交接（续接状态）
 
+## IAP 原生前置接口与只读 ROM（2026-11-01）
+
+本节覆盖下文“host0033未运行”的历史状态。**普通连接查询的实际前后对照已通过**，还不代表代理、CommDB或所选IAP的DNS已验收。最新已验包仍为CI50/0.3.50；本节模拟器修订和浏览器网络候选不在该SIS内。
+
+- [同一探针的前后对照](validation-belle/network-iap-native/service-host0033-control0032/README.md)：host0032的Start、Id、Network均0，Service为KErrNotFound(-1)；host0033四项均0、两次读取稳定、owned句柄正常关闭。两轮均host0、guard/audit通过、拒绝写入0、无强制清理，所选C/D/E与配置完整恢复，原ROM和Java注册库字节不变。探针84,716B / `3f52a5ca2f5241bbb719f740cbbdefe68e2865fcc447675bfe900b2d917a5895`。此前12轮FAIL保留，不输出IAP或代理实际值。
+- [host0034只读ROM验收](validation-belle/network-iap-native/host0034-readonly-rom/README.md)：POSIX私有COW、推断已有文件大小时改用O_RDONLY，去掉不必要的O_RDWR/O_CREAT。实际启动使用只读原ROM，没有可写ROM副本；同一连接探针、审计0及恢复通过。host0034为65,488,744B / `b87e3961f7321bd0e8ce5cb3adc1ce608f624ecfbf3b75af434801addacfa773`；补丁在公开档案中。
+- **active host仍0032**（692abe69...），14份音频/FEP资产未改变。0033/0034仅在隔离副本运行，未覆盖默认模拟器，SDK/EKA自身仓库不推送。运行器使用独立桌面状态、字体缓存、Java注册库副本；原配置、ROM、数据库内容和路径清单不进入Git。
+- 已确认DNS接口缺口：OpenC setdefaultif不自动绑定另建的原生RHostResolver。修订采用原连接Name和受限clone授权、工作会话clone、四参数resolver.Open，绑定随每次curl请求复制，并隔离旧epoch缓存。外部实现的11个ARM编译单元与489项host断言通过；完整curl重建及浏览器运行待完成。UserDefined布局已变，不能把新对象混入旧libcurl.a。
+- 完整候选：`/workspace/symbian-iap-native-dns-binding-work/combined886d-iap-proxy-dns-binding.patch`，51最终路径 / SHA `1b637282641bc9c602c9a81491986bec1e6570478099568e8cacbc6eb7a27a16`。基于干净886d，尚未apply共享树；新curl在独立前缀构建。Name/clone能力探针在`/workspace/symbian-iap-binding-capability-probe-work`准备，尚未运行。
+
+继续顺序：Name/clone/四参数resolver与CommDB能力检查 → 完整curl/浏览器链接 → 所选IAP的DNS、HTTP/HTTPS/WS/WSS代理、H2复用/切换/取消 → 真机。整数查询成功不替代这些测试。剩余72个原Cookie/Multi WIP的字节和模式仍保留；弹窗堆/内存布局诊断的自动安全审查拒绝仍遵守。检查点为`/workspace/symbian-belle-work/resume-state-20261101.json`。
+
 ## CI50 实际载荷音频验收（2026-11-01）
 
 本节覆盖下文“最新CI49／CI包尚未运行”的历史状态。Classic WebAudio 默认ON的源码已推送：`886d227f1780298cc17cf99695a3c78c0b7d9ff6`。**0.3.50实际三份SIS核验通过，且从这次SIS提取的浏览器载荷已在受控模拟器完成音频验收。没有执行SIS安装器或真机测试。**

@@ -1,0 +1,37 @@
+{
+  "ROM_or_DB_accessed_by_public_file_canary": false,
+  "actual_COW_file_operation": true,
+  "baseline_regression_retained": true,
+  "before": {
+    "cow_byte_changed": false,
+    "fixture_valid": true,
+    "map_succeeded": false,
+    "mapping_released": false,
+    "original_bytes_unchanged": true,
+    "original_mode_unchanged": true,
+    "other_rw_flags_unchanged": true,
+    "private_open_readonly": false,
+    "read_flags_unchanged": true,
+    "status": "FAIL",
+    "unsupported_flags_unchanged": true,
+    "write_flags_unchanged": true
+  },
+  "original_task_bytes_mode_unchanged": true,
+  "other_modes_are_synthetic_open_flag_checks": true,
+  "other_open_flags_unchanged": true,
+  "patched": {
+    "cow_byte_changed": true,
+    "fixture_valid": true,
+    "map_succeeded": true,
+    "mapping_released": true,
+    "original_bytes_unchanged": true,
+    "original_mode_unchanged": true,
+    "other_rw_flags_unchanged": true,
+    "private_open_readonly": true,
+    "read_flags_unchanged": true,
+    "status": "PASS",
+    "unsupported_flags_unchanged": true,
+    "write_flags_unchanged": true
+  },
+  "status": "PASS"
+}

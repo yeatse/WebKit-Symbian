@@ -1,0 +1,88 @@
+{
+  "unchanged_public_copies": [
+    {
+      "archive": "harness/adapter.py",
+      "bytes": 18417,
+      "public_source": "/workspace/symbian-iap-root-harness-20261101-v14/adapter.py",
+      "sha256": "c57e68ff0b8eea527ec65eeaaf4629491c46ed34524a84d8133d87e07f9bcd59"
+    },
+    {
+      "archive": "harness/os_sandbox.py",
+      "bytes": 11541,
+      "public_source": "/workspace/symbian-iap-root-harness-20261101-v14/os_sandbox.py",
+      "sha256": "6240ac0be26b6574392425e96224fd940c9d9592af6d9f7334a379f0ad3960f0"
+    },
+    {
+      "archive": "harness/sandbox_guard.py",
+      "bytes": 2669,
+      "public_source": "/workspace/symbian-iap-root-harness-20261101-v14/sandbox_guard.py",
+      "sha256": "01597566923823fda2c8b11c14aedf72c57df83aa308f0ebf5897d5f3d8f1d88"
+    },
+    {
+      "archive": "harness/validate.py",
+      "bytes": 4054,
+      "public_source": "/workspace/symbian-iap-root-harness-20261101-v14/validate.py",
+      "sha256": "667fa28ff1ce68efcf131ba410b7497755b74bf2480361e77a36862a6b7d3eba"
+    },
+    {
+      "archive": "harness/canary.cpp",
+      "bytes": 9695,
+      "public_source": "/workspace/symbian-iap-root-harness-20261101-v14/canary.cpp",
+      "sha256": "3d52a60725fd9f71fa59640fcdd13a50abb3d20f6fd0115cfd727d68cd0bfdfe"
+    },
+    {
+      "archive": "harness/control-host0032-adapter.py",
+      "bytes": 18425,
+      "public_source": "/workspace/symbian-iap-root-harness-20261101-host32-control/adapter.py",
+      "sha256": "a6c784b2ad725e32b17e4de190d52ae2cc9e78b5e2248c85ee0f5bbe032ae876"
+    },
+    {
+      "archive": "harness/helpers/preservation.py",
+      "bytes": 28416,
+      "public_source": "/workspace/symbian-iap-proxy-preserved-probe-work/run.py",
+      "sha256": "ff27d4f3e25d2014cc3a21d8133df532966dc9c202bb5aa35eb26a9bcf40d80c"
+    },
+    {
+      "archive": "harness/helpers/configuration.py",
+      "bytes": 4741,
+      "public_source": "/workspace/symbian-cookie-store-runtime-c21-work/config_preservation.py",
+      "sha256": "e6679c12d66fadb4ad6c69f46f0deede57470f379d5f64591d1e6c312b8015d0"
+    },
+    {
+      "archive": "peer-review.md",
+      "bytes": 3478,
+      "public_source": "/workspace/symbian-iap-root-harness-review.md",
+      "sha256": "7655210f6d2eed712bd1159bf92b5c568b710a686650c8188c2512670bc4eab0"
+    },
+    {
+      "archive": "getter/host0032-iap-service.patch",
+      "bytes": 2109,
+      "public_source": "/workspace/symbian-iap-proxy-bootstrap-review-work/host0032-iap-service.patch",
+      "sha256": "5ba74dae0161e13d5f4f1e288029999f88a1b815873a9bf497d0654238cedd84"
+    },
+    {
+      "archive": "getter/before-connection.cpp",
+      "bytes": 24508,
+      "public_source": "/workspace/symbian-iap-proxy-bootstrap-review-work/eka/before/src/emu/services/src/socket/connection.cpp",
+      "sha256": "6741abfde862e518c8c62460aecfd0f4859150a2868fba33154e1a83cb7467d3"
+    },
+    {
+      "archive": "getter/after-connection.cpp",
+      "bytes": 25795,
+      "public_source": "/workspace/symbian-iap-proxy-bootstrap-review-work/eka/overlay/src/emu/services/src/socket/connection.cpp",
+      "sha256": "9730695ad8f3936d7d6dea3abd811f1ee156a65bad44376ecf19d2c5f41f9418"
+    },
+    {
+      "archive": "records/host0033.txt",
+      "bytes": 579,
+      "public_source": "/workspace/symbian-iap-root-run14-20261101/native-public-record.txt",
+      "sha256": "ee4d7cf82516f20ae0b1d229014d9c0d73bde74fdfb134eb8063e6b32f3b7ca1"
+    },
+    {
+      "archive": "records/host0032.txt",
+      "bytes": 585,
+      "public_source": "/workspace/symbian-iap-root-host32-control-run01-20261101/native-public-record.txt",
+      "sha256": "fd3ebf689ad6b8ebd90626a7e90f5a5d56fb71ba045d1dde152754168651e22d"
+    }
+  ]
+}

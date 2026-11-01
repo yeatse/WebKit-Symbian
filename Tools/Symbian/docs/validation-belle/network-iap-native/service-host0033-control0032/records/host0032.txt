@@ -1,0 +1,3 @@
+BEGIN {"suite":"iap-owned-start","version":1,"run":"owned-f0b77df7d8094bd8a5d125cd5a23c94b"}
+RESULT {"suite":"iap-owned-start","version":1,"run":"owned-f0b77df7d8094bd8a5d125cd5a23c94b","status":"UNAVAILABLE","rc":-1,"start_rc":0,"iap_rc":0,"network_rc":0,"service_rc":-1,"initial_connections":0,"active_connections":1,"initial_enumerated":true,"start_requested":true,"start_completed":true,"timed_out":false,"progress_connected":true,"iap_available":true,"network_available":true,"service_available":false,"stable_snapshot":false,"owned_handle_closed":true}
+iap-owned-start exiting 0

@@ -1,0 +1,35 @@
+{
+  "after_sha256": "9730695ad8f3936d7d6dea3abd811f1ee156a65bad44376ecf19d2c5f41f9418",
+  "before_sha256": "6741abfde862e518c8c62460aecfd0f4859150a2868fba33154e1a83cb7467d3",
+  "host0033_relink": {
+    "host_bytes": 65488776,
+    "host_sha256": "a3237ab5e5864d8dbebcf440c3e6c9026c264e052f336d62266439ce2261ba73",
+    "link_exit": 0,
+    "original_host_sha256": "692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd",
+    "patched_member_sha256": "827dfe3c2d49bddeb37a5dad3736b24f6aa03853ee897ac4c5e30bb3e3156053"
+  },
+  "host_adapter": {
+    "actual_method_sha256": "14cac390adfabe3dc7d0f7a8dbb0192ebbe6da11c9e99a1d88c8362d2bfc6d8a",
+    "assertions": 37,
+    "database_opened": false,
+    "guest_started": false,
+    "source_sha256": "9730695ad8f3936d7d6dea3abd811f1ee156a65bad44376ecf19d2c5f41f9418",
+    "status": "HOST_ADAPTER_PASS_NOT_NATIVE",
+    "transport": "invented synchronous IPC/repository/state adapters; complete candidate get_int_setting body unchanged"
+  },
+  "host_compile": {
+    "compile_exit": 0,
+    "deployed": false,
+    "linked": false,
+    "object_bytes": 109088,
+    "object_sha256": "827dfe3c2d49bddeb37a5dad3736b24f6aa03853ee897ac4c5e30bb3e3156053",
+    "runtime_executed": false,
+    "source_sha256": "9730695ad8f3936d7d6dea3abd811f1ee156a65bad44376ecf19d2c5f41f9418",
+    "target": "eka"
+  },
+  "native_CommDB_or_proxy_runtime_proof": false,
+  "patch_sha256": "5ba74dae0161e13d5f4f1e288029999f88a1b815873a9bf497d0654238cedd84",
+  "scope": "Active-connection IAPService integer getter; invented host adapter is not native runtime evidence",
+  "source_relative": "src/emu/services/src/socket/connection.cpp",
+  "status": "PUBLIC_GETTER_PATCH_AND_HISTORICAL_BUILD_PROOF"
+}
