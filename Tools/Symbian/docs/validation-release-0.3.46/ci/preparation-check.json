@@ -1,0 +1,9 @@
+{
+  "status": "PASS_SOURCE_PREPARED",
+  "artifact_verification_pending": true,
+  "auth_source_checks": 11,
+  "network_source_checks": 13,
+  "script_syntax_valid": 7,
+  "source_snapshots_precise_git_blobs": true,
+  "guest_or_runtime_actions": false
+}

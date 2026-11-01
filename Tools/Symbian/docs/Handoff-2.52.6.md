@@ -6,8 +6,17 @@
 最新提交请以 `git log -1` 为准。SDK/EKA 仓库自身仍不推送，修复只导出到本仓库。
 CookieStore 的10个生产文件及其测试/文档仍留在开发树 WIP，不随网络改动提交。
 
-- CI45 的 **0.3.45** 三份实际 SIS 核验已通过，详细信息保留于下节；未安装或真机运行。
-  本次源码推送将触发新 Actions，不能提前声称新包已成功。
+- **CI46 的0.3.46实际安装包核验已通过，未安装或运行，未做真机验收。**
+  [Run41282488166](https://github.com/yeatse/WebKit-Symbian/actions/runs/41282488166) / job124777066796 全绿，
+  精确来源 `79aee8089ce6cec9816b7ed512ee91f0278491b6`；sis artifact13074172523 为33,762,119B，
+  ZIP SHA256 `86247a47fa7d7c983951e3a4023274bf9836084a778e4e0610306419d115f21b`匹配GitHub digest。
+  3 SIS/13 payload、CRC/SHA1/长度/E32 UID3/64位能力/VFP、6项精确源输入、固定CA、实际ICU数据8组IDNA、
+  242B Auth255资源、native6 patch构建/ctest/重复postimage和13项网络源码合同均通过。
+  CI browser58,884,100B / `4025656bd637ac1b1d1c02312919ebb111a1a7e64c44a9ee2a727b0e179ca113`。
+  见[CI46实际验包档案](validation-release-0.3.46/ci/README.md)。实际CI构建日志和payload版本字节已核对，
+  未取ELF、未审最终ELF符号或link map；源码/字节不冒充本包H2/IPv6/ALPN已运行。
+  **C22含未提交CookieStore WIP，不能把C22或其他本地镜像的运行验收移作CI46已装测。**
+  CI45 的0.3.45三份实际SIS核验作为历史结果保留于下节。
 - [认证十二个普通场景](validation-belle/http-auth/browser-c21-host0029/README.md)全部通过：
   Basic/Digest 各成功、用户名取消、密码取消、三次错误密码、用户名阶段导航、密码阶段导航。
   每轮本次空 query heading 和密码实例公开遮罩均实际审图，真实可信 parent 点击确认关闭；

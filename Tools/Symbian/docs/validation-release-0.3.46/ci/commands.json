@@ -1,0 +1,67 @@
+{
+  "artifact_archive": {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/symbian-ci46-validation/check-downloaded.py"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci46-validation/verify-archive.log"
+  },
+  "native_patch_stack_CI": {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/symbian-ci46-validation/check-native-patch-stack-ci.py"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci46-validation/verify-native-stack.log"
+  },
+  "sis_payload_verification": {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/symbian-ci46-validation/verify-payloads.py",
+      "/workspace/symbian-ci46-validation",
+      "--tools-root",
+      "/workspace/symbian-ci46-validation/verification-tools/Tools/Symbian"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci46-validation/verify-payloads.log"
+  },
+  "source_payload_verification": {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/symbian-ci46-validation/check-source-payloads.py"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci46-validation/verify-source.log"
+  },
+  "auth_resource_and_source_verification": {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/symbian-ci46-validation/check-auth-resource.py"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci46-validation/verify-auth.log"
+  },
+  "network_artifact_source_build_contract": {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/symbian-ci46-validation/check-network-artifact.py"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci46-validation/verify-network.log"
+  },
+  "icu_data_verification": {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/symbian-ci46-validation/verification-tools/Tools/Symbian/tests/icu-idna/run.py",
+      "--icu-root",
+      "/workspace/symbian-work/icu",
+      "--existing-data",
+      "/workspace/symbian-ci46-validation/payloads/icudt70l.dat",
+      "--output",
+      "/workspace/symbian-ci46-validation/icu-payload-idna.json"
+    ],
+    "exit_code": 0,
+    "log": "/workspace/symbian-ci46-validation/icu-payload-idna.log"
+  }
+}

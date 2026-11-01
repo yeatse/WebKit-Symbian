@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "head_sha": "79aee8089ce6cec9816b7ed512ee91f0278491b6",
+  "run_id": 41282488166,
+  "job_id": 124777066796,
+  "step": "E32 converter",
+  "step_conclusion": "success",
+  "patch_count": 6,
+  "base_commit": "b105f752f84d1b5640052f64c4a703017810d7b8",
+  "verified_files": 12,
+  "first_build_status": "APPLIED",
+  "first_build_from_prefix": 0,
+  "native_E32_ctest_passed": true,
+  "post_build_status": "ALREADY_APPLIED",
+  "post_build_from_prefix": 6,
+  "patches": [
+    {
+      "name": "0001-Raise-E32-converter-limits-for-large-images.patch",
+      "sha256": "e7d526647d2bcdbf919c85506226c4f77218f20d3a6bcbae6304086189fbe0d4"
+    },
+    {
+      "name": "0002-Accept-LLD-PIC-range-extension-thunks-to-the-PLT.patch",
+      "sha256": "47522c168093f2f72aa40733cf49f7a430a67c3a134341ec85f8f5c3e19bbe7e"
+    },
+    {
+      "name": "0003-Support-explicit-ARMv6-VFPv2-with-base-AAPCS.patch",
+      "sha256": "5259045f9b77cafc5344b9908b608a5a8205305e5b0b6e60031f024655639699"
+    },
+    {
+      "name": "0004-Support-bounded-read-only-DLL-object-exports.patch",
+      "sha256": "5a2f9dc3444056b2a105acbdf2842fe64dde0494a293cca4126c0acc7088312d"
+    },
+    {
+      "name": "0005-Support-explicit-NetworkControl-capability.patch",
+      "sha256": "b16bc89494ec8b0bc71ebd81f7e88bc5e19ce4a701b76f8ceb39063ee2200964"
+    },
+    {
+      "name": "0006-Support-explicit-ECom-plugin-identities.patch",
+      "sha256": "1d8f15bb6bd349f8d88fa446962bc808da1c305d7bc4c65267f783b86f51249e"
+    }
+  ],
+  "actual_CI_log_excerpt_sha256": "3b86d081218fb783c5cac3e8ae443e86225d4086240554a45ad8c1d3984234ae",
+  "scope": "Actual CI native converter step and repeated full postimage verification; no guest or SDK mutation"
+}

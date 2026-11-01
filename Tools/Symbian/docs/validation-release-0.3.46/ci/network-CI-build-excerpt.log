@@ -1,0 +1,5 @@
+== nghttp2
+== curl
+-rw-r--r-- 1 runner runner       2 Nov  1 06:59 curl-symbian-network-version
+-rw-r--r-- 1 runner runner  883660 Nov  1 06:59 libcurl.a
+-rw-r--r-- 1 runner runner  352222 Nov  1 06:59 libnghttp2.a
