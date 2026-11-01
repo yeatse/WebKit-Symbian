@@ -1,0 +1,60 @@
+[
+  {
+    "run": "a21bs301",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v3/runs/a21bs301",
+    "status": "FAIL",
+    "interaction_status": "FAIL",
+    "interaction_error": "timed out waiting for empty username FEP reopening after heading review",
+    "target_guest_failed": false,
+    "forced_cleanup": false,
+    "resources_restored": true,
+    "private_config_profile_restored": true,
+    "observations": "v3 heading was approved but empty FEP did not reopen; original FAIL retained",
+    "raw_references": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v3/runs/a21bs301/interaction.json",
+        "sha256": "b6644b74ec86075b8b9e02bced0aecd976712a709ad6b5f09b24d96c7eb9f0a1",
+        "bytes": 3192
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v3/runs/a21bs301/observer-result.json",
+        "sha256": "da81d22c041aaaa3d6d30d786ade1a3c8501e2e38acf970913502a62282a8873",
+        "bytes": 13846
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v3/runs/a21bs301/validation-initial.json",
+        "sha256": "58b10994b379cd031f998e03f34c96e7c7d88b6c822f65e9549833479ed03b01",
+        "bytes": 2640
+      }
+    ]
+  },
+  {
+    "run": "a21bs401",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v4/runs/a21bs401",
+    "status": "FAIL",
+    "interaction_status": "FAIL",
+    "interaction_error": "public heading review timeout; no private username entered",
+    "target_guest_failed": false,
+    "forced_cleanup": false,
+    "resources_restored": true,
+    "private_config_profile_restored": true,
+    "observations": "Root rejected immediate post-move FEP remnant screenshot. A later public empty image showed the query after Qt repainted; original gate/raw FAIL were not replaced.",
+    "raw_references": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v4/runs/a21bs401/interaction.json",
+        "sha256": "1ca726959b731a5ae5407a2bb2b902ca5f76217034a6fb3b8d005a0615870cf2",
+        "bytes": 3635
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v4/runs/a21bs401/observer-result.json",
+        "sha256": "b77524b47a4c108784b127b9ae23ff2b1695f7c5d5f9093d4b93928b3d985941",
+        "bytes": 13951
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v4/runs/a21bs401/validation-initial.json",
+        "sha256": "67092c5623bad54286e075d4315019efc3730f2651b6e58d7860a8d6a1cca169",
+        "bytes": 2848
+      }
+    ]
+  }
+]

@@ -1,0 +1,56 @@
+{
+  "suite": "network-guest-c22-literal6",
+  "version": 1,
+  "run": "net-119166fc383849fbbb4ec14916afc320",
+  "mode": "literal6",
+  "h2_connections": [
+    {
+      "id": 1,
+      "alpn": "h2",
+      "page_requests": 1,
+      "items": [],
+      "peak_active": 0,
+      "window_updates": 1,
+      "client_settings": {
+        "3": 8,
+        "4": 262144,
+        "2": 0
+      },
+      "bytes_sent": 0,
+      "complete_items": []
+    }
+  ],
+  "h1_requests": [],
+  "literal6": {
+    "https": [
+      {
+        "run": "net-119166fc383849fbbb4ec14916afc320",
+        "peer": "::1",
+        "alpn": "http/1.1",
+        "path": "/literal",
+        "bytes": 4096,
+        "sha256": "0d356260eaf09e3b3dc81a65b2ad2399aa7c4921c0274bd2cbb54c2a21c46e3b",
+        "response_complete": true
+      }
+    ],
+    "wss": [
+      {
+        "run": "net-119166fc383849fbbb4ec14916afc320",
+        "peer": "::1",
+        "alpn": "http/1.1",
+        "path": "/socket",
+        "upgrade": true,
+        "dynamic_accept": true,
+        "echoes": 1,
+        "bytes": 4,
+        "sha256": "758d61f26a44448384e5c4468a0dcb7a2abe456067b0f7b505bc28b9411fe931",
+        "client_masked": true,
+        "normal_close": true,
+        "close_code": 1000
+      }
+    ]
+  },
+  "errors": [],
+  "stopped": true,
+  "elapsed_seconds": 7.782
+}

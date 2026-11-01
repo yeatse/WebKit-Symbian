@@ -1,0 +1,11 @@
+--- runtime-wrapper/run-literals.py
++++ runtime-wrapper-v2/run-literals.py
+@@ -201,7 +201,7 @@
+                 require(not guest_path.exists(), 'worker log must be absent in fresh profile')
+                 require(checked_inputs() == inputs, 'input changed before launch')
+                 command = [str(INPUTS['host'][0]), '--device', 'RM-707', '--run',
+-                           WORKER_GUEST, '--run ' + token + ' --literals-only']
++                           WORKER_GUEST, ' --run ' + token + ' --literals-only']
+                 result['command'] = command
+                 host_stream = host_log.open('xb')
+                 limit = resource.getrlimit(resource.RLIMIT_CORE)

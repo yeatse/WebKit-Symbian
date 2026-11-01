@@ -1,0 +1,36 @@
+{
+  "status": "INCOMPLETE",
+  "run": "a21bp501",
+  "scheme": "basic",
+  "case": "cancel-password",
+  "functional_checks": "PASS",
+  "failures": [],
+  "incomplete": [
+    "operator must confirm HTTP sign-in heading/origin and correct native query",
+    "operator must confirm the native authentication query closed at the end"
+  ],
+  "auth_requests": 1,
+  "credential_submissions": 0,
+  "accepted": 0,
+  "scope": "controlled loopback HTTP authentication and real native UI input only",
+  "validator_revision": "precise-panic-public-heading-mask-v3",
+  "original_validator_status": "FAIL",
+  "original_failures": [
+    "interaction must explicitly avoid secret screenshots"
+  ],
+  "panic_classification": {
+    "status": "PASS",
+    "failures": [],
+    "permitted_background_shutdown": [],
+    "shutdown_qualified": true
+  },
+  "public_probe_validation": {
+    "status": "PASS",
+    "failures": [],
+    "incomplete": [],
+    "expected": 1,
+    "approved": 1
+  },
+  "strict_validator_status": "FAIL",
+  "strict_validator_file": "strict-validation-initial.json"
+}

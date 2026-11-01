@@ -1,0 +1,89 @@
+{
+  "files": {
+    "browser": {
+      "path": "/workspace/symbian-belle-work/candidate21/browser.exe",
+      "sha256": "496bce2b06bd9a131939dd15b0cd414d4959fb3b297c640e2ae65f85adb8663f"
+    },
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "sha256": "07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3"
+    },
+    "fep": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "deployed_fep": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/avkonfep_general.dll",
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "ui": {
+      "path": "/workspace/symbian-belle-work/candidate21/browser_ui.rsc",
+      "sha256": "fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8"
+    },
+    "registration": {
+      "path": "/workspace/symbian-belle-work/candidate21/browser_reg.rsc",
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "localization": {
+      "path": "/workspace/symbian-belle-work/candidate21/browser_loc.rsc",
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "icu": {
+      "path": "/workspace/symbian-idna-work/icu/install/share/icu/icudt70l.dat",
+      "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+    },
+    "fontconfig": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/resources/fonts.conf",
+      "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+    },
+    "input": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+      "sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0"
+    },
+    "close_window": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/close-emulator-window.py",
+      "sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f"
+    },
+    "helper": {
+      "path": "/workspace/symbian-ui-work/app-exit-build/e32/browser_exit_request.exe",
+      "sha256": "e668e662f15b563b71e5237b910db422f86fc265de7f6a88925b310776e7489d"
+    },
+    "preservation": {
+      "path": "/workspace/symbian-p1-system-runtime-work/runtime_support.py",
+      "sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9"
+    },
+    "profile": {
+      "path": "/workspace/symbian-eka-keyboard-work/webkit-editor.yml",
+      "sha256": "cedf184a2ce966415104d60cb4e836633e379326a76f009e7bcc2ad05bdf0f06"
+    },
+    "upstream_fixture.py": {
+      "path": "/workspace/symbian-http-auth-c21-observer-v4/upstream/fixture.py",
+      "sha256": "02fd1030e9ae52ac1cca315d720061be8a998bc1cff9c84618c27dea0f726e84"
+    },
+    "upstream_drive.py": {
+      "path": "/workspace/symbian-http-auth-c21-observer-v4/upstream/drive.py",
+      "sha256": "e9d7a4018dc636673438206e2564ffa25e1147b363c7247812d053eaae8ac1e2"
+    },
+    "upstream_validate.py": {
+      "path": "/workspace/symbian-http-auth-c21-observer-v4/upstream/validate.py",
+      "sha256": "cfec60b977abc7c3d78209272237577d19defc24a14a8df1c202166e45d5da63"
+    },
+    "mediaclientaudio_general.dll": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio_general.dll",
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    "mediaclientvideo_v100.dll": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo_v100.dll",
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    "mediaclientaudio.dll.map": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio.dll.map",
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    "mediaclientvideo.dll.map": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo.dll.map",
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    }
+  },
+  "scope": "public build/source inputs only; no existing private credential files accessed"
+}

@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "run": "net-101e726ceadc4edc9f1201e99e9da88c",
+  "root_run": "/workspace/network-c22-ipv4-run-01",
+  "utc": "2026-11-01T06:44:31.181930+00:00",
+  "scope": "C22 actual guest SDK mbedTLS IPv4 h2/H1 ordinary positive protocol test, not EndTask or real device",
+  "actual_stream_peak": 4,
+  "configured_stream_limit": 8,
+  "window_updates": 8,
+  "http2_connections": 1,
+  "unique_item_streams": 12,
+  "payload_bytes": 704512,
+  "host_exit": 0,
+  "forced_cleanup": false,
+  "originals_restored": true,
+  "source_host_log": {
+    "path": "/workspace/network-c22-ipv4-run-01/emulator.log",
+    "bytes": 219077,
+    "sha256": "c2c0c93cee5c7d6d5288662ee74c4e9630e380bf1f07c0300a407e50fafbee57"
+  },
+  "not_claimed": [
+    "AAAA hostname DNS",
+    "IPv6 literal TCP/HTTPS/WSS",
+    "navigation cancellation",
+    "exhausted allocation budgets",
+    "official app EndTask",
+    "real-device IAP/TLS/performance"
+  ]
+}

@@ -1,6 +1,44 @@
 # WebKit 2.52.6 Symbian 交接（续接状态）
 
-## 最新状态（2026-11-01）
+## 最新续接状态（2026-11-01）
+
+本节覆盖下文历史检查点。本轮网络生产改动和验证档案随本次提交进入主分支；
+最新提交请以 `git log -1` 为准。SDK/EKA 仓库自身仍不推送，修复只导出到本仓库。
+CookieStore 的10个生产文件及其测试/文档仍留在开发树 WIP，不随网络改动提交。
+
+- CI45 的 **0.3.45** 三份实际 SIS 核验已通过，详细信息保留于下节；未安装或真机运行。
+  本次源码推送将触发新 Actions，不能提前声称新包已成功。
+- [认证十二个普通场景](validation-belle/http-auth/browser-c21-host0029/README.md)全部通过：
+  Basic/Digest 各成功、用户名取消、密码取消、三次错误密码、用户名阶段导航、密码阶段导航。
+  每轮本次空 query heading 和密码实例公开遮罩均实际审图，真实可信 parent 点击确认关闭；
+  input0/host0、无 guest panic、普通 Qt 关闭及完整配置/profile/resources 恢复通过。
+  不是16/16：四个应用退出期间的场景没有执行/验收；公开图修订前的 strict FAIL 和初始 INCOMPLETE 原件保留。
+- EKA **0030** 已完整增量构建。[原生 literal API](validation-belle/network-native-literals/README.md)
+  旧host10/11 FAIL、新host11/11 PASS：修复 KAfInet resolver AF_UNSPEC；TCP按实际端点选择地址族，
+  UDP保留原IPv4行为。实际 Belle ROM 的数字 IPv6 getaddrinfo/getnameinfo 已通过，**没有应用旧 OpenC capacity 参考补丁**。
+- 网络依赖实际重建为 nghttp2 **1.68.0** / curl7.88.1 / SDK mbedTLS ALPN，完整 ARM image 链接只有一份 nghttp2。
+  C22 的 [IPv4 h2/H1](validation-belle/network-protocols/browser-c22-ipv4/README.md)实际通过：
+  同一条TLS连接12请求704512B、峰值4流、SETTINGS上限8/窗口256KiB、8次window update及独立H1回退。
+  [IPv6 literal HTTPS/WSS](validation-belle/network-protocols/browser-c22-literal6/README.md)亦通过：
+  实际peer ::1、HTTPS4096B逐字节、HTTP/1.1 Upgrade/唯一固定echo/正常close1000；普通关闭和全部恢复通过。
+  **真实AAAA DNS、双栈回退、取消和budget耗尽仍待验收**，当前正在外部准备私有namespace真实DNS fixture。
+- 当前 active host 为65,484,680B / `e84037d173141a0183a9c4cfe4df361edbd9e387bccead27dd0fd16f59cfb498`；
+  原host0029 `07af5130…`保存于 `/workspace/symbian-belle-work/host-ipv6-20261101/eka2l1_qt-host0029`。
+  FEP仍是99,488B / `fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae`，
+  五资产在build/bin/patch与DATAparent/patch两处均核对通过，host重建后必须还原。
+- C22 browser 为58,963,296B / `d490e376f5008322de5f6a413811673c85f13f70eb98896283463820e869c2d9`，
+  `/workspace/symbian-belle-work/candidate22/`已冻结。它含本地CookieStore WIP，**不等于随后CI包的精确源码**；
+  不能把C22验收当作新CI包已安装验证。C21认证镜像/host0029身份见认证档案。
+- CookieStore C21真实HTTPS页面15/15功能通过，但官方EndTask后guest KERN-EXEC3，整轮仍FAIL；
+  online和内存压力原FAIL不变，不重放旧崩溃或新增dump/stack诊断。仅有明确普通API/所有权依据才修复。
+- WebAudio 外部候选已有真实FFT/PCM输出线程/ring/WAV/HRTF和ARM/host合同；中断桥继续开发，
+  **WEB_AUDIO保持OFF**。Fullscreen和原生多文件上传正在外部准备；尚未合入或运行。
+
+外部根检查点 `/workspace/symbian-belle-work/resume-state-20261101.json`；实际 runtime 仍由root独占。
+每次运行需同时source `/workspace/eka-validation/env.sh` 与 `/workspace/symbian-media-work/env.sh`。
+不要归档凭据、Authorization、私钥、原profile/clipboard/config。保留所有原FAIL/INCOMPLETE，不以host0掩盖guest失败。
+
+## 此前 CI45 检查点（2026-11-01，历史记录）
 
 最新实现提交 `e0e2f321d4e2d4eac98c33c3e51eca0f43ffaac5` 已推送 `2.52.6-symbian`；
 包括前一提交 `207c9995d511a510bef15a966f27100de1cf7455` 的 Auth password 255 上限和 EKA0029 导出证据，

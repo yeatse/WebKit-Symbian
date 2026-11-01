@@ -1,0 +1,133 @@
+{
+  "suite": "network-guest-c22-ipv4",
+  "version": 1,
+  "run": "net-101e726ceadc4edc9f1201e99e9da88c",
+  "mode": "ipv4",
+  "h2_connections": [
+    {
+      "id": 1,
+      "alpn": "h2",
+      "page_requests": 1,
+      "items": [
+        {
+          "index": 0,
+          "stream": 3,
+          "connection": 1,
+          "bytes": 524288,
+          "sha256": "61d1d9c5745bdaa4fab39240651bc242a5186b15393fd475082fcf6e84f400ab"
+        },
+        {
+          "index": 1,
+          "stream": 5,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "4c456ff51efa36a816d01c9f81761f4ad97fd56bde4c262c42756b2f56f6b487"
+        },
+        {
+          "index": 2,
+          "stream": 7,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "39b6047b4c63c731bcb67786c3a46fa3d2265880104915179c3c5be3faf0f776"
+        },
+        {
+          "index": 3,
+          "stream": 9,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "ce418c29bed1ee97a582f8fcb87c9959c83157d3911f138d6e81628ced833bf4"
+        },
+        {
+          "index": 4,
+          "stream": 11,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "404d7524ed2dc5c85d3f90221970439c1ec4b15fa83e9f8298a21316861e544c"
+        },
+        {
+          "index": 5,
+          "stream": 13,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "4a304bdd07ca74ddad60a71b3ad462251632ad187a1a1a625946a1b4289db2fe"
+        },
+        {
+          "index": 6,
+          "stream": 15,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "e2a2e0f280a3c1c834677af07e219f2e809285fc7743de61cea7a977c14768cb"
+        },
+        {
+          "index": 7,
+          "stream": 17,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "632fd8d415e37d2786fcdb8b5715c764178a7d3f41698fb9456c05dcc7f258b0"
+        },
+        {
+          "index": 8,
+          "stream": 19,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "63e08f0f0957a7956e654831827550d568c83f2b13cc25fcec7d76619fcb082a"
+        },
+        {
+          "index": 9,
+          "stream": 21,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "518065a1508d9b71fb5891ec2a4ac0edfbb83231a12a8fcae7d3bc68fa6f8c16"
+        },
+        {
+          "index": 10,
+          "stream": 23,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "9799fdacbe7890fc1b3cf71d35b2aa1c69a18ab3c81289d57a1bcc8f44b9fae3"
+        },
+        {
+          "index": 11,
+          "stream": 25,
+          "connection": 1,
+          "bytes": 16384,
+          "sha256": "19bbe11b6042b540a77dbb0f4c80a50440090927e667d37608fe1232f7cc76b1"
+        }
+      ],
+      "peak_active": 4,
+      "window_updates": 8,
+      "client_settings": {
+        "3": 8,
+        "4": 262144,
+        "2": 0
+      },
+      "bytes_sent": 704512,
+      "complete_items": [
+        1,
+        2,
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    }
+  ],
+  "h1_requests": [
+    {
+      "run": "net-101e726ceadc4edc9f1201e99e9da88c",
+      "alpn": "http/1.1",
+      "path": "/fallback",
+      "bytes": 23,
+      "sha256": "fe3f9e6fbf24f77ef2abf5d963686ad5ec5dbffc7d9f6d88572891931e4be592"
+    }
+  ],
+  "errors": [],
+  "stopped": true,
+  "elapsed_seconds": 9.582
+}

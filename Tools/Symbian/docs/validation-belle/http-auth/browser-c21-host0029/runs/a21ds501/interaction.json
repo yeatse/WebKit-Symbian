@@ -1,0 +1,324 @@
+{
+  "run": "a21ds501",
+  "scheme": "digest",
+  "case": "success",
+  "pid": 543811,
+  "status": "INTERACTION_COMPLETE_PENDING_VALIDATION",
+  "records": [
+    {
+      "event": "start-clicked",
+      "monotonic": 251218.241382937
+    },
+    {
+      "event": "username-prompt",
+      "monotonic": 251219.003086589,
+      "attempt": 1
+    },
+    {
+      "event": "public-heading-empty-username-cleared",
+      "monotonic": 251219.581651496
+    },
+    {
+      "event": "public-heading-empty-fep-moved",
+      "monotonic": 251219.583123508,
+      "fep_window": "0x60005f",
+      "original_geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "review_geometry": [
+        880,
+        185,
+        400,
+        300
+      ]
+    },
+    {
+      "event": "public-heading-captured",
+      "monotonic": 251220.649979477,
+      "pid": 543811,
+      "window": "0x60000b",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "gate": "native-heading-review/gate.json",
+      "image_sha256": "94908d97c78cf663a31d80741f4756a6da08732ea6969ea10be9b9e6f44d837d"
+    },
+    {
+      "event": "public-heading-approved-and-empty-fep-restored",
+      "monotonic": 251229.441961722,
+      "gate_sha256": "59490d48af23555b3ce424d329420dcf0155398ccc7d291ec8e4eec14bfb1630",
+      "approval_sha256": "9bd8051e5182a399e06d1f35493670bcf582cb596c4744e0de716a1fba5df931"
+    },
+    {
+      "event": "private-username-input-begins",
+      "monotonic": 251229.716490958
+    },
+    {
+      "event": "editor-submitted",
+      "monotonic": 251231.0099296,
+      "role": "username",
+      "geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "widget": "QPlainTextEdit"
+    },
+    {
+      "event": "native-accept",
+      "monotonic": 251231.210941229,
+      "role": "username"
+    },
+    {
+      "event": "password-prompt",
+      "monotonic": 251231.911103822,
+      "attempt": 1
+    },
+    {
+      "event": "public-mask-probe-cleared-before-capture",
+      "monotonic": 251232.890908239,
+      "role": "password"
+    },
+    {
+      "event": "public-mask-probe-captured",
+      "monotonic": 251233.242306633,
+      "instance": 1,
+      "gate": "password-mask-reviews/01/gate.json",
+      "image_sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438",
+      "pid": 543811,
+      "window": "0x600087",
+      "geometry": [
+        241,
+        185,
+        400,
+        300
+      ]
+    },
+    {
+      "event": "public-mask-probe-approved-and-cleared",
+      "monotonic": 251238.786246439,
+      "instance": 1,
+      "gate_sha256": "2d81c23415de687e2b60c7af26cbca67c34a356216689555212602d756931eae",
+      "approval_sha256": "31459d745fdb45380b316a4840bd3725abc3146938929059db4b2a0cc5354819"
+    },
+    {
+      "event": "private-password-input-begins",
+      "monotonic": 251238.786300609,
+      "instance": 1
+    },
+    {
+      "event": "editor-submitted",
+      "monotonic": 251240.118230327,
+      "role": "password",
+      "geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "widget": "QLineEdit.Password"
+    },
+    {
+      "event": "native-accept",
+      "monotonic": 251240.319766356,
+      "role": "password"
+    },
+    {
+      "event": "credential-submitted",
+      "monotonic": 251241.019914843,
+      "attempt": 1,
+      "expected": "accept"
+    },
+    {
+      "event": "quiet-observation",
+      "monotonic": 251246.342995399,
+      "seconds": 5
+    },
+    {
+      "event": "trusted-parent-probe-clicked",
+      "monotonic": 251246.545340668,
+      "point": [
+        450,
+        580
+      ],
+      "page_path": "/"
+    },
+    {
+      "event": "trusted-parent-probe",
+      "monotonic": 251246.699829493,
+      "kind": "trusted-parent-button",
+      "run": "a21ds501",
+      "pid": 543811,
+      "window": "0x60000b",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "fep_absent": true,
+      "trusted": true,
+      "source": "top-parent",
+      "page_path": "/",
+      "recorded_after_interaction": true
+    }
+  ],
+  "screenshots_taken": true,
+  "native_input_module": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+  "calibration": {
+    "main_geometry": [
+      1,
+      25,
+      900,
+      700
+    ],
+    "start_point": [
+      450,
+      226
+    ],
+    "username": {
+      "fep_geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "edit_point": [
+        80,
+        40
+      ],
+      "submit_point": [
+        200,
+        277
+      ],
+      "native_editor_point": [
+        450,
+        278
+      ],
+      "ok_point": [
+        365,
+        332
+      ],
+      "cancel_point": [
+        540,
+        332
+      ],
+      "widget": "QPlainTextEdit"
+    },
+    "password": {
+      "fep_geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "edit_point": [
+        80,
+        135
+      ],
+      "submit_point": [
+        200,
+        164
+      ],
+      "native_editor_point": [
+        450,
+        278
+      ],
+      "ok_point": [
+        365,
+        332
+      ],
+      "cancel_point": [
+        540,
+        332
+      ],
+      "widget": "QLineEdit.Password",
+      "public_mask_fixture_reviewed": true
+    },
+    "sha256": "204841bc12dcab4e322c93e8b9077f99f5943d39a711812aa99111486b607f72",
+    "credential_stage_screenshots": false
+  },
+  "driver_sha256": "56d76a2481b44a0d912f154a753c8946437109da9e7c7ea481c8c99eb154950a",
+  "upstream_driver_sha256": "e9d7a4018dc636673438206e2564ffa25e1147b363c7247812d053eaae8ac1e2",
+  "credential_stage_screenshots": false,
+  "public_probe_only_screenshots": true,
+  "password_mask_reviews": [
+    {
+      "instance": 1,
+      "pid": 543811,
+      "window": "0x600087",
+      "geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "gate": "password-mask-reviews/01/gate.json",
+      "gate_sha256": "2d81c23415de687e2b60c7af26cbca67c34a356216689555212602d756931eae",
+      "image": "password-mask-reviews/01/public-probe.png",
+      "image_sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438",
+      "approval": "password-mask-reviews/01/approval.json",
+      "approval_sha256": "31459d745fdb45380b316a4840bd3725abc3146938929059db4b2a0cc5354819",
+      "approved": true,
+      "cleared_before_private_input": true
+    }
+  ],
+  "heading_reviews": [
+    {
+      "pid": 543811,
+      "window": "0x60000b",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "gate": "native-heading-review/gate.json",
+      "gate_sha256": "59490d48af23555b3ce424d329420dcf0155398ccc7d291ec8e4eec14bfb1630",
+      "image": "native-heading-review/empty-native-query.png",
+      "image_sha256": "94908d97c78cf663a31d80741f4756a6da08732ea6969ea10be9b9e6f44d837d",
+      "approval": "native-heading-review/approval.json",
+      "approval_sha256": "9bd8051e5182a399e06d1f35493670bcf582cb596c4744e0de716a1fba5df931",
+      "approved": true,
+      "fep_window": "0x60005f",
+      "fep_original_geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "fep_review_geometry": [
+        880,
+        185,
+        400,
+        300
+      ],
+      "empty_fep_kept_open": true,
+      "empty_fep_restored_before_private_input": true
+    }
+  ],
+  "native_query_closure": {
+    "kind": "trusted-parent-button",
+    "run": "a21ds501",
+    "pid": 543811,
+    "window": "0x60000b",
+    "geometry": [
+      1,
+      25,
+      900,
+      700
+    ],
+    "fep_absent": true,
+    "trusted": true,
+    "source": "top-parent",
+    "page_path": "/",
+    "recorded_after_interaction": true
+  }
+}

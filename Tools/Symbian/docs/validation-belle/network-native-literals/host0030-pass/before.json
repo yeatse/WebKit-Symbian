@@ -1,0 +1,4 @@
+{
+  "src/emu/services/src/internet/protocols/socket.cpp": "62e59855ae3e492d1496679309bbdd372d3fba84a7f069735ed9b58b5828112c",
+  "src/emu/services/src/internet/protocols/resolver.cpp": "84abf6c2d146cd4432b53622ebef6cc3a9ec4b787220df42bde3593fc76bd972"
+}

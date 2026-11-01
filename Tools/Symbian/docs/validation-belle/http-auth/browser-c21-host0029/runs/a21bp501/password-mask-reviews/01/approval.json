@@ -1,0 +1,19 @@
+{
+  "schema": "auth-public-password-mask-v1",
+  "run": "a21bp501",
+  "scheme": "basic",
+  "case": "cancel-password",
+  "instance": 1,
+  "pid": 545440,
+  "window": "0x60007d",
+  "geometry": [
+    241,
+    185,
+    400,
+    300
+  ],
+  "gate_sha256": "d1e8db91c114313c9905ceb87c8bd9710247f91c76ea762bbc5a57801b78959d",
+  "image_sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438",
+  "observed_masked": true,
+  "reviewed_public_probe": "maskcheck"
+}

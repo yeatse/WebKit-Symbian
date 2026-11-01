@@ -1,0 +1,8 @@
+<!doctype html><meta charset="utf-8"><title>C22 IPv4 h2/H1</title><style>body{font:18px sans-serif;margin:12px;overflow-wrap:anywhere}pre{white-space:pre-wrap}</style><h1>IPv4 TLS h2 / H1</h1><pre id="status">Starting…</pre>
+<script>
+(function(){'use strict';const run=__RUN_JSON__,lengths=[524288,16384,16384,16384,16384,16384,16384,16384,16384,16384,16384,16384];let finished=false;
+function record(v){v.run=run;console.log('NETWORK-GUEST-RESULT '+JSON.stringify(v));}function done(v){if(finished)return;finished=true;document.getElementById('status').textContent=JSON.stringify(v,null,2);record(v);}function ensure(v,m){if(!v)throw new Error(m);}
+async function item(i){const r=await fetch('/item/'+i+'?run='+encodeURIComponent(run),{cache:'no-store'});ensure(r.status===200,'h2 status '+i);const b=new Uint8Array(await r.arrayBuffer());ensure(b.length===lengths[i],'h2 length '+i);for(let j=0;j<b.length;j++)ensure(b[j]===(i*17+j)%251,'h2 bytes '+i);return b.length;}
+record({kind:'ready',status:'READY',suite:'network-guest-c22-ipv4'});const timer=setTimeout(function(){done({kind:'result',status:'FAIL',error:'bounded page deadline'});},90000);
+(async function(){const sizes=await Promise.all(lengths.map(function(_,i){return item(i);}));const r=await fetch('https://127.0.0.1:__H1_PORT__/fallback?run='+encodeURIComponent(run),{cache:'no-store'});ensure(r.status===200,'H1 status');ensure(await r.text()==='HTTP1-ALPN-FALLBACK-C22','H1 bytes');clearTimeout(timer);done({kind:'result',status:'PASS',suite:'network-guest-c22-ipv4',items:12,total_bytes:sizes.reduce(function(a,b){return a+b;},0),h1_fallback:true,verified_all_bytes:true});})().catch(function(e){clearTimeout(timer);done({kind:'result',status:'FAIL',error:String(e)});});})();
+</script>

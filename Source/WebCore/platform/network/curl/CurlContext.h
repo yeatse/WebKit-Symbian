@@ -53,9 +53,17 @@ namespace WebCore {
 
 // Values taken from http://www.browserscope.org/ following
 // the rule "Do What Every Other Modern Browser Is Doing".
+#if OS(SYMBIAN)
+// Keep idle TLS connections and HTTP/2 stream buffers within the phone budget.
+const long CurlDefaultMaxConnects { 8 };
+const long CurlDefaultMaxTotalConnections { 8 };
+const long CurlDefaultMaxHostConnections { 4 };
+const long CurlMaxConcurrentStreams { 8 };
+#else
 const long CurlDefaultMaxConnects { -1 }; // -1 : Does not set CURLMOPT_MAXCONNECTS
 const long CurlDefaultMaxTotalConnections { 17 };
 const long CurlDefaultMaxHostConnections { 6 };
+#endif
 
 // CurlGlobal --------------------------------------------
 // to make the initialization of libcurl happen before other initialization of CurlContext

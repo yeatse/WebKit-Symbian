@@ -1,0 +1,16 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "utc": "2026-11-01T06:42:21.753587+00:00",
+  "guards": 12,
+  "preflight_created_output": false,
+  "server_started": false,
+  "guest_started": false,
+  "private_key_read": false,
+  "host0030_ready": true,
+  "files": {
+    "run.py": "6bc3c5afd34b62354a2992354aea7d58213c98e2cc79d01f775073964bd7f6bb",
+    "test-gates.py": "b605a10835faa48c80a6b66f2ca432e1c949b8811dd463ef1bfb53e61e129eb2",
+    "README.md": "84047f9f45315775c3a80a63159b2f34102988be4540625757cd5465ce363937",
+    "fixture-pins.json": "db17ffe0d50e4846e05141a1f6a00efa4829b53a17f8d7ca7e68924283d576ef"
+  }
+}

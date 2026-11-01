@@ -1,0 +1,19 @@
+{
+  "schema": "auth-public-password-mask-v1",
+  "run": "a21dm501",
+  "scheme": "digest",
+  "case": "navigate-password",
+  "instance": 1,
+  "pid": 546320,
+  "window": "0x600087",
+  "geometry": [
+    241,
+    185,
+    400,
+    300
+  ],
+  "gate_sha256": "cbf7c470a18d171fb31a1769398ed1e7bb0e552211334732597fabf5e39e718b",
+  "image_sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438",
+  "observed_masked": true,
+  "reviewed_public_probe": "maskcheck"
+}

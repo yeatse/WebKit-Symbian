@@ -23,8 +23,11 @@ C19 传输中取消亦通过，保存窗口返回后恢复主软键/布局，菜
 C17 Options 的九组剪贴板操作也已通过；旧菜单失败原件继续保留。
 原生单调时钟已替代固件粗粒度 wall clock；[C15 八次定时回调](validation-belle/monotonic-browser/browser-c15/README.md)
 在 453ms 内完成，计时与键盘回归通过。
-401 UI、内存压力和连接状态已有候选实现；online 与真实内存压力整轮仍为 FAIL。
-CookieStore、IPv6/HTTP2、IAP proxy 已有独立外部候选和主机/ARM检查，尚未合入。
+401 原生 UI 的 [C21/host0029 十二个普通 Basic/Digest 场景](validation-belle/http-auth/browser-c21-host0029/README.md)已通过；四个退出场景仍未验收。online 与真实内存压力整轮仍为 FAIL。
+CookieStore 已合入本地 WIP 并完整链接 C21，真实 HTTPS 页面15项 DOM 功能通过；
+但官方 EndTask 后 guest KERN-EXEC3，整轮仍 FAIL，尚未提交或上线。
+IPv6/HTTP2 已合入本地 C22 并完整链接；实际 guest 的[IPv4 h2/H1](validation-belle/network-protocols/browser-c22-ipv4/README.md)和 IPv6 字面 HTTPS/WSS 通过。IAP proxy 仍是外部候选。
+EKA0030 的[原生字面接口11项](validation-belle/network-native-literals/host0030-pass/README.md)通过；旧host为10/11，只有原生IPv6 resolver失败。实际ROM的数字IPv6 Open C接口通过，未应用旧capacity参考补丁；实际 AAAA DNS、回退、取消及预算耗尽仍待验收。
 这些本地候选和部分验收不等于第二批已全部完成，也不替代真机验证。
 
 | 顺序 | 能力和现状 | Belle/现有代码基础 | 实施与验收要求 |
@@ -36,11 +39,11 @@ CookieStore、IPv6/HTTP2、IAP proxy 已有独立外部候选和主机/ARM检查
 | P1.2 | **本地 C13/C17 单指 touch/pointer 七组通过**；原生 tap 另有 C11 证据 | Window Server 指针事件、HAL；按原生查询报告点数（本次模拟器为 8），不以报告值冒充实际多指 | preventDefault、普通/pointer 拖动、touch-action:none、capture、导航取消均通过；修复精确滚动和错误桌面 hover 事件。实际多指、独立原生失焦取消及真机仍待验收，原生 pinch 未实现 |
 | P1.3 | **已打包字体配置并接通 WOFF2** | [字体运行证据](validation-belle-fonts/README.md)；固定版本 Brotli/WOFF2，修复 fontconfig 盘符路径 | WOFF2 7 项通过；系统字体 7 项分别在两次启动通过，包括中英/等宽字形、真实 fallback 像素与磁盘缓存复用 |
 | P1.4 | **已接通 AES-CTR、RSA、ECDSA/ECDH** | [AES 浏览器 29 项](validation-belle/webcrypto/README.md)、[ARM32 计数器 35 项](validation-belle/aes-ctr-counter/README.md)、[RSA 浏览器 33 项](validation-belle/rsa/browser-c11/README.md)、[EC 浏览器 30 项](validation-belle/ec/browser-c11/README.md) | 标准向量、生成、导入/导出、错误拒绝、并发及 DedicatedWorker 调用已验证；CryptoKey 结构化克隆和持久包装仍需独立系统密钥方案 |
-| P1.5 | HTTP 401 原生 UI 已入候选，完整交互待验收；IAP proxy 有外部候选 | CAknTextQueryDialog、官方 CommDB proxy reader、curl 凭据机制 | 密码查询已按SDK255上限修复并打开；Basic/Digest 输入/取消/三次重试/导航退出仍待验收；代理切换/排除/并发取消仍需平台验收。407 尚无 UI，明确失败，不复用站点401凭据 |
+| P1.5 | **原生 HTTP 401 的12个普通场景通过**；4个退出场景待验收；IAP proxy 有外部候选 | [C21/host0029 Basic/Digest 12项](validation-belle/http-auth/browser-c21-host0029/README.md)、CAknTextQueryDialog、CommDB proxy reader、curl | 成功输入、用户名/密码取消、三次错误后停止、用户名/密码待定时导航均通过；本轮heading和每个密码遮罩实例审图，可信父页面输入、普通关闭及恢复通过。官方EndTask的4个退出场景未验收；代理切换/排除/并发取消仍待平台验收，407无UI且明确失败，不复用站点401凭据 |
 | P1.6 | **原生 prompt、纯文本系统剪贴板键盘与菜单路径已验证** | CClipboard 原生适配 31 项；[C15 真实键盘 9 组](validation-belle/clipboard/browser-c15-keyboard/README.md)、[原生 FEP 五组](validation-belle/fep-ui/browser-c15/README.md) | Ctrl+A/C/X/V、选区、多行 Unicode、contenteditable、DOM paste 拒绝、密码/readonly 保护通过，原 clipboard/config 恢复。FEP真实Escape保留文本及选区，提交/清空生效，程序focus与readonly不误开FEP。[C17 Options菜单九组](validation-belle/clipboard/browser-c17-menu/README.md)通过；[host密码FEP三例](validation-belle/fep-secret/browser-c19-host0029/README.md)通过（逐字遮罩、取消/提交/清空）；富文本与 Async Clipboard 权限另列 |
 | P1.7 | 内存压力与 online/offline 后端已入候选；整体验收未完成 | RChangeNotifier、EChangesFreeMemory、HAL、实际 RConnection/ConnMon | online 页面19项通过但EndTask后host -11，整轮FAIL。C15真实压力已及时READY；worker提交46,137,344字节、实际critical通知/释放/模式检查和worker退出0，浏览器三次VERIFIED后host -11，[整轮仍FAIL](validation-belle/memory-pressure/browser-c15-failed/README.md)。未满足40s保留及80MiB JSCell门槛；系统剩余RAM不等于进程可分配容量 |
-| P1.8 | IPv6/HTTP2 已有独立外部候选，尚未合入 | nghttp2 1.68.0、curl/SDK ARM 编译及 host IPv6/H2 检查通过；EKA/OpenC ABI 缺口另有候选 | 先修实际 EKA/SDK 前提，再验 IPv6-only、AAAA/IPv4 回退、HTTPS/WSS、H2 多路复用及预算。host OpenSSL 结果不代替 guest mbedTLS，实际固件 backend.dll 行为仍待确认 |
-| P1.9 | CookieStore 已有外部 provider 候选，尚未合入；无 HTTP 磁盘缓存 | document CookieStore、Cookie DB/SQLite/变更观察候选通过 host/ARM 检查；现有内存缓存可用 | 继续完整链接及真实 DOM 读写/删除/change/expiry；无 SW manager/partitioned。磁盘 GET 缓存需独立实现 ETag/304/Vary/no-store/认证隔离/中断写 |
+| P1.8 | **C22 实际 IPv4 h2/H1 与 IPv6 字面 HTTPS/WSS 通过**；AAAA/回退等仍待验收 | nghttp2 1.68.0、curl/mbedTLS ALPN 完整 ARM 链接；[原生接口11项](validation-belle/network-native-literals/host0030-pass/README.md) | 实际h2一条TLS连接完成12请求704512B、峰值4、SETTINGS限制8流/256KiB窗口并补充流控；独立H1回退通过。IPv6 literal HTTPS4096B与WSS真实Upgrade/固定echo/正常1000关闭通过。严格TLS、普通Qt关闭及恢复通过，不代替EndTask或真机。AAAA/双栈回退、取消、session预算耗尽另验；不应用旧OpenC capacity参考补丁 |
+| P1.9 | CookieStore 已合入本地 C21 WIP；未提交或上线；无 HTTP 磁盘缓存 | document provider/Curl SQLite/变更观察已通过 host/ARM、完整链接及 HTTPS页面15项DOM功能 | 官方 EndTask 后 guest KERN-EXEC3，整轮仍FAIL；先解决有明确依据的生命周期问题再验收退出。无 SW manager/partitioned；磁盘GET缓存另需 ETag/304/Vary/no-store/认证隔离/中断写 |
 | P2.1 | Web Audio 关闭，没有 Symbian 输出后端 | CMdaAudioOutputStream/DevSound PCM 输出 | 有界音频缓冲、重采样、FFT、文件解码和线程生命周期；OfflineAudioContext 数值、实际频谱、暂停/恢复、系统音频中断 |
 | P2.2 | Fullscreen、Media Session 及视频帧读取缺失 | AVKON 全屏、MMF Utility2/GetFrameL、按控制器查询播放速率 | 用户手势、导航/软键退出、原生视频定位；异步帧缓存后再接 drawImage(video)/WebGL 视频纹理；不能假定所有音频支持变速 |
 | P2.3 | 地理位置、方向/运动、振动等设备桥缺失 | LBS/RPositioner、Sensor Server、HWRM；按机型查询 | 权限和原生 capability、订阅取消、前后台/导航生命周期、错误/缺设备路径；真机数据与耗电验证 |

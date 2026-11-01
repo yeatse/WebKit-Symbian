@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Static ARMv6 builds of the libraries WebCore needs beyond the SDK's own
 # (FreeType, libpng, libjpeg, zlib, mbedTLS): pixman, cairo, HarfBuzz,
-# libxml2, libxslt, SQLite, fontconfig, WOFF2/Brotli decoders, libpsl, libwebp and curl, plus the mbedTLS
+# libxml2, libxslt, SQLite, fontconfig, WOFF2/Brotli decoders, libpsl, libwebp, nghttp2 and curl, plus the mbedTLS
 # file functions the SDK leaves out (shims/mbedtls-fs.c). Installed into
 # $DEPS_DIR/install.
 #
@@ -298,8 +298,18 @@ build_mbedtls_fs() {
   "$AR" rcs "$P/lib/libmbedtls_fs.a" "$DEPS_DIR/mbedtls-fs/mbedtls-fs.o"
 }
 
+build_nghttp2() {
+  fetch_checked https://github.com/nghttp2/nghttp2/releases/download/v1.68.0/nghttp2-1.68.0.tar.xz \
+    nghttp2-1.68.0.tar.xz nghttp2-1.68.0 \
+    5511d3128850e01b5b26ec92bf39df15381c767a63441438b25ad6235def902c
+  cmake_build nghttp2-1.68.0 -DENABLE_LIB_ONLY=ON -DBUILD_STATIC_LIBS=ON \
+    -DENABLE_DOC=OFF -DBUILD_TESTING=OFF -DENABLE_FAILMALLOC=OFF
+}
+
 build_curl() {
+  [ -f "$P/lib/libnghttp2.a" ] || build_nghttp2
   fetch https://curl.se/download/curl-7.88.1.tar.xz curl-7.88.1
+  python3 "$REPO/scripts/patch-curl-network.py" "$src/curl-7.88.1"
   local tls=$sdk_lib/mbedtls
   # The CA bundle is read by shims/mbedtls-fs.c, the SDK's mbedTLS having no
   # file functions (no MBEDTLS_FS_IO).
@@ -338,12 +348,15 @@ build_curl() {
     -DCURL_DISABLE_POP3=ON -DCURL_DISABLE_RTSP=ON -DCURL_DISABLE_SMB=ON \
     -DCURL_DISABLE_SMTP=ON -DCURL_DISABLE_TELNET=ON -DCURL_DISABLE_TFTP=ON \
     -DCURL_USE_OPENSSL=OFF -DCURL_USE_MBEDTLS=ON -DCURL_USE_LIBSSH2=OFF \
-    -DUSE_LIBIDN2=OFF -DCURL_DISABLE_LDAP=ON -DENABLE_IPV6=OFF \
+    -DUSE_LIBIDN2=OFF -DCURL_DISABLE_LDAP=ON -DENABLE_IPV6=ON \
+    -U HAVE_SOCKADDR_IN6_SIN6_ADDR -U HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID \
+    -DUSE_NGHTTP2=ON -DNGHTTP2_INCLUDE_DIR="$P/include" -DNGHTTP2_LIBRARY="$P/lib/libnghttp2.a" \
     -DENABLE_THREADED_RESOLVER=ON -DCURL_DISABLE_SOCKETPAIR=ON -DCURL_ZLIB=ON \
     -DCURL_CA_BUNDLE=none -DCURL_CA_PATH=none -DCURL_BROTLI=OFF -DCURL_ZSTD=OFF \
     -DMBEDTLS_INCLUDE_DIRS="$tls/include" -DMBEDTLS_LIBRARY="$tls/lib/libmbedtls.a" \
     -DMBEDX509_LIBRARY="$tls/lib/libmbedx509.a" -DMBEDCRYPTO_LIBRARY="$tls/lib/libmbedcrypto.a" \
     -DZLIB_INCLUDE_DIR="$sdk_portable/zlib" -DZLIB_LIBRARY="$sdk_lib/libsymbian_portable_zlib.a"
+  printf '1\n' > "$P/lib/curl-symbian-network-version"
 }
 
 # One library per process, so set -e applies inside build_NAME (it does not in
@@ -353,7 +366,7 @@ if [ "${1:-}" = --one ]; then
   "build_$2"
   exit
 fi
-all=(pixman sqlite libxml2 libxslt fontconfig cairo harfbuzz woff2 libpsl webp mbedtls_fs curl)
+all=(pixman sqlite libxml2 libxslt fontconfig cairo harfbuzz woff2 libpsl webp mbedtls_fs nghttp2 curl)
 sdk_pkgconfig
 for name in "${@:-${all[@]}}"; do
   step "$name"

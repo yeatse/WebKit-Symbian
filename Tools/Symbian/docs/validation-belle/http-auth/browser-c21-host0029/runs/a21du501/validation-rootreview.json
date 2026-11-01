@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "run": "a21du501",
+  "scheme": "digest",
+  "case": "cancel-user",
+  "functional_checks": "PASS",
+  "failures": [],
+  "incomplete": [],
+  "auth_requests": 1,
+  "credential_submissions": 0,
+  "accepted": 0,
+  "scope": "controlled loopback HTTP authentication and real native UI input only",
+  "validator_revision": "precise-panic-public-heading-mask-v3",
+  "original_validator_status": "FAIL",
+  "original_failures": [
+    "interaction must explicitly avoid secret screenshots"
+  ],
+  "panic_classification": {
+    "status": "PASS",
+    "failures": [],
+    "permitted_background_shutdown": [],
+    "shutdown_qualified": true
+  },
+  "public_probe_validation": {
+    "status": "PASS",
+    "failures": [],
+    "incomplete": [],
+    "expected": 0,
+    "approved": 0
+  },
+  "strict_validator_status": "FAIL",
+  "strict_validator_file": "strict-validation-rootreview.json"
+}

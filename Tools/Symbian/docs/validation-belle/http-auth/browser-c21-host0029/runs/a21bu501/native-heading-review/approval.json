@@ -1,0 +1,19 @@
+{
+  "schema": "auth-public-native-heading-v2",
+  "run": "a21bu501",
+  "scheme": "basic",
+  "case": "cancel-user",
+  "pid": 543954,
+  "window": "0x60000b",
+  "geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "gate_sha256": "bf806e40d898f27f50821c512d55e3a9755ced2746034551995b5f17b34e1b98",
+  "image_sha256": "24bf4fc4b4794fdc2ac65d92d33f267cd94d18706ee74567c92e34ea0d9ad75d",
+  "observed_heading": "HTTP sign in",
+  "observed_origin": "http://localhost:8794",
+  "observed_empty_username": true
+}

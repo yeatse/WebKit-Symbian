@@ -1,0 +1,11 @@
+synthetic-only-baseline PASS expected PASS
+stale-token FAIL expected FAIL
+wrong-IP-peer FAIL expected FAIL
+wrong-HTTPS-bytes FAIL expected FAIL
+wrong-WSS-ALPN FAIL expected FAIL
+missing-dynamic-accept FAIL expected FAIL
+wrong-WSS-message FAIL expected FAIL
+missing-normal-close FAIL expected FAIL
+page-fail FAIL expected FAIL
+server-error FAIL expected FAIL
+10 synthetic literal6 guards PASS; no runtime/network

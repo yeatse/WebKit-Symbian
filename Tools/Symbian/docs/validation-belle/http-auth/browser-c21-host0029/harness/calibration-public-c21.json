@@ -1,0 +1,93 @@
+{
+  "calibrated": true,
+  "pins": {
+    "browser_sha256": "496bce2b06bd9a131939dd15b0cd414d4959fb3b297c640e2ae65f85adb8663f",
+    "host_sha256": "07af513045bf26e200f7d711c682e219ee4c7cecc9e30f2fa3b08732fc1012e3",
+    "fep_sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+  },
+  "main_geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "start_point": [
+    450,
+    226
+  ],
+  "start_point_overrides": {},
+  "username": {
+    "fep_geometry": [
+      241,
+      185,
+      400,
+      300
+    ],
+    "edit_point": [
+      80,
+      40
+    ],
+    "submit_point": [
+      200,
+      277
+    ],
+    "native_editor_point": [
+      450,
+      278
+    ],
+    "ok_point": [
+      365,
+      332
+    ],
+    "cancel_point": [
+      540,
+      332
+    ],
+    "widget": "QPlainTextEdit"
+  },
+  "password": {
+    "fep_geometry": [
+      241,
+      185,
+      400,
+      300
+    ],
+    "edit_point": [
+      80,
+      135
+    ],
+    "submit_point": [
+      200,
+      164
+    ],
+    "native_editor_point": [
+      450,
+      278
+    ],
+    "ok_point": [
+      365,
+      332
+    ],
+    "cancel_point": [
+      540,
+      332
+    ],
+    "widget": "QLineEdit.Password",
+    "public_mask_fixture_reviewed": true
+  },
+  "exit_launch": {
+    "calibrated": false,
+    "menu": null,
+    "launch_item": null,
+    "dialog_size": null,
+    "path_field": null,
+    "launch_button": null
+  },
+  "note": "Root measured C21 empty username/password native query and password FEP. Password requires native editor tap [450,278]. Copy and set calibrated=true only for the reviewed layout. Every password instance additionally requires its own public maskcheck screenshot approval before credential input.",
+  "content_rect": [
+    270,
+    77,
+    360,
+    532
+  ]
+}

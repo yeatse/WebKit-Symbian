@@ -1,0 +1,8 @@
+{
+  "run": "a21bs501",
+  "url": "http://localhost:8794/?run=a21bs501",
+  "native_query_reviewed": true,
+  "native_query_dismissed_reviewed": true,
+  "masked_password_reviewed": true,
+  "native_query_dismissed_observation": "Root viewed current empty HTTP sign in (1/3), http://localhost:8794, Username query; viewed current nine-circle public probe. After quiet observation, actual XTest click reached same-run top-parent button with trusted=true and FEP absent; functional response passed and own ordinary close/restore passed. No credential-stage image was taken."
+}

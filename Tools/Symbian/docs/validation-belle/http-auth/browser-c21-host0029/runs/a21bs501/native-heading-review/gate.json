@@ -1,0 +1,46 @@
+{
+  "run": "a21bs501",
+  "scheme": "basic",
+  "case": "success",
+  "schema": "auth-public-native-heading-v2",
+  "pid": 543707,
+  "window": "0x60000b",
+  "geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "image": "empty-native-query.png",
+  "image_sha256": "b4d2ca10679eb362c9cc6a8452acedeaf11e0065da5e3b0988d705566178b70b",
+  "expected_heading": "HTTP sign in",
+  "expected_origin": "http://localhost:8794",
+  "private_username_input_started": false,
+  "empty_username": true,
+  "state": "WAITING_ROOT_HEADING_REVIEW",
+  "fep_window": "0x60005f",
+  "fep_original_geometry": [
+    241,
+    185,
+    400,
+    300
+  ],
+  "fep_review_geometry": [
+    880,
+    185,
+    400,
+    300
+  ],
+  "content_rect": [
+    270,
+    77,
+    360,
+    532
+  ],
+  "screen_geometry": [
+    0,
+    0,
+    1280,
+    900
+  ]
+}

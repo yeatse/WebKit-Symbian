@@ -1,0 +1,212 @@
+[
+  {
+    "status": "FAIL",
+    "suite": "network-native-contract-literals",
+    "run": "literal-f69fd56891f6456cb4c88c326b9ffc23",
+    "started_utc": "2026-11-01T06:25:35.150304+00:00",
+    "finished_utc": "2026-11-01T06:25:35.754269+00:00",
+    "host_exit": 255,
+    "natural_host_exit": true,
+    "deadline_expired": false,
+    "forced_cleanup": false,
+    "wm_close_sent": false,
+    "error": "host exited nonzero",
+    "owned_host_stopped_before_restore": true,
+    "inputs_unchanged": true,
+    "runtime_locks_inherited_by_host": true,
+    "runtime_locks_released": true,
+    "command": [
+      "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "--device",
+      "RM-707",
+      "--run",
+      "C:\\sys\\bin\\network_native_contract.exe",
+      "--run literal-f69fd56891f6456cb4c88c326b9ffc23 --literals-only"
+    ],
+    "restored": {
+      "guest": true,
+      "configuration": true
+    },
+    "raw_result": {
+      "path": "/workspace/network-native-literals-run-01/result.json",
+      "sha256": "542cf890f822437a15e7d15cab5dceab636fd411d257c12f6ef778d0417658db"
+    },
+    "raw_host_log": {
+      "path": "/workspace/network-native-literals-run-01/emulator.log",
+      "bytes": 18174,
+      "sha256": "2b3458a90cc6ce52ff08c6b6a60f3ab7e873d508cafe66f4caf10c42fb6acc64"
+    },
+    "relevant_normal_api_events": [
+      "Unknown argument: --run literal-f69fd56891f6456cb4c88c326b9ffc23 --literals-only"
+    ],
+    "crash_markers_present": false,
+    "worker_log_present": false
+  },
+  {
+    "status": "FAIL",
+    "suite": "network-native-contract-literals",
+    "run": "literal-edc9628164774e708e22e54e8ea09247",
+    "started_utc": "2026-11-01T06:26:44.992244+00:00",
+    "finished_utc": "2026-11-01T06:26:45.800492+00:00",
+    "host_exit": 0,
+    "natural_host_exit": true,
+    "deadline_expired": false,
+    "forced_cleanup": false,
+    "wm_close_sent": false,
+    "error": "host/target fatal marker; host exit0 cannot override this",
+    "owned_host_stopped_before_restore": true,
+    "inputs_unchanged": true,
+    "runtime_locks_inherited_by_host": true,
+    "runtime_locks_released": true,
+    "command": [
+      "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "--device",
+      "RM-707",
+      "--run",
+      "C:\\sys\\bin\\network_native_contract.exe",
+      " --run literal-edc9628164774e708e22e54e8ea09247 --literals-only"
+    ],
+    "restored": {
+      "guest": true,
+      "configuration": true
+    },
+    "raw_result": {
+      "path": "/workspace/network-native-literals-run-02/result.json",
+      "sha256": "c80d3c869117ad07d42fdfd64760270341f1e3ee35fa553b467025a1f0c76085"
+    },
+    "raw_host_log": {
+      "path": "/workspace/network-native-literals-run-02/emulator.log",
+      "bytes": 27397,
+      "sha256": "574af35297c05327eabcf49aad6d154b284378ed36e2f8e02ee2a9c96ae748ee"
+    },
+    "relevant_normal_api_events": [
+      "E /workspace/EKA2L1-validation/src/emu/services/src/internet/protocols/resolver.cpp:169 [Service.Internet]: Get address by name failed with code -9",
+      "T /workspace/EKA2L1-validation/src/emu/kernel/src/thread.cpp:554 [Kernel]: Thread Main forcefully killed with category: None and exit code: 1 "
+    ],
+    "crash_markers_present": false,
+    "worker_log_present": true,
+    "worker_cases": [
+      {
+        "name": "abi",
+        "pass": true,
+        "rc": 0,
+        "count": 0,
+        "v4": 0,
+        "v6": 0,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "native-literal-v4",
+        "pass": true,
+        "rc": 0,
+        "count": 1,
+        "v4": 1,
+        "v6": 0,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "native-literal-v6",
+        "pass": true,
+        "rc": 0,
+        "count": 1,
+        "v4": 0,
+        "v6": 1,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "nameinfo-manual-v4",
+        "pass": true,
+        "rc": 1,
+        "count": 1,
+        "v4": 1,
+        "v6": 0,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "nameinfo-manual-v6",
+        "pass": true,
+        "rc": 1,
+        "count": 1,
+        "v4": 0,
+        "v6": 1,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "addrinfo-numeric-v4-af4",
+        "pass": true,
+        "rc": 0,
+        "count": 1,
+        "v4": 1,
+        "v6": 0,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "addrinfo-numeric-v4-unspec",
+        "pass": true,
+        "rc": 0,
+        "count": 1,
+        "v4": 1,
+        "v6": 0,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "addrinfo-numeric-v6-af6",
+        "pass": true,
+        "rc": 0,
+        "count": 1,
+        "v4": 0,
+        "v6": 1,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "addrinfo-numeric-v6-unspec",
+        "pass": true,
+        "rc": 0,
+        "count": 1,
+        "v4": 0,
+        "v6": 1,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "native-resolver-v4-literal",
+        "pass": true,
+        "rc": 0,
+        "count": 1,
+        "v4": 1,
+        "v6": 0,
+        "valid": true,
+        "complete": true
+      },
+      {
+        "name": "native-resolver-v6-literal",
+        "pass": false,
+        "rc": -2,
+        "count": 0,
+        "v4": 0,
+        "v6": 0,
+        "valid": false,
+        "complete": true
+      }
+    ],
+    "worker_summary": {
+      "suite": "network-native-contract",
+      "version": 1,
+      "run": "literal-edc9628164774e708e22e54e8ea09247",
+      "mode": "literals",
+      "passed": 10,
+      "failed": 1,
+      "total": 11
+    },
+    "worker_exit_line": "network-native-contract exiting 1",
+    "worker_log_sha256": "f04a5f7ac6c72e8d21625998bc65ea7bd0fd24ac100a5db9f4bd7e6569e1c68f"
+  }
+]

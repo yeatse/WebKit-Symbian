@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "run": "net-119166fc383849fbbb4ec14916afc320",
+  "utc": "2026-11-01T06:48:17.486825+00:00",
+  "scope": "actual guest SDK mbedTLS IPv6 literal HTTPS/WSS, ordinary own-PID Qt close; no DNS/AAAA/EndTask/realdevice claim",
+  "https_bytes": 4096,
+  "wss_echo_bytes": 4,
+  "wss_close_code": 1000,
+  "tls_peers": "::1",
+  "host_exit": 0,
+  "forced_cleanup": false,
+  "all_originals_restored": true,
+  "source_host_log": {
+    "path": "/workspace/network-c22-literal6-run-01/emulator.log",
+    "bytes": 215202,
+    "sha256": "e9480627400d9dbd470be866b45bf4f5be0a2ce5a633c2a0b02ef064dacb9036"
+  }
+}

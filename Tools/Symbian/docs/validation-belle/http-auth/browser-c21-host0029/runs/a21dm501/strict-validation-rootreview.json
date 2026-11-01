@@ -1,0 +1,15 @@
+{
+  "status": "FAIL",
+  "run": "a21dm501",
+  "scheme": "digest",
+  "case": "navigate-password",
+  "functional_checks": "FAIL",
+  "failures": [
+    "interaction must explicitly avoid secret screenshots"
+  ],
+  "incomplete": [],
+  "auth_requests": 1,
+  "credential_submissions": 0,
+  "accepted": 0,
+  "scope": "controlled loopback HTTP authentication and real native UI input only"
+}

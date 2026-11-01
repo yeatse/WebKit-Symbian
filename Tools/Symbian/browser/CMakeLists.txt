@@ -124,7 +124,7 @@ if (NOT BROWSER_STUB_ENGINE)
     ${font_decoder_libraries}
     "${D}/libcairo.a" "${D}/libpixman-1.a" "${D}/libharfbuzz-icu.a" "${D}/libharfbuzz.a"
     "${D}/libfontconfig.a" "${D}/libxslt.a" "${D}/libxml2.a" "${D}/libsqlite3.a" "${D}/libpsl.a"
-    "${D}/libwebpdemux.a" "${D}/libwebp.a" "${D}/libcurl.a" "${D}/libmbedtls_fs.a"
+    "${D}/libwebpdemux.a" "${D}/libwebp.a" "${D}/libcurl.a" "${D}/libnghttp2.a" "${D}/libmbedtls_fs.a"
     "${M}/libmbedtls.a" "${M}/libmbedx509.a" "${M}/libmbedcrypto.a"
     "${ICU_LIBRARY_DIR}/libicui18n.a" "${ICU_LIBRARY_DIR}/libicuuc.a" "${ICU_LIBRARY_DIR}/libicudata.a"
     "${S}/libsymbian_portable_freetype.a" "${S}/libsymbian_portable_png.a"

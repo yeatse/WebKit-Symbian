@@ -1,0 +1,45 @@
+{
+  "status": "PASS_FOR_12_ORDINARY_CASES_NOT_FULL_16_CASE_MATRIX",
+  "archive_utc": "2026-11-01T06:42:36.021550+00:00",
+  "source_directory": "/workspace/symbian-http-auth-c21-observer-v5",
+  "matrix_cases": 16,
+  "ordinary_cases_executed": 12,
+  "ordinary_cases_passed": 12,
+  "exit_cases_executed": 0,
+  "remaining": [
+    {
+      "scheme": "basic",
+      "case": "exit-user",
+      "status": "NOT_EXECUTED_NOT_ACCEPTED"
+    },
+    {
+      "scheme": "basic",
+      "case": "exit-password",
+      "status": "NOT_EXECUTED_NOT_ACCEPTED"
+    },
+    {
+      "scheme": "digest",
+      "case": "exit-user",
+      "status": "NOT_EXECUTED_NOT_ACCEPTED"
+    },
+    {
+      "scheme": "digest",
+      "case": "exit-password",
+      "status": "NOT_EXECUTED_NOT_ACCEPTED"
+    }
+  ],
+  "public_heading_images": 12,
+  "public_password_images": 12,
+  "credential_stage_images": 0,
+  "original_strict_results": "12 FAIL retained verbatim; each sole reason is original blanket screenshot prohibition",
+  "initial_results": "12 INCOMPLETE retained verbatim pending explicit Root UI observations",
+  "panic_exception_used": false,
+  "normal_close": "All12 used own-PID ordinary Qt WM close after driver completion; this is not official EndTask acceptance",
+  "private_data_archived": false,
+  "credentials_or_authorization_headers_opened_for_this_archive": false,
+  "raw_guest_host_log_text_read_for_this_archive": false,
+  "raw_guest_host_logs_archived": false,
+  "original_profile_config_content_or_inventory_archived": false,
+  "binary_browser_or_native_assets_archived": false,
+  "revalidation_scope": "Public gate/image/approval identity, ordering, closure record schema and source freeze only. Original integrated validator is not re-run here because it requires excluded fresh private credentials and full logs."
+}

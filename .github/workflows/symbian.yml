@@ -144,7 +144,7 @@ jobs:
             WebKitBuild/Symbian/symbian-platform
             WebKitBuild/Symbian/symbian-native
             WebKitBuild/Symbian/src/nlohmann-json
-          key: symbian-native-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-symbian-native.sh', 'Tools/Symbian/patches/symbian-native/**') }}
+          key: symbian-native-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-symbian-native.sh', 'Tools/Symbian/scripts/apply-native-patches.py', 'Tools/Symbian/patches/symbian-native/**') }}
       - name: Restore ICU
         uses: actions/cache/restore@v4
         id: icu
@@ -159,7 +159,7 @@ jobs:
             WebKitBuild/Symbian/deps/install
             WebKitBuild/Symbian/deps/src/sqlite-amalgamation-3350500
             WebKitBuild/Symbian/deps/src/curl-7.88.1
-          key: deps-belle-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/scripts/patch-fontconfig-paths.py', 'Tools/Symbian/cmake/woff2/**', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**', 'Tools/Symbian/tests/idb-quota/run-blob.sh', 'Tools/Symbian/tests/curl-address-family/run-host.sh') }}
+          key: deps-belle-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/scripts/patch-curl-network.py', 'Tools/Symbian/scripts/patch-fontconfig-paths.py', 'Tools/Symbian/cmake/woff2/**', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**', 'Tools/Symbian/tests/idb-quota/run-blob.sh', 'Tools/Symbian/tests/curl-address-family/run-host.sh') }}
       - name: Restore the compiler cache
         uses: actions/cache/restore@v4
         with:

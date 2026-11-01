@@ -18,6 +18,9 @@ step "jsc.exe (E32)";                           "$REPO/scripts/link-e32.sh"
 if [ "${1:-}" != jsc ]; then
   if [ ! -f "$DEPS_DIR/install/lib/libcurl.a" ]; then
     step "WebCore libraries";                   "$REPO/scripts/build-deps.sh"
+  elif [ ! -f "$DEPS_DIR/install/lib/libnghttp2.a" ] \
+    || [ "$(cat "$DEPS_DIR/install/lib/curl-symbian-network-version" 2>/dev/null || true)" != 1 ]; then
+    step "IPv6 and HTTP/2 libraries";           "$REPO/scripts/build-deps.sh" nghttp2 curl
   fi
   step "WebCore (PORT=Symbian)";                "$REPO/scripts/build-webcore.sh"
   step "browser.exe (E32)";                     "$REPO/scripts/build-browser.sh"

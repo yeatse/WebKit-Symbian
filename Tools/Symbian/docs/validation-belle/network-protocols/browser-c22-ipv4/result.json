@@ -1,0 +1,389 @@
+{
+  "status": "PASS",
+  "run": "net-101e726ceadc4edc9f1201e99e9da88c",
+  "mode": "ipv4",
+  "inputs": {
+    "browser": {
+      "path": "/workspace/symbian-belle-work/candidate22/browser.exe",
+      "bytes": 58963296,
+      "sha256": "d490e376f5008322de5f6a413811673c85f13f70eb98896283463820e869c2d9"
+    },
+    "ui": {
+      "path": "/workspace/symbian-belle-work/candidate22/browser_ui.rsc",
+      "bytes": 242,
+      "sha256": "fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8"
+    },
+    "registration": {
+      "path": "/workspace/symbian-belle-work/candidate22/browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "localization": {
+      "path": "/workspace/symbian-belle-work/candidate22/browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "icu": {
+      "path": "/workspace/symbian-idna-work/icu/install/share/icu/icudt70l.dat",
+      "bytes": 10261824,
+      "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+    },
+    "fontconfig": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/resources/fonts.conf",
+      "bytes": 935,
+      "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+    },
+    "ca": {
+      "path": "/workspace/symbian-local-tls-20261101/ca.crt",
+      "bytes": 1220,
+      "sha256": "880c7dfbc26b0e0ba1b44d45dc5a6e95057b60add6ba6ac99368a9ad9233c1a2"
+    },
+    "certificate": {
+      "path": "/workspace/symbian-local-tls-20261101/localhost.crt",
+      "bytes": 1265,
+      "sha256": "170921883a11b87fc6f239571108d4776cd2151d5d4be62486c719afd3f8bab9"
+    },
+    "preservation": {
+      "path": "/workspace/symbian-cookie-store-runtime-c21-work/runtime_support.py",
+      "bytes": 22816,
+      "sha256": "0deded8b62c096774b94ebbc2bfc86a9df51ef6b95a7dee7e1e23f7d7ba46a9b"
+    },
+    "configuration": {
+      "path": "/workspace/symbian-cookie-store-runtime-c21-work/config_preservation.py",
+      "bytes": 4741,
+      "sha256": "e6679c12d66fadb4ad6c69f46f0deede57470f379d5f64591d1e6c312b8015d0"
+    },
+    "close_window": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/close-emulator-window.py",
+      "bytes": 4825,
+      "sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f"
+    },
+    "fixture_fixture.py": {
+      "path": "/workspace/symbian-network-guest-fixture-c22-work/fixture.py",
+      "bytes": 7959,
+      "sha256": "80a0dc9fa6a5c6eb23298d2809fadb57814e7b2e51a7b2bc48c16a328b428306"
+    },
+    "fixture_page.html": {
+      "path": "/workspace/symbian-network-guest-fixture-c22-work/page.html",
+      "bytes": 1759,
+      "sha256": "a91c784c03e374a7e3e08b16e6abe8bd0509efb7e111ec4a5fdd996fc4073bb9"
+    },
+    "fixture_validator.py": {
+      "path": "/workspace/symbian-network-guest-fixture-c22-work/validator.py",
+      "bytes": 3998,
+      "sha256": "402b4c54c644fc61fd15cca0cbf63a992fcf937b777aee296a8e790a762fe745"
+    },
+    "native_asset_0": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio_general.dll",
+      "bytes": 72620,
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    "native_asset_1": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo_v100.dll",
+      "bytes": 52556,
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    "native_asset_2": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio.dll.map",
+      "bytes": 48796,
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    "native_asset_3": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo.dll.map",
+      "bytes": 11393,
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    },
+    "native_asset_4": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/avkonfep_general.dll",
+      "bytes": 99488,
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "build_asset_mediaclientaudio_general.dll": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio_general.dll",
+      "bytes": 72620,
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    "build_asset_mediaclientvideo_v100.dll": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo_v100.dll",
+      "bytes": 52556,
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    "build_asset_mediaclientaudio.dll.map": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio.dll.map",
+      "bytes": 48796,
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    "build_asset_mediaclientvideo.dll.map": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo.dll.map",
+      "bytes": 11393,
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    },
+    "build_asset_avkonfep_general.dll": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "bytes": 99488,
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "bytes": 65484680,
+      "sha256": "e84037d173141a0183a9c4cfe4df361edbd9e387bccead27dd0fd16f59cfb498"
+    }
+  },
+  "wrapper": {
+    "path": "/workspace/symbian-network-guest-runner-c22-work/run.py",
+    "bytes": 15158,
+    "sha256": "6bc3c5afd34b62354a2992354aea7d58213c98e2cc79d01f775073964bd7f6bb"
+  },
+  "started_utc": "2026-11-01T06:42:39.951020+00:00",
+  "deadline_seconds": 120,
+  "deadline_expired": false,
+  "forced_cleanup": false,
+  "wm_close_sent": true,
+  "wm_close_after_functional": true,
+  "restoration": {
+    "guest": {
+      "backup_directory": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-net-101e726ceadc4edc9f1201e99e9da88c",
+      "files": [
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+            "exists": true,
+            "mode": 448,
+            "directory": true,
+            "device": 27,
+            "inode": 932801,
+            "mtime_ns": 1793503583319028900
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-net-101e726ceadc4edc9f1201e99e9da88c/0",
+          "directory": true,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+            "exists": true,
+            "mode": 448,
+            "directory": true,
+            "device": 27,
+            "inode": 932801,
+            "mtime_ns": 1793503583319028900
+          }
+        },
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+            "exists": true,
+            "mode": 384,
+            "bytes": 58795308,
+            "sha256": "654a620f3f94c6d130fb649dbd45f8f49d2142416c244ad59b1cb9a1738de37e"
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-net-101e726ceadc4edc9f1201e99e9da88c/1",
+          "directory": false,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+            "exists": true,
+            "mode": 384,
+            "bytes": 58795308,
+            "sha256": "654a620f3f94c6d130fb649dbd45f8f49d2142416c244ad59b1cb9a1738de37e"
+          }
+        },
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+            "exists": true,
+            "mode": 384,
+            "bytes": 192,
+            "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-net-101e726ceadc4edc9f1201e99e9da88c/2",
+          "directory": false,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+            "exists": true,
+            "mode": 384,
+            "bytes": 192,
+            "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+          }
+        },
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+            "exists": true,
+            "mode": 384,
+            "bytes": 97,
+            "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-net-101e726ceadc4edc9f1201e99e9da88c/3",
+          "directory": false,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+            "exists": true,
+            "mode": 384,
+            "bytes": 97,
+            "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+          }
+        },
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+            "exists": true,
+            "mode": 384,
+            "bytes": 74,
+            "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-net-101e726ceadc4edc9f1201e99e9da88c/4",
+          "directory": false,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+            "exists": true,
+            "mode": 384,
+            "bytes": 74,
+            "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+          }
+        },
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/icu/icudt70l.dat",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/icu/icudt70l.dat",
+            "exists": true,
+            "mode": 384,
+            "bytes": 10261824,
+            "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-net-101e726ceadc4edc9f1201e99e9da88c/5",
+          "directory": false,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/icu/icudt70l.dat",
+            "exists": true,
+            "mode": 384,
+            "bytes": 10261824,
+            "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+          }
+        },
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/fontconfig/fonts.conf",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/fontconfig/fonts.conf",
+            "exists": true,
+            "mode": 384,
+            "bytes": 935,
+            "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-net-101e726ceadc4edc9f1201e99e9da88c/6",
+          "directory": false,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/fontconfig/fonts.conf",
+            "exists": true,
+            "mode": 384,
+            "bytes": 935,
+            "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+          }
+        },
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/webkit/cacert.pem",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/webkit/cacert.pem",
+            "exists": true,
+            "mode": 384,
+            "bytes": 188900,
+            "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505"
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-net-101e726ceadc4edc9f1201e99e9da88c/7",
+          "directory": false,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/webkit/cacert.pem",
+            "exists": true,
+            "mode": 384,
+            "bytes": 188900,
+            "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505"
+          }
+        }
+      ],
+      "restored": true
+    },
+    "configuration": {
+      "restored": true,
+      "items": [
+        {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/config.yml",
+          "before": {
+            "exists": true,
+            "directory": false,
+            "device": 27,
+            "inode": 931485,
+            "mode": 384,
+            "mtime_ns": 1793265562916029575,
+            "items": 1
+          },
+          "restored": true
+        },
+        {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/bindings",
+          "before": {
+            "exists": true,
+            "directory": true,
+            "device": 27,
+            "inode": 932532,
+            "mode": 448,
+            "mtime_ns": 1793515176300244822,
+            "items": 6
+          },
+          "restored": true
+        },
+        {
+          "path": "/workspace/eka-validation/xdg/config/EKA2L1",
+          "before": {
+            "exists": true,
+            "directory": true,
+            "device": 27,
+            "inode": 918060,
+            "mode": 448,
+            "mtime_ns": 1793515175969057285,
+            "items": 2
+          },
+          "restored": true
+        }
+      ]
+    }
+  },
+  "screenshots_taken": false,
+  "private_data_archived": false,
+  "tls_verification_disabled": false,
+  "url": "https://127.0.0.1:8824/?run=net-101e726ceadc4edc9f1201e99e9da88c",
+  "host_pid": 546896,
+  "functional_validation": {
+    "status": "PASS",
+    "suite": "network-guest-c22-ipv4",
+    "run": "net-101e726ceadc4edc9f1201e99e9da88c",
+    "mode": "ipv4",
+    "failures": [],
+    "scope": "functional IPv4 h2/H1 only; outer wrapper must verify guest/host closure and restoration; no IPv6/AAAA/WSS/cancel/budget-exhaustion claim"
+  },
+  "host_exit": 0,
+  "owned_host_stopped_before_restore": true,
+  "inputs_unchanged": true,
+  "acceptance": {
+    "status": "PASS",
+    "scope": "controlled loopback TLS protocol fixture; ordinary own-PID Qt close, not official app EndTask",
+    "validation": {
+      "status": "PASS",
+      "suite": "network-guest-c22-ipv4",
+      "run": "net-101e726ceadc4edc9f1201e99e9da88c",
+      "mode": "ipv4",
+      "failures": [],
+      "scope": "functional IPv4 h2/H1 only; outer wrapper must verify guest/host closure and restoration; no IPv6/AAAA/WSS/cancel/budget-exhaustion claim"
+    }
+  },
+  "restoration_errors": [],
+  "finished_utc": "2026-11-01T06:42:50.216890+00:00"
+}

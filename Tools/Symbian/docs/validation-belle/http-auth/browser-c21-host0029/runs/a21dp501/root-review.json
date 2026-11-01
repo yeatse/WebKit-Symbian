@@ -1,0 +1,8 @@
+{
+  "run": "a21dp501",
+  "url": "http://localhost:8794/?run=a21dp501",
+  "native_query_reviewed": true,
+  "native_query_dismissed_reviewed": true,
+  "masked_password_reviewed": true,
+  "native_query_dismissed_observation": "Root viewed this-run empty HTTP sign in heading, localhost:8794 origin and Username query. After quiet observation, real XTest parent-button click produced this-run trusted=true callback with FEP absent, then ordinary close and original resources/config/profile restoration passed. Any required public nine-circle probes were individually reviewed before private input; no credential-stage screenshots."
+}

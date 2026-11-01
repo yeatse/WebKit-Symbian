@@ -1,0 +1,1358 @@
+[
+  {
+    "run": "a21bm501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bm501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 896,
+        "sha256": "1650345f785a1fcabe68a4ad750be0f6ac6e4c911937f71ed8aad918f6b9af61"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1062,
+        "sha256": "2538f8c530cced6d079945b5d5b765c55ab299aa6510cc2dd3d91f037f95edcd"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 381,
+        "sha256": "6d674e9051241b8ab572b1c781d9ac84d0d5f99ca14475b43b67a747e768a5a8"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 544,
+        "sha256": "af79150035f92aa6809b13c2b609953644fe77b98daf029f683991af3e4758d6"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 7504,
+        "sha256": "39edffbfe6a86fd9f6045589cfe91a7e7a95c549d974c4e8ee047947cc17a054"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 991,
+        "sha256": "679db19e14a1459a24ac10431576606da18cb2f573866027ea5abed349f50042"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 630,
+        "sha256": "9d29dbb8af17d1579f5fffd068bdca12906394f6fce93d18a6e4f0a8b4bd3899"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 816,
+        "sha256": "39531c838221357dc739fd46b4df8363c4e78604598bf06dc226707f173a3596"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 38378,
+        "sha256": "798f0e82f8bb3d61ed9ca6a4f0ff7e6a553a98dd10638d537e74f59812ad3c33"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 505,
+        "sha256": "2b67ecdf8339c4f90d8361e36a10ce5957aa01a795f8378937dd3a32ee71b77e"
+      },
+      {
+        "path": "password-mask-reviews/01/gate.json",
+        "bytes": 458,
+        "sha256": "e679fda4c7dcffacf1511493bcb848095b681345411d2deebebc52d13285258d"
+      },
+      {
+        "path": "password-mask-reviews/01/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/01/approval.json",
+        "bytes": 472,
+        "sha256": "8188adf98abde43a51d8425bcab74ca7a599ae8aeea9fbcef4f1cbf3a233c6e4"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bm501/observer-result.json",
+        "bytes": 13396,
+        "sha256": "f49decd60f162f543f7a841d68bd53e5f3d9e085b737c466886b59e276c3ce02"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bm501/guest.log",
+        "bytes": 1225,
+        "sha256": "88fea5343e9234b4f7fa1fb6135f02dbe50309a78618f4dda1b6302abd2a9441"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bm501/emulator.log",
+        "bytes": 283319,
+        "sha256": "95764da2bf640e179135d3036ddc342281d10cd4c5192c22e713605e882daf40"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bm501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "1bec3adf9178ac4dd2b9c5fa3659d621c4b4648d0b65c156c653c5578a689d7e"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bm501/interaction.json.actions.jsonl",
+        "bytes": 2769,
+        "sha256": "baf3222ef89af6c890dbd14a0b08b7d16d359de9aeb82beeb7c3dc3a38b50340"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bm501/input-driver.log",
+        "bytes": 526,
+        "sha256": "625fc9d0d06e89683ce2bbb9592a57f2d4797254c884ef2a750ef9b384b759a5"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bm501/fixture/ready.json",
+        "bytes": 197,
+        "sha256": "f3a2076a34b7263204c9bc2f9249d64048eff1dfacbb7757319e293900b5de1f"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bm501/fixture/events.jsonl",
+        "bytes": 904,
+        "sha256": "a9f581660cf560871028971b0169b0094a23b86a24d256fba4d64b7ffc2662f7"
+      }
+    ]
+  },
+  {
+    "run": "a21bn501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bn501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 892,
+        "sha256": "f7125e8161153f4d681ad84bc7e9340955f5d718a07e834d33fa3cad4c14c491"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1058,
+        "sha256": "059f7a1549b4392273cf672e4c3fa71f92188b3de48727588e8a6edac57c66a6"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 377,
+        "sha256": "4a12d390510452e3b5278d8c4e8770792d23903c9d61876a5cbdbf69bc8c4538"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 540,
+        "sha256": "05eba4f4fe097d34c2823bab91b457a666931dc2c55ddec3295d67d2abe560e5"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 5442,
+        "sha256": "b5b3e92cc15405b4fed471616cbef0e6a62024dd8223b9500dc388dcf3ba795b"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 992,
+        "sha256": "581d0e688c39f2599bdaa1059178d2848efe27089112b9f5233101b37794c484"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 631,
+        "sha256": "fa68cced1a9471fec34ada1f15ec96ff39d55d2f341123f39f80ae83cd28f488"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 812,
+        "sha256": "6e82c340c029d0394c4a30a130eb61e76f4e3532fe493432aca172d4bf73558d"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37680,
+        "sha256": "5719fc847895ce83bf5849b95160d86468414d329d1d191ee7587a894c74560d"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 501,
+        "sha256": "0e38abb6fdd2eb319b7264e0d1174a5a811cbb387258b160ce782b7d40c9a8ae"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bn501/observer-result.json",
+        "bytes": 13392,
+        "sha256": "573bf66639e8d99491fddd2775d86c6f8d719fdaff41787d42358e1099af3dbd"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bn501/guest.log",
+        "bytes": 1225,
+        "sha256": "c7dedbfa7c51630651a7e77ac9c42966dbc4d45827270f8b08896cdf9f12eb37"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bn501/emulator.log",
+        "bytes": 249371,
+        "sha256": "7bbd18f450a8456c0e63a7f83e40002d3524e9096536503fa690d7252a17ed2a"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bn501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "bc08385faa8aec5f164d841e8e6c276877701fc430e9451ccf8256348f577b47"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bn501/interaction.json.actions.jsonl",
+        "bytes": 1724,
+        "sha256": "52fec309dc8a3ca096760e83d51b95f002237e658ab9f526dd66e29485073b44"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bn501/input-driver.log",
+        "bytes": 327,
+        "sha256": "5bc5cb77f19ddd4df1b921298583682261f2f5d3314088d728f939b22fb3e6fd"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bn501/fixture/ready.json",
+        "bytes": 193,
+        "sha256": "da209b17111e065561b27dda3a5b09aa659e3c815c64766118ab79b9290f6826"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bn501/fixture/events.jsonl",
+        "bytes": 879,
+        "sha256": "5d485e90f921bb28ca19c83fc56f51d897b40a7c1b1d68c1b53c6209edf01cd1"
+      }
+    ]
+  },
+  {
+    "run": "a21bp501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bp501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 894,
+        "sha256": "fa04c46c0cdd5e3d31771f1d1380c8f6678eef521f2f1c9743d727d4af22aa97"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1060,
+        "sha256": "3552ec6eb566f74e027a59f98b9e6ae0554b92383ab1b591bf198b1851f4f0e5"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 379,
+        "sha256": "dcdbba97ccb875f0b334a2f3c630e96910e301fcc5604f1f5018b1e22b73b977"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 542,
+        "sha256": "643f2d958739da607d09d8b92fdb8c610a7ba09c84d0c7baf85af9f99624fac0"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 7502,
+        "sha256": "e94d14a98005735325e436472dcc5deada2a02f85130f96f79e9de874029af72"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 991,
+        "sha256": "70cfc6893813108d584c21daabe086ff9754196d5645eef62205e437689a9678"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 630,
+        "sha256": "6212f41c4b547e629926a3e5e6d9792b3eadab0f2722fb8beff0e77374d06249"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 814,
+        "sha256": "a19984c442174044906df1016cd788fffed483d087df3296a7d3a7e45729ed76"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37904,
+        "sha256": "50af0a66ce6a27db29104fa8294c2293272a8df04b765992781482cee1362878"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 503,
+        "sha256": "c17d61a7ab655d2c668db35be57b0ae2059f38ce4b3f0949a9a58fe213c5b24f"
+      },
+      {
+        "path": "password-mask-reviews/01/gate.json",
+        "bytes": 456,
+        "sha256": "d1e8db91c114313c9905ceb87c8bd9710247f91c76ea762bbc5a57801b78959d"
+      },
+      {
+        "path": "password-mask-reviews/01/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/01/approval.json",
+        "bytes": 470,
+        "sha256": "30a8241298befedce2f5c9ed589d14116b8e63ff642b4be14040155041e6fffc"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bp501/observer-result.json",
+        "bytes": 13394,
+        "sha256": "13d2bac11bfcd37cbe786121e3399e61156c55d0d1a91728c3b8501f608b7f51"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bp501/guest.log",
+        "bytes": 965,
+        "sha256": "4abfe0b846bdb65324ecc09111e7d388b14e43305ac52576d903dd5b91a189ed"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bp501/emulator.log",
+        "bytes": 277310,
+        "sha256": "b9fe3bfd1b5fab2acc5678d159f0e90f4a053e11f2453e42f8231f5a56a47103"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bp501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "4392b284dde33bc375312c5f5c0f75d9160a3961d8cbecaa3b8de46d7535df78"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bp501/interaction.json.actions.jsonl",
+        "bytes": 2769,
+        "sha256": "c427e319fbee7bff73d92683d36d41c722c77a2c6ac8d4eccd592e138ae6fac9"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bp501/input-driver.log",
+        "bytes": 524,
+        "sha256": "f9df0115fbaf7a9b01944189b42daf1987a9e3e29b3aaa96926df414fd8c4dc7"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bp501/fixture/ready.json",
+        "bytes": 195,
+        "sha256": "3ef3e70f4591439a5d6a701195a16a6054e1b72b0b3c1175e2ba471ebbe5862c"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bp501/fixture/events.jsonl",
+        "bytes": 889,
+        "sha256": "bb4c57087ec3d98474ab48ce8dab1644dfe04ad253b4f73da0cd871c9bf790de"
+      }
+    ]
+  },
+  {
+    "run": "a21br501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21br501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 884,
+        "sha256": "2cfd3535a984e70a178a158d705bf5953989f25bef455a9e0908cb82bf0f6883"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1108,
+        "sha256": "ced468106e9fc00464b2086a677c4e7e8e0fb00280f4842b05e5a04667bb902d"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 369,
+        "sha256": "debd0d0eb20fc4edcb63e14ea404f6fc225fd635c833bfb6bcc00ad94ce3a73a"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 590,
+        "sha256": "9b9c9472a458ae46b51ea80b3671afc82824a3e2d8e8314b548152d1e4e04119"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 13062,
+        "sha256": "b779c028087fd7e1a485311770a24bbba5547fa8112af245c38781521ecee25d"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 991,
+        "sha256": "f87f5743c72dd2acfa5b66b8d68f63b84a53e12bd76130bbd7211ce05591eb13"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 630,
+        "sha256": "4172b87d1e48b6b6ed1bf39bd852dcd3954175081b81e60e26627144073175bb"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 804,
+        "sha256": "feb4b2effa226cb70297790f062eafc8554d7d5071e3ad35ab63fa4f5cf01f4d"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37314,
+        "sha256": "675859feb26617df417655ed500798faa6aef166cedc0fc57a7245d1fcbcf597"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 493,
+        "sha256": "973aa8b63f95e09141013c0b085ecd091b7c1cd9426005fae09010314d736cad"
+      },
+      {
+        "path": "password-mask-reviews/01/gate.json",
+        "bytes": 446,
+        "sha256": "280b0b41c809fd4e8fc4f204b3b4153baef9f4f23f7a4869f65ad14f57537dbb"
+      },
+      {
+        "path": "password-mask-reviews/01/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/01/approval.json",
+        "bytes": 460,
+        "sha256": "a1b8b76141dc24274ab562b8812fe35a1ba3584ec6bee9b218417dd426e7d42e"
+      },
+      {
+        "path": "password-mask-reviews/02/gate.json",
+        "bytes": 446,
+        "sha256": "8b583e38e5e510fc1627f924c51439c9bee22699ea6255c0404c3ed88e6a3500"
+      },
+      {
+        "path": "password-mask-reviews/02/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/02/approval.json",
+        "bytes": 460,
+        "sha256": "dd920ac594724600787aa9c35804b1316a517fd08275c40e9c34e3bec2780460"
+      },
+      {
+        "path": "password-mask-reviews/03/gate.json",
+        "bytes": 446,
+        "sha256": "c0bffa2c38d1adca8d30e1b28e06717464387d4094ca1bf81ebea0a7acc02a77"
+      },
+      {
+        "path": "password-mask-reviews/03/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/03/approval.json",
+        "bytes": 460,
+        "sha256": "edc0b9a98e80a299ad81af770fc9cedea89003d298ee4e00a242e4ed24563562"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21br501/observer-result.json",
+        "bytes": 13384,
+        "sha256": "3c545717e5bfebaec07d09a145681404ce9d2073b18db5a953b1cf5dffce7dc3"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21br501/guest.log",
+        "bytes": 1046,
+        "sha256": "776b684839a28f61fa305e50362a5eb2ff3b56b9aef1de89d94f7f36f0dfe0f6"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21br501/emulator.log",
+        "bytes": 384785,
+        "sha256": "b4aedd99196c486cd3115ac295e8b815351ecea013a8f872d386d7c0e805cba5"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21br501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "b1662e0224a5ef1498d79b17ecc191a1daca4e7a0d2dbb04f93fa1a3d730ddf2"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21br501/interaction.json.actions.jsonl",
+        "bytes": 5888,
+        "sha256": "c367cb9c8988146667106c70ce467bb5d943dd770356304043b04b073ede2df9"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21br501/input-driver.log",
+        "bytes": 904,
+        "sha256": "81e1737c8db2dd94470cd380a7413f67b77b2e43d7c962c4b15ef2da36242614"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21br501/fixture/ready.json",
+        "bytes": 185,
+        "sha256": "1b7eb2d0e9e438281236eb3ccc2082a425e2ff866b859100d974129c3e5b6a49"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21br501/fixture/events.jsonl",
+        "bytes": 1535,
+        "sha256": "62a3fc2daa436ba1d0a81d1c52fecaffe8be87449ffdfeafde77f1ed674f2bd1"
+      }
+    ]
+  },
+  {
+    "run": "a21bs501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bs501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 886,
+        "sha256": "8f7c032f2ae388819c6e81bb92e4ef077063ad2117e1b6ccb65e05fc05a480b4"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1110,
+        "sha256": "e362e99ef92856ca9d08278e186d09a36605fab0d5f53b541f7cf72c2ee2c23d"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 371,
+        "sha256": "1076046588544c333b9715d90c503e1794dfcba0761ababe7dc4cb6132c60192"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 592,
+        "sha256": "c559a420e508a70b7f3007c7b0353597b5ad700217c528c5c8946b9e3bba98ca"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 7615,
+        "sha256": "58611b3443a44ad44eba507133d99ef75775581ee3b65c4383c63a130612c8a9"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 930,
+        "sha256": "03ef63370ad55563c3762c0a073f71ae237b928c4e85bd522d3101992c1b2d5a"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 569,
+        "sha256": "ba86d4f997f376596c81ea45339949be3f307f4120e847e5b94dd09e7c6d900f"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 806,
+        "sha256": "049b50ed2402ac21eb66d66c2d5f79598694f7248b5a1880fd6c5fa95ef0d192"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37174,
+        "sha256": "b4d2ca10679eb362c9cc6a8452acedeaf11e0065da5e3b0988d705566178b70b"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 495,
+        "sha256": "a727f0c623ec6505040089dbc84b2d4aefa878721b7731240a3f124040f8c09d"
+      },
+      {
+        "path": "password-mask-reviews/01/gate.json",
+        "bytes": 448,
+        "sha256": "cdd590c1e82a3116caf0b6d145825be341dc8470244fdb22d9833a48645f2f08"
+      },
+      {
+        "path": "password-mask-reviews/01/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/01/approval.json",
+        "bytes": 462,
+        "sha256": "5e4f29e1b679d1c22f3288b8adb8d8c05b4ea9c4ecf105e7324634dce27b36be"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bs501/observer-result.json",
+        "bytes": 13386,
+        "sha256": "7cc04c575827c32c0b3cc7836d0dc54eeff131763b34483416abe659ca7a5eb3"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bs501/guest.log",
+        "bytes": 1043,
+        "sha256": "3c8decd5dc3487ee06013ee9d59e282d57c5b690e3a1dc092ede78e06bcfea0f"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bs501/emulator.log",
+        "bytes": 294986,
+        "sha256": "58798f4261fae1ddde448d651373bcda5631b1554ecb3c2cc417c356bce1f1d9"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bs501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "7025490c0a387f3a45b31b92a742b4f1fc4041456c2cc7980236d5c44c9e6a38"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bs501/interaction.json.actions.jsonl",
+        "bytes": 2855,
+        "sha256": "2bf4d486af697ffc5fcb21cb237e82de529778ddcec1403bb68d7bfede08f7d7"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bs501/input-driver.log",
+        "bytes": 516,
+        "sha256": "7391a99f16315ab067eaae02442af745450747f02fd627de0927e46ad6eb8126"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bs501/fixture/ready.json",
+        "bytes": 187,
+        "sha256": "7ea5a2db88f648d83910f66e27861e860eb61c9534667836291dfd3b099e70be"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bs501/fixture/events.jsonl",
+        "bytes": 1162,
+        "sha256": "193021db7486226d1ff94457b3973018e9980aea03b47a2f06b88ba64f716d60"
+      }
+    ]
+  },
+  {
+    "run": "a21bu501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bu501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 890,
+        "sha256": "aa745e1cebaa328c3bde95852f4ab1644feb6807b1a33d3b01c3383f0580282f"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1056,
+        "sha256": "3bce4dede11e4284d2f083df6cfe449a9a39dd36bc15c09707121412736bd5c6"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 375,
+        "sha256": "a8ae10fd632b24423cdf6f51c709000f3ba1ca092e2c62f9ac56feb69f1f87de"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 538,
+        "sha256": "ad77e63299b3a0edba9966b36c4f0fdfde0309085c93a0da653ae6aa55140ce3"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 5443,
+        "sha256": "1517e12f7a6f377b66b33ddce996960f92d399f55ecf43ca1904395e218a49b4"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 992,
+        "sha256": "50eb5fc043c39235d17c2e081031e040144d8ef30eba2aaf6231e04185503b2f"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 631,
+        "sha256": "cdc29ae8cfb9558cef40dfb2088900e52744c666e2e7aa8c28316e367443a9ad"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 810,
+        "sha256": "bf806e40d898f27f50821c512d55e3a9755ced2746034551995b5f17b34e1b98"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37338,
+        "sha256": "24bf4fc4b4794fdc2ac65d92d33f267cd94d18706ee74567c92e34ea0d9ad75d"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 499,
+        "sha256": "d0206b6583e16d183f222edf51c1ad0dc482d0f368c96e7d4d3d4213bcef05d9"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bu501/observer-result.json",
+        "bytes": 13390,
+        "sha256": "bb7d6de217f4c9f0b9cab927706170adca1f4f16381c1a8c7fbccd2d7cff0788"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bu501/guest.log",
+        "bytes": 965,
+        "sha256": "79a1f61f65df899f92c2d621da77c4f5e7a1dcaa14521a8ee95974a9f44437f2"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bu501/emulator.log",
+        "bytes": 253691,
+        "sha256": "8c2b3bc016605fd0f8d63fd0378cd841f635a6012dfe9e9466b24fae8711fe9f"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bu501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "708c02c8b5d398ce2510935c2f185a6d8daf4cb88958df6d0c11975e7663ad8b"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bu501/interaction.json.actions.jsonl",
+        "bytes": 1727,
+        "sha256": "001cdeb8c21ee010efb0aaab5a71fec2105c54e5a844cc146f8ca80ac58f30a4"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bu501/input-driver.log",
+        "bytes": 325,
+        "sha256": "d3296cf06ba54a6765e4b5bc38616cec05a66a33fe99fa77a436881f87fa795b"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bu501/fixture/ready.json",
+        "bytes": 191,
+        "sha256": "743a2282ee8b4f682da25cf1e6fe3c47c19d6a8c17cc9a386060df6d0257366a"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21bu501/fixture/events.jsonl",
+        "bytes": 865,
+        "sha256": "2e005669f2b20421bed92653c3b22e6e0bf1c6d46b19f3a0ed809c1c30f89ce2"
+      }
+    ]
+  },
+  {
+    "run": "a21dm501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dm501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 897,
+        "sha256": "820e9b770b66edccd8bb22c5fcd21e5800f88d33498304b749c7292b081b9b44"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1063,
+        "sha256": "07c58be49daa7f5623816d630c4cae79226076d84e60238e7d0da77baf6f0d50"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 382,
+        "sha256": "b96d2aa936090ad751afb90cce6f18be3cf8738f536063689b5fe3b1c55cf354"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 545,
+        "sha256": "57254c5e31d47b04ae452585d4705f537035fee21cdaac3b59a9173e16014a85"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 7506,
+        "sha256": "10fce13f6a3aa6cfbd14972d48fc3a0d7fd97c6a39a118cd8e9b2ac9da64d8c1"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 991,
+        "sha256": "25cf63dcbe805ada4a4e87d32ca7be9477988e8dbbacf6d3331465cd0c59328e"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 630,
+        "sha256": "8c73c4cdb22097463042a8faaa55c172b0a14660193602a7f452d9f954b62196"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 817,
+        "sha256": "d637c41f550fcf20c52fef3ee2b63bd246e99d6886d7017a55f80e9b1714b168"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 38259,
+        "sha256": "b27033b863baa93f2bcfc434c09f89b23969dcee362ad7cff41c8a3fbcb358ff"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 506,
+        "sha256": "96039f4edfd6a81be0b56a50cf0f54ebc0669df378872f08437953d38e90ccba"
+      },
+      {
+        "path": "password-mask-reviews/01/gate.json",
+        "bytes": 459,
+        "sha256": "cbf7c470a18d171fb31a1769398ed1e7bb0e552211334732597fabf5e39e718b"
+      },
+      {
+        "path": "password-mask-reviews/01/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/01/approval.json",
+        "bytes": 473,
+        "sha256": "4b887acc2f0482962e5f499165e12c38447f4453d2138ee1de0c7988ab3f0637"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dm501/observer-result.json",
+        "bytes": 13397,
+        "sha256": "fd4650ab194b1390f5235e8ee36de53f439d9b722ab9c1ff68645ad78b0b6aba"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dm501/guest.log",
+        "bytes": 1225,
+        "sha256": "aadf405deda354e66e492f1a5f63fdf7832a7c1d8d5b48da85bb27e19a599769"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dm501/emulator.log",
+        "bytes": 277185,
+        "sha256": "d380bcce682ba296bb7dc119dd001eb39c76a5704bf6167cdb3b1c7441c94a76"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dm501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "13fa96f62235ac02395e50f2cd0f968e91e8aa9a00da90e16a9a1c6acd496708"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dm501/interaction.json.actions.jsonl",
+        "bytes": 2770,
+        "sha256": "6b0c3ac308655d940e3fff41cc738b2913da0328dc6f2e1b37a4cc1be2e3f7a2"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dm501/input-driver.log",
+        "bytes": 527,
+        "sha256": "bece68dda40717d836202750f65f9ebfe22ed0b6a4db2f259de21444eef4b5a9"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dm501/fixture/ready.json",
+        "bytes": 198,
+        "sha256": "a77370cfc6ad985684ba5fb304de98e08f16f767cd7858dbe396b28785b7e2fb"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dm501/fixture/events.jsonl",
+        "bytes": 909,
+        "sha256": "ad1f024c5165d83ba9fb049d70618c632f301d00608ae4abdace83b9f81be171"
+      }
+    ]
+  },
+  {
+    "run": "a21dn501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dn501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 893,
+        "sha256": "5aa4d782862c85a98f750d3e539d633e69c054e69f10c981cc8d42f732ca2d1f"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1059,
+        "sha256": "ddae4696fd4497783a4ff31c119a3f9b29061c8c679a410d228c7bfd9cf26501"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 378,
+        "sha256": "a8f999894ba8439cd74d77b565e123bfc76992c3b8c4dd108c71ad35e34b2a6b"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 541,
+        "sha256": "29027a36582a2c52a2f3b3ac12a6ead176a802380d3e1c07f0d303f6a1ed1897"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 5442,
+        "sha256": "8c3a0d47c7c41c2d785041d555e0e010c1f35e9fb9764edd46ddcd20b6404b35"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 992,
+        "sha256": "a9087e7cb7df36d6d08d52d268ad43039d08daabbd3bed646e279bf997d65b26"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 631,
+        "sha256": "a2f84aebd8dcb36e384083a7260e00461b05354af8c232e5ed0a2655fd1fe671"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 813,
+        "sha256": "e3e70dcec65f36ce531e7c28b08bfff7cda44ed3586023080f5ba125173ac312"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37619,
+        "sha256": "bc8ea276b7638ccb98d54042f9dc495a2155b473729689d71312948e81e2a58a"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 502,
+        "sha256": "a8e3929e4ff97e076bbebbe360256af005c3b4eb5616f6ebf4de37f59712e15c"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dn501/observer-result.json",
+        "bytes": 13393,
+        "sha256": "1a1ca36921b0f8b17c5e961b89ad4a5ba8e842234371402951ebf3a712f27019"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dn501/guest.log",
+        "bytes": 1225,
+        "sha256": "33a8d737e2044803a33cea7d083ce2a722e5f63a75c50ddfce61566d91b0b642"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dn501/emulator.log",
+        "bytes": 246728,
+        "sha256": "eafe28d0c08a5e903efdb2b8686425ef0f1bc7235b597935e89d708fa8eefe78"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dn501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "b3bce90f751a7054f8790beff9628522bfe8562213158bca8ca67faa0779b888"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dn501/interaction.json.actions.jsonl",
+        "bytes": 1723,
+        "sha256": "7888c3bc0c9f1f5345a9acf97fc0006c93d3941f79bb1de4569ae6dfb55c0ef1"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dn501/input-driver.log",
+        "bytes": 328,
+        "sha256": "772b3261017bdbea25c428e2c8ece4f468a45a41d4ded608f76afcc425099517"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dn501/fixture/ready.json",
+        "bytes": 194,
+        "sha256": "8c255e243975722b7d88c7b5c6cd42045be407cbc6c82821eae9e062ebe1443e"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dn501/fixture/events.jsonl",
+        "bytes": 887,
+        "sha256": "45a54d820a90713880c36a180c39b9473a131360d05d10b1a73472d1cca0efcb"
+      }
+    ]
+  },
+  {
+    "run": "a21dp501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dp501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 895,
+        "sha256": "34ca5ae2a020618e47752e4b0a604deda3ea275edb042f2f88ac29b56436e7fa"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1061,
+        "sha256": "ebdafb2ffc363fa245da4121b7b44b9fb382a9dc81b83ef8ce28ce23094f1c7a"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 380,
+        "sha256": "25d3756cafafa7aa4708c0a806832f2bc4afe9a37fbccdeb50afb5580d21f03f"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 543,
+        "sha256": "bcc5eae7c59e24b6c105da21ad7af4e8e02c0c739637e0336775b0f406c145b5"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 7501,
+        "sha256": "4b0ccc5fc7c6dc9091546056cc20e5010ea98416ce06d99db57f028f7a9e817b"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 991,
+        "sha256": "ed260cd2811701df9fda45ff8b462817cbc01b340ba68dbe2e3bd4fc96d82703"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 630,
+        "sha256": "903101a781bff80467508f97aa31df73ed11672573a9e19d5ff11d7e72907f64"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 815,
+        "sha256": "5136b29c5e95107aef9ff46a3534fc4848082bfdfadf3e20b382ddffb540c5b0"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37982,
+        "sha256": "8b91ddb758a5618b28afe25853e8c98867c7cb0f0341d25e48dbb2c649c12213"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 504,
+        "sha256": "055c38d079e1c2c37eaa13150bda9edb61b9c81b95cc8c638b177e0d177d0b4b"
+      },
+      {
+        "path": "password-mask-reviews/01/gate.json",
+        "bytes": 457,
+        "sha256": "b396d72ef1533baa139cabb87295498d3a445a34ceee133414dc86b511ed7545"
+      },
+      {
+        "path": "password-mask-reviews/01/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/01/approval.json",
+        "bytes": 471,
+        "sha256": "a57017e0cacf0b9b4eb9dbb2dfa35475575214bc88f97e07d84ab376bd4902fd"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dp501/observer-result.json",
+        "bytes": 13395,
+        "sha256": "b2a2a5ad1518904a3726ed1a2fc99846b51dfeaeb72879f39cbb4f25a6806387"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dp501/guest.log",
+        "bytes": 965,
+        "sha256": "5dd65de27a0725aef066037b749a22f105498565fc0acd93aa2e06782738c765"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dp501/emulator.log",
+        "bytes": 276439,
+        "sha256": "5ad62d87d6e9319ecaebb04a249f0f070e5075c0cf0d6c03b68337145c69a42c"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dp501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "7cbfcc2d9f26dab3a9dd0b35846cfca5fc9487e949ace5a8b894b4b692742f62"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dp501/interaction.json.actions.jsonl",
+        "bytes": 2767,
+        "sha256": "50ef1c2da1b481d200cd2bd4de872564dd2b4dcb35fa9aa5056414382264d776"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dp501/input-driver.log",
+        "bytes": 525,
+        "sha256": "dbee0151b8bda840ebbb8486a889537178ee1bf5fb5a76a289a570785616cb0f"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dp501/fixture/ready.json",
+        "bytes": 196,
+        "sha256": "b248c43f1c7abc615f031ee3fc874ecf61d27bbb12c152d92642e2aa64e9bfbb"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dp501/fixture/events.jsonl",
+        "bytes": 895,
+        "sha256": "6afdcf6c4d0f36579e8b32670050ff7e256a7f5fcfc236ae2451310b9817dbd3"
+      }
+    ]
+  },
+  {
+    "run": "a21dr501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dr501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 885,
+        "sha256": "e7d680ee9c8206d8e5a2dc81598718a02a4b1133d0c34016be41d77fc00a3e3d"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1109,
+        "sha256": "d80a9b7f8096bb2abc3b7fdf932653e244e2fcbe72c670aaee6bcb897eca1e6f"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 370,
+        "sha256": "0c92acc2cecc498c208461e51ff62c546a464441270d4bf65f9c18ff5e669676"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 591,
+        "sha256": "3264874dbcdf68e81933e469b567a30615e0a99206d7a9eee8a622f371c3805c"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 13059,
+        "sha256": "9d71b9d275c44d20f75d29330bdc43a514942a63cf5ee1e790346ab43e81e391"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 991,
+        "sha256": "f61af5c47f6ff335409c8c952faa1a5e3d4bb04e937ae9309572dc99914bf117"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 630,
+        "sha256": "f65f2b828fc02d007a2b407d8e09b29ea49f3ad1e83ee5a36f59a948e151a8aa"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 805,
+        "sha256": "9e3ef75170512f93127b38090606027f394c1e636cb8ffe57c675a469f1dac30"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37376,
+        "sha256": "2967ed2c37b0e8aeaee502827f9e5aa5fa16da5d0cd49382b80884b08f3c2d62"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 494,
+        "sha256": "61a352165fc3757562cdeb66543b0adf8c7714b1eb5a7827c67652da8a559416"
+      },
+      {
+        "path": "password-mask-reviews/01/gate.json",
+        "bytes": 447,
+        "sha256": "90392942e10e831a736339eb461451d530c0ab27d600fc5a095dfc294fdae7ed"
+      },
+      {
+        "path": "password-mask-reviews/01/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/01/approval.json",
+        "bytes": 461,
+        "sha256": "86a7c98a89d25bf515bdb8cb9ecf8ee16b2fe928c4ebbd49f5fe6370b5941f3f"
+      },
+      {
+        "path": "password-mask-reviews/02/gate.json",
+        "bytes": 447,
+        "sha256": "7147bedb08f231d543c589c9bd6cba732eb1f60a289967167438ec263db0bc82"
+      },
+      {
+        "path": "password-mask-reviews/02/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/02/approval.json",
+        "bytes": 461,
+        "sha256": "6fa6f7ca3a57197707e61db28787929a7b8f5c6b9175411ead926d0a2ba41434"
+      },
+      {
+        "path": "password-mask-reviews/03/gate.json",
+        "bytes": 447,
+        "sha256": "3f87048f6d910465e5e5fc45f9f230ab9f524f98580b829443725f5cd4b75583"
+      },
+      {
+        "path": "password-mask-reviews/03/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/03/approval.json",
+        "bytes": 461,
+        "sha256": "d2efbd96ff733955b7b7eadcf3faf67cac141f6dcfcde8a90fcb7b14d7770a81"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dr501/observer-result.json",
+        "bytes": 13385,
+        "sha256": "1eadd1fa50d30a4a97d169f80a2c8e5da509956d1586627e36f09b5b75df43ab"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dr501/guest.log",
+        "bytes": 1046,
+        "sha256": "8cab86392f5532beed22d8215ca5f3d850131e0be80cc2ffb6009cc63d138b2e"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dr501/emulator.log",
+        "bytes": 372490,
+        "sha256": "e5a3643965350256db6cce087434f1a0faebdaf55059f7242e1dfc7cfaf685d3"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dr501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "ed08feedd8597edea437a81641c8b71cbef4a97f0ffb671f3b73148b19aed793"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dr501/interaction.json.actions.jsonl",
+        "bytes": 5884,
+        "sha256": "8242c8e6413bc271259c54c005ef1d72f30e21662602a3f206aae68dd81f9198"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dr501/input-driver.log",
+        "bytes": 905,
+        "sha256": "65d8b4e4a3310240a313878d28e842c4c3a8591c3753ad1559bc62fe53f5562d"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dr501/fixture/ready.json",
+        "bytes": 186,
+        "sha256": "312b21e09dd2d029a04655e74f2384676cc00d0dff7b36ea1e06d7c63652f10f"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21dr501/fixture/events.jsonl",
+        "bytes": 2130,
+        "sha256": "24bcf54479fb0a74d0c6283b9ca40333ef2e5a52ff9e6ee061c2843021848073"
+      }
+    ]
+  },
+  {
+    "run": "a21ds501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21ds501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 887,
+        "sha256": "dfcabc206a59e758db1cd54fb6ea6e8448ad5602d071b2ea85609e2e8874cee6"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1111,
+        "sha256": "a48c82bc35ee83c7080e69403cb68b9615037ab9c59340d295c42a8b79e50fbb"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 372,
+        "sha256": "ec915296e19eaa476a7bba76de06e830902f910cb030c13931ab1f2c62f1c56b"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 593,
+        "sha256": "6a0d17bff479ac29fcb4ffac513fbe581f0755e329560c3a0b2070618ebb49c5"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 7614,
+        "sha256": "2b23555f5ca5b3e248aee18eaf09d557467a2119816334a6b3e9145a8c2402dc"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 991,
+        "sha256": "188e840c784f6ee9e8d9993ac4f22a5817f9fff7220f543f3a6c80eee68e7253"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 630,
+        "sha256": "a72409c3efca5343afbee519fb97ff815b234a9418829ca724e252f8366ee448"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 807,
+        "sha256": "59490d48af23555b3ce424d329420dcf0155398ccc7d291ec8e4eec14bfb1630"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37358,
+        "sha256": "94908d97c78cf663a31d80741f4756a6da08732ea6969ea10be9b9e6f44d837d"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 496,
+        "sha256": "9bd8051e5182a399e06d1f35493670bcf582cb596c4744e0de716a1fba5df931"
+      },
+      {
+        "path": "password-mask-reviews/01/gate.json",
+        "bytes": 449,
+        "sha256": "2d81c23415de687e2b60c7af26cbca67c34a356216689555212602d756931eae"
+      },
+      {
+        "path": "password-mask-reviews/01/public-probe.png",
+        "bytes": 3129,
+        "sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438"
+      },
+      {
+        "path": "password-mask-reviews/01/approval.json",
+        "bytes": 463,
+        "sha256": "31459d745fdb45380b316a4840bd3725abc3146938929059db4b2a0cc5354819"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21ds501/observer-result.json",
+        "bytes": 13387,
+        "sha256": "206760a97e81cbeabe0095a945a3c7c1906027145937677c44809357bf532447"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21ds501/guest.log",
+        "bytes": 1043,
+        "sha256": "511bb4663a75747d926a9d7d114f0c75e3ed2101984c49b95d3010536e04b69b"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21ds501/emulator.log",
+        "bytes": 296534,
+        "sha256": "ea67497ca68382b339d3f1187b85d44451da33bd78afe69963789a18bf626220"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21ds501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "15928d068e004855a2a02259908cb157a78eef5ac7446eb5e2646ea72e0e25cc"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21ds501/interaction.json.actions.jsonl",
+        "bytes": 2853,
+        "sha256": "d095d7f676f8dd2e2195a77a35747eafc1164ed5eaa1406603b4452868162a30"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21ds501/input-driver.log",
+        "bytes": 517,
+        "sha256": "e50e6a685311682f29c34c167219a9d4b2da47af4198b388f63c4d5424294371"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21ds501/fixture/ready.json",
+        "bytes": 188,
+        "sha256": "fd3278a3432824293d396d7456191d5ca606f91938610531f75bff024de6c19b"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21ds501/fixture/events.jsonl",
+        "bytes": 1367,
+        "sha256": "0f43ed529d2bd868e2eb9aaff8223a5cc51aac96558a92a655064b9b12247dcf"
+      }
+    ]
+  },
+  {
+    "run": "a21du501",
+    "source_directory": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21du501",
+    "archived_public_files": [
+      {
+        "path": "validation-rootreview.json",
+        "bytes": 891,
+        "sha256": "7daf92e006b44bd50bce105d25c5e1361ca1d8e7452e57b3f99af866af9f70e7"
+      },
+      {
+        "path": "validation-initial.json",
+        "bytes": 1057,
+        "sha256": "666511aaa7a538d0960b79a9db1456fdbdbad52166115b21a01d20be0ae65ad2"
+      },
+      {
+        "path": "strict-validation-rootreview.json",
+        "bytes": 376,
+        "sha256": "2289c4aca3633797b7f194f510f4b9a0d4be1c7ac6831130ef556dd85c168acd"
+      },
+      {
+        "path": "strict-validation-initial.json",
+        "bytes": 539,
+        "sha256": "038961ac0214cb82b77f844b93223424f2a017a56c237a0cc149cbf4a42bdbe3"
+      },
+      {
+        "path": "interaction.json",
+        "bytes": 5440,
+        "sha256": "e426cef6e7ae44281b7607878bed56fb8c7dd28c6fb1b22ae6ef65d32358d403"
+      },
+      {
+        "path": "runner-report-rootreview.json",
+        "bytes": 992,
+        "sha256": "7692cb7bc2964b99dd1eb751ae53eedd621eaddd374e89d04899a7fc45e66e5a"
+      },
+      {
+        "path": "root-review.json",
+        "bytes": 631,
+        "sha256": "bce5a4f19c3974c2a5ee394c1e37270447a1ff5b8fbc8d3a7d97a5bc36a343e7"
+      },
+      {
+        "path": "native-heading-review/gate.json",
+        "bytes": 811,
+        "sha256": "da1d05f38cac77559316d07bf034520d886380f5a8a0461339cc2d2e1ccfa284"
+      },
+      {
+        "path": "native-heading-review/empty-native-query.png",
+        "bytes": 37513,
+        "sha256": "a11a2cceb396e74aaeab948f4cfe63351af56598a163d582add05a3e7d775087"
+      },
+      {
+        "path": "native-heading-review/approval.json",
+        "bytes": 500,
+        "sha256": "cd2fff529af968bfca85ceecc59defb860f89d809a6bc1df659e93ca15ddf47b"
+      }
+    ],
+    "raw_references_not_archived": [
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21du501/observer-result.json",
+        "bytes": 13391,
+        "sha256": "d415a1046351f54be62d2f7dc5ecf965a33c44fe11cd9d7f6422b87a892b44e7"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21du501/guest.log",
+        "bytes": 965,
+        "sha256": "bd3ac732cfa709cdf15f9e021219791572ecbb318b6e656a56d37a35e8972464"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21du501/emulator.log",
+        "bytes": 249323,
+        "sha256": "5c05fd53ab6f8dd056e39eec59d6ac5edca9a93d27fbe645de409e1632a7d805"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21du501/runner-report-initial.json",
+        "bytes": 548,
+        "sha256": "90176c01abcafb7ef1d071b43397c446a3e9122a11414dc141987fe2d0e9f3bb"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21du501/interaction.json.actions.jsonl",
+        "bytes": 1723,
+        "sha256": "386a6dee21b469954479592ec481652619da91c6b76e0569585b9d4fabc31bc2"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21du501/input-driver.log",
+        "bytes": 326,
+        "sha256": "94a5fdf3bb8e394f12c1fff97fd38a61f60e9f622b247681b453d671f3a78e5b"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21du501/fixture/ready.json",
+        "bytes": 192,
+        "sha256": "f02fc5e597430b3cc917ce6e518da5a58df0f89ebd7d64c87dd88e890f7f1e46"
+      },
+      {
+        "path": "/workspace/symbian-http-auth-c21-observer-v5/runs/a21du501/fixture/events.jsonl",
+        "bytes": 871,
+        "sha256": "ef67c71989d0546715a17f6329ad4b5793f6a5bfa26f821140059a3335c6e2bc"
+      }
+    ]
+  }
+]

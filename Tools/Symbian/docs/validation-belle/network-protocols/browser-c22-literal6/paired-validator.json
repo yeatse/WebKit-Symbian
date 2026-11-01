@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "suite": "network-guest-c22-literal6",
+  "run": "net-119166fc383849fbbb4ec14916afc320",
+  "mode": "literal6",
+  "failures": [],
+  "scope": "IPv6 literal loopback HTTPS/WSS plus IPv4 h2 bootstrap only; outer wrapper owns shutdown/restoration; no AAAA DNS/fallback/cancel/budget-exhaustion/real-device claim"
+}

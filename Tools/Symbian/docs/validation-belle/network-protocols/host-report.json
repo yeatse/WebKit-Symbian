@@ -1,0 +1,31 @@
+{
+  "http1_requests": 3,
+  "wss_echoes": 1,
+  "h2_connections": 1,
+  "h2_requests": 12,
+  "h2_peak_active_streams": 8,
+  "h2_stream_ids": [
+    1,
+    3,
+    5,
+    7,
+    9,
+    11,
+    13,
+    15,
+    17,
+    19,
+    21,
+    23
+  ],
+  "h2_total_bytes": 704512,
+  "window_updates": 8,
+  "client_settings": {
+    "3": 8,
+    "4": 262144,
+    "2": 0
+  },
+  "errors": [],
+  "client_exit": 0,
+  "result": "PASS"
+}

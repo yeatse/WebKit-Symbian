@@ -1,0 +1,19 @@
+{
+  "schema": "auth-public-password-mask-v1",
+  "run": "a21dr501",
+  "scheme": "digest",
+  "case": "retry",
+  "instance": 3,
+  "pid": 545974,
+  "window": "0x6000f5",
+  "geometry": [
+    241,
+    185,
+    400,
+    300
+  ],
+  "gate_sha256": "3f87048f6d910465e5e5fc45f9f230ab9f524f98580b829443725f5cd4b75583",
+  "image_sha256": "2fbef3f3c92eceba68078671ebcf63da598e9dd88a4513ed8e990c8596107438",
+  "observed_masked": true,
+  "reviewed_public_probe": "maskcheck"
+}

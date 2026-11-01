@@ -1,0 +1,8 @@
+{
+  "run": "REPLACE_WITH_ACTUAL_FRESH_RUN",
+  "url": "COPY_EXACT_PUBLIC_FIXTURE_READY_URL",
+  "native_query_reviewed": false,
+  "native_query_dismissed_reviewed": false,
+  "masked_password_reviewed": false,
+  "native_query_dismissed_observation": ""
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "auth-public-native-heading-v2",
+  "run": "a21bm501",
+  "scheme": "basic",
+  "case": "navigate-password",
+  "pid": 546238,
+  "window": "0x60000b",
+  "geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "gate_sha256": "39531c838221357dc739fd46b4df8363c4e78604598bf06dc226707f173a3596",
+  "image_sha256": "798f0e82f8bb3d61ed9ca6a4f0ff7e6a553a98dd10638d537e74f59812ad3c33",
+  "observed_heading": "HTTP sign in",
+  "observed_origin": "http://localhost:8794",
+  "observed_empty_username": true
+}

@@ -1,0 +1,18 @@
+{
+  "status": "FAIL",
+  "run": "a21bn501",
+  "scheme": "basic",
+  "case": "navigate-user",
+  "functional_checks": "FAIL",
+  "failures": [
+    "interaction must explicitly avoid secret screenshots"
+  ],
+  "incomplete": [
+    "operator must confirm HTTP sign-in heading/origin and correct native query",
+    "operator must confirm the native authentication query closed at the end"
+  ],
+  "auth_requests": 1,
+  "credential_submissions": 0,
+  "accepted": 0,
+  "scope": "controlled loopback HTTP authentication and real native UI input only"
+}
