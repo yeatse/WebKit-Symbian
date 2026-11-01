@@ -1,0 +1,42 @@
+{
+  "artifacts": [
+    {
+      "id": 13078711150,
+      "name": "elf",
+      "size_in_bytes": 35152537,
+      "url": "https://api.github.com/repos/yeatse/WebKit-Symbian/actions/artifacts/13078711150",
+      "archive_download_url": "https://api.github.com/repos/yeatse/WebKit-Symbian/actions/artifacts/13078711150/zip",
+      "expired": false,
+      "created_at": "2026-11-01T09:38:01Z",
+      "expires_at": "2026-12-01T09:37:58Z",
+      "updated_at": "2026-11-01T09:38:01Z",
+      "digest": "sha256:b94c10fa016f23fc104e88bfa091e8d3498224ba332f3e32b828b57787df46ce",
+      "workflow_run": {
+        "id": 41293400197,
+        "repository_id": 1435374427,
+        "head_repository_id": 1435374427,
+        "head_branch": "2.52.6-symbian",
+        "head_sha": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618"
+      }
+    },
+    {
+      "id": 13078106906,
+      "name": "sis",
+      "size_in_bytes": 33763135,
+      "url": "https://api.github.com/repos/yeatse/WebKit-Symbian/actions/artifacts/13078106906",
+      "archive_download_url": "https://api.github.com/repos/yeatse/WebKit-Symbian/actions/artifacts/13078106906/zip",
+      "expired": false,
+      "created_at": "2026-11-01T09:37:57Z",
+      "expires_at": "2027-01-30T09:30:10Z",
+      "updated_at": "2026-11-01T09:37:57Z",
+      "digest": "sha256:fa7910e07e06a9d47de50799f2cdf78abfbd2cc45b4661b56f0c8e6eb692d9be",
+      "workflow_run": {
+        "id": 41293400197,
+        "repository_id": 1435374427,
+        "head_repository_id": 1435374427,
+        "head_branch": "2.52.6-symbian",
+        "head_sha": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618"
+      }
+    }
+  ]
+}

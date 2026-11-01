@@ -1,0 +1,46 @@
+diff --git a/src/patch/mediaclientaudiostream/src/impl.cpp b/src/patch/mediaclientaudiostream/src/impl.cpp
+--- a/src/patch/mediaclientaudiostream/src/impl.cpp
++++ b/src/patch/mediaclientaudiostream/src/impl.cpp
+@@ -506,10 +506,11 @@
+         return KErrNotReady;
+     }
+ 
+-    iState = EMdaStatePause;
+-    Stop();
+-
+-    return KErrNone;
++    // The DSP dispatch contract has no lossless pause/resume operation.
++    // Stop() aborts queued descriptors and resets the playback position, so it
++    // cannot implement true pause. Leave playback and ownership untouched and
++    // let the client choose an explicit stop/re-prime fallback.
++    return KErrNotSupported;
+ }
+ 
+ TInt CMMFMdaAudioOutputStream::Resume() {
+@@ -517,10 +518,8 @@
+         return KErrNotReady;
+     }
+ 
+-    iState = EMdaStatePlay;
+-    Play();
+-
+-    return KErrNone;
++    // No successful Pause() can establish a resumable DSP stream yet.
++    return KErrNotSupported;
+ }
+ 
+ void CMMFMdaAudioOutputStream::DataWaitTimeout() {
+diff --git a/src/patch/mediaclientaudiostream/src/main.cpp b/src/patch/mediaclientaudiostream/src/main.cpp
+--- a/src/patch/mediaclientaudiostream/src/main.cpp
++++ b/src/patch/mediaclientaudiostream/src/main.cpp
+@@ -391,6 +391,10 @@
+ }
+ 
+ TInt CMdaAudioInputStream::BitRateL() const {
++    // No input bitrate query is implemented. This L API must reject the request
++    // rather than return an indeterminate value or a fabricated bitrate.
++    User::Leave(KErrNotSupported);
++    __builtin_unreachable(); // User::Leave does not return on Symbian.
+ }
+ 
+ void CMdaAudioInputStream::SetBitRateL(TInt aBitRate) {

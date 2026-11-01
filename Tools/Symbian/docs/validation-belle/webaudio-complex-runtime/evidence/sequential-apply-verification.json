@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "scope": "Final strict-math code/manifest/workflow plus every other postimage except this self-report. Outer manifest pins the report itself.",
+  "base": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618",
+  "steps": [
+    "SDK0007/0008/0031 prerequisite",
+    "SDK0009 delta"
+  ],
+  "postimage_files_verified_excluding_self_report": 32,
+  "all_verified_postimage_bytes_exact": true,
+  "new_helper_executable": true,
+  "shared_source_or_full_checkout_created": false
+}

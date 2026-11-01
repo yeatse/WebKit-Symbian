@@ -29,6 +29,9 @@
 #include <WebCore/BlobRegistry.h>
 #include <WebCore/BlobRegistryImpl.h>
 #include <WebCore/MediaStrategy.h>
+#if ENABLE(WEB_AUDIO)
+#include <WebCore/AudioDestination.h>
+#endif
 #include <WebCore/Pasteboard.h>
 #include <WebCore/PasteboardCustomData.h>
 #include <WebCore/PasteboardItemInfo.h>
@@ -45,6 +48,12 @@ using namespace WebCore;
 namespace {
 
 class SymbianMediaStrategy final : public MediaStrategy {
+#if ENABLE(WEB_AUDIO)
+    Ref<AudioDestination> createAudioDestination(const AudioDestinationCreationOptions& options) final
+    {
+        return AudioDestination::create(options);
+    }
+#endif
 };
 
 class SymbianBlobRegistry final : public BlobRegistry {

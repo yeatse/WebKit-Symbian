@@ -1,0 +1,46 @@
+{
+  "head_sha": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618",
+  "patches": [
+    {
+      "name": "0001-Raise-E32-converter-limits-for-large-images.patch",
+      "sha256": "e7d526647d2bcdbf919c85506226c4f77218f20d3a6bcbae6304086189fbe0d4"
+    },
+    {
+      "name": "0002-Accept-LLD-PIC-range-extension-thunks-to-the-PLT.patch",
+      "sha256": "47522c168093f2f72aa40733cf49f7a430a67c3a134341ec85f8f5c3e19bbe7e"
+    },
+    {
+      "name": "0003-Support-explicit-ARMv6-VFPv2-with-base-AAPCS.patch",
+      "sha256": "5259045f9b77cafc5344b9908b608a5a8205305e5b0b6e60031f024655639699"
+    },
+    {
+      "name": "0004-Support-bounded-read-only-DLL-object-exports.patch",
+      "sha256": "5a2f9dc3444056b2a105acbdf2842fe64dde0494a293cca4126c0acc7088312d"
+    },
+    {
+      "name": "0005-Support-explicit-NetworkControl-capability.patch",
+      "sha256": "b16bc89494ec8b0bc71ebd81f7e88bc5e19ce4a701b76f8ceb39063ee2200964"
+    },
+    {
+      "name": "0006-Support-explicit-ECom-plugin-identities.patch",
+      "sha256": "1d8f15bb6bd349f8d88fa446962bc808da1c305d7bc4c65267f783b86f51249e"
+    }
+  ],
+  "verified_files": 12,
+  "production_tools": [
+    {
+      "source_commit": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618",
+      "source_path": "Tools/Symbian/scripts/apply-native-patches.py",
+      "git_blob": "e79e147be31c2a3132147a62559d8bb57be1f0d1",
+      "bytes": 7239,
+      "sha256": "c58a9f977288f111949445e9049d895b0b5de3b39c54806e9cab6b51d172e25c"
+    },
+    {
+      "source_commit": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618",
+      "source_path": "Tools/Symbian/scripts/build-symbian-native.sh",
+      "git_blob": "f39e3c271608c0f49a945c5a021bac195e797277",
+      "bytes": 2368,
+      "sha256": "b2d6a8387ae0423433a1da03e02f4547f1bac06c545e5fdb888c6604ba602ec0"
+    }
+  ]
+}

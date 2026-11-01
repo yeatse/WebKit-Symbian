@@ -50,6 +50,12 @@ public:
     virtual void render(AudioBus& destinationBus, size_t framesToProcess, const AudioIOPosition& outputPosition) = 0;
 
     virtual void isPlayingDidChange() = 0;
+#if OS(SYMBIAN)
+    // Main-thread device events, distinct from the render/playing callback.
+    virtual void audioDeviceInterrupted() { }
+    virtual void audioDeviceMayResume() { }
+    virtual void audioDeviceFailed() { }
+#endif
 
     virtual ~AudioIOCallback() = default;
 };

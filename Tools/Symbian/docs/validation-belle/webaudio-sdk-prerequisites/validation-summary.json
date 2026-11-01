@@ -1,0 +1,294 @@
+{
+  "status": "PREPARED_CHECKED_NOT_APPLIED_OR_PUBLISHED",
+  "fresh_checks": {
+    "native_patch_stack_tests": 15,
+    "all_prefixes_1_through_7_upgrade": true,
+    "original_six_only_stack_stays_idempotent": true,
+    "partial_math_and_MMF_and_user_edits_refused": true,
+    "real_ARM_math_helper_stage_no_install": true,
+    "math_profiles": {
+      "default": {
+        "math_member_sha256": "90984e535463c9facd45417a40a6a8f892ad8dee7014e78ecbed34f24c8b3992",
+        "all_other_members_unchanged": 102,
+        "before_archive_sha256": "b97fa7eb2ab61e49e3960fba887904bd79defd770981ae857419bfaadeb225c6",
+        "after_archive_sha256": "b97fa7eb2ab61e49e3960fba887904bd79defd770981ae857419bfaadeb225c6"
+      },
+      "streams": {
+        "math_member_sha256": "90984e535463c9facd45417a40a6a8f892ad8dee7014e78ecbed34f24c8b3992",
+        "all_other_members_unchanged": 113,
+        "before_archive_sha256": "9d9421ca8d78833578a63371803af8343b2aab81a5f4a62cd240b8b09a9f9b59",
+        "after_archive_sha256": "9d9421ca8d78833578a63371803af8343b2aab81a5f4a62cd240b8b09a9f9b59"
+      },
+      "native_atomic64": {
+        "math_member_sha256": "90984e535463c9facd45417a40a6a8f892ad8dee7014e78ecbed34f24c8b3992",
+        "all_other_members_unchanged": 78,
+        "before_archive_sha256": "6e2cdd8403f2433323628d25103d2c6e6689997de0df525833ed2de35813f02a",
+        "after_archive_sha256": "6e2cdd8403f2433323628d25103d2c6e6689997de0df525833ed2de35813f02a"
+      }
+    },
+    "cache_work_replay": {
+      "status": "PASS",
+      "cached_work_replayed": true,
+      "external_stale_stage_reconstructed": true,
+      "three_profile_reports_identical": true,
+      "header_report_identical": true,
+      "installed": false,
+      "scope": "Only owned external stage replaced with stale sentinel then rebuilt through unchanged real helper, no SDK prefix installation or CI workflow"
+    },
+    "real_allocator_guard_expected_refusal": {
+      "status": "PASS_EXPECTED_REFUSAL",
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/WebKit-Symbian/Tools/Symbian/scripts/rebuild-sdk-runtime.py",
+        "--sdk",
+        "/workspace/symbian-webaudio-sdk-integration-prepare-work/allocator-math-postimage-fixture",
+        "--work",
+        "/workspace/symbian-webaudio-sdk-integration-prepare-work/allocator-refusal-check"
+      ],
+      "exit_code": 1,
+      "math_postimage_archive_sha256": "b97fa7eb2ab61e49e3960fba887904bd79defd770981ae857419bfaadeb225c6",
+      "archive_unchanged": true,
+      "real_prefix_passed_to_helper": false,
+      "network_or_build_reached": false,
+      "scope": "Real unchanged whole-archive guard refuses math postimage in an isolated prefix before checkout/build; no installed SDK modification"
+    },
+    "cache_lifecycle": {
+      "status": "PASS",
+      "workflow_sha256": "6a69dff47ba1c1d6821a095246f5230191b9f0742370de03161daa84d8baf4a3",
+      "SDK_prefix_is_cached_only_pristine": true,
+      "prefix_restore_step": "symbian-platform SDK",
+      "only_prefix_save_step": "Save the original SDK",
+      "only_prefix_save_before_all_mutations": true,
+      "no_implicit_job_end_prefix_save": true,
+      "math_replayed_on_work_cache_hits": true,
+      "cached_math_stage_never_blindly_copied_to_prefix": true,
+      "CI_does_not_depend_on_local_install_backups": true,
+      "line_evidence": {
+        "SDK_prefix_env": [
+          36
+        ],
+        "SDK_cache_restore": [
+          106
+        ],
+        "pristine_save": [
+          124
+        ],
+        "first_mutation": [
+          132
+        ],
+        "allocator": [
+          192
+        ],
+        "math_work_cache": [
+          207
+        ],
+        "math_helper_install": [
+          213
+        ],
+        "math_work_save": [
+          219
+        ],
+        "consumers_JSC": [
+          281
+        ]
+      },
+      "all_cache_paths": [
+        {
+          "step": "symbian-platform SDK",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/symbian-sdk",
+          "covers_installed_prefix": true
+        },
+        {
+          "step": "Save the original SDK",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/symbian-sdk",
+          "covers_installed_prefix": true
+        },
+        {
+          "step": "Restore the E32 converter",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/symbian-platform",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the E32 converter",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/symbian-native",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the E32 converter",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/src/nlohmann-json",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore ICU",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/icu",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the WebCore libraries",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/deps/install",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the WebCore libraries",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/deps/src/sqlite-amalgamation-3350500",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the WebCore libraries",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/deps/src/curl-7.88.1",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the compiler cache",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/ccache",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the E32 converter",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/symbian-platform",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the E32 converter",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/symbian-native",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the E32 converter",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/src/nlohmann-json",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the SDK runtime sources",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/sdk-runtime",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the SDK runtime sources",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/sdk-runtime",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the SDK math work",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/sdk-math",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the SDK math work",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/sdk-math",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the SDK resource compiler sources",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/sdk-rcomp",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the SDK resource compiler sources",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/sdk-rcomp",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Restore the SDK IP certificate repair sources",
+          "action": "actions/cache/restore@v4",
+          "path": "WebKitBuild/Symbian/sdk-mbedtls-ip",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the SDK IP certificate repair sources",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/sdk-mbedtls-ip",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save ICU",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/icu",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the WebCore libraries",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/deps/install",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the WebCore libraries",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/deps/src/sqlite-amalgamation-3350500",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the WebCore libraries",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/deps/src/curl-7.88.1",
+          "covers_installed_prefix": false
+        },
+        {
+          "step": "Save the compiler cache",
+          "action": "actions/cache/save@v4",
+          "path": "WebKitBuild/Symbian/ccache",
+          "covers_installed_prefix": false
+        }
+      ],
+      "allocator_reads_pinned_git_blob_lines": [
+        336
+      ],
+      "scope": "Structural warm/cold cache dataflow plus unchanged real allocator-refusal and no-install math staging checks; no GitHub workflow dispatched"
+    },
+    "selected_upstream_preservation": {
+      "status": "PASS",
+      "selected_owned_upstream_prefix_index_files": 22,
+      "changed": [],
+      "scope": "SDK14/EKA2 owned source files, both original Git indices and installed math header/three archives unchanged; no source patch applied or prefix install by this preparation"
+    }
+  },
+  "prior_producer_evidence_reused_not_rerun": {
+    "verification": {
+      "path": "/workspace/symbian-ostream-pause-native-build-20261101/verification.json",
+      "sha256": "1d47f0684bcc20e75c6c76c8973267bfffea2dd7e089b83c51092175a1cfbba1",
+      "status": "COMPLETE_NATIVE_BUILD_AND_STATIC_ABI_CHECKS_PASS_GUEST_NOT_RUN",
+      "SDK0008_GTests": 65,
+      "SDK0008_CLI_contracts": 13,
+      "frozen_exports": 55,
+      "dynamic_import_DLLs": 3,
+      "dynamic_import_slots": 101,
+      "DLL": {
+        "bytes": 40384,
+        "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+      }
+    },
+    "independent_audit": {
+      "path": "/workspace/symbian-ostream-pause-native-build-20261101/independent-audit.json",
+      "sha256": "80d7b3688162101f093e7c55f9c78ec2074b9cde2d5c41d61673d945d4f96dd2"
+    },
+    "portable_replay": {
+      "path": "/workspace/symbian-ostream-pause-native-build-20261101/portable-replay-verification.json",
+      "sha256": "f7980e5f8969195bda4f33410481a46c6fbeb5feb93423f745f1f7dd862503a3"
+    }
+  },
+  "guest_audio_display_runtime_deploy": false,
+  "shared_WebKit_SDK_EKA_written": false,
+  "GitHub_workflow_dispatched": false,
+  "default_WebAudio_changed": false
+}

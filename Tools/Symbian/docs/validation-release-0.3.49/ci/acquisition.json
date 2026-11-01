@@ -1,0 +1,13 @@
+{
+  "artifact_id": 13078106906,
+  "artifact_name": "sis",
+  "file_name": "ci49-sis.zip",
+  "utc": "2026-11-01T09:41:19.726431+00:00",
+  "primary": "GitHub plugin artifact-backed ZIP materialized from its exact returned file reference over HTTPS using inherited proxy and normal TLS verification",
+  "returned_file_id": "file_000000005a748207966bcedfb0c4f99a",
+  "materialized_bytes": 33763135,
+  "sha256": "fa7910e07e06a9d47de50799f2cdf78abfbd2cc45b4661b56f0c8e6eb692d9be",
+  "credential_values_or_signed_download_query_archived": false,
+  "temporary_download_reference_written_to_disk": false,
+  "ELF_downloaded": false
+}

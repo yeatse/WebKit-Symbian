@@ -1,0 +1,32 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "base_run_path": "/workspace/symbian-webaudio-classic-runtime-c28-host0032-work/run.py",
+  "base_run_sha256": "6b6561bb55135cff37461541c9ba3256568899ad60c8de92869142e44ec2deff",
+  "final_run_sha256": "47eec11b3b46c2f40385b12a6105e2dd3eafec3de244c4e9364bb6198eb67c09",
+  "unchanged_helpers": [
+    "require",
+    "sha",
+    "identity",
+    "safe_file",
+    "module",
+    "sources",
+    "native_rows",
+    "checked_inputs",
+    "no_host",
+    "read_log",
+    "no_fatal"
+  ],
+  "complete_cleanup_block_byte_identical": true,
+  "workflow_changes": [
+    "new separately frozen offline fixture, suite, console marker and port8866",
+    "exact existing C28 image and metadata are required by default and on overrides",
+    "three offline API reports plus normal-close/restoration produce OFFLINE_EXTRA_RUN_COMPLETE",
+    "PCM and trusted input are outside this offline-only workflow"
+  ],
+  "independent_source_reviews": [
+    "/root/webaudio_fixture_prepare/biquad_spec_audit",
+    "/root/webaudio_fixture_prepare/delay_numeric_audit"
+  ],
+  "native_audio_verified": false,
+  "runtime_started": false
+}

@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "actual_real_prefix_archives_unchanged": {
+    "libsymbian_guest_runtime.a": "d5b23b54344a3f5825d27dcb1e67f5531cc8a6c4d843666b66bdfdd9127f7dbb",
+    "libsymbian_guest_runtime_native_atomic64.a": "d707f2a669d6b923b828199101e2301491e09ff7b473486041d2d01889485c04",
+    "libsymbian_guest_runtime_streams.a": "121b957ec17c678e25ac7e0f3600cde8ff095a37e61b1427fa3612040dc595f9"
+  },
+  "downloaded_pinned_small_source_files": 11,
+  "fresh_compiler_rt_source_acquisition": "PASS",
+  "current_exact_pair_state": "PASS",
+  "fresh_post_math_prefix_without_complex_pair": "PASS",
+  "stale_cached_stage_overwritten": "PASS",
+  "controlled_trial_install": "PASS",
+  "warm_exact_pair_repeat_byte_identical": "PASS",
+  "original_members_unchanged_per_run": 296,
+  "new_complete_members": 6,
+  "trial_bytes_copied_from_originals": 2553370,
+  "full_SDK_or_LLVM_copy": false,
+  "guest_execution": false
+}

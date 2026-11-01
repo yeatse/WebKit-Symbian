@@ -1,0 +1,43 @@
+{
+  "status": "PREPARED_NOT_CAPTURED",
+  "actual_capture_run": false,
+  "guest_run": false,
+  "shared_source_changed": false,
+  "synthetic_test_methods": 6,
+  "synthetic_checks": {
+    "good_vectors": 1,
+    "capture_contract_rejections": 19,
+    "marker_rejections": 7,
+    "pcm_identity_rejections": 4,
+    "spectral_good": 1,
+    "spectral_rejections": 7,
+    "quiet_observations": 3,
+    "nonfinite_rejections": 3
+  },
+  "syntax": "PASS",
+  "prepare_only": "PASS",
+  "files": {
+    "capture.py": {
+      "bytes": 7653,
+      "sha256": "528ed28507112881a9d474657743cae6b87cf3ec593c74a2c197b44bf620535b"
+    },
+    "mark.py": {
+      "bytes": 1503,
+      "sha256": "0f3745043ab76f8548affb11eecde384657fe92fb05e00e24c76aac634c24313"
+    },
+    "analyze.py": {
+      "bytes": 8259,
+      "sha256": "2b1aa9ee7fd06a40054488ee8826037556a2efb167e57e6a6f93d4c2f00cf8fb"
+    },
+    "test_guards.py": {
+      "bytes": 4621,
+      "sha256": "546dce7801c1002f691e8214aa3dc39477d0c7062553b8e16ff6620ebf4cbaec"
+    },
+    "README.md": {
+      "bytes": 5438,
+      "sha256": "fb31009af6f049a86775b276259a422cc827119cade914339c66d63255b92364"
+    }
+  },
+  "python": "3.12.14",
+  "independent_readonly_review": "PASS; no actual capture; error/cleanup/clock-limit/channel-gap fixes reviewed"
+}

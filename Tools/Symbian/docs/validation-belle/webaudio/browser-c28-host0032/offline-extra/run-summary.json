@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "OFFLINE_EXTRA_RUN_COMPLETE",
+  "run": "wa-0a36d4e3c44a48b1b5c0ee8e7c6f3aef",
+  "scope": "Sanitized whitelist only; original result/configuration/profile/journal/items/inventory/logs are excluded.",
+  "booleans": {
+    "native_audio_verified": false,
+    "root_pcm_capture_required": false,
+    "root_trusted_input_required": false,
+    "deadline_expired": false,
+    "forced_cleanup": false,
+    "wm_close_sent": true,
+    "wm_close_after_functional": true,
+    "owned_host_stopped_before_restore": true,
+    "inputs_unchanged": true,
+    "private_data_archived": false,
+    "wrapper_screenshots_taken": false,
+    "tls_verification_disabled": false,
+    "host_exit_zero": true,
+    "guest_profile_and_resources_restored": true,
+    "configuration_bindings_Qt_devices_restored": true,
+    "restoration_errors_empty": true
+  },
+  "original_result_reference": {
+    "path": "/workspace/webaudio-c28-offline-extra-01/result.json",
+    "bytes": 23967,
+    "sha256": "b4565130d42b726b2267445907ac757d0792b94798c76c29c7a9725008e3c9a1",
+    "copied": false
+  }
+}

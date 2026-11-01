@@ -362,6 +362,13 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
     // This port creates Page directly; WebCore defaults WebGL to disabled.
     settings.setWebGLEnabled(true);
 #endif
+#if ENABLE(WEB_AUDIO)
+    // The experimental build has the real classic PCM/decoder backend. Keep
+    // Worklet interfaces disabled until its asynchronous teardown is complete.
+    settings.setWebAudioEnabled(true);
+    settings.setAudioWorkletEnabled(false);
+    settings.setRequiresUserGestureForAudioPlayback(true);
+#endif
     settings.setServiceWorkersEnabled(false);
     settings.setSharedWorkerEnabled(false);
     settings.setCacheAPIEnabled(false);

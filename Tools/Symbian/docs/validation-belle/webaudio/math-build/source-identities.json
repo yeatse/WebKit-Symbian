@@ -1,0 +1,14 @@
+{
+  "Source/WebCore/Modules/webaudio/OscillatorNode.cpp": {
+    "before": "af6e81cde20cf859da4c29ef189881c5d297b90f70b30c07e2fd5bcb2eb11e12",
+    "after": "dcd6d52fea7bd7906b4cc6da6736aca2eb4095253c3b17d8000c589d6b0a482a"
+  },
+  "Source/WebCore/Modules/webaudio/PeriodicWave.cpp": {
+    "before": "c0dd510cc2518084796f5c270b95579fc953bde0c675eff83ac6b54037a8dae8",
+    "after": "13bb94f742444bdbf6d32539665eabf9cf3d0d2973807a92a22262405c1c4f8a"
+  },
+  "Source/WTF/wtf/symbian/LibcxxSupport.cpp": {
+    "before": "06ef96b6b243f72e942544a75655964092bf42d528be52fbc0052f7684a73e18",
+    "after": "582edfb923fdee4e15c0278037b1daeb99978c88eea56e5c9f9eca31202de8e1"
+  }
+}

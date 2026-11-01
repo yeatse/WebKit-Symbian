@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "FAIL",
+  "run": "wa-b529a62c56bc4c5f98ab59f8647267cb",
+  "scope": "Sanitized whitelist only; original result/configuration/profile/journal/items/inventory/logs are excluded.",
+  "booleans": {
+    "native_audio_verified": false,
+    "root_pcm_capture_required": true,
+    "root_trusted_input_required": true,
+    "deadline_expired": false,
+    "forced_cleanup": true,
+    "wm_close_sent": true,
+    "wm_close_after_functional": false,
+    "owned_host_stopped_before_restore": true,
+    "inputs_unchanged": true,
+    "private_data_archived": false,
+    "wrapper_screenshots_taken": false,
+    "tls_verification_disabled": false,
+    "host_exit_zero": true,
+    "guest_profile_and_resources_restored": true,
+    "configuration_bindings_Qt_devices_restored": true,
+    "restoration_errors_empty": true
+  },
+  "original_result_reference": {
+    "path": "/workspace/webaudio-c27-native-01/result.json",
+    "bytes": 22530,
+    "sha256": "c5c2d8f2833ffeb3ab0091de283003baeca86b87edcffb25c34c63e615691ce3",
+    "copied": false
+  }
+}

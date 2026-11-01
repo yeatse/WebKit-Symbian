@@ -1,0 +1,32 @@
+{
+  "status": "SERVING",
+  "run": "wa-0a36d4e3c44a48b1b5c0ee8e7c6f3aef",
+  "sources": {
+    "fixture.py": {
+      "sha256": "d09dfef127c00ba1310fa5d130012d74c24ddac76cd0f153766023170487338b",
+      "bytes": 5749
+    },
+    "page.html": {
+      "sha256": "057bdcad28cf34d9b2fd91979c5b35e4fc3454e9476461d3439a1c1a84ca27ed",
+      "bytes": 4148
+    },
+    "protocol.py": {
+      "sha256": "0b1a9a29ede97ba544f051e29965de997325f06ea90632434fac89ee2bcaa483",
+      "bytes": 2162
+    },
+    "validate.py": {
+      "sha256": "fbe6b400fb82666a853c35fadd59484f27634e6c6b3e42b16fabbc13272c579f",
+      "bytes": 3485
+    },
+    "test_guards.py": {
+      "sha256": "b6fd66c0d11dfabc14a086d4fcc49bfd65acbd9ec10b32a23f7797a5be099abe",
+      "bytes": 3258
+    },
+    "README.md": {
+      "sha256": "e68241165c8cccaab39d4a8905caeb6e5cb992a79d7828ad4d51a8545be9d5e8",
+      "bytes": 2541
+    }
+  },
+  "guest_display_audio_started": false,
+  "native_audio_claim": false
+}

@@ -150,3 +150,12 @@ probe, host, DLL and fixture hashes, fresh logs and reports. Final acceptance
 also needs changing video frames and captured PCM with the expected tones,
 pause/mute silence and resumed playback. Test CA keys and SDK/runtime binaries
 are not repository artifacts.
+
+
+## Classic WebAudio — 2026-11-01
+
+The port enables classic WebAudio by default. Its real MMF output stream uses bounded PCM queues and hardware-played progress; audio starts after a trusted user gesture. FFT, embedded HRTF resources and a bounded PCM/float WAV decoder supply the platform paths. Unsupported formats reject rather than returning silence. Decoder limits apply separately to encoded input and float output; they are not a whole-process memory reservation.
+
+The [C28 controlled emulator record](validation-belle/webaudio/browser-c28-host0032/README.md) covers exact offline gain/delay/channel vectors, oscillator/FFT/WAV results, additional graph and Biquad frequency-response vectors, and four real XTest controls with independently captured 997 Hz stereo PCM. Both running windows exceed 99.99% target-band power; suspended/closed windows contain exact zero samples. Ordinary own-parent close, scoped profile/resources/config/bindings/Qt/devices restoration and all14 native pins passed. Host delivery timestamps do not establish precise hardware latency.
+
+AudioWorklet interfaces remain hidden. Both MMF media-element source entry points explicitly throw NotSupportedError because the MMF backend supplies no PCM source provider. EKA's resource registration and genuine pause are still unsupported: pause reports that fact, and the client stops, reopens and re-primes when manually resumed. This is not seamless pause or a resource-available notification implementation. Physical-phone audio routes, genuine system resource loss and official EndTask remain separate acceptance work. C28 contains local Cookie/Multi WIP and is not a run of a CI-produced SIS.

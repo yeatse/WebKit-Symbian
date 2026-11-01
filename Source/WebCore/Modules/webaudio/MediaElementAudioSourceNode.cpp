@@ -52,6 +52,13 @@ WTF_MAKE_TZONE_ALLOCATED_IMPL(MediaElementAudioSourceNode);
 
 ExceptionOr<Ref<MediaElementAudioSourceNode>> MediaElementAudioSourceNode::create(BaseAudioContext& context, MediaElementAudioSourceOptions&& options)
 {
+#if OS(SYMBIAN)
+    // MMF playback has no AudioSourceProvider PCM bridge in this port yet.
+    // Reject before associating the element or activating the context graph.
+    UNUSED_PARAM(context);
+    UNUSED_PARAM(options);
+    return Exception { ExceptionCode::NotSupportedError, "Symbian MMF media cannot provide WebAudio PCM"_s };
+#else
     Ref mediaElement = options.mediaElement.releaseNonNull();
     if (mediaElement->audioSourceNode())
         return Exception { ExceptionCode::InvalidStateError, "Media element is already associated with an audio source node"_s };
@@ -64,6 +71,7 @@ ExceptionOr<Ref<MediaElementAudioSourceNode>> MediaElementAudioSourceNode::creat
     context.sourceNodeWillBeginPlayback(node);
 
     return node;
+#endif
 }
 
 MediaElementAudioSourceNode::MediaElementAudioSourceNode(BaseAudioContext& context, Ref<HTMLMediaElement>&& mediaElement)

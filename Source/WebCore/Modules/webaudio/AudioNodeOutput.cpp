@@ -117,7 +117,9 @@ AudioBus& AudioNodeOutput::pull(AudioBus* inPlaceBus, size_t framesToProcess)
     // In this case pull() is called multiple times per rendering quantum, and the processIfNecessary() call below will
     // cause our node to process() only the first time, caching the output in m_internalOutputBus for subsequent calls.    
     
-    bool isInPlace = inPlaceBus && inPlaceBus->numberOfChannels() == numberOfChannels() && (m_renderingFanOutCount + m_renderingParamFanOutCount) == 1;
+    // A multi-output node renders all outputs together. A later pull of another
+    // output must keep its cached internal bus instead of selecting a new target.
+    bool isInPlace = checkedNode()->numberOfOutputs() == 1 && inPlaceBus && inPlaceBus->numberOfChannels() == numberOfChannels() && (m_renderingFanOutCount + m_renderingParamFanOutCount) == 1;
 
     m_inPlaceBus = isInPlace ? inPlaceBus : nullptr;
 

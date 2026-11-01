@@ -1,0 +1,266 @@
+{
+  "status": "PASS_SCOPED_PCM_METADATA_REVIEW",
+  "utc": "2026-11-01T10:31:21.297871+00:00",
+  "scope": "Independent metadata cross-review and raw-file size/SHA verification only; recorded PCM spectral measurements were not recomputed and no audio was played. This is not the complete browser-run acceptance.",
+  "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+  "checks": {
+    "raw_reference_exact_bytes_and_sha": true,
+    "analysis_root_pcm_descriptor_identical": true,
+    "capture_descriptor_matches_pcm": true,
+    "pcm_reference_matches_actual_file": true,
+    "capture_s16le_stereo_48000_frame_aligned": true,
+    "duration_from_frame_count": true,
+    "same_run_in_acceptance_analysis_marks": true,
+    "pcm_evidence_does_not_claim_whole_run": true,
+    "no_exact_timing_alignment_claim": true,
+    "unknown_constant_queue_limit_preserved": true,
+    "pcm_observations_identical_to_root_acceptance": true,
+    "expected_statuses": true,
+    "capture_unforced_no_deadline": true,
+    "owned_pacat_stopped_zero": true,
+    "ready_matches_first_pcm": true,
+    "anchors_fresh_monotonic_frame_aligned": true,
+    "anchor_endpoints_match_capture": true,
+    "eight_host_marker_order": true,
+    "markers_are_not_independent_input_proof": true,
+    "markers_within_capture_host_interval": true,
+    "four_expected_observations": true,
+    "observation_markers_match_exactly": true,
+    "marker_to_next_command_gap_sufficient": true,
+    "native-running_window_in_recording_and_order": true,
+    "native-running_frames_window_consistent": true,
+    "native-running_window_matches_delivery_estimate": true,
+    "native-running_recorded_spectral_metrics_meet_original_limits": true,
+    "native-running_within_reported_activity_interval": true,
+    "native-suspended_window_in_recording_and_order": true,
+    "native-suspended_frames_window_consistent": true,
+    "native-suspended_window_matches_delivery_estimate": true,
+    "native-suspended_recorded_exact_zero_metrics": true,
+    "native-suspended_outside_reported_activity_intervals": true,
+    "native-resumed_window_in_recording_and_order": true,
+    "native-resumed_frames_window_consistent": true,
+    "native-resumed_window_matches_delivery_estimate": true,
+    "native-resumed_recorded_spectral_metrics_meet_original_limits": true,
+    "native-resumed_within_reported_activity_interval": true,
+    "quiet_window_in_recording_and_order": true,
+    "quiet_frames_window_consistent": true,
+    "quiet_window_matches_delivery_estimate": true,
+    "quiet_recorded_exact_zero_metrics": true,
+    "quiet_outside_reported_activity_intervals": true,
+    "reported_origin_range_encloses_retained_anchor_origins": true,
+    "reported_origin_range_identical_across_capture_and_analysis": true,
+    "reported_spread_self_consistent_under_original_limit": true,
+    "capture_chunk_count_exceeds_retained_anchor_count": true,
+    "capture_source_sha_matches_capture_metadata": true,
+    "source_collects_origin_for_each_received_chunk": true,
+    "source_keeps_first_and_every_tenth_anchor": true,
+    "source_reports_range_from_all_chunk_origins": true,
+    "retained_anchor_count_matches_decimation": true
+  },
+  "issues": [],
+  "source_documents": [
+    {
+      "path": "/workspace/symbian-belle-work/webaudio-c28-acceptance/acceptance.json",
+      "bytes": 4757,
+      "sha256": "11f0fb6a40f3804e9f8e14b2a093880ab6d8f3e6b7d777df4952a960b439a163"
+    },
+    {
+      "path": "/workspace/webaudio-c28-pcm-01/analysis.json",
+      "bytes": 4065,
+      "sha256": "34a305b0aac6968969efe530ced43347823cd36b9a816578463b37690dec91c9"
+    },
+    {
+      "path": "/workspace/webaudio-c28-pcm-01/capture.json",
+      "bytes": 119490,
+      "sha256": "91d50108d4e7451187e34f3c5df459e539c5babdeed97c825952ed171d912da6"
+    },
+    {
+      "path": "/workspace/webaudio-c28-pcm-01/marks.json",
+      "bytes": 900,
+      "sha256": "06c068dc15281cda4d1b2375b682de0a1be64505f63740978fd1a0469ad0fce3"
+    },
+    {
+      "path": "/workspace/webaudio-c28-pcm-01/ready.json",
+      "bytes": 96,
+      "sha256": "cd461097ae8e691d5afd173b2d4fc3d7091af5921e47257bcb4ec1c0f3b8594b"
+    },
+    {
+      "path": "/workspace/symbian-webaudio-pcm-capture-work/capture.py",
+      "bytes": 7653,
+      "sha256": "528ed28507112881a9d474657743cae6b87cf3ec593c74a2c197b44bf620535b"
+    }
+  ],
+  "external_raw_pcm_reference": {
+    "path": "/workspace/webaudio-c28-pcm-01/audio.raw",
+    "bytes": 15087076,
+    "sha256": "4943624d59da7983669041fe8b1546e6045c2ab1b29b246551bf63c611292d99",
+    "copied": false,
+    "played": false,
+    "reanalyzed": false
+  },
+  "observations": [
+    {
+      "label": "native-running",
+      "pcm_window_seconds": [
+        69.52320833333333,
+        70.045
+      ],
+      "frames": 25046,
+      "rms_s16": [
+        3475.0317004730337,
+        3475.0317004730337
+      ],
+      "peak_s16": [
+        4916.0,
+        4916.0
+      ],
+      "dominant_hz": [
+        996.5663179749262,
+        996.5663179749262
+      ],
+      "expected_band_power_fraction": [
+        0.9999960815887694,
+        0.9999960815887694
+      ],
+      "exact_zero": false
+    },
+    {
+      "label": "native-suspended",
+      "pcm_window_seconds": [
+        71.96279166666666,
+        72.48460416666667
+      ],
+      "frames": 25047,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "peak_s16": [
+        0.0,
+        0.0
+      ],
+      "dominant_hz": [
+        null,
+        null
+      ],
+      "expected_band_power_fraction": [
+        0.0,
+        0.0
+      ],
+      "exact_zero": true
+    },
+    {
+      "label": "native-resumed",
+      "pcm_window_seconds": [
+        74.7083125,
+        75.23010416666666
+      ],
+      "frames": 25046,
+      "rms_s16": [
+        3474.96318813705,
+        3474.96318813705
+      ],
+      "peak_s16": [
+        4916.0,
+        4916.0
+      ],
+      "dominant_hz": [
+        996.5663179749262,
+        996.5663179749262
+      ],
+      "expected_band_power_fraction": [
+        0.9999960855820088,
+        0.9999960855820088
+      ],
+      "exact_zero": false
+    },
+    {
+      "label": "quiet",
+      "pcm_window_seconds": [
+        77.55225,
+        78.0740625
+      ],
+      "frames": 25047,
+      "rms_s16": [
+        0.0,
+        0.0
+      ],
+      "peak_s16": [
+        0.0,
+        0.0
+      ],
+      "dominant_hz": [
+        null,
+        null
+      ],
+      "expected_band_power_fraction": [
+        0.0,
+        0.0
+      ],
+      "exact_zero": true
+    }
+  ],
+  "host_delivery_timing": {
+    "anchor_count": 1429,
+    "estimated_origin_range_monotonic": [
+      264038.2228178897,
+      264038.244601949
+    ],
+    "spread_seconds": 0.02178405929589644,
+    "timing_alignment_verified": false,
+    "unknown_constant_queue_delay_bound": null,
+    "scope": "Spread is host-delivery variation only; it does not bound unknown constant queue delay or establish marker synchronization, guest/input/acoustic latency.",
+    "retained_anchor_origin_range_monotonic": [
+      264038.22284548567,
+      264038.2436705687
+    ],
+    "recorded_capture_chunks": 14280,
+    "retained_timing_anchors": 1429,
+    "estimated_origin_range_derivation_independently_recomputed": false,
+    "aggregate_extrema_algorithm_source_reviewed": true,
+    "source_line_evidence": {
+      "every_chunk_origin_append": 100,
+      "first_or_every_tenth_anchor": 106,
+      "full_origins_min_max": 143,
+      "full_origins_spread": 144
+    }
+  },
+  "not_verified": [
+    "Trusted input and strict public API completion (parent reviews separately)",
+    "Host/guest health and profile/config/resources restoration (parent reviews separately)",
+    "Precise latency or sample/marker synchronization",
+    "Physical phone, native resource-loss notifications, seamless pause or official EndTask"
+  ],
+  "writes_only_this_report": true,
+  "review_process": {
+    "initial_metadata_probe_status": "FAIL_COLLECTOR_ASSUMPTION",
+    "initial_report_sha256": "f4ea0762785e90d3b028083b3360df76035239d17a8812512d7701fe4f25ca30",
+    "initial_probe_failed_checks": [
+      {
+        "check": "delivery_origin_range_matches_metadata",
+        "initial_result": false
+      },
+      {
+        "check": "delivery_spread_is_only_reported_variation",
+        "initial_result": false
+      },
+      {
+        "check": "native-running_window_matches_delivery_estimate",
+        "initial_result": false
+      },
+      {
+        "check": "native-suspended_window_matches_delivery_estimate",
+        "initial_result": false
+      },
+      {
+        "check": "native-resumed_window_matches_delivery_estimate",
+        "initial_result": false
+      },
+      {
+        "check": "quiet_window_matches_delivery_estimate",
+        "initial_result": false
+      }
+    ],
+    "correction": "Initial probe incorrectly required aggregate origin extrema to equal extrema from retained anchors. Read-only source verification (capture script SHA matches capture metadata) confirms each received chunk appends an origin at line100, only first/every10th anchors are retained at106, and min/max use all chunk origins at143. Hence14280 chunks/1429 anchors and the slightly wider aggregate range are consistent. The range encloses all retained origins; window arithmetic and original spectral/quiet thresholds pass. This review does not reconstruct unavailable per-chunk delivery timestamps or establish exact alignment. Original PCM, analysis, acceptance, marks, capture and runtime results were not modified."
+  }
+}

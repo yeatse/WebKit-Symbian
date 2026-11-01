@@ -42,7 +42,7 @@
     // All panning is relative to this listener.
     readonly attribute AudioListener listener;
 
-    [SameObject, SecureContext] readonly attribute AudioWorklet audioWorklet;
+    [SameObject, SecureContext, EnabledBySetting=AudioWorkletEnabled] readonly attribute AudioWorklet audioWorklet;
 
     readonly attribute AudioContextState state;
     attribute EventHandler onstatechange;

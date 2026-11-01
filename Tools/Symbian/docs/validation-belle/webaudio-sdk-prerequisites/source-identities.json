@@ -1,0 +1,270 @@
+{
+  "baseline_WebKit_commit": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618",
+  "unchanged_product_helpers": {
+    "Tools/Symbian/scripts/apply-native-patches.py": "c58a9f977288f111949445e9049d895b0b5de3b39c54806e9cab6b51d172e25c",
+    "Tools/Symbian/scripts/rebuild-sdk-runtime.py": "262d6054171e58234d77f05f844d2a0686c55c83226180f47ead0b969933ee3e"
+  },
+  "default_options": {
+    "path": "Source/cmake/OptionsSymbian.cmake",
+    "sha256": "3b73a0c528c3ec186a9ece9761591074fcf7cfb45579c598484192bf9a7e3a3b",
+    "default": "OFF"
+  },
+  "native_stack_and_EKA_postimages": {
+    "sdk_base_commit": "b105f752f84d1b5640052f64c4a703017810d7b8",
+    "scope": "Exact original SDK git blobs and all8 checked patch postimages in isolated sparse source; real SDK WIP never applied",
+    "native_series": [
+      {
+        "name": "0001-Raise-E32-converter-limits-for-large-images.patch",
+        "sha256": "e7d526647d2bcdbf919c85506226c4f77218f20d3a6bcbae6304086189fbe0d4"
+      },
+      {
+        "name": "0002-Accept-LLD-PIC-range-extension-thunks-to-the-PLT.patch",
+        "sha256": "47522c168093f2f72aa40733cf49f7a430a67c3a134341ec85f8f5c3e19bbe7e"
+      },
+      {
+        "name": "0003-Support-explicit-ARMv6-VFPv2-with-base-AAPCS.patch",
+        "sha256": "5259045f9b77cafc5344b9908b608a5a8205305e5b0b6e60031f024655639699"
+      },
+      {
+        "name": "0004-Support-bounded-read-only-DLL-object-exports.patch",
+        "sha256": "5a2f9dc3444056b2a105acbdf2842fe64dde0494a293cca4126c0acc7088312d"
+      },
+      {
+        "name": "0005-Support-explicit-NetworkControl-capability.patch",
+        "sha256": "b16bc89494ec8b0bc71ebd81f7e88bc5e19ce4a701b76f8ceb39063ee2200964"
+      },
+      {
+        "name": "0006-Support-explicit-ECom-plugin-identities.patch",
+        "sha256": "1d8f15bb6bd349f8d88fa446962bc808da1c305d7bc4c65267f783b86f51249e"
+      },
+      {
+        "name": "0007-Provide-C99-atan2l-in-the-real-guest-runtime.patch",
+        "sha256": "41febb2fcd757409023705b46ae5da0293d7aee1aa345a0342847aa9b7096ea6"
+      },
+      {
+        "name": "0008-Support-explicit-MMF-client-DLL-identities.patch",
+        "sha256": "04617a51bb52f28fd085a8cb82d36f07d8bb122847ec23c64c7d62197e7da0f4"
+      }
+    ],
+    "files": [
+      {
+        "path": "cpp/symbian/e32/e32.cc",
+        "base_present": true,
+        "before_sha256": "b0c2264d9e9869f94a451e095e2638b53112d364624055e32081bd0ed0414b46",
+        "before_bytes": 59858,
+        "after_sha256": "8ae3a4255432622b80ed6d9e26604739e7f17cec20b6f6289b181e50c28f9819",
+        "after_bytes": 62264,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/symbian/e32/e32.h",
+        "base_present": true,
+        "before_sha256": "ab4a780d5be271350438f2d50d5c9628d4fb4b0cf58ba8b266d4e6176689e5da",
+        "before_bytes": 4715,
+        "after_sha256": "534b3d129a9bd444b9779a21a1f36f9ab201b490fdeff2f72b42c76def690685",
+        "after_bytes": 5555,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/symbian/e32/exports.cc",
+        "base_present": true,
+        "before_sha256": "dcbe79ad9cd9ef13cbc3cee58e595dfb82b8b9c23f1120d2be302d6cfa418bff",
+        "before_bytes": 7406,
+        "after_sha256": "04dab5782c4369322d61243ba8ec52140f4272f60c5c91294d178eb0661c43af",
+        "after_bytes": 7839,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/symbian/e32/imports.cc",
+        "base_present": true,
+        "before_sha256": "6a25b77cc5cb31c51220fd54a0391a3e47c430a8e7ae8f308618253b94f592dd",
+        "before_bytes": 32459,
+        "after_sha256": "bdf1d98ff4f2b7092f9c84a9ebf83a8ae37ccab109a11e1246c532797cb2aa27",
+        "after_bytes": 35552,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/symbian/runtime/include/math.h",
+        "base_present": true,
+        "before_sha256": "52cf3dcb46473e657e9d950f35cc2730c9e2ba9ab0dfea6b3f302e3274375f11",
+        "before_bytes": 786,
+        "after_sha256": "fded483c1b919350f77359d11c79b5ab3020ad80e8d852f550172922873b5f6c",
+        "after_bytes": 941,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/symbian/runtime/math_c.cc",
+        "base_present": true,
+        "before_sha256": "795dd9d5e28adf2f1aba021859d753092125ad495436dd0638464c55cb2eea8f",
+        "before_bytes": 1207,
+        "after_sha256": "51f35cfdb0e9045a6b3880316c6a0eb5175700c9090ed13e42537cba84d289fb",
+        "after_bytes": 1489,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/symbian/tools/main.cc",
+        "base_present": true,
+        "before_sha256": "9c671345d5d8a50de7f2e74d27e9f36c37c04ceb03768d4e08e311d0c14c3244",
+        "before_bytes": 9517,
+        "after_sha256": "f8e6e0295e4197bfd23f4a4243510b8da7c15eadab1f307be787f37e362e138e",
+        "after_bytes": 9828,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/tests/CMakeLists.txt",
+        "base_present": true,
+        "before_sha256": "b9ce6a7eb88df9e28caffeb67f0e4b0493b0fe22f21ae957f2dc4caec003782d",
+        "before_bytes": 6964,
+        "after_sha256": "127c071dbd69e69969f4e345a85e1a7948d95c477d92235f985e5d20d871c325",
+        "after_bytes": 7034,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/tests/arm_attributes_test.cc",
+        "base_present": true,
+        "before_sha256": "f4ad5f6a2dfbd740c748065d9dcbf7f470f264a325d4ab4f475526ddaf1281ff",
+        "before_bytes": 8160,
+        "after_sha256": "51073f51581365f8cb497ef4a1d2d5e91648d5c3497a1f30f547d0d54d3a51de",
+        "after_bytes": 11350,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/tests/check_e32_object_elf.py",
+        "base_present": false,
+        "after_sha256": "4b940a0a78ac15a148b51ddb16a7b40c1aa98736460d94a219a4f3d40c7c3580",
+        "after_bytes": 4813,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/tests/e32_fixture.h",
+        "base_present": true,
+        "before_sha256": "e2ac98b1a4777185ce22b515e496240f4146c9493bb482ed7eb827c78426e7fd",
+        "before_bytes": 4183,
+        "after_sha256": "cefaa461f9b0b0b357367a9fb70dd8af67bafe92708bae50a1ae26857b892b24",
+        "after_bytes": 7996,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/tests/e32_object_exports_test.cc",
+        "base_present": false,
+        "after_sha256": "84803f3126ac2ae8db6b6691ea936232e18efe354de85c11cbeb094c9b6b8abe",
+        "after_bytes": 5312,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/tests/e32_plugin_identity_test.cc",
+        "base_present": false,
+        "after_sha256": "f4ecbbb50e58836ee1c208e9cfab3fff140c1b9469539bea8d6a04dc8211ff41",
+        "after_bytes": 6677,
+        "after_mode": "0o600"
+      },
+      {
+        "path": "cpp/tests/e32_test.cc",
+        "base_present": true,
+        "before_sha256": "29052fe9306a3ae6bd2339ba6e2e7dabb08647b24ebb0f4910bfc5e7ca81eca9",
+        "before_bytes": 25239,
+        "after_sha256": "658bf9ef3f60f9b3d982519a61bb66493b25e72cda891dc4378e7c60fc44992e",
+        "after_bytes": 33055,
+        "after_mode": "0o600"
+      }
+    ],
+    "original_six_patch_bytes_unchanged": true,
+    "helper_source_sha256": "c58a9f977288f111949445e9049d895b0b5de3b39c54806e9cab6b51d172e25c",
+    "EKA0031": {
+      "final_patch_sha256": "0da2d048e53290a752e29b37956b33a4f81c1363f5b5a3f11e27dd18598e2f12",
+      "files": [
+        {
+          "path": "src/patch/mediaclientaudiostream/src/impl.cpp",
+          "after_sha256": "0393922023a1d70f9fc8472ff1974cb329cfbdceefa594fc59323d5e01126b8b",
+          "after_bytes": 20071,
+          "before_sha256": "7fed455d1f55b00df9c11d6ebcb25301a737f0230ea2d9ffe7dd32648a59a942",
+          "before_bytes": 19770
+        },
+        {
+          "path": "src/patch/mediaclientaudiostream/src/main.cpp",
+          "after_sha256": "b80bd175a6fabecbd83cdcce18ab5b69f1d075763eaa73151d60b43d29ec4e7c",
+          "after_bytes": 12570,
+          "before_sha256": "eecd93cfe942f35db02674e6427967596542e2da1eb454f86959fd7843dd7230",
+          "before_bytes": 12308
+        }
+      ],
+      "reverse_apply_to_built_snapshots": "PASS",
+      "producer_input_manifest_sha256": "9b2e14b2dfb5c5db7beb33cc8c4dd93c4d181755b529546e1f22c1a9f31ab5b2",
+      "producer_earlier_patch_sha256_field": "e9d1017df47983715a1ffe34ee830aa71c07b1c2e569c19f46e1b919aae53727",
+      "note": "The preserved producer inputs.patch_sha256 refers to its earlier minimal Pause export; the final combined Pause/BitRateL export is pinned here directly. No original report was edited."
+    }
+  },
+  "input_files": [
+    {
+      "input": "/workspace/symbian-sdk-math-work/webkit-candidate/scripts/rebuild-sdk-math.py",
+      "path": "Tools/Symbian/scripts/rebuild-sdk-math.py",
+      "sha256": "feaf1c2f0087583b72fc8d3b87ba0ee0ca6cb299b2f62744134865da06691ed4"
+    },
+    {
+      "input": "/workspace/symbian-sdk-math-work/webkit-candidate/patches/sdk-0.3.0/math/manifest.json",
+      "path": "Tools/Symbian/patches/sdk-0.3.0/math/manifest.json",
+      "sha256": "665d3559cbd941d45558b666d8cadd16bc505a9eb8bec97b07375f8dc3590109"
+    },
+    {
+      "input": "/workspace/symbian-sdk-math-work/webkit-candidate/patches/sdk-0.3.0/math/README.md",
+      "path": "Tools/Symbian/patches/sdk-0.3.0/math/README.md",
+      "sha256": "1c0460aaade829755ef181619a5a1a0e5ca0969b902f0701a006c58b69e6d14d"
+    },
+    {
+      "input": "/workspace/symbian-sdk-math-work/webkit-candidate/patches/symbian-native/0007-Provide-C99-atan2l-in-the-real-guest-runtime.patch",
+      "path": "Tools/Symbian/patches/symbian-native/0007-Provide-C99-atan2l-in-the-real-guest-runtime.patch",
+      "sha256": "41febb2fcd757409023705b46ae5da0293d7aee1aa345a0342847aa9b7096ea6"
+    },
+    {
+      "input": "/workspace/symbian-ostream-pause-native-build-20261101/0008-Support-explicit-MMF-client-DLL-identities.patch",
+      "path": "Tools/Symbian/patches/symbian-native/0008-Support-explicit-MMF-client-DLL-identities.patch",
+      "sha256": "04617a51bb52f28fd085a8cb82d36f07d8bb122847ec23c64c7d62197e7da0f4"
+    },
+    {
+      "input": "/workspace/symbian-ostream-pause-native-build-20261101/0031-Report-unsupported-stream-pause-and-input-bitrate.patch",
+      "path": "Tools/Symbian/patches/eka2l1/0031-Report-unsupported-stream-pause-and-input-bitrate.patch",
+      "sha256": "0da2d048e53290a752e29b37956b33a4f81c1363f5b5a3f11e27dd18598e2f12"
+    },
+    {
+      "input": "/workspace/WebKit-Symbian/.github/workflows/symbian.yml",
+      "path": ".github/workflows/symbian.yml",
+      "sha256": "12298baaa0aa3f47920fd18d375c4a75701dd0fee41d2070f67a97c339456776"
+    },
+    {
+      "input": "/workspace/WebKit-Symbian/Tools/Symbian/tests/sdk-native-patch-stack/test_patch_stack.py",
+      "path": "Tools/Symbian/tests/sdk-native-patch-stack/test_patch_stack.py",
+      "sha256": "f55267bd640abf21c8650d6e86b5b89bdf24b25d5c08ea695a8c8be471f4c6ae"
+    }
+  ],
+  "Root_prior_math_install_evidence": {
+    "path": "/workspace/symbian-sdk-math-audio-root-install/result.json",
+    "sha256": "de87cfd16b279695f458b4a9b8561a18d8dbbc8703b3adf82440de94bfcf1eb2",
+    "status": "INSTALLED",
+    "installed": true,
+    "owner_sources": {
+      "cpp/symbian/runtime/include/math.h": "fded483c1b919350f77359d11c79b5ab3020ad80e8d852f550172922873b5f6c",
+      "cpp/symbian/runtime/math_c.cc": "51f35cfdb0e9045a6b3880316c6a0eb5175700c9090ed13e42537cba84d289fb"
+    },
+    "profiles": {
+      "default": {
+        "path": "lib/armv6/libsymbian_guest_runtime.a",
+        "before_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+        "after_sha256": "b97fa7eb2ab61e49e3960fba887904bd79defd770981ae857419bfaadeb225c6",
+        "new_member_sha256": "90984e535463c9facd45417a40a6a8f892ad8dee7014e78ecbed34f24c8b3992"
+      },
+      "streams": {
+        "path": "lib/armv6/libsymbian_guest_runtime_streams.a",
+        "before_sha256": "dbd2fb3e75917026a9f2bf12ecf915075fde5b3175052c8279412bb7d76e88d8",
+        "after_sha256": "9d9421ca8d78833578a63371803af8343b2aab81a5f4a62cd240b8b09a9f9b59",
+        "new_member_sha256": "90984e535463c9facd45417a40a6a8f892ad8dee7014e78ecbed34f24c8b3992"
+      },
+      "native_atomic64": {
+        "path": "lib/armv6/libsymbian_guest_runtime_native_atomic64.a",
+        "before_sha256": "c4321110501530306cd4a20c1bd0bc2cf690e87afd2626d04b440b4fb7029f20",
+        "after_sha256": "6e2cdd8403f2433323628d25103d2c6e6689997de0df525833ed2de35813f02a",
+        "new_member_sha256": "90984e535463c9facd45417a40a6a8f892ad8dee7014e78ecbed34f24c8b3992"
+      }
+    },
+    "scope": "Existing Root-installed prefix record; not a new installation in this task"
+  }
+}

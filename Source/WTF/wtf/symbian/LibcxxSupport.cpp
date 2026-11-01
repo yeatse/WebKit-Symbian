@@ -38,7 +38,8 @@ extern "C" double log2(double x)
 
 extern "C" float log2f(float x)
 {
-    return static_cast<float>(log2(x));
+    // Calling log2 here can be folded back to log2f by the compiler.
+    return static_cast<float>(log(static_cast<double>(x)) * 1.44269504088896340736);
 }
 
 // The SDK runtime has the other EABI float/int64 conversions, but not this one.

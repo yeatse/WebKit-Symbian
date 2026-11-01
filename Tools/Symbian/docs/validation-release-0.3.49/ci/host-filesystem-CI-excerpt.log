@@ -1,0 +1,9 @@
+2026-11-01T09:32:56.6994395Z PASS drive, root, dot, parent, append and ancestor paths
+2026-11-01T09:32:56.6995135Z PASS UTF-16 wide exists/stat metadata, surrogate pair, NUL and length guards
+2026-11-01T09:32:56.6995564Z PASS no-overwrite, aliases preserve data, non-regular files cannot block
+2026-11-01T09:32:56.6995946Z PASS short writes, read/write EINTR, failed exclusive-copy cleanup
+2026-11-01T09:32:56.6996331Z PASS OpenC zero-inode exclusive copy, alias refusal and rollback cleanup
+2026-11-01T09:32:56.6996716Z PASS cross-device ordinary-file fallback and unsupported hardlink
+2026-11-01T09:32:56.6997088Z PASS native volume drive selection, zero space, 64-bit values and errors
+2026-11-01T09:32:56.6997489Z PASS quota enumeration distinguishes empty, missing, partial and failed I/O
+2026-11-01T09:32:56.6997896Z PASS unique temporary directories, recursive deletion and permission errors

@@ -1,0 +1,143 @@
+{
+  "status": "PASS",
+  "run_id": 41293400197,
+  "head_sha": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618",
+  "branch": "2.52.6-symbian",
+  "packages": [
+    {
+      "package": "symbian-webkit-icu.sis",
+      "uid": "0xe1a5c013",
+      "version": "0.3.49",
+      "bytes": 4768936,
+      "sha256": "caa47a14c0a8c7a1c45403ce19b01f8e6957098e4177d13a96cc1229913f8520",
+      "path": "/workspace/symbian-ci49-validation/sis/symbian-webkit-icu.sis",
+      "header_and_section_crc": "PASS",
+      "all_payload_hashes_valid": true,
+      "files": [
+        {
+          "target": "c:\\resource\\icu\\icudt70l.dat",
+          "bytes": 10261824,
+          "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/icudt70l.dat"
+        }
+      ]
+    },
+    {
+      "package": "jsc.sis",
+      "uid": "0xe1a5c011",
+      "version": "0.3.49",
+      "bytes": 6895108,
+      "sha256": "ee13440bf73f44b398c66beb30dd361d1a009a1bd14f401fbab3477dcfa30abf",
+      "path": "/workspace/symbian-ci49-validation/sis/jsc.sis",
+      "header_and_section_crc": "PASS",
+      "all_payload_hashes_valid": true,
+      "files": [
+        {
+          "target": "!:\\sys\\bin\\jsc.exe",
+          "bytes": 18831228,
+          "sha256": "297fa6154dff968e504705ba7223e33a228af38895db54138fe67e18386272fa",
+          "file_hash_valid": true,
+          "e32_flags": "0x12100028",
+          "hardware_float_type": 1,
+          "capabilities": "0x0",
+          "e32_uid3": "0xe1a5c001",
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/jsc.exe"
+        },
+        {
+          "target": "c:\\data\\es2020.js",
+          "bytes": 2587,
+          "sha256": "4475356ccad8d5d4a80e2fbb476d67a20159f0ad2f647bb3ea17993268397528",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/es2020.js"
+        },
+        {
+          "target": "c:\\data\\intl.js",
+          "bytes": 1462,
+          "sha256": "b2f5baf861fe8ee712f16fd5e44bb92b18c722d2f34e894a6779ab6ab4533f30",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/intl.js"
+        },
+        {
+          "target": "c:\\data\\basic.js",
+          "bytes": 186,
+          "sha256": "26589cb79ee8ee46158fbc12c6520532f88b8a01cc4deac3c70143088569ffd2",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/basic.js"
+        },
+        {
+          "target": "c:\\data\\resizable-arraybuffer.js",
+          "bytes": 2715,
+          "sha256": "3ab732cddd4c008a4c648b9978212b67de8d0edda07c82bce666450ae9c374ac",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/resizable-arraybuffer.js"
+        }
+      ]
+    },
+    {
+      "package": "browser.sis",
+      "uid": "0xe1a5c012",
+      "version": "0.3.49",
+      "bytes": 22098360,
+      "sha256": "0dab330ef0b910314e693fe53750527582da8f19d2a02ce78d59b58b25af23cd",
+      "path": "/workspace/symbian-ci49-validation/sis/browser.sis",
+      "header_and_section_crc": "PASS",
+      "all_payload_hashes_valid": true,
+      "files": [
+        {
+          "target": "!:\\sys\\bin\\browser.exe",
+          "bytes": 58888704,
+          "sha256": "5c4290dc55e9413a34e3d38c9cf7e628b29c219ad5cb3286f5c70d1c00562c92",
+          "file_hash_valid": true,
+          "e32_flags": "0x12100028",
+          "hardware_float_type": 1,
+          "capabilities": "0x2000",
+          "e32_uid3": "0xe1a5c002",
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/browser.exe"
+        },
+        {
+          "target": "!:\\private\\10003a3f\\import\\apps\\browser_reg.rsc",
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/browser_reg.rsc"
+        },
+        {
+          "target": "!:\\resource\\apps\\browser_loc.rsc",
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/browser_loc.rsc"
+        },
+        {
+          "target": "!:\\resource\\apps\\browser_ui.rsc",
+          "bytes": 242,
+          "sha256": "fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/browser_ui.rsc"
+        },
+        {
+          "target": "c:\\data\\webkit\\test.html",
+          "bytes": 2254,
+          "sha256": "fe5ce7c5d30391f0033ea730e623f4d979e935e78010f5c67f22b76416eb8816",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/test.html"
+        },
+        {
+          "target": "c:\\resource\\webkit\\cacert.pem",
+          "bytes": 188900,
+          "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/cacert.pem"
+        },
+        {
+          "target": "c:\\resource\\fontconfig\\fonts.conf",
+          "bytes": 935,
+          "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c",
+          "file_hash_valid": true,
+          "extracted_path": "/workspace/symbian-ci49-validation/payloads/fonts.conf"
+        }
+      ]
+    }
+  ]
+}

@@ -48,7 +48,7 @@ class NativePatchStackTests(unittest.TestCase):
         cls.base.mkdir()
         git(cls.base, "init", "--quiet")
         cls.patches = sorted(ARGS.patch_dir.resolve().glob("*.patch"))
-        assert len(cls.patches) == 6, "Tests pin the current six-patch series"
+        assert len(cls.patches) == 9, "Tests pin the original six plus math0007/MMF0008/complex0009"
         names = set()
         for patch in cls.patches:
             for record in git(cls.base, "apply", "--numstat", "-z", str(patch)).split(b"\0"):
@@ -79,8 +79,10 @@ class NativePatchStackTests(unittest.TestCase):
         git(cls.base, "tag", "v0.3.0")
         cls.expected = cls.root / "expected"
         git(cls.root, "clone", "--quiet", "--shared", str(cls.base), str(cls.expected))
-        for patch in cls.patches:
+        for count, patch in enumerate(cls.patches, 1):
             git(cls.expected, "apply", str(patch))
+            if count == 6:
+                cls.sixth_final = snapshot(cls.expected, cls.names)
         cls.final = snapshot(cls.expected, cls.names)
         if ARGS.output:
             ARGS.output.mkdir(parents=True, exist_ok=True)
@@ -127,7 +129,7 @@ class NativePatchStackTests(unittest.TestCase):
         self.assertEqual((self.directory / ".git/index").read_bytes(), index)
 
     def test_every_prefix_upgrades(self):
-        for count in range(1, 6):
+        for count in range(1, len(self.patches)):
             with self.subTest(prefix=count):
                 work = self.root / ("prefix-" + str(count))
                 git(self.root, "clone", "--quiet", "--shared", str(self.base), str(work))
@@ -143,7 +145,7 @@ class NativePatchStackTests(unittest.TestCase):
                 self.directory = previous
 
     def test_full_stack_early_reverse_check_is_not_a_completion_test(self):
-        self.prefix(6)
+        self.prefix(len(self.patches))
         old = command(self.directory, "git", "apply", "--reverse", "--check", str(self.patches[0]), check=False)
         self.assertNotEqual(old.returncode, 0)
         result = self.helper()
@@ -153,14 +155,79 @@ class NativePatchStackTests(unittest.TestCase):
     def test_partial_sixth_patch_is_rejected_without_writes(self):
         self.prefix(5)
         name = "cpp/symbian/e32/e32.cc"
-        (self.directory / name).write_bytes((self.expected / name).read_bytes())
+        (self.directory / name).write_bytes(self.sixth_final[name][1])
         self.assert_no_write_failure()
 
     def test_last_patch_present_does_not_hide_missing_earlier_state(self):
-        self.prefix(6)
+        self.prefix(len(self.patches))
         name = "cpp/symbian/e32/exports.cc"
         (self.directory / name).write_bytes((self.base / name).read_bytes())
         self.assert_no_write_failure()
+
+    def test_original_six_series_still_idempotent(self):
+        self.prefix(6)
+        legacy = self.root / "legacy-six-patches"
+        legacy.mkdir()
+        for patch in self.patches[:6]:
+            shutil.copy2(patch, legacy / patch.name)
+        before = snapshot(self.directory, self.names)
+        index = (self.directory / ".git/index").read_bytes()
+        result = self.helper(legacy)
+        self.assertEqual(result.returncode, 0, result.stderr.decode())
+        report = json.loads(result.stdout)
+        self.assertEqual(report["status"], "ALREADY_APPLIED")
+        self.assertEqual(report["from_prefix"], 6)
+        self.assertEqual(report["patch_count"], 6)
+        self.assertEqual(snapshot(self.directory, self.names), before)
+        self.assertEqual((self.directory / ".git/index").read_bytes(), index)
+
+    def test_partial_math_patch_is_rejected_without_writes(self):
+        self.prefix(6)
+        name = "cpp/symbian/runtime/include/math.h"
+        (self.directory / name).write_bytes((self.expected / name).read_bytes())
+        self.assert_no_write_failure()
+
+    def test_unknown_math_owner_edit_is_preserved(self):
+        self.prefix(7)
+        path = self.directory / "cpp/symbian/runtime/math_c.cc"
+        with path.open("ab") as stream:
+            stream.write(b"\n// User-owned math change.\n")
+        self.assert_no_write_failure()
+
+    def test_partial_mmf_patch_is_rejected_without_writes(self):
+        self.prefix(7)
+        name = "cpp/symbian/e32/e32.cc"
+        (self.directory / name).write_bytes((self.expected / name).read_bytes())
+        self.assert_no_write_failure()
+
+    def test_partial_complex_owner_is_rejected_without_writes(self):
+        self.prefix(8)
+        name = "cpp/symbian/runtime/CMakeLists.txt"
+        body = (self.expected / name).read_text()
+        body = body.replace('-ffp-contract=off', '-ffp-contract=fast')
+        (self.directory / name).write_text(body)
+        self.assert_no_write_failure()
+
+    def test_unknown_complex_owner_edit_is_preserved(self):
+        self.prefix(9)
+        path = self.directory / "cpp/symbian/runtime/CMakeLists.txt"
+        with path.open("ab") as stream:
+            stream.write(b"\n# User-owned complex runtime edit.\n")
+        self.assert_no_write_failure()
+
+    def test_original_eight_series_still_idempotent(self):
+        self.prefix(8)
+        legacy = self.root / "legacy-eight-patches"
+        legacy.mkdir()
+        for patch in self.patches[:8]:
+            shutil.copy2(patch, legacy / patch.name)
+        before = snapshot(self.directory, self.names)
+        result = self.helper(legacy)
+        self.assertEqual(result.returncode, 0, result.stderr.decode())
+        report = json.loads(result.stdout)
+        self.assertEqual(report["status"], "ALREADY_APPLIED")
+        self.assertEqual(report["from_prefix"], 8)
+        self.assertEqual(snapshot(self.directory, self.names), before)
 
     def test_unknown_owned_file_edit_is_preserved(self):
         self.prefix(5)
@@ -204,7 +271,7 @@ class NativePatchStackTests(unittest.TestCase):
         self.assertEqual(outside.read_bytes(), b"must remain untouched\n")
 
     def test_invalid_series_is_rejected_even_on_full_postimage(self):
-        self.prefix(6)
+        self.prefix(len(self.patches))
         patches = self.root / "broken-series"
         shutil.copytree(ARGS.patch_dir, patches)
         first = patches / self.patches[0].name

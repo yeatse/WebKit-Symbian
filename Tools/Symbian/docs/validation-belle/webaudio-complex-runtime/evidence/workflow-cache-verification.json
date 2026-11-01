@@ -1,0 +1,206 @@
+{
+  "status": "PASS",
+  "workflow_sha256": "15452cbae305904c6b7db73945713dc3c3aef7f0e814141121b4a190e212398b",
+  "only_original_SDK_prefix_cached": true,
+  "all_prefix_mutations_after_original_save": true,
+  "install_order": [
+    "allocator",
+    "math0007",
+    "complex0009"
+  ],
+  "complex_rebuilt_and_verified_on_cache_hits": true,
+  "cached_stage_always_replaced_from_current_prefix": true,
+  "SDK_prefix_implicit_job_end_cache_save": false,
+  "cache_input_closure_contains_helper_manifest_patch": true,
+  "line_evidence": {
+    "Save the original SDK": [
+      124
+    ],
+    "Rebuild and verify the 32-bit SDK allocator": [
+      192
+    ],
+    "Rebuild and verify the SDK math member": [
+      213
+    ],
+    "Rebuild and verify the SDK complex members": [
+      234
+    ],
+    "Save the SDK complex work": [
+      240
+    ],
+    "JavaScriptCore": [
+      302
+    ]
+  },
+  "cache_paths": [
+    {
+      "step": "symbian-platform SDK",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/symbian-sdk",
+      "covers_SDK_prefix": true
+    },
+    {
+      "step": "Save the original SDK",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/symbian-sdk",
+      "covers_SDK_prefix": true
+    },
+    {
+      "step": "Restore the E32 converter",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/symbian-platform",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the E32 converter",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/symbian-native",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the E32 converter",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/src/nlohmann-json",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore ICU",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/icu",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the WebCore libraries",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/deps/install",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the WebCore libraries",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/deps/src/sqlite-amalgamation-3350500",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the WebCore libraries",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/deps/src/curl-7.88.1",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the compiler cache",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/ccache",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the E32 converter",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/symbian-platform",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the E32 converter",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/symbian-native",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the E32 converter",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/src/nlohmann-json",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the SDK runtime sources",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/sdk-runtime",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the SDK runtime sources",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/sdk-runtime",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the SDK math work",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/sdk-math",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the SDK math work",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/sdk-math",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the SDK complex work",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/sdk-complex",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the SDK complex work",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/sdk-complex",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the SDK resource compiler sources",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/sdk-rcomp",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the SDK resource compiler sources",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/sdk-rcomp",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Restore the SDK IP certificate repair sources",
+      "action": "actions/cache/restore@v4",
+      "path": "WebKitBuild/Symbian/sdk-mbedtls-ip",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the SDK IP certificate repair sources",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/sdk-mbedtls-ip",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save ICU",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/icu",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the WebCore libraries",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/deps/install",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the WebCore libraries",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/deps/src/sqlite-amalgamation-3350500",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the WebCore libraries",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/deps/src/curl-7.88.1",
+      "covers_SDK_prefix": false
+    },
+    {
+      "step": "Save the compiler cache",
+      "action": "actions/cache/save@v4",
+      "path": "WebKitBuild/Symbian/ccache",
+      "covers_SDK_prefix": false
+    }
+  ],
+  "scope": "Actual candidate YAML/cache source dataflow; no GitHub workflow dispatched by preparation"
+}

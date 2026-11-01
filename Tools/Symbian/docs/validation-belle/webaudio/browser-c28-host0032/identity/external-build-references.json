@@ -1,0 +1,47 @@
+{
+  "scope": "References only; not copied. Source/compile/link evidence is separate from numeric DSP acceptance.",
+  "references": [
+    {
+      "path": "/workspace/symbian-webaudio-audio-only-production-scope-c28-20261101/scope-report.json",
+      "bytes": 1825,
+      "sha256": "da2a2e5091b381dd6293a3f9c9f5e8a5d8adbdf76a5bf91cae3e75edfe360058",
+      "copied": false
+    },
+    {
+      "path": "/workspace/symbian-webaudio-audio-only-production-scope-c28-20261101/manifest.json",
+      "bytes": 11185,
+      "sha256": "aa2292ca4865e54355ea967a7858b22fb6d4947fa8c5e3a860bb717d5a356bf5",
+      "copied": false
+    },
+    {
+      "path": "/workspace/symbian-webaudio-audio-only-production-scope-c28-20261101/source-inputs.json",
+      "bytes": 9077,
+      "sha256": "05f66124de91bab437f40ab25fa1abd0a29cff392d36461376a4c2a77a8b2e8f",
+      "copied": false
+    },
+    {
+      "path": "/workspace/symbian-webaudio-audio-only-production-scope-c28-20261101/source-postimages.json",
+      "bytes": 20219,
+      "sha256": "18ed79471f01f82d96154c3f0ac69833142ce7ffad38980c7e9c47f198f51c6d",
+      "copied": false
+    },
+    {
+      "path": "/workspace/symbian-sdk-math-audio-root-install/result.json",
+      "bytes": 30507,
+      "sha256": "de87cfd16b279695f458b4a9b8561a18d8dbbc8703b3adf82440de94bfcf1eb2",
+      "copied": false
+    },
+    {
+      "path": "/workspace/symbian-audio-complex-root-install/result.json",
+      "bytes": 32559,
+      "sha256": "d38b08f1cc64ba2ec1995cfab3f7a05b351e394b9bf690c25e87c96840c61977",
+      "copied": false
+    },
+    {
+      "path": "/workspace/symbian-belle-work/ostream-deployment-c26-20261101/deployment.json",
+      "bytes": 13821,
+      "sha256": "25c263751946f4a65a61c00bfe4165ba3f2a146247cea4e06f10bc8b4174f110",
+      "copied": false
+    }
+  ]
+}

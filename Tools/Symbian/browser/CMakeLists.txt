@@ -35,8 +35,14 @@ set(browser_media OFF)
 set(browser_compositing OFF)
 set(browser_webgl OFF)
 set(browser_woff2 OFF)
+set(browser_web_audio OFF)
 if (NOT BROWSER_STUB_ENGINE)
-  foreach(feature IN ITEMS ENABLE_VIDEO USE_TEXTURE_MAPPER ENABLE_WEBGL USE_WOFF2)
+  if(NOT EXISTS "${WEBKIT_BUILD_DIR}/cmakeconfig.h")
+    message(FATAL_ERROR "Configure WebCore before configuring the native browser")
+  endif()
+  set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+    "${WEBKIT_BUILD_DIR}/cmakeconfig.h")
+  foreach(feature IN ITEMS ENABLE_VIDEO USE_TEXTURE_MAPPER ENABLE_WEBGL USE_WOFF2 ENABLE_WEB_AUDIO)
     file(STRINGS "${WEBKIT_BUILD_DIR}/cmakeconfig.h" feature_enabled
       REGEX "^#define ${feature} 1$")
     if(feature_enabled)
@@ -46,6 +52,8 @@ if (NOT BROWSER_STUB_ENGINE)
         set(browser_compositing ON)
       elseif(feature STREQUAL "ENABLE_WEBGL")
         set(browser_webgl ON)
+      elseif(feature STREQUAL "ENABLE_WEB_AUDIO")
+        set(browser_web_audio ON)
       else()
         set(browser_woff2 ON)
       endif()
@@ -91,6 +99,13 @@ if(browser_media)
   foreach(dll mediaclientaudio mediaclientvideo)
     target_link_libraries(browser PRIVATE "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
   endforeach()
+endif()
+
+# WebCore is a static archive: its CMake target link interface does not cross
+# into this independent SDK image project. Match the actual engine config.
+if(browser_web_audio)
+  target_link_libraries(browser PRIVATE
+    "${SYMBIAN_SDK_PREFIX}/proxies/mediaclientaudiostream/mediaclientaudiostream.dso")
 endif()
 
 if (NOT BROWSER_STUB_ENGINE)

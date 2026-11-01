@@ -104,6 +104,11 @@ public:
     void removeBehaviorRestriction(BehaviorRestrictions restriction) { m_restrictions.remove(restriction); }
 
     void defaultDestinationWillBecomeConnected();
+#if OS(SYMBIAN)
+    void audioDeviceInterrupted();
+    void audioDeviceMayResume();
+    void audioDeviceFailed();
+#endif
 
 #if PLATFORM(IOS_FAMILY)
     const String& sceneIdentifier() const final;
@@ -166,6 +171,10 @@ private:
 
     const UniqueRef<DefaultAudioDestinationNode> m_destinationNode;
     const Ref<PlatformMediaSession> m_mediaSession;
+#if OS(SYMBIAN)
+    uint64_t m_audioDeviceInterruptionToken { 0 };
+    bool m_audioDeviceNeedsExplicitResume { false };
+#endif
     MediaUniqueIdentifier m_currentIdentifier;
 
     BehaviorRestrictions m_restrictions;

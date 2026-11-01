@@ -1,0 +1,274 @@
+{
+  "suite": "classic-webaudio",
+  "version": 1,
+  "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+  "provenance": "browser-reported",
+  "events": [
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 0,
+      "kind": "capabilities",
+      "secure": true,
+      "audio_context": true,
+      "offline_context": true,
+      "audio_worklet": false,
+      "audio_worklet_node": false,
+      "audio_worklet_processor": false,
+      "context_worklet": false,
+      "base_worklet": false
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 1,
+      "kind": "unsupported-media",
+      "state_before": "suspended",
+      "state_after": "suspended",
+      "time_before": 0,
+      "time_after": 0,
+      "factory": "NotSupportedError",
+      "constructor": "NotSupportedError"
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 2,
+      "kind": "gain",
+      "sample_rate": 32768,
+      "channels": 1,
+      "frames": 128,
+      "head": [
+        0.5,
+        -0.5,
+        0.25,
+        -0.25,
+        0.125,
+        -0.125,
+        0,
+        0.0625
+      ],
+      "mismatches": 0
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 3,
+      "kind": "delay-channel",
+      "sample_rate": 32768,
+      "channels": 2,
+      "frames": 512,
+      "probes": [
+        0.25,
+        1,
+        -0.5
+      ],
+      "mismatches": 0
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 4,
+      "kind": "oscillator",
+      "sample_rate": 32768,
+      "frames": 4096,
+      "finite": true,
+      "rms": 0.7071067485981672,
+      "peak": 1,
+      "frequency": 1024,
+      "crossings": 120
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 5,
+      "kind": "analyser",
+      "sample_rate": 32768,
+      "fft_size": 1024,
+      "bin_count": 512,
+      "peak_bin": 32,
+      "peak_db": -13.555614471435547,
+      "lower_gap_db": 179.61214065551758,
+      "upper_gap_db": 167.22470474243164
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 6,
+      "kind": "wav-decode",
+      "sample_rate": 32768,
+      "channels": 1,
+      "frames": 8,
+      "samples": [
+        -1,
+        -0.5,
+        -3.0517578125e-05,
+        0,
+        3.0517578125e-05,
+        0.25,
+        0.5,
+        0.999969482421875
+      ]
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 7,
+      "kind": "unsupported-decode",
+      "error_name": "EncodingError"
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 8,
+      "kind": "native-ready",
+      "state": "suspended",
+      "current_time": 0,
+      "sample_rate": 44100,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": false
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 9,
+      "kind": "native-start",
+      "trusted": true,
+      "state": "running",
+      "current_time": 0.06965986394557823,
+      "frequency": 997,
+      "gain": 0.15000000596046448
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 10,
+      "kind": "native-running",
+      "state": "running",
+      "time_before": 0.09287981859410431,
+      "time_after": 1.1145578231292517,
+      "elapsed_ms": 1016,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": false
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 11,
+      "kind": "native-suspended",
+      "trusted": true,
+      "state": "suspended",
+      "time_before": 63.994195011337865,
+      "time_after": 63.994195011337865,
+      "elapsed_ms": 718,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": false
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 12,
+      "kind": "native-resumed",
+      "trusted": true,
+      "state": "running",
+      "time_before": 64.06385487528345,
+      "time_after": 65.0855328798186,
+      "elapsed_ms": 1016,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": false
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 13,
+      "kind": "native-closed",
+      "trusted": true,
+      "state": "closed",
+      "current_time": 66.75736961451247,
+      "layout": {
+        "innerWidth": 360,
+        "innerHeight": 532,
+        "devicePixelRatio": 1,
+        "scrollX": 0,
+        "scrollY": 0,
+        "button": {
+          "x": 12,
+          "y": 113.84375,
+          "width": 336,
+          "height": 64,
+          "disabled": true
+        },
+        "visualViewport": null
+      }
+    },
+    {
+      "run": "wa-35acedc8941d4fd29133fc9a0629b457",
+      "sequence": 14,
+      "kind": "quiet",
+      "state": "closed",
+      "time_before": 66.75736961451247,
+      "time_after": 66.75736961451247,
+      "elapsed_ms": 1015
+    }
+  ],
+  "received_monotonic": [
+    263997.308297106,
+    263998.04052029,
+    263998.241054291,
+    263998.328295947,
+    263998.80273385,
+    263998.872480652,
+    263998.96068169,
+    263998.991169403,
+    263999.112736098,
+    264045.179200045,
+    264046.224784969,
+    264109.85463843,
+    264112.602014763,
+    264114.305300479,
+    264115.422258795
+  ],
+  "errors": [],
+  "page_requests": 1,
+  "wav_requests": 1,
+  "serve_requested": true,
+  "deadline_expired": false
+}

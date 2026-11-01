@@ -1,0 +1,442 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "future_run": "wa-b96b7da03a044d27846ad8b86a2b4384",
+  "output_will_be": "/workspace/webaudio-c28-offline-extra-future-PREPARE-ONLY",
+  "ready_to_execute": true,
+  "blockers": [],
+  "inputs": {
+    "icu": {
+      "path": "/workspace/symbian-idna-work/icu/install/share/icu/icudt70l.dat",
+      "bytes": 10261824,
+      "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+    },
+    "fontconfig": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/resources/fonts.conf",
+      "bytes": 935,
+      "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+    },
+    "preservation": {
+      "path": "/workspace/symbian-cookie-store-runtime-c21-work/runtime_support.py",
+      "bytes": 22816,
+      "sha256": "0deded8b62c096774b94ebbc2bfc86a9df51ef6b95a7dee7e1e23f7d7ba46a9b"
+    },
+    "configuration": {
+      "path": "/workspace/symbian-cookie-store-runtime-c21-work/config_preservation.py",
+      "bytes": 4741,
+      "sha256": "e6679c12d66fadb4ad6c69f46f0deede57470f379d5f64591d1e6c312b8015d0"
+    },
+    "close_window": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/close-emulator-window.py",
+      "bytes": 4825,
+      "sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f"
+    },
+    "preserved_audio_c28": {
+      "path": "/workspace/symbian-webaudio-classic-runtime-c28-host0032-work/run.py",
+      "bytes": 24289,
+      "sha256": "6b6561bb55135cff37461541c9ba3256568899ad60c8de92869142e44ec2deff"
+    },
+    "preserved_runner": {
+      "path": "/workspace/symbian-multi-upload-work/runtime-c25-v2-host0032/run.py",
+      "bytes": 16911,
+      "sha256": "1b2177f47770b075b3d140c49ff2288d94353e8387e2befccdf3140f07a2c2a7"
+    },
+    "fixture_pins": {
+      "path": "/workspace/symbian-webaudio-offline-extra-c28-work/fixture/fixture-pins.json",
+      "bytes": 511,
+      "sha256": "010b7193a01d676fef46eb74f67391ab32cfb12f5d9e7985efd51f671378f39b"
+    },
+    "fixture_fixture.py": {
+      "path": "/workspace/symbian-webaudio-offline-extra-c28-work/fixture/fixture.py",
+      "bytes": 5749,
+      "sha256": "d09dfef127c00ba1310fa5d130012d74c24ddac76cd0f153766023170487338b"
+    },
+    "fixture_page.html": {
+      "path": "/workspace/symbian-webaudio-offline-extra-c28-work/fixture/page.html",
+      "bytes": 4148,
+      "sha256": "057bdcad28cf34d9b2fd91979c5b35e4fc3454e9476461d3439a1c1a84ca27ed"
+    },
+    "fixture_protocol.py": {
+      "path": "/workspace/symbian-webaudio-offline-extra-c28-work/fixture/protocol.py",
+      "bytes": 2162,
+      "sha256": "0b1a9a29ede97ba544f051e29965de997325f06ea90632434fac89ee2bcaa483"
+    },
+    "fixture_validate.py": {
+      "path": "/workspace/symbian-webaudio-offline-extra-c28-work/fixture/validate.py",
+      "bytes": 3485,
+      "sha256": "fbe6b400fb82666a853c35fadd59484f27634e6c6b3e42b16fabbc13272c579f"
+    },
+    "fixture_test_guards.py": {
+      "path": "/workspace/symbian-webaudio-offline-extra-c28-work/fixture/test_guards.py",
+      "bytes": 3258,
+      "sha256": "b6fd66c0d11dfabc14a086d4fcc49bfd65acbd9ec10b32a23f7797a5be099abe"
+    },
+    "fixture_README.md": {
+      "path": "/workspace/symbian-webaudio-offline-extra-c28-work/fixture/README.md",
+      "bytes": 2541,
+      "sha256": "e68241165c8cccaab39d4a8905caeb6e5cb992a79d7828ad4d51a8545be9d5e8"
+    },
+    "browser": {
+      "path": "/workspace/symbian-belle-work/candidate28/browser.exe",
+      "bytes": 59961964,
+      "sha256": "ca1956441a681a3f9b7683d4f30654164a69507d1e8a6fc6d613c5a5059b3ad8"
+    },
+    "ui": {
+      "path": "/workspace/symbian-belle-work/candidate28/browser_ui.rsc",
+      "bytes": 383,
+      "sha256": "697d56af49ce2fbde1e73ad3063ea9b7325abe0ef0a2081f66e915facd6a3b82"
+    },
+    "registration": {
+      "path": "/workspace/symbian-belle-work/candidate28/browser_reg.rsc",
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "localization": {
+      "path": "/workspace/symbian-belle-work/candidate28/browser_loc.rsc",
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "candidate_metadata": {
+      "path": "/workspace/symbian-belle-work/candidate28/runtime-metadata.json",
+      "bytes": 5093,
+      "sha256": "97bcc390b937d7a763329d4a611d0504ed342cb36080f1c8df6396859490dddb"
+    },
+    "candidate_build_cache": {
+      "path": "/workspace/symbian-graphics-work/build/webcore/CMakeCache.txt",
+      "bytes": 103179,
+      "sha256": "27462f9d5c5b52f703310bd62e88431bcc32d4286c3a98a27781fc05d7927c0d"
+    },
+    "candidate_build_config": {
+      "path": "/workspace/symbian-graphics-work/build/webcore/cmakeconfig.h",
+      "bytes": 5170,
+      "sha256": "2a7e9d3f528829585b5aa6904d50b72651e07657e6aa5a2bbdd8bb06dbfecf09"
+    },
+    "candidate_build_settings_h": {
+      "path": "/workspace/symbian-graphics-work/build/webcore/WebCore/DerivedSources/Settings.h",
+      "bytes": 207449,
+      "sha256": "517a620a9dec0f4a16108a80131a243b32063e44455627cd9e616f49f32d58bf"
+    },
+    "candidate_build_settings_cpp": {
+      "path": "/workspace/symbian-graphics-work/build/webcore/WebCore/DerivedSources/Settings.cpp",
+      "bytes": 208358,
+      "sha256": "da7b79dcc7f640d4d25805c5c66cc6166d7fd40587f5b66b5c609acb80f4b519"
+    },
+    "candidate_build_identities": {
+      "path": "/workspace/symbian-belle-work/candidate28/build-identities.json",
+      "bytes": 1530,
+      "sha256": "9b9581d9207d5d74506a58a3c31eeafda1df2c39e2aaca56efbb1bc376169a60"
+    },
+    "candidate_source_identities": {
+      "path": "/workspace/symbian-belle-work/candidate28/source-identities.json",
+      "bytes": 9231,
+      "sha256": "29052929f7b84bb692d8b78827713fde48dac96cdea20474d76920044bb791df"
+    },
+    "candidate_source_Source/WebCore/Modules/webaudio/AudioContext.cpp": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/Modules/webaudio/AudioContext.cpp",
+      "bytes": 27975,
+      "sha256": "7481c8c86fa850695079248bef4b1affcbb711bd13e8a0f8a4b4fde122165a45"
+    },
+    "candidate_source_Source/WebCore/Modules/webaudio/AudioNodeOutput.cpp": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/Modules/webaudio/AudioNodeOutput.cpp",
+      "bytes": 7960,
+      "sha256": "3b60a2a65036ba6ea96c688d266b4e5759783f42ab4d90ffde50cc3a0da3b913"
+    },
+    "candidate_source_Source/WebCore/Modules/webaudio/AudioWorklet.idl": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/Modules/webaudio/AudioWorklet.idl",
+      "bytes": 1723,
+      "sha256": "f3de1c14df8e01c26964b1eceaac2fc84d2105b191e5f716688e76a6bbac228a"
+    },
+    "candidate_source_Source/WebCore/Modules/webaudio/AudioWorkletNode.idl": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/Modules/webaudio/AudioWorkletNode.idl",
+      "bytes": 2018,
+      "sha256": "67a39f0de635ff5e4803dedffe632e1f39acd82cc5d8875e457f10f9bb80cc58"
+    },
+    "candidate_source_Source/WebCore/Modules/webaudio/BaseAudioContext.idl": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/Modules/webaudio/BaseAudioContext.idl",
+      "bytes": 3817,
+      "sha256": "83bd1017e26d738a32b013902f3ece4195d4008432417990aede759a6f1dcf02"
+    },
+    "candidate_source_Source/WebCore/Modules/webaudio/MediaElementAudioSourceNode.cpp": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/Modules/webaudio/MediaElementAudioSourceNode.cpp",
+      "bytes": 7051,
+      "sha256": "b3e0c954d178880346304faef7d56497988ecd6adcdfcb44d6506ed266161e62"
+    },
+    "candidate_source_Source/WebCore/page/Settings.yaml": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/page/Settings.yaml",
+      "bytes": 12794,
+      "sha256": "7b587c4ee88b3dda9ee34ef51844ea1029aa5e837d1d4f9125448557f955b5dd"
+    },
+    "candidate_source_Source/WebCore/platform/audio/symbian/AudioDestinationSymbian.cpp": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/platform/audio/symbian/AudioDestinationSymbian.cpp",
+      "bytes": 13502,
+      "sha256": "1599686ad2f3769078b52f1135da6c211701bdbe2515b4e90bafefa473056ba2"
+    },
+    "candidate_source_Source/WebCore/platform/audio/symbian/AudioDestinationSymbianNative.cpp": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/platform/audio/symbian/AudioDestinationSymbianNative.cpp",
+      "bytes": 17991,
+      "sha256": "c7cd751f20c09ee0ad6611d9f84909bc9f50abfb3315dabd08a60a4f6d6e49d0"
+    },
+    "candidate_source_Source/WebCore/platform/audio/symbian/AudioFileReaderSymbian.cpp": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/platform/audio/symbian/AudioFileReaderSymbian.cpp",
+      "bytes": 1567,
+      "sha256": "99bc69cea6c32894fc62623e7e65a566c94e034b5d05887b85a6678501805d40"
+    },
+    "candidate_source_Source/WebCore/platform/audio/symbian/FFTFrameSymbian.cpp": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebCore/platform/audio/symbian/FFTFrameSymbian.cpp",
+      "bytes": 5237,
+      "sha256": "04a9e9ece6f5d548c2884d56c358ba28c871b21d7e72761ae36a125c93491ab1"
+    },
+    "candidate_source_Source/WebKitLegacy/symbian/WebViewImpl.cpp": {
+      "path": "/workspace/symbian-belle-work/candidate28/source/Source/WebKitLegacy/symbian/WebViewImpl.cpp",
+      "bytes": 50139,
+      "sha256": "f85194e8017d9795f474324df92b70c40d85fd729b5793aff7727d28edfbb7ac"
+    },
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "bytes": 65484680,
+      "sha256": "692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd"
+    },
+    "ostream_source_mediaclientaudiostream_general.dll": {
+      "path": "/workspace/symbian-ostream-pause-native-build-20261101/artifacts/mediaclientaudiostream_general.dll",
+      "bytes": 40384,
+      "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+    },
+    "ostream_source_mediaclientaudiostream.dll.map": {
+      "path": "/workspace/symbian-ostream-pause-native-build-20261101/artifacts/mediaclientaudiostream.dll.map",
+      "bytes": 5027,
+      "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+    },
+    "native_copy_0": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio_general.dll",
+      "bytes": 72620,
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    "native_copy_1": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo_v100.dll",
+      "bytes": 52556,
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    "native_copy_2": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio.dll.map",
+      "bytes": 48796,
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    "native_copy_3": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo.dll.map",
+      "bytes": 11393,
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    },
+    "native_copy_4": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/avkonfep_general.dll",
+      "bytes": 99488,
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "native_copy_5": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream_general.dll",
+      "bytes": 40384,
+      "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+    },
+    "native_copy_6": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream.dll.map",
+      "bytes": 5027,
+      "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+    },
+    "native_copy_7": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio_general.dll",
+      "bytes": 72620,
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    "native_copy_8": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo_v100.dll",
+      "bytes": 52556,
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    "native_copy_9": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio.dll.map",
+      "bytes": 48796,
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    "native_copy_10": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo.dll.map",
+      "bytes": 11393,
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    },
+    "native_copy_11": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "bytes": 99488,
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "native_copy_12": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream_general.dll",
+      "bytes": 40384,
+      "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+    },
+    "native_copy_13": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream.dll.map",
+      "bytes": 5027,
+      "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+    }
+  },
+  "native_expected_copies": 14,
+  "native_copies": [
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio_general.dll",
+      "expected_bytes": 72620,
+      "expected_sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+      "actual": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio_general.dll",
+        "bytes": 72620,
+        "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo_v100.dll",
+      "expected_bytes": 52556,
+      "expected_sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+      "actual": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo_v100.dll",
+        "bytes": 52556,
+        "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio.dll.map",
+      "expected_bytes": 48796,
+      "expected_sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "actual": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio.dll.map",
+        "bytes": 48796,
+        "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo.dll.map",
+      "expected_bytes": 11393,
+      "expected_sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "actual": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo.dll.map",
+        "bytes": 11393,
+        "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/avkonfep_general.dll",
+      "expected_bytes": 99488,
+      "expected_sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae",
+      "actual": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/avkonfep_general.dll",
+        "bytes": 99488,
+        "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream_general.dll",
+      "expected_bytes": 40384,
+      "expected_sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04",
+      "actual": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream_general.dll",
+        "bytes": 40384,
+        "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream.dll.map",
+      "expected_bytes": 5027,
+      "expected_sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce",
+      "actual": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream.dll.map",
+        "bytes": 5027,
+        "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio_general.dll",
+      "expected_bytes": 72620,
+      "expected_sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+      "actual": {
+        "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio_general.dll",
+        "bytes": 72620,
+        "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo_v100.dll",
+      "expected_bytes": 52556,
+      "expected_sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+      "actual": {
+        "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo_v100.dll",
+        "bytes": 52556,
+        "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio.dll.map",
+      "expected_bytes": 48796,
+      "expected_sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+      "actual": {
+        "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio.dll.map",
+        "bytes": 48796,
+        "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo.dll.map",
+      "expected_bytes": 11393,
+      "expected_sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282",
+      "actual": {
+        "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo.dll.map",
+        "bytes": 11393,
+        "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "expected_bytes": 99488,
+      "expected_sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae",
+      "actual": {
+        "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+        "bytes": 99488,
+        "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream_general.dll",
+      "expected_bytes": 40384,
+      "expected_sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04",
+      "actual": {
+        "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream_general.dll",
+        "bytes": 40384,
+        "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+      },
+      "matches": true
+    },
+    {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream.dll.map",
+      "expected_bytes": 5027,
+      "expected_sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce",
+      "actual": {
+        "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream.dll.map",
+        "bytes": 5027,
+        "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+      },
+      "matches": true
+    }
+  ],
+  "deadline_seconds": 180,
+  "port": 8866,
+  "root_pcm_capture_required": false,
+  "root_trusted_input_required": false,
+  "native_audio_verified": false,
+  "runtime_started": false
+}

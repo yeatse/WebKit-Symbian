@@ -1,0 +1,47 @@
+{
+  "built_utc": "2026-11-01T10:03:44.337811+00:00",
+  "artifacts": {
+    "browser.exe": {
+      "bytes": 59961964,
+      "sha256": "ca1956441a681a3f9b7683d4f30654164a69507d1e8a6fc6d613c5a5059b3ad8"
+    },
+    "browser_ui.rsc": {
+      "bytes": 383,
+      "sha256": "697d56af49ce2fbde1e73ad3063ea9b7325abe0ef0a2081f66e915facd6a3b82"
+    },
+    "browser_reg.rsc": {
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "browser_loc.rsc": {
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "libraries.json": {
+      "bytes": 59,
+      "sha256": "d471e7e47cff37252dc9c741bdb82ce9cac4d4d68c48f504d544a48fb0cf5534"
+    }
+  },
+  "contains": [
+    "nativeDNS+H2/IPv6",
+    "UTF16 open/metadata/existence",
+    "CookieStore WIP",
+    "native multi-file own-navigator WIP",
+    "file-count OS guard",
+    "classic WebAudio experimental ON: FFT/PCM/WAV/HRTF/interruption",
+    "AudioWorklet hidden by runtime setting",
+    "MMF media-element PCM explicit NotSupported",
+    "log2f compatibility implementation",
+    "WTF OS random source for audio noise",
+    "audio playback requires a trusted user gesture",
+    "multi-output nodes retain internally cached render buses"
+  ],
+  "excludes": [
+    "AudioWorklet support",
+    "IAP proxy candidate",
+    "Fullscreen candidate",
+    "physical phone verification"
+  ],
+  "source_head": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618",
+  "release_default_web_audio": "OFF"
+}

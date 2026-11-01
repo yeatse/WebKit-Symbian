@@ -1,0 +1,17 @@
+{
+  "format": 1,
+  "sdk_version": "0.3.0",
+  "target_arch": "armv6",
+  "sources": {
+    "cpp/symbian/runtime/include/math.h": "fded483c1b919350f77359d11c79b5ab3020ad80e8d852f550172922873b5f6c",
+    "cpp/symbian/runtime/math_c.cc": "51f35cfdb0e9045a6b3880316c6a0eb5175700c9090ed13e42537cba84d289fb"
+  },
+  "base_header_sha256": "52cf3dcb46473e657e9d950f35cc2730c9e2ba9ab0dfea6b3f302e3274375f11",
+  "base_member_sha256": "346844c97a4b0a1eebf8031bb7a2825f4da7d7bd215d742b8e29344b089fd120",
+  "member": "math_c.cc.obj",
+  "profiles": {
+    "default": "lib/armv6/libsymbian_guest_runtime.a",
+    "streams": "lib/armv6/libsymbian_guest_runtime_streams.a",
+    "native_atomic64": "lib/armv6/libsymbian_guest_runtime_native_atomic64.a"
+  }
+}

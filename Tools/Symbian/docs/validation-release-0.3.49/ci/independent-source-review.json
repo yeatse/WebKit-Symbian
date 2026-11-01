@@ -1,0 +1,117 @@
+{
+  "status": "PASS_SOURCE_SCOPE_ONLY",
+  "utc": "2026-11-01T09:32:00.739767+00:00",
+  "source_commit": "0885f13ce4252a96b77d4c8cac0579ba2b8ba618",
+  "prior_reviewed_source_commit": "67140bdc320bb9c911bf6f4045a3b38755b7707a",
+  "source_files": [
+    {
+      "path": "Source/WTF/wtf/posix/FileSystemPOSIX.cpp",
+      "git_blob": "1673bcfdd4ea090a8a8a7bb89239a170620268de",
+      "bytes": 9605,
+      "sha256": "cdc752ed03f389eb2b38f6cb1209633bbb8b7aba410a7fada8462f0f0a1ae267",
+      "identical_to_reviewed_CI48_source": true
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/FileSystemSymbian.cpp",
+      "git_blob": "bd123a597c2720fe6bde900dda64523ebaf9697b",
+      "bytes": 16148,
+      "sha256": "a4a058c7305844f44e93b56ced229aa0109e72968d401f8f394e337cc8879091",
+      "identical_to_reviewed_CI48_source": true
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/SymbianFilePath.h",
+      "git_blob": "20a3263c1ba9e024292703dacfc7899626545785",
+      "bytes": 1547,
+      "sha256": "3bbd101e779bf3aaf1dbe5e0c3805ad76f3b752444fcd6534e5bbd50118acb36",
+      "identical_to_reviewed_CI48_source": true
+    },
+    {
+      "path": "Source/cmake/OptionsSymbian.cmake",
+      "git_blob": "e9851519db4661a6810cfa63a34231bcfe78a14b",
+      "bytes": 8038,
+      "sha256": "3b73a0c528c3ec186a9ece9761591074fcf7cfb45579c598484192bf9a7e3a3b",
+      "identical_to_reviewed_CI48_source": true
+    }
+  ],
+  "current_changed_file_count": 38,
+  "current_production_source_edits": 0,
+  "host_test_source_files": [
+    {
+      "path": "Tools/Symbian/tests/native-filesystem/run.sh",
+      "before_sha256": "8d3e06f9beea90b528b1b62843a5ac1a7fc17463cde89e99fa7d62bc85d930aa",
+      "after_sha256": "5fcb4eaa7c6dcfb9dbea83a1724a2cbcf6683b3a658d1fe1a19fd2ff5c3e0bc8",
+      "new": false,
+      "bytes": 623
+    },
+    {
+      "path": "Tools/Symbian/tests/native-filesystem/README.md",
+      "before_sha256": "390a8a905c8193e11162c11f0d994c743f9afae99689b3c794541a618f634eea",
+      "after_sha256": "fd19781b75b0b07c312807d5f12eee9694129ad64626ce02ac3e2d638e8c8572",
+      "new": false,
+      "bytes": 2548
+    },
+    {
+      "path": "Tools/Symbian/tests/native-filesystem/filesystem.cpp",
+      "before_sha256": "916b8bbd407ad8a82674cfd211ea962cc22b0815ef0b94bace4835bd079aedde",
+      "after_sha256": "cbde03fb1af9ab806d7e3bf00796b918ee62404fc31a5edc46de091b39ad1af9",
+      "new": false,
+      "bytes": 14578
+    },
+    {
+      "path": "Tools/Symbian/tests/native-filesystem/include/TestWTF.h",
+      "before_sha256": "0e9e0bfdf4e87b8a241fd96016e5bd3917df67c564b179bffde56f9e621fe440",
+      "after_sha256": "1e06ead6827fd30bd825017d5284996a0fa91e7aa7a61b586027b294f4f7245b",
+      "new": false,
+      "bytes": 6738
+    },
+    {
+      "path": "Tools/Symbian/tests/native-filesystem/include/wtf/Platform.h",
+      "before_sha256": null,
+      "after_sha256": "ee9bf879a17e2a3e3cd29112823262afb7e0ee5d84b78490b25b979da407471b",
+      "new": true,
+      "bytes": 67
+    },
+    {
+      "path": "Tools/Symbian/tests/native-filesystem/include/wtf/text/StringView.h",
+      "before_sha256": null,
+      "after_sha256": "f3ce5d20ea60757c02fa85037e6272c821f005db6e80b23ebf1364ae1c62a1c1",
+      "new": true,
+      "bytes": 34
+    }
+  ],
+  "checks": {
+    "current_commit_has_zero_production_source_edits": true,
+    "three_UTF16_files_identical_to_independently_reviewed_CI48": true,
+    "prior_16_source_contract_checks_passed": true,
+    "current_Options_default_Audio_OFF_unchanged": true,
+    "host_adapter_six_files_match_reviewed_test_only_patch": true,
+    "real_production_helper_included_not_copied": true,
+    "unchanged_2_byte_wchar_production_assert": true,
+    "host_short_wchar_explicit_and_wide_boundary_adapters_present": true,
+    "CI48_failure_and_zero_SIS_evidence_retained": true
+  },
+  "prior_independent_UTF16_checks": {
+    "source_changes_exactly_three_production_files": true,
+    "remaining_51_changes_are_documentation_or_evidence": true,
+    "literal_UTF16_units_and_surrogates_preserved": true,
+    "empty_NUL_and_length_guard_before_OS_call": true,
+    "wchar_2_byte_ABI_static_assert": true,
+    "257_unit_storage_covers_256_units_plus_NUL": true,
+    "flag_permission_lock_adopt_contract_unchanged": true,
+    "following_stat_uses_wide_call": true,
+    "nofollow_lstat_retained": true,
+    "fileExists_size_mtime_wide_calls": true,
+    "OS_SYMBIAN_selector_not_PLATFORM_selector": true,
+    "unrelated_rename_delete_directories_unchanged": true,
+    "release_default_WEB_AUDIO_OFF": true,
+    "existing_three_file_WTF_result_has_normal_completion_and_restore": true,
+    "existing_worker_hash_and_library_metadata_pinned": true,
+    "production_hashes_match_archived_patch_manifest": true
+  },
+  "findings": [],
+  "artifact_verification_pending": true,
+  "CI49_image_execution_claimed": false,
+  "phone_acceptance_claimed": false,
+  "guest_or_server_started": false,
+  "shared_source_modified": false
+}

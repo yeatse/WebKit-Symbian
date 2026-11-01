@@ -13,7 +13,6 @@
 #include <memory>
 #include <e32std.h>
 #include <sys/stat.h>
-#include <sys/times.h>
 #include <unistd.h>
 
 namespace angle
@@ -162,11 +161,10 @@ double GetCurrentSystemTime()
 }
 double GetCurrentProcessCpuTime()
 {
-    struct tms usage;
-    long frequency = sysconf(_SC_CLK_TCK);
-    if (frequency <= 0 || times(&usage) == static_cast<clock_t>(-1))
-        return 0;
-    return (static_cast<double>(usage.tms_utime) + usage.tms_stime) / frequency;
+    // Open C's clock() is documented as a build-only stub and times() is not
+    // exported. ANGLE uses zero when process CPU timing is unavailable.
+    // RThread::GetCpuTime measures one thread, so it cannot supply this metric.
+    return 0;
 }
 void SetCurrentThreadName(const char *name)
 {

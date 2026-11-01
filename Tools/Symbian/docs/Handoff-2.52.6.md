@@ -1,5 +1,19 @@
 # WebKit 2.52.6 Symbian 交接（续接状态）
 
+## 经典 WebAudio 续接状态（2026-11-01）
+
+本节覆盖下文“Audio默认OFF/仍在构建/stream未部署”等历史检查点。**经典WebAudio现默认ON**，实际C28受控模拟器验收已通过；新推送的CI包仍须单独核验，不能把本地C28当作CI包已装测。AudioWorklet仍隐藏，MMF媒体元素PCM源两入口明确NotSupportedError。
+
+- [C28完整公开档案](validation-belle/webaudio/browser-c28-host0032/README.md)：原strict离线9报告及额外3独立DSP报告通过；真实四次XTest开始/暂停/恢复/关闭，双声道997Hz实际PCM两窗口RMS约3475、目标带功率99.9996%，暂停/关闭窗口exactzero。正常own-PID Qt关闭、host0、无deadline/forced cleanup、相关profile/资源及config/bindings/Qt/devices恢复、14native资产pins不变通过。时间对齐仅为host delivery估计，不宣称精确硬件latency。
+- C26初次因原有自动播放策略令context自动running而FAIL；C27手势策略已正确，但拆合声道图丢失两延迟样本而FAIL。两轮保留。C28修复多输出节点的in-place缓存条件后原128帧向量完整通过；另验证反向拉取顺序、单输出Gain→Delay及Biquad标准幅相。不是用放宽向量获得PASS。
+- C28 EXE59,961,964B / `ca1956441a681a3f9b7683d4f30654164a69507d1e8a6fc6d613c5a5059b3ad8`，metadata `97bcc390b937d7a763329d4a611d0504ed342cb36080f1c8df6396859490dddb`。含独立Cookie/Multi WIP，本次生产提交通过精确hunk排除了它们。`candidate26/27/28`均冻结；勿覆盖镜像或拿thin archive索引摘要代表所有成员内容。
+- SDK0007数学头与atan2l、SDK0008真实MMF UID2、SDK0009完整LLVM复数乘除支持已导出；CI在allocator后依次重建math/complex，mutable SDK prefix不缓存。实际prefix保留296个原成员仅追加每profile两complex对象。SDK owner CMake0009与项目notes已更新，SDK/EKA自身不推送。Whole-archive CLI现保留真实链接日志、加载真实SDK原生异常边界，缺可选llvm-size不误报失败；ANGLE进程CPU计时明确不可用。
+- 两处新ostream DLL已部署：40,384B / `8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04`，正确ordinal map5,027B / `e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce`。active host0032仍692abe69...，FEP仍fd6092f2...；host重建后现在须恢复并核对**七类×两目录=14份**native资产。不能把GNU `.elf.map`部署为ordinal map。旧DLL备份及部署manifest在`/workspace/symbian-belle-work/ostream-deployment-c26-20261101`。
+- **最新已核验CI包为0.3.49，未安装或运行**：[run41293400197](https://github.com/yeatse/WebKit-Symbian/actions/runs/41293400197)，源0885f13ce42，artifact13078106906 ZIP33,763,135B / `fa7910e07e06a9d47de50799f2cdf78abfbd2cc45b4661b56f0c8e6eb692d9be`。三SIS/13payload/8IDNA/Auth255/独立终审通过；本次curl依赖cache命中，未重建/执行nm，不宣称独立哈希cache内容或本包Audio运行。见[CI49档案](validation-release-0.3.49/ci/README.md)。派生sis/payloads已按hash/CRC核验后清理，canonical ZIP与重建步骤完整保留。
+- 真机、真正资源丢失通知、无缝pause、官方EndTask仍未验收。EKA资源注册/Pause明确不支持，客户端走Stop/reopen/re-prime及手动恢复。CookieStore/online/内存旧FAIL仍保留，多文件GUI/FormData仍未过；自动安全审查拒绝的弹窗内存布局/堆诊断未恢复。IAP代理与Fullscreen仍是外部候选，未入本次生产提交。
+
+Root公共组合验收 `/workspace/symbian-belle-work/webaudio-c28-acceptance/acceptance.json`；额外数值 `/workspace/webaudio-c28-offline-extra-01`。原始15,087,076B PCM留在`/workspace/webaudio-c28-pcm-01/audio.raw`，SHA4943624d59da7983669041fe8b1546e6045c2ab1b29b246551bf63c611292d99，不把大音频、ELF、私有配置或原profile纳入Git。旧build ELF26/27及whole-link ELF已losslessgzip并逐解压SHA验证，冻结EXE/资源未动。当前任务检查点仍是`/workspace/symbian-belle-work/resume-state-20261101.json`。
+
 ## CI48 文件测试适配修复（2026-11-01）
 
 CI48 [run41292379739](https://github.com/yeatse/WebKit-Symbian/actions/runs/41292379739) 在原生文件系统宿主回归阶段FAIL，未开始SDK/引擎打包，**无0.3.48 SIS**。原因是旧host WTF适配头不支持新增UTF-16路径helper；原始失败与无artifact记录保留在[CI48档案](validation-release-0.3.48/ci/README.md)。

@@ -34,6 +34,14 @@ AnimatedImageDebugCanvasDrawingEnabled:
     WebCore:
       default: false
 
+AudioWorkletEnabled:
+  type: bool
+  condition: ENABLE(WEB_AUDIO)
+  defaultValue:
+    WebCore:
+      OS(SYMBIAN): false
+      default: true
+
 AutoscrollForDragAndDropEnabled:
   type: bool
   defaultValue:

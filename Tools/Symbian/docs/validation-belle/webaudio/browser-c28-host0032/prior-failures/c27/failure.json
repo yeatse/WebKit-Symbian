@@ -1,0 +1,7 @@
+{
+  "status": "FAIL",
+  "public_failure": "Gain vector passed, but strict delay/channel vector reported two mismatches ([0.25, 0, 0]).",
+  "host_exit_zero_is_not_pass": true,
+  "forced_cleanup_was_used": true,
+  "vectors_were_not_weakened_for_c28": true
+}

@@ -1,0 +1,102 @@
+{
+  "status": "PASS",
+  "scope": "Actual std::complex ARM canary links all 3 staged complete runtime archives with no explicit builtin object inputs; no loader/guest execution",
+  "results": [
+    {
+      "profile": "default",
+      "link_argv": [
+        "/workspace/symbian-sdk/bin/ld.lld",
+        "-m",
+        "armelf",
+        "--target1-abs",
+        "--no-undefined",
+        "--emit-relocs",
+        "--build-id=none",
+        "-e",
+        "_start",
+        "--gc-sections",
+        "/workspace/symbian-audio-complex-runtime-work/arm-canary.o",
+        "/workspace/symbian-audio-complex-runtime-work/normal-target-staging/stage/libsymbian_guest_runtime.a",
+        "--as-needed",
+        "/workspace/symbian-sdk/proxies/libm/libm.dso",
+        "/workspace/symbian-sdk/proxies/libc/libc.dso",
+        "/workspace/symbian-sdk/proxies/euser/euser.dso",
+        "/workspace/symbian-sdk/proxies/libpthread/libpthread.dso",
+        "-o",
+        "/workspace/symbian-audio-complex-runtime-work/staged-complex-default.elf"
+      ],
+      "staged_archive_sha256": "d5b23b54344a3f5825d27dcb1e67f5531cc8a6c4d843666b66bdfdd9127f7dbb",
+      "elf_sha256": "457376bba01f6bb01fa5274c3b2413c177031003567e478085cdcb91b8639182",
+      "elf_bytes": 12060,
+      "function_bytes": {
+        "__muldc3": 916,
+        "__divdc3": 2064
+      },
+      "explicit_builtin_objects_in_link": false
+    },
+    {
+      "profile": "streams",
+      "link_argv": [
+        "/workspace/symbian-sdk/bin/ld.lld",
+        "-m",
+        "armelf",
+        "--target1-abs",
+        "--no-undefined",
+        "--emit-relocs",
+        "--build-id=none",
+        "-e",
+        "_start",
+        "--gc-sections",
+        "/workspace/symbian-audio-complex-runtime-work/arm-canary.o",
+        "/workspace/symbian-audio-complex-runtime-work/normal-target-staging/stage/libsymbian_guest_runtime_streams.a",
+        "--as-needed",
+        "/workspace/symbian-sdk/proxies/libm/libm.dso",
+        "/workspace/symbian-sdk/proxies/libc/libc.dso",
+        "/workspace/symbian-sdk/proxies/euser/euser.dso",
+        "/workspace/symbian-sdk/proxies/libpthread/libpthread.dso",
+        "-o",
+        "/workspace/symbian-audio-complex-runtime-work/staged-complex-streams.elf"
+      ],
+      "staged_archive_sha256": "121b957ec17c678e25ac7e0f3600cde8ff095a37e61b1427fa3612040dc595f9",
+      "elf_sha256": "457376bba01f6bb01fa5274c3b2413c177031003567e478085cdcb91b8639182",
+      "elf_bytes": 12060,
+      "function_bytes": {
+        "__muldc3": 916,
+        "__divdc3": 2064
+      },
+      "explicit_builtin_objects_in_link": false
+    },
+    {
+      "profile": "native_atomic64",
+      "link_argv": [
+        "/workspace/symbian-sdk/bin/ld.lld",
+        "-m",
+        "armelf",
+        "--target1-abs",
+        "--no-undefined",
+        "--emit-relocs",
+        "--build-id=none",
+        "-e",
+        "_start",
+        "--gc-sections",
+        "/workspace/symbian-audio-complex-runtime-work/arm-canary.o",
+        "/workspace/symbian-audio-complex-runtime-work/normal-target-staging/stage/libsymbian_guest_runtime_native_atomic64.a",
+        "--as-needed",
+        "/workspace/symbian-sdk/proxies/libm/libm.dso",
+        "/workspace/symbian-sdk/proxies/libc/libc.dso",
+        "/workspace/symbian-sdk/proxies/euser/euser.dso",
+        "/workspace/symbian-sdk/proxies/libpthread/libpthread.dso",
+        "-o",
+        "/workspace/symbian-audio-complex-runtime-work/staged-complex-native_atomic64.elf"
+      ],
+      "staged_archive_sha256": "d707f2a669d6b923b828199101e2301491e09ff7b473486041d2d01889485c04",
+      "elf_sha256": "457376bba01f6bb01fa5274c3b2413c177031003567e478085cdcb91b8639182",
+      "elf_bytes": 12060,
+      "function_bytes": {
+        "__muldc3": 916,
+        "__divdc3": 2064
+      },
+      "explicit_builtin_objects_in_link": false
+    }
+  ]
+}

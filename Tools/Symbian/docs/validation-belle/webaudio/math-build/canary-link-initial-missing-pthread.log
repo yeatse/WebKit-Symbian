@@ -1,0 +1,61 @@
+ld.lld: error: undefined symbol: pthread_key_create
+>>> referenced by mimalloc_prim.c
+>>>               mimalloc_prim.c.obj:(_mi_prim_thread_init_auto_done) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by libc.c
+>>>               libc.c.obj:(_mi_pthread_key_create) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+
+ld.lld: error: undefined symbol: pthread_key_delete
+>>> referenced by mimalloc_prim.c
+>>>               mimalloc_prim.c.obj:(_mi_prim_thread_done_auto_done) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by prim-tls.c
+>>>               prim-tls.c.obj:(_mi_tls_slots_done) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by prim-tls.c
+>>>               prim-tls.c.obj:(_mi_tls_slots_done) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced 2 more times
+
+ld.lld: error: undefined symbol: pthread_setspecific
+>>> referenced by mimalloc_prim.c
+>>>               mimalloc_prim.c.obj:(_mi_prim_thread_associate_default_theap) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by sdk_mimalloc_tls.cc
+>>>               sdk_mimalloc_tls.cc.obj:(SymbianMimallocSetSpecific) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+
+ld.lld: error: undefined symbol: pthread_mutex_unlock
+>>> referenced by libc.c
+>>>               libc.c.obj:(_mi_atomic_once_enter) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by libc.c
+>>>               libc.c.obj:(_mi_atomic_once_release) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by options.c
+>>>               options.c.obj:(_mi_options_post_init) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced 35 more times
+
+ld.lld: error: undefined symbol: pthread_mutex_lock
+>>> referenced by libc.c
+>>>               libc.c.obj:(mi_lock_acquire) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by options.c
+>>>               options.c.obj:(_mi_options_post_init) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by theap.c
+>>>               theap.c.obj:(_mi_theap_init) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced 29 more times
+
+ld.lld: error: undefined symbol: pthread_mutex_trylock
+>>> referenced by theap.c
+>>>               theap.c.obj:(_mi_heap_detach_theaps) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by theap.c
+>>>               theap.c.obj:(_mi_tld_detach_theaps) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+
+ld.lld: error: undefined symbol: pthread_mutex_destroy
+>>> referenced by init.c
+>>>               init.c.obj:(mi_tld_free) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by threadlocal.c
+>>>               threadlocal.c.obj:(_mi_thread_locals_done) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by subproc.c
+>>>               subproc.c.obj:(mi_subproc_unsafe_destroy) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced 7 more times
+
+ld.lld: error: undefined symbol: pthread_getspecific
+>>> referenced by sdk_mimalloc_tls.cc
+>>>               sdk_mimalloc_tls.cc.obj:(SymbianMimallocCacheEnter) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by sdk_mimalloc_tls.cc
+>>>               sdk_mimalloc_tls.cc.obj:(SymbianMimallocCacheEnter) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a
+>>> referenced by sdk_mimalloc_tls.cc
+>>>               sdk_mimalloc_tls.cc.obj:(SymbianMimallocGetSpecific) in archive /workspace/symbian-sdk/lib/armv6/libsymbian_guest_runtime_streams.a

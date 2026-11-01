@@ -159,7 +159,7 @@ jobs:
             WebKitBuild/Symbian/deps/install
             WebKitBuild/Symbian/deps/src/sqlite-amalgamation-3350500
             WebKitBuild/Symbian/deps/src/curl-7.88.1
-          key: deps-belle-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/scripts/patch-curl-network.py', 'Tools/Symbian/scripts/patch-fontconfig-paths.py', 'Tools/Symbian/cmake/woff2/**', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**', 'Tools/Symbian/tests/idb-quota/run-blob.sh', 'Tools/Symbian/tests/curl-address-family/run-host.sh') }}
+          key: deps-belle-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/build-deps.sh', 'Tools/Symbian/scripts/rebuild-sdk-math.py', 'Tools/Symbian/patches/sdk-0.3.0/math/manifest.json', 'Tools/Symbian/patches/symbian-native/0007-Provide-C99-atan2l-in-the-real-guest-runtime.patch', 'Tools/Symbian/scripts/rebuild-sdk-complex.py', 'Tools/Symbian/patches/sdk-0.3.0/complex/manifest.json', 'Tools/Symbian/patches/symbian-native/0009-Build-complete-LLVM-double-complex-runtime.patch', 'Tools/Symbian/scripts/patch-curl-network.py', 'Tools/Symbian/scripts/patch-fontconfig-paths.py', 'Tools/Symbian/cmake/woff2/**', 'Tools/Symbian/shims/**', 'Tools/Symbian/scripts/common.sh', 'Tools/Symbian/toolchain/**', 'Tools/Symbian/tests/idb-quota/run-blob.sh', 'Tools/Symbian/tests/curl-address-family/run-host.sh') }}
       - name: Restore the compiler cache
         uses: actions/cache/restore@v4
         with:
@@ -168,7 +168,11 @@ jobs:
           restore-keys: ccache-symbian-2.52.6-${{ env.SDK_VERSION }}-
 
       - name: E32 converter
-        run: scripts/build-symbian-native.sh
+        run: |
+          scripts/build-symbian-native.sh
+          python3 tests/sdk-native-patch-stack/test_patch_stack.py \
+            --upstream "$SYMBIAN_WEBKIT_WORK/symbian-platform" \
+            --output "$SYMBIAN_WEBKIT_WORK/native-patch-stack-regression" -v
       - name: Save the E32 converter
         if: steps.converter.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
@@ -197,6 +201,48 @@ jobs:
         with:
           path: WebKitBuild/Symbian/sdk-runtime
           key: ${{ steps.runtime.outputs.cache-primary-key }}
+
+      # Always rebuild/verify after the allocator; cache only the external work,
+      # never an already modified SDK prefix. Repeat the helper on cache hits.
+      - name: Restore the SDK math work
+        uses: actions/cache/restore@v4
+        id: sdk_math
+        with:
+          path: WebKitBuild/Symbian/sdk-math
+          key: sdk-math-armv6-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/rebuild-sdk-math.py', 'Tools/Symbian/patches/sdk-0.3.0/math/manifest.json', 'Tools/Symbian/patches/symbian-native/0007-Provide-C99-atan2l-in-the-real-guest-runtime.patch') }}
+      - name: Rebuild and verify the SDK math member
+        run: |
+          python3 scripts/rebuild-sdk-math.py \
+            --sdk "$SYMBIAN_SDK_PREFIX" \
+            --source "$SYMBIAN_WEBKIT_WORK/symbian-platform" \
+            --output "$SYMBIAN_WEBKIT_WORK/sdk-math" --install
+      - name: Save the SDK math work
+        if: steps.sdk_math.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: WebKitBuild/Symbian/sdk-math
+          key: ${{ steps.sdk_math.outputs.cache-primary-key }}
+
+      # Original SDK cache is restored first; always rebuild after allocator/math.
+      # Only external source/build work is cached, never a modified SDK prefix.
+      - name: Restore the SDK complex work
+        uses: actions/cache/restore@v4
+        id: sdk_complex
+        with:
+          path: WebKitBuild/Symbian/sdk-complex
+          key: sdk-complex-armv6-${{ env.SDK_VERSION }}-${{ hashFiles('Tools/Symbian/scripts/rebuild-sdk-complex.py', 'Tools/Symbian/patches/sdk-0.3.0/complex/manifest.json', 'Tools/Symbian/patches/symbian-native/0009-Build-complete-LLVM-double-complex-runtime.patch') }}
+      - name: Rebuild and verify the SDK complex members
+        run: |
+          python3 scripts/rebuild-sdk-complex.py \
+            --sdk "$SYMBIAN_SDK_PREFIX" \
+            --source "$SYMBIAN_WEBKIT_WORK/symbian-platform" \
+            --output "$SYMBIAN_WEBKIT_WORK/sdk-complex" --install
+      - name: Save the SDK complex work
+        if: steps.sdk_complex.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: WebKitBuild/Symbian/sdk-complex
+          key: ${{ steps.sdk_complex.outputs.cache-primary-key }}
 
       - name: Restore the SDK resource compiler sources
         uses: actions/cache/restore@v4
@@ -346,8 +392,13 @@ jobs:
             WebKitBuild/Symbian/icu/*.log
             WebKitBuild/Symbian/deps/*.log
             WebKitBuild/Symbian/deps/src/**/config.log
+            WebKitBuild/Symbian/native-patch-stack-regression/*.json
             WebKitBuild/Symbian/sdk-runtime/*.json
             WebKitBuild/Symbian/sdk-runtime/*.log
+            WebKitBuild/Symbian/sdk-math/*.json
+            WebKitBuild/Symbian/sdk-math/*.log
+            WebKitBuild/Symbian/sdk-complex/*.json
+            WebKitBuild/Symbian/sdk-complex/*.log
             WebKitBuild/Symbian/sdk-rcomp/*.json
             WebKitBuild/Symbian/sdk-rcomp/*.log
             WebKitBuild/Symbian/sdk-mbedtls-ip/*.json

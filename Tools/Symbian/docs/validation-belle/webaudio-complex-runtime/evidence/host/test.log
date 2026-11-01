@@ -1,0 +1,10 @@
+Internal ctest changing into directory: /workspace/symbian-audio-complex-runtime-work/host/build
+Test project /workspace/symbian-audio-complex-runtime-work/host/build
+    Start 1: upstream_muldc3
+1/2 Test #1: upstream_muldc3 ..................   Passed    0.01 sec
+    Start 2: upstream_divdc3
+2/2 Test #2: upstream_divdc3 ..................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.02 sec

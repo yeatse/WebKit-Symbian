@@ -1,0 +1,111 @@
+{
+  "scope": "Only explicitly known browser/host/native asset pins, not an inventory. Native bytes are not copied.",
+  "pins": {
+    "browser": {
+      "path": "/workspace/symbian-belle-work/candidate28/browser.exe",
+      "bytes": 59961964,
+      "sha256": "ca1956441a681a3f9b7683d4f30654164a69507d1e8a6fc6d613c5a5059b3ad8"
+    },
+    "candidate_metadata": {
+      "path": "/workspace/symbian-belle-work/candidate28/runtime-metadata.json",
+      "bytes": 5093,
+      "sha256": "97bcc390b937d7a763329d4a611d0504ed342cb36080f1c8df6396859490dddb"
+    },
+    "candidate_build_identities": {
+      "path": "/workspace/symbian-belle-work/candidate28/build-identities.json",
+      "bytes": 1530,
+      "sha256": "9b9581d9207d5d74506a58a3c31eeafda1df2c39e2aaca56efbb1bc376169a60"
+    },
+    "candidate_source_identities": {
+      "path": "/workspace/symbian-belle-work/candidate28/source-identities.json",
+      "bytes": 9231,
+      "sha256": "29052929f7b84bb692d8b78827713fde48dac96cdea20474d76920044bb791df"
+    },
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "bytes": 65484680,
+      "sha256": "692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd"
+    },
+    "ostream_source_mediaclientaudiostream_general.dll": {
+      "path": "/workspace/symbian-ostream-pause-native-build-20261101/artifacts/mediaclientaudiostream_general.dll",
+      "bytes": 40384,
+      "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+    },
+    "ostream_source_mediaclientaudiostream.dll.map": {
+      "path": "/workspace/symbian-ostream-pause-native-build-20261101/artifacts/mediaclientaudiostream.dll.map",
+      "bytes": 5027,
+      "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+    },
+    "native_copy_0": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio_general.dll",
+      "bytes": 72620,
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    "native_copy_1": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo_v100.dll",
+      "bytes": 52556,
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    "native_copy_2": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudio.dll.map",
+      "bytes": 48796,
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    "native_copy_3": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientvideo.dll.map",
+      "bytes": 11393,
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    },
+    "native_copy_4": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/avkonfep_general.dll",
+      "bytes": 99488,
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "native_copy_5": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream_general.dll",
+      "bytes": 40384,
+      "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+    },
+    "native_copy_6": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/mediaclientaudiostream.dll.map",
+      "bytes": 5027,
+      "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+    },
+    "native_copy_7": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio_general.dll",
+      "bytes": 72620,
+      "sha256": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49"
+    },
+    "native_copy_8": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo_v100.dll",
+      "bytes": 52556,
+      "sha256": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3"
+    },
+    "native_copy_9": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudio.dll.map",
+      "bytes": 48796,
+      "sha256": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3"
+    },
+    "native_copy_10": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientvideo.dll.map",
+      "bytes": 11393,
+      "sha256": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+    },
+    "native_copy_11": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "bytes": 99488,
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "native_copy_12": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream_general.dll",
+      "bytes": 40384,
+      "sha256": "8559122f1caeea69e9612ee68f641f9ca90501a12183c5fbd3b77368cdbede04"
+    },
+    "native_copy_13": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/mediaclientaudiostream.dll.map",
+      "bytes": 5027,
+      "sha256": "e92b9ede1b1a11355120e7a661be025f795e86841deec5c41b78fe7b691bc4ce"
+    }
+  },
+  "run_inputs_unchanged": true
+}

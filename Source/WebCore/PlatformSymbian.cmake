@@ -82,3 +82,47 @@ set_source_files_properties(platform/symbian/NetworkStateNotifierSymbianNative.c
     COMPILE_OPTIONS "-fexceptions;-fno-rtti"
     COMPILE_DEFINITIONS "__SUPPORT_CPP_EXCEPTIONS__;__LEAVE_EQUALS_THROW__")
 list(APPEND WebCore_LIBRARIES "${SYMBIAN_SDK_PREFIX}/proxies/connmon/connmon.dso")
+
+# A real packed real-FFT backend; the complete audio destination is separate.
+if (ENABLE_WEB_AUDIO)
+    list(APPEND WebCore_SOURCES platform/audio/symbian/FFTFrameSymbian.cpp)
+endif ()
+
+# Native PCM utility objects and its scheduler belong to the audio render thread.
+if (ENABLE_WEB_AUDIO)
+    list(APPEND WebCore_SOURCES
+        platform/audio/symbian/AudioDestinationSymbian.cpp
+        platform/audio/symbian/AudioDestinationSymbianNative.cpp
+    )
+    set_source_files_properties(platform/audio/symbian/AudioDestinationSymbianNative.cpp PROPERTIES
+        INCLUDE_DIRECTORIES "${SYMBIAN_SDK_PREFIX}/include/native"
+        COMPILE_OPTIONS "-fexceptions;-fno-rtti"
+        COMPILE_DEFINITIONS "__SUPPORT_CPP_EXCEPTIONS__;__LEAVE_EQUALS_THROW__")
+    list(APPEND WebCore_LIBRARIES
+        "${SYMBIAN_SDK_PREFIX}/proxies/mediaclientaudiostream/mediaclientaudiostream.dso"
+        "${SYMBIAN_SDK_PREFIX}/proxies/euser/euser.dso"
+    )
+endif ()
+
+# Decode supported in-memory WAVE and embed the existing HRTF resources.
+# This does not enable WEB_AUDIO; the destination and policy backend are separate.
+if (ENABLE_WEB_AUDIO)
+    set(_symbianHRTFHeader "${WebCore_DERIVED_SOURCES_DIR}/AudioBusSymbianHRTFData.h")
+    set(_symbianHRTFGenerator "${WEBCORE_DIR}/platform/audio/symbian/generate-symbian-hrtf.py")
+    file(GLOB _symbianHRTFResponses "${WEBCORE_DIR}/platform/audio/resources/IRC_Composite_C_R0195_T*_P*.wav")
+    add_custom_command(
+        OUTPUT "${_symbianHRTFHeader}"
+        COMMAND ${PYTHON_EXECUTABLE} "${_symbianHRTFGenerator}"
+            "${WEBCORE_DIR}/platform/audio/resources" "${_symbianHRTFHeader}"
+        DEPENDS "${_symbianHRTFGenerator}"
+            "${WEBCORE_DIR}/platform/audio/resources/Composite.wav" ${_symbianHRTFResponses}
+        VERBATIM
+    )
+    list(APPEND WebCore_SOURCES
+        platform/audio/symbian/AudioFileReaderSymbian.cpp
+        platform/audio/symbian/AudioBusSymbian.cpp
+        "${_symbianHRTFHeader}"
+    )
+    set_source_files_properties(platform/audio/symbian/AudioBusSymbian.cpp PROPERTIES
+        OBJECT_DEPENDS "${_symbianHRTFHeader}")
+endif ()
