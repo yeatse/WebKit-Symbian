@@ -1,0 +1,61 @@
+{
+  "status": "PASS_SOURCE_SCOPE_ONLY",
+  "utc": "2026-11-01T09:19:01.886502+00:00",
+  "source_commit": "67140bdc320bb9c911bf6f4045a3b38755b7707a",
+  "source_files": [
+    {
+      "path": "Source/WTF/wtf/posix/FileSystemPOSIX.cpp",
+      "git_blob": "1673bcfdd4ea090a8a8a7bb89239a170620268de",
+      "sha256": "cdc752ed03f389eb2b38f6cb1209633bbb8b7aba410a7fada8462f0f0a1ae267",
+      "bytes": 9605
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/FileSystemSymbian.cpp",
+      "git_blob": "bd123a597c2720fe6bde900dda64523ebaf9697b",
+      "sha256": "a4a058c7305844f44e93b56ced229aa0109e72968d401f8f394e337cc8879091",
+      "bytes": 16148
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/SymbianFilePath.h",
+      "git_blob": "20a3263c1ba9e024292703dacfc7899626545785",
+      "sha256": "3bbd101e779bf3aaf1dbe5e0c3805ad76f3b752444fcd6534e5bbd50118acb36",
+      "bytes": 1547
+    }
+  ],
+  "checks": {
+    "source_changes_exactly_three_production_files": true,
+    "remaining_51_changes_are_documentation_or_evidence": true,
+    "literal_UTF16_units_and_surrogates_preserved": true,
+    "empty_NUL_and_length_guard_before_OS_call": true,
+    "wchar_2_byte_ABI_static_assert": true,
+    "257_unit_storage_covers_256_units_plus_NUL": true,
+    "flag_permission_lock_adopt_contract_unchanged": true,
+    "following_stat_uses_wide_call": true,
+    "nofollow_lstat_retained": true,
+    "fileExists_size_mtime_wide_calls": true,
+    "OS_SYMBIAN_selector_not_PLATFORM_selector": true,
+    "unrelated_rename_delete_directories_unchanged": true,
+    "release_default_WEB_AUDIO_OFF": true,
+    "existing_three_file_WTF_result_has_normal_completion_and_restore": true,
+    "existing_worker_hash_and_library_metadata_pinned": true,
+    "production_hashes_match_archived_patch_manifest": true
+  },
+  "findings": [],
+  "evidence_scope": {
+    "prior_actual_WTF_worker_run": "owner-3a92944433fe492aa18b8dc6b73e93a0",
+    "prior_worker_SHA256": "8818c12aa7af3db53fc5622089dbc2149f7c7ec907f9c88b886e75111ad2c44a",
+    "prior_libWTF_archive_header_SHA256": "045b0ebab6a9888a6649f10ab113c7936ee681ed23a83472b6ce3c57f0c59f33",
+    "prior_runtime_host_SHA256": "692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd",
+    "prior_fep_SHA256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae",
+    "runtime_cases": 3,
+    "notes": [
+      "Existing archived worker validation is controlled emulator API evidence, not CI48 binary execution.",
+      "libWTF is a thin archive; archive-header digest alone is not a digest of every member. The separately pinned worker executable is the final linked image used by that archived test.",
+      "Wide file reading and metadata validation do not prove GUI FileReader/FormData or all file API operations."
+    ]
+  },
+  "guest_or_server_started": false,
+  "shared_source_modified": false,
+  "CI48_image_execution_claimed": false,
+  "phone_acceptance_claimed": false
+}

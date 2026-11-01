@@ -2,18 +2,45 @@
 
 #include <algorithm>
 #include <array>
+#include <bit>
 #include <cassert>
 #include <cerrno>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <iconv.h>
 #include <optional>
 #include <span>
 #include <string>
+#include <string_view>
+#include <sys/stat.h>
 #include <utility>
 #include <vector>
 
+// These test-only wide entry points consume 16-bit code units. They never call
+// the host libc's 32-bit wchar_t interfaces; run.sh explicitly uses -fshort-wchar.
+extern "C" int wstat(const wchar_t*, struct stat*);
+extern "C" int waccess(const wchar_t*, int);
+
 namespace WTF {
+// Use the host's independent codec solely at the String/native test boundary.
+inline std::string convertTestString(std::string_view input, const char* from, const char* to)
+{
+    static_assert(std::endian::native == std::endian::little);
+    iconv_t codec = iconv_open(to, from);
+    assert(codec != reinterpret_cast<iconv_t>(-1));
+    std::string output(input.size() * 4 + 4, 0);
+    char* cursor = const_cast<char*>(input.data());
+    size_t remaining = input.size();
+    char* target = output.data();
+    size_t available = output.size();
+    auto result = iconv(codec, &cursor, &remaining, &target, &available);
+    assert(result != static_cast<size_t>(-1) && !remaining);
+    assert(!iconv_close(codec));
+    output.resize(output.size() - available);
+    return output;
+}
+
 class CString {
 public:
     explicit CString(std::string value) : m_value(std::move(value)) { }
@@ -25,8 +52,22 @@ private:
 class String {
 public:
     String() = default;
-    String(const char* value) : m_value(value) { }
-    explicit String(std::string value) : m_value(std::move(value)) { }
+    String(const char* value) : String(std::string(value)) { }
+    explicit String(std::string value) : m_value(std::move(value))
+    {
+        auto units = convertTestString(m_value, "UTF-8", "UTF-16LE");
+        m_units.resize(units.size() / sizeof(char16_t));
+        std::memcpy(m_units.data(), units.data(), units.size());
+    }
+    static String fromUTF16(std::u16string_view value)
+    {
+        String result;
+        result.m_units = value;
+        result.m_value = convertTestString({ reinterpret_cast<const char*>(value.data()), value.size() * sizeof(char16_t) }, "UTF-16LE", "UTF-8");
+        return result;
+    }
+    size_t length() const { return m_units.size(); }
+    char16_t operator[](size_t i) const { return m_units[i]; }
     static String fromUTF8(const char* value) { return String(value); }
     CString utf8() const { return CString(m_value); }
     String toString() const { return *this; }
@@ -36,6 +77,7 @@ public:
     bool operator==(const String&) const = default;
 private:
     std::string m_value;
+    std::u16string m_units;
 };
 using StringView = String;
 inline String operator""_s(const char* value, size_t length) { return String(std::string(value, length)); }
@@ -98,6 +140,7 @@ bool makeAllDirectories(const String&);
 std::optional<FileType> fileType(const String&);
 std::optional<FileType> fileTypeFollowingSymlinks(const String&);
 std::optional<uint64_t> fileSize(const String&);
+std::optional<WallTime> fileModificationTime(const String&);
 std::optional<uint64_t> directorySize(const String&);
 Vector<String> listDirectory(const String&);
 std::optional<Vector<String>> tryListDirectory(const String&);

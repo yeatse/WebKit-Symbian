@@ -9,10 +9,10 @@
     "host_StringView_adapter": "explicit finite code-unit view only, not target execution"
   },
   "files": {
-    "README.md": "1dba59c6af8f2b98895de12a410d799de377b243145473ffa77e9d2242947f88",
-    "REPRODUCE.md": "08c1766914caf79309cb2543635d5145f082eadcb90a7bd7371f8abf536de1a3",
-    "SOURCE-REVIEW.md": "6b1c030d21da32bdfc8670799d17e3df81dbd42665d44aa72da75e2d96855e01",
-    "build/build-result.json": "95c5c2e2ebb26965c0e1492c01b1146716f4fcc3dd7046dbb50183b88368bfe8",
+    "README.md": "be183fa039d7fb204894b6c8fbcb46205bf9f95fc0c2a326dd3c7adc0291e911",
+    "REPRODUCE.md": "e7921997fc6687f2ae92365b9055b78bb705385f7edc15e332e301b7401f4fcb",
+    "SOURCE-REVIEW.md": "d6c9d1b2c2cda7b49f80bfbd41e54f5280a3e63b2c5635240dad3f7245cd8d81",
+    "build/build-result.json": "b6518a27debbce012e28319811e9a725492493ebedc0d6c38b06126291e1609d",
     "build/compile.log": "625a192d0ffd7f1922acc418541a79225fdc2d81387784d18916f0b3e33beede",
     "build/gate-check.log": "037543d9e459d09ecdc51d4ddf536d6cae63bfd2fb62813818ef36dfd03ce0e9",
     "build/link.log": "9ccecd2381641e1561b176e8bcb3e49fabac74d7bb31781531ce30eda915cbf0",
@@ -22,7 +22,7 @@
     "fixtures/alpha.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
     "fixtures/zero.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "fixtures/字😀.dat": "8a4a90e74c3d9c754d0f3ab6b391646f7de56516d70a5ad20c05e49030a481da",
-    "identities.json": "bc93febe9cd4c8a9e15857f6b9cf6c9d9ade749eb63776dcfcc2ab91183b70be",
+    "identities.json": "17a8d6d377e4682c21a0762dfc3d390844a1640102fd380ae725c6882ccb1fdc",
     "production/FileSystemPOSIX.log": "66d2dbd815c3c71582bac36d806e3fc28abd3df29ec1cba4ab7b268d6025560e",
     "production/FileSystemSymbian.log": "1fc2138756addecb1c3ad1239218265e8061c23bb532fe2e89eb7053f0a4b7cb",
     "production/arm-results.json": "047d725423aced72ae1a761def60be75ad760f5ef5f587a95425c1f681a20de1",
@@ -56,5 +56,9 @@
     "sources/wtf-owner/worker.cpp": "53b36182f7b29c656eec18c6a2147d890576f7791d2a4d805852e9abb9b8771a",
     "summary/direct-api.json": "b727058d08f1f294a82187978f12c70bac0b331f6d70623bb63541b1a1043ff3",
     "summary/wtf-owner.json": "233e42d922061c4208309633072942c838f72d15b51d7e5ccfaa0c707b8736ca"
-  }
+  },
+  "thin_archive_accuracy_correction": "Historical 045b digest covers the thin archive index/member-reference file only, not external object contents; before/after equality was not a whole-library content pin. Current named file API member identities are separately measured, not a complete retroactive historical manifest.",
+  "accepted_whole_EXE_sha256": "8818c12aa7af3db53fc5622089dbc2149f7c7ec907f9c88b886e75111ad2c44a",
+  "existing_whole_ELF_sha256": "95615ddb551af901577268a76d661a5b30dc0c86ed316ebc883df28d3f88350c",
+  "followup_actions": "Read existing ELF/EXEs, thin archive metadata and five named ordinary file API object members only; no compilation, linking, tests, runtime, shared or profile/configuration changes."
 }

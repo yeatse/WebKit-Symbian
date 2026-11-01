@@ -1,4 +1,5 @@
 #include <TestWTF.h>
+#include <wtf/symbian/SymbianFilePath.h>
 #include <dirent.h>
 #include <fcntl.h>
 #include <fstream>
@@ -7,6 +8,30 @@
 
 using namespace WTF;
 using namespace WTF::FileSystemImpl;
+
+static unsigned wideStatCalls;
+static unsigned wideAccessCalls;
+static std::u16string lastWidePath;
+static std::string hostPath(const wchar_t* path)
+{
+    static_assert(sizeof(wchar_t) == sizeof(char16_t) && alignof(wchar_t) == 2);
+    lastWidePath.clear();
+    for (; *path; ++path)
+        lastWidePath.push_back(static_cast<char16_t>(*path));
+    return convertTestString({ reinterpret_cast<const char*>(lastWidePath.data()), lastWidePath.size() * sizeof(char16_t) }, "UTF-16LE", "UTF-8");
+}
+extern "C" int wstat(const wchar_t* path, struct stat* info)
+{
+    ++wideStatCalls;
+    auto name = hostPath(path);
+    return stat(name.c_str(), info);
+}
+extern "C" int waccess(const wchar_t* path, int mode)
+{
+    ++wideAccessCalls;
+    auto name = hostPath(path);
+    return access(name.c_str(), mode);
+}
 
 static bool injectIO;
 static bool readInterrupted;
@@ -183,6 +208,47 @@ int main()
     assert(!isAncestor("C:/one", "C:/one/"));
     assert(isAncestor("C:/one/", "C:/one/two"));
     std::puts("PASS drive, root, dot, parent, append and ancestor paths");
+
+    assert(makeAllDirectories("C:/unicode"));
+    const std::array<const char*, 3> names { "C:/unicode/alpha.bin", "C:/unicode/zero.txt", "C:/unicode/字😀.dat" };
+    const std::array<std::string, 3> values { std::string(1024, 'a'), std::string(), std::string("controlled UTF-16 bytes") };
+    for (size_t i = 0; i < names.size(); ++i) {
+        put(names[i], values[i]);
+        struct stat hostInfo;
+        assert(!stat(names[i], &hostInfo));
+        String name = String::fromUTF8(names[i]);
+        assert(fileExists(name));
+        assert(fileSize(name) == values[i].size());
+        assert(fileModificationTime(name)->seconds == hostInfo.st_mtime);
+        assert(fileTypeFollowingSymlinks(name) == FileType::Regular);
+        assert(contents(names[i]) == values[i]);
+    }
+    assert(lastWidePath == u"C:/unicode/字😀.dat");
+    assert(lastWidePath[lastWidePath.size() - 6] == 0xd83d && lastWidePath[lastWidePath.size() - 5] == 0xde00);
+    assert(wideStatCalls >= 9 && wideAccessCalls == 3);
+    assert(!symlink("字😀.dat", "C:/unicode/link"));
+    assert(fileTypeFollowingSymlinks("C:/unicode/link") == FileType::Regular);
+    assert(fileType("C:/unicode/link") == FileType::SymbolicLink);
+
+    unsigned beforeStat = wideStatCalls;
+    unsigned beforeAccess = wideAccessCalls;
+    assert(!fileExists(String()));
+    assert(errno == ENOENT);
+    // Construct the embedded NUL with an explicit length; a C string view would truncate it.
+    auto embeddedNul = String::fromUTF16(std::u16string_view(u"C:/bad\0suffix", 13));
+    assert(!fileExists(embeddedNul) && errno == EINVAL);
+    assert(!fileSize(embeddedNul) && errno == EINVAL);
+    assert(!fileModificationTime(embeddedNul) && errno == EINVAL);
+    assert(!fileTypeFollowingSymlinks(embeddedNul) && errno == EINVAL);
+    assert(!fileExists(String::fromUTF16(std::u16string(257, u'a'))) && errno == ENAMETOOLONG);
+    assert(!fileSize(String::fromUTF16(std::u16string(257, u'a'))) && errno == ENAMETOOLONG);
+    assert(wideStatCalls == beforeStat && wideAccessCalls == beforeAccess);
+    SymbianFilePath maximum(String::fromUTF16(std::u16string(256, u'a')));
+    assert(maximum && maximum.data()[255] == 'a' && !maximum.data()[256]);
+    SymbianFilePath excessive(String::fromUTF16(std::u16string(257, u'a')));
+    assert(!excessive && !excessive.data() && errno == ENAMETOOLONG);
+    std::puts("PASS UTF-16 wide exists/stat metadata, surrogate pair, NUL and length guards");
+
 
     assert(makeAllDirectories("C:/Data/WebKit/tmp"));
     assert(makeAllDirectories("E:/other"));

@@ -24,5 +24,10 @@
   "worker_sha256": "53b36182f7b29c656eec18c6a2147d890576f7791d2a4d805852e9abb9b8771a",
   "synthetic_parser_checks": 8,
   "synthetic_completion_checks": 16,
-  "preflight_only": true
+  "preflight_only": true,
+  "WTF_sha256_scope": "historical thin archive index/member-reference file only; not external member contents",
+  "WTF_member_content_covered": false,
+  "whole_linked_EXE_sha256": "8818c12aa7af3db53fc5622089dbc2149f7c7ec907f9c88b886e75111ad2c44a",
+  "whole_existing_ELF_sha256": "95615ddb551af901577268a76d661a5b30dc0c86ed316ebc883df28d3f88350c",
+  "accuracy_followup": "Only read existing artifacts and named member objects; no compile/link/run. See identities.json for current separately scoped measurements."
 }

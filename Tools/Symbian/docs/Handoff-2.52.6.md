@@ -1,5 +1,13 @@
 # WebKit 2.52.6 Symbian 交接（续接状态）
 
+## CI48 文件测试适配修复（2026-11-01）
+
+CI48 [run41292379739](https://github.com/yeatse/WebKit-Symbian/actions/runs/41292379739) 在原生文件系统宿主回归阶段FAIL，未开始SDK/引擎打包，**无0.3.48 SIS**。原因是旧host WTF适配头不支持新增UTF-16路径helper；原始失败与无artifact记录保留在[CI48档案](validation-release-0.3.48/ci/README.md)。
+本次只修六个测试文件：真实helper仍从Source/WTF编译，保留wchar_t两字节断言，宿主显式-fshort-wchar并以独立iconv对接真实stat/access。原套件及新增三文件/路径边界检查通过，ASan/UBSan通过；这不是ARM或真机执行证明。本次推送将重新触发CI，最新成功的实际安装包仍是CI47/0.3.47。
+
+文件接口档案另校正thin archive身份范围：历史libWTF.a的045b摘要仅覆盖索引/引用元数据，不能证明所有成员内容未变；验收以冻结的最终EXE身份及真实WTF三文件运行记录为依据。完整ELF及本次复核的实际文件API对象身份已明确记录测量时间，未倒推历史全库内容。
+本地Classic WebAudio仍在实验整编，默认发布OFF；log2f兼容修补及音频噪声seed使用现有WTF系统随机源均未随本次测试修复提交。C26未产出，stream新DLL尚未部署，实际PCM未验收。
+
 ## UTF-16 文件接口修复（2026-11-01）
 
 普通 WTF 文件接口已在受控 Belle 模拟器内通过三文件验收：ASCII 1024B、空文件和 `字😀.dat` 24B 的存在性、大小、mtime、完整字节、EOF及SHA全部通过，worker/host自然退出0、无强制清理、全部恢复。

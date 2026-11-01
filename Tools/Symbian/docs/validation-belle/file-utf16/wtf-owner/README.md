@@ -14,7 +14,7 @@ filename. No old result is reclassified.
 The direct comparison has 8 passes and 1 failure, with normal worker exit 1.
 The updated WTF run has 3 passes and no failures, with normal worker exit 0.
 Both runner reports record natural host exit 0, no forced cleanup or deadline,
-unchanged pinned inputs and complete guest/configuration restoration. Their
+unchanged runtime-executable/helper pins and complete guest/configuration restoration. Their
 ordinary API logs were independently parsed with the original exact validators;
 the retained health fields were separately checked. Raw host logs were not
 copied or investigated during this review.
@@ -38,14 +38,29 @@ production conversion helper or target execution. Its small source, adapter
 headers and exact production helper copy are included under
 `production/helper-contract/`; its result is `production/string-check.log`.
 
-`identities.json` records the actual executable and `libWTF.a` identities. The
-WTF archive is SHA-256
-`045b0ebab6a9888a6649f10ab113c7936ee681ed23a83472b6ce3c57f0c59f33`;
-the 178,376-byte worker is
+`identities.json` records the complete worker EXE/ELF identities and the archive
+limitations. The 178,376-byte worker is
 `8818c12aa7af3db53fc5622089dbc2149f7c7ec907f9c88b886e75111ad2c44a`.
-Its normal ARM compilation, ELF link and E32 conversion completed with exit 0.
+The existing 676,724-byte ELF is
+`95615ddb551af901577268a76d661a5b30dc0c86ed316ebc883df28d3f88350c`.
+These whole-file hashes cover the linked code/data, including the WTF code
+actually incorporated into this CLI. The EXE remains byte-identical to the
+actual accepted runtime input. Its normal ARM compilation, ELF link and E32
+conversion completed with exit 0.
 The direct worker is also identified. Large libraries and executable binaries
 are referenced by identity rather than copied into this documentation.
+
+`libWTF.a` is a **thin archive**. The historical
+`045b0ebab6a9888a6649f10ab113c7936ee681ed23a83472b6ce3c57f0c59f33`
+hash covers only that archive's index and member-reference bytes, not the
+external member object contents. Its before/after equality did not establish
+that every member stayed unchanged. A later read-only check records the current
+archive-file digest and five actual file-API member hashes separately in
+`identities.json`; these current measurements are not presented as a complete
+historical link-time member manifest. The two current FileSystem object hashes
+match the earlier full ARM TU proof. No recompile or relink was performed for
+this correction. The unchanged accepted EXE and the actual three-file WTF API
+run establish this CLI's result; the thin archive metadata hash alone does not.
 
 The summaries in `summary/` are deliberately sanitized replacements for the
 original `result.json` files. The original JSON was parsed locally, but only

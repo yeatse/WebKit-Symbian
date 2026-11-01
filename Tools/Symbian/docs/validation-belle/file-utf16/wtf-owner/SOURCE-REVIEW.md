@@ -18,8 +18,11 @@ The actual linking contract is WTF + ICU i18n/uc/data + mbedcrypto, with the SDK
 native ABI, Streams, EUser and ordinary efsrv/hal/libdl imports and the runtime's
 normal transitive dependencies. It requires no WebCore, JavaScriptCore, GUI or
 event-loop run. Compilation matches the engine's ARM/VFPv2 softfp settings.
-The build defaults to compile-only; linking requires the completed `libWTF.a`
-hash before and after the link. No source issue was found that blocks this
+The build defaults to compile-only; its historical link script checks the
+`libWTF.a` file hash before and after the link. This is a thin archive metadata
+check, not a content pin for its external members. The later accuracy review
+identified and corrected that documentation limitation; the historical source
+snapshot remains byte-for-byte unchanged. No source issue was found that blocks this
 ordinary API contract. No files were changed by the independent review.
 
 The parent separately verified the public API logs and retained health fields.

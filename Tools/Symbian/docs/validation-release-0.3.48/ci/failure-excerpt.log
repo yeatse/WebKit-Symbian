@@ -1,0 +1,28 @@
+2026-11-01T09:19:04.8429678Z [36;1mpython3 tests/idb-quota/test-server.py[0m
+2026-11-01T09:19:04.8429942Z [36;1mpython3 tests/cookie-samesite/test-host.py[0m
+2026-11-01T09:19:04.8430211Z [36;1mpython3 tests/cookie-samesite/test-runner.py[0m
+2026-11-01T09:19:04.8430477Z [36;1mpython3 tests/belle-storage/test-contract.py[0m
+2026-11-01T09:19:04.8430763Z [36;1mpython3 tests/belle-ui/app-exit/test-validator.py[0m
+2026-11-01T09:19:04.8431059Z [36;1mpython3 tests/test-native-probe-runner.py[0m
+2026-11-01T09:19:04.8431455Z [36;1mpython3 tests/runloop-wakeup/run.py --output "$RUNNER_TEMP/runloop-wakeup"[0m
+2026-11-01T09:19:04.8448936Z shell: /usr/bin/bash -e {0}
+2026-11-01T09:19:04.8449140Z env:
+2026-11-01T09:19:04.8449305Z   SDK_VERSION: 0.3.0
+2026-11-01T09:19:04.8449487Z   SYMBIAN_JSC_MODE: dfg
+2026-11-01T09:19:04.8449819Z   SYMBIAN_WEBKIT_WORK: /home/runner/work/WebKit-Symbian/WebKit-Symbian/WebKitBuild/Symbian
+2026-11-01T09:19:04.8450329Z   SYMBIAN_SDK_PREFIX: /home/runner/work/WebKit-Symbian/WebKit-Symbian/WebKitBuild/Symbian/symbian-sdk
+2026-11-01T09:19:04.8450809Z   CCACHE_DIR: /home/runner/work/WebKit-Symbian/WebKit-Symbian/WebKitBuild/Symbian/ccache
+2026-11-01T09:19:04.8451210Z   CCACHE_BASEDIR: /home/runner/work/WebKit-Symbian/WebKit-Symbian
+2026-11-01T09:19:04.8451508Z   CCACHE_COMPILERCHECK: content
+2026-11-01T09:19:04.8451838Z   CCACHE_SLOPPINESS: pch_defines,time_macros,include_file_mtime,include_file_ctime
+2026-11-01T09:19:04.8452156Z   CCACHE_MAXSIZE: 3G
+2026-11-01T09:19:04.8452345Z   CMAKE_C_COMPILER_LAUNCHER: ccache
+2026-11-01T09:19:04.8452568Z   CMAKE_CXX_COMPILER_LAUNCHER: ccache
+2026-11-01T09:19:04.8452784Z ##[endgroup]
+2026-11-01T09:19:05.4388483Z In file included from /home/runner/work/WebKit-Symbian/WebKit-Symbian/Source/WTF/wtf/symbian/FileSystemSymbian.cpp:28:
+2026-11-01T09:19:05.4389665Z /home/runner/work/WebKit-Symbian/WebKit-Symbian/Source/WTF/wtf/symbian/SymbianFilePath.h:5:10: fatal error: wtf/Platform.h: No such file or directory
+2026-11-01T09:19:05.4390202Z     5 | #include <wtf/Platform.h>
+2026-11-01T09:19:05.4390411Z       |          ^~~~~~~~~~~~~~~~
+2026-11-01T09:19:05.4390608Z compilation terminated.
+2026-11-01T09:19:05.4436466Z ##[error]Process completed with exit code 1.
+2026-11-01T09:19:05.4585190Z ##[group]Run actions/cache/save@v4

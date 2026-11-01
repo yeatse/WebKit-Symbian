@@ -1,0 +1,9 @@
+PASS drive, root, dot, parent, append and ancestor paths
+PASS UTF-16 wide exists/stat metadata, surrogate pair, NUL and length guards
+PASS no-overwrite, aliases preserve data, non-regular files cannot block
+PASS short writes, read/write EINTR, failed exclusive-copy cleanup
+PASS OpenC zero-inode exclusive copy, alias refusal and rollback cleanup
+PASS cross-device ordinary-file fallback and unsupported hardlink
+PASS native volume drive selection, zero space, 64-bit values and errors
+PASS quota enumeration distinguishes empty, missing, partial and failed I/O
+PASS unique temporary directories, recursive deletion and permission errors
