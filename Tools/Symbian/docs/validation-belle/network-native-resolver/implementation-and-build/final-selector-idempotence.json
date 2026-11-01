@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "files": {
+    "CMakeLists.txt": "f6ea6defeb36f1dbb964c2ad7321026c0b16cee51eebb6332f13b33e85c89530",
+    "lib/CMakeLists.txt": "ede0deb3e69ca84d3ba3eface5178a3790e6726286b56266d72ab348c2512223",
+    "lib/curl_addrinfo.c": "8c0fb077d5ada3cf94502f1c08e39e83019186f6a588677f35410e733a7f736d",
+    "lib/http2.c": "5cb591a14fb34ecbab84f98c0f358327fb46b4b7d71425b54442b5aa25d88321",
+    "lib/dynbuf.h": "8ff8790e69e6b58a32665a17f5ef2aa5dda70b2abe56ea42a5abe0e7d0244054",
+    "include/curl/curlver.h": "cf1b30c63904b9db3ac56fec81c5b1cb775d7b41c98927e5e2fd959fd1c39d84"
+  }
+}

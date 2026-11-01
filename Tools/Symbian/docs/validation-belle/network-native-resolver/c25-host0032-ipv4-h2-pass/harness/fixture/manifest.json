@@ -1,0 +1,33 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "syntax_pass": true,
+  "validator_only_guards": 10,
+  "runtime_started": false,
+  "tls_key_read": false,
+  "files": {
+    "fixture.py": {
+      "bytes": 7959,
+      "sha256": "80a0dc9fa6a5c6eb23298d2809fadb57814e7b2e51a7b2bc48c16a328b428306"
+    },
+    "page.html": {
+      "bytes": 1759,
+      "sha256": "a91c784c03e374a7e3e08b16e6abe8bd0509efb7e111ec4a5fdd996fc4073bb9"
+    },
+    "validator.py": {
+      "bytes": 3998,
+      "sha256": "402b4c54c644fc61fd15cca0cbf63a992fcf937b777aee296a8e790a762fe745"
+    },
+    "test-validator.py": {
+      "bytes": 2654,
+      "sha256": "04e066a4c8c305249522d19e3c7bb6fb9c331e3976dfcadeb1977c475fd1a214"
+    },
+    "validator-only-tests.log": {
+      "bytes": 394,
+      "sha256": "21cfe4416ee94e33698c285562f49f53113b3e8248ec2634fca8f325764c6762"
+    },
+    "README.md": {
+      "bytes": 2438,
+      "sha256": "df801e84611b5abd24b3142134539b86f4ba6e8dbe5c0bab289568870150b820"
+    }
+  }
+}

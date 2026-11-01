@@ -1,0 +1,8 @@
+{
+  "fixture.py": "d7a166689ea0d7b99526e82b6b92991d5de79d4555d1941c83c7d66ec85e974b",
+  "page.html": "999b291c4116be9782287fe0a0b7dff452cbf4c866b28cc1375383db10512820",
+  "dns_protocol.py": "f4787b0ec438a285eeb909d93a79586376592c6b32449e34bfd307385a17f740",
+  "dns_runtime.py": "faff04f0af3f20e2ac0ff776df0ce696ecbab2e78f1a8c0090a5a90702a3c44f",
+  "validator.py": "83af5bb929e7b16d10ea322be47a7d2c5e4b5e215f9ed89cd429d136c9c09e37",
+  "resolv.fixture.conf": "1cd952be4455bf26a35a86fcfa416c5df0e48acde51ff86511e3aaaa74fe4557"
+}

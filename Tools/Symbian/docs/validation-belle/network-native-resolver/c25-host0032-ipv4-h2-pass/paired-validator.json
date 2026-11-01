@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "suite": "network-guest-c22-ipv4",
+  "run": "net-f43f4512196548b9a1eb2df12eb07eef",
+  "mode": "ipv4",
+  "failures": [],
+  "scope": "functional IPv4 h2/H1 only; outer wrapper must verify guest/host closure and restoration; no IPv6/AAAA/WSS/cancel/budget-exhaustion claim"
+}

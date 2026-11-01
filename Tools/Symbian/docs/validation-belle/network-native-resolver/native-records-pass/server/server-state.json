@@ -1,0 +1,108 @@
+{
+  "suite": "network-guest-c22-dns",
+  "version": 1,
+  "run": "native-29a1e08befd344619db77950e61d7509",
+  "mode": "dns",
+  "h2_connections": [],
+  "h1_requests": [],
+  "literal6": {
+    "https": [],
+    "wss": []
+  },
+  "errors": [],
+  "stopped": true,
+  "names": {
+    "aaaa": "aaaa-9db77950e61d7509.webkit-belle.test",
+    "dual": "dual-9db77950e61d7509.webkit-belle.test",
+    "fallback": "fallback-9db77950e61d7509.webkit-belle.test"
+  },
+  "dns": [
+    {
+      "role": "dual",
+      "name": "dual-9db77950e61d7509.webkit-belle.test",
+      "qtype": "A",
+      "answers": [
+        "127.0.0.1"
+      ],
+      "rcode": 0,
+      "transport": "udp"
+    },
+    {
+      "role": "dual",
+      "name": "dual-9db77950e61d7509.webkit-belle.test",
+      "qtype": "AAAA",
+      "answers": [
+        "::1"
+      ],
+      "rcode": 0,
+      "transport": "udp"
+    },
+    {
+      "role": "aaaa",
+      "name": "aaaa-9db77950e61d7509.webkit-belle.test",
+      "qtype": "A",
+      "answers": [],
+      "rcode": 0,
+      "transport": "udp"
+    },
+    {
+      "role": "aaaa",
+      "name": "aaaa-9db77950e61d7509.webkit-belle.test",
+      "qtype": "AAAA",
+      "answers": [
+        "::1"
+      ],
+      "rcode": 0,
+      "transport": "udp"
+    },
+    {
+      "role": "dual",
+      "name": "dual-9db77950e61d7509.webkit-belle.test",
+      "qtype": "A",
+      "answers": [
+        "127.0.0.1"
+      ],
+      "rcode": 0,
+      "transport": "udp"
+    },
+    {
+      "role": "dual",
+      "name": "dual-9db77950e61d7509.webkit-belle.test",
+      "qtype": "AAAA",
+      "answers": [
+        "::1"
+      ],
+      "rcode": 0,
+      "transport": "udp"
+    },
+    {
+      "role": "fallback",
+      "name": "fallback-9db77950e61d7509.webkit-belle.test",
+      "qtype": "A",
+      "answers": [
+        "127.0.0.1"
+      ],
+      "rcode": 0,
+      "transport": "udp"
+    },
+    {
+      "role": "fallback",
+      "name": "fallback-9db77950e61d7509.webkit-belle.test",
+      "qtype": "AAAA",
+      "answers": [
+        "::2"
+      ],
+      "rcode": 0,
+      "transport": "udp"
+    }
+  ],
+  "unknown_dns_queries": 0,
+  "https": [],
+  "wss": [],
+  "namespaces": {
+    "user": "user:[4026532274]",
+    "net": "net:[4026532276]",
+    "mnt": "mnt:[4026532275]"
+  },
+  "elapsed_seconds": 0.585
+}

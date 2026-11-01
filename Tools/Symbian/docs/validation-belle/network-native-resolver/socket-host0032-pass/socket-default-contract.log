@@ -1,0 +1,7 @@
+BEGIN {"suite":"socket-default-contract","run":"socket-300ef76d31ca499885ec897ab3391989","cases":4}
+CASE {"name":"posix-inet6-dgram-protocol0","pass":true,"rc":0,"errno":0}
+CASE {"name":"posix-inet6-dgram-udp17","pass":true,"rc":0,"errno":0}
+CASE {"name":"native-inet-dgram-undefined","pass":true,"rc":0,"errno":0}
+CASE {"name":"native-inet6-stream-undefined","pass":true,"rc":0,"errno":0}
+RESULT {"suite":"socket-default-contract","run":"socket-300ef76d31ca499885ec897ab3391989","passed":4,"failed":0,"total":4}
+socket-default-contract exiting 0

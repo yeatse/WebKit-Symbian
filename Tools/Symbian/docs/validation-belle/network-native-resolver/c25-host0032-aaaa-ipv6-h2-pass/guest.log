@@ -1,0 +1,9 @@
+07:58:33.257 WebKit Browser starting
+07:58:33.272 network: starting the connection
+07:58:34.723 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+07:58:35.193 network: connected through "Host network"
+07:58:35.209 load https://aaaa-9839e145de8b1da0.webkit-belle.test:8824/?run=net-6c75f2c73c6e48679839e145de8b1da0
+console: https://aaaa-9839e145de8b1da0.webkit-belle.test:8824/?run=net-6c75f2c73c6e48679839e145de8b1da0:4: NETWORK-GUEST-RESULT {"kind":"ready","status":"READY","suite":"network-guest-c25-h2v6","run":"net-6c75f2c73c6e48679839e145de8b1da0"}
+console: https://aaaa-9839e145de8b1da0.webkit-belle.test:8824/?run=net-6c75f2c73c6e48679839e145de8b1da0:4: NETWORK-GUEST-RESULT {"kind":"result","status":"PASS","suite":"network-guest-c25-h2v6","items":12,"total_bytes":704512,"verified_all_bytes":true,"run":"net-6c75f2c73c6e48679839e145de8b1da0"}

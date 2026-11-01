@@ -1,0 +1,37 @@
+{
+  "status": "LOG_CONTRACT_PASS_PENDING_TARGET_EXIT",
+  "cases": 4,
+  "case_results": [
+    {
+      "name": "aaaa-native-records",
+      "pass": true,
+      "status": 0,
+      "count": 1
+    },
+    {
+      "name": "dual-native-records",
+      "pass": true,
+      "status": 0,
+      "count": 2
+    },
+    {
+      "name": "fallback-native-records",
+      "pass": true,
+      "status": 0,
+      "count": 2
+    },
+    {
+      "name": "numeric-native-records",
+      "pass": true,
+      "status": 0,
+      "count": 1
+    }
+  ],
+  "summary": {
+    "suite": "native-curl-records",
+    "run": "native-29a1e08befd344619db77950e61d7509",
+    "passed": 4,
+    "failed": 0,
+    "total": 4
+  }
+}

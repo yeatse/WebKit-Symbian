@@ -1,0 +1,7 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "host0032_sha256": "692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd",
+  "wrapper_sha256": "accb946757985ccb29484d95179d59aa9598d414254e30550230af7efa943c18",
+  "change": "only fixed host pin vs preserved previous harness",
+  "runtime_started": false
+}

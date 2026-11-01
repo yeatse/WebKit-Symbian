@@ -17,6 +17,7 @@ echo 'int main() { return 0; }' > "$out/main.cpp"
   "$L/libPAL.a" "$L/libJavaScriptCore.a" "$L/libWTF.a" \
   "$D/libcairo.a" "$D/libpixman-1.a" "$D/libharfbuzz-icu.a" "$D/libharfbuzz.a" \
   "$D/libfontconfig.a" "$D/libxslt.a" "$D/libxml2.a" "$D/libsqlite3.a" "$D/libpsl.a" \
+  "$SDK/proxies/esock/esock.dso" "$SDK/proxies/insock/insock.dso" \
   "$D/libwebpdemux.a" "$D/libwebp.a" "$D/libcurl.a" "$D/libnghttp2.a" "$D/libmbedtls_fs.a" \
   "$D/libwoff2dec.a" "$D/libwoff2common.a" "$D/libbrotlidec.a" "$D/libbrotlicommon.a" \
   "$M/libmbedtls.a" "$M/libmbedx509.a" "$M/libmbedcrypto.a" \

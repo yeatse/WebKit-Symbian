@@ -1,5 +1,36 @@
 # WebKit 2.52.6 Symbian 交接（续接状态）
 
+## 网络原生解析最新状态（2026-11-01）
+
+本段覆盖下文网络镜像、active host及AAAA待验收的旧检查点；CI46实际验包和其他能力结论仍按各自档案。
+本次网络提交仅包含9个owned网络源文件和EKA0032/验收文档，不合入Multi或CookieStore WIP。
+
+- **C25 + host0032 真实受控 DNS/IPv6/TLS/H2 正向已通过**：
+  [AAAA-only HTTPS/WSS、双栈IPv6及IPv4回退](validation-belle/network-native-resolver/c25-host0032-dns-pass/README.md)
+  使用真实UDP DNS，不改宿主resolver。AAAA-only/dual的HTTPS实际peer::1、fallback AAAA::2/A127实际peer127；
+  三份4096B与WSS masked dns-ping8B/动态Accept/close1000均通过，普通Qt关闭/无panic/全部恢复通过。
+  [IPv6 hostname H2](validation-belle/network-native-resolver/c25-host0032-aaaa-ipv6-h2-pass/README.md)
+  初始URL直接AAAA hostname，一个真实::1 TLS h2连接完成12个唯一item流704512B，实际峰值4、
+  SETTINGS上限8/窗口262144/no-push、8次WINDOW_UPDATE；512KiB大响应完成实际窗口补充。
+  [C25 IPv4 H2/H1回归](validation-belle/network-native-resolver/c25-host0032-ipv4-h2-pass/README.md)亦通过。
+- 修复不依赖猜测ROM：host DNS/native RHostResolver正确，OpenC数字IPv6正确，hostname地址转换实测不符；
+  owned libcurl改用最多16个原生记录、ASCII/IDNA253B检查、Scope、curl allocator和10s总DNS deadline。
+  超过16唯一地址或达到64原生entry整轮EAI_FAIL，不静默截断。Next EOF或已有entry后的NotFound为枚举结束；
+  其它错误/超时/取消仍失败。没有新scheduler/thread、没有替换ROM DLL/proxy或应用旧capacity参考补丁。
+  C24虽构建成功但selector被CMake属性覆盖，最终符号检查FAIL、未运行；已修并在build-deps加入实际nm后置检查。
+- EKA **0032** 精确实现KAfInet/6的KUndefinedProtocol默认选择（stream/TCP6、datagram/UDP17），
+  其它族、raw及显式协议不变。旧host socket1/4 FAIL、新host4/4 PASS；这只证明Open/Close，不宣称IPv6 UDP数据已支持。
+  active host65,484,680B / `692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd`。
+  原host0030、0032 source/build及十资产还原证据见`/workspace/symbian-belle-work/host-default-socket-20261101/`。
+  FEP仍fd6092f2...，每次host重建后必须向build/bin/patch和DATAparent/patch还原并核对全部十份资产。
+- C25 browser58,983,876B / `b3ebbb964066eb2c3ca17a686e3a104839a387196a4d875271e84bfa06aa29f3`，
+  UI383B / `697d56af49ce2fbde1e73ad3063ea9b7325abe0ef0a2081f66e915facd6a3b82`。
+  `/workspace/symbian-belle-work/candidate25/`冻结；它含尚未提交的Multi/Cookie WIP，不能把运行结果冒充后续CI包已安装验证。
+  精确source/allocator19项ASan+UBSan/ARM对象/真实ELF selector/四项native字段和所有FAIL原件在
+  [原生解析档案](validation-belle/network-native-resolver/README.md)。
+- 上述是受控模拟器正向范围。真机IAP/ISP DNS与延迟、Scope/DNS64、TCP-DNS交换、导航取消、预算耗尽、
+  计时Happy Eyeballs竞速和官方EndTask仍需分项验收；CookieStore/online/内存压力旧FAIL保持。
+
 ## 最新续接状态（2026-11-01）
 
 本节覆盖下文历史检查点。本轮网络生产改动和验证档案随本次提交进入主分支；

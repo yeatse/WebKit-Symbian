@@ -1,0 +1,10 @@
+{
+  "status": "ACTUAL_GENERATED_DEFINES_PASS",
+  "ninja_file_sha256": "3d0e8785c189f669a3946c76716e48213370d6389d12ed9524c5fa5f2c3c42c3",
+  "object_defines": {
+    "curl_addrinfo.c.o": "DEFINES = -DBUILDING_LIBCURL -DCURL_HIDDEN_SYMBOLS -DCURL_SYMBIAN_NATIVE_RESOLVER=1 -DHAVE_CONFIG_H",
+    "symbian/curl-symbian-resolver.c.o": "DEFINES = -DBUILDING_LIBCURL -DCURL_HIDDEN_SYMBOLS -DCURL_SYMBIAN_NATIVE_RESOLVER=1 -DHAVE_CONFIG_H",
+    "symbian/curl-symbian-resolver.cpp.o": "DEFINES = -DBUILDING_LIBCURL -DCURL_HIDDEN_SYMBOLS -DCURL_SYMBIAN_NATIVE_RESOLVER=1 -DHAVE_CONFIG_H"
+  },
+  "not_final_elf_verification": true
+}

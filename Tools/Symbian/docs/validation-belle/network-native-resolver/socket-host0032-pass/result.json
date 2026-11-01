@@ -1,0 +1,256 @@
+{
+  "status": "PASS",
+  "suite": "network-native-contract-literals",
+  "run": "socket-300ef76d31ca499885ec897ab3391989",
+  "started_utc": "2026-11-01T07:48:49.654809+00:00",
+  "inputs": {
+    "worker": {
+      "path": "/workspace/symbian-eka-default-socket-work/native-contract/build/e32/socket_default_contract.exe",
+      "bytes": 74256,
+      "sha256": "f23faaf665a03ec0858efab2c77655d9bf1cdb1f97e2aec3f0dc6539ed1fd6b1"
+    },
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "bytes": 65484680,
+      "sha256": "692abe6937ed1b651914ff6ab35a78bbd3693a705ba47853fc6f9a438ae178bd"
+    },
+    "fep": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "bytes": 99488,
+      "sha256": "fd6092f2ad61d39ccb47475229c367f5494fe68a8bd2bd8d0e04dc1bafcdc7ae"
+    },
+    "validator": {
+      "path": "/workspace/symbian-eka-default-socket-work/native-contract/validate.py",
+      "bytes": 961,
+      "sha256": "8048a6d6a3405af63ba4266b503ea977da11339993de4ee984764b8af3076c08"
+    },
+    "preservation": {
+      "path": "/workspace/symbian-cookie-store-runtime-c21-work/runtime_support.py",
+      "bytes": 22816,
+      "sha256": "0deded8b62c096774b94ebbc2bfc86a9df51ef6b95a7dee7e1e23f7d7ba46a9b"
+    },
+    "configuration": {
+      "path": "/workspace/symbian-cookie-store-runtime-c21-work/config_preservation.py",
+      "bytes": 4741,
+      "sha256": "e6679c12d66fadb4ad6c69f46f0deede57470f379d5f64591d1e6c312b8015d0"
+    },
+    "close_window": {
+      "path": "/workspace/symbian-fep-secret-runtime-work/docs-candidate/validation-belle/fep-secret/browser-c19-host0029/harness/eka2l1/close-emulator-window.py",
+      "bytes": 4825,
+      "sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f"
+    }
+  },
+  "wrapper": {
+    "path": "/workspace/symbian-eka-default-socket-work/native-contract/runtime-wrapper-host0032/run.py",
+    "bytes": 17228,
+    "sha256": "accb946757985ccb29484d95179d59aa9598d414254e30550230af7efa943c18"
+  },
+  "deadline_seconds": 60,
+  "deadline_expired": false,
+  "forced_cleanup": false,
+  "wm_close_sent": false,
+  "natural_host_exit": true,
+  "restoration": {
+    "guest": {
+      "backup_directory": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-socket-300ef76d31ca499885ec897ab3391989",
+      "files": [
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+            "exists": true,
+            "mode": 448,
+            "directory": true,
+            "device": 27,
+            "inode": 932801,
+            "mtime_ns": 1793503583319028900
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-socket-300ef76d31ca499885ec897ab3391989/0",
+          "directory": true,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+            "exists": true,
+            "mode": 448,
+            "directory": true,
+            "device": 27,
+            "inode": 932801,
+            "mtime_ns": 1793503583319028900
+          }
+        },
+        {
+          "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/socket_default_contract.exe",
+          "before": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/socket_default_contract.exe",
+            "exists": false
+          },
+          "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-socket-300ef76d31ca499885ec897ab3391989/1",
+          "directory": false,
+          "restored": true,
+          "after": {
+            "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/socket_default_contract.exe",
+            "exists": false
+          }
+        }
+      ],
+      "restored": true
+    },
+    "configuration": {
+      "restored": true,
+      "items": [
+        {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/config.yml",
+          "before": {
+            "exists": true,
+            "directory": false,
+            "device": 27,
+            "inode": 931485,
+            "mode": 384,
+            "mtime_ns": 1793265562916029575,
+            "items": 1
+          },
+          "restored": true
+        },
+        {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/bindings",
+          "before": {
+            "exists": true,
+            "directory": true,
+            "device": 27,
+            "inode": 932532,
+            "mode": 448,
+            "mtime_ns": 1793515176300244822,
+            "items": 6
+          },
+          "restored": true
+        },
+        {
+          "path": "/workspace/eka-validation/xdg/config/EKA2L1",
+          "before": {
+            "exists": true,
+            "directory": true,
+            "device": 27,
+            "inode": 918060,
+            "mode": 448,
+            "mtime_ns": 1793515175969057285,
+            "items": 2
+          },
+          "restored": true
+        }
+      ]
+    }
+  },
+  "prerequisite_integrated": true,
+  "screenshots_taken": false,
+  "server_started": false,
+  "private_data_archived": false,
+  "command": [
+    "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+    "--device",
+    "RM-707",
+    "--run",
+    "C:\\sys\\bin\\socket_default_contract.exe",
+    " --run socket-300ef76d31ca499885ec897ab3391989"
+  ],
+  "host_pid": 557170,
+  "launched_monotonic": 255807.100329935,
+  "deadline_monotonic": 255867.100329935,
+  "host_exit": 0,
+  "fixture_validation": {
+    "status": "LOG_CONTRACT_PASS_PENDING_TARGET_EXIT",
+    "cases": 4,
+    "case_results": [
+      {
+        "name": "posix-inet6-dgram-protocol0",
+        "pass": true,
+        "rc": 0,
+        "errno": 0
+      },
+      {
+        "name": "posix-inet6-dgram-udp17",
+        "pass": true,
+        "rc": 0,
+        "errno": 0
+      },
+      {
+        "name": "native-inet-dgram-undefined",
+        "pass": true,
+        "rc": 0,
+        "errno": 0
+      },
+      {
+        "name": "native-inet6-stream-undefined",
+        "pass": true,
+        "rc": 0,
+        "errno": 0
+      }
+    ],
+    "summary": {
+      "suite": "socket-default-contract",
+      "run": "socket-300ef76d31ca499885ec897ab3391989",
+      "passed": 4,
+      "failed": 0,
+      "total": 4
+    }
+  },
+  "owned_host_stopped_before_restore": true,
+  "inputs_unchanged": true,
+  "runtime_locks_inherited_by_host": true,
+  "runtime_locks_released": true,
+  "acceptance": {
+    "status": "PASS",
+    "cases": 4,
+    "fixture": {
+      "status": "LOG_CONTRACT_PASS_PENDING_TARGET_EXIT",
+      "cases": 4,
+      "case_results": [
+        {
+          "name": "posix-inet6-dgram-protocol0",
+          "pass": true,
+          "rc": 0,
+          "errno": 0
+        },
+        {
+          "name": "posix-inet6-dgram-udp17",
+          "pass": true,
+          "rc": 0,
+          "errno": 0
+        },
+        {
+          "name": "native-inet-dgram-undefined",
+          "pass": true,
+          "rc": 0,
+          "errno": 0
+        },
+        {
+          "name": "native-inet6-stream-undefined",
+          "pass": true,
+          "rc": 0,
+          "errno": 0
+        }
+      ],
+      "summary": {
+        "suite": "socket-default-contract",
+        "run": "socket-300ef76d31ca499885ec897ab3391989",
+        "passed": 4,
+        "failed": 0,
+        "total": 4
+      }
+    },
+    "kernel_primary_zero_records": 1,
+    "guest_completion": "fresh 4-case exiting0 plus existing Kernel Main Kill/None exit-code0 trace, natural CLI host0 and no fatal markers",
+    "exit_evidence_limit": "Kernel names the primary thread Main, not the executable; the single CLI target and whole-host fatal scan are required jointly",
+    "scope": "Fixed literal API baseline only; no AAAA DNS, TCP/IPv6 connectivity or ROM implementation repair claim"
+  },
+  "finished_utc": "2026-11-01T07:48:50.354971+00:00",
+  "host_log": {
+    "path": "/workspace/socket-default-host0032-run-01/emulator.log",
+    "bytes": 27246,
+    "sha256": "d6996f6d8d3b75fe8b47841fbdf15d42d417d2058d6c26b0928ba06f3ddf17ce"
+  },
+  "worker_log": {
+    "path": "/workspace/socket-default-host0032-run-01/socket-default-contract.log",
+    "bytes": 547,
+    "sha256": "280802a234c992ddf5fe7a0a6f2bf10b812944b22d7bc143728c2e73ddac643b"
+  }
+}

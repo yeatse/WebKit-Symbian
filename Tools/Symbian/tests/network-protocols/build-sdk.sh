@@ -13,6 +13,7 @@ mkdir -p "$out"
   -c "$here/sdk-link.c" -o "$out/sdk-link.o"
 "$symbian/toolchain/sym-c++" -mfloat-abi=softfp -mfpu=vfpv2 -Wl,--gc-sections \
   "$out/sdk-link.o" -o "$out/sdk-link.elf" \
+  "$sdk/proxies/esock/esock.dso" "$sdk/proxies/insock/insock.dso" \
   "$network/lib/libcurl.a" "$network/lib/libnghttp2.a" "$deps/lib/libmbedtls_fs.a" \
   "$sdk/lib/armv6/mbedtls/lib/libmbedtls.a" "$sdk/lib/armv6/mbedtls/lib/libmbedx509.a" \
   "$sdk/lib/armv6/mbedtls/lib/libmbedcrypto.a" "$deps/lib/libpsl.a" \

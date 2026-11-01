@@ -1,0 +1,13 @@
+BEGIN {"suite":"dns-native-contract","run":"native-e0fe111f954540fcaeb2684878a0d353","cases":4}
+INFO {"case":"hostname-protocol0","input_protocol":0,"getaddrinfo_rc":0,"errno":0}
+NODE {"case":"hostname-protocol0","index":1,"family":2054,"socktype":1,"protocol":6,"addrlen":32,"loopback":false,"valid":false}
+CASE {"name":"hostname-protocol0","pass":false,"rc":0,"count":1}
+INFO {"case":"hostname-protocol6","input_protocol":6,"getaddrinfo_rc":0,"errno":0}
+NODE {"case":"hostname-protocol6","index":1,"family":2054,"socktype":1,"protocol":6,"addrlen":32,"loopback":false,"valid":false}
+CASE {"name":"hostname-protocol6","pass":false,"rc":0,"count":1}
+INFO {"case":"numeric-protocol0","input_protocol":0,"getaddrinfo_rc":0,"errno":0}
+NODE {"case":"numeric-protocol0","index":1,"family":2054,"socktype":1,"protocol":6,"addrlen":32,"loopback":true,"valid":true}
+CASE {"name":"numeric-protocol0","pass":true,"rc":0,"count":1}
+CASE {"name":"native-resolver-hostname","pass":true,"rc":0,"count":1}
+RESULT {"suite":"dns-native-contract","run":"native-e0fe111f954540fcaeb2684878a0d353","passed":2,"failed":2,"total":4}
+dns-native-contract exiting 1

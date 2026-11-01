@@ -26,8 +26,15 @@ C17 Options 的九组剪贴板操作也已通过；旧菜单失败原件继续�
 401 原生 UI 的 [C21/host0029 十二个普通 Basic/Digest 场景](validation-belle/http-auth/browser-c21-host0029/README.md)已通过；四个退出场景仍未验收。online 与真实内存压力整轮仍为 FAIL。
 CookieStore 已合入本地 WIP 并完整链接 C21，真实 HTTPS 页面15项 DOM 功能通过；
 但官方 EndTask 后 guest KERN-EXEC3，整轮仍 FAIL，尚未提交或上线。
-IPv6/HTTP2 已合入本地 C22 并完整链接；实际 guest 的[IPv4 h2/H1](validation-belle/network-protocols/browser-c22-ipv4/README.md)和 IPv6 字面 HTTPS/WSS 通过。IAP proxy 仍是外部候选。
-EKA0030 的[原生字面接口11项](validation-belle/network-native-literals/host0030-pass/README.md)通过；旧host为10/11，只有原生IPv6 resolver失败。实际ROM的数字IPv6 Open C接口通过，未应用旧capacity参考补丁；实际 AAAA DNS、回退、取消及预算耗尽仍待验收。
+IPv6/HTTP2 已完成本地 C25 受控模拟器正向验收：真实 UDP DNS 的 AAAA-only HTTPS/WSS、
+双栈 IPv6 与 IPv6 不可用时的 IPv4 回退通过；[IPv6 hostname H2](validation-belle/network-native-resolver/c25-host0032-aaaa-ipv6-h2-pass/README.md)
+在一个真实 ::1 TLS 连接完成12流704512B，峰值4、设置上限8、窗口256KiB和8次window update。
+当前 C25 的 IPv4 H2/H1 回归也通过。Root 在私有 user/net/mount namespace 中运行 DNS/TLS/EKA，
+未读取或修改宿主 resolver；不是 hosts/CURL_RESOLVE/shim。IAP proxy 仍在独立候选准备。
+[原生记录/默认协议](validation-belle/network-native-resolver/native-records-pass/README.md)修复分界明确：
+数字 IPv6 Open C 正常，但 hostname转换不符合同；owned curl 改用有界 native RHostResolver，
+EKA0032按类型选择 KUndefinedProtocol 默认 TCP/UDP。未应用旧 capacity 参考补丁。
+真机 IAP/ISP DNS/延迟、Scope/DNS64、导航取消及预算耗尽仍需独立验收。
 这些本地候选和部分验收不等于第二批已全部完成，也不替代真机验证。
 
 | 顺序 | 能力和现状 | Belle/现有代码基础 | 实施与验收要求 |
@@ -42,7 +49,7 @@ EKA0030 的[原生字面接口11项](validation-belle/network-native-literals/ho
 | P1.5 | **原生 HTTP 401 的12个普通场景通过**；4个退出场景待验收；IAP proxy 有外部候选 | [C21/host0029 Basic/Digest 12项](validation-belle/http-auth/browser-c21-host0029/README.md)、CAknTextQueryDialog、CommDB proxy reader、curl | 成功输入、用户名/密码取消、三次错误后停止、用户名/密码待定时导航均通过；本轮heading和每个密码遮罩实例审图，可信父页面输入、普通关闭及恢复通过。官方EndTask的4个退出场景未验收；代理切换/排除/并发取消仍待平台验收，407无UI且明确失败，不复用站点401凭据 |
 | P1.6 | **原生 prompt、纯文本系统剪贴板键盘与菜单路径已验证** | CClipboard 原生适配 31 项；[C15 真实键盘 9 组](validation-belle/clipboard/browser-c15-keyboard/README.md)、[原生 FEP 五组](validation-belle/fep-ui/browser-c15/README.md) | Ctrl+A/C/X/V、选区、多行 Unicode、contenteditable、DOM paste 拒绝、密码/readonly 保护通过，原 clipboard/config 恢复。FEP真实Escape保留文本及选区，提交/清空生效，程序focus与readonly不误开FEP。[C17 Options菜单九组](validation-belle/clipboard/browser-c17-menu/README.md)通过；[host密码FEP三例](validation-belle/fep-secret/browser-c19-host0029/README.md)通过（逐字遮罩、取消/提交/清空）；富文本与 Async Clipboard 权限另列 |
 | P1.7 | 内存压力与 online/offline 后端已入候选；整体验收未完成 | RChangeNotifier、EChangesFreeMemory、HAL、实际 RConnection/ConnMon | online 页面19项通过但EndTask后host -11，整轮FAIL。C15真实压力已及时READY；worker提交46,137,344字节、实际critical通知/释放/模式检查和worker退出0，浏览器三次VERIFIED后host -11，[整轮仍FAIL](validation-belle/memory-pressure/browser-c15-failed/README.md)。未满足40s保留及80MiB JSCell门槛；系统剩余RAM不等于进程可分配容量 |
-| P1.8 | **C22 实际 IPv4 h2/H1 与 IPv6 字面 HTTPS/WSS 通过**；AAAA/回退等仍待验收 | nghttp2 1.68.0、curl/mbedTLS ALPN 完整 ARM 链接；[原生接口11项](validation-belle/network-native-literals/host0030-pass/README.md) | 实际h2一条TLS连接完成12请求704512B、峰值4、SETTINGS限制8流/256KiB窗口并补充流控；独立H1回退通过。IPv6 literal HTTPS4096B与WSS真实Upgrade/固定echo/正常1000关闭通过。严格TLS、普通Qt关闭及恢复通过，不代替EndTask或真机。AAAA/双栈回退、取消、session预算耗尽另验；不应用旧OpenC capacity参考补丁 |
+| P1.8 | **IPv6/HTTP2 已接通并完成受控模拟器正向验收** | curl7.88.1/nghttp2 1.68.0/SDK mbedTLS ALPN；owned native DNS桥，EKA0030/0032 | [C25真实AAAA/双栈回退/HTTPS/WSS](validation-belle/network-native-resolver/c25-host0032-dns-pass/README.md)、[真实IPv6 hostname H2](validation-belle/network-native-resolver/c25-host0032-aaaa-ipv6-h2-pass/README.md)及IPv4 H2/H1通过；12流704512B、实际峰值4/限制8、窗口256KiB/流控通过。真机IAP/ISP DNS/Scope/DNS64、导航取消及预算耗尽未验收；UDP开句柄不等于IPv6 UDP数据路径通过 |
 | P1.9 | CookieStore 已合入本地 C21 WIP；未提交或上线；无 HTTP 磁盘缓存 | document provider/Curl SQLite/变更观察已通过 host/ARM、完整链接及 HTTPS页面15项DOM功能 | 官方 EndTask 后 guest KERN-EXEC3，整轮仍FAIL；先解决有明确依据的生命周期问题再验收退出。无 SW manager/partitioned；磁盘GET缓存另需 ETag/304/Vary/no-store/认证隔离/中断写 |
 | P2.1 | Web Audio 关闭，没有 Symbian 输出后端 | CMdaAudioOutputStream/DevSound PCM 输出 | 有界音频缓冲、重采样、FFT、文件解码和线程生命周期；OfflineAudioContext 数值、实际频谱、暂停/恢复、系统音频中断 |
 | P2.2 | Fullscreen、Media Session 及视频帧读取缺失 | AVKON 全屏、MMF Utility2/GetFrameL、按控制器查询播放速率 | 用户手势、导航/软键退出、原生视频定位；异步帧缓存后再接 drawImage(video)/WebGL 视频纹理；不能假定所有音频支持变速 |

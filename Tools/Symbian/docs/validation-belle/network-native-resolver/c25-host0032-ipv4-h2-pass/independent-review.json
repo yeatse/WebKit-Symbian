@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "run": "net-f43f4512196548b9a1eb2df12eb07eef",
+  "whole_log_no_panic": true,
+  "normal_host_exit": 0,
+  "forced_cleanup": false,
+  "originals_restored": true,
+  "source_host_log": {
+    "path": "/workspace/network-c25-ipv4-host0032-run-01/emulator.log",
+    "bytes": 218906,
+    "sha256": "1cd3cbd539ab70ae0d752a85c921de0297e286004aecfb335f5e1409246a5b7c"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "status": "FAIL",
+  "run": "socket-ee54b9d26b594e55bce2d9f6cc7fc0f6",
+  "whole_log_no_panic": true,
+  "normal_host_exit": 0,
+  "forced_cleanup": false,
+  "originals_restored": true,
+  "source_host_log": {
+    "path": "/workspace/socket-default-host0030-run-01/emulator.log",
+    "bytes": 27725,
+    "sha256": "ed0d3d746984ef7400daf05d3f143712a93c74324036b50457f9e89c29864593"
+  }
+}

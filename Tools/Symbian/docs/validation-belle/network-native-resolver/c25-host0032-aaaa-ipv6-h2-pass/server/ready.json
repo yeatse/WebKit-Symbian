@@ -1,0 +1,15 @@
+{
+  "names": {
+    "aaaa": "aaaa-9839e145de8b1da0.webkit-belle.test",
+    "dual": "dual-9839e145de8b1da0.webkit-belle.test",
+    "fallback": "fallback-9839e145de8b1da0.webkit-belle.test"
+  },
+  "suite": "network-guest-c25-h2v6",
+  "run": "net-6c75f2c73c6e48679839e145de8b1da0",
+  "mode": "h2v6",
+  "url": "https://aaaa-9839e145de8b1da0.webkit-belle.test:8824/?run=net-6c75f2c73c6e48679839e145de8b1da0",
+  "h2_port": 8824,
+  "h1_port": 8825,
+  "deadline_seconds": 180,
+  "expected_bytes": 704512
+}

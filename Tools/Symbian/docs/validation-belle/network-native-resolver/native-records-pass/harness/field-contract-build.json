@@ -1,0 +1,6 @@
+{
+  "status": "ARM_BUILD_LINK_PASS_NOT_EXECUTED",
+  "worker_sha256": "3005c54ea0327dff96582c6107c311c295b2d6958b95440ca342b7d175aa2106",
+  "native_source_matches_production": true,
+  "cases": 4
+}
