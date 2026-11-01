@@ -1,0 +1,9 @@
+PASS full package
+PASS existing package
+PASS all-locales
+PASS all-locales missing UTS46 negative control
+PASS en-only
+PASS en-only missing UTS46 negative control
+PASS zh-only
+PASS zh-only missing UTS46 negative control
+IDNA packaging regression PASS

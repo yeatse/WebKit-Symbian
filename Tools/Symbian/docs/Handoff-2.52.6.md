@@ -1,5 +1,26 @@
 # WebKit 2.52.6 Symbian 交接（续接状态）
 
+## 最新验包及本地实验状态（2026-11-01）
+
+本节覆盖下文CI版本和WebAudio本地状态的旧检查点。**CI47实际0.3.47安装包核验及独立审计PASS，未安装或运行本次包，也没有真机验收。**
+[Run41287584566](https://github.com/yeatse/WebKit-Symbian/actions/runs/41287584566) / job124791920159 全绿，
+精确源码 `81e1e14d260899c1d7e78e254c4cfa347640861a`；sis artifact13075459194 为33,763,359B，
+ZIP SHA256 `3ea72eb38f5de4ebc1eaadd05183d213f2287ceac6eaf4fd4e2c83a32ad51e2e`匹配GitHub digest。
+三份unsigned SIS/13 payload、CRC/SHA1/长度/E32 UID3/64位能力/VFP、六项精确源输入、固定CA、
+实际ICU数据8组IDNA、242B Auth255资源、native6 patch构建/ctest/重复postimage及25项网络源码合同均通过。
+CI browser58,888,184B / `58f8f0916285abae4cb69a43db551e105d1017bee845a85ad3a19ae75003fe16`，
+见[CI47实际验包档案](validation-release-0.3.47/ci/README.md)。只取SIS，没有下载ELF。
+
+CI的curl子进程使用独立set-e，实际未跳过的依赖构建成功受源码中不可绕过的llvm-nm门槛约束；
+其输出重定向至deps/curl.log，成功时console没有nm文字/原表，本次未下载该日志，未直接审raw nm或最终ELF/link map。
+**C25/host0032的受控DNS/IPv6/H2运行证据是本地组合结果，不能冒充CI47包已安装或运行**；本次包不含开发树Multi/Cookie及后续实验WIP，也不部署EKA0032。
+
+本地开发树已apply **experimental ClassicAudio**，以及wideFile/Multi/Cookie/Localized等尚未提交改动；
+不能再按旧检查点理解为共享开发树只有外部Audio候选。SDK math **0007** 已由helper装入prefix，
+当前实验WebCore CMake cache的 `ENABLE_WEB_AUDIO:BOOL=ON` 正在构建；`OptionsSymbian.cmake`默认仍为 **OFF**，
+实验改动未发布，不能当作已启用的CI功能。stream新DLL尚未部署，实际音频运行验收未完成。
+后续构建前须先核对CMake cache和git diff，避免把此实验配置当作发布默认值；不要覆盖这些未提交源文件。
+
 ## 网络原生解析最新状态（2026-11-01）
 
 本段覆盖下文网络镜像、active host及AAAA待验收的旧检查点；CI46实际验包和其他能力结论仍按各自档案。

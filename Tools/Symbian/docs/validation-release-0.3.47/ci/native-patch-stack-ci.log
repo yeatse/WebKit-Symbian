@@ -1,0 +1,74 @@
+{
+  "status": "ALREADY_APPLIED",
+  "base_commit": "b105f752f84d1b5640052f64c4a703017810d7b8",
+  "from_prefix": 6,
+  "patch_count": 6,
+  "verified_files": 12,
+  "patches": [
+    {
+      "name": "0001-Raise-E32-converter-limits-for-large-images.patch",
+      "sha256": "e7d526647d2bcdbf919c85506226c4f77218f20d3a6bcbae6304086189fbe0d4"
+    },
+    {
+      "name": "0002-Accept-LLD-PIC-range-extension-thunks-to-the-PLT.patch",
+      "sha256": "47522c168093f2f72aa40733cf49f7a430a67c3a134341ec85f8f5c3e19bbe7e"
+    },
+    {
+      "name": "0003-Support-explicit-ARMv6-VFPv2-with-base-AAPCS.patch",
+      "sha256": "5259045f9b77cafc5344b9908b608a5a8205305e5b0b6e60031f024655639699"
+    },
+    {
+      "name": "0004-Support-bounded-read-only-DLL-object-exports.patch",
+      "sha256": "5a2f9dc3444056b2a105acbdf2842fe64dde0494a293cca4126c0acc7088312d"
+    },
+    {
+      "name": "0005-Support-explicit-NetworkControl-capability.patch",
+      "sha256": "b16bc89494ec8b0bc71ebd81f7e88bc5e19ce4a701b76f8ceb39063ee2200964"
+    },
+    {
+      "name": "0006-Support-explicit-ECom-plugin-identities.patch",
+      "sha256": "1d8f15bb6bd349f8d88fa446962bc808da1c305d7bc4c65267f783b86f51249e"
+    }
+  ]
+}
+Internal ctest changing into directory: /home/runner/work/WebKit-Symbian/WebKit-Symbian/WebKitBuild/Symbian/symbian-native
+Test project /home/runner/work/WebKit-Symbian/WebKit-Symbian/WebKitBuild/Symbian/symbian-native
+    Start 2: symbian_e32_test
+1/1 Test #2: symbian_e32_test .................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.07 sec
+{
+  "status": "ALREADY_APPLIED",
+  "base_commit": "b105f752f84d1b5640052f64c4a703017810d7b8",
+  "from_prefix": 6,
+  "patch_count": 6,
+  "verified_files": 12,
+  "patches": [
+    {
+      "name": "0001-Raise-E32-converter-limits-for-large-images.patch",
+      "sha256": "e7d526647d2bcdbf919c85506226c4f77218f20d3a6bcbae6304086189fbe0d4"
+    },
+    {
+      "name": "0002-Accept-LLD-PIC-range-extension-thunks-to-the-PLT.patch",
+      "sha256": "47522c168093f2f72aa40733cf49f7a430a67c3a134341ec85f8f5c3e19bbe7e"
+    },
+    {
+      "name": "0003-Support-explicit-ARMv6-VFPv2-with-base-AAPCS.patch",
+      "sha256": "5259045f9b77cafc5344b9908b608a5a8205305e5b0b6e60031f024655639699"
+    },
+    {
+      "name": "0004-Support-bounded-read-only-DLL-object-exports.patch",
+      "sha256": "5a2f9dc3444056b2a105acbdf2842fe64dde0494a293cca4126c0acc7088312d"
+    },
+    {
+      "name": "0005-Support-explicit-NetworkControl-capability.patch",
+      "sha256": "b16bc89494ec8b0bc71ebd81f7e88bc5e19ce4a701b76f8ceb39063ee2200964"
+    },
+    {
+      "name": "0006-Support-explicit-ECom-plugin-identities.patch",
+      "sha256": "1d8f15bb6bd349f8d88fa446962bc808da1c305d7bc4c65267f783b86f51249e"
+    }
+  ]
+}

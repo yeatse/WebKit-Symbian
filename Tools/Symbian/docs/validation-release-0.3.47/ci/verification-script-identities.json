@@ -1,0 +1,30 @@
+[
+  {
+    "source_commit": "81e1e14d260899c1d7e78e254c4cfa347640861a",
+    "source_path": "Tools/Symbian/tests/icu-idna/run.py",
+    "git_blob": "fc145344f70d5dbcb6451ead49e7cfdcc52a336b",
+    "bytes": 4345,
+    "sha256": "bba8f27555a6ee77e9fa740e7c1d88e66b20b1b2e5d19472567f1a5c3c80b78d"
+  },
+  {
+    "source_commit": "81e1e14d260899c1d7e78e254c4cfa347640861a",
+    "source_path": "Tools/Symbian/tests/icu-idna/probe.cpp",
+    "git_blob": "5b483718dc4fc733b5e10ce48ebf176fb3bfe7b0",
+    "bytes": 3364,
+    "sha256": "a58d2a4276ee76ac64ca16ed2265d5d37ff9944d4b99b8792f0414bbd98a12e3"
+  },
+  {
+    "source_commit": "81e1e14d260899c1d7e78e254c4cfa347640861a",
+    "source_path": "Tools/Symbian/scripts/icu-filter.py",
+    "git_blob": "afff969083462bd7644610f4af2438052d680f70",
+    "bytes": 1713,
+    "sha256": "6d52e4489241b07a048ee9231a0add7fac23cb6ae49b8d71228d8030c2c66167"
+  },
+  {
+    "source_commit": "81e1e14d260899c1d7e78e254c4cfa347640861a",
+    "source_path": "Tools/Symbian/docs/validation-idna/package/verify-icu-sis.py",
+    "git_blob": "06176b0f59ef90ab28c57d96e4d3ccdb29df582c",
+    "bytes": 5538,
+    "sha256": "9f56277436245454548d5adf1d8d761bb6a47659f173872c8f48c9d42d84beae"
+  }
+]

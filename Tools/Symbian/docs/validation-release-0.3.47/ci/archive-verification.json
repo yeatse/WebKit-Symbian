@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "artifact_id": 13075459194,
+  "bytes": 33763359,
+  "sha256": "3ea72eb38f5de4ebc1eaadd05183d213f2287ceac6eaf4fd4e2c83a32ad51e2e",
+  "matches_github_digest": true,
+  "members": [
+    "SHA256SUMS",
+    "browser.sis",
+    "jsc.sis",
+    "symbian-webkit-icu.sis"
+  ],
+  "zip_member_crc_valid": true,
+  "workflow_head_sha": "81e1e14d260899c1d7e78e254c4cfa347640861a",
+  "workflow_conclusion": "success",
+  "job_id": 124791920159,
+  "job_conclusion": "success"
+}

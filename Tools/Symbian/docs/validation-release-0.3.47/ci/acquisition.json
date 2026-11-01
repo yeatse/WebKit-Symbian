@@ -1,0 +1,13 @@
+{
+  "artifact_id": 13075459194,
+  "artifact_name": "sis",
+  "file_name": "ci47-sis.zip",
+  "utc": "2026-11-01T08:22:30.948851+00:00",
+  "primary": "GitHub plugin download_workflow_artifact returned an artifact-backed ZIP reference; exact returned file materialized over HTTPS with inherited proxy and normal TLS verification",
+  "returned_file_id": "file_0000000050fc82079156071f4c622e9a",
+  "materialized_bytes": 33763359,
+  "sha256": "3ea72eb38f5de4ebc1eaadd05183d213f2287ceac6eaf4fd4e2c83a32ad51e2e",
+  "credential_values_or_signed_download_query_archived": false,
+  "temporary_download_reference_written_to_disk": false,
+  "ELF_downloaded": false
+}

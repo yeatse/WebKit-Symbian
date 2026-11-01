@@ -1,0 +1,78 @@
+CHARACTER_SET UTF8
+#include "resources/BrowserQuery.rh"
+
+NAME WBUI
+
+RESOURCE BA_RSS_SIGNATURE { signature = EEikResourceSignatureValue; }
+
+RESOURCE CBA r_browser_prompt_buttons
+{
+    buttons =
+    {
+        CBA_BUTTON { id = EAknSoftkeyOk; txt = "OK"; },
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = "Cancel"; }
+    };
+}
+
+RESOURCE DIALOG r_browser_prompt
+{
+    flags = EGeneralQueryFlags;
+    buttons = r_browser_prompt_buttons;
+    items =
+    {
+        DLG_LINE
+        {
+            type = EAknCtQuery;
+            prompt = "";
+            id = EGeneralQuery;
+            bmpmask = 0xffff;
+            control = AVKON_DATA_QUERY
+            {
+                layout = EDataLayoutAllowEmptyInput;
+                label = "";
+                control = EDWIN
+                {
+                    flags = EEikEdwinNoLineOrParaBreaks | EEikEdwinResizable;
+                    maxlength = 4096;
+                    width = 16;
+                    lines = 1;
+                    max_view_height_in_lines = 5;
+                };
+            };
+        }
+    };
+}
+
+// ECodeLayout selects AVKON's CEikSecretEditor (masked, non-predictive input).
+RESOURCE DIALOG r_browser_auth_password
+{
+    flags = EGeneralQueryFlags;
+    buttons = r_browser_prompt_buttons;
+    items =
+    {
+        DLG_LINE
+        {
+            type = EAknCtQuery;
+            prompt = "";
+            id = EGeneralQuery;
+            bmpmask = 0xffff;
+            control = AVKON_DATA_QUERY
+            {
+                layout = ECodeLayout;
+                label = "";
+                // CEikSecretEditor::EMaxSecEdSecArrayLength; larger values panic EIKCTL 13.
+                control = SECRETED { num_letters = 255; };
+            };
+        }
+    };
+}
+
+// Native popup commands; keep earlier query resource IDs stable.
+RESOURCE CBA r_browser_popup_buttons
+{
+    buttons =
+    {
+        CBA_BUTTON { id = EAknSoftkeySelect; txt = "Select"; },
+        CBA_BUTTON { id = EAknSoftkeyCancel; txt = "Cancel"; }
+    };
+}

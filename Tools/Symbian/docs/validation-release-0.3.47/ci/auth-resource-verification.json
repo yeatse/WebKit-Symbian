@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "scope": "Actual CI47 SIS-extracted auth/popup resource exactly matches the independently compiled fixed255 resource; source contract is recorded separately",
+  "resource": {
+    "path": "/workspace/symbian-ci47-validation/payloads/browser_ui.rsc",
+    "bytes": 242,
+    "sha256": "fb8e0b7154cb40458860c74bbb5334da613b34339cd47906a1cae0d6d7290ac8"
+  },
+  "source_contract_report": {
+    "path": "/workspace/symbian-ci47-validation/source-auth-limit-verification.json",
+    "sha256": "0ec60a89fc41c38027c80178b6f9ed6656d46844fbbece5a066c12a8765f889d"
+  },
+  "guest_or_phone_execution": false
+}
