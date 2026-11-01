@@ -1,0 +1,14 @@
+2026-11-01T05:41:32.9493576Z ##[group]Run scripts/build-symbian-native.sh
+2026-11-01T05:41:32.9823552Z error: patch failed: cpp/symbian/e32/e32.cc:20
+2026-11-01T05:41:32.9824076Z error: cpp/symbian/e32/e32.cc: patch does not apply
+2026-11-01T05:41:32.9824772Z error: patch failed: cpp/symbian/e32/exports.cc:110
+2026-11-01T05:41:32.9825659Z error: cpp/symbian/e32/exports.cc: patch does not apply
+2026-11-01T05:41:32.9826250Z error: patch failed: cpp/symbian/e32/imports.cc:18
+2026-11-01T05:41:32.9826653Z error: cpp/symbian/e32/imports.cc: patch does not apply
+2026-11-01T05:41:32.9827074Z error: patch failed: cpp/symbian/tools/main.cc:29
+2026-11-01T05:41:32.9827479Z error: cpp/symbian/tools/main.cc: patch does not apply
+2026-11-01T05:41:32.9829424Z error: patch failed: cpp/tests/e32_fixture.h:1
+2026-11-01T05:41:32.9830085Z error: cpp/tests/e32_fixture.h: patch does not apply
+2026-11-01T05:41:32.9830753Z error: patch failed: cpp/tests/e32_test.cc:63
+2026-11-01T05:41:32.9831378Z error: cpp/tests/e32_test.cc: patch does not apply
+2026-11-01T05:41:32.9846652Z ##[error]Process completed with exit code 1.

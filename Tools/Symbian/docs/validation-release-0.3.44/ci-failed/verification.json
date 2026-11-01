@@ -1,0 +1,34 @@
+{
+  "status": "FAIL",
+  "scope": "CI workflow failure; no SIS package acceptance possible",
+  "run_id": 41277714685,
+  "job_id": 124763161105,
+  "head_sha": "207c9995d511a510bef15a966f27100de1cf7455",
+  "run_url": "https://github.com/yeatse/WebKit-Symbian/actions/runs/41277714685",
+  "workflow_status": "completed",
+  "workflow_conclusion": "failure",
+  "failed_step": "E32 converter",
+  "actual_failure": "scripts/build-symbian-native.sh exited 1 while git apply rejected existing hunks in E32 converter source/tests",
+  "observed_failed_paths": [
+    "cpp/symbian/e32/e32.cc",
+    "cpp/symbian/e32/exports.cc",
+    "cpp/symbian/e32/imports.cc",
+    "cpp/symbian/tools/main.cc",
+    "cpp/tests/e32_fixture.h",
+    "cpp/tests/e32_test.cc"
+  ],
+  "root_cause_proven": false,
+  "investigation_boundary": "Cached patched-source replay is a likely explanation; no source mutation, cache mutation or workflow rerun was performed",
+  "sis_artifact_present": false,
+  "any_artifact_downloaded": false,
+  "source_contract": "Separate SOURCE_ONLY check passes; actual package RSC not available",
+  "job_log": {
+    "path": "/workspace/symbian-ci44-validation/job-124763161105.log",
+    "bytes": 77316,
+    "sha256": "70ce9e1ad5194b50dc34dec2597be735aab5e1d799ecd04ee08710cde48b2f90"
+  },
+  "guest_installation_performed": false,
+  "guest_runtime_performed": false,
+  "shared_source_mutations": false,
+  "completed_utc": "2026-11-01T05:44:24.102170+00:00"
+}

@@ -1,0 +1,16 @@
+test_clean_and_second_invocation (__main__.NativePatchStackTests.test_clean_and_second_invocation) ... ok
+test_every_prefix_upgrades (__main__.NativePatchStackTests.test_every_prefix_upgrades) ... ok
+test_full_stack_early_reverse_check_is_not_a_completion_test (__main__.NativePatchStackTests.test_full_stack_early_reverse_check_is_not_a_completion_test) ... ok
+test_invalid_series_is_rejected_even_on_full_postimage (__main__.NativePatchStackTests.test_invalid_series_is_rejected_even_on_full_postimage) ... ok
+test_last_patch_present_does_not_hide_missing_earlier_state (__main__.NativePatchStackTests.test_last_patch_present_does_not_hide_missing_earlier_state) ... ok
+test_missing_owned_file_is_rejected (__main__.NativePatchStackTests.test_missing_owned_file_is_rejected) ... ok
+test_owned_symlink_is_rejected (__main__.NativePatchStackTests.test_owned_symlink_is_rejected) ... ok
+test_partial_sixth_patch_is_rejected_without_writes (__main__.NativePatchStackTests.test_partial_sixth_patch_is_rejected_without_writes) ... ok
+test_unknown_added_file_collision_is_preserved (__main__.NativePatchStackTests.test_unknown_added_file_collision_is_preserved) ... ok
+test_unknown_owned_file_edit_is_preserved (__main__.NativePatchStackTests.test_unknown_owned_file_edit_is_preserved) ... ok
+test_unrelated_staged_and_unstaged_user_edits_are_preserved (__main__.NativePatchStackTests.test_unrelated_staged_and_unstaged_user_edits_are_preserved) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 2.242s
+
+OK

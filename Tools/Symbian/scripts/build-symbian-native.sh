@@ -16,11 +16,11 @@ fi
 export SYMBIAN_DEPS_PREFIX=${SYMBIAN_DEPS_PREFIX:-$SYMBIAN_PLATFORM_SRC/.symbian/host-deps}
 (cd "$SYMBIAN_PLATFORM_SRC" &&
   CMAKE_BUILD_PARALLEL_LEVEL="$JOBS" scripts/bootstrap_wheel_deps.sh > "$WORK/symbian-native-deps.log" 2>&1)
-for patch in "$REPO"/patches/symbian-native/*.patch; do
-  if ! git -C "$SYMBIAN_PLATFORM_SRC" apply --reverse --check "$patch" 2>/dev/null; then
-    git -C "$SYMBIAN_PLATFORM_SRC" apply "$patch"
-  fi
-done
+# Cache entries may already contain overlapping patches. Verify the complete
+# stack against v0.3.0; individual reverse checks are not valid after later edits.
+python3 "$REPO/scripts/apply-native-patches.py" \
+  --source "$SYMBIAN_PLATFORM_SRC" --base v0.3.0 \
+  --patch-dir "$REPO/patches/symbian-native"
 test_options=()
 if [ -f "$SDK/host/lib/cmake/GTest/GTestConfig.cmake" ]; then
   test_options+=(-DGTest_DIR="$SDK/host/lib/cmake/GTest")
@@ -37,4 +37,8 @@ if [ "$SYMBIAN_NATIVE_TESTS" = ON ]; then
   ctest --test-dir "$SYMBIAN_NATIVE_BUILD" --output-on-failure \
     -R '^symbian_e32_test$' | tee "$WORK/symbian-native-tests.log"
 fi
+# Exercise the cached/already-patched path on a fresh CI build too.
+python3 "$REPO/scripts/apply-native-patches.py" \
+  --source "$SYMBIAN_PLATFORM_SRC" --base v0.3.0 \
+  --patch-dir "$REPO/patches/symbian-native"
 ls -la "$SYMBIAN_NATIVE"
