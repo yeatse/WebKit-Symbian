@@ -1,0 +1,10 @@
+{
+  "sources": {
+    "src/emu/common/src/fileutils.cpp": "787f726647f17c68b6acdbc0a1573852595be1ceffca230a7319ced3ee3d801a",
+    "src/emu/utils/include/utils/des.h": "99c763986fc66e95a8a67688e8f46ddd784708211962d1253da4d76dd03f1c52",
+    "src/emu/utils/src/des.cpp": "32755f26ec84127ef975318db96af209d351249194d559030bfa1e469c28beaa",
+    "src/emu/services/src/fs/files.cpp": "1db3c39a406aa384a0b9957f608cab3bd637742cf9e8712e4adc01e96a76ec3e"
+  },
+  "prior_emulator_sha256": "046bc41192886a671c144983dd74d1e45de6860d179ae073a335a5db997c1e64",
+  "scope": "Normal host build only; source already independently reviewed. No guest run."
+}

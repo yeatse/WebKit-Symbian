@@ -1,0 +1,16 @@
+START token=c5743e863b554fef97bac2c285920177 free=50372608 hardCap=260046848
+COMMIT token=c5743e863b554fef97bac2c285920177 total=4194304 free=46174208 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=8388608 free=41979904 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=12582912 free=37785600 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=16777216 free=33591296 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=20971520 free=29396992 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=25165824 free=25202688 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=29360128 free=21008384 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=33554432 free=16814080 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=37748736 free=12619776 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=41943040 free=8425472 error=0 accounting=1
+COMMIT token=c5743e863b554fef97bac2c285920177 total=46137344 free=4231168 error=0 accounting=1
+LOW token=c5743e863b554fef97bac2c285920177 crossed=1 free=4231168 total=46137344
+RELEASE token=c5743e863b554fef97bac2c285920177 bytes=46137344 before=4075520 after=50212864 pattern=1
+WORKER_RESULT token=c5743e863b554fef97bac2c285920177 accounting=PASS low=PASS pattern=PASS release=PASS
+EXIT error=0

@@ -1,7 +1,10 @@
 #include "WebContainer.h"
 
 #include "NativeDeclarations.h"
+#include "AuthenticationUI.h"
 #include "BrowserLog.h"
+#include "DownloadFileNative.h"
+#include "DownloadUI.h"
 #include "browser_ui.rsg"
 #if SYMBIAN_BROWSER_MEDIA
 #include "MediaPlayers.h"
@@ -17,6 +20,8 @@
 #include <eikenv.h>
 #include <fbs.h>
 #include <f32file.h>
+#include <hal.h>
+#include <hal_data.h>
 #include <txtfrmat.h>
 
 using namespace WebKitSymbian;
@@ -45,6 +50,34 @@ TPtrC ToDesC(Text aText)
 Text ToText(const TDesC& aDes)
 {
     return Text { reinterpret_cast<const uint16_t*>(aDes.Ptr()), aDes.Length() };
+}
+
+unsigned KeyModifiers(TUint nativeModifiers)
+{
+    unsigned modifiers = 0;
+    if (nativeModifiers & (EModifierShift | EModifierLeftShift | EModifierRightShift))
+        modifiers |= ShiftKey;
+    if (nativeModifiers & (EModifierCtrl | EModifierLeftCtrl | EModifierRightCtrl))
+        modifiers |= ControlKey;
+    if (nativeModifiers & (EModifierAlt | EModifierLeftAlt | EModifierRightAlt))
+        modifiers |= AltKey;
+    return modifiers;
+}
+
+TUint KeyCodeForEvent(TUint code, TInt scanCode, TUint nativeModifiers)
+{
+    // Keep WSERV/FEP's translated code. Consult the physical scan only to
+    // distinguish Ctrl+H/I/M from Backspace/Tab/Enter, which share C0 codes.
+    // Standard letter scans are ASCII A-Z; do not reinterpret other keys or
+    // FEP events without a physical letter scan as shortcut letters. Ctrl+Alt
+    // may represent AltGr: its translated character must not be reconstructed.
+    unsigned modifiers = KeyModifiers(nativeModifiers);
+    if (!(modifiers & ControlKey) || (modifiers & AltKey) || code < 1 || code > 26
+        || scanCode < 'A' || scanCode > 'Z')
+        return code;
+    bool shift = modifiers & ShiftKey;
+    bool capsLock = nativeModifiers & EModifierCapsLock;
+    return (shift != capsLock ? 'A' : 'a') + code - 1;
 }
 
 TInt WindowsKeyCode(TUint aCode)
@@ -113,7 +146,27 @@ void CWebContainer::ConstructL(const TRect& aRect)
     User::LeaveIfError(Window().SetTransparencyAlphaChannel());
     Window().SetBackgroundColor(TRgb(0, 0, 0, 0));
 #endif
+    TInt digitizer = 0;
+    TInt enabledPointers = 0;
+    TInt pointerQuery = KErrNotSupported;
+    unsigned capacity = 0;
+    if (HAL::Get(HALData::EPen, digitizer) == KErrNone && digitizer) {
+        pointerQuery = HAL::Get(HALData::EPointerNumberOfPointers, enabledPointers);
+        // The native contract specifies one legacy pointer when this attribute
+        // is unavailable. Zero on a successful query means none enabled.
+        if (pointerQuery != KErrNone)
+            enabledPointers = 1;
+        if (enabledPointers > 0)
+            capacity = static_cast<unsigned>(enabledPointers) < maximumSupportedTouchPoints ? static_cast<unsigned>(enabledPointers) : maximumSupportedTouchPoints;
+        if (capacity > 1)
+            Window().EnableAdvancedPointers();
+        if (HAL::Get(HALData::EPointer3DMaxPressure, iMaximumTouchPressure) != KErrNone)
+            iMaximumTouchPressure = 0;
+    }
     iWebView = WebView::create(*this, Size().iWidth, Size().iHeight);
+    capacity = iWebView->setTouchCapabilities(capacity);
+    iTouchTracker = SymbianBrowser::TouchTracker(capacity);
+    BrowserLog("touch: digitizer=%d enabled=%d query=%d accepted=%u", digitizer, enabledPointers, pointerQuery, capacity);
     ActivateL();
     // EGL consumes an RWindow pointer, not the window server's handle.
     iCoeEnv->WsSession().Finish();
@@ -131,6 +184,8 @@ CWebContainer::~CWebContainer()
     if (iWebView)
         iWebView->setNativeWindow(nullptr);
     delete iWebView;
+    if (iAuthenticationUI)
+        iAuthenticationUI->Release();
 #if SYMBIAN_BROWSER_MEDIA
     WebView::setMediaPlayerFactory(nullptr, nullptr);
 #endif
@@ -146,6 +201,13 @@ CWebContainer::~CWebContainer()
 void CWebContainer::PrepareForExit()
 {
     iClosing = true;
+    cancelAuthenticationChallenge(0);
+    if (iWebView)
+        iWebView->detachDownloads();
+    iDownloadIdentifier = 0;
+    iTouchTracker.clear();
+    if (iWebView)
+        iWebView->cancelTouches();
     if (iSelfTest)
         iSelfTest->Cancel();
 }
@@ -223,6 +285,51 @@ void CWebContainer::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     if (iClosing)
         return;
     TPoint point = aPointerEvent.iPosition - Rect().iTl;
+    if (iTouchTracker.capacity()) {
+        const auto* advanced = aPointerEvent.AdvancedPointerEvent();
+        TInt nativeIdentifier = advanced ? advanced->PointerNumber() : 0;
+        if (nativeIdentifier < 0)
+            return;
+        unsigned identifier = static_cast<unsigned>(nativeIdentifier);
+        if (aPointerEvent.iType == TPointerEvent::EOutOfRange) {
+            if (iTouchTracker.contains(identifier))
+                iWebView->cancelTouches();
+            return;
+        }
+        TouchState state;
+        switch (aPointerEvent.iType) {
+        case TPointerEvent::EButton1Down:
+            iObserver.WebPointerDownL();
+            state = TouchState::Pressed;
+            break;
+        case TPointerEvent::EDrag:
+            state = TouchState::Moved;
+            break;
+        case TPointerEvent::EButton1Up:
+            state = TouchState::Released;
+            break;
+        default:
+            return;
+        }
+        TPoint screen = PositionRelativeToScreen() + point;
+        float pressure = 0.5f;
+        if (advanced && iMaximumTouchPressure > 0)
+            pressure = static_cast<float>(Min(Max(advanced->Pressure(), 0), iMaximumTouchPressure)) / iMaximumTouchPressure;
+        SymbianBrowser::TouchFrame frame;
+        if (!iTouchTracker.update(state, identifier, point.iX, point.iY, screen.iX, screen.iY, pressure, frame))
+            return;
+        unsigned modifiers = 0;
+        if (aPointerEvent.iModifiers & EModifierShift)
+            modifiers |= ShiftKey;
+        if (aPointerEvent.iModifiers & EModifierCtrl)
+            modifiers |= ControlKey;
+        if (aPointerEvent.iModifiers & EModifierAlt)
+            modifiers |= AltKey;
+        bool tapped = iWebView->handleTouch(frame.points.data(), frame.count, modifiers);
+        if (tapped && iEditable && iWebView->lastTapWasOnFocusedEditableElement())
+            RequestTouchInputL();
+        return;
+    }
     switch (aPointerEvent.iType) {
     case TPointerEvent::EButton1Down:
         iObserver.WebPointerDownL();
@@ -237,7 +344,7 @@ void CWebContainer::HandlePointerEventL(const TPointerEvent& aPointerEvent)
         TPoint moved = point - iPointerDown;
         TBool tap = Abs(moved.iX) <= KTapSlop && Abs(moved.iY) <= KTapSlop;
         // Tapping a field opens the touch keyboard, as it does for an edwin.
-        if (tap && iEditable)
+        if (tap && iEditable && iWebView->lastTapWasOnFocusedEditableElement())
             RequestTouchInputL();
         break;
     }
@@ -250,26 +357,23 @@ TKeyResponse CWebContainer::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCod
 {
     if (iClosing || aType != EEventKey)
         return EKeyWasNotConsumed;
-    TInt keyCode = WindowsKeyCode(aKeyEvent.iCode);
+    TUint code = KeyCodeForEvent(aKeyEvent.iCode, aKeyEvent.iScanCode, aKeyEvent.iModifiers);
+    TInt keyCode = WindowsKeyCode(code);
     TBuf<1> text;
     // Characters, including those an input method sends as key events.
-    if (aKeyEvent.iCode >= ' ' && aKeyEvent.iCode < ENonCharacterKeyBase && aKeyEvent.iCode != EKeyDelete)
-        text.Append(TChar(aKeyEvent.iCode));
-    else if (aKeyEvent.iCode == EKeyEnter || aKeyEvent.iCode == EKeyDevice3)
+    if (code >= ' ' && code < ENonCharacterKeyBase && code != EKeyDelete)
+        text.Append(TChar(code));
+    else if (code == EKeyEnter || code == EKeyDevice3)
         text.Append(TChar('\r'));
     if (!keyCode && !text.Length())
         return EKeyWasNotConsumed;
 
-    unsigned modifiers = 0;
-    if (aKeyEvent.iModifiers & EModifierShift)
-        modifiers |= ShiftKey;
-    if (aKeyEvent.iModifiers & EModifierCtrl)
-        modifiers |= ControlKey;
-    if (aKeyEvent.iModifiers & EModifierAlt)
-        modifiers |= AltKey;
+    unsigned modifiers = KeyModifiers(aKeyEvent.iModifiers);
     iUpdatingForFep = ETrue;
     bool handled = iWebView->handleKey(true, keyCode, ToText(text), modifiers);
-    iWebView->handleKey(false, keyCode, Text { }, modifiers);
+    // Text supplies the DOM key identity on keyup too; handleKey never emits
+    // a character event for a release or a Control shortcut.
+    iWebView->handleKey(false, keyCode, ToText(text), modifiers);
     iUpdatingForFep = EFalse;
     if (iEditable)
         ReportEditorEventL(MAknEdStateObserver::EAknSyncEdwinState);
@@ -420,6 +524,11 @@ void CWebContainer::didChangeEditingState()
         iSelfTest->CallBack();
 }
 
+void CWebContainer::didCancelTouchSequence()
+{
+    iTouchTracker.clear();
+}
+
 void CWebContainer::didChangeSelection()
 {
     if (iClosing)
@@ -497,6 +606,25 @@ bool CWebContainer::runJavaScriptPrompt(Text aMessage, Text aDefaultValue, TextR
     return !error && accepted;
 }
 
+bool CWebContainer::runAuthenticationChallenge(uint64_t identifier, Text origin, unsigned attempt, TextResult& username, TextResult& password)
+{
+    if (iClosing)
+        return false;
+    if (!iAuthenticationUI) {
+        TRAPD(error, iAuthenticationUI = new (ELeave) CAuthenticationUI);
+        if (error)
+            return false;
+    }
+    // Run retains its controller; the container may close in the nested loop.
+    return iAuthenticationUI->Run(identifier, origin, attempt, username, password);
+}
+
+void CWebContainer::cancelAuthenticationChallenge(uint64_t identifier)
+{
+    if (iAuthenticationUI)
+        iAuthenticationUI->Cancel(identifier);
+}
+
 bool CWebContainer::chooseFile(TextResult& aResult)
 {
     if (iClosing)
@@ -524,6 +652,70 @@ bool CWebContainer::chooseFile(TextResult& aResult)
     if (error)
         BrowserLog("file chooser cancelled: native error %d", error);
     return !error && accepted;
+}
+
+void CWebContainer::didStartDownload(uint64_t identifier)
+{
+    if (iClosing)
+        return;
+    iDownloadIdentifier = identifier;
+    TRAP_IGNORE(iObserver.WebDownloadProgress(ETrue, 0, -1));
+}
+
+int CWebContainer::chooseDownloadDestination(uint64_t identifier, Text, Text suggestion, TextResult& result)
+{
+    if (iClosing)
+        return 1;
+    iDownloadIdentifier = identifier;
+    int error = 0;
+    bool accepted = ChooseNativeDownloadDestination(suggestion, result, error);
+    // The native modal loop may destroy this container. Only use local values
+    // after it returns; the download manager rechecks its client and transfer.
+    if (error)
+        BrowserLog("download save dialog failed: %d", error);
+    return error ? error : (accepted ? 0 : 1);
+}
+
+int CWebContainer::didCloseDownloadDestinationUI()
+{
+    if (iClosing)
+        return KErrCancel;
+    TRAPD(error, iObserver.WebNativeDialogClosedL());
+    // Native restoration may invalidate the client. Only return the local
+    // status; the manager rechecks attachment before using its client.
+    return error;
+}
+
+DownloadFile* CWebContainer::createDownloadFile()
+{
+    return iClosing ? nullptr : createNativeDownloadFile();
+}
+
+void CWebContainer::CancelDownload()
+{
+    if (!iClosing && iWebView && iDownloadIdentifier)
+        iWebView->cancelDownload(iDownloadIdentifier);
+}
+
+void CWebContainer::didChangeDownloadProgress(uint64_t identifier, uint64_t received, int64_t total)
+{
+    if (iClosing)
+        return;
+    iDownloadIdentifier = identifier;
+    TRAP_IGNORE(iObserver.WebDownloadProgress(ETrue, received, total));
+    BrowserLog("download %llu: %llu/%lld bytes", static_cast<unsigned long long>(identifier), static_cast<unsigned long long>(received), static_cast<long long>(total));
+}
+
+void CWebContainer::didFinishDownload(uint64_t identifier, Text path, DownloadFailure failure, int error, int cleanupError, Text description)
+{
+    if (iClosing)
+        return;
+    if (identifier == iDownloadIdentifier) {
+        iDownloadIdentifier = 0;
+        TRAP_IGNORE(iObserver.WebDownloadProgress(EFalse, 0, -1));
+    }
+    BrowserLog("download %llu: terminal=%u error=%d cleanup=%d", static_cast<unsigned long long>(identifier), static_cast<unsigned>(failure), error, cleanupError);
+    ShowNativeDownloadResult(path, failure, error, cleanupError, description);
 }
 
 int CWebContainer::runSelectPopup(const Text* aItems, int aCount, int aSelected)

@@ -1,0 +1,13 @@
+{
+  "run": "dl-g-6caef608f056",
+  "case": "get",
+  "url": "http://localhost:36653/?run=dl-g-6caef608f056",
+  "host_exit_code": 0,
+  "normal_close": true,
+  "forced_cleanup": false,
+  "browser_sha256": "fe75408d621a0c2cbe1f8882374d5289a1d0b43df8d0a1b6d407ac67e398cd08",
+  "emulator_sha256": "b2ce947b4781d7253658552e157c6b1b342868effdfbe7bbae3f8c2993cd2fd8",
+  "finished_utc": "2026-11-01T02:35:52.820947+00:00",
+  "native_ui_reviewed": true,
+  "selected_guest_path": "C:\\Data\\DownloadRuntime\\dl-g-6caef608f056\\payload.bin"
+}

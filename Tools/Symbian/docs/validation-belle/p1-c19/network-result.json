@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "native-compile",
+      "command": [
+        "g++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-mismatched-new-delete",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-pie",
+        "-no-pie",
+        "-I/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/network-state/fakes",
+        "-I/workspace/WebKit-Symbian-graphics/Source/WebCore/platform/symbian",
+        "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/network-state/test-native.cpp",
+        "/workspace/WebKit-Symbian-graphics/Source/WebCore/platform/symbian/NetworkStateNotifierSymbianNative.cpp",
+        "-o",
+        "/workspace/symbian-belle-work/p1-checkpoint-tests/network-state-recheck/test-native"
+      ],
+      "returncode": 0,
+      "pass": true,
+      "log": "native-compile.log"
+    },
+    {
+      "name": "native-tests",
+      "command": [
+        "/workspace/symbian-belle-work/p1-checkpoint-tests/network-state-recheck/test-native"
+      ],
+      "returncode": 0,
+      "pass": true,
+      "log": "native-tests.log"
+    }
+  ],
+  "source_sha256": {
+    "/workspace/WebKit-Symbian-graphics/Source/WebCore/platform/symbian/NetworkStateNotifierSymbianNative.cpp": "411ffb804dd7efb3a8771ba565da56121b7f958e2b73383bf947e1c2d5e55217",
+    "/workspace/WebKit-Symbian-graphics/Source/WebCore/platform/symbian/NetworkStateNotifierSymbianNative.h": "b5906a1667ef6d79e61b6a1e79a926bb0938a612f010be9bcbcfe278f22ec539",
+    "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/network-state/test-native.cpp": "42f43798110433eda4789c78b13906e3153fc5da11b09ae51ffb1117bd8c8463",
+    "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/network-state/fakes/e32base.h": "c970f6f06bbf97f1825b501d6cd3ed5028515adfb015bb6c5231778edc84497d",
+    "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/network-state/fakes/nifvar.h": "6de3f65fa4a0ba3684f47664c0c78cbadf107702aa5eb09e07acbbf113d726e3",
+    "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/network-state/fakes/rconnmon.h": "13d39a64ad3c75bec9b123b488f9993a261d569a019fa0dc57c49731d17b81aa"
+  },
+  "runtime_scope": "host API-boundary simulation and actual EKA registry; no guest or full emulator run"
+}

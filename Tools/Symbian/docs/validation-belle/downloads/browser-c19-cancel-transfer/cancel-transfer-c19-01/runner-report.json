@@ -1,0 +1,14 @@
+{
+  "run": "dl-x-226d99b79e47",
+  "case": "cancel-transfer",
+  "url": "http://localhost:35899/?run=dl-x-226d99b79e47",
+  "host_exit_code": 0,
+  "normal_close": true,
+  "forced_cleanup": false,
+  "browser_sha256": "6b6e8e0a430ff9c1ce0be935161d4b7e61804444e2947cb0218e74cb2e5420ae",
+  "emulator_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+  "finished_utc": "2026-11-01T04:01:26.999804+00:00",
+  "native_ui_reviewed": true,
+  "selected_guest_path": "C:\\Data\\DownloadRuntime\\dl-x-226d99b79e47\\payload.bin",
+  "functional_failure": null
+}

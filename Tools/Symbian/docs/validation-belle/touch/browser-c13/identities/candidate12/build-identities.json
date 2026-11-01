@@ -1,0 +1,37 @@
+{
+  "built_utc": "2026-11-01T02:18:07.255405+00:00",
+  "artifacts": {
+    "browser.exe": {
+      "bytes": 58792312,
+      "sha256": "98ed544fae3f5121f72e5db0534f91320d262751a4bf8893a90c6499799d6689"
+    },
+    "browser_ui.rsc": {
+      "bytes": 192,
+      "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+    },
+    "browser_reg.rsc": {
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "browser_loc.rsc": {
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "libraries.json": {
+      "bytes": 59,
+      "sha256": "d471e7e47cff37252dc9c741bdb82ce9cac4d4d68c48f504d544a48fb0cf5534"
+    }
+  },
+  "contains": [
+    "C11 feature source",
+    "precise touch scroll fix",
+    "browser Ctrl modifier/key/Char fix"
+  ],
+  "excludes": [
+    "CookieStore candidate",
+    "IPv6HTTP2 candidate",
+    "IAP proxy candidate"
+  ],
+  "engine_log": "/workspace/symbian-belle-work/p1-engine-keyboard-c12-20261101.log",
+  "browser_log": "/workspace/symbian-belle-work/p1-browser-c12-final-20261101.log"
+}

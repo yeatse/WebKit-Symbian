@@ -1,0 +1,12 @@
+{
+  "calibration_sha256": "fb31f0ff640efbd2bf0e5124efe3d2f0e8ab0f12459bcc75c493e993591f199a",
+  "screenshots_reviewed": true,
+  "actions": [
+    {
+      "target": "fep",
+      "role": "edit-name",
+      "wait": 0.5,
+      "key": "BackSpace"
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "suite": "symbian-download-runtime",
+  "status": "PASS",
+  "errors": [],
+  "missing": [],
+  "checks": [
+    "HTTP request count, method and exact request-body identity",
+    "actual directory/file size, SHA256, inode and mtime preservation",
+    "fresh guest callback result, cleanup status and run URL"
+  ],
+  "artifacts": [
+    {
+      "kind": "fixture identity",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/fixture/ready.json",
+      "sha256": "5067c2f2b569a2bb3b1303894cdf86a4f5ddc90dbae19ca4ebc7c4ceb149b46c"
+    },
+    {
+      "kind": "reused HTTP fixture source",
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/downloads/server.py",
+      "sha256": "34138202c12a0b3937430d22d268fb283d1b31d04b59c8a5163112faa9dfe2cf"
+    },
+    {
+      "kind": "HTTP events",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/fixture/events.jsonl",
+      "sha256": "e2fa1d9cc7526ced5d6e42d86e32827eba424e28ccf3491006c935bad4ad93a1"
+    },
+    {
+      "kind": "before directory snapshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/before.json",
+      "sha256": "308baf8298829d7e412085369f0c6d88092a25a194c852a1f42b1a64ddf55183"
+    },
+    {
+      "kind": "after directory snapshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/after.json",
+      "sha256": "ea89d1316cf9f6af56fa7a6ba20fe5ff1b44589135aaca84906343c0128d285e"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-002/interaction.json",
+      "sha256": "d7ef014f44d77b4e871e662ef24734ccef961b61ee60c557d1aaad4c60391627"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-002/calibration/calibration-main.png",
+      "sha256": "4a3f43c0b0a9d7f7f441f2e6b025822611a89c1ba8ccd34cb5ecc767d453a164"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-002/01-before-main.png",
+      "sha256": "4a3f43c0b0a9d7f7f441f2e6b025822611a89c1ba8ccd34cb5ecc767d453a164"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-002/01-after-main.png",
+      "sha256": "9b23f1a5c37de1e575d0b067a30ebecaa744ee2cb93fc4195203c1075ba49159"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-003/interaction.json",
+      "sha256": "ab7743cc6f0d5b348d993fde60980359d1eb01bd9d49cb18849beba4928e1bd8"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-003/calibration/calibration-main.png",
+      "sha256": "9b23f1a5c37de1e575d0b067a30ebecaa744ee2cb93fc4195203c1075ba49159"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-003/01-before-main.png",
+      "sha256": "9b23f1a5c37de1e575d0b067a30ebecaa744ee2cb93fc4195203c1075ba49159"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-003/01-after-main.png",
+      "sha256": "2e443650e39fdec417a6b2f2ce01fdc03ed3695eebfeb4999bb52a096c3103c4"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-004/interaction.json",
+      "sha256": "5306ee1468cc887075463169187aa100b15223ec7eceffbe4b34243402818239"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-004/calibration/calibration-main.png",
+      "sha256": "2e443650e39fdec417a6b2f2ce01fdc03ed3695eebfeb4999bb52a096c3103c4"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-004/01-before-main.png",
+      "sha256": "2e443650e39fdec417a6b2f2ce01fdc03ed3695eebfeb4999bb52a096c3103c4"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-004/01-after-main.png",
+      "sha256": "ca334e35a32e119daa49a679d332d49be64124ab69eeed891e23946f9abcaa95"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-005/interaction.json",
+      "sha256": "a2b204212f0f6de26b50588219ac463df4057a127e17c5db38cf33846da19dfb"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-005/calibration/calibration-main.png",
+      "sha256": "ca334e35a32e119daa49a679d332d49be64124ab69eeed891e23946f9abcaa95"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-005/01-before-main.png",
+      "sha256": "ca334e35a32e119daa49a679d332d49be64124ab69eeed891e23946f9abcaa95"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-005/01-after-main.png",
+      "sha256": "0d742f736ed92de65f59cced7dace69b5e417c629cb84b66b2756ef7697d8b0a"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-006/interaction.json",
+      "sha256": "0d03dc49355f691d16acd7144f2ee0cbf3d4a75458a495db889c13754f1f670a"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-006/calibration/calibration-main.png",
+      "sha256": "0d742f736ed92de65f59cced7dace69b5e417c629cb84b66b2756ef7697d8b0a"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-006/01-before-main.png",
+      "sha256": "0d742f736ed92de65f59cced7dace69b5e417c629cb84b66b2756ef7697d8b0a"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-006/01-after-main.png",
+      "sha256": "5669bf56d940e4a64a6f4199ff1546590057c005762bdc356e703b60b89424f2"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-007/interaction.json",
+      "sha256": "919ea6feff76ce227f5bd8b3532c16f8ab7373303135652f59098b027e550909"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-007/calibration/calibration-main.png",
+      "sha256": "5669bf56d940e4a64a6f4199ff1546590057c005762bdc356e703b60b89424f2"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-007/01-before-main.png",
+      "sha256": "5669bf56d940e4a64a6f4199ff1546590057c005762bdc356e703b60b89424f2"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-007/01-after-main.png",
+      "sha256": "da9342c4df74843228bb62f63d915ea9c7fefea8be9aafd714f865dd90e0a27a"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-007/01-after-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-008/interaction.json",
+      "sha256": "bfbcbc2716e037395320ae0c4c852ec01c9a88713d7286e11c9b0472bfe175aa"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-008/calibration/calibration-main.png",
+      "sha256": "da9342c4df74843228bb62f63d915ea9c7fefea8be9aafd714f865dd90e0a27a"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-008/calibration/calibration-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-008/01-before-main.png",
+      "sha256": "da9342c4df74843228bb62f63d915ea9c7fefea8be9aafd714f865dd90e0a27a"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-008/01-before-fep.png",
+      "sha256": "11fbbb4a8e364f7b600aeecb194bacc2d24dc6486ebca1a5505eab8f4ce0fa7f"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-008/01-after-main.png",
+      "sha256": "c8f82db2495ad7e657a0ac10f0c7ec00b38b2aa7f30606b5ce7aa1c7484db7f1"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-009/interaction.json",
+      "sha256": "d095558a4b29b077c2825100460d5f18bb3202b8028be288e66b6522c75330e5"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-009/calibration/calibration-main.png",
+      "sha256": "c8f82db2495ad7e657a0ac10f0c7ec00b38b2aa7f30606b5ce7aa1c7484db7f1"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-009/01-before-main.png",
+      "sha256": "c8f82db2495ad7e657a0ac10f0c7ec00b38b2aa7f30606b5ce7aa1c7484db7f1"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/input-009/01-after-main.png",
+      "sha256": "b3067c556cdac8e8770234dd59ecc3e9dbf741928110d14cd0c1e55291101ecf"
+    },
+    {
+      "kind": "fresh guest log",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/browser/runs/browser-20261101T030008Z-h51bf5ek/log.txt",
+      "sha256": "0da701618ed1482085e52708501937cd99cbf008f341e6fce05f11a220ea7c86"
+    },
+    {
+      "kind": "fresh emulator log",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/browser/runs/browser-20261101T030008Z-h51bf5ek/emulator.log",
+      "sha256": "5fd75190a0ec3f83f71a3b290ed0de948daeb8ca2e1577ddbd31bd69c7f70389"
+    },
+    {
+      "kind": "runner report",
+      "path": "/workspace/symbian-download-suite-resume/runs/chunked-c15-01/runner-report.json",
+      "sha256": "23691fb9faf92e7de7802e3702840a50435e9e8f936b88c12943f69c1c9d9f68"
+    }
+  ],
+  "run": "dl-h-17cb8dbe9f88",
+  "case": "chunked",
+  "scope": "Retained real-browser request, native-input, native-file and normal-close evidence; host fixture tests alone cannot pass."
+}

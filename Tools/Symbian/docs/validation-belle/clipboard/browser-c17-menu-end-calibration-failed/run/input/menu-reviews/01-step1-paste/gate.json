@@ -1,0 +1,22 @@
+{
+  "run": "clipboard-menu-c17-cal-20261101-01",
+  "step": 1,
+  "operation": "paste",
+  "expected_label": "Paste",
+  "frames": {
+    "opened": {
+      "path": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/menu-reviews/01-step1-paste/opened.png",
+      "sha256": "c4de5401de70ec53fe7516bbcc33c2c17a0acb3c81f547243b12a2f4703cb3e5"
+    },
+    "end": {
+      "path": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/menu-reviews/01-step1-paste/end.png",
+      "sha256": "a82b53579675adb0e55c2ff7c998f994baeec81694e8b68427cb69975beed27c"
+    },
+    "selected": {
+      "path": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/menu-reviews/01-step1-paste/selected.png",
+      "sha256": "54aaff53c423bca893ff7952b6f5c8bab2727841f3ee0293b9deb2659968ce28"
+    }
+  },
+  "state": "WAITING_ROOT_REVIEW",
+  "no_return_sent": true
+}

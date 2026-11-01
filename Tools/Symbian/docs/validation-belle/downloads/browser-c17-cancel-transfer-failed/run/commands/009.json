@@ -1,0 +1,1 @@
+{"run": "dl-x-2b6107823e76", "sequence": 9, "operation": "act", "capture_sha256": "76e9ac70592b6cfe1a22279f041fc6e81c3c6e7a5af5a2c3c7e0017316d2c10d", "screenshots_reviewed": true, "actions": [{"target": "main", "role": "save-accept", "wait": 0.5, "point": [365, 332]}]}

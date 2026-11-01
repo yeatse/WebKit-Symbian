@@ -1,0 +1,10 @@
+02:26:27.961 WebKit Browser starting
+02:26:27.982 network: starting the connection
+02:26:29.431 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+02:26:29.898 network: connected through "Host network"
+02:26:29.913 load http://localhost:8783/?case=navigation&run=540eb6ad1a6645e8b44ef3f7e9a352db
+console: http://localhost:8783/?case=navigation&run=540eb6ad1a6645e8b44ef3f7e9a352db:35: SYMBIAN TOUCH navigation READY {"run":"540eb6ad1a6645e8b44ef3f7e9a352db","maxTouchPoints":8,"instruction":"Press and hold: this page navigates after 250 ms; old contacts must be cancelled.","viewport":{"width":360,"height":532},"pad":{"left":10,"top":94,"width":340,"height":196}}
+console: http://localhost:8783/?case=landing&run=540eb6ad1a6645e8b44ef3f7e9a352db:35: SYMBIAN TOUCH landing DONE PASS old page native contact cancelled before navigation {}
+console: http://localhost:8783/?case=landing&run=540eb6ad1a6645e8b44ef3f7e9a352db:35: SYMBIAN TOUCH landing EVENTS []

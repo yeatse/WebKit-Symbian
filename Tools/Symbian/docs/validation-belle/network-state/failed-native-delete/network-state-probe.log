@@ -1,0 +1,19 @@
+BEGIN: native-network-state version=1
+PASS: production native observer created
+PASS: initial state is asynchronous and unknown
+PASS: idle guest has no active connection
+FAIL: RConnection Start publishes online
+FAIL: ConnMon sends create and link-open event payloads
+PASS: ConnMon snapshots one actual interface
+FAIL: connection ID is distinct from bearer IDs
+FAIL: connection status is the real link-open stage
+FAIL: zero enumeration index rejected
+FAIL: normal attachment keeps shared interface online
+FAIL: last owner close publishes offline
+FAIL: normal close deletion is not authoritative
+FAIL: reopen reconnects
+FAIL: explicit Stop publishes offline
+FAIL: authoritative Stop flag survives event IPC
+FAIL: Start after Stop reconnects
+FAIL: another monitor cancellation does not stop native observer
+PASS: cancelled ConnMon receives no later callbacks

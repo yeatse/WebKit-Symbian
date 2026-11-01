@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "copied_provenance_entries_checked": 46,
+  "manifest_files": 49,
+  "sha256sum_entries": 51,
+  "excluded_content": [
+    "previous-log",
+    "private clipboard bytes",
+    "profile databases",
+    "private original config/profile",
+    "screenshots not captured"
+  ],
+  "no_guest_or_test_execution": true
+}

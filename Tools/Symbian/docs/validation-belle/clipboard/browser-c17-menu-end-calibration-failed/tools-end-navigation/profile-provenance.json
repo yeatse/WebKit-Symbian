@@ -1,0 +1,24 @@
+{
+  "base": "/workspace/symbian-eka-keyboard-work/webkit-editor.yml",
+  "base_sha256": "cedf184a2ce966415104d60cb4e836633e379326a76f009e7bcc2ad05bdf0f06",
+  "additions": [
+    {
+      "host": "Qt::Key_Home",
+      "value": 16777232,
+      "native": "EStdKeyHome",
+      "scan": 8
+    },
+    {
+      "host": "Qt::Key_End",
+      "value": 16777233,
+      "native": "EStdKeyEnd",
+      "scan": 9
+    }
+  ],
+  "official_headers": [
+    "/workspace/host-sysroot/usr/include/x86_64-linux-gnu/qt6/QtCore/qnamespace.h:676",
+    "/workspace/symbian-sdk/include/native/e32keys.h:167"
+  ],
+  "native_menu_behavior_validated": false,
+  "default_profile_changed": false
+}

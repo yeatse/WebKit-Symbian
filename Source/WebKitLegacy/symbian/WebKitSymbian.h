@@ -30,6 +30,8 @@
 #pragma once
 
 #include <stdint.h>
+#include "DownloadFile.h"
+#include "WebKitSymbianTouch.h"
 
 namespace WebKitSymbian {
 
@@ -59,6 +61,7 @@ protected:
 enum class InputType { None, Text, Password, Number, Telephone, Email, URL, Search, MultiLine };
 
 enum class PointerEvent { Down, Move, Up };
+enum class EditCommand { Cut, Copy, Paste, SelectAll };
 
 enum Modifier : unsigned {
     ShiftKey = 1 << 0,
@@ -79,15 +82,37 @@ public:
     // The text or the selection of the focused field changed, other than
     // through the composition calls below.
     virtual void didChangeSelection() { }
+    // Navigation/focus cancellation invalidates the native contact sequence.
+    virtual void didCancelTouchSequence() { }
     virtual void runJavaScriptAlert(Text /* message */) { }
     virtual bool runJavaScriptConfirm(Text /* message */) { return false; }
     // Return true only after setting a result. An accepted empty string differs
     // from cancellation. The result may only be used during this call.
     virtual bool runJavaScriptPrompt(Text /* message */, Text /* defaultValue */, TextResult&) { return false; }
+    // Only HTTP 401 Basic/Digest challenges reach this callback. origin is the
+    // serialized scheme/host/port, without credentials, path or server text.
+    // attempt is 1..3. Results are synchronous; false cancels the request.
+    // Credentials are used for this request only and are not saved to disk.
+    virtual bool runAuthenticationChallenge(uint64_t /* identifier */, Text /* origin */, unsigned /* attempt */, TextResult& /* username */, TextResult& /* password */) { return false; }
+    // Dismiss a pending native query when its load/frame is invalidated.
+    // identifier == 0 cancels any query in this view.
+    virtual void cancelAuthenticationChallenge(uint64_t /* identifier */) { }
     // Pick one existing local file, returning its absolute UTF-16 path. false
     // means cancellation/error; this initial bridge does not support multiple
     // files or directory selection. The result may only be used during this call.
     virtual bool chooseFile(TextResult&) { return false; }
+    // Download callbacks are synchronous on the embedding thread. Result text
+    // is copied during the callback. totalBytes == -1 means unknown length.
+    // A second transfer in this view receives a separate Busy terminal event.
+    virtual void didStartDownload(uint64_t /* identifier */) { }
+    // Return 0 for acceptance, 1 for cancellation, or a negative native error.
+    virtual int chooseDownloadDestination(uint64_t /* identifier */, Text /* source */, Text /* suggestedFilename */, TextResult&) { return 1; }
+    // Called after that modal UI only if the manager still has this client.
+    // Restore native shell controls; a negative error rejects an accepted path.
+    virtual int didCloseDownloadDestinationUI() { return 0; }
+    virtual DownloadFile* createDownloadFile() { return nullptr; }
+    virtual void didChangeDownloadProgress(uint64_t /* identifier */, uint64_t /* receivedBytes */, int64_t /* totalBytes */) { }
+    virtual void didFinishDownload(uint64_t /* identifier */, Text /* path */, DownloadFailure, int /* errorCode */, int /* cleanupError */, Text /* description */) { }
     // A <select> was tapped: show the items and return the chosen index, or
     // -1 if the choice was cancelled.
     virtual int runSelectPopup(const Text* /* items */, int /* count */, int /* selectedIndex */) { return -1; }
@@ -158,6 +183,11 @@ public:
     virtual void load(const char* url) = 0;
     virtual void reload() = 0;
     virtual void stop() = 0;
+    virtual bool hasActiveDownload() const { return false; }
+    virtual void cancelDownload(uint64_t /* identifier */) { }
+    // Permanent shutdown: detach callbacks and cancel before the native client
+    // or view is destroyed, while its event loop is still available.
+    virtual void detachDownloads() { }
     virtual void goBack() = 0;
     virtual void goForward() = 0;
     virtual bool canGoBack() const = 0;
@@ -166,10 +196,23 @@ public:
     virtual void setFocused(bool) = 0;
     // Taps become clicks; drags scroll.
     virtual void handlePointer(PointerEvent, int x, int y) = 0;
+    // Returns the accepted capacity; zero retains the mouse-only fallback.
+    virtual unsigned setTouchCapabilities(unsigned) { return 0; }
+    // Each frame includes stationary contacts as well as changed contacts.
+    // Returns true only when an unprevented single-finger tap clicked.
+    virtual bool handleTouch(const TouchPoint*, unsigned, unsigned /* modifiers */) { return false; }
+    // Native input may open only after a direct tap on the field still focused.
+    virtual bool lastTapWasOnFocusedEditableElement() const { return false; }
+    virtual void cancelTouches() { }
     virtual void scrollBy(int dx, int dy) = 0;
     // windowsKeyCode is a Windows virtual key code (VK_*), text the characters
     // the key produces. Returns whether the page handled the key.
     virtual bool handleKey(bool isDown, int windowsKeyCode, Text, unsigned modifiers) = 0;
+
+    // Trusted native menu actions; command handlers still enforce editable,
+    // password and selection rules and dispatch normal DOM clipboard events.
+    virtual bool canExecuteEditCommand(EditCommand) const { return false; }
+    virtual bool executeEditCommand(EditCommand) { return false; }
 
     // Editing in the focused field, for the input method. Offsets are UTF-16
     // positions in the field's text, which includes the composition.

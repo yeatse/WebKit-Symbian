@@ -99,7 +99,27 @@ Ref<CurlRequest> ResourceHandle::createCurlRequest(ResourceRequest&& request)
     auto result = CurlRequest::create(request, *this);
     result->setMessageQueue(RefPtr { d->m_messageQueue });
     result->setDefersLoading(d->m_defersLoading);
+    result->setDownloadBufferLimit(d->m_downloadBufferLimit);
     return result;
+}
+
+bool ResourceHandle::setClientForDownload(ResourceHandleClient& client, size_t limit)
+{
+    ASSERT(isMainThread());
+    if (d->m_cancelled || d->m_messageQueue || !d->m_client || !firstRequest().url().protocolIsInHTTPFamily())
+        return false;
+    clearAuthentication();
+    d->m_client = &client;
+    setDownloadBufferLimit(limit);
+    return true;
+}
+
+void ResourceHandle::setDownloadBufferLimit(size_t limit)
+{
+    ASSERT(isMainThread());
+    d->m_downloadBufferLimit = limit;
+    if (d->m_curlRequest)
+        d->m_curlRequest->setDownloadBufferLimit(limit);
 }
 
 void ResourceHandle::cancel()
@@ -278,6 +298,21 @@ void ResourceHandle::curlDidReceiveData(CurlRequest& request, Ref<SharedBuffer>&
     });
 }
 
+void ResourceHandle::curlDidReceiveDownloadData(CurlRequest& request, Ref<SharedBuffer>&& buffer, CompletionHandler<void()>&& consumed)
+{
+    struct PendingData {
+        // Members are destroyed in reverse order: the buffer is released
+        // before its budget. This also runs when cancel() clears the queue,
+        // dispatch rejects the callback, or the old request becomes stale.
+        CompletionHandlerCallingScope consumed;
+        Ref<SharedBuffer> buffer;
+    };
+    dispatchCurlCallback([request = Ref { request }, pending = PendingData { CompletionHandlerCallingScope { WTF::move(consumed) }, WTF::move(buffer) }](ResourceHandle& handle) {
+        if (handle.acceptsCurlCallback(request))
+            handle.client()->didReceiveBuffer(&handle, pending.buffer, pending.buffer->size());
+    });
+}
+
 void ResourceHandle::curlDidComplete(CurlRequest& request, NetworkLoadMetrics&& metrics)
 {
     dispatchCurlCallback([request = Ref { request }, metrics = WTF::move(metrics)](ResourceHandle& handle) {
@@ -320,7 +355,7 @@ void ResourceHandle::receivedCredential(const AuthenticationChallenge& challenge
         receivedRequestToContinueWithoutCredential(challenge);
         return;
     }
-    if (shouldUseCredentialStorage() && context() && context()->storageSession())
+    if (credential.persistence() != CredentialPersistence::None && shouldUseCredentialStorage() && context() && context()->storageSession())
         context()->storageSession()->credentialStorage().set(d->m_partition, credential, challenge.protectionSpace(), challenge.failureResponse().url());
     auto request = d->m_curlRequest->resourceRequest();
     d->m_curlRequest->cancel();

@@ -1,0 +1,370 @@
+From ecd88aecb29e247a15d4c779df3478946e4706e4 Mon Sep 17 00:00:00 2001
+From: luck <rommelalexander4481@outlook.com>
+Date: Sun, 1 Nov 2026 02:57:20 +0000
+Subject: [PATCH] Preserve FEP text and selection on native input cancellation
+
+---
+ .../android/app/src/main/cpp/src/launcher.cpp |  3 +-
+ src/emu/dispatch/include/dispatch/hui.h       |  2 +-
+ src/emu/dispatch/src/hui.cpp                  | 10 +--
+ .../drivers/include/drivers/ui/input_dialog.h |  2 +-
+ src/emu/drivers/src/ui/input_dialog_ios.mm    |  4 +-
+ src/emu/qt/include/qt/mainwindow.h            | 11 +--
+ src/emu/qt/src/mainwindow.cpp                 | 74 ++++++++++++-------
+ src/patch/avkonfep/inc/HostBridgedImeFEP.h    |  3 +-
+ src/patch/avkonfep/src/HostBridgedImeFEP.cpp  | 43 +++++------
+ 9 files changed, 85 insertions(+), 67 deletions(-)
+
+diff --git a/src/emu/android/app/src/main/cpp/src/launcher.cpp b/src/emu/android/app/src/main/cpp/src/launcher.cpp
+index 5bd51c0..c3d044f 100644
+--- a/src/emu/android/app/src/main/cpp/src/launcher.cpp
++++ b/src/emu/android/app/src/main/cpp/src/launcher.cpp
+@@ -683,8 +683,9 @@ namespace eka2l1::android {
+ 
+     void launcher::on_finished_text_input(const std::string &text, const bool force_close) {
+         if (input_complete_callback_) {
+-            input_complete_callback_(common::utf8_to_ucs2(text));
++            auto callback = std::move(input_complete_callback_);
+             input_complete_callback_ = nullptr;
++            callback(force_close ? std::u16string{} : common::utf8_to_ucs2(text), !force_close);
+         }
+     }
+ 
+diff --git a/src/emu/dispatch/include/dispatch/hui.h b/src/emu/dispatch/include/dispatch/hui.h
+index 11d9e63..cccb43b 100644
+--- a/src/emu/dispatch/include/dispatch/hui.h
++++ b/src/emu/dispatch/include/dispatch/hui.h
+@@ -35,7 +35,7 @@ namespace eka2l1::dispatch {
+         epoc::notify_info info_;
+         std::uint64_t request_id_ = 0;
+     public:
+-        void on_input_view_complete(kernel_system *kern, std::uint64_t request_id, const std::u16string &result_text);
++        void on_input_view_complete(kernel_system *kern, std::uint64_t request_id, const std::u16string &result_text, bool accepted);
+         void set_notify_info(epoc::notify_info info);
+         void cancel(kernel_system *kern);
+ 
+diff --git a/src/emu/dispatch/src/hui.cpp b/src/emu/dispatch/src/hui.cpp
+index 67b45e9..c3f00e9 100644
+--- a/src/emu/dispatch/src/hui.cpp
++++ b/src/emu/dispatch/src/hui.cpp
+@@ -53,10 +53,10 @@ namespace eka2l1::dispatch {
+         result_.clear();
+     }
+ 
+-    void ehui_input_view_controller::on_input_view_complete(kernel_system *kern, std::uint64_t request_id, const std::u16string &result_text) {
++    void ehui_input_view_controller::on_input_view_complete(kernel_system *kern, std::uint64_t request_id, const std::u16string &result_text, bool accepted) {
+         if (request_id == request_id_ && is_another_input_dialog_active(kern)) {
+-            result_ = result_text;
+-            info_.complete(epoc::error_none);
++            result_ = accepted ? result_text : std::u16string{};
++            info_.complete(accepted ? epoc::error_none : epoc::error_cancel);
+         }
+     }
+ 
+@@ -72,9 +72,9 @@ namespace eka2l1::dispatch {
+ 
+         controller.set_notify_info(epoc::notify_info(status, kern->crr_thread()));
+         const auto request_id = controller.request_id();
+-        if (!drivers::ui::open_input_view(initial_text->to_std_string(kern->crr_process()), max_length, [&controller, kern, request_id](const std::u16string &result) {
++        if (!drivers::ui::open_input_view(initial_text->to_std_string(kern->crr_process()), max_length, [&controller, kern, request_id](const std::u16string &result, bool accepted) {
+             kern->lock();
+-            controller.on_input_view_complete(kern, request_id, result);
++            controller.on_input_view_complete(kern, request_id, result, accepted);
+             kern->unlock();
+         })) {
+             controller.cancel(kern);
+diff --git a/src/emu/drivers/include/drivers/ui/input_dialog.h b/src/emu/drivers/include/drivers/ui/input_dialog.h
+index 10b83f2..7053e58 100644
+--- a/src/emu/drivers/include/drivers/ui/input_dialog.h
++++ b/src/emu/drivers/include/drivers/ui/input_dialog.h
+@@ -24,7 +24,7 @@
+ #include <string>
+ 
+ namespace eka2l1::drivers::ui {
+-    using input_dialog_complete_callback = std::function<void(const std::u16string &)>;
++    using input_dialog_complete_callback = std::function<void(const std::u16string &, bool accepted)>;
+     using yes_no_dialog_complete_callback = std::function<void(int)>;
+     using dialog_cancel_callback = std::function<void()>;
+ 
+diff --git a/src/emu/drivers/src/ui/input_dialog_ios.mm b/src/emu/drivers/src/ui/input_dialog_ios.mm
+index dfbfa91..03aa7de 100644
+--- a/src/emu/drivers/src/ui/input_dialog_ios.mm
++++ b/src/emu/drivers/src/ui/input_dialog_ios.mm
+@@ -185,7 +185,7 @@ namespace eka2l1::drivers::ui {
+                 g_active_alert = nil;
+                 notify_input_available();
+                 if (request->complete) {
+-                    request->complete(result);
++                    request->complete(result, true);
+                 }
+             }];
+             UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
+@@ -199,7 +199,7 @@ namespace eka2l1::drivers::ui {
+                 if (g_automatic_input) {
+                     g_input.reset();
+                     if (request->complete) {
+-                        request->complete(request->text);
++                        request->complete({}, false);
+                     }
+                 }
+             }];
+diff --git a/src/emu/qt/include/qt/mainwindow.h b/src/emu/qt/include/qt/mainwindow.h
+index 619a008..0bffe1c 100644
+--- a/src/emu/qt/include/qt/mainwindow.h
++++ b/src/emu/qt/include/qt/mainwindow.h
+@@ -110,6 +110,7 @@ private:
+     eka2l1::drivers::ui::input_dialog_complete_callback input_complete_callback_;
+     std::u16string input_initial_text_;
+     int input_text_max_len_;
++    quint64 input_dialog_request_id_ = 0;
+ 
+     QString ngage_game_installing_name_;
+ 
+@@ -186,9 +187,9 @@ private slots:
+     void force_update_display_minimum_size();
+     void on_window_title_setting_changed();
+     void on_finished_text_input(const QString &text, const bool force_close);
+-    void on_input_dialog_open_request();
+-    void on_input_dialog_close_request();
+-    void on_input_dialog_delay_launch_asked();
++    void on_input_dialog_open_request(quint64 request_id);
++    void on_input_dialog_close_request(quint64 request_id);
++    void on_input_dialog_delay_launch_asked(quint64 request_id);
+     void on_hide_system_apps_changed();
+     void on_bt_netplay_mod_friends_clicked();
+     void on_btnetplay_friends_dialog_finished(int status);
+@@ -215,8 +216,8 @@ signals:
+     void restart_requested();
+     void controller_button_press(eka2l1::drivers::input_event event);
+     void screen_focus_group_changed();
+-    void input_dialog_delay_launch_asked();
+-    void input_dialog_close_request();
++    void input_dialog_delay_launch_asked(quint64 request_id);
++    void input_dialog_close_request(quint64 request_id);
+     void install_ngage_game_name_available(QString name);
+     void app_exited(const int exit_type, const int exit_reason, const QString exit_category);
+ 
+diff --git a/src/emu/qt/src/mainwindow.cpp b/src/emu/qt/src/mainwindow.cpp
+index 8d7c75d..e674afe 100644
+--- a/src/emu/qt/src/mainwindow.cpp
++++ b/src/emu/qt/src/mainwindow.cpp
+@@ -1611,59 +1611,77 @@ bool main_window::input_dialog_open(const std::u16string &inital_text, const int
+         return false;
+     }
+ 
+-    input_complete_callback_ = complete_callback;
++    input_complete_callback_ = std::move(complete_callback);
+     input_initial_text_ = inital_text;
+     input_text_max_len_ = max_length;
+ 
+-    emit input_dialog_delay_launch_asked();
++    emit input_dialog_delay_launch_asked(++input_dialog_request_id_);
+     return true;
+ }
+ 
+ void main_window::input_dialog_close() {
+-    emit input_dialog_close_request();
++    emit input_dialog_close_request(input_dialog_request_id_);
+ }
+ 
+-void main_window::on_input_dialog_delay_launch_asked() {
+-    // Give it a bit of time so that the Select (Middle/5) button release can be submitted
+-    QTimer::singleShot(200, this, &main_window::on_input_dialog_open_request);
++void main_window::on_input_dialog_delay_launch_asked(quint64 request_id) {
++    // Keep the request identity across the Select-button release delay. A
++    // canceled request must not display a late dialog for a later request.
++    QTimer::singleShot(200, this, [this, request_id] {
++        on_input_dialog_open_request(request_id);
++    });
+ }
+ 
+ void main_window::on_finished_text_input(const QString &text, const bool force_close) {
+-    if (input_complete_callback_) {
+-        input_complete_callback_(text.toStdU16String());
+-        input_complete_callback_ = nullptr;
++    auto callback = std::move(input_complete_callback_);
++    input_complete_callback_ = nullptr;
++    auto *dialog = input_dialog_;
++    input_dialog_ = nullptr;
++    ++input_dialog_request_id_;
++    if (!force_close && dialog) {
++        dialog->done(QDialog::Accepted);
+     }
+-
+-    if (!force_close) {
+-        input_dialog_->done(QDialog::Accepted);
++    if (callback) {
++        // Rejected (Escape/window close) is cancellation, including when the
++        // editor contains text. An accepted empty string is still a commit.
++        callback(force_close ? std::u16string{} : text.toStdU16String(), !force_close);
+     }
+-
+-    input_dialog_ = nullptr;
+ }
+ 
+-void main_window::on_input_dialog_open_request() {
++void main_window::on_input_dialog_open_request(quint64 request_id) {
++    if (request_id != input_dialog_request_id_ || !input_complete_callback_) {
++        return;
++    }
+     if (input_dialog_) {
+         LOG_ERROR(eka2l1::FRONTEND_UI, "Input dialog is already opened! We are aborting...");
+         return;
+     }
+ 
+-    input_dialog_ = new symbian_input_dialog(this);
+-    connect(input_dialog_, &symbian_input_dialog::finished_input, this, &main_window::on_finished_text_input);
+-
+-    input_dialog_->open_for_input(QString::fromStdU16String(input_initial_text_), input_text_max_len_);
++    auto *dialog = new symbian_input_dialog(this);
++    input_dialog_ = dialog;
++    connect(dialog, &symbian_input_dialog::finished_input, this,
++        [this, request_id, dialog](const QString &text, bool force_close) {
++            if (request_id == input_dialog_request_id_ && dialog == input_dialog_) {
++                on_finished_text_input(text, force_close);
++            }
++        });
++    dialog->open_for_input(QString::fromStdU16String(input_initial_text_), input_text_max_len_);
+ }
+ 
+-void main_window::on_input_dialog_close_request() {
+-    if (input_dialog_) {
+-        if (input_complete_callback_) {
+-            input_complete_callback_(input_dialog_->get_current_text().toStdU16String());
+-        }
+-
+-        input_dialog_->done(QDialog::Accepted);
+-        input_dialog_ = nullptr;
++void main_window::on_input_dialog_close_request(quint64 request_id) {
++    if (request_id != input_dialog_request_id_) {
++        return;
+     }
+-
++    auto callback = std::move(input_complete_callback_);
+     input_complete_callback_ = nullptr;
++    auto *dialog = input_dialog_;
++    input_dialog_ = nullptr;
++    ++input_dialog_request_id_;
++    if (dialog) {
++        dialog->done(QDialog::Rejected);
++    }
++    if (callback) {
++        callback({}, false);
++    }
+ }
+ 
+ void main_window::on_hide_system_apps_changed() {
+diff --git a/src/patch/avkonfep/inc/HostBridgedImeFEP.h b/src/patch/avkonfep/inc/HostBridgedImeFEP.h
+index 3ecbfbd..9af3eb3 100644
+--- a/src/patch/avkonfep/inc/HostBridgedImeFEP.h
++++ b/src/patch/avkonfep/inc/HostBridgedImeFEP.h
+@@ -25,7 +25,7 @@
+ #include <fepplugin.h>
+ #include <fepitfr.h>
+ #include <ecom/ecom.h>
+-#include <ecom/ImplementationProxy.h>
++#include <ecom/implementationproxy.h>
+ #include <aknedstsobs.h>
+ #include <aknextendedinputcapabilities.h>
+ 
+@@ -103,6 +103,7 @@ public:
+         TInt aPositionInInlineText);
+ 
+     void CommitChangedTextL();
++    void CancelChangedTextL();
+ };
+ 
+ class CHostBridgedImeFEPPlugin : public CCoeFepPlugIn {
+diff --git a/src/patch/avkonfep/src/HostBridgedImeFEP.cpp b/src/patch/avkonfep/src/HostBridgedImeFEP.cpp
+index 032d7b6..12bc887 100644
+--- a/src/patch/avkonfep/src/HostBridgedImeFEP.cpp
++++ b/src/patch/avkonfep/src/HostBridgedImeFEP.cpp
+@@ -66,9 +66,10 @@ TInt CHostDialogIme::Open(const TDesC *aInitialText, const TInt aMaxLength) {
+ }
+ 
+ void CHostDialogIme::RunL() {
+-    if (iStatus.Int() == KErrNone) {
++    if (iStatus.Int() == KErrNone)
+         iHost->CommitChangedTextL();
+-    }
++    else
++        iHost->CancelChangedTextL();
+ }
+ 
+ void CHostDialogIme::DoCancel() {
+@@ -126,8 +127,6 @@ void CHostBridgedImeFEP::OpenDialogInputL(const TBool aTranstractRestart) {
+     HBufC *initialText = NULL;
+     TPtr initialTextPtr(0, 0);
+ 
+-    iInFEPWork = ETrue;
+-
+     if (editor->DocumentLengthForFep()) {
+         // Spawn text dialog from host and listen for completion
+         initialText = HBufC::NewLC(editor->DocumentLengthForFep());
+@@ -137,21 +136,17 @@ void CHostBridgedImeFEP::OpenDialogInputL(const TBool aTranstractRestart) {
+         editor->GetEditorContentForFep(initialTextPtr, 0, editor->DocumentLengthForFep());
+     }
+ 
+-    TCursorSelection selection(0, editor->DocumentLengthForFep());
+-    editor->SetCursorSelectionForFepL(selection);
+-    editor->StartFepInlineEditL(initialTextPtr, initialTextPtr.Length(), ETrue, NULL, *this, *this);
+-
+-    // Start the request
+-    if (iImeDialog.Open(&initialTextPtr, editor->DocumentMaximumLengthForFep()) != KErrNone) {
+-        LogOut(KAvkonFepCat, _L("Text view is already owned (this should already been canceled in losing foreground)!"));
+-        User::Leave(KErrInUse);
+-    }
+-
++    // The host dialog owns its draft. Opening/cancelling it must not replace
++    // the field's selection or start a composition in the native editor.
++    // Begin the whole-document replacement only after an accepted completion.
++    iInFEPWork = ETrue;
++    TInt error = iImeDialog.Open(&initialTextPtr, editor->DocumentMaximumLengthForFep());
+     iInFEPWork = EFalse;
+-    
++
+     if (initialText) {
+         CleanupStack::PopAndDestroy();
+     }
++    User::LeaveIfError(error);
+ }
+ 
+ CAknEdwinState* CHostBridgedImeFEP::EditorState() const {
+@@ -301,7 +296,9 @@ void CHostBridgedImeFEP::CommitChangedTextL() {
+         ::EHUIGetStoredText(0, &length, textChangedBuf->Ptr());
+     }
+ 
+-    editor->UpdateFepInlineTextL(textChanged, 0);
++    TCursorSelection wholeDocument(0, editor->DocumentLengthForFep());
++    editor->SetCursorSelectionForFepL(wholeDocument);
++    editor->StartFepInlineEditL(textChanged, textChanged.Length(), ETrue, NULL, *this, *this);
+     editor->CommitFepInlineEditL(*CCoeEnv::Static());
+ 
+     TInt endPosition = editor->DocumentLengthForFep();
+@@ -359,16 +356,16 @@ void CHostBridgedImeFEP::HandleDestructionOfFocusedItem() {
+     }
+ }
+ 
++void CHostBridgedImeFEP::CancelChangedTextL() {
++    // No inline edit was started while the host draft was pending. Preserve
++    // both text and the native editor's selection, including an empty field.
++    iDialogPending = EFalse;
++}
++
+ void CHostBridgedImeFEP::CancelDialogL() {
+     if (iDialogPending) {
+-        MCoeFepAwareTextEditor *editor = iInputCapabilities.FepAwareTextEditor();
+-
+-        if (editor) {
+-            editor->CancelFepInlineEdit();
+-        }
+-
+-        iImeDialog.Cancel();
+         iDialogPending = EFalse;
++        iImeDialog.Cancel();
+     }
+ }
+ 
+-- 
+2.52.0
+

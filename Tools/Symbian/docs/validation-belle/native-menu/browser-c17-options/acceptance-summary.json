@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "scope": "Root-observed ordinary native Options open/cancel/reload smoke only",
+  "raw_runner_status": "CALIBRATION_ONLY",
+  "launcher_exit": 0,
+  "root_reviewed_actions": [
+    {
+      "point": [
+        540,
+        641
+      ],
+      "observed": "Options opens"
+    },
+    {
+      "point": [
+        450,
+        497
+      ],
+      "observed": "Cancel closes and softkeys recover"
+    },
+    {
+      "key": "F2",
+      "observed": "Options opens"
+    },
+    {
+      "point": [
+        450,
+        298
+      ],
+      "observed": "Reload selection returns to normal page"
+    }
+  ],
+  "config_restored": true,
+  "profile_resources_restored": true,
+  "identities": {
+    "browser.exe": "0d91d91ea1e016b7725097bac0768a9aa2fdf9710b765795769d2da07608a1c8",
+    "eka2l1_qt": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+    "avkonfep_general.dll": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b",
+    "browser_ui.rsc": "251cfbede521cc5d0a3e36400cf108b12b6bb8eb7956e33a6781d8ef4bf5bc3d"
+  },
+  "not_covered": [
+    "clipboard9",
+    "keyboard End/Up handling",
+    "official EndTask",
+    "physical phone"
+  ]
+}

@@ -25,6 +25,8 @@
 #pragma once
 
 #include "WebKitSymbian.h"
+#include "SymbianDownloadManager.h"
+#include "SymbianTouchGesture.h"
 #include <WebCore/IntPoint.h>
 #include <WebCore/IntRect.h>
 #include <WebCore/IntSize.h>
@@ -62,6 +64,7 @@ public:
     ~WebViewImpl();
 
     WebViewClient& client() const { return m_client; }
+    SymbianDownloadManager& downloads() const { return m_downloads; }
     WebCore::Page& page() const { return *m_page; }
     WebCore::IntSize size() const { return m_size; }
 
@@ -80,9 +83,14 @@ public:
     void scheduleRenderingUpdate();
     void requestCompositedDisplay();
     bool usesAcceleratedCompositing() const final;
+    unsigned maximumTouchPoints() const { return m_touchCapacity; }
+    void cancelTouches() final;
 
 private:
     // WebView
+    bool hasActiveDownload() const final { return m_downloads->hasActiveDownload(); }
+    void cancelDownload(uint64_t identifier) final { m_downloads->cancel(identifier); }
+    void detachDownloads() final { m_downloads->detach(); }
     bool setNativeWindow(void*) final;
     void renderCompositedFrame() final;
     void setSize(int width, int height) final;
@@ -96,8 +104,14 @@ private:
     bool canGoForward() const final;
     void setFocused(bool) final;
     void handlePointer(PointerEvent, int x, int y) final;
+    unsigned setTouchCapabilities(unsigned) final;
+    bool handleTouch(const TouchPoint*, unsigned count, unsigned modifiers) final;
+    bool lastTapWasOnFocusedEditableElement() const final { return m_lastTapWasOnFocusedEditableElement; }
+    void cancelDOMTouches();
     void scrollBy(int dx, int dy) final;
     bool handleKey(bool isDown, int windowsKeyCode, Text, unsigned modifiers) final;
+    bool canExecuteEditCommand(EditCommand) const final;
+    bool executeEditCommand(EditCommand) final;
     InputType focusedInputType() const final;
     int editableTextLength() const final;
     int maximumEditableTextLength() const final;
@@ -114,13 +128,15 @@ private:
     WebCore::ViewportAttributes viewportAttributes() const;
     void updateLayoutSize();
     void updateScale();
-    void tap(const WebCore::IntPoint&);
+    RefPtr<WebCore::Element> editableElementAt(const WebCore::IntPoint&) const;
+    bool tap(const WebCore::IntPoint&, unsigned touchIdentifier = 0, bool fromTouch = false);
     void zoomAt(const WebCore::IntPoint&);
-    void click(const WebCore::IntPoint&);
+    RefPtr<WebCore::Element> click(const WebCore::IntPoint&, unsigned touchIdentifier = 0, bool fromTouch = false);
     void scrollAt(const WebCore::IntPoint&, const WebCore::IntSize& delta);
     void disableCompositing();
 
     WebViewClient& m_client;
+    Ref<SymbianDownloadManager> m_downloads;
     RefPtr<WebCore::Page> m_page;
     WebCore::IntSize m_size;
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
@@ -135,11 +151,19 @@ private:
     float m_minimumScale { 1 };
     float m_maximumScale { 1 };
 
-    // Touch: a press that moves further than the tap slop scrolls.
+    unsigned m_touchCapacity { 0 };
+    unsigned m_touchGeneration { 0 };
+    bool m_touchDOMCancelled { false };
+    bool m_touchAllowsDoubleTap { true };
+    Vector<TouchPoint> m_touchPoints;
+    TouchGesture m_touchGesture;
+
+    // Legacy mouse-only fallback when no native digitizer is available.
     bool m_pointerDown { false };
     bool m_pointerScrolling { false };
     WebCore::IntPoint m_pointerStart;
     WebCore::IntPoint m_pointerLast;
+    bool m_lastTapWasOnFocusedEditableElement { false };
     // A second tap close to the first zooms.
     MonotonicTime m_lastTapTime;
     WebCore::IntPoint m_lastTap;

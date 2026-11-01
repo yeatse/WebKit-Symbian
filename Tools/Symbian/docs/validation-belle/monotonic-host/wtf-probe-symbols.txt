@@ -1,0 +1,6 @@
+00023b4c t SymbianRuntimeNanoTickCount
+00023b54 t SymbianRuntimeNanoTickPeriodMicros
+00023a6c t SymbianRuntimeSteadyClockNanoseconds
+00023988 T _ZN3WTF13MonotonicTime3nowEv
+00023bc0 t __sync_val_compare_and_swap_4
+00023bf2 t __sync_val_compare_and_swap_8

@@ -154,6 +154,10 @@ public:
     // The client may be 0, in which case no callbacks will be made.
     WEBCORE_EXPORT ResourceHandleClient* client() const;
     WEBCORE_EXPORT void clearClient();
+#if OS(SYMBIAN)
+    WEBCORE_EXPORT bool setClientForDownload(ResourceHandleClient&, size_t maximumPendingDataBytes);
+    WEBCORE_EXPORT void setDownloadBufferLimit(size_t);
+#endif
 
     WEBCORE_EXPORT void setDefersLoading(bool);
 
@@ -223,6 +227,7 @@ private:
     void curlDidSendData(CurlRequest&, unsigned long long, unsigned long long) final;
     void curlDidReceiveResponse(CurlRequest&, CurlResponse&&) final;
     void curlDidReceiveData(CurlRequest&, Ref<SharedBuffer>&&) final;
+    void curlDidReceiveDownloadData(CurlRequest&, Ref<SharedBuffer>&&, CompletionHandler<void()>&&) final;
     void curlDidComplete(CurlRequest&, NetworkLoadMetrics&&) final;
     void curlDidFailWithError(CurlRequest&, ResourceError&&, CertificateInfo&&) final;
 #endif

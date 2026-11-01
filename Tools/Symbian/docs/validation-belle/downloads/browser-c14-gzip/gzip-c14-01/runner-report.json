@@ -1,0 +1,13 @@
+{
+  "run": "dl-z-d75249df5942",
+  "case": "gzip",
+  "url": "http://localhost:46841/?run=dl-z-d75249df5942",
+  "host_exit_code": 0,
+  "normal_close": true,
+  "forced_cleanup": false,
+  "browser_sha256": "b222b858e58703c057c538a8ee65c642e7ceb0b20cdcad47ea523305c86da065",
+  "emulator_sha256": "b2ce947b4781d7253658552e157c6b1b342868effdfbe7bbae3f8c2993cd2fd8",
+  "finished_utc": "2026-11-01T02:40:35.564881+00:00",
+  "native_ui_reviewed": true,
+  "selected_guest_path": "C:\\Data\\DownloadRuntime\\dl-z-d75249df5942\\payload.bin"
+}

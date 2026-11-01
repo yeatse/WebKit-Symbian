@@ -1,0 +1,324 @@
+[
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c14-20261101-01/result.json",
+    "bytes": 492,
+    "sha256": "d74fb64fac4277e3327270a6f683855d4890d4f2d7aae3263ddcc01bf94a5485",
+    "archive_path": "keyboard-c14/result.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c14-20261101-01/input/interaction.json",
+    "bytes": 11655,
+    "sha256": "ffe86331c51122d348d774281f83be88126ac68c241eade4393765bf278543f3",
+    "archive_path": "keyboard-c14/input/interaction.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c14-20261101-01/input/actions.jsonl",
+    "bytes": 7245,
+    "sha256": "57c07e5d76296f647a3450d56bbdf151107d2fab7cad134e48b94450e7be2ecb",
+    "archive_path": "keyboard-c14/input/actions.jsonl",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c14-20261101-01/validation.log",
+    "bytes": 228,
+    "sha256": "e17730c9c0a0fb888029dda8f0ff0d3ba59edf1771cb13216a50750a9cf2c9ad",
+    "archive_path": "keyboard-c14/validation.log",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c14-20261101-01/input-driver.log",
+    "bytes": 151,
+    "sha256": "cb55e024dff6d24367154755afa7743591310680680190bcf88f2736f65585d1",
+    "archive_path": "keyboard-c14/input-driver.log",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c14-20261101-01/preservation-before.json",
+    "bytes": 50,
+    "sha256": "68b48cc4743701ea19a014c287625e082adea04dc30809f676664aff21298754",
+    "archive_path": "keyboard-c14/preservation-before.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-clipboard-browser-work/reports/clipboard-keyboard-c14-20261101-01-keyboard.json",
+    "bytes": 6290,
+    "sha256": "220075253831f7fda64d07043c0b85613df94269446fe36183fb49428576e032",
+    "archive_path": "keyboard-c14/page-report.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-profile-c14-20261101-01/profile-guard.json",
+    "bytes": 634,
+    "sha256": "9df0f40cbd4365772e0fec867fe54574c00faa8bfc3d179e675499b07b1bcbda",
+    "archive_path": "keyboard-c14/profile-guard.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c14-20261101-01/runs/browser-20261101T023618Z-sgyd_1ql/log.txt",
+    "bytes": 14144,
+    "sha256": "a42b5d335ce1b74acd8aec9fbd82ecd3dfffd9db28606a92504b5ec3b37e7bdd",
+    "archive_path": "keyboard-c14/log.txt",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c14-20261101-01/runs/browser-20261101T023618Z-sgyd_1ql/emulator.log",
+    "bytes": 228937,
+    "sha256": "e5e24324ba6a7cb906234ee678751c834398f6c84fc593411dd11870dd99503e",
+    "archive_path": "keyboard-c14/emulator.log.gz",
+    "encoding": "gzip; decompressed SHA256 is source SHA256"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c14-20261101-01/driver.log",
+    "bytes": 14344,
+    "sha256": "8eff563193368b70c9d76866f8a742801f763e5b82b026e44058d3a193bc24d1",
+    "archive_path": "keyboard-c14/driver.log.gz",
+    "encoding": "gzip; decompressed SHA256 is source SHA256"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/candidate14/build-identities.json",
+    "bytes": 1006,
+    "sha256": "22698a380fed820f0acb0d46f58a5f145f7c923e078d08504a700884c9d2f8c2",
+    "archive_path": "candidate14/build-identities.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/candidate14/source-identities.json",
+    "bytes": 11251,
+    "sha256": "b2fa171de76f7ebef37e820794f5f515ff86ed906f89d9d1ea2fc964cf684dfc",
+    "archive_path": "candidate14/source-identities.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-clipboard/contract.py",
+    "bytes": 4425,
+    "sha256": "048997ff50c929bebdde3ef26dd02ab6b7acb2008b3a64c3533f2402b5b11720",
+    "archive_path": "fixture/contract.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-clipboard/README.md",
+    "bytes": 7682,
+    "sha256": "294025d98209fd4daa74ec6aaa1b26770f44e8e6f7ebf383b002cbba7a1d6029",
+    "archive_path": "fixture/README.md",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-clipboard/server.py",
+    "bytes": 3002,
+    "sha256": "f51ced8f59d83169e98dc20a295c55dcadeaddb1ebcb429d1219c10e947d668f",
+    "archive_path": "fixture/server.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-clipboard/index.html",
+    "bytes": 1285,
+    "sha256": "58cb3585c183827dae4e2a4556f630752ac4d4fb2d21c6677936e8310ad74b6b",
+    "archive_path": "fixture/index.html",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-clipboard/verify.py",
+    "bytes": 1450,
+    "sha256": "655d3de8586a96d5944180e98636c20829076e9f6783b9edbd47d6222bae0a5f",
+    "archive_path": "fixture/verify.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-clipboard/suite.js",
+    "bytes": 16200,
+    "sha256": "f93e1645d5aac70ae847a227fa3e8158a9d6c22e46cc01859d738f84f2a058bd",
+    "archive_path": "fixture/suite.js",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-clipboard/test-contract.py",
+    "bytes": 5708,
+    "sha256": "19d5f6e980ace333da7d468f132cb5fa0f8375e200102b7198306cfbdbd3250d",
+    "archive_path": "fixture/test-contract.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-clipboard-browser-work/drive.py",
+    "bytes": 18940,
+    "sha256": "187fcd8bc8aa30d777aa58e635f4db7fff65c5bb5d2bfba60e7463b5b44758c6",
+    "archive_path": "harness/drive.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/run-clipboard-c14.py",
+    "bytes": 3977,
+    "sha256": "b6d00da0a6c397f57eaf148fbb6d787fff45320184623900089634ba1b699ab0",
+    "archive_path": "harness/run-clipboard-c14.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/run-clipboard-c12.py",
+    "bytes": 3977,
+    "sha256": "d019ae441429d7fb79ace139d900ff7f3d74fc685bbaa1d79111dca94c051a6f",
+    "archive_path": "harness/run-clipboard-c12.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/with-editor-profile.py",
+    "bytes": 1794,
+    "sha256": "b5b820488da50f871d494639c68f1a7fe7ab3559e4f5c3d9018e00fe87fcc06a",
+    "archive_path": "harness/with-editor-profile.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh",
+    "bytes": 7616,
+    "sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+    "archive_path": "harness/run-browser.sh",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/close-emulator-window.py",
+    "bytes": 4825,
+    "sha256": "d4bf431805790e88c120b58ab8d6eb4bd9cece6c5eaeb61d0fd98d0a326f9d4f",
+    "archive_path": "harness/close-emulator-window.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+    "bytes": 20789,
+    "sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+    "archive_path": "harness/native-interact.py",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-eka-keyboard-work/webkit-editor.yml",
+    "bytes": 3398,
+    "sha256": "cedf184a2ce966415104d60cb4e836633e379326a76f009e7bcc2ad05bdf0f06",
+    "archive_path": "harness/webkit-editor.yml",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101/result.json",
+    "bytes": 453,
+    "sha256": "a538cda3095746bb9ebf91f61263fb375b42913353ce1c227f407df2e6fb6764",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-01/result.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101/input/interaction.json",
+    "bytes": 2947,
+    "sha256": "70db77d6456aa5e4958d124883b0b1346d40838278ec1c604e2655057c00fa37",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-01/input/interaction.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101/input/actions.jsonl",
+    "bytes": 1280,
+    "sha256": "e2ae7ed8b8dec8b9a41e1fa444a49acb4798dca6fddf0f24c186bd02f3b2d5be",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-01/input/actions.jsonl",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101/input-driver.log",
+    "bytes": 203,
+    "sha256": "1008a7300a2d3bf873120c9d641fe1f9ec6ab0ac1e6fa706f029831ff98a73f0",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-01/input-driver.log",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101/preservation-before.json",
+    "bytes": 50,
+    "sha256": "68b48cc4743701ea19a014c287625e082adea04dc30809f676664aff21298754",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-01/preservation-before.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-profile-c12-20261101/profile-guard.json",
+    "bytes": 631,
+    "sha256": "9b39ea9d180d8829274b4238ff28b60ca62b636be0ed67d248046d8308207ba1",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-01/profile-guard.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101/runs/browser-20261101T022111Z-vcwjd2b8/log.txt",
+    "bytes": 2300,
+    "sha256": "929f2937dd93f79f9547b19659a12750ede2c318d8df65a0d240730331f8301c",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-01/log.txt",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101/runs/browser-20261101T022111Z-vcwjd2b8/emulator.log",
+    "bytes": 213492,
+    "sha256": "09d67eef98da54d0ac1a7162956b8f5509e5bbbe45326677da6cc181e59e765a",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-01/emulator.log.gz",
+    "encoding": "gzip; decompressed SHA256 is source SHA256"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101/driver.log",
+    "bytes": 2475,
+    "sha256": "1b6929cf732103d75b7c48851e9618fa505f2e977eca5c6316c1a03eda2c81b1",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-01/driver.log.gz",
+    "encoding": "gzip; decompressed SHA256 is source SHA256"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101-02/result.json",
+    "bytes": 453,
+    "sha256": "4d32b873b8fe03b4a0c412a8c53d68b889fa4ec8e42d7f52dcef3a1058499931",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-02/result.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101-02/input/interaction.json",
+    "bytes": 2657,
+    "sha256": "430a6089bdbeca401650c62b170682acf2e8b91bd8b539efa726c1d85a752a6d",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-02/input/interaction.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101-02/input/actions.jsonl",
+    "bytes": 1085,
+    "sha256": "a3d4424f3f8e3dacccfe695991eb0f9876ae2d0b3922384b4d8d809eea1e3f34",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-02/input/actions.jsonl",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101-02/input-driver.log",
+    "bytes": 160,
+    "sha256": "c8dbd72bee7a5380b3cbb878b486b4fef73f539535ec04fa36cd741df451796a",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-02/input-driver.log",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101-02/preservation-before.json",
+    "bytes": 50,
+    "sha256": "68b48cc4743701ea19a014c287625e082adea04dc30809f676664aff21298754",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-02/preservation-before.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-profile-c12-20261101-02/profile-guard.json",
+    "bytes": 634,
+    "sha256": "17b72b74247adb6015b345865923ae535cff92087313528d5cf6f71971a724ba",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-02/profile-guard.json",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101-02/runs/browser-20261101T022253Z-8ifr6pu6/log.txt",
+    "bytes": 2286,
+    "sha256": "305a69d2a679b19547d6071fcaf4e1c20dffc46e7fe5033f3e35e790fd3e6de3",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-02/log.txt",
+    "encoding": "original"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101-02/runs/browser-20261101T022253Z-8ifr6pu6/emulator.log",
+    "bytes": 212947,
+    "sha256": "f27a59a122c9e7c42a462b854b7ce5247622b97df39ee4d0b116919cfd565c69",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-02/emulator.log.gz",
+    "encoding": "gzip; decompressed SHA256 is source SHA256"
+  },
+  {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-keyboard-c12-20261101-02/driver.log",
+    "bytes": 2464,
+    "sha256": "1b53354d91f64476040800bb7210e09ee52283a0c516e94a1d0fd5fed2e9f637",
+    "archive_path": "prior-attempts/clipboard-keyboard-c12-20261101-02/driver.log.gz",
+    "encoding": "gzip; decompressed SHA256 is source SHA256"
+  }
+]

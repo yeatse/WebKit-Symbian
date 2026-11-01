@@ -52,10 +52,14 @@ bool Pasteboard::hasData()
     return !types.isEmpty();
 }
 
-Vector<String> Pasteboard::typesSafeForBindings(const String&)
+Vector<String> Pasteboard::typesSafeForBindings(const String& origin)
 {
+#if OS(SYMBIAN)
+    return platformStrategies()->pasteboardStrategy()->typesSafeForDOMToReadAndWrite(name(), origin, context());
+#else
     notImplemented();
     return { };
+#endif
 }
 
 Vector<String> Pasteboard::typesForLegacyUnsafeBindings()
@@ -84,15 +88,26 @@ String Pasteboard::readStringInCustomData(const String&)
 
 void Pasteboard::writeString(const String& type, const String& text)
 {
+#if OS(SYMBIAN)
+    m_writeSucceeded = platformStrategies()->pasteboardStrategy()->writeToPasteboard(type, text);
+#else
     platformStrategies()->pasteboardStrategy()->writeToPasteboard(type, text);
+#endif
 }
 
 void Pasteboard::clear()
 {
+#if OS(SYMBIAN)
+    m_writeSucceeded = platformStrategies()->pasteboardStrategy()->clearPasteboard();
+#endif
 }
 
-void Pasteboard::clear(const String&)
+void Pasteboard::clear(const String& type)
 {
+#if OS(SYMBIAN)
+    if (type == "text/plain"_s || type == "text/plain;charset=utf-8"_s)
+        clear();
+#endif
 }
 
 void Pasteboard::read(PasteboardPlainText& text, PlainTextURLReadingPolicy, std::optional<size_t>)
@@ -111,7 +126,7 @@ void Pasteboard::read(PasteboardFileReader&, std::optional<size_t>)
 
 void Pasteboard::write(const PasteboardURL& url)
 {
-    platformStrategies()->pasteboardStrategy()->writeToPasteboard("text/plain;charset=utf-8"_s, url.url.string());
+    writePlainText(url.url.string(), CannotSmartReplace);
 }
 
 void Pasteboard::writeTrustworthyWebURLsPboardType(const PasteboardURL&)
@@ -129,7 +144,11 @@ void Pasteboard::write(const PasteboardBuffer&)
 
 void Pasteboard::write(const PasteboardWebContent& content)
 {
+#if OS(SYMBIAN)
+    m_writeSucceeded = platformStrategies()->pasteboardStrategy()->writeToPasteboard(content);
+#else
     platformStrategies()->pasteboardStrategy()->writeToPasteboard(content);
+#endif
 }
 
 Pasteboard::FileContentState Pasteboard::fileContentState()
@@ -152,8 +171,11 @@ void Pasteboard::writePlainText(const String& text, SmartReplaceOption)
     writeString("text/plain;charset=utf-8"_s, text);
 }
 
-void Pasteboard::writeCustomData(const Vector<PasteboardCustomData>&)
+void Pasteboard::writeCustomData(const Vector<PasteboardCustomData>& items)
 {
+#if OS(SYMBIAN)
+    m_writeSucceeded = platformStrategies()->pasteboardStrategy()->writeCustomData(items, name(), context()) > 0;
+#endif
 }
 
 void Pasteboard::write(const Color&)

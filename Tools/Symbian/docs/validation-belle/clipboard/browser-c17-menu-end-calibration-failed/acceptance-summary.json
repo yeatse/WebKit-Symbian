@@ -1,0 +1,11 @@
+{
+  "status": "FAIL",
+  "run": "clipboard-menu-c17-cal-20261101-01",
+  "input_exit": 1,
+  "launcher_exit": 1,
+  "approval_written": false,
+  "return_sent": false,
+  "reason": "Actual End/Up selection differed from intended Paste; root refused approval; review deadline expired",
+  "restoration_complete": true,
+  "scope": "Retained failed calibration, not a browser clipboard PASS"
+}

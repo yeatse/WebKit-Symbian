@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "scope": "Two retained real browser download cases on C11 and host through 0026; no tests were rerun during packaging",
+  "packaged_utc": "2026-11-01T02:19:12.965691+00:00",
+  "cases": [
+    {
+      "run": "dl-cancel-cal-20261101-01",
+      "case": "cancel-save",
+      "status": "PASS",
+      "original_validation_sha256": "73b4e4c23c701e5b21d2b2311ea821b6e06b338461e26d7363521d03744cdd60",
+      "launcher_exit_code": 0,
+      "host_exit_code": 0,
+      "normal_close": true,
+      "forced_cleanup": false,
+      "browser_sha256": "20f58cef43d6fa4252546cb337940bfa609ba7ef71d0059ef1336bd126ef5288",
+      "emulator_sha256": "0d2714494b322684872c0fc036c2f206b8514e54d021dc2ec1e3182af5855b98",
+      "native_ui_reviewed_by": "root, at original execution",
+      "original_directory": "/workspace/symbian-download-runtime-work/runs/dl-cancel-cal-20261101-01",
+      "original_guest_run": "/workspace/symbian-download-runtime-work/runs/dl-cancel-cal-20261101-01/browser/runs/browser-20261101T021158Z-u0cb2ajz",
+      "retained_directory": "dl-cancel-cal-20261101-01",
+      "post_request_count": 0,
+      "downloaded_payload_bytes": 0
+    },
+    {
+      "run": "dl-post-c11-20261101-01",
+      "case": "post",
+      "status": "PASS",
+      "original_validation_sha256": "4de0fcf29b45f09f738bae79de333a7578365c5c71d41233738e2890a10b6fb0",
+      "launcher_exit_code": 0,
+      "host_exit_code": 0,
+      "normal_close": true,
+      "forced_cleanup": false,
+      "browser_sha256": "20f58cef43d6fa4252546cb337940bfa609ba7ef71d0059ef1336bd126ef5288",
+      "emulator_sha256": "0d2714494b322684872c0fc036c2f206b8514e54d021dc2ec1e3182af5855b98",
+      "native_ui_reviewed_by": "root, at original execution",
+      "original_directory": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01",
+      "original_guest_run": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/browser/runs/browser-20261101T021320Z-y_z85voi",
+      "retained_directory": "dl-post-c11-20261101-01",
+      "post_request_count": 1,
+      "downloaded_payload_bytes": 524288
+    }
+  ],
+  "private_data_included": false,
+  "previous_logs_excluded": true,
+  "binary_images_included": false,
+  "ci41_runtime_claimed": false,
+  "c12_runtime_claimed": false,
+  "remaining_cases": [
+    "get",
+    "gzip",
+    "chunked",
+    "cancel-transfer",
+    "existing"
+  ],
+  "fixed_payload": {
+    "bytes": 524288,
+    "sha256": "33bc8aab40703678c3ebe94d2dd8f2afff285dd901f9234e841e4679f8204fd5",
+    "definition": "bytes(range(256)) * 2048",
+    "retained_gzip": "dl-post-c11-20261101-01/after-files/payload.bin.gz"
+  }
+}

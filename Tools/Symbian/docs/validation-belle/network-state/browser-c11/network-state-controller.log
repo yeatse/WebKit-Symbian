@@ -1,0 +1,37 @@
+BEGIN: network-state-controller version=1 run=2cd5507048d64ffd87998c40b67c9cf0
+CONTROL: socket server connect rc=0
+CONTROL: controller connection open rc=0
+CONTROL: ConnMon connect rc=0
+CONTROL: ConnMon count query rc=0
+CONTROL: active interfaces=0 expected=0
+CONTROL: create browser rc=0
+CONTROL: browser pid=381 uid=e1a5c002
+ACK: NETWORKSTATE READY 2cd5507048d64ffd87998c40b67c9cf0
+CONTROL: ConnMon count query rc=0
+CONTROL: active interfaces=1 expected=1
+CONTROL: enumerate browser interface rc=0
+CONTROL: get browser interface rc=0
+CONTROL: attach browser interface rc=0
+CONTROL: stop first interface rc=0
+CONTROL: ConnMon count query rc=0
+CONTROL: active interfaces=0 expected=0
+ACK: NETWORKSTATE OFFLINE1 2cd5507048d64ffd87998c40b67c9cf0
+CONTROL: start first reconnect rc=0
+CONTROL: ConnMon count query rc=0
+CONTROL: active interfaces=1 expected=1
+ACK: NETWORKSTATE ONLINE1 2cd5507048d64ffd87998c40b67c9cf0
+CONTROL: extra attachment open rc=0
+CONTROL: extra normal attachment and close rc=0
+CONTROL: ConnMon count query rc=0
+CONTROL: active interfaces=1 expected=1
+ACK: NETWORKSTATE STABLE1 2cd5507048d64ffd87998c40b67c9cf0
+CONTROL: stop second interface rc=0
+CONTROL: ConnMon count query rc=0
+CONTROL: active interfaces=0 expected=0
+ACK: NETWORKSTATE OFFLINE2 2cd5507048d64ffd87998c40b67c9cf0
+CONTROL: start second reconnect rc=0
+CONTROL: ConnMon count query rc=0
+CONTROL: active interfaces=1 expected=1
+ACK: NETWORKSTATE DONE 2cd5507048d64ffd87998c40b67c9cf0
+CONTROL: final page visible for 5 seconds
+CONTROL: matching browser PID/SID; requesting official EndTask

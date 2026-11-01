@@ -55,6 +55,10 @@ for name in ['log.txt','log.old.txt','curl.txt']:
     if old.exists():old.rename(run/('previous-'+name))
 emulator=str(Path(os.environ['EKA2L1']).resolve())
 command=[emulator,'--device',os.environ.get('EKA2L1_DEVICE','RM-707'),'--run','C:\\sys\\bin\\browser.exe',' '+url]
+if profile:=os.environ.get('EKA2L1_KEYBIND_PROFILE'):
+    if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}',profile):
+        sys.exit('Keybind profile must be a simple profile name')
+    command[1:1]=['--keybindprofile',profile]
 if not os.environ.get('DISPLAY'):
     sys.exit('Set DISPLAY to a running Xvfb (-nolisten tcp) or X display for screenshots')
 expected=os.environ.get('EKA2L1_EXPECT_PASS','')

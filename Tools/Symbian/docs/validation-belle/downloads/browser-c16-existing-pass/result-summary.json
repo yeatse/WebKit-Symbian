@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "raw_state_status": "PASS",
+  "raw_validator_status": "PASS",
+  "run_directory": "existing-c16-02",
+  "run": "dl-e-3917b1c007b2",
+  "case": "existing",
+  "url": "http://localhost:42403/?run=dl-e-3917b1c007b2",
+  "browser_label": "C16",
+  "browser_sha256": "654a620f3f94c6d130fb649dbd45f8f49d2142416c244ad59b1cb9a1738de37e",
+  "emulator_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+  "reason": "同名尝试后实际重新打开 Save，再真正取消；严格 validator 通过，原 sentinel 的 bytes/inode/mtime 保持相同。",
+  "terminals": [
+    {
+      "id": 1,
+      "terminal": 1,
+      "error": 0,
+      "cleanup": 0
+    }
+  ],
+  "native_save_dialog_errors": [],
+  "launcher_exit": 0,
+  "validator_exit": 0,
+  "raw_runner_host_exit_code": 0,
+  "raw_runner_normal_close": true,
+  "raw_runner_forced_cleanup": false,
+  "control_error": null,
+  "validator_errors": [],
+  "validator_missing": [],
+  "sentinel_metadata_and_directory_unchanged": true,
+  "sentinel_bytes_unchanged": true,
+  "config_restored": true,
+  "profile_resources_destination_restored": true,
+  "restoration_errors": [],
+  "no_guest_running_at_restore": true,
+  "missing_exact_tool_identities": [],
+  "raw_result_rewritten": false,
+  "archive_only": true,
+  "guest_display_or_build_started": false,
+  "operator_tool_session": {
+    "id": 82748,
+    "exit_code": 0,
+    "provenance": "root explicit completion confirmation"
+  },
+  "refusal_note_screenshot_claimed": false
+}

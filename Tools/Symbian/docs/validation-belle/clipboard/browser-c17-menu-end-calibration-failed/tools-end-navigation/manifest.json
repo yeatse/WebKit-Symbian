@@ -1,0 +1,40 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "guest_or_display_used": false,
+  "shared_source_changed": false,
+  "menu_navigation": "source-derived candidate with new opt-in End/Home mapping; each actual Return requires root approval of exact screenshot",
+  "files": {
+    "README.md": {
+      "bytes": 5035,
+      "sha256": "94b551797291db7c3c068bd0a9d02309998b348d18597d907d05c9f50758bc69"
+    },
+    "approve.py": {
+      "bytes": 1027,
+      "sha256": "7ecfc41ebd98a8f44edb9974a7df279983768cd3cde7f41c62ae5ebe7c7c5e56"
+    },
+    "menu-candidate.json": {
+      "bytes": 1215,
+      "sha256": "9d8ce461f7c9e2b34a0d9c99caf6c6aeff3a51bf11f0cf6e09260b7ff2334772"
+    },
+    "preparation.json": {
+      "bytes": 2905,
+      "sha256": "13cea9c734be2de72850efb2b330e29216c0319cc57ff1d71bee27007bc473f6"
+    },
+    "profile-provenance.json": {
+      "bytes": 659,
+      "sha256": "6a72e17c9f7f074764f31f253258d8df9a7a2a19a890ad6375f67573672f1860"
+    },
+    "review-drive.py": {
+      "bytes": 3738,
+      "sha256": "1e45a353fca18260393b0816ed2ff3fe2cdeea4b132498de1b83136ca049eea7"
+    },
+    "run-c17.py": {
+      "bytes": 12648,
+      "sha256": "996df708df1d17a7efb147423ab2020e5d23b91a2679d6be51c2a82321d55313"
+    },
+    "webkit-menu-review.yml": {
+      "bytes": 3538,
+      "sha256": "3771e6fe1cf8972e8ee14b6556a0929f04229b9eac9f71ff725e1c3da936fd36"
+    }
+  }
+}

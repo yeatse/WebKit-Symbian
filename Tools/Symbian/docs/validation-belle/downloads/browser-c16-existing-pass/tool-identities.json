@@ -1,0 +1,126 @@
+{
+  "inputs": [
+    {
+      "name": "browser",
+      "recorded_path": "/workspace/symbian-belle-work/candidate16/browser.exe",
+      "recorded_sha256": "654a620f3f94c6d130fb649dbd45f8f49d2142416c244ad59b1cb9a1738de37e",
+      "matching_source_found": true,
+      "copied": false,
+      "matching_source_path": "/workspace/symbian-belle-work/candidate16/browser.exe",
+      "reason": "large executable identity verified; binary not copied"
+    },
+    {
+      "name": "host",
+      "recorded_path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "recorded_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+      "matching_source_found": true,
+      "copied": false,
+      "matching_source_path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "reason": "large executable identity verified; binary not copied"
+    },
+    {
+      "name": "browser_ui.rsc",
+      "recorded_path": "/workspace/symbian-belle-work/candidate16/browser_ui.rsc",
+      "recorded_sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-belle-work/candidate16/browser_ui.rsc"
+    },
+    {
+      "name": "browser_reg.rsc",
+      "recorded_path": "/workspace/symbian-belle-work/candidate16/browser_reg.rsc",
+      "recorded_sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-belle-work/candidate16/browser_reg.rsc"
+    },
+    {
+      "name": "browser_loc.rsc",
+      "recorded_path": "/workspace/symbian-belle-work/candidate16/browser_loc.rsc",
+      "recorded_sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-belle-work/candidate16/browser_loc.rsc"
+    },
+    {
+      "name": "fixture.py",
+      "recorded_path": "/workspace/symbian-download-runtime-work/fixture.py",
+      "recorded_sha256": "3ae15a0a48ad2f9055c395e44a258a67395d12790958d3af08c1c676034aa14d",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-download-runtime-work/fixture.py"
+    },
+    {
+      "name": "native.py",
+      "recorded_path": "/workspace/symbian-download-runtime-work/native.py",
+      "recorded_sha256": "2a4f6488768369eac9e1c36e1870e4a275ac286b1a1ad1bcf79970a85b1cd22f",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-download-runtime-work/native.py"
+    },
+    {
+      "name": "snapshot.py",
+      "recorded_path": "/workspace/symbian-download-runtime-work/snapshot.py",
+      "recorded_sha256": "98db662fd62a3a1626061946aef0b661f4f0ef48f75cd65dae71d6868ed60569",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-download-runtime-work/snapshot.py"
+    },
+    {
+      "name": "validate.py",
+      "recorded_path": "/workspace/symbian-download-runtime-work/validate.py",
+      "recorded_sha256": "6e84a4484e6465e58d65675da24e898d168d8a7ecb9535b6ad4966b7113436e0",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-download-runtime-work/validate.py"
+    },
+    {
+      "name": "run-browser.sh",
+      "recorded_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh",
+      "recorded_sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh"
+    },
+    {
+      "name": "runtime_support.py",
+      "recorded_path": "/workspace/symbian-p1-system-runtime-work/runtime_support.py",
+      "recorded_sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-p1-system-runtime-work/runtime_support.py"
+    },
+    {
+      "name": "run-case.py",
+      "recorded_path": "/workspace/symbian-download-suite-resume/run-case.py",
+      "recorded_sha256": "156029d6a868a8a9047e9f9ecd9f35e19b14bd0b271fe133689d5516802445c2",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-download-suite-resume/run-case.py"
+    },
+    {
+      "name": "control.py",
+      "recorded_path": "/workspace/symbian-download-suite-resume/control.py",
+      "recorded_sha256": "0e4d0892169fb4366d7e54f98e8b03d6d647e850caf6f27aab779e4994a635b0",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/symbian-download-suite-resume/control.py"
+    },
+    {
+      "name": "reused-download-server.py",
+      "recorded_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/downloads/server.py",
+      "recorded_sha256": "34138202c12a0b3937430d22d268fb283d1b31d04b59c8a5163112faa9dfe2cf",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/downloads/server.py"
+    },
+    {
+      "name": "native-interact.py",
+      "recorded_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+      "recorded_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+      "matching_source_found": true,
+      "copied": true,
+      "matching_source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py"
+    }
+  ]
+}

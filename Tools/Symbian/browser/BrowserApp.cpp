@@ -1,14 +1,15 @@
-// The browser application: an AVKON app built without a resource file. The
-// softkeys, the menus (popup lists) and the address field (an edwin) are
-// created in code.
+// The browser application: an AVKON shell with native controls and
+// separately loaded browser_ui resources for queries and popup softkeys.
 
 #include "BrowserLog.h"
+#include "ClipboardNative.h"
 #include "NativeDeclarations.h"
 #include "NativeHeapDelete.h"
 #include "NetworkConnection.h"
 #include "PageList.h"
 #include "RunLoopDriver.h"
 #include "WebContainer.h"
+#include "browser_ui.rsg"
 
 #include <aknapp.h>
 #include <aknappui.h>
@@ -52,6 +53,12 @@ enum TBrowserCommand {
     ECmdReload,
     ECmdStop,
     ECmdExit,
+    ECmdCut,
+    ECmdCopy,
+    ECmdPaste,
+    ECmdSelectAll,
+    ECmdDownloadStatus,
+    ECmdCancelDownload,
 };
 
 // Whether a URL needs the network connection: anything but a local file or
@@ -78,8 +85,7 @@ TInt ShowPopupListL(const TDesC& aTitle, const MDesCArray& aItems, TInt aSelecte
 {
     CAknSinglePopupMenuStyleListBox* list = new (ELeave) CAknSinglePopupMenuStyleListBox;
     CleanupStack::PushL(list);
-    // Softkeys are set below: there is no resource file for a CBA.
-    CAknPopupList* popup = CAknPopupList::NewL(list, 0, AknPopupLayouts::EMenuWindow);
+    CAknPopupList* popup = CAknPopupList::NewL(list, R_BROWSER_POPUP_BUTTONS, AknPopupLayouts::EMenuWindow);
     CleanupStack::PushL(popup);
     list->ConstructL(popup, CEikListBox::ELeftDownInViewRect);
     list->CreateScrollBarFrameL(ETrue);
@@ -95,11 +101,10 @@ TInt ShowPopupListL(const TDesC& aTitle, const MDesCArray& aItems, TInt aSelecte
         list->SetCurrentItemIndex(aSelected);
     if (aTitle.Length())
         popup->SetTitleL(aTitle);
-    CEikButtonGroupContainer* softkeys = popup->ButtonGroupContainer();
-    softkeys->SetCommandL(CEikButtonGroupContainer::ELeftSoftkeyPosition, EAknSoftkeySelect, _L("Select"));
-    softkeys->SetCommandL(CEikButtonGroupContainer::ERightSoftkeyPosition, EAknSoftkeyCancel, _L("Cancel"));
-    CleanupStack::Pop(popup);
+    // Unlike a dialog, CAknPopupList stays on the cleanup stack during
+    // ExecuteLD. It deletes itself on success; pop immediately afterwards.
     TBool chosen = popup->ExecuteLD();
+    CleanupStack::Pop(popup);
     TInt index = chosen ? list->CurrentItemIndex() : -1;
     CleanupStack::PopAndDestroy(list);
     return index;
@@ -165,6 +170,31 @@ public:
 
     // Takes the focus with the address selected, so typing replaces it.
     void StartEditingL();
+
+    TBool CanEdit(EditCommand command) const
+    {
+        if (iClosing || !iEdwin)
+            return EFalse;
+        switch (command) {
+        case EditCommand::Cut: return !iEdwin->IsReadOnly() && iEdwin->Selection().Length();
+        case EditCommand::Copy: return iEdwin->Selection().Length();
+        case EditCommand::Paste: return !iEdwin->IsReadOnly() && NativeClipboard().hasPlainText();
+        case EditCommand::SelectAll: return iEdwin->TextLength() > 0;
+        }
+        return EFalse;
+    }
+
+    void EditL(EditCommand command)
+    {
+        if (!CanEdit(command))
+            return;
+        switch (command) {
+        case EditCommand::Cut: iEdwin->ClipboardL(CEikEdwin::ECut); break;
+        case EditCommand::Copy: iEdwin->ClipboardL(CEikEdwin::ECopy); break;
+        case EditCommand::Paste: iEdwin->ClipboardL(CEikEdwin::EPaste); break;
+        case EditCommand::SelectAll: iEdwin->SelectAllL(); break;
+        }
+    }
 
     TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aType);
 
@@ -283,6 +313,8 @@ private:
     void WebTitleChanged(const TDesC& aTitle) override;
     void WebUrlChanged(const TDesC& aUrl) override;
     void WebProgressChanged(TBool aLoading, TInt aPercent) override;
+    void WebDownloadProgress(TBool, uint64_t, int64_t) override;
+    void WebNativeDialogClosedL() override;
     TInt WebSelectPopupL(const Text* aItems, TInt aCount, TInt aSelected) override;
     void WebPointerDownL() override;
 
@@ -309,6 +341,8 @@ private:
     HBufC* iUrl { nullptr };
     HBufC* iTitle { nullptr };
     TBool iLoading { EFalse };
+    TBool iDownloading { EFalse };
+    TBuf<96> iDownloadStatus;
     TInt iProgress { 0 };
     // With curl's trace on, logs that the UI thread still runs.
     CPeriodic* iHeartbeat { nullptr };
@@ -513,6 +547,7 @@ void CBrowserAppUi::ConstructL()
         setenv("DEBUG_CURL", "1", 1);
         setenv("CURL_LOG_FILE", "C:/Data/WebKit/curl.txt", 1);
     }
+    setClipboardClient(&NativeClipboard());
     WebView::initializeProcess(KDataDirectory);
     BrowserLogOpen(KDataDirectory);
     BrowserLog("WebKit Browser starting");
@@ -607,6 +642,7 @@ void CBrowserAppUi::BeginTeardown()
     // our destructor also handles a leave during ConstructL.
     delete iRunLoop;
     iRunLoop = nullptr;
+    setClipboardClient(nullptr);
     if (iHeartbeat)
         iHeartbeat->Cancel();
     if (iNetwork)
@@ -800,6 +836,23 @@ void CBrowserAppUi::HandleCommandL(TInt aCommand)
     case ECmdStop:
         webView.stop();
         break;
+    case ECmdDownloadStatus:
+        break; // Status row; reopen Options for a newer byte count.
+    case ECmdCancelDownload:
+        iWebContainer->CancelDownload();
+        break;
+    case ECmdCut:
+    case ECmdCopy:
+    case ECmdPaste:
+    case ECmdSelectAll: {
+        EditCommand command = aCommand == ECmdCut ? EditCommand::Cut : aCommand == ECmdCopy ? EditCommand::Copy
+            : aCommand == ECmdPaste ? EditCommand::Paste : EditCommand::SelectAll;
+        if (iUrlBar->IsFocused())
+            iUrlBar->EditL(command);
+        else
+            webView.executeEditCommand(command);
+        break;
+    }
     case ECmdExit:
     case EAknSoftkeyExit:
     case EEikCmdExit:
@@ -841,10 +894,28 @@ void CBrowserAppUi::ShowOptionsMenuL()
     }
     items->AppendL(iLoading ? _L("Stop") : _L("Reload"));
     commands.AppendL(iLoading ? ECmdStop : ECmdReload);
+    if (iDownloading) {
+        items->AppendL(iDownloadStatus);
+        commands.AppendL(ECmdDownloadStatus);
+        items->AppendL(_L("Cancel download"));
+        commands.AppendL(ECmdCancelDownload);
+    }
+    const EditCommand editActions[] = { EditCommand::Cut, EditCommand::Copy, EditCommand::Paste, EditCommand::SelectAll };
+    const TInt editCommands[] = { ECmdCut, ECmdCopy, ECmdPaste, ECmdSelectAll };
+    const TPtrC editLabels[] = { _L("Cut"), _L("Copy"), _L("Paste"), _L("Select all") };
+    for (TInt i = 0; i < 4; ++i) {
+        TBool enabled = iUrlBar->IsFocused() ? iUrlBar->CanEdit(editActions[i]) : webView.canExecuteEditCommand(editActions[i]);
+        if (enabled) {
+            items->AppendL(editLabels[i]);
+            commands.AppendL(editCommands[i]);
+        }
+    }
     items->AppendL(_L("Exit"));
     commands.AppendL(ECmdExit);
-    TInt index = ShowPopupListL(KNullDesC, *items, 0);
+    TInt index = -1;
+    TRAPD(error, index = ShowPopupListL(KNullDesC, *items, 0));
     SetSoftkeysL();
+    User::LeaveIfError(error);
     TInt command = index >= 0 ? commands[index] : 0;
     CleanupStack::PopAndDestroy(2, &commands);
     if (command)
@@ -859,8 +930,10 @@ TBool CBrowserAppUi::ShowPageListL(const TDesC& aTitle, const CPageList& aPages,
         items->AppendL(aPages.Label(i));
     if (aExtraItem.Length())
         items->AppendL(aExtraItem);
-    TInt index = ShowPopupListL(aTitle, *items, 0);
+    TInt index = -1;
+    TRAPD(error, index = ShowPopupListL(aTitle, *items, 0));
     SetSoftkeysL();
+    User::LeaveIfError(error);
     CleanupStack::PopAndDestroy(items);
     if (index < 0)
         return EFalse;
@@ -908,7 +981,41 @@ void CBrowserAppUi::WebProgressChanged(TBool aLoading, TInt aPercent)
         return;
     iLoading = aLoading;
     iProgress = aPercent;
-    iUrlBar->SetProgress(aLoading, aPercent);
+    if (!iDownloading)
+        iUrlBar->SetProgress(aLoading, aPercent);
+}
+
+void CBrowserAppUi::WebNativeDialogClosedL()
+{
+    if (iClosing || !iSoftkeys)
+        return;
+    // The shell owns this CBA separately from the AppUi factory toolbar.
+    iSoftkeys->MakeVisible(ETrue);
+    SetSoftkeysL();
+    LayoutControls();
+    iSoftkeys->DrawNow();
+}
+
+void CBrowserAppUi::WebDownloadProgress(TBool active, uint64_t received, int64_t total)
+{
+    if (iClosing)
+        return;
+    iDownloading = active;
+    iDownloadStatus.Copy(_L("Downloaded "));
+    iDownloadStatus.AppendNum(static_cast<TInt64>(received));
+    if (total >= 0) {
+        iDownloadStatus.Append(_L(" / "));
+        iDownloadStatus.AppendNum(static_cast<TInt64>(total));
+    }
+    iDownloadStatus.Append(_L(" bytes"));
+    // A known length uses the URL bar's existing progress line. For unknown
+    // length, the Options status gives the actual byte count without a fake %.
+    if (active && total > 0)
+        iUrlBar->SetProgress(ETrue, Min(100, static_cast<TInt>((received * 100) / static_cast<uint64_t>(total))));
+    else if (active)
+        iUrlBar->SetProgress(EFalse, 0);
+    else
+        iUrlBar->SetProgress(iLoading, iProgress);
 }
 
 TInt CBrowserAppUi::WebSelectPopupL(const Text* aItems, TInt aCount, TInt aSelected)

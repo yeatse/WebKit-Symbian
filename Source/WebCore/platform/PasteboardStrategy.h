@@ -99,8 +99,14 @@ public:
     virtual int64_t changeCount(const String& pasteboardName) = 0;
 #elif USE(LIBWPE) || OS(SYMBIAN)
     virtual void getTypes(Vector<String>& types) = 0;
+#if OS(SYMBIAN)
+    virtual bool writeToPasteboard(const PasteboardWebContent&) = 0;
+    virtual bool writeToPasteboard(const String& pasteboardType, const String&) = 0;
+    virtual bool clearPasteboard() = 0;
+#else
     virtual void writeToPasteboard(const PasteboardWebContent&) = 0;
     virtual void writeToPasteboard(const String& pasteboardType, const String&) = 0;
+#endif
 #endif
 
 protected:

@@ -1,0 +1,10 @@
+{
+  "status": "FAIL",
+  "scope": "guest log validation; host exit and fresh screenshot must be checked by runner",
+  "run": "2cd5507048d64ffd87998c40b67c9cf0",
+  "inputs": {
+    "browser_sha256": "991b63bbb8f53f538a9b706bc20d011bf321ad17c9f1fc5c4ebf28b5371225f4",
+    "controller_sha256": "9787381c4ddaded51efa589c46d04af4074a8f4638c9a683cf66ea901a3cf28e"
+  },
+  "error": "missing strict normal-exit evidence: BROWSER EXIT: type=0 reason=0 logon=0"
+}

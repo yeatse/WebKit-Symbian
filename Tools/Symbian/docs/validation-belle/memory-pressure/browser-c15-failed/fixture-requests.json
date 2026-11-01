@@ -1,0 +1,16 @@
+[
+  {
+    "path": "/browser-live.html?run=c5743e863b554fef97bac2c285920177",
+    "status": 200,
+    "bytes": 571,
+    "sha256": "3a9ac4758e50487e548588bbe536e6124a659ca45ec8efd30b4bef23ce3fb852",
+    "monotonic": 238292.586964375
+  },
+  {
+    "path": "/browser-live.js",
+    "status": 200,
+    "bytes": 4007,
+    "sha256": "f2b8c895fc1e16b5b4db4151e37935329244b96460b9fb7b1179cb5e04c12e96",
+    "monotonic": 238292.914202448
+  }
+]

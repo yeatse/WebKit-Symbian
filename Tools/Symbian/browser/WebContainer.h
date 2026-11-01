@@ -4,6 +4,7 @@
 // keyboard, handwriting, predictive and Chinese input) edit web text inline.
 #pragma once
 #include "NativeHeapDelete.h"
+#include "TouchTracker.h"
 
 #include <WebKitSymbian.h>
 #include <coecntrl.h>
@@ -12,12 +13,15 @@
 class CAknEdwinState;
 class CAknExtendedInputCapabilities;
 class CFbsBitmap;
+class CAuthenticationUI;
 
 class MWebContainerObserver {
 public:
     virtual void WebTitleChanged(const TDesC& aTitle) = 0;
     virtual void WebUrlChanged(const TDesC& aUrl) = 0;
     virtual void WebProgressChanged(TBool aLoading, TInt aPercent) = 0;
+    virtual void WebDownloadProgress(TBool active, uint64_t received, int64_t total) = 0;
+    virtual void WebNativeDialogClosedL() = 0;
     virtual TInt WebSelectPopupL(const WebKitSymbian::Text* aItems, TInt aCount, TInt aSelected) = 0;
     // The page was touched, before the engine gets the event.
     virtual void WebPointerDownL() = 0;
@@ -37,6 +41,7 @@ public:
     static CWebContainer* NewL(const TRect& aRect, MWebContainerObserver& aObserver);
     ~CWebContainer();
     void PrepareForExit();
+    void CancelDownload();
 
     WebKitSymbian::WebView& WebView() { return *iWebView; }
 
@@ -69,10 +74,19 @@ private:
     void didChangeProgress(bool isLoading, double progress);
     void didChangeEditingState();
     void didChangeSelection();
+    void didCancelTouchSequence() final;
     void runJavaScriptAlert(WebKitSymbian::Text);
     bool runJavaScriptConfirm(WebKitSymbian::Text);
     bool runJavaScriptPrompt(WebKitSymbian::Text, WebKitSymbian::Text, WebKitSymbian::TextResult&);
+    bool runAuthenticationChallenge(uint64_t, WebKitSymbian::Text, unsigned, WebKitSymbian::TextResult&, WebKitSymbian::TextResult&) override;
+    void cancelAuthenticationChallenge(uint64_t) override;
     bool chooseFile(WebKitSymbian::TextResult&);
+    void didStartDownload(uint64_t) override;
+    int chooseDownloadDestination(uint64_t, WebKitSymbian::Text, WebKitSymbian::Text, WebKitSymbian::TextResult&) override;
+    int didCloseDownloadDestinationUI() override;
+    WebKitSymbian::DownloadFile* createDownloadFile() override;
+    void didChangeDownloadProgress(uint64_t, uint64_t, int64_t) override;
+    void didFinishDownload(uint64_t, WebKitSymbian::Text, WebKitSymbian::DownloadFailure, int, int, WebKitSymbian::Text) override;
     int runSelectPopup(const WebKitSymbian::Text*, int count, int selectedIndex);
 
     // MCoeFepAwareTextEditor
@@ -116,6 +130,10 @@ private:
     MWebContainerObserver& iObserver;
     WebKitSymbian::WebView* iWebView { nullptr };
     bool iClosing { false };
+    CAuthenticationUI* iAuthenticationUI { nullptr };
+    uint64_t iDownloadIdentifier { 0 };
+    SymbianBrowser::TouchTracker iTouchTracker;
+    TInt iMaximumTouchPressure { 0 };
     CFbsBitmap* iBitmap { nullptr };
     TInt iUiResourceOffset { -1 };
     mutable TRect iDirty;

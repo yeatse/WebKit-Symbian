@@ -700,6 +700,10 @@ void Editor::pasteAsPlainTextBypassingDHTML()
 void Editor::pasteAsPlainTextWithPasteboard(Pasteboard& pasteboard)
 {
     String text = readPlainTextFromPasteboard(pasteboard);
+#if OS(SYMBIAN)
+    if (text.isNull())
+        return;
+#endif
     if (client() && client()->shouldInsertText(text, selectedRange(), EditorInsertAction::Pasted))
         pasteAsPlainText(text, canSmartReplaceWithPasteboard(pasteboard));
 }
@@ -1616,8 +1620,9 @@ void Editor::performCutOrCopy(EditorActionSpecifier action)
     }
 
     Ref document = this->document();
+    auto pasteboard = Pasteboard::createForCopyAndPaste(PagePasteboardContext::create(document->pageID()));
     if (enclosingTextFormControl(document->selection().selection().start()))
-        Pasteboard::createForCopyAndPaste(PagePasteboardContext::create(document->pageID()))->writePlainText(selectedTextForDataTransfer(), canSmartCopyOrDelete() ? Pasteboard::CanSmartReplace : Pasteboard::CannotSmartReplace);
+        pasteboard->writePlainText(selectedTextForDataTransfer(), canSmartCopyOrDelete() ? Pasteboard::CanSmartReplace : Pasteboard::CannotSmartReplace);
     else {
         RefPtr<HTMLImageElement> imageElement;
         bool isSelectionInImageOverlay = selection && !selection->collapsed() && ImageOverlay::isInsideOverlay(*selection);
@@ -1626,21 +1631,27 @@ void Editor::performCutOrCopy(EditorActionSpecifier action)
 
         if (imageElement) {
 #if !PLATFORM(WIN)
-            writeImageToPasteboard(*Pasteboard::createForCopyAndPaste(PagePasteboardContext::create(document->pageID())), *imageElement, document->url(), document->title());
+            writeImageToPasteboard(*pasteboard, *imageElement, document->url(), document->title());
 #else
             // FIXME: Delete after <http://webkit.org/b/177618> lands.
-            Pasteboard::createForCopyAndPaste(PagePasteboardContext::create(document->pageID()))->writeImage(*imageElement, document->url(), document->title());
+            pasteboard->writeImage(*imageElement, document->url(), document->title());
 #endif
         } else {
 #if !PLATFORM(WIN)
-            writeSelectionToPasteboard(*Pasteboard::createForCopyAndPaste(PagePasteboardContext::create(document->pageID())));
+            writeSelectionToPasteboard(*pasteboard);
 #else
             // FIXME: Delete after <http://webkit.org/b/177618> lands.
-            Pasteboard::createForCopyAndPaste(PagePasteboardContext::create(document->pageID()))->writeSelection(selection, canSmartCopyOrDelete(), *document->frame(), IncludeImageAltTextForDataTransfer);
+            pasteboard->writeSelection(selection, canSmartCopyOrDelete(), *document->frame(), IncludeImageAltTextForDataTransfer);
 #endif
         }
     }
 
+#if OS(SYMBIAN)
+    // A native clipboard leave (for example disk full or a locked store) must
+    // not turn Cut into data loss. No selection has been removed at this point.
+    if (!pasteboard->writeSucceeded())
+        return;
+#endif
     didWriteSelectionToPasteboard();
     if (action == CutAction) {
         String text;

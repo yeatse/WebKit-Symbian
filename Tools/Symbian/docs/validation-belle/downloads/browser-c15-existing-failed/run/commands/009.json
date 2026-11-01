@@ -1,0 +1,1 @@
+{"run": "dl-e-96cb1c9bde37", "sequence": 9, "operation": "act", "capture_sha256": "5a2052c7b30ed25f59657d4cd89cb5761a4e7812eb37a9e39f741b22e6f04903", "screenshots_reviewed": true, "actions": [{"target": "fep", "role": "edit-name", "wait": 0.5, "key": "BackSpace"}]}

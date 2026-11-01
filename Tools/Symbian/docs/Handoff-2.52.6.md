@@ -1,4 +1,71 @@
-# WebKit 2.52.6 Symbian 交接（暂停点）
+# WebKit 2.52.6 Symbian 交接（续接状态）
+
+## 2026-11-01 续接更新：覆盖下面的暂停快照
+
+用户已说“继续”，当前在推进 Belle P1。下文 10 月 30 日内容保留作历史依据，
+其中“未推送”“目录不存在”“C11 最后构建”已过时，不能作为当前状态。
+
+- 开发树仍为 `/workspace/WebKit-Symbian-graphics`、`belle-fp2-capabilities`；
+  主树目标仍为 `2.52.6-symbian`。暂停前 df7274/7201187 和交接提交已推送。
+  CI41/42 实际 SIS 已下载并核实版本、payload、CRC、CA、ICU；CI42 源
+  `46234c2b063`、包 0.3.42。见 `validation-release-0.3.42/ci/`。
+  CI42 浏览器尚未安装/运行，也不包含本地 P1 候选。
+- 本轮接入下载、touch/pointer、原生系统剪贴板、401 UI、内存压力和连接状态。
+  又修复 Ctrl 键、FEP 点击准入/Cancel、精确滚动、错误 fake hover、单调时钟、
+  chunked 长度、100ms 进度合并、重名重试和 popup 清理栈合同。
+  接入或编译成功不等于所有路径验收通过。
+- C15/C16/C17 不可覆盖的镜像和 source/build identities 在
+  `/workspace/symbian-belle-work/candidateN/`。C17 browser 为 58,795,408B，
+  SHA `0d91d91ea1e016b7725097bac0768a9aa2fdf9710b765795769d2da07608a1c8`；
+  UI RSC 242B，SHA `251cfbede521cc5d0a3e36400cf108b12b6bb8eb7956e33a6781d8ef4bf5bc3d`。
+  必须配对资源，不能继续部署 C16 的 192B RSC。
+- 当前 EKA host SHA `277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff`，
+  包含 0027 Ctrl/Alt 与 0028 FEP Cancel。新 native FEP DLL 为 99,272B，
+  SHA `aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b`，已实际构建部署。
+  后续每次构建 EKA 会覆盖 native patch，须恢复此 DLL 和原有四个 MMF DLL/map。
+  FEP 原件在 `/workspace/symbian-fep-sdk-build-work/artifacts/`；链接器 map 报告不能当 ordinal override。
+- SDK/EKA 自身仍不推送，导出补丁随 WebKit 保存。新增 0027/0028、SDK native
+  0006 和可移植 FEP builder/官方头文件 overlay 在 `Tools/Symbian/`。
+  通用 builder 仅 prepare/assembly 检查；具体 FEP 候选完整构建与 ABI 检查已过。
+
+本地浏览器已通过：C13/C17 单指 touch 七组；C15 键盘剪贴板九组；C15 FEP 五组
+（真实 Escape 保留值/选区、提交、清空、程序 focus 和 readonly 不误开）；
+C15 八次定时回调在 453ms 内完成。下载分别通过取消保存、POST 恰好一次、GET、
+gzip、chunked、重名保护后取消。每份证据绑定不同镜像，不能拼成某张镜像全测通过。
+详见 [Belle 清单](Belle-FP2-capabilities.md) 和对应 `validation-belle/` 目录。
+
+最新 C19：native Save 返回后由仍 attached 的 manager 通知 shell 恢复自有 CBA、命令、布局和绘制；
+browser 58,796,116B，SHA `6b6e8e0a430ff9c1ce0be935161d4b7e61804444e2947cb0218e74cb2e5420ae`，RSC同C17。
+传输中取消已实际通过：正进度8192字节→真实 Options→Cancel download→terminal1/error0/cleanup0，
+清理、标准runner退出0和原数据恢复均通过。原C15/C16/C17失败不改判。
+C17 Options 九组剪贴板也已整轮通过（12次真实菜单点击，未用Ctrl或End猜选）；
+旧End校准仍FAIL。见各证据目录。
+
+仍待完成：HTTP Basic/Digest 16组、多指/独立原生失焦和真机。
+已确认旧host FEP未传secret标志、使用明文QPlainTextEdit；0029遮罩修复候选准备中，
+必须匹配重建host与native FEP并验收后再输入auth测试凭据。不得归档凭据、Authorization、
+原始剪贴板或private config。
+
+内存与网络失败：C15 及时 READY，worker 提交 46,137,344B，实际 critical、释放/
+模式检查、worker 退出0；浏览器三次 VERIFIED 后 host -11，未通过40s保留，
+cellBytes 37,910,912 也未达到80MiB门槛，整轮 FAIL。旧 C13 READY timeout、
+online C11 页面19项通过但 EndTask 后 host -11 均仍 FAIL。不要重放旧崩溃、加诊断
+shim 或检查 dump；继续普通平台合同修复和新的正常功能验收。这些测试不替代已推送
+的多 region 分配器和旧80MiB原生验收，也没有新的真机 chatgpt.com 通过证据。
+
+续接顺序：host FEP密码遮罩与401 UI，以及下载其余异常验收；
+随后审查合入外部 CookieStore，再处理 IPv6/H2 的 EKA/OpenC 前提和 IAP proxy。
+候选目录分别为 `/workspace/symbian-cookie-store-work`、`symbian-ipv6-http2-work`、
+`symbian-iap-proxy-work`，尚未进入共享实现，禁止 bulk 覆盖 WebViewImpl 新 touch/FEP hunk。
+之后继续清单 P2/P3，不能宣称所有 Belle 能力已经补全。
+
+运行环境仍用 `/workspace/eka-validation/env.sh` 和 `symbian-media-work/env.sh`；
+运行 ICU 始终为 `/workspace/symbian-idna-work/icu` 的 `808fc9bd…` 数据。
+本轮已重启 Xvfb :95、Pulse 和 loopback fixtures；新会话检查实际进程/锁，不抄 session ID。
+4CPU/16GiB/32GiB，剩约2GiB。不要 reset/clean 或 git add -A。
+10月30日 tar/bundle 是旧快照，不包含本节新改动。
+
+---
 
 更新：2026-10-30，Asia/Shanghai。用户最新指令是“先到此暂停，更新交接文档，方便新会话接手”。本次只做状态核对和保存，没有继续实现、构建或功能测试，也没有推送。
 

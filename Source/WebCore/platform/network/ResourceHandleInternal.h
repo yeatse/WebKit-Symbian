@@ -118,6 +118,7 @@ public:
     unsigned m_authFailureCount { 0 };
     bool m_cancelled { false };
     bool m_drainingCallbacks { false };
+    size_t m_downloadBufferLimit { 0 };
 #endif
     int status { 0 };
 

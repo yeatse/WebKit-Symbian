@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Belle clipboard acceptance</title>
+<style>
+body{font:14px sans-serif;margin:8px}h1{font-size:18px;margin:4px 0}p{margin:5px 0}
+button{width:100%;min-height:44px;font-size:16px}textarea,input,[contenteditable]{box-sizing:border-box;width:100%;font:15px sans-serif;margin:3px 0;padding:5px;border:1px solid #888}
+textarea{height:58px}[contenteditable]{min-height:42px;white-space:pre-wrap}label{display:block;font-size:12px}
+#instruction{min-height:44px}#log{font:10px monospace;white-space:pre-wrap;max-height:100px;overflow:auto} [hidden]{display:none!important}
+</style>
+<h1>System clipboard</h1>
+<p id="stage">Waiting for a valid run token</p>
+<p id="instruction"></p>
+<button id="start" disabled>Start</button>
+<label>Source <textarea id="source" spellcheck="false"></textarea></label>
+<input id="special" hidden aria-label="Protected source" spellcheck="false">
+<div id="richSource" contenteditable="true" hidden aria-label="Rich source"></div>
+<label>Destination <textarea id="target" spellcheck="false"></textarea></label>
+<div id="richTarget" contenteditable="true" hidden aria-label="Rich destination"></div>
+<pre id="log"></pre>
+<script src="suite.js"></script>

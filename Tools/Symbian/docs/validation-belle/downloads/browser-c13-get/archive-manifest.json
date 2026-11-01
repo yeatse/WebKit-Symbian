@@ -1,0 +1,1535 @@
+{
+  "files": [
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/after-files/payload.bin",
+      "archive_path": "get-c13-02/after-files/payload.bin",
+      "source_bytes": 524288,
+      "source_sha256": "33bc8aab40703678c3ebe94d2dd8f2afff285dd901f9234e841e4679f8204fd5",
+      "archive_bytes": 524288,
+      "archive_sha256": "33bc8aab40703678c3ebe94d2dd8f2afff285dd901f9234e841e4679f8204fd5",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/after.json",
+      "archive_path": "get-c13-02/after.json",
+      "source_bytes": 636,
+      "source_sha256": "5cd384f87e50c82f2e93943c76a4521b02c76239d47370c05377638126c91686",
+      "archive_bytes": 636,
+      "archive_sha256": "5cd384f87e50c82f2e93943c76a4521b02c76239d47370c05377638126c91686",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/before.json",
+      "archive_path": "get-c13-02/before.json",
+      "source_bytes": 425,
+      "source_sha256": "c5f96853c1707e75258a165b92985a2838542a980d2f2f6dc5ab1396104f06f1",
+      "archive_bytes": 425,
+      "archive_sha256": "c5f96853c1707e75258a165b92985a2838542a980d2f2f6dc5ab1396104f06f1",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/browser/runs/browser-20261101T023358Z-dq_otejp/browser.png",
+      "archive_path": "get-c13-02/browser/runs/browser-20261101T023358Z-dq_otejp/browser.png",
+      "source_bytes": 25475,
+      "source_sha256": "62ff492fbc00d45a3f1876ca87cdc0211c6dddcbc3ae863e213781cecd1c6e4a",
+      "archive_bytes": 25475,
+      "archive_sha256": "62ff492fbc00d45a3f1876ca87cdc0211c6dddcbc3ae863e213781cecd1c6e4a",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/browser/runs/browser-20261101T023358Z-dq_otejp/emulator.log",
+      "archive_path": "get-c13-02/browser/runs/browser-20261101T023358Z-dq_otejp/emulator.log.gz",
+      "source_bytes": 235801,
+      "source_sha256": "416e06dc5f6e668c8bb3e5a3b9e0299dc6fcce5f02ac973b46585838d5b83891",
+      "archive_bytes": 19724,
+      "archive_sha256": "df8f6f0792dd09628ba646d91b69ef4e61d8f3e13e8142ce561fa060ea5ddd8f",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/browser/runs/browser-20261101T023358Z-dq_otejp/log.txt",
+      "archive_path": "get-c13-02/browser/runs/browser-20261101T023358Z-dq_otejp/log.txt",
+      "source_bytes": 570,
+      "source_sha256": "f69e20dca87d96dcfe0e26a35e6db189f0bf2bc013609467f5b8003a3cc50140",
+      "archive_bytes": 570,
+      "archive_sha256": "f69e20dca87d96dcfe0e26a35e6db189f0bf2bc013609467f5b8003a3cc50140",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-001/calibration-main.png",
+      "archive_path": "get-c13-02/capture-001/calibration-main.png",
+      "source_bytes": 16222,
+      "source_sha256": "c978904d2fa286f1940e38c204845229847a78950fa4b62c85afd94937e69f44",
+      "archive_bytes": 16222,
+      "archive_sha256": "c978904d2fa286f1940e38c204845229847a78950fa4b62c85afd94937e69f44",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-001/calibration.json",
+      "archive_path": "get-c13-02/capture-001/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "6dff3c5f4e624c44f13825f17befefe1c94498bb587050fb2a9e989263b637fb",
+      "archive_bytes": 799,
+      "archive_sha256": "6dff3c5f4e624c44f13825f17befefe1c94498bb587050fb2a9e989263b637fb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-001-driver.log",
+      "archive_path": "get-c13-02/capture-001-driver.log.gz",
+      "source_bytes": 799,
+      "source_sha256": "6dff3c5f4e624c44f13825f17befefe1c94498bb587050fb2a9e989263b637fb",
+      "archive_bytes": 509,
+      "archive_sha256": "94b1354d2b2fd3ba18329d3ec1a402a4b55a22a16ac699ed1bf1c04ef94bb077",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-002/calibration-main.png",
+      "archive_path": "get-c13-02/capture-002/calibration-main.png",
+      "source_bytes": 25587,
+      "source_sha256": "2b009f3ce7c320b6a266348b43f2868193ca777dbf5b63637781ac703edd8413",
+      "archive_bytes": 25587,
+      "archive_sha256": "2b009f3ce7c320b6a266348b43f2868193ca777dbf5b63637781ac703edd8413",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-002/calibration.json",
+      "archive_path": "get-c13-02/capture-002/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "f4ae33978a5a76b22a4372bbbfa76c8e8427a972daed7aa948f35af8f73efb95",
+      "archive_bytes": 799,
+      "archive_sha256": "f4ae33978a5a76b22a4372bbbfa76c8e8427a972daed7aa948f35af8f73efb95",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-002-driver.log",
+      "archive_path": "get-c13-02/capture-002-driver.log.gz",
+      "source_bytes": 799,
+      "source_sha256": "f4ae33978a5a76b22a4372bbbfa76c8e8427a972daed7aa948f35af8f73efb95",
+      "archive_bytes": 512,
+      "archive_sha256": "832a6ebd0b4b6ec4dcba822ae51a91017dc7944895e2753cae0666c01e305576",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-003/calibration-main.png",
+      "archive_path": "get-c13-02/capture-003/calibration-main.png",
+      "source_bytes": 38035,
+      "source_sha256": "0e715e5373ef50caf2b7e5b784210a6c825aff132d5b6b8646a940c750269190",
+      "archive_bytes": 38035,
+      "archive_sha256": "0e715e5373ef50caf2b7e5b784210a6c825aff132d5b6b8646a940c750269190",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-003/calibration.json",
+      "archive_path": "get-c13-02/capture-003/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "b98970109f642b9cc077ca249c72c1f8e0c3855218b391e42bbaf5a9e115337a",
+      "archive_bytes": 799,
+      "archive_sha256": "b98970109f642b9cc077ca249c72c1f8e0c3855218b391e42bbaf5a9e115337a",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-003-driver.log",
+      "archive_path": "get-c13-02/capture-003-driver.log.gz",
+      "source_bytes": 799,
+      "source_sha256": "b98970109f642b9cc077ca249c72c1f8e0c3855218b391e42bbaf5a9e115337a",
+      "archive_bytes": 510,
+      "archive_sha256": "33664af50c3f143d0c75da2a9c94c374821e4cf34b5e27ab08c4e488caf757c0",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-004/calibration-main.png",
+      "archive_path": "get-c13-02/capture-004/calibration-main.png",
+      "source_bytes": 28599,
+      "source_sha256": "9caedddb2c744d61ce5abfd558bdcbfdfd7d84674a4310048574cf4fc1e0de4e",
+      "archive_bytes": 28599,
+      "archive_sha256": "9caedddb2c744d61ce5abfd558bdcbfdfd7d84674a4310048574cf4fc1e0de4e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-004/calibration.json",
+      "archive_path": "get-c13-02/capture-004/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "8ee886cb7eec9492d0bbd4895f3950b71deb682a3b05d011b5520298ab40541f",
+      "archive_bytes": 799,
+      "archive_sha256": "8ee886cb7eec9492d0bbd4895f3950b71deb682a3b05d011b5520298ab40541f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-004-driver.log",
+      "archive_path": "get-c13-02/capture-004-driver.log.gz",
+      "source_bytes": 799,
+      "source_sha256": "8ee886cb7eec9492d0bbd4895f3950b71deb682a3b05d011b5520298ab40541f",
+      "archive_bytes": 510,
+      "archive_sha256": "02b57966776d7620b638ec6d179966ac182693748f473f54a8fc36e6c0bef981",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-005/calibration-main.png",
+      "archive_path": "get-c13-02/capture-005/calibration-main.png",
+      "source_bytes": 39924,
+      "source_sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "archive_bytes": 39924,
+      "archive_sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-005/calibration.json",
+      "archive_path": "get-c13-02/capture-005/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "05aaa65401e8cf179de583c220c33977e1c04bd1c325e3019e3c2bb1787eb3ad",
+      "archive_bytes": 799,
+      "archive_sha256": "05aaa65401e8cf179de583c220c33977e1c04bd1c325e3019e3c2bb1787eb3ad",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-005-driver.log",
+      "archive_path": "get-c13-02/capture-005-driver.log.gz",
+      "source_bytes": 799,
+      "source_sha256": "05aaa65401e8cf179de583c220c33977e1c04bd1c325e3019e3c2bb1787eb3ad",
+      "archive_bytes": 510,
+      "archive_sha256": "1c9a4c32aed2f78a9443f060928afdf826a40585080e80163469785ab6308824",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-006/calibration-main.png",
+      "archive_path": "get-c13-02/capture-006/calibration-main.png",
+      "source_bytes": 39090,
+      "source_sha256": "774fa0cfc2f85fa318f9b32d6718a435f48a204ccb2a9f52a6381aea5de1a566",
+      "archive_bytes": 39090,
+      "archive_sha256": "774fa0cfc2f85fa318f9b32d6718a435f48a204ccb2a9f52a6381aea5de1a566",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-006/calibration.json",
+      "archive_path": "get-c13-02/capture-006/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "b5bb071c1990b0f5390b7960817b1ad0c2599bb729e4dda9a65ba85371708e49",
+      "archive_bytes": 799,
+      "archive_sha256": "b5bb071c1990b0f5390b7960817b1ad0c2599bb729e4dda9a65ba85371708e49",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-006-driver.log",
+      "archive_path": "get-c13-02/capture-006-driver.log.gz",
+      "source_bytes": 799,
+      "source_sha256": "b5bb071c1990b0f5390b7960817b1ad0c2599bb729e4dda9a65ba85371708e49",
+      "archive_bytes": 512,
+      "archive_sha256": "5a6a32ae40c0582c7e6dcb9de4e9843adbe10dbaf8302df7fdad7d1fab1bc08e",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-007/calibration-main.png",
+      "archive_path": "get-c13-02/capture-007/calibration-main.png",
+      "source_bytes": 31871,
+      "source_sha256": "a4544cfe0a7fec3fb1ff31b13aa104f3d2033c8c941ce894746fe9e448b214b1",
+      "archive_bytes": 31871,
+      "archive_sha256": "a4544cfe0a7fec3fb1ff31b13aa104f3d2033c8c941ce894746fe9e448b214b1",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-007/calibration.json",
+      "archive_path": "get-c13-02/capture-007/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "970e30fe4a282fd48c701a7120c3cf2f991d35d63f14ca328c2190ee3497b3ae",
+      "archive_bytes": 799,
+      "archive_sha256": "970e30fe4a282fd48c701a7120c3cf2f991d35d63f14ca328c2190ee3497b3ae",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-007-driver.log",
+      "archive_path": "get-c13-02/capture-007-driver.log.gz",
+      "source_bytes": 799,
+      "source_sha256": "970e30fe4a282fd48c701a7120c3cf2f991d35d63f14ca328c2190ee3497b3ae",
+      "archive_bytes": 509,
+      "archive_sha256": "d80cbff5a1505d7762cf6a8e93d2529db7e1d3979fae4df624a83732a91ce7da",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-008/calibration-fep.png",
+      "archive_path": "get-c13-02/capture-008/calibration-fep.png",
+      "source_bytes": 3216,
+      "source_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "archive_bytes": 3216,
+      "archive_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-008/calibration-main.png",
+      "archive_path": "get-c13-02/capture-008/calibration-main.png",
+      "source_bytes": 19297,
+      "source_sha256": "ad0b3a9613214a9f0e945c84195cb42619f2a69259690377420efa8237371762",
+      "archive_bytes": 19297,
+      "archive_sha256": "ad0b3a9613214a9f0e945c84195cb42619f2a69259690377420efa8237371762",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-008/calibration.json",
+      "archive_path": "get-c13-02/capture-008/calibration.json",
+      "source_bytes": 1092,
+      "source_sha256": "5a1e19fe64d979dee254e71ddc124d123276405d7e3aafd344d2faa4d2d0ebe1",
+      "archive_bytes": 1092,
+      "archive_sha256": "5a1e19fe64d979dee254e71ddc124d123276405d7e3aafd344d2faa4d2d0ebe1",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-008-driver.log",
+      "archive_path": "get-c13-02/capture-008-driver.log.gz",
+      "source_bytes": 1092,
+      "source_sha256": "5a1e19fe64d979dee254e71ddc124d123276405d7e3aafd344d2faa4d2d0ebe1",
+      "archive_bytes": 598,
+      "archive_sha256": "633ed99c0705bfc6d880d25f92035c948f88d48f605650ca6d34821b1c73c12e",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-009/calibration-main.png",
+      "archive_path": "get-c13-02/capture-009/calibration-main.png",
+      "source_bytes": 27742,
+      "source_sha256": "24e58b46ed847fbf73cca146c4822ae4a484fd4ea653a541880fdceee5d487b0",
+      "archive_bytes": 27742,
+      "archive_sha256": "24e58b46ed847fbf73cca146c4822ae4a484fd4ea653a541880fdceee5d487b0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-009/calibration.json",
+      "archive_path": "get-c13-02/capture-009/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "b3040962c1b0d0b45e6640c5d2106a31f721d3ed0df8da5ba472b840c4107a05",
+      "archive_bytes": 799,
+      "archive_sha256": "b3040962c1b0d0b45e6640c5d2106a31f721d3ed0df8da5ba472b840c4107a05",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-009-driver.log",
+      "archive_path": "get-c13-02/capture-009-driver.log.gz",
+      "source_bytes": 799,
+      "source_sha256": "b3040962c1b0d0b45e6640c5d2106a31f721d3ed0df8da5ba472b840c4107a05",
+      "archive_bytes": 511,
+      "archive_sha256": "8f1f693147b775b9005fe2fca4d02770413bbbaf1c158150e03d77eeb5b69572",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-010/calibration-main.png",
+      "archive_path": "get-c13-02/capture-010/calibration-main.png",
+      "source_bytes": 38292,
+      "source_sha256": "c2e648f5def65083a80430dbc0a79f8e4795dd87f131e2615ceae94e942692c8",
+      "archive_bytes": 38292,
+      "archive_sha256": "c2e648f5def65083a80430dbc0a79f8e4795dd87f131e2615ceae94e942692c8",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-010/calibration.json",
+      "archive_path": "get-c13-02/capture-010/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "b2ecd1e58fcd09c32a0942243d0b7056c0cebd4cb1e32dcf9097b3d369c7187e",
+      "archive_bytes": 799,
+      "archive_sha256": "b2ecd1e58fcd09c32a0942243d0b7056c0cebd4cb1e32dcf9097b3d369c7187e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/capture-010-driver.log",
+      "archive_path": "get-c13-02/capture-010-driver.log.gz",
+      "source_bytes": 799,
+      "source_sha256": "b2ecd1e58fcd09c32a0942243d0b7056c0cebd4cb1e32dcf9097b3d369c7187e",
+      "archive_bytes": 510,
+      "archive_sha256": "35418194b45dd711a068fea819a51cef44403bcfee86ca0c330e788355d576a9",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/001.json",
+      "archive_path": "get-c13-02/commands/001.json",
+      "source_bytes": 67,
+      "source_sha256": "0637c34c550be084bb4fd37e13d22670471d7a6d05aee03de522f57729424d38",
+      "archive_bytes": 67,
+      "archive_sha256": "0637c34c550be084bb4fd37e13d22670471d7a6d05aee03de522f57729424d38",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/002.json",
+      "archive_path": "get-c13-02/commands/002.json",
+      "source_bytes": 263,
+      "source_sha256": "96a80678b70b0c1d3197b959994941c64827a3d70b14c16bcf27e166cb3410cc",
+      "archive_bytes": 263,
+      "archive_sha256": "96a80678b70b0c1d3197b959994941c64827a3d70b14c16bcf27e166cb3410cc",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/003.json",
+      "archive_path": "get-c13-02/commands/003.json",
+      "source_bytes": 269,
+      "source_sha256": "48286b599e147420d0dbb88b61eaa4fcf8733e042d4ed0345120a4ffd80b9089",
+      "archive_bytes": 269,
+      "archive_sha256": "48286b599e147420d0dbb88b61eaa4fcf8733e042d4ed0345120a4ffd80b9089",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/004.json",
+      "archive_path": "get-c13-02/commands/004.json",
+      "source_bytes": 269,
+      "source_sha256": "166691a23526f123d3aa05577b3744031f02650b7e0465f86760148651e43831",
+      "archive_bytes": 269,
+      "archive_sha256": "166691a23526f123d3aa05577b3744031f02650b7e0465f86760148651e43831",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/005.json",
+      "archive_path": "get-c13-02/commands/005.json",
+      "source_bytes": 269,
+      "source_sha256": "f83f593b69a352f5abdec58677714021c7edfd5388ea50a0ab14535dc6553a6f",
+      "archive_bytes": 269,
+      "archive_sha256": "f83f593b69a352f5abdec58677714021c7edfd5388ea50a0ab14535dc6553a6f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/006.json",
+      "archive_path": "get-c13-02/commands/006.json",
+      "source_bytes": 269,
+      "source_sha256": "e7c1fd7e0ab0ed8be31327b71070315194a0999ff8e2d019b4fccdbdd50e44b8",
+      "archive_bytes": 269,
+      "archive_sha256": "e7c1fd7e0ab0ed8be31327b71070315194a0999ff8e2d019b4fccdbdd50e44b8",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/007.json",
+      "archive_path": "get-c13-02/commands/007.json",
+      "source_bytes": 269,
+      "source_sha256": "f54c40c1ca703c6804741f9b57eefd106faad8f27eaa8b2430d26695b681a024",
+      "archive_bytes": 269,
+      "archive_sha256": "f54c40c1ca703c6804741f9b57eefd106faad8f27eaa8b2430d26695b681a024",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/008.json",
+      "archive_path": "get-c13-02/commands/008.json",
+      "source_bytes": 266,
+      "source_sha256": "b558de441460151173ad986aa703da30237e3fe559fb254d97764e7e6de2e548",
+      "archive_bytes": 266,
+      "archive_sha256": "b558de441460151173ad986aa703da30237e3fe559fb254d97764e7e6de2e548",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/009.json",
+      "archive_path": "get-c13-02/commands/009.json",
+      "source_bytes": 269,
+      "source_sha256": "d1f5b2faf0a03563b07b856cce08a47535fbfb57c30de77c7c61de069ccc4cff",
+      "archive_bytes": 269,
+      "archive_sha256": "d1f5b2faf0a03563b07b856cce08a47535fbfb57c30de77c7c61de069ccc4cff",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/commands/010.json",
+      "archive_path": "get-c13-02/commands/010.json",
+      "source_bytes": 186,
+      "source_sha256": "32455921011e9f9369ea252b5ad5c6314d42c04cfa65d7bcd41f1dac071979d9",
+      "archive_bytes": 186,
+      "archive_sha256": "32455921011e9f9369ea252b5ad5c6314d42c04cfa65d7bcd41f1dac071979d9",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-accept.log",
+      "archive_path": "get-c13-02/control-accept.log.gz",
+      "source_bytes": 8243,
+      "source_sha256": "154f9a7a608067470e8bfc3adb95bd4b542629789297ca8581f4d366dde89a02",
+      "archive_bytes": 1715,
+      "archive_sha256": "f1eee9c54c0f650bb0fd24c201c8e6f5a1b132eeeb691851d759290d6660b58f",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-capture.log",
+      "archive_path": "get-c13-02/control-capture.log.gz",
+      "source_bytes": 7513,
+      "source_sha256": "52176cc1384faff1104aad47c4512305ccd3091ac5a69a4d578414da70e45c73",
+      "archive_bytes": 1660,
+      "archive_sha256": "7fbd637e268fb5bb9c9334e668e3db967a5b6e7bc9c916b49e58bf0f5f064727",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-data.log",
+      "archive_path": "get-c13-02/control-data.log.gz",
+      "source_bytes": 7788,
+      "source_sha256": "88981b46ff83151dcba07a65cad21e29a121df30bae6b9e60bc874c6d3594c29",
+      "archive_bytes": 1692,
+      "archive_sha256": "784ff42af0bf35d02b28e7e39318b708ac0a57c23a7a0cdf1e4b543e9208322c",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-memory.log",
+      "archive_path": "get-c13-02/control-memory.log.gz",
+      "source_bytes": 7697,
+      "source_sha256": "719f29fd3298e30d9731e317b39012de9c25f367b7bab6c755ef27177e604af0",
+      "archive_bytes": 1692,
+      "archive_sha256": "b2f6001998c26202d785a9d3102cfc835f51f01da67b938d89f9865618a80424",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-name.log",
+      "archive_path": "get-c13-02/control-name.log.gz",
+      "source_bytes": 8157,
+      "source_sha256": "7eaf5a22ef4893b603a1090ca5463e7897e73c8f2503f598012ba5d25c6e471d",
+      "archive_bytes": 1716,
+      "archive_sha256": "6fc2ca3b8c844cb257f9e08673917d353e930b43b89afd4aa3136dfbdd2d890b",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-review.log",
+      "archive_path": "get-c13-02/control-review.log.gz",
+      "source_bytes": 8243,
+      "source_sha256": "841aa75b119f44628546f9d2e4c11df61b96169e25dbe710310f156c3bf81360",
+      "archive_bytes": 1716,
+      "archive_sha256": "adc3698fe209d4658aa4fe73d03a30e0410692093fc1bf8c3baf813090ef7e30",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-runs.log",
+      "archive_path": "get-c13-02/control-runs.log.gz",
+      "source_bytes": 7879,
+      "source_sha256": "71896428f074407fa4ffe6a259cad10757e46e532521d2968fa95aa713bdd736",
+      "archive_bytes": 1696,
+      "archive_sha256": "3413907d89a2da569125fff8277bcf4782ec2d5c7dac3b382e09158e012809ac",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-start.log",
+      "archive_path": "get-c13-02/control-start.log.gz",
+      "source_bytes": 7606,
+      "source_sha256": "ea05054e9c9ec7e744646233d93884ee911685ca94589ddee0e413c4f5d1e9be",
+      "archive_bytes": 1678,
+      "archive_sha256": "e895394d5cf0535145d39147d2b98d0efa127ae2c3e7bdd0d945c263f0a26761",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-submit-name.log",
+      "archive_path": "get-c13-02/control-submit-name.log.gz",
+      "source_bytes": 8152,
+      "source_sha256": "a3fc9dae88171340bda7d8dc7eef59baab073284f8394971d3620bddc46f5df4",
+      "archive_bytes": 1710,
+      "archive_sha256": "2f2be11716db366b110a482723c608c2292b4e2819731334d7800e33573b2f76",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/control-target.log",
+      "archive_path": "get-c13-02/control-target.log.gz",
+      "source_bytes": 7970,
+      "source_sha256": "9de35a3cdfe51c2763d91c4c52bfcbdb73d95b30c80bd7b618f2fba33542e1b1",
+      "archive_bytes": 1702,
+      "archive_sha256": "1007b33b6ee28ba0c9c7c30cdbcf1c9ffc33fb451ea0c63e8533b6305da3546a",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/fixture/events.jsonl",
+      "archive_path": "get-c13-02/fixture/events.jsonl",
+      "source_bytes": 853,
+      "source_sha256": "7e02ec2153a200d26ae8284ad18632a39a1cbe58f63f90186a198b18c837fc35",
+      "archive_bytes": 853,
+      "archive_sha256": "7e02ec2153a200d26ae8284ad18632a39a1cbe58f63f90186a198b18c837fc35",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/fixture/ready.json",
+      "archive_path": "get-c13-02/fixture/ready.json",
+      "source_bytes": 535,
+      "source_sha256": "2d0503f83a3fb96fa4bc8d6e8dd070c447c793fbe2815212beef244e1bf9f8fb",
+      "archive_bytes": 535,
+      "archive_sha256": "2d0503f83a3fb96fa4bc8d6e8dd070c447c793fbe2815212beef244e1bf9f8fb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/fixture.log",
+      "archive_path": "get-c13-02/fixture.log.gz",
+      "source_bytes": 1868,
+      "source_sha256": "be7d1a5cef8fb4e8134ce449f81235ccbab247cbfa6b6801e3f384d5bf92ad7c",
+      "archive_bytes": 716,
+      "archive_sha256": "5a1e01e2f1fb187ef0276ed0e8ef6d17425c5d999d11308d35477b799f92dff5",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-002/01-after-main.png",
+      "archive_path": "get-c13-02/input-002/01-after-main.png",
+      "source_bytes": 38035,
+      "source_sha256": "0e715e5373ef50caf2b7e5b784210a6c825aff132d5b6b8646a940c750269190",
+      "archive_bytes": 38035,
+      "archive_sha256": "0e715e5373ef50caf2b7e5b784210a6c825aff132d5b6b8646a940c750269190",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-002/01-before-main.png",
+      "archive_path": "get-c13-02/input-002/01-before-main.png",
+      "source_bytes": 25587,
+      "source_sha256": "2b009f3ce7c320b6a266348b43f2868193ca777dbf5b63637781ac703edd8413",
+      "archive_bytes": 25587,
+      "archive_sha256": "2b009f3ce7c320b6a266348b43f2868193ca777dbf5b63637781ac703edd8413",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-002/calibration/calibration-main.png",
+      "archive_path": "get-c13-02/input-002/calibration/calibration-main.png",
+      "source_bytes": 25587,
+      "source_sha256": "2b009f3ce7c320b6a266348b43f2868193ca777dbf5b63637781ac703edd8413",
+      "archive_bytes": 25587,
+      "archive_sha256": "2b009f3ce7c320b6a266348b43f2868193ca777dbf5b63637781ac703edd8413",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-002/calibration/calibration.json",
+      "archive_path": "get-c13-02/input-002/calibration/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "f4ae33978a5a76b22a4372bbbfa76c8e8427a972daed7aa948f35af8f73efb95",
+      "archive_bytes": 799,
+      "archive_sha256": "f4ae33978a5a76b22a4372bbbfa76c8e8427a972daed7aa948f35af8f73efb95",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-002/calibration/plan.json",
+      "archive_path": "get-c13-02/input-002/calibration/plan.json",
+      "source_bytes": 275,
+      "source_sha256": "a9a43286ffaae924bb4d48a57ec0a8baa8916a50d99b3b984576fbc08e7cfa41",
+      "archive_bytes": 275,
+      "archive_sha256": "a9a43286ffaae924bb4d48a57ec0a8baa8916a50d99b3b984576fbc08e7cfa41",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-002/interaction.json",
+      "archive_path": "get-c13-02/input-002/interaction.json",
+      "source_bytes": 1527,
+      "source_sha256": "87d37d6613119e71fcb52dcd29ae227d7d8d1e093817fbc343f92a1e0e80f363",
+      "archive_bytes": 1527,
+      "archive_sha256": "87d37d6613119e71fcb52dcd29ae227d7d8d1e093817fbc343f92a1e0e80f363",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-002-driver.log",
+      "archive_path": "get-c13-02/input-002-driver.log.gz",
+      "source_bytes": 1527,
+      "source_sha256": "87d37d6613119e71fcb52dcd29ae227d7d8d1e093817fbc343f92a1e0e80f363",
+      "archive_bytes": 631,
+      "archive_sha256": "bc63c7d8ba641a1e7bee8c5650ee60c3661238d8cd78ff9c40110d01bbbb0a36",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-003/01-after-main.png",
+      "archive_path": "get-c13-02/input-003/01-after-main.png",
+      "source_bytes": 28599,
+      "source_sha256": "9caedddb2c744d61ce5abfd558bdcbfdfd7d84674a4310048574cf4fc1e0de4e",
+      "archive_bytes": 28599,
+      "archive_sha256": "9caedddb2c744d61ce5abfd558bdcbfdfd7d84674a4310048574cf4fc1e0de4e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-003/01-before-main.png",
+      "archive_path": "get-c13-02/input-003/01-before-main.png",
+      "source_bytes": 38035,
+      "source_sha256": "0e715e5373ef50caf2b7e5b784210a6c825aff132d5b6b8646a940c750269190",
+      "archive_bytes": 38035,
+      "archive_sha256": "0e715e5373ef50caf2b7e5b784210a6c825aff132d5b6b8646a940c750269190",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-003/calibration/calibration-main.png",
+      "archive_path": "get-c13-02/input-003/calibration/calibration-main.png",
+      "source_bytes": 38035,
+      "source_sha256": "0e715e5373ef50caf2b7e5b784210a6c825aff132d5b6b8646a940c750269190",
+      "archive_bytes": 38035,
+      "archive_sha256": "0e715e5373ef50caf2b7e5b784210a6c825aff132d5b6b8646a940c750269190",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-003/calibration/calibration.json",
+      "archive_path": "get-c13-02/input-003/calibration/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "b98970109f642b9cc077ca249c72c1f8e0c3855218b391e42bbaf5a9e115337a",
+      "archive_bytes": 799,
+      "archive_sha256": "b98970109f642b9cc077ca249c72c1f8e0c3855218b391e42bbaf5a9e115337a",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-003/calibration/plan.json",
+      "archive_path": "get-c13-02/input-003/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "a10dc8376261583f95fe0151ca9e87a13f40606ed9c2f2701709991e61a2365c",
+      "archive_bytes": 281,
+      "archive_sha256": "a10dc8376261583f95fe0151ca9e87a13f40606ed9c2f2701709991e61a2365c",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-003/interaction.json",
+      "archive_path": "get-c13-02/input-003/interaction.json",
+      "source_bytes": 1533,
+      "source_sha256": "5c0873fa0db99ce05bc9daca2f82569f936c56b5891559ec6311c951364e6e2a",
+      "archive_bytes": 1533,
+      "archive_sha256": "5c0873fa0db99ce05bc9daca2f82569f936c56b5891559ec6311c951364e6e2a",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-003-driver.log",
+      "archive_path": "get-c13-02/input-003-driver.log.gz",
+      "source_bytes": 1533,
+      "source_sha256": "5c0873fa0db99ce05bc9daca2f82569f936c56b5891559ec6311c951364e6e2a",
+      "archive_bytes": 636,
+      "archive_sha256": "9479d0a16f2781060e9ae58ad6a32616d1af02dfd10773bf9017939c13fffb31",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-004/01-after-main.png",
+      "archive_path": "get-c13-02/input-004/01-after-main.png",
+      "source_bytes": 39924,
+      "source_sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "archive_bytes": 39924,
+      "archive_sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-004/01-before-main.png",
+      "archive_path": "get-c13-02/input-004/01-before-main.png",
+      "source_bytes": 28599,
+      "source_sha256": "9caedddb2c744d61ce5abfd558bdcbfdfd7d84674a4310048574cf4fc1e0de4e",
+      "archive_bytes": 28599,
+      "archive_sha256": "9caedddb2c744d61ce5abfd558bdcbfdfd7d84674a4310048574cf4fc1e0de4e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-004/calibration/calibration-main.png",
+      "archive_path": "get-c13-02/input-004/calibration/calibration-main.png",
+      "source_bytes": 28599,
+      "source_sha256": "9caedddb2c744d61ce5abfd558bdcbfdfd7d84674a4310048574cf4fc1e0de4e",
+      "archive_bytes": 28599,
+      "archive_sha256": "9caedddb2c744d61ce5abfd558bdcbfdfd7d84674a4310048574cf4fc1e0de4e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-004/calibration/calibration.json",
+      "archive_path": "get-c13-02/input-004/calibration/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "8ee886cb7eec9492d0bbd4895f3950b71deb682a3b05d011b5520298ab40541f",
+      "archive_bytes": 799,
+      "archive_sha256": "8ee886cb7eec9492d0bbd4895f3950b71deb682a3b05d011b5520298ab40541f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-004/calibration/plan.json",
+      "archive_path": "get-c13-02/input-004/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "dbbfb9e3545d6b0ccac779578a8794a4daba9b26bd42f0f886495d2a53d5331a",
+      "archive_bytes": 281,
+      "archive_sha256": "dbbfb9e3545d6b0ccac779578a8794a4daba9b26bd42f0f886495d2a53d5331a",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-004/interaction.json",
+      "archive_path": "get-c13-02/input-004/interaction.json",
+      "source_bytes": 1533,
+      "source_sha256": "121fdabc765bca291c594f826a3305592d2ac591a7d16b8095b896d134142e68",
+      "archive_bytes": 1533,
+      "archive_sha256": "121fdabc765bca291c594f826a3305592d2ac591a7d16b8095b896d134142e68",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-004-driver.log",
+      "archive_path": "get-c13-02/input-004-driver.log.gz",
+      "source_bytes": 1533,
+      "source_sha256": "121fdabc765bca291c594f826a3305592d2ac591a7d16b8095b896d134142e68",
+      "archive_bytes": 632,
+      "archive_sha256": "418d52f2c6031a2184383816b9c94264cf19f8b47be36c75e59731fd07a24b41",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-005/01-after-main.png",
+      "archive_path": "get-c13-02/input-005/01-after-main.png",
+      "source_bytes": 39090,
+      "source_sha256": "774fa0cfc2f85fa318f9b32d6718a435f48a204ccb2a9f52a6381aea5de1a566",
+      "archive_bytes": 39090,
+      "archive_sha256": "774fa0cfc2f85fa318f9b32d6718a435f48a204ccb2a9f52a6381aea5de1a566",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-005/01-before-main.png",
+      "archive_path": "get-c13-02/input-005/01-before-main.png",
+      "source_bytes": 39924,
+      "source_sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "archive_bytes": 39924,
+      "archive_sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-005/calibration/calibration-main.png",
+      "archive_path": "get-c13-02/input-005/calibration/calibration-main.png",
+      "source_bytes": 39924,
+      "source_sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "archive_bytes": 39924,
+      "archive_sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-005/calibration/calibration.json",
+      "archive_path": "get-c13-02/input-005/calibration/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "05aaa65401e8cf179de583c220c33977e1c04bd1c325e3019e3c2bb1787eb3ad",
+      "archive_bytes": 799,
+      "archive_sha256": "05aaa65401e8cf179de583c220c33977e1c04bd1c325e3019e3c2bb1787eb3ad",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-005/calibration/plan.json",
+      "archive_path": "get-c13-02/input-005/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "3483d81d39fbebb8cd84eddeb1596bb57049fa160703827a069a90d5eb07f2c6",
+      "archive_bytes": 281,
+      "archive_sha256": "3483d81d39fbebb8cd84eddeb1596bb57049fa160703827a069a90d5eb07f2c6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-005/interaction.json",
+      "archive_path": "get-c13-02/input-005/interaction.json",
+      "source_bytes": 1533,
+      "source_sha256": "f2e6b887831b4a46c0c57c9199bab986b659a7a1e45d3a48f15f4b53e0cde5ed",
+      "archive_bytes": 1533,
+      "archive_sha256": "f2e6b887831b4a46c0c57c9199bab986b659a7a1e45d3a48f15f4b53e0cde5ed",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-005-driver.log",
+      "archive_path": "get-c13-02/input-005-driver.log.gz",
+      "source_bytes": 1533,
+      "source_sha256": "f2e6b887831b4a46c0c57c9199bab986b659a7a1e45d3a48f15f4b53e0cde5ed",
+      "archive_bytes": 636,
+      "archive_sha256": "7130a716997912430fdde66b49ff06078a290a900183fb4a69bd898470917be2",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-006/01-after-main.png",
+      "archive_path": "get-c13-02/input-006/01-after-main.png",
+      "source_bytes": 31871,
+      "source_sha256": "a4544cfe0a7fec3fb1ff31b13aa104f3d2033c8c941ce894746fe9e448b214b1",
+      "archive_bytes": 31871,
+      "archive_sha256": "a4544cfe0a7fec3fb1ff31b13aa104f3d2033c8c941ce894746fe9e448b214b1",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-006/01-before-main.png",
+      "archive_path": "get-c13-02/input-006/01-before-main.png",
+      "source_bytes": 39090,
+      "source_sha256": "774fa0cfc2f85fa318f9b32d6718a435f48a204ccb2a9f52a6381aea5de1a566",
+      "archive_bytes": 39090,
+      "archive_sha256": "774fa0cfc2f85fa318f9b32d6718a435f48a204ccb2a9f52a6381aea5de1a566",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-006/calibration/calibration-main.png",
+      "archive_path": "get-c13-02/input-006/calibration/calibration-main.png",
+      "source_bytes": 39090,
+      "source_sha256": "774fa0cfc2f85fa318f9b32d6718a435f48a204ccb2a9f52a6381aea5de1a566",
+      "archive_bytes": 39090,
+      "archive_sha256": "774fa0cfc2f85fa318f9b32d6718a435f48a204ccb2a9f52a6381aea5de1a566",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-006/calibration/calibration.json",
+      "archive_path": "get-c13-02/input-006/calibration/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "b5bb071c1990b0f5390b7960817b1ad0c2599bb729e4dda9a65ba85371708e49",
+      "archive_bytes": 799,
+      "archive_sha256": "b5bb071c1990b0f5390b7960817b1ad0c2599bb729e4dda9a65ba85371708e49",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-006/calibration/plan.json",
+      "archive_path": "get-c13-02/input-006/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "3d87a1e4ae8babd87ded04a725a0945b5bc568faed7b3acf2b304a50f101d3f3",
+      "archive_bytes": 281,
+      "archive_sha256": "3d87a1e4ae8babd87ded04a725a0945b5bc568faed7b3acf2b304a50f101d3f3",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-006/interaction.json",
+      "archive_path": "get-c13-02/input-006/interaction.json",
+      "source_bytes": 1533,
+      "source_sha256": "c397971619f64893b3fd2ea1ff85c51c46d02cf5f361b33f6a870fe0df976f39",
+      "archive_bytes": 1533,
+      "archive_sha256": "c397971619f64893b3fd2ea1ff85c51c46d02cf5f361b33f6a870fe0df976f39",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-006-driver.log",
+      "archive_path": "get-c13-02/input-006-driver.log.gz",
+      "source_bytes": 1533,
+      "source_sha256": "c397971619f64893b3fd2ea1ff85c51c46d02cf5f361b33f6a870fe0df976f39",
+      "archive_bytes": 634,
+      "archive_sha256": "c165ce10224cf58a3c62b94c533b343f5b093dfa221cf2ef3a6a5edb4d31adf4",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-007/01-after-fep.png",
+      "archive_path": "get-c13-02/input-007/01-after-fep.png",
+      "source_bytes": 3216,
+      "source_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "archive_bytes": 3216,
+      "archive_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-007/01-after-main.png",
+      "archive_path": "get-c13-02/input-007/01-after-main.png",
+      "source_bytes": 19297,
+      "source_sha256": "ad0b3a9613214a9f0e945c84195cb42619f2a69259690377420efa8237371762",
+      "archive_bytes": 19297,
+      "archive_sha256": "ad0b3a9613214a9f0e945c84195cb42619f2a69259690377420efa8237371762",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-007/01-before-main.png",
+      "archive_path": "get-c13-02/input-007/01-before-main.png",
+      "source_bytes": 31871,
+      "source_sha256": "a4544cfe0a7fec3fb1ff31b13aa104f3d2033c8c941ce894746fe9e448b214b1",
+      "archive_bytes": 31871,
+      "archive_sha256": "a4544cfe0a7fec3fb1ff31b13aa104f3d2033c8c941ce894746fe9e448b214b1",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-007/calibration/calibration-main.png",
+      "archive_path": "get-c13-02/input-007/calibration/calibration-main.png",
+      "source_bytes": 31871,
+      "source_sha256": "a4544cfe0a7fec3fb1ff31b13aa104f3d2033c8c941ce894746fe9e448b214b1",
+      "archive_bytes": 31871,
+      "archive_sha256": "a4544cfe0a7fec3fb1ff31b13aa104f3d2033c8c941ce894746fe9e448b214b1",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-007/calibration/calibration.json",
+      "archive_path": "get-c13-02/input-007/calibration/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "970e30fe4a282fd48c701a7120c3cf2f991d35d63f14ca328c2190ee3497b3ae",
+      "archive_bytes": 799,
+      "archive_sha256": "970e30fe4a282fd48c701a7120c3cf2f991d35d63f14ca328c2190ee3497b3ae",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-007/calibration/plan.json",
+      "archive_path": "get-c13-02/input-007/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "02680cbc71a310bad0e14da365e88b17b6670a97b01a0057b13e27966d8c9ba0",
+      "archive_bytes": 281,
+      "archive_sha256": "02680cbc71a310bad0e14da365e88b17b6670a97b01a0057b13e27966d8c9ba0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-007/interaction.json",
+      "archive_path": "get-c13-02/input-007/interaction.json",
+      "source_bytes": 1805,
+      "source_sha256": "ee79c1ac55b98beea74a5806483542386716e271b09dbc906c04711641a36f36",
+      "archive_bytes": 1805,
+      "archive_sha256": "ee79c1ac55b98beea74a5806483542386716e271b09dbc906c04711641a36f36",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-007-driver.log",
+      "archive_path": "get-c13-02/input-007-driver.log.gz",
+      "source_bytes": 1805,
+      "source_sha256": "ee79c1ac55b98beea74a5806483542386716e271b09dbc906c04711641a36f36",
+      "archive_bytes": 710,
+      "archive_sha256": "d0f84dec26cf4ce695b0a6084be7716ecf8a16e9ee8326405bb23dda2c9b4fc5",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-008/01-after-main.png",
+      "archive_path": "get-c13-02/input-008/01-after-main.png",
+      "source_bytes": 27742,
+      "source_sha256": "24e58b46ed847fbf73cca146c4822ae4a484fd4ea653a541880fdceee5d487b0",
+      "archive_bytes": 27742,
+      "archive_sha256": "24e58b46ed847fbf73cca146c4822ae4a484fd4ea653a541880fdceee5d487b0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-008/01-before-fep.png",
+      "archive_path": "get-c13-02/input-008/01-before-fep.png",
+      "source_bytes": 3216,
+      "source_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "archive_bytes": 3216,
+      "archive_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-008/01-before-main.png",
+      "archive_path": "get-c13-02/input-008/01-before-main.png",
+      "source_bytes": 19297,
+      "source_sha256": "ad0b3a9613214a9f0e945c84195cb42619f2a69259690377420efa8237371762",
+      "archive_bytes": 19297,
+      "archive_sha256": "ad0b3a9613214a9f0e945c84195cb42619f2a69259690377420efa8237371762",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-008/calibration/calibration-fep.png",
+      "archive_path": "get-c13-02/input-008/calibration/calibration-fep.png",
+      "source_bytes": 3216,
+      "source_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "archive_bytes": 3216,
+      "archive_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-008/calibration/calibration-main.png",
+      "archive_path": "get-c13-02/input-008/calibration/calibration-main.png",
+      "source_bytes": 19297,
+      "source_sha256": "ad0b3a9613214a9f0e945c84195cb42619f2a69259690377420efa8237371762",
+      "archive_bytes": 19297,
+      "archive_sha256": "ad0b3a9613214a9f0e945c84195cb42619f2a69259690377420efa8237371762",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-008/calibration/calibration.json",
+      "archive_path": "get-c13-02/input-008/calibration/calibration.json",
+      "source_bytes": 1092,
+      "source_sha256": "5a1e19fe64d979dee254e71ddc124d123276405d7e3aafd344d2faa4d2d0ebe1",
+      "archive_bytes": 1092,
+      "archive_sha256": "5a1e19fe64d979dee254e71ddc124d123276405d7e3aafd344d2faa4d2d0ebe1",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-008/calibration/plan.json",
+      "archive_path": "get-c13-02/input-008/calibration/plan.json",
+      "source_bytes": 278,
+      "source_sha256": "81238cd600b9c9733209078b9b662fde4324bc4a2fa42b4b53f10843109b24e9",
+      "archive_bytes": 278,
+      "archive_sha256": "81238cd600b9c9733209078b9b662fde4324bc4a2fa42b4b53f10843109b24e9",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-008/interaction.json",
+      "archive_path": "get-c13-02/input-008/interaction.json",
+      "source_bytes": 2090,
+      "source_sha256": "198ccb2e7a003818466a7eadb0eea3baaf5026384b8b6086e3d68b7671b3ca7b",
+      "archive_bytes": 2090,
+      "archive_sha256": "198ccb2e7a003818466a7eadb0eea3baaf5026384b8b6086e3d68b7671b3ca7b",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-008-driver.log",
+      "archive_path": "get-c13-02/input-008-driver.log.gz",
+      "source_bytes": 2090,
+      "source_sha256": "198ccb2e7a003818466a7eadb0eea3baaf5026384b8b6086e3d68b7671b3ca7b",
+      "archive_bytes": 731,
+      "archive_sha256": "a4fe24de5cdfaba58406c1b2a3cd20b50cf7660aba67abbb39d147bbaaa28508",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-009/01-after-main.png",
+      "archive_path": "get-c13-02/input-009/01-after-main.png",
+      "source_bytes": 38292,
+      "source_sha256": "c2e648f5def65083a80430dbc0a79f8e4795dd87f131e2615ceae94e942692c8",
+      "archive_bytes": 38292,
+      "archive_sha256": "c2e648f5def65083a80430dbc0a79f8e4795dd87f131e2615ceae94e942692c8",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-009/01-before-main.png",
+      "archive_path": "get-c13-02/input-009/01-before-main.png",
+      "source_bytes": 27742,
+      "source_sha256": "24e58b46ed847fbf73cca146c4822ae4a484fd4ea653a541880fdceee5d487b0",
+      "archive_bytes": 27742,
+      "archive_sha256": "24e58b46ed847fbf73cca146c4822ae4a484fd4ea653a541880fdceee5d487b0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-009/calibration/calibration-main.png",
+      "archive_path": "get-c13-02/input-009/calibration/calibration-main.png",
+      "source_bytes": 27742,
+      "source_sha256": "24e58b46ed847fbf73cca146c4822ae4a484fd4ea653a541880fdceee5d487b0",
+      "archive_bytes": 27742,
+      "archive_sha256": "24e58b46ed847fbf73cca146c4822ae4a484fd4ea653a541880fdceee5d487b0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-009/calibration/calibration.json",
+      "archive_path": "get-c13-02/input-009/calibration/calibration.json",
+      "source_bytes": 799,
+      "source_sha256": "b3040962c1b0d0b45e6640c5d2106a31f721d3ed0df8da5ba472b840c4107a05",
+      "archive_bytes": 799,
+      "archive_sha256": "b3040962c1b0d0b45e6640c5d2106a31f721d3ed0df8da5ba472b840c4107a05",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-009/calibration/plan.json",
+      "archive_path": "get-c13-02/input-009/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "89d479e340506b094aa50e4421a294f546d54a4312b2b81612dcc2d4d3a85ac9",
+      "archive_bytes": 281,
+      "archive_sha256": "89d479e340506b094aa50e4421a294f546d54a4312b2b81612dcc2d4d3a85ac9",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-009/interaction.json",
+      "archive_path": "get-c13-02/input-009/interaction.json",
+      "source_bytes": 1533,
+      "source_sha256": "8e76e114ff1cadd15a1346173f530270fb9aacbb9b562239c3a5d1049d77894d",
+      "archive_bytes": 1533,
+      "archive_sha256": "8e76e114ff1cadd15a1346173f530270fb9aacbb9b562239c3a5d1049d77894d",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/input-009-driver.log",
+      "archive_path": "get-c13-02/input-009-driver.log.gz",
+      "source_bytes": 1533,
+      "source_sha256": "8e76e114ff1cadd15a1346173f530270fb9aacbb9b562239c3a5d1049d77894d",
+      "archive_bytes": 635,
+      "archive_sha256": "989bbe9b5b5bbccd49f999df7c536ebdb46d15b06b1e02b091c63f96c563d0bd",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/plan-002.json",
+      "archive_path": "get-c13-02/plan-002.json",
+      "source_bytes": 275,
+      "source_sha256": "a9a43286ffaae924bb4d48a57ec0a8baa8916a50d99b3b984576fbc08e7cfa41",
+      "archive_bytes": 275,
+      "archive_sha256": "a9a43286ffaae924bb4d48a57ec0a8baa8916a50d99b3b984576fbc08e7cfa41",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/plan-003.json",
+      "archive_path": "get-c13-02/plan-003.json",
+      "source_bytes": 281,
+      "source_sha256": "a10dc8376261583f95fe0151ca9e87a13f40606ed9c2f2701709991e61a2365c",
+      "archive_bytes": 281,
+      "archive_sha256": "a10dc8376261583f95fe0151ca9e87a13f40606ed9c2f2701709991e61a2365c",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/plan-004.json",
+      "archive_path": "get-c13-02/plan-004.json",
+      "source_bytes": 281,
+      "source_sha256": "dbbfb9e3545d6b0ccac779578a8794a4daba9b26bd42f0f886495d2a53d5331a",
+      "archive_bytes": 281,
+      "archive_sha256": "dbbfb9e3545d6b0ccac779578a8794a4daba9b26bd42f0f886495d2a53d5331a",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/plan-005.json",
+      "archive_path": "get-c13-02/plan-005.json",
+      "source_bytes": 281,
+      "source_sha256": "3483d81d39fbebb8cd84eddeb1596bb57049fa160703827a069a90d5eb07f2c6",
+      "archive_bytes": 281,
+      "archive_sha256": "3483d81d39fbebb8cd84eddeb1596bb57049fa160703827a069a90d5eb07f2c6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/plan-006.json",
+      "archive_path": "get-c13-02/plan-006.json",
+      "source_bytes": 281,
+      "source_sha256": "3d87a1e4ae8babd87ded04a725a0945b5bc568faed7b3acf2b304a50f101d3f3",
+      "archive_bytes": 281,
+      "archive_sha256": "3d87a1e4ae8babd87ded04a725a0945b5bc568faed7b3acf2b304a50f101d3f3",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/plan-007.json",
+      "archive_path": "get-c13-02/plan-007.json",
+      "source_bytes": 281,
+      "source_sha256": "02680cbc71a310bad0e14da365e88b17b6670a97b01a0057b13e27966d8c9ba0",
+      "archive_bytes": 281,
+      "archive_sha256": "02680cbc71a310bad0e14da365e88b17b6670a97b01a0057b13e27966d8c9ba0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/plan-008.json",
+      "archive_path": "get-c13-02/plan-008.json",
+      "source_bytes": 278,
+      "source_sha256": "81238cd600b9c9733209078b9b662fde4324bc4a2fa42b4b53f10843109b24e9",
+      "archive_bytes": 278,
+      "archive_sha256": "81238cd600b9c9733209078b9b662fde4324bc4a2fa42b4b53f10843109b24e9",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/plan-009.json",
+      "archive_path": "get-c13-02/plan-009.json",
+      "source_bytes": 281,
+      "source_sha256": "89d479e340506b094aa50e4421a294f546d54a4312b2b81612dcc2d4d3a85ac9",
+      "archive_bytes": 281,
+      "archive_sha256": "89d479e340506b094aa50e4421a294f546d54a4312b2b81612dcc2d4d3a85ac9",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/runner-report.json",
+      "archive_path": "get-c13-02/runner-report.json",
+      "source_bytes": 529,
+      "source_sha256": "d468b960ce47fcedaf965ac418ca289ac6c7eecb09c02d6d666c91739480d9c3",
+      "archive_bytes": 529,
+      "archive_sha256": "d468b960ce47fcedaf965ac418ca289ac6c7eecb09c02d6d666c91739480d9c3",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/runner.log",
+      "archive_path": "get-c13-02/runner.log.gz",
+      "source_bytes": 866,
+      "source_sha256": "b015f1d2baafe68d7a85495b6ce48280c0fd648d977cf5a9edbf09b2c0d66813",
+      "archive_bytes": 488,
+      "archive_sha256": "5bf346b9d66a923def7843bed5f06bee8f36bd1e03402cf85f0e41ca8aa83876",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/state.json",
+      "archive_path": "get-c13-02/state.json",
+      "source_bytes": 10659,
+      "source_sha256": "703cd6005b5161489bd3e33f45540e79e807876a9ea39de68782293ecc0c53d0",
+      "archive_bytes": 10659,
+      "archive_sha256": "703cd6005b5161489bd3e33f45540e79e807876a9ea39de68782293ecc0c53d0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/validation.json",
+      "archive_path": "get-c13-02/validation.json",
+      "source_bytes": 10681,
+      "source_sha256": "ee1bb2358b3671a2db4e1da4a462eedcb7251f8a70032eb6c90c3d5d2eea3c0f",
+      "archive_bytes": 10681,
+      "archive_sha256": "ee1bb2358b3671a2db4e1da4a462eedcb7251f8a70032eb6c90c3d5d2eea3c0f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/get-c13-02/validation.log",
+      "archive_path": "get-c13-02/validation.log.gz",
+      "source_bytes": 10681,
+      "source_sha256": "ee1bb2358b3671a2db4e1da4a462eedcb7251f8a70032eb6c90c3d5d2eea3c0f",
+      "archive_bytes": 1991,
+      "archive_sha256": "2abeb0e2bbadc53b3b05c2b9494083f1def584948ef777745408f9721ff8626e",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/get-c13-01-driver.log",
+      "archive_path": "preflight-failure/get-c13-01-driver.log",
+      "source_bytes": 117,
+      "source_sha256": "810ebba54e1824569e2819af2715215bf864849d0c908207ae5ab0a835280da4",
+      "archive_bytes": 117,
+      "archive_sha256": "810ebba54e1824569e2819af2715215bf864849d0c908207ae5ab0a835280da4",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/get-c13-02-driver.log",
+      "archive_path": "get-c13-02/observer-driver.log.gz",
+      "source_bytes": 0,
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_bytes": 20,
+      "archive_sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/get02-driver-snapshot/run-case.py",
+      "archive_path": "tools/get02-driver/run-case.py",
+      "source_bytes": 19466,
+      "source_sha256": "b998df65b0ecf351fb9fb9ac19a92e7247a074767234eff18de4a9120c9e0506",
+      "archive_bytes": 19466,
+      "archive_sha256": "b998df65b0ecf351fb9fb9ac19a92e7247a074767234eff18de4a9120c9e0506",
+      "gzip": false,
+      "provenance": "saved actual get02 supervisor source; root parents=True correction only"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/get02-driver-snapshot/control.py",
+      "archive_path": "tools/get02-driver/control.py",
+      "source_bytes": 2980,
+      "source_sha256": "0e4d0892169fb4366d7e54f98e8b03d6d647e850caf6f27aab779e4994a635b0",
+      "archive_bytes": 2980,
+      "archive_sha256": "0e4d0892169fb4366d7e54f98e8b03d6d647e850caf6f27aab779e4994a635b0",
+      "gzip": false,
+      "provenance": "saved actual get02 supervisor source; root parents=True correction only"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/get02-driver-snapshot/test_observer.py",
+      "archive_path": "tools/get02-driver/test_observer.py",
+      "source_bytes": 5794,
+      "source_sha256": "1893574b5645ee6a5ab0752fe2f6049ddcd83787afc34d808d1a43f77a2c8b7d",
+      "archive_bytes": 5794,
+      "archive_sha256": "1893574b5645ee6a5ab0752fe2f6049ddcd83787afc34d808d1a43f77a2c8b7d",
+      "gzip": false,
+      "provenance": "saved actual get02 supervisor source; root parents=True correction only"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/get02-driver-snapshot/provenance.json",
+      "archive_path": "tools/get02-driver/provenance.json",
+      "source_bytes": 427,
+      "source_sha256": "f3c442ced7c4848dd37f992b0f109febf5091cafa94a1952bf22574585d4a8ca",
+      "archive_bytes": 427,
+      "archive_sha256": "f3c442ced7c4848dd37f992b0f109febf5091cafa94a1952bf22574585d4a8ca",
+      "gzip": false,
+      "provenance": "saved actual get02 supervisor source; root parents=True correction only"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/get02-driver-snapshot/manifest.json",
+      "archive_path": "tools/get02-driver/previous-preparation-manifest.json",
+      "source_bytes": 1059,
+      "source_sha256": "81acc444543dd910301d4e07d34cc19d40655c9c477e7a5f7a484aca8427b8a2",
+      "archive_bytes": 1059,
+      "archive_sha256": "81acc444543dd910301d4e07d34cc19d40655c9c477e7a5f7a484aca8427b8a2",
+      "gzip": false,
+      "provenance": "historical no-guest preparation manifest; source differs by documented parents=True correction"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/get02-driver-snapshot/host-tests.log",
+      "archive_path": "tools/get02-driver/previous-preparation-host-tests.log",
+      "source_bytes": 1065,
+      "source_sha256": "c15744083aeb45d6ca4ab6f7704a2678cc17aab0c1a7827a5b9edcf1ebbe55bc",
+      "archive_bytes": 1065,
+      "archive_sha256": "c15744083aeb45d6ca4ab6f7704a2678cc17aab0c1a7827a5b9edcf1ebbe55bc",
+      "gzip": false,
+      "provenance": "historical seven host checks, not new guest checks"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate13/browser_ui.rsc",
+      "archive_path": "tools/pinned-inputs/browser_ui.rsc",
+      "source_bytes": 192,
+      "source_sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48",
+      "archive_bytes": 192,
+      "archive_sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by get02 state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate13/browser_reg.rsc",
+      "archive_path": "tools/pinned-inputs/browser_reg.rsc",
+      "source_bytes": 97,
+      "source_sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "archive_bytes": 97,
+      "archive_sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by get02 state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate13/browser_loc.rsc",
+      "archive_path": "tools/pinned-inputs/browser_loc.rsc",
+      "source_bytes": 74,
+      "source_sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "archive_bytes": 74,
+      "archive_sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by get02 state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-runtime-work/fixture.py",
+      "archive_path": "tools/pinned-inputs/fixture.py",
+      "source_bytes": 7515,
+      "source_sha256": "3ae15a0a48ad2f9055c395e44a258a67395d12790958d3af08c1c676034aa14d",
+      "archive_bytes": 7515,
+      "archive_sha256": "3ae15a0a48ad2f9055c395e44a258a67395d12790958d3af08c1c676034aa14d",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by get02 state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-runtime-work/native.py",
+      "archive_path": "tools/pinned-inputs/native.py",
+      "source_bytes": 9586,
+      "source_sha256": "2a4f6488768369eac9e1c36e1870e4a275ac286b1a1ad1bcf79970a85b1cd22f",
+      "archive_bytes": 9586,
+      "archive_sha256": "2a4f6488768369eac9e1c36e1870e4a275ac286b1a1ad1bcf79970a85b1cd22f",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by get02 state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-runtime-work/snapshot.py",
+      "archive_path": "tools/pinned-inputs/snapshot.py",
+      "source_bytes": 3090,
+      "source_sha256": "98db662fd62a3a1626061946aef0b661f4f0ef48f75cd65dae71d6868ed60569",
+      "archive_bytes": 3090,
+      "archive_sha256": "98db662fd62a3a1626061946aef0b661f4f0ef48f75cd65dae71d6868ed60569",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by get02 state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-runtime-work/validate.py",
+      "archive_path": "tools/pinned-inputs/validate.py",
+      "source_bytes": 21482,
+      "source_sha256": "6e84a4484e6465e58d65675da24e898d168d8a7ecb9535b6ad4966b7113436e0",
+      "archive_bytes": 21482,
+      "archive_sha256": "6e84a4484e6465e58d65675da24e898d168d8a7ecb9535b6ad4966b7113436e0",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by get02 state.json"
+    },
+    {
+      "source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh",
+      "archive_path": "tools/pinned-inputs/run-browser.sh",
+      "source_bytes": 7616,
+      "source_sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+      "archive_bytes": 7616,
+      "archive_sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by get02 state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-p1-system-runtime-work/runtime_support.py",
+      "archive_path": "tools/pinned-inputs/runtime_support.py",
+      "source_bytes": 22818,
+      "source_sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9",
+      "archive_bytes": 22818,
+      "archive_sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by get02 state.json"
+    },
+    {
+      "source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/downloads/server.py",
+      "archive_path": "tools/pinned-inputs/download-server.py",
+      "source_bytes": 9096,
+      "source_sha256": "34138202c12a0b3937430d22d268fb283d1b31d04b59c8a5163112faa9dfe2cf",
+      "archive_bytes": 9096,
+      "archive_sha256": "34138202c12a0b3937430d22d268fb283d1b31d04b59c8a5163112faa9dfe2cf",
+      "gzip": false,
+      "provenance": "actual reused HTTP fixture pinned by ready.json"
+    },
+    {
+      "source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+      "archive_path": "tools/pinned-inputs/native-interact.py",
+      "source_bytes": 20789,
+      "source_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+      "archive_bytes": 20789,
+      "archive_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+      "gzip": false,
+      "provenance": "actual XTest helper pinned by input ledger"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate13/build-identities.json",
+      "archive_path": "candidate13/build-identities.json",
+      "source_bytes": 956,
+      "source_sha256": "2bde24ec0408fc52c832180b4953f6a63d70c7bef5e60bac59b0d7725cfe49fd",
+      "archive_bytes": 956,
+      "archive_sha256": "2bde24ec0408fc52c832180b4953f6a63d70c7bef5e60bac59b0d7725cfe49fd",
+      "gzip": false,
+      "provenance": "candidate source/build identity record"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate13/source-identities.json",
+      "archive_path": "candidate13/source-identities.json",
+      "source_bytes": 11251,
+      "source_sha256": "a397a22f71d518809c22fe4ec432b92e1e130680820743d34606cce197156257",
+      "archive_bytes": 11251,
+      "archive_sha256": "a397a22f71d518809c22fe4ec432b92e1e130680820743d34606cce197156257",
+      "gzip": false,
+      "provenance": "candidate source/build identity record"
+    }
+  ],
+  "excluded": []
+}

@@ -1,0 +1,271 @@
+{
+  "suite": "symbian-download-runtime",
+  "status": "PASS",
+  "errors": [],
+  "missing": [],
+  "checks": [
+    "HTTP request count, method and exact request-body identity",
+    "actual directory/file size, SHA256, inode and mtime preservation",
+    "fresh guest callback result, cleanup status and run URL"
+  ],
+  "artifacts": [
+    {
+      "kind": "fixture identity",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/fixture/ready.json",
+      "sha256": "07ede42bcbade76a4b76622e6e0caecaf6605fae29cca3dd34b0ac75c1170ca8"
+    },
+    {
+      "kind": "reused HTTP fixture source",
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/downloads/server.py",
+      "sha256": "34138202c12a0b3937430d22d268fb283d1b31d04b59c8a5163112faa9dfe2cf"
+    },
+    {
+      "kind": "HTTP events",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/fixture/events.jsonl",
+      "sha256": "730112a3fc4f6b8fe1d8c55be48be82043762a09b62711f3c57703e205c6030f"
+    },
+    {
+      "kind": "before directory snapshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/before.json",
+      "sha256": "c826ae8a49ed5d215e7ac035700f8cd4abc4a2bed5871a642c40e8aea00ba7ef"
+    },
+    {
+      "kind": "after directory snapshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/after.json",
+      "sha256": "a55e6d9b2db158c8601716ede1d7763d3477c80b48f349a43cd5d97c0f95b427"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/interaction.json",
+      "sha256": "4914a5d8d5dc1448b76c7a2c4837fbfdbc49305bf3bb93f3a91cda2ea2a74b7e"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/calibration/calibration-main.png",
+      "sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/01-before-main.png",
+      "sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/01-after-main.png",
+      "sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/interaction.json",
+      "sha256": "b91f7bb46e4ac0273cb622ed1431cd97043ad8fc561008cfde8dde4350625d2f"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/calibration/calibration-main.png",
+      "sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/01-before-main.png",
+      "sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/01-after-main.png",
+      "sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/interaction.json",
+      "sha256": "64d077022729cf5d218aca7a6ae19c544e45909ae2d3286ed93cd99ede356e2b"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/calibration/calibration-main.png",
+      "sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/01-before-main.png",
+      "sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/01-after-main.png",
+      "sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/interaction.json",
+      "sha256": "ba27d5ef4ce8f3bad4afa202a7204bfbf6d6d9741a999c8e40289adac29790c4"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/calibration/calibration-main.png",
+      "sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/01-before-main.png",
+      "sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/01-after-main.png",
+      "sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/interaction.json",
+      "sha256": "eec85fdbad0451aa7dc4c52f9276dc0cac94ba2a1b310770ce9ad84377b1c520"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/calibration/calibration-main.png",
+      "sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/01-before-main.png",
+      "sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/01-after-main.png",
+      "sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/interaction.json",
+      "sha256": "d1aec03f77dd04aad465b092f775879d4efe57e96d79da42476e0cfa8aa8e6b1"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/calibration/calibration-main.png",
+      "sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/01-before-main.png",
+      "sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/01-after-main.png",
+      "sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/01-after-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/interaction.json",
+      "sha256": "132e7d886107629b2c57f831f898d54f38b0308669a24d0123ba976adbb52676"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/calibration/calibration-main.png",
+      "sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/calibration/calibration-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/01-before-main.png",
+      "sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/01-before-fep.png",
+      "sha256": "11fbbb4a8e364f7b600aeecb194bacc2d24dc6486ebca1a5505eab8f4ce0fa7f"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/01-after-main.png",
+      "sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/interaction.json",
+      "sha256": "704297f315288f5d2f3e778ff86e39117aceac1ec4085854c6a41edc80be5970"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/calibration/calibration-main.png",
+      "sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/01-before-main.png",
+      "sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/01-after-main.png",
+      "sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/interaction.json",
+      "sha256": "64d8a8f39852ad569bc0802b2d1bd18d4d83705d311dcc5564d7dd0ec27ccd96"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/calibration/calibration-main.png",
+      "sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/01-before-main.png",
+      "sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/01-after-main.png",
+      "sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/interaction.json",
+      "sha256": "9fc937ad76453737386a36cdaa6807521686644fe9ef59741249dace53a65bc3"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/calibration/calibration-main.png",
+      "sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/01-before-main.png",
+      "sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/01-after-main.png",
+      "sha256": "4a42f0a868af4c5dd02295a95967c7ca87b3dee93b4dc1aea93ad1155f1c9ac0"
+    },
+    {
+      "kind": "fresh guest log",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/browser/runs/browser-20261101T035902Z-tpwmn42r/log.txt",
+      "sha256": "6e14056338bfd107f9e432e8934672d3091768903678c73c2a57a17b7ab19b4e"
+    },
+    {
+      "kind": "fresh emulator log",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/browser/runs/browser-20261101T035902Z-tpwmn42r/emulator.log",
+      "sha256": "68cf9419044c585cf9fbe60658b1eceed99a65d6205ed28cb378e275f138c560"
+    },
+    {
+      "kind": "runner report",
+      "path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/runner-report.json",
+      "sha256": "e6816fed5e1d7e25314009be607eb6027f21ee60c554c5e7996bc7a5c792f48d"
+    }
+  ],
+  "run": "dl-x-226d99b79e47",
+  "case": "cancel-transfer",
+  "scope": "Retained real-browser request, native-input, native-file and normal-close evidence; host fixture tests alone cannot pass."
+}

@@ -1,0 +1,39 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "host_test_cases": 7,
+  "guest_launched": false,
+  "display_connected": false,
+  "shared_source_changed": false,
+  "files": [
+    {
+      "path": "run-case.py",
+      "bytes": 19452,
+      "sha256": "706ad4d7faae5e96a57b9e335a61066a3338170a6776fb59ae347872ff50de4e"
+    },
+    {
+      "path": "control.py",
+      "bytes": 2980,
+      "sha256": "0e4d0892169fb4366d7e54f98e8b03d6d647e850caf6f27aab779e4994a635b0"
+    },
+    {
+      "path": "test_observer.py",
+      "bytes": 5794,
+      "sha256": "1893574b5645ee6a5ab0752fe2f6049ddcd83787afc34d808d1a43f77a2c8b7d"
+    },
+    {
+      "path": "host-tests.log",
+      "bytes": 1065,
+      "sha256": "c15744083aeb45d6ca4ab6f7704a2678cc17aab0c1a7827a5b9edcf1ebbe55bc"
+    },
+    {
+      "path": "prepare-c12.json",
+      "bytes": 2242,
+      "sha256": "739845c695a3542b3c9f266f1627d39f217ae4b158008df22408962e7e9d349e"
+    },
+    {
+      "path": "README.md",
+      "bytes": 7318,
+      "sha256": "9f229bdc13f8312b7894ed3ed128b7dac9ef63d2763fa695f927d0fae692f5f8"
+    }
+  ]
+}

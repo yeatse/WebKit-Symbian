@@ -1,0 +1,1081 @@
+{
+  "run": "dl-x-226d99b79e47",
+  "case": "cancel-transfer",
+  "retained_status": "PASS",
+  "browser": {
+    "path": "/workspace/symbian-belle-work/candidate19/browser.exe",
+    "sha256": "6b6e8e0a430ff9c1ce0be935161d4b7e61804444e2947cb0218e74cb2e5420ae"
+  },
+  "host": {
+    "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+    "sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff"
+  },
+  "pid": 526873,
+  "captures": [
+    {
+      "metadata": "cancel-transfer-c19-01/capture-001/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "8d8e3735c513cbbee8188a95388f43b8ea99e1013463d4b860c359ec065cd040",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242024444109909,
+          "archive_path": "cancel-transfer-c19-01/capture-001/calibration-main.png",
+          "bytes": 16546
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-002/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242031119695530,
+          "archive_path": "cancel-transfer-c19-01/capture-002/calibration-main.png",
+          "bytes": 26813
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-003/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242041189283806,
+          "archive_path": "cancel-transfer-c19-01/capture-003/calibration-main.png",
+          "bytes": 37886
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-004/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242054667656222,
+          "archive_path": "cancel-transfer-c19-01/capture-004/calibration-main.png",
+          "bytes": 29827
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-005/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242067138190099,
+          "archive_path": "cancel-transfer-c19-01/capture-005/calibration-main.png",
+          "bytes": 40854
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-006/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242079214687638,
+          "archive_path": "cancel-transfer-c19-01/capture-006/calibration-main.png",
+          "bytes": 39491
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-007/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242090185869947,
+          "archive_path": "cancel-transfer-c19-01/capture-007/calibration-main.png",
+          "bytes": 32706
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-008/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": [
+        400,
+        300
+      ],
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242101860800634,
+          "archive_path": "cancel-transfer-c19-01/capture-008/calibration-main.png",
+          "bytes": 20080
+        },
+        {
+          "path": "calibration-fep.png",
+          "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+          "target": "fep",
+          "geometry": [
+            241,
+            185,
+            400,
+            300
+          ],
+          "monotonic_ns": 242101892823422,
+          "archive_path": "cancel-transfer-c19-01/capture-008/calibration-fep.png",
+          "bytes": 3216
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-009/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242115294741017,
+          "archive_path": "cancel-transfer-c19-01/capture-009/calibration-main.png",
+          "bytes": 28850
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-010/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242127167179114,
+          "archive_path": "cancel-transfer-c19-01/capture-010/calibration-main.png",
+          "bytes": 26891
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-011/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242139741658761,
+          "archive_path": "cancel-transfer-c19-01/capture-011/calibration-main.png",
+          "bytes": 42267
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/capture-012/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "4a42f0a868af4c5dd02295a95967c7ca87b3dee93b4dc1aea93ad1155f1c9ac0",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242152417032718,
+          "archive_path": "cancel-transfer-c19-01/capture-012/calibration-main.png",
+          "bytes": 31920
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-002/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242031119695530,
+          "archive_path": "cancel-transfer-c19-01/input-002/calibration/calibration-main.png",
+          "bytes": 26813
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-003/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242041189283806,
+          "archive_path": "cancel-transfer-c19-01/input-003/calibration/calibration-main.png",
+          "bytes": 37886
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-004/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242054667656222,
+          "archive_path": "cancel-transfer-c19-01/input-004/calibration/calibration-main.png",
+          "bytes": 29827
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-005/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242067138190099,
+          "archive_path": "cancel-transfer-c19-01/input-005/calibration/calibration-main.png",
+          "bytes": 40854
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-006/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242079214687638,
+          "archive_path": "cancel-transfer-c19-01/input-006/calibration/calibration-main.png",
+          "bytes": 39491
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-007/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242090185869947,
+          "archive_path": "cancel-transfer-c19-01/input-007/calibration/calibration-main.png",
+          "bytes": 32706
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-008/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": [
+        400,
+        300
+      ],
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242101860800634,
+          "archive_path": "cancel-transfer-c19-01/input-008/calibration/calibration-main.png",
+          "bytes": 20080
+        },
+        {
+          "path": "calibration-fep.png",
+          "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+          "target": "fep",
+          "geometry": [
+            241,
+            185,
+            400,
+            300
+          ],
+          "monotonic_ns": 242101892823422,
+          "archive_path": "cancel-transfer-c19-01/input-008/calibration/calibration-fep.png",
+          "bytes": 3216
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-009/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242115294741017,
+          "archive_path": "cancel-transfer-c19-01/input-009/calibration/calibration-main.png",
+          "bytes": 28850
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-010/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242127167179114,
+          "archive_path": "cancel-transfer-c19-01/input-010/calibration/calibration-main.png",
+          "bytes": 26891
+        }
+      ]
+    },
+    {
+      "metadata": "cancel-transfer-c19-01/input-011/calibration/calibration.json",
+      "pid": 526873,
+      "main_window": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 242139741658761,
+          "archive_path": "cancel-transfer-c19-01/input-011/calibration/calibration-main.png",
+          "bytes": 42267
+        }
+      ]
+    }
+  ],
+  "actual_input_records": [
+    {
+      "ledger": "cancel-transfer-c19-01/input-002/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x60000b",
+      "action": {
+        "target": "main",
+        "role": "start",
+        "wait": 0.5,
+        "point": [
+          400,
+          206
+        ]
+      },
+      "monotonic_ns": 242040271406785
+    },
+    {
+      "ledger": "cancel-transfer-c19-01/input-003/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x60000b",
+      "action": {
+        "target": "main",
+        "role": "native-step",
+        "wait": 0.5,
+        "point": [
+          450,
+          263
+        ]
+      },
+      "monotonic_ns": 242053754518118
+    },
+    {
+      "ledger": "cancel-transfer-c19-01/input-004/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x60000b",
+      "action": {
+        "target": "main",
+        "role": "native-step",
+        "wait": 0.5,
+        "point": [
+          450,
+          365
+        ]
+      },
+      "monotonic_ns": 242066220369651
+    },
+    {
+      "ledger": "cancel-transfer-c19-01/input-005/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x60000b",
+      "action": {
+        "target": "main",
+        "role": "native-step",
+        "wait": 0.5,
+        "point": [
+          450,
+          292
+        ]
+      },
+      "monotonic_ns": 242078296791585
+    },
+    {
+      "ledger": "cancel-transfer-c19-01/input-006/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x60000b",
+      "action": {
+        "target": "main",
+        "role": "native-step",
+        "wait": 0.5,
+        "point": [
+          450,
+          414
+        ]
+      },
+      "monotonic_ns": 242089269980826
+    },
+    {
+      "ledger": "cancel-transfer-c19-01/input-007/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x60000b",
+      "action": {
+        "target": "main",
+        "role": "native-step",
+        "wait": 0.5,
+        "point": [
+          450,
+          343
+        ]
+      },
+      "monotonic_ns": 242100947425080
+    },
+    {
+      "ledger": "cancel-transfer-c19-01/input-008/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x600096",
+      "action": {
+        "target": "fep",
+        "role": "native-step",
+        "wait": 0.5,
+        "point": [
+          200,
+          277
+        ]
+      },
+      "monotonic_ns": 242114409536451
+    },
+    {
+      "ledger": "cancel-transfer-c19-01/input-009/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x60000b",
+      "action": {
+        "target": "main",
+        "role": "save-accept",
+        "wait": 0.5,
+        "point": [
+          365,
+          332
+        ]
+      },
+      "monotonic_ns": 242126257353283
+    },
+    {
+      "ledger": "cancel-transfer-c19-01/input-010/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x60000b",
+      "action": {
+        "target": "main",
+        "role": "native-step",
+        "wait": 0.5,
+        "point": [
+          540,
+          641
+        ]
+      },
+      "monotonic_ns": 242138825634100
+    },
+    {
+      "ledger": "cancel-transfer-c19-01/input-011/interaction.json",
+      "ledger_status": "INPUT_RECORDED",
+      "record": 1,
+      "pid": 526873,
+      "window": "0x60000b",
+      "action": {
+        "target": "main",
+        "role": "transfer-cancel",
+        "wait": 0.5,
+        "point": [
+          450,
+          395
+        ]
+      },
+      "monotonic_ns": 242151500267976
+    }
+  ],
+  "all_images": [
+    {
+      "archive_path": "cancel-transfer-c19-01/browser/runs/browser-20261101T035902Z-tpwmn42r/browser.png",
+      "sha256": "f7c1cad1d5a108823a664ee341f6edf8fa12d8966c4d5d21d285c74b725daef8",
+      "bytes": 29156,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-001/calibration-main.png",
+      "sha256": "8d8e3735c513cbbee8188a95388f43b8ea99e1013463d4b860c359ec065cd040",
+      "bytes": 16546,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-002/calibration-main.png",
+      "sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+      "bytes": 26813,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-003/calibration-main.png",
+      "sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "bytes": 37886,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-004/calibration-main.png",
+      "sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "bytes": 29827,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-005/calibration-main.png",
+      "sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "bytes": 40854,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-006/calibration-main.png",
+      "sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "bytes": 39491,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-007/calibration-main.png",
+      "sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "bytes": 32706,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-008/calibration-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "bytes": 3216,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-008/calibration-main.png",
+      "sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "bytes": 20080,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-009/calibration-main.png",
+      "sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "bytes": 28850,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-010/calibration-main.png",
+      "sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "bytes": 26891,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-011/calibration-main.png",
+      "sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "bytes": 42267,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/capture-012/calibration-main.png",
+      "sha256": "4a42f0a868af4c5dd02295a95967c7ca87b3dee93b4dc1aea93ad1155f1c9ac0",
+      "bytes": 31920,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-002/01-after-main.png",
+      "sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "bytes": 37886,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-002/01-before-main.png",
+      "sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+      "bytes": 26813,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-002/calibration/calibration-main.png",
+      "sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+      "bytes": 26813,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-003/01-after-main.png",
+      "sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "bytes": 29827,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-003/01-before-main.png",
+      "sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "bytes": 37886,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-003/calibration/calibration-main.png",
+      "sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "bytes": 37886,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-004/01-after-main.png",
+      "sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "bytes": 40854,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-004/01-before-main.png",
+      "sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "bytes": 29827,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-004/calibration/calibration-main.png",
+      "sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "bytes": 29827,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-005/01-after-main.png",
+      "sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "bytes": 39491,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-005/01-before-main.png",
+      "sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "bytes": 40854,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-005/calibration/calibration-main.png",
+      "sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "bytes": 40854,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-006/01-after-main.png",
+      "sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "bytes": 32706,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-006/01-before-main.png",
+      "sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "bytes": 39491,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-006/calibration/calibration-main.png",
+      "sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "bytes": 39491,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-007/01-after-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "bytes": 3216,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-007/01-after-main.png",
+      "sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "bytes": 20080,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-007/01-before-main.png",
+      "sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "bytes": 32706,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-007/calibration/calibration-main.png",
+      "sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "bytes": 32706,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-008/01-after-main.png",
+      "sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "bytes": 28850,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-008/01-before-fep.png",
+      "sha256": "11fbbb4a8e364f7b600aeecb194bacc2d24dc6486ebca1a5505eab8f4ce0fa7f",
+      "bytes": 3202,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-008/01-before-main.png",
+      "sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "bytes": 20080,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-008/calibration/calibration-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "bytes": 3216,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-008/calibration/calibration-main.png",
+      "sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "bytes": 20080,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-009/01-after-main.png",
+      "sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "bytes": 26891,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-009/01-before-main.png",
+      "sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "bytes": 28850,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-009/calibration/calibration-main.png",
+      "sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "bytes": 28850,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-010/01-after-main.png",
+      "sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "bytes": 42267,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-010/01-before-main.png",
+      "sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "bytes": 26891,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-010/calibration/calibration-main.png",
+      "sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "bytes": 26891,
+      "per_image_window_identity_recorded": true
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-011/01-after-main.png",
+      "sha256": "4a42f0a868af4c5dd02295a95967c7ca87b3dee93b4dc1aea93ad1155f1c9ac0",
+      "bytes": 31920,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-011/01-before-main.png",
+      "sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "bytes": 42267,
+      "per_image_window_identity_recorded": false
+    },
+    {
+      "archive_path": "cancel-transfer-c19-01/input-011/calibration/calibration-main.png",
+      "sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "bytes": 42267,
+      "per_image_window_identity_recorded": true
+    }
+  ],
+  "unacknowledged_control_requests": [],
+  "fep_identity_scope": "FEP image geometry and input-window IDs are retained. Exact Enter the text title and same-PID transient-parent checks are enforced by the pinned native-interact helper; no separate raw title record exists.",
+  "native_review_scope": "Per-step review flags are retained in commands/ledgers. The final native_ui_reviewed field remains unchanged, including false for incomplete failed runs."
+}

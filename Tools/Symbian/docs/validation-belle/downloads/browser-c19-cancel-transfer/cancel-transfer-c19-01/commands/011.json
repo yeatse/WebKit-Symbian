@@ -1,0 +1,1 @@
+{"run": "dl-x-226d99b79e47", "sequence": 11, "operation": "act", "capture_sha256": "483e3dd641a4b60321a9c9452436f250febc035a2afe1bd461fd6bdb7032f16d", "screenshots_reviewed": true, "actions": [{"target": "main", "role": "transfer-cancel", "wait": 0.5, "point": [450, 395]}]}

@@ -1,0 +1,14 @@
+02:56:52.840 WebKit Browser starting
+02:56:52.856 network: starting the connection
+02:56:54.394 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+02:56:54.876 network: connected through "Host network"
+02:56:54.892 load http://localhost:52037/browser-live.html?run=c5743e863b554fef97bac2c285920177
+console: http://localhost:52037/browser-live.js:20: MEMORY_PRESSURE_READY: {"token":"c5743e863b554fef97bac2c285920177","count":1572864,"bufferBytes":8388608,"requiredMeasuredCellBytes":83886080}
+console: http://localhost:52037/browser-live.js:20: MEMORY_PRESSURE_VERIFIED: {"token":"c5743e863b554fef97bac2c285920177","verifications":1,"elapsedMS":4266}
+Symbian memory pressure: relief level=2 systemFreeRAM=4231168 valid=1 nativeLow=1
+Symbian memory pressure: JS heap phase=before cellBytes=37910912 extraBytes=109197
+Symbian memory pressure: JS heap phase=after-scheduling cellBytes=37910912 extraBytes=109197
+console: http://localhost:52037/browser-live.js:20: MEMORY_PRESSURE_VERIFIED: {"token":"c5743e863b554fef97bac2c285920177","verifications":2,"elapsedMS":8625.000000000002}
+console: http://localhost:52037/browser-live.js:20: MEMORY_PRESSURE_VERIFIED: {"token":"c5743e863b554fef97bac2c285920177","verifications":3,"elapsedMS":12906}

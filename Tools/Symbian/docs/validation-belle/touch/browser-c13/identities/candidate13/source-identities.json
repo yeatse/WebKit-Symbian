@@ -1,0 +1,285 @@
+{
+  "head": "46234c2b06392d938985296f3b52ac07440a320a",
+  "files": [
+    {
+      "path": "Source/WTF/wtf/PlatformSymbian.cmake",
+      "sha256": "a8daad36865541e08d7557d31b134551f5d15ad87bf00d79ada5daa66a1545f7"
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/MemoryPressureHandlerSymbian.cpp",
+      "sha256": "915b710fef9165c22cec30140313ef4729499d9ff7dd11f583d91099c1f7ab7b"
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/MemoryPressureHandlerSymbian.h",
+      "sha256": "cdc8ccbdd4251caedec885fbefd310b4a1c04bfc047f14df5c18ee10a080d096"
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/MemoryPressureMonitorSymbianNative.cpp",
+      "sha256": "2f01523303ba2e07c519e86e3329e17f96c0d61a161a4156784bd32eaf302014"
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/MemoryPressureMonitorSymbianNative.h",
+      "sha256": "01a580fb0a03687f457cc6a9745caca9340b9e4e00607bfdb6856defc68edeb7"
+    },
+    {
+      "path": "Source/WTF/wtf/symbian/MemoryPressurePolicy.h",
+      "sha256": "7fa39f50ee5b375dd6c323399144f6b851823ba7ae50c6c1a647d5073329eaae"
+    },
+    {
+      "path": "Source/WebCore/PlatformSymbian.cmake",
+      "sha256": "851efcb170df1a3faca85c40d9da4c0c3d4557997eb24409097165f614004f60"
+    },
+    {
+      "path": "Source/WebCore/SourcesSymbian.txt",
+      "sha256": "9431aef3556b6ecac835b06c69d7ad0fba925c23e915297635b1a23990359040"
+    },
+    {
+      "path": "Source/WebCore/dom/PointerEvent.h",
+      "sha256": "a5afad91086783859153ac0f99105d86f02f863e4e738052405950553d38db4f"
+    },
+    {
+      "path": "Source/WebCore/dom/symbian/PointerEventSymbian.cpp",
+      "sha256": "fe8bff257d0e2e8a7ffffba82fadcbc10439a35e961e5a899decc5d2aac7a671"
+    },
+    {
+      "path": "Source/WebCore/editing/Editor.cpp",
+      "sha256": "88387a2986c1cebbbdc78aec2efdd11b5fc45aff52abfbea674f2ff51b1cc015"
+    },
+    {
+      "path": "Source/WebCore/editing/libwpe/EditorLibWPE.cpp",
+      "sha256": "430a3e4a93a0eb0dce0fd5cda64275246783f111d7464b0e0b8c2abeca6a111a"
+    },
+    {
+      "path": "Source/WebCore/loader/ResourceLoader.cpp",
+      "sha256": "8b83f2129e5a06f16d6f08cc7ee6510cca73abcf1a6b87d94d702fc4256bd865"
+    },
+    {
+      "path": "Source/WebCore/loader/ResourceLoader.h",
+      "sha256": "ef988d992b898b9ad2a02886015b8ccf8395a67b4bca7184f30ee7fa6934e9a0"
+    },
+    {
+      "path": "Source/WebCore/page/ChromeClient.h",
+      "sha256": "8fb167f1c61c51e7e27b168668bd28eb35bf181913ecd37dda6e9a904d4424b0"
+    },
+    {
+      "path": "Source/WebCore/page/EventHandler.cpp",
+      "sha256": "d5a3201c976e97fb0d2cedae095e5ac21e4bd69dd1d4756ee2d6bfdd0508b575"
+    },
+    {
+      "path": "Source/WebCore/page/EventHandler.h",
+      "sha256": "ebcd1898ed6221235ce5594667485e4ca6be23c990b57da6abfc8b236ac2eae6"
+    },
+    {
+      "path": "Source/WebCore/page/Navigator.cpp",
+      "sha256": "b21a8102cc5054defb6d90319dfbaa3ec7e97b28596fe267485e2552690ac81d"
+    },
+    {
+      "path": "Source/WebCore/page/PointerCaptureController.cpp",
+      "sha256": "d7fb4e33dc573ba4c4833eb244427c3575f1a075f06fb5588de42f3aad5d349b"
+    },
+    {
+      "path": "Source/WebCore/page/PointerCaptureController.h",
+      "sha256": "1431cf772748effd333f7d905200b03001aab770cac35e43262bd4f5d0183233"
+    },
+    {
+      "path": "Source/WebCore/platform/Pasteboard.h",
+      "sha256": "9ba98a7118960eb07d9fc7780073a1767d8ef0fc8e220ea47e2e577a27071a9a"
+    },
+    {
+      "path": "Source/WebCore/platform/PasteboardStrategy.h",
+      "sha256": "c2edb23c1cff18dd03c497c38767a3f25c9d59b5d3cf1b2ab8605017c8305350"
+    },
+    {
+      "path": "Source/WebCore/platform/PlatformTouchPoint.h",
+      "sha256": "52eb1789af462458dfc2045b02f8b9d950ede2245f2fb9ed5c0ad6e03cd8c3d3"
+    },
+    {
+      "path": "Source/WebCore/platform/ScrollingEffectsController.cpp",
+      "sha256": "5511ba7bf387c0dcef7b3957d9ec0a86980c1e4842b138bb20279b83593a1c7e"
+    },
+    {
+      "path": "Source/WebCore/platform/libwpe/PasteboardLibWPE.cpp",
+      "sha256": "eba5fb71f1920bed9144556aae94262c7bfef2b7e384270e6e9c2997fbeb6525"
+    },
+    {
+      "path": "Source/WebCore/platform/network/ResourceHandle.h",
+      "sha256": "9974f90a0c55ed73c579b0949c998f5f649ab60861ae526114514209c413e481"
+    },
+    {
+      "path": "Source/WebCore/platform/network/ResourceHandleInternal.h",
+      "sha256": "5d26cddad5f85223bf03938be1fe3d895165e892d6b513f8deb9f9e6f8b1f2ec"
+    },
+    {
+      "path": "Source/WebCore/platform/network/curl/CurlDownloadBuffer.h",
+      "sha256": "579219b5b21f9078e41d3f9623f7b7559a11a5676879783d46f6a6ace236142b"
+    },
+    {
+      "path": "Source/WebCore/platform/network/curl/CurlRequest.cpp",
+      "sha256": "ab689dd7ada5727ef674560e4c5a9530dd3bb31c9258ede9bf9774dbe7e40309"
+    },
+    {
+      "path": "Source/WebCore/platform/network/curl/CurlRequest.h",
+      "sha256": "ed1f3f300068dee1143df84641a11c34173f6c4623bc251b1048f456ed18a841"
+    },
+    {
+      "path": "Source/WebCore/platform/network/curl/CurlRequestClient.h",
+      "sha256": "93eca93dbdc36c6f4fbdaefea408434a0835f02b15d0ff67ea711f8daf82886e"
+    },
+    {
+      "path": "Source/WebCore/platform/network/curl/ResourceHandleCurl.cpp",
+      "sha256": "b619d29714218bce65f3868022a967415472fd6cb9b059435a542185eea7208f"
+    },
+    {
+      "path": "Source/WebCore/platform/symbian/NetworkStateNotifierSymbian.cpp",
+      "sha256": "d56432ffc976fe30de4a9eb90738fbaf1af3d6302cd53cafb6bd58f7bbbced00"
+    },
+    {
+      "path": "Source/WebCore/platform/symbian/NetworkStateNotifierSymbianNative.cpp",
+      "sha256": "411ffb804dd7efb3a8771ba565da56121b7f958e2b73383bf947e1c2d5e55217"
+    },
+    {
+      "path": "Source/WebCore/platform/symbian/NetworkStateNotifierSymbianNative.h",
+      "sha256": "b5906a1667ef6d79e61b6a1e79a926bb0938a612f010be9bcbcfe278f22ec539"
+    },
+    {
+      "path": "Source/WebKitLegacy/PlatformSymbian.cmake",
+      "sha256": "6592263143fed56eecb5c1301ae3de5db68701940ab0425560b9141055f96046"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/DownloadFile.h",
+      "sha256": "a3b6e4f6cf784080b44e97139e696f740e98506cc985472dbcd430d7446e70b8"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/DownloadFilename.h",
+      "sha256": "15924c4efcd694e830172a18e67c1136f05b77108428de8d85ae89be61e86c15"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianChromeClient.cpp",
+      "sha256": "dff949e74eccca9826e4eb860bf7719d53ab49e4f4e51d32ef71afdd8da80386"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianChromeClient.h",
+      "sha256": "c0d93721f05a8a28559981c3a8aaf524334b679fdda0a3881e81adb9326fe904"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianClipboard.cpp",
+      "sha256": "94ed143c848d0d0a4a2e5edc1e1867da33785883044b789c333779f1f9a2a671"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianDownload.cpp",
+      "sha256": "b886fc59bc9b64ced95e795c029911e02d363648c4bf63a892b2716982925660"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianDownload.h",
+      "sha256": "6deb3d85ad1826ac98a637ffe92f98445d1911577830d376d786d19cb6fc827f"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianDownloadManager.cpp",
+      "sha256": "bd22fa1ff4dcf27c57d5b9a0fae284daf5d49c7948ce87a5b451226678aa482d"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianDownloadManager.h",
+      "sha256": "9d2a5501c01e5d324489d44435cfe489f12756bc363e0f95cd497d393fc53c5e"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianFrameLoaderClient.cpp",
+      "sha256": "efddb3c866302ad6dd90dd3f0104f1f57ecdef687df1e27d2a2c4787a8c8151f"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianFrameLoaderClient.h",
+      "sha256": "fa9fe3631acf7aca334257583c82bb59200790fc51e4219b888de72fdaecb21d"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianPlatformStrategies.cpp",
+      "sha256": "7682995d3d4a4bb8247a01d852713bb6e6f851da6b0df375cc9e88e06ca4be91"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/SymbianTouchGesture.h",
+      "sha256": "381684bc855ac6dd16d5930ffc59564e3d0804837789702c236f874682424004"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/WebKitSymbian.h",
+      "sha256": "8b309a9108305a791d94d2494119d7515b923a256a99eab0ef42b5ce225d1be7"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/WebKitSymbianClipboard.h",
+      "sha256": "6d1591a0bd081c24eced5d8a2efd25f37ce4e34b5181b5ba065252b3cd322523"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/WebKitSymbianTouch.h",
+      "sha256": "7ec63086dcf7cc2f1b8da6cf6fae8499a92b70fc098753aeb464f953b3a561ba"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/WebViewImpl.cpp",
+      "sha256": "a91499c8fface3519783a48a175e871340c88c19c81c5bbd5968c8bf6afaba98"
+    },
+    {
+      "path": "Source/WebKitLegacy/symbian/WebViewImpl.h",
+      "sha256": "30b0f46908a09802e65e7e4a964ebfa240284b42a18c15297f68d35bb33b3282"
+    },
+    {
+      "path": "Tools/Symbian/browser/AuthenticationUI.cpp",
+      "sha256": "a75ba73d0a9a6ba743bf9dc1c1e3bdd6291b9a6ad0d2f7e72cabf2821183ce83"
+    },
+    {
+      "path": "Tools/Symbian/browser/AuthenticationUI.h",
+      "sha256": "d38a74cb4e00244d6f65d4de2e33feadeb1405fb0abf36d5c0a7e9c121d27782"
+    },
+    {
+      "path": "Tools/Symbian/browser/BrowserApp.cpp",
+      "sha256": "1e8ba234c31f2490ce3fd2740fe64f8ee557f8199f50753d3dce1bab8164fcfc"
+    },
+    {
+      "path": "Tools/Symbian/browser/CMakeLists.txt",
+      "sha256": "7261500f2804fda090662cd3a5e45e1909b911b3abe707ffe84b532b72e573da"
+    },
+    {
+      "path": "Tools/Symbian/browser/ClipboardNative.cpp",
+      "sha256": "bf4372aa805e03f401ea90cf7e857af26c9bac7f9839e59dc548bd5d38fcdb0a"
+    },
+    {
+      "path": "Tools/Symbian/browser/ClipboardNative.h",
+      "sha256": "228fe2f71fe8ede28094d006c7836e409c4edd563cd3c2e24f84fb2756aab5c3"
+    },
+    {
+      "path": "Tools/Symbian/browser/DownloadFileNative.cpp",
+      "sha256": "2876534f2fc61e456fe4e0667da2cfc724ef5fe7323f91926725a43b7fa13b44"
+    },
+    {
+      "path": "Tools/Symbian/browser/DownloadFileNative.h",
+      "sha256": "8bb4927adcc9c146a8c9788ea226c7a2ff177f0fd1ae61cd46e5a0f40c9fdbaf"
+    },
+    {
+      "path": "Tools/Symbian/browser/DownloadUI.cpp",
+      "sha256": "4ff04a1fc089f8136ae946e76cec08b2e61f6c3f002595eb6f38e80a614bcb2a"
+    },
+    {
+      "path": "Tools/Symbian/browser/DownloadUI.h",
+      "sha256": "78274b3c1284026d78e7df026afb7c5ae701f9765df6d401c40b47e9a0e745e6"
+    },
+    {
+      "path": "Tools/Symbian/browser/TouchTracker.h",
+      "sha256": "1a998a307da54a9ca86b2a979ae8e7b71cb6c4b59e9264f595cc02dfaf2a81d2"
+    },
+    {
+      "path": "Tools/Symbian/browser/WebContainer.cpp",
+      "sha256": "32a3b4367b776686763cd443319c6b5e3496f6f2c1cd98476ffd36b363006fba"
+    },
+    {
+      "path": "Tools/Symbian/browser/WebContainer.h",
+      "sha256": "5f70ca2af1caba7cd43de56b6223daa3cd52054a482dc24cb0252411f6b56538"
+    },
+    {
+      "path": "Tools/Symbian/browser/browser_ui.rss",
+      "sha256": "4294c896f6793f7d41818f199af15fd8667909f295f84f66dd46d4d8549bda2f"
+    },
+    {
+      "path": "Tools/Symbian/browser/resources/BrowserQuery.rh",
+      "sha256": "be0959c0ca41aa64efbaad26768a1d187ad9ab5be6a0b13e5e65fd78c0389d9f"
+    },
+    {
+      "path": "Tools/Symbian/browser/resources/README.md",
+      "sha256": "b346362c2817ef89b1c0692a4b9c7a438378050c81c2e0e1da0b082066dd2751"
+    }
+  ]
+}

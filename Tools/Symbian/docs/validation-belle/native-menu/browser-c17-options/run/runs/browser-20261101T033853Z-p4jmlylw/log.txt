@@ -1,0 +1,7 @@
+03:38:54.171 WebKit Browser starting
+03:38:54.186 network: starting the connection
+03:38:55.650 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+03:38:55.763 load about:blank
+Symbian compositor: native EGL/GLES2 presented 360x532
+03:38:56.180 network: connected through "Host network"

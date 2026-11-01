@@ -1,0 +1,1480 @@
+{
+  "run": "dl-x-2b6107823e76",
+  "case": "cancel-transfer",
+  "state_pid": 524508,
+  "window_titles": {
+    "main": null,
+    "fep": null,
+    "provenance": "not recorded directly in retained JSON; no title is inferred"
+  },
+  "calibrations": [
+    {
+      "source_relative_path": "capture-001/calibration.json",
+      "json_sha256": "9687f9f5965ac0bc0ecf3652283fbba278dd917720b5cebba0ec74146937eb9d",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "d695b81761e5ca588e69c47d36836b52c638d8132e5b430d1cbd362f9e9b83bb",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241003772152512,
+          "source_relative_path": "capture-001/calibration-main.png",
+          "archive_relative_path": "run/capture-001/calibration-main.png",
+          "actual_file_sha256": "d695b81761e5ca588e69c47d36836b52c638d8132e5b430d1cbd362f9e9b83bb"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-002/calibration.json",
+      "json_sha256": "47a7f5d5b2a79095875163bbfbedf893b4c761469b329b6170ca6019b7fb1b9f",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "c972b92be3072c9102a22bde165cdaf182790f3003b55e22d2b8eb2cc993b23c",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241008601182914,
+          "source_relative_path": "capture-002/calibration-main.png",
+          "archive_relative_path": "run/capture-002/calibration-main.png",
+          "actual_file_sha256": "c972b92be3072c9102a22bde165cdaf182790f3003b55e22d2b8eb2cc993b23c"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-003/calibration.json",
+      "json_sha256": "1a5700484e06f6170aed4dc9cf7a077c5882dea6ac03745ef2e68ab939b3616a",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241015957483318,
+          "source_relative_path": "capture-003/calibration-main.png",
+          "archive_relative_path": "run/capture-003/calibration-main.png",
+          "actual_file_sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-004/calibration.json",
+      "json_sha256": "825a912145601bdfa0878f018020f0ccd7185d8f2155c20704fb47fe6682f502",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241022009881548,
+          "source_relative_path": "capture-004/calibration-main.png",
+          "archive_relative_path": "run/capture-004/calibration-main.png",
+          "actual_file_sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-005/calibration.json",
+      "json_sha256": "27c21279afd789f92c6406b538c504fbe1e95e678e92fa209c1c73c3cd0c5e98",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241028564976169,
+          "source_relative_path": "capture-005/calibration-main.png",
+          "archive_relative_path": "run/capture-005/calibration-main.png",
+          "actual_file_sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-006/calibration.json",
+      "json_sha256": "2e3a9a17b77ab38df144d17238d83813e4174afed6e7a8eb8b76ae312b4c33a5",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241034413597452,
+          "source_relative_path": "capture-006/calibration-main.png",
+          "archive_relative_path": "run/capture-006/calibration-main.png",
+          "actual_file_sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-007/calibration.json",
+      "json_sha256": "1742b669da01f1a8e2b37b9850d50f5ca4e9b44666c0427ad2e4c8f7088e9d7c",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241040271548603,
+          "source_relative_path": "capture-007/calibration-main.png",
+          "archive_relative_path": "run/capture-007/calibration-main.png",
+          "actual_file_sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-008/calibration.json",
+      "json_sha256": "5c10cb8d1449e4f8c50d1cf7c1b0b1102cb2776e401f5baeb26be71c02b63970",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": [
+        400,
+        300
+      ],
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241046719038924,
+          "source_relative_path": "capture-008/calibration-main.png",
+          "archive_relative_path": "run/capture-008/calibration-main.png",
+          "actual_file_sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce"
+        },
+        {
+          "path": "calibration-fep.png",
+          "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+          "target": "fep",
+          "geometry": [
+            241,
+            185,
+            400,
+            300
+          ],
+          "monotonic_ns": 241046751080203,
+          "source_relative_path": "capture-008/calibration-fep.png",
+          "archive_relative_path": "run/capture-008/calibration-fep.png",
+          "actual_file_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-009/calibration.json",
+      "json_sha256": "76e9ac70592b6cfe1a22279f041fc6e81c3c6e7a5af5a2c3c7e0017316d2c10d",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241054326994807,
+          "source_relative_path": "capture-009/calibration-main.png",
+          "archive_relative_path": "run/capture-009/calibration-main.png",
+          "actual_file_sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-010/calibration.json",
+      "json_sha256": "ab6e7d217e3407365b4188de6968b292f4f08932d062884c3f312eb1fffcc263",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241060686507044,
+          "source_relative_path": "capture-010/calibration-main.png",
+          "archive_relative_path": "run/capture-010/calibration-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-011/calibration.json",
+      "json_sha256": "1f778e2fafd5ee373bca2067fb565c25caf6470a3f7b22c8915c3efb7383b6ec",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241069143276815,
+          "source_relative_path": "capture-011/calibration-main.png",
+          "archive_relative_path": "run/capture-011/calibration-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-012/calibration.json",
+      "json_sha256": "b02daf12ce5351930ef5617a1578d0f915ccc8d8f191f8c6d660711752468cef",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241083520181671,
+          "source_relative_path": "capture-012/calibration-main.png",
+          "archive_relative_path": "run/capture-012/calibration-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "capture-013/calibration.json",
+      "json_sha256": "cf59142488a091ce2b6aac3530927e79cac273ef6d2053c2c4fafd709088c6d2",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241084136734930,
+          "source_relative_path": "capture-013/calibration-main.png",
+          "archive_relative_path": "run/capture-013/calibration-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-002/calibration/calibration.json",
+      "json_sha256": "47a7f5d5b2a79095875163bbfbedf893b4c761469b329b6170ca6019b7fb1b9f",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "c972b92be3072c9102a22bde165cdaf182790f3003b55e22d2b8eb2cc993b23c",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241008601182914,
+          "source_relative_path": "input-002/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-002/calibration/calibration-main.png",
+          "actual_file_sha256": "c972b92be3072c9102a22bde165cdaf182790f3003b55e22d2b8eb2cc993b23c"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-003/calibration/calibration.json",
+      "json_sha256": "1a5700484e06f6170aed4dc9cf7a077c5882dea6ac03745ef2e68ab939b3616a",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241015957483318,
+          "source_relative_path": "input-003/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-003/calibration/calibration-main.png",
+          "actual_file_sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-004/calibration/calibration.json",
+      "json_sha256": "825a912145601bdfa0878f018020f0ccd7185d8f2155c20704fb47fe6682f502",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241022009881548,
+          "source_relative_path": "input-004/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-004/calibration/calibration-main.png",
+          "actual_file_sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-005/calibration/calibration.json",
+      "json_sha256": "27c21279afd789f92c6406b538c504fbe1e95e678e92fa209c1c73c3cd0c5e98",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241028564976169,
+          "source_relative_path": "input-005/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-005/calibration/calibration-main.png",
+          "actual_file_sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-006/calibration/calibration.json",
+      "json_sha256": "2e3a9a17b77ab38df144d17238d83813e4174afed6e7a8eb8b76ae312b4c33a5",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241034413597452,
+          "source_relative_path": "input-006/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-006/calibration/calibration-main.png",
+          "actual_file_sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-007/calibration/calibration.json",
+      "json_sha256": "1742b669da01f1a8e2b37b9850d50f5ca4e9b44666c0427ad2e4c8f7088e9d7c",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241040271548603,
+          "source_relative_path": "input-007/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-007/calibration/calibration-main.png",
+          "actual_file_sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-008/calibration/calibration.json",
+      "json_sha256": "5c10cb8d1449e4f8c50d1cf7c1b0b1102cb2776e401f5baeb26be71c02b63970",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": [
+        400,
+        300
+      ],
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241046719038924,
+          "source_relative_path": "input-008/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-008/calibration/calibration-main.png",
+          "actual_file_sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce"
+        },
+        {
+          "path": "calibration-fep.png",
+          "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+          "target": "fep",
+          "geometry": [
+            241,
+            185,
+            400,
+            300
+          ],
+          "monotonic_ns": 241046751080203,
+          "source_relative_path": "input-008/calibration/calibration-fep.png",
+          "archive_relative_path": "run/input-008/calibration/calibration-fep.png",
+          "actual_file_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-009/calibration/calibration.json",
+      "json_sha256": "76e9ac70592b6cfe1a22279f041fc6e81c3c6e7a5af5a2c3c7e0017316d2c10d",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241054326994807,
+          "source_relative_path": "input-009/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-009/calibration/calibration-main.png",
+          "actual_file_sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-010/calibration/calibration.json",
+      "json_sha256": "ab6e7d217e3407365b4188de6968b292f4f08932d062884c3f312eb1fffcc263",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241060686507044,
+          "source_relative_path": "input-010/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-010/calibration/calibration-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-011/calibration/calibration.json",
+      "json_sha256": "1f778e2fafd5ee373bca2067fb565c25caf6470a3f7b22c8915c3efb7383b6ec",
+      "pid": 524508,
+      "run": "dl-x-2b6107823e76",
+      "case": "cancel-transfer",
+      "main_window_id": "0x60000b",
+      "main_size": [
+        900,
+        700
+      ],
+      "fep_size": null,
+      "screenshots": [
+        {
+          "path": "calibration-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241069143276815,
+          "source_relative_path": "input-011/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-011/calibration/calibration-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        }
+      ]
+    }
+  ],
+  "interactions": [
+    {
+      "source_relative_path": "input-002/interaction.json",
+      "json_sha256": "e0afe21f83461f469d9bea90b2d09f53edea7fab389a22124f6a20ec753c897c",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "main",
+            "role": "start",
+            "wait": 0.5,
+            "point": [
+              400,
+              206
+            ]
+          },
+          "window": "0x60000b",
+          "monotonic_ns": 241015042660328
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "c972b92be3072c9102a22bde165cdaf182790f3003b55e22d2b8eb2cc993b23c",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241008601182914,
+          "source_relative_path": "input-002/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-002/calibration/calibration-main.png",
+          "actual_file_sha256": "c972b92be3072c9102a22bde165cdaf182790f3003b55e22d2b8eb2cc993b23c"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "c972b92be3072c9102a22bde165cdaf182790f3003b55e22d2b8eb2cc993b23c",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241015042489175,
+          "source_relative_path": "input-002/01-before-main.png",
+          "archive_relative_path": "run/input-002/01-before-main.png",
+          "actual_file_sha256": "c972b92be3072c9102a22bde165cdaf182790f3003b55e22d2b8eb2cc993b23c"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241015812504478,
+          "source_relative_path": "input-002/01-after-main.png",
+          "archive_relative_path": "run/input-002/01-after-main.png",
+          "actual_file_sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-003/interaction.json",
+      "json_sha256": "9e104d6ec893b7520ec74ec1592d365b916abcc6a1cada4523643cc7c343eaf8",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "main",
+            "role": "native-step",
+            "wait": 0.5,
+            "point": [
+              450,
+              263
+            ]
+          },
+          "window": "0x60000b",
+          "monotonic_ns": 241021092865827
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241015957483318,
+          "source_relative_path": "input-003/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-003/calibration/calibration-main.png",
+          "actual_file_sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241021092699622,
+          "source_relative_path": "input-003/01-before-main.png",
+          "archive_relative_path": "run/input-003/01-before-main.png",
+          "actual_file_sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241021862388489,
+          "source_relative_path": "input-003/01-after-main.png",
+          "archive_relative_path": "run/input-003/01-after-main.png",
+          "actual_file_sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-004/interaction.json",
+      "json_sha256": "353a5b42818ff45945350e84d0fc4ef2ef276925f2c8b2a26abb848d0467c782",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "main",
+            "role": "native-step",
+            "wait": 0.5,
+            "point": [
+              450,
+              365
+            ]
+          },
+          "window": "0x60000b",
+          "monotonic_ns": 241027649781119
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241022009881548,
+          "source_relative_path": "input-004/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-004/calibration/calibration-main.png",
+          "actual_file_sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241027649571971,
+          "source_relative_path": "input-004/01-before-main.png",
+          "archive_relative_path": "run/input-004/01-before-main.png",
+          "actual_file_sha256": "da880577293b4179949aaa9d5b62a93d4f66768836fa0214c72f21b0c13aa7fb"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241028416490306,
+          "source_relative_path": "input-004/01-after-main.png",
+          "archive_relative_path": "run/input-004/01-after-main.png",
+          "actual_file_sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-005/interaction.json",
+      "json_sha256": "8e3479682bf7bd169ebd416110f062e5a6e90ac8a878740d848e5e1ad09c0d96",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "main",
+            "role": "native-step",
+            "wait": 0.5,
+            "point": [
+              450,
+              292
+            ]
+          },
+          "window": "0x60000b",
+          "monotonic_ns": 241033500285707
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241028564976169,
+          "source_relative_path": "input-005/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-005/calibration/calibration-main.png",
+          "actual_file_sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241033500098159,
+          "source_relative_path": "input-005/01-before-main.png",
+          "archive_relative_path": "run/input-005/01-before-main.png",
+          "actual_file_sha256": "a1e199496810c09e2632e89d2c64ab9de132b42aafcf622f0a3f32df707245f3"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241034267336591,
+          "source_relative_path": "input-005/01-after-main.png",
+          "archive_relative_path": "run/input-005/01-after-main.png",
+          "actual_file_sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-006/interaction.json",
+      "json_sha256": "47eaef37ad179e3f67aa442e92649daa42eae2997da3badd1ec0a37a2a8a831c",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "main",
+            "role": "native-step",
+            "wait": 0.5,
+            "point": [
+              450,
+              414
+            ]
+          },
+          "window": "0x60000b",
+          "monotonic_ns": 241039350801289
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241034413597452,
+          "source_relative_path": "input-006/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-006/calibration/calibration-main.png",
+          "actual_file_sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241039350647031,
+          "source_relative_path": "input-006/01-before-main.png",
+          "archive_relative_path": "run/input-006/01-before-main.png",
+          "actual_file_sha256": "8cd6ba749ecb29b96be0a45f5e5840c73a9dfa17f59992917b3174dafc0b83bd"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241040120119554,
+          "source_relative_path": "input-006/01-after-main.png",
+          "archive_relative_path": "run/input-006/01-after-main.png",
+          "actual_file_sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-007/interaction.json",
+      "json_sha256": "ba33203d5e8d75ad7fe9dfe77bdb1ba038b58039fbe2f3732d2d73c7d1b0dafb",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "main",
+            "role": "native-step",
+            "wait": 0.5,
+            "point": [
+              450,
+              343
+            ]
+          },
+          "window": "0x60000b",
+          "monotonic_ns": 241045805186981
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241040271548603,
+          "source_relative_path": "input-007/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-007/calibration/calibration-main.png",
+          "actual_file_sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241045804995168,
+          "source_relative_path": "input-007/01-before-main.png",
+          "archive_relative_path": "run/input-007/01-before-main.png",
+          "actual_file_sha256": "d0c748f06ad515d27d417e30119404725cc631e02d6b67b55b29ac160c6227ae"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241046572299543,
+          "source_relative_path": "input-007/01-after-main.png",
+          "archive_relative_path": "run/input-007/01-after-main.png",
+          "actual_file_sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce"
+        },
+        {
+          "path": "01-after-fep.png",
+          "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+          "target": "fep",
+          "geometry": [
+            241,
+            185,
+            400,
+            300
+          ],
+          "monotonic_ns": 241046604283868,
+          "source_relative_path": "input-007/01-after-fep.png",
+          "archive_relative_path": "run/input-007/01-after-fep.png",
+          "actual_file_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-008/interaction.json",
+      "json_sha256": "3d427e7edd7319cf3d0c8469b0468778161409d84d5071ed047946c5dc65a6e3",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "fep",
+            "role": "native-step",
+            "wait": 0.5,
+            "point": [
+              200,
+              277
+            ]
+          },
+          "window": "0x600096",
+          "monotonic_ns": 241053445539986
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241046719038924,
+          "source_relative_path": "input-008/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-008/calibration/calibration-main.png",
+          "actual_file_sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce"
+        },
+        {
+          "path": "calibration/calibration-fep.png",
+          "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+          "target": "fep",
+          "geometry": [
+            241,
+            185,
+            400,
+            300
+          ],
+          "monotonic_ns": 241046751080203,
+          "source_relative_path": "input-008/calibration/calibration-fep.png",
+          "archive_relative_path": "run/input-008/calibration/calibration-fep.png",
+          "actual_file_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241053411763173,
+          "source_relative_path": "input-008/01-before-main.png",
+          "archive_relative_path": "run/input-008/01-before-main.png",
+          "actual_file_sha256": "cbfa43511d13b7719abb8fce996e527feadf49c47f42e68558023d40060d3cce"
+        },
+        {
+          "path": "01-before-fep.png",
+          "sha256": "11fbbb4a8e364f7b600aeecb194bacc2d24dc6486ebca1a5505eab8f4ce0fa7f",
+          "target": "fep",
+          "geometry": [
+            241,
+            185,
+            400,
+            300
+          ],
+          "monotonic_ns": 241053443832405,
+          "source_relative_path": "input-008/01-before-fep.png",
+          "archive_relative_path": "run/input-008/01-before-fep.png",
+          "actual_file_sha256": "11fbbb4a8e364f7b600aeecb194bacc2d24dc6486ebca1a5505eab8f4ce0fa7f"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241054211784077,
+          "source_relative_path": "input-008/01-after-main.png",
+          "archive_relative_path": "run/input-008/01-after-main.png",
+          "actual_file_sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-009/interaction.json",
+      "json_sha256": "1b175f5eeb59add8479ec8fb6cf3dbbc5301b46e22b1d1a813c4346cc72e6160",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "main",
+            "role": "save-accept",
+            "wait": 0.5,
+            "point": [
+              365,
+              332
+            ]
+          },
+          "window": "0x60000b",
+          "monotonic_ns": 241059768785042
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241054326994807,
+          "source_relative_path": "input-009/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-009/calibration/calibration-main.png",
+          "actual_file_sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241059768518859,
+          "source_relative_path": "input-009/01-before-main.png",
+          "archive_relative_path": "run/input-009/01-before-main.png",
+          "actual_file_sha256": "d8685bfef05552d4be076a48ce2bf74b048c92f2b44cf33e65f34455a2461fbf"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241060536123962,
+          "source_relative_path": "input-009/01-after-main.png",
+          "archive_relative_path": "run/input-009/01-after-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-010/interaction.json",
+      "json_sha256": "ecc7c4d783a2cac2af70ba0b34e4ba95e5a70c65203779f8699e8f744dc5e805",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "main",
+            "role": "native-step",
+            "wait": 0.5,
+            "point": [
+              540,
+              641
+            ]
+          },
+          "window": "0x60000b",
+          "monotonic_ns": 241068220494837
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241060686507044,
+          "source_relative_path": "input-010/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-010/calibration/calibration-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241068220352387,
+          "source_relative_path": "input-010/01-before-main.png",
+          "archive_relative_path": "run/input-010/01-before-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241069037098439,
+          "source_relative_path": "input-010/01-after-main.png",
+          "archive_relative_path": "run/input-010/01-after-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        }
+      ]
+    },
+    {
+      "source_relative_path": "input-011/interaction.json",
+      "json_sha256": "2915ef48fc11c74635dd380e7e0dd80435f79962904678278fcc4129367a003b",
+      "pid": 524508,
+      "main_window_id": "0x60000b",
+      "status": "INPUT_RECORDED",
+      "actual_input_records": [
+        {
+          "action": {
+            "target": "main",
+            "role": "native-step",
+            "wait": 0.5,
+            "key": "F2"
+          },
+          "window": "0x60000b",
+          "monotonic_ns": 241082803225030
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "calibration/calibration-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241069143276815,
+          "source_relative_path": "input-011/calibration/calibration-main.png",
+          "archive_relative_path": "run/input-011/calibration/calibration-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        },
+        {
+          "path": "01-before-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241082803145081,
+          "source_relative_path": "input-011/01-before-main.png",
+          "archive_relative_path": "run/input-011/01-before-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        },
+        {
+          "path": "01-after-main.png",
+          "sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797",
+          "target": "main",
+          "geometry": [
+            1,
+            25,
+            900,
+            700
+          ],
+          "monotonic_ns": 241083408482158,
+          "source_relative_path": "input-011/01-after-main.png",
+          "archive_relative_path": "run/input-011/01-after-main.png",
+          "actual_file_sha256": "199e3830487d9b28405f72de547e603d228ed52f02443c65aa95ec5ea91bb797"
+        }
+      ]
+    }
+  ],
+  "actual_action_windows": {
+    "main": [
+      "0x60000b"
+    ],
+    "fep": [
+      "0x600096"
+    ]
+  }
+}

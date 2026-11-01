@@ -1,0 +1,16 @@
+{
+  "image_sha256": "13eccaba4a7ba1cf242a443b778d06e372194b91b2b34ad2ad40072faf09db62",
+  "emulator_sha256": "046bc41192886a671c144983dd74d1e45de6860d179ae073a335a5db997c1e64",
+  "scope": "native monitor lifecycle and bounded committed-RAM accounting after patch 0021",
+  "system_threshold_modified": false,
+  "max_committed_bytes": 67108864,
+  "status": "PASS",
+  "emulator_pid": 448681,
+  "host_exit_code": 0,
+  "bridge": "PASS",
+  "pattern": "PASS",
+  "accounting": "PASS",
+  "memory_notifications": 1,
+  "guest_exit_error": 0,
+  "note": "No notification is required without a measured threshold crossing; unavailable accounting is not an overall implementation PASS."
+}

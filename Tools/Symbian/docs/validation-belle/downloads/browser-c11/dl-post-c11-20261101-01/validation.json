@@ -1,0 +1,231 @@
+{
+  "suite": "symbian-download-runtime",
+  "status": "PASS",
+  "errors": [],
+  "missing": [],
+  "checks": [
+    "HTTP request count, method and exact request-body identity",
+    "actual directory/file size, SHA256, inode and mtime preservation",
+    "fresh guest callback result, cleanup status and run URL"
+  ],
+  "artifacts": [
+    {
+      "kind": "fixture identity",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/fixture/ready.json",
+      "sha256": "db6fdfd2d36ca61e5d36420fbdb846f7344809f965b0a2d88291d097b3989014"
+    },
+    {
+      "kind": "reused HTTP fixture source",
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/downloads/server.py",
+      "sha256": "34138202c12a0b3937430d22d268fb283d1b31d04b59c8a5163112faa9dfe2cf"
+    },
+    {
+      "kind": "HTTP events",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/fixture/events.jsonl",
+      "sha256": "d58f61ea3d0378fb2f275bda7536054753b8dbe9a429f971d7652074edae820c"
+    },
+    {
+      "kind": "before directory snapshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/before.json",
+      "sha256": "eb348c03207d627f4d7931edf03e3dc6d80b93f95edd511222b06e3fe62b68da"
+    },
+    {
+      "kind": "after directory snapshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/after.json",
+      "sha256": "88f00a4af107a2386fe8207dd20e643e69cacb78e6ad0da833c92504a8e61643"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-data/interaction.json",
+      "sha256": "50ad302f4fc653fb25bbdd63fe6a58485a384b529c5350239d178594af9bb206"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-data/calibration/calibration-main.png",
+      "sha256": "e168c832984a7b24b09a0327c62017db8f83eb8c74960d90551b088efb5a3807"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-data/01-before-main.png",
+      "sha256": "e168c832984a7b24b09a0327c62017db8f83eb8c74960d90551b088efb5a3807"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-data/01-after-main.png",
+      "sha256": "74a1ffb8641ab6a4b6b1161fb3eb1dba8190b3e93fbd193f9fa51d477a43ca23"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-destination/interaction.json",
+      "sha256": "a1893f7e151a422aee89421a3c4ca504f46854c5495e69b79b048d0b1d454fa4"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-destination/calibration/calibration-main.png",
+      "sha256": "68c9109e9d306f475ebc257b24cd6708bdb608ed3fe1528e22aee773a2937980"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-destination/01-before-main.png",
+      "sha256": "68c9109e9d306f475ebc257b24cd6708bdb608ed3fe1528e22aee773a2937980"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-destination/01-after-main.png",
+      "sha256": "2a93525d885a9465ce60121a4fb96fe692120cdb57a87cd0469e1bb00a919380"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-folders/interaction.json",
+      "sha256": "4279f4630f30f8e0080a854965d1c050c087fe3de6a11ce555b1ac675e30d3e2"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-folders/calibration/calibration-main.png",
+      "sha256": "15fd582d4b9a1444bc3d9fe87912c75775f7808de6391c40f9429d172bd306a2"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-folders/01-before-main.png",
+      "sha256": "15fd582d4b9a1444bc3d9fe87912c75775f7808de6391c40f9429d172bd306a2"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-folders/01-after-main.png",
+      "sha256": "e168c832984a7b24b09a0327c62017db8f83eb8c74960d90551b088efb5a3807"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-memory/interaction.json",
+      "sha256": "f6ef9cad11236cf3388c3ecc884514703f1c03ce2a2005c86ef478ab09d86f78"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-memory/calibration/calibration-main.png",
+      "sha256": "ccf842aa08109730b442cd595aaff763087543c5b0c03df44c1df56ed53a13b6"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-memory/01-before-main.png",
+      "sha256": "ccf842aa08109730b442cd595aaff763087543c5b0c03df44c1df56ed53a13b6"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-memory/01-after-main.png",
+      "sha256": "15fd582d4b9a1444bc3d9fe87912c75775f7808de6391c40f9429d172bd306a2"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-name/interaction.json",
+      "sha256": "d3946192b72e3474f6cee5498ded7e8b0aaa543caf97c295e5fd172fa5db1150"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-name/calibration/calibration-main.png",
+      "sha256": "2a93525d885a9465ce60121a4fb96fe692120cdb57a87cd0469e1bb00a919380"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-name/01-before-main.png",
+      "sha256": "2a93525d885a9465ce60121a4fb96fe692120cdb57a87cd0469e1bb00a919380"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-name/01-after-main.png",
+      "sha256": "4ac4837816a3dc2f730c01321dff0de3c61009b19ce711e085717fd80c665168"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-name/01-after-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-run-list/interaction.json",
+      "sha256": "20884d4cbcc5f01d2b64db92b88c44ec166af6980e4f85aa30c4f0bd761a8b58"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-run-list/calibration/calibration-main.png",
+      "sha256": "74a1ffb8641ab6a4b6b1161fb3eb1dba8190b3e93fbd193f9fa51d477a43ca23"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-run-list/01-before-main.png",
+      "sha256": "74a1ffb8641ab6a4b6b1161fb3eb1dba8190b3e93fbd193f9fa51d477a43ca23"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-run-list/01-after-main.png",
+      "sha256": "68c9109e9d306f475ebc257b24cd6708bdb608ed3fe1528e22aee773a2937980"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-saved/interaction.json",
+      "sha256": "f17900433f4849289f189085bcca62473abcbd7fe48d873a5f515d55d6e63c9f"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-saved/calibration/calibration-main.png",
+      "sha256": "5ba81c028a238c2a0ce1082fe51075357f397208a1ca2d8e1d612632d5a04357"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-saved/01-before-main.png",
+      "sha256": "5ba81c028a238c2a0ce1082fe51075357f397208a1ca2d8e1d612632d5a04357"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-cal-saved/01-after-main.png",
+      "sha256": "961ee26f0f9fb8b20e2d8b6a0df09f66d36bb9015c9eee354c4ea97fbb93450c"
+    },
+    {
+      "kind": "native interaction",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-name/interaction.json",
+      "sha256": "6fbc2d11f4761493c09afb6567dc97ffc08dd53dafbb40ef53833e68322ede15"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-name/calibration/calibration-main.png",
+      "sha256": "4ac4837816a3dc2f730c01321dff0de3c61009b19ce711e085717fd80c665168"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-name/calibration/calibration-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-name/01-before-main.png",
+      "sha256": "4ac4837816a3dc2f730c01321dff0de3c61009b19ce711e085717fd80c665168"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-name/01-before-fep.png",
+      "sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb"
+    },
+    {
+      "kind": "native screenshot",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/input-name/01-after-main.png",
+      "sha256": "5ba81c028a238c2a0ce1082fe51075357f397208a1ca2d8e1d612632d5a04357"
+    },
+    {
+      "kind": "fresh guest log",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/browser/runs/browser-20261101T021320Z-y_z85voi/log.txt",
+      "sha256": "ca429f5868affea67be5017ce5e6018daa14f00e5d70f7e039454d077bb3f314"
+    },
+    {
+      "kind": "fresh emulator log",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/browser/runs/browser-20261101T021320Z-y_z85voi/emulator.log",
+      "sha256": "d4f299109cb22b11d466b5798c0a50d34e3971df5a5071a1abc975f6ecd5ae7f"
+    },
+    {
+      "kind": "runner report",
+      "path": "/workspace/symbian-download-runtime-work/runs/dl-post-c11-20261101-01/runner-report.json",
+      "sha256": "d2af8b8bde40413d4a809615606eae6d1f385f50d0d106607370a7cea056ad56"
+    }
+  ],
+  "run": "dl-post-c11-20261101-01",
+  "case": "post",
+  "scope": "Retained real-browser request, native-input, native-file and normal-close evidence; host fixture tests alone cannot pass."
+}

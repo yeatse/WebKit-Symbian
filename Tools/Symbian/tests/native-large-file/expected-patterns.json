@@ -1,0 +1,25 @@
+{
+  "pattern": "(index * 37 + (index >> 16) * 11) & 255",
+  "results": [
+    {
+      "bytes": 16777215,
+      "sha256": "842097252d50fddfdd77df69dac62a7774baa0ee87789a439b95c0910bb5faf2"
+    },
+    {
+      "bytes": 16777216,
+      "sha256": "9307d5f7b39cc0f3d9bb451e852e459c3c20e89b6448afafe3a2e7186ea3020a"
+    },
+    {
+      "bytes": 16777217,
+      "sha256": "e58e36c838b92af2c354168b6d411663d4dd3e69193c41e080afca8ff1bbb137"
+    },
+    {
+      "bytes": 35651584,
+      "sha256": "7ee5986c504579bec9b22b83e47933bd4717a6e1fe0d6a45ab267cd6d5f1bb70"
+    },
+    {
+      "bytes": 38797312,
+      "sha256": "40f415dca9aab94b43dedb668bca5b2b75f9b52a35f71adc71a8c4b2c4c2012c"
+    }
+  ]
+}

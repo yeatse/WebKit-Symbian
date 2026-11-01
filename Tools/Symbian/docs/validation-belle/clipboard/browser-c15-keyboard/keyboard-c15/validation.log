@@ -1,0 +1,1 @@
+{"status": "PASS", "suite": "belle-clipboard", "run": "clipboard-keyboard-c15-20261101-01", "mode": "keyboard", "cases": 9, "scope": "page/report contract only; native action ledger and normal guest/host exits remain required"}

@@ -1,0 +1,1745 @@
+{
+  "files": [
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/after.json",
+      "archive_path": "cancel-transfer-c19-01/after.json",
+      "source_bytes": 448,
+      "source_sha256": "a55e6d9b2db158c8601716ede1d7763d3477c80b48f349a43cd5d97c0f95b427",
+      "archive_bytes": 448,
+      "archive_sha256": "a55e6d9b2db158c8601716ede1d7763d3477c80b48f349a43cd5d97c0f95b427",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/before.json",
+      "archive_path": "cancel-transfer-c19-01/before.json",
+      "source_bytes": 449,
+      "source_sha256": "c826ae8a49ed5d215e7ac035700f8cd4abc4a2bed5871a642c40e8aea00ba7ef",
+      "archive_bytes": 449,
+      "archive_sha256": "c826ae8a49ed5d215e7ac035700f8cd4abc4a2bed5871a642c40e8aea00ba7ef",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/browser/runs/browser-20261101T035902Z-tpwmn42r/browser.png",
+      "archive_path": "cancel-transfer-c19-01/browser/runs/browser-20261101T035902Z-tpwmn42r/browser.png",
+      "source_bytes": 29156,
+      "source_sha256": "f7c1cad1d5a108823a664ee341f6edf8fa12d8966c4d5d21d285c74b725daef8",
+      "archive_bytes": 29156,
+      "archive_sha256": "f7c1cad1d5a108823a664ee341f6edf8fa12d8966c4d5d21d285c74b725daef8",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/browser/runs/browser-20261101T035902Z-tpwmn42r/emulator.log",
+      "archive_path": "cancel-transfer-c19-01/browser/runs/browser-20261101T035902Z-tpwmn42r/emulator.log.gz",
+      "source_bytes": 238908,
+      "source_sha256": "68cf9419044c585cf9fbe60658b1eceed99a65d6205ed28cb378e275f138c560",
+      "archive_bytes": 19876,
+      "archive_sha256": "ad015cab84a8fc1177aba4217b26cce982c1c38f50207ff308d650524387b931",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/browser/runs/browser-20261101T035902Z-tpwmn42r/log.txt",
+      "archive_path": "cancel-transfer-c19-01/browser/runs/browser-20261101T035902Z-tpwmn42r/log.txt",
+      "source_bytes": 617,
+      "source_sha256": "6e14056338bfd107f9e432e8934672d3091768903678c73c2a57a17b7ab19b4e",
+      "archive_bytes": 617,
+      "archive_sha256": "6e14056338bfd107f9e432e8934672d3091768903678c73c2a57a17b7ab19b4e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-001/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-001/calibration-main.png",
+      "source_bytes": 16546,
+      "source_sha256": "8d8e3735c513cbbee8188a95388f43b8ea99e1013463d4b860c359ec065cd040",
+      "archive_bytes": 16546,
+      "archive_sha256": "8d8e3735c513cbbee8188a95388f43b8ea99e1013463d4b860c359ec065cd040",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-001/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-001/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "42caeb2b225478279e1b695a646abc064ebb0f7b734f85e6512bc5b85163fade",
+      "archive_bytes": 811,
+      "archive_sha256": "42caeb2b225478279e1b695a646abc064ebb0f7b734f85e6512bc5b85163fade",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-001-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-001-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "42caeb2b225478279e1b695a646abc064ebb0f7b734f85e6512bc5b85163fade",
+      "archive_bytes": 517,
+      "archive_sha256": "e1405bae26179b65401d5848aa089c43d74a32547109535f366e0209e9ac7b4c",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-002/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-002/calibration-main.png",
+      "source_bytes": 26813,
+      "source_sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+      "archive_bytes": 26813,
+      "archive_sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-002/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-002/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "d55eecdf47be6dc6e91da99eeea42bd902bfb0cabb390b14da726a8a3cb2c333",
+      "archive_bytes": 811,
+      "archive_sha256": "d55eecdf47be6dc6e91da99eeea42bd902bfb0cabb390b14da726a8a3cb2c333",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-002-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-002-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "d55eecdf47be6dc6e91da99eeea42bd902bfb0cabb390b14da726a8a3cb2c333",
+      "archive_bytes": 516,
+      "archive_sha256": "5ab3fbfac22113c0fc0b1d80b33b902fce7be6f83e4473de0eaad57c5e3dc719",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-003/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-003/calibration-main.png",
+      "source_bytes": 37886,
+      "source_sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "archive_bytes": 37886,
+      "archive_sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-003/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-003/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "f9d11c6a4557e289f4cd54cebe2af06ae817678cdf99acbaae9326363acf86b2",
+      "archive_bytes": 811,
+      "archive_sha256": "f9d11c6a4557e289f4cd54cebe2af06ae817678cdf99acbaae9326363acf86b2",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-003-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-003-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "f9d11c6a4557e289f4cd54cebe2af06ae817678cdf99acbaae9326363acf86b2",
+      "archive_bytes": 518,
+      "archive_sha256": "8fc0fcb98078b75760ddc5633c6c95949ce4907956ce500e2117eafa85a629b6",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-004/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-004/calibration-main.png",
+      "source_bytes": 29827,
+      "source_sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "archive_bytes": 29827,
+      "archive_sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-004/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-004/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "df69815ac95ea9b733867496c7f56965e3be985a0f9ddc9164f71009879fd395",
+      "archive_bytes": 811,
+      "archive_sha256": "df69815ac95ea9b733867496c7f56965e3be985a0f9ddc9164f71009879fd395",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-004-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-004-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "df69815ac95ea9b733867496c7f56965e3be985a0f9ddc9164f71009879fd395",
+      "archive_bytes": 517,
+      "archive_sha256": "6968de538aacdd924f147756cd16498a429e5384a123340bf29233c437529dd6",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-005/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-005/calibration-main.png",
+      "source_bytes": 40854,
+      "source_sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "archive_bytes": 40854,
+      "archive_sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-005/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-005/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "3f992d82da575ede7bbd0b61308119467b0bad4ebea76403ac76e4023084738f",
+      "archive_bytes": 811,
+      "archive_sha256": "3f992d82da575ede7bbd0b61308119467b0bad4ebea76403ac76e4023084738f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-005-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-005-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "3f992d82da575ede7bbd0b61308119467b0bad4ebea76403ac76e4023084738f",
+      "archive_bytes": 518,
+      "archive_sha256": "7dba6d8621e87ed55ca8155be3b900c7d1fc667ceaa6b7c7e6f5f55584240967",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-006/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-006/calibration-main.png",
+      "source_bytes": 39491,
+      "source_sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "archive_bytes": 39491,
+      "archive_sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-006/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-006/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "e754afafcfa216d5f9898bbc2403bb8ea59009197729d574cf72846c292cf361",
+      "archive_bytes": 811,
+      "archive_sha256": "e754afafcfa216d5f9898bbc2403bb8ea59009197729d574cf72846c292cf361",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-006-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-006-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "e754afafcfa216d5f9898bbc2403bb8ea59009197729d574cf72846c292cf361",
+      "archive_bytes": 516,
+      "archive_sha256": "a4c5a16b56e1a9470807cdee190d7969b374e432a8fc0db42e5ea074af6b65fe",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-007/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-007/calibration-main.png",
+      "source_bytes": 32706,
+      "source_sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "archive_bytes": 32706,
+      "archive_sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-007/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-007/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "7488a9c241edf43635ba2894fa9a2a3866664c736b7c403ed01167f078737acb",
+      "archive_bytes": 811,
+      "archive_sha256": "7488a9c241edf43635ba2894fa9a2a3866664c736b7c403ed01167f078737acb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-007-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-007-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "7488a9c241edf43635ba2894fa9a2a3866664c736b7c403ed01167f078737acb",
+      "archive_bytes": 518,
+      "archive_sha256": "ae7fa44543a7098c290bc849dd0e815d660b07e117f630dcc0ba5568219852fc",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-008/calibration-fep.png",
+      "archive_path": "cancel-transfer-c19-01/capture-008/calibration-fep.png",
+      "source_bytes": 3216,
+      "source_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "archive_bytes": 3216,
+      "archive_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-008/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-008/calibration-main.png",
+      "source_bytes": 20080,
+      "source_sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "archive_bytes": 20080,
+      "archive_sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-008/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-008/calibration.json",
+      "source_bytes": 1104,
+      "source_sha256": "369252af25a9ab3e640dda4c55cdfe9d727347216dfa4f218b8f35b44f73de60",
+      "archive_bytes": 1104,
+      "archive_sha256": "369252af25a9ab3e640dda4c55cdfe9d727347216dfa4f218b8f35b44f73de60",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-008-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-008-driver.log.gz",
+      "source_bytes": 1104,
+      "source_sha256": "369252af25a9ab3e640dda4c55cdfe9d727347216dfa4f218b8f35b44f73de60",
+      "archive_bytes": 602,
+      "archive_sha256": "b7acdaf99cb3148efa417031bc1de32987e8cc29e90671cf7cf02b9688e42394",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-009/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-009/calibration-main.png",
+      "source_bytes": 28850,
+      "source_sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "archive_bytes": 28850,
+      "archive_sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-009/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-009/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "565e2f3e94993be8408bdf946bcee5ef115aa8383cfa5f8d43c406aec0c6cc66",
+      "archive_bytes": 811,
+      "archive_sha256": "565e2f3e94993be8408bdf946bcee5ef115aa8383cfa5f8d43c406aec0c6cc66",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-009-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-009-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "565e2f3e94993be8408bdf946bcee5ef115aa8383cfa5f8d43c406aec0c6cc66",
+      "archive_bytes": 517,
+      "archive_sha256": "232d5586fcb066dd96bb8e469953b0ae44715dc2301578fe526b30e104daa1ca",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-010/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-010/calibration-main.png",
+      "source_bytes": 26891,
+      "source_sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "archive_bytes": 26891,
+      "archive_sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-010/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-010/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "71d2a873320c9fd20dfd043be86201db5a57357f95fcc433a0a89d6f703825c2",
+      "archive_bytes": 811,
+      "archive_sha256": "71d2a873320c9fd20dfd043be86201db5a57357f95fcc433a0a89d6f703825c2",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-010-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-010-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "71d2a873320c9fd20dfd043be86201db5a57357f95fcc433a0a89d6f703825c2",
+      "archive_bytes": 517,
+      "archive_sha256": "3abadfddbde38403b90acf2d7be861b49a174bcba5b1139d37d0f9ca6c019a31",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-011/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-011/calibration-main.png",
+      "source_bytes": 42267,
+      "source_sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "archive_bytes": 42267,
+      "archive_sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-011/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-011/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "483e3dd641a4b60321a9c9452436f250febc035a2afe1bd461fd6bdb7032f16d",
+      "archive_bytes": 811,
+      "archive_sha256": "483e3dd641a4b60321a9c9452436f250febc035a2afe1bd461fd6bdb7032f16d",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-011-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-011-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "483e3dd641a4b60321a9c9452436f250febc035a2afe1bd461fd6bdb7032f16d",
+      "archive_bytes": 517,
+      "archive_sha256": "ad6c705c51b64bc12a11aa25c8696e30437ba736970a06bffacfff52a3961163",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-012/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/capture-012/calibration-main.png",
+      "source_bytes": 31920,
+      "source_sha256": "4a42f0a868af4c5dd02295a95967c7ca87b3dee93b4dc1aea93ad1155f1c9ac0",
+      "archive_bytes": 31920,
+      "archive_sha256": "4a42f0a868af4c5dd02295a95967c7ca87b3dee93b4dc1aea93ad1155f1c9ac0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-012/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/capture-012/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "d00ea88a6082b8e60cc1834e819532d53aaeccd5c94dda116ee5b099e5f5e258",
+      "archive_bytes": 811,
+      "archive_sha256": "d00ea88a6082b8e60cc1834e819532d53aaeccd5c94dda116ee5b099e5f5e258",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/capture-012-driver.log",
+      "archive_path": "cancel-transfer-c19-01/capture-012-driver.log.gz",
+      "source_bytes": 811,
+      "source_sha256": "d00ea88a6082b8e60cc1834e819532d53aaeccd5c94dda116ee5b099e5f5e258",
+      "archive_bytes": 517,
+      "archive_sha256": "fc8eef2cabd34e3f53359729682db953ea65abe2093ca21321e44ad3d7ffaf69",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/001.json",
+      "archive_path": "cancel-transfer-c19-01/commands/001.json",
+      "source_bytes": 67,
+      "source_sha256": "1151241c31189bb89d2e4a63367b93717fa0785d370e8a81b51ccce7724806e6",
+      "archive_bytes": 67,
+      "archive_sha256": "1151241c31189bb89d2e4a63367b93717fa0785d370e8a81b51ccce7724806e6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/002.json",
+      "archive_path": "cancel-transfer-c19-01/commands/002.json",
+      "source_bytes": 263,
+      "source_sha256": "d53434cd5d4e66b7069261f75d7981ac1c63e2c0122b9c0435ae66cc89efd81e",
+      "archive_bytes": 263,
+      "archive_sha256": "d53434cd5d4e66b7069261f75d7981ac1c63e2c0122b9c0435ae66cc89efd81e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/003.json",
+      "archive_path": "cancel-transfer-c19-01/commands/003.json",
+      "source_bytes": 269,
+      "source_sha256": "08df5645d1d9db4ae0df6cd9d495acf050d9cc3317ff98540437d506c1e6ad1e",
+      "archive_bytes": 269,
+      "archive_sha256": "08df5645d1d9db4ae0df6cd9d495acf050d9cc3317ff98540437d506c1e6ad1e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/004.json",
+      "archive_path": "cancel-transfer-c19-01/commands/004.json",
+      "source_bytes": 269,
+      "source_sha256": "4d9a774b159d2594ead8006d96ad399e3d50d8c5ba98d951eef67c90725df78e",
+      "archive_bytes": 269,
+      "archive_sha256": "4d9a774b159d2594ead8006d96ad399e3d50d8c5ba98d951eef67c90725df78e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/005.json",
+      "archive_path": "cancel-transfer-c19-01/commands/005.json",
+      "source_bytes": 269,
+      "source_sha256": "976063eef4876bb5033d591e98580b84d37ff96298faca446aa3e64c46261833",
+      "archive_bytes": 269,
+      "archive_sha256": "976063eef4876bb5033d591e98580b84d37ff96298faca446aa3e64c46261833",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/006.json",
+      "archive_path": "cancel-transfer-c19-01/commands/006.json",
+      "source_bytes": 269,
+      "source_sha256": "d43f1da13da14067b7664526dd83e712fe13e4c6593325c4075c1a3f2f4f85b0",
+      "archive_bytes": 269,
+      "archive_sha256": "d43f1da13da14067b7664526dd83e712fe13e4c6593325c4075c1a3f2f4f85b0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/007.json",
+      "archive_path": "cancel-transfer-c19-01/commands/007.json",
+      "source_bytes": 269,
+      "source_sha256": "cd5dd9542c36964f85682de29d7041864e453f2f410ff29123a1a86e4de27636",
+      "archive_bytes": 269,
+      "archive_sha256": "cd5dd9542c36964f85682de29d7041864e453f2f410ff29123a1a86e4de27636",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/008.json",
+      "archive_path": "cancel-transfer-c19-01/commands/008.json",
+      "source_bytes": 268,
+      "source_sha256": "665aeeeb107531b8bc799f7d777ba06f54caf2478bb8b4a5b6af10f9542264b4",
+      "archive_bytes": 268,
+      "archive_sha256": "665aeeeb107531b8bc799f7d777ba06f54caf2478bb8b4a5b6af10f9542264b4",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/009.json",
+      "archive_path": "cancel-transfer-c19-01/commands/009.json",
+      "source_bytes": 269,
+      "source_sha256": "c7508d56fbe32de1d22b452c54bd6c18a4db6616df3ca850d91b07262f02bc21",
+      "archive_bytes": 269,
+      "archive_sha256": "c7508d56fbe32de1d22b452c54bd6c18a4db6616df3ca850d91b07262f02bc21",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/010.json",
+      "archive_path": "cancel-transfer-c19-01/commands/010.json",
+      "source_bytes": 270,
+      "source_sha256": "5d2a8f408b3a537e411a951c672782dc0eda879d85774c391701da2191a661f0",
+      "archive_bytes": 270,
+      "archive_sha256": "5d2a8f408b3a537e411a951c672782dc0eda879d85774c391701da2191a661f0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/011.json",
+      "archive_path": "cancel-transfer-c19-01/commands/011.json",
+      "source_bytes": 274,
+      "source_sha256": "26e80365da336002a2e25e8a71e16ca6ae2667c79f862edf0f0762a2145a12b8",
+      "archive_bytes": 274,
+      "archive_sha256": "26e80365da336002a2e25e8a71e16ca6ae2667c79f862edf0f0762a2145a12b8",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/012.json",
+      "archive_path": "cancel-transfer-c19-01/commands/012.json",
+      "source_bytes": 68,
+      "source_sha256": "e2a0171e7f8803dbafc4da978439f34b822937abbcef78e1c983cc787fb35ea0",
+      "archive_bytes": 68,
+      "archive_sha256": "e2a0171e7f8803dbafc4da978439f34b822937abbcef78e1c983cc787fb35ea0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/commands/013.json",
+      "archive_path": "cancel-transfer-c19-01/commands/013.json",
+      "source_bytes": 186,
+      "source_sha256": "212738bbd5dffca76def68354b22fe2795dccdda410640b0f72db7c37d6d5e65",
+      "archive_bytes": 186,
+      "archive_sha256": "212738bbd5dffca76def68354b22fe2795dccdda410640b0f72db7c37d6d5e65",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/fixture/events.jsonl",
+      "archive_path": "cancel-transfer-c19-01/fixture/events.jsonl",
+      "source_bytes": 1099,
+      "source_sha256": "730112a3fc4f6b8fe1d8c55be48be82043762a09b62711f3c57703e205c6030f",
+      "archive_bytes": 1099,
+      "archive_sha256": "730112a3fc4f6b8fe1d8c55be48be82043762a09b62711f3c57703e205c6030f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/fixture/ready.json",
+      "archive_path": "cancel-transfer-c19-01/fixture/ready.json",
+      "source_bytes": 547,
+      "source_sha256": "07ede42bcbade76a4b76622e6e0caecaf6605fae29cca3dd34b0ac75c1170ca8",
+      "archive_bytes": 547,
+      "archive_sha256": "07ede42bcbade76a4b76622e6e0caecaf6605fae29cca3dd34b0ac75c1170ca8",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/fixture.log",
+      "archive_path": "cancel-transfer-c19-01/fixture.log.gz",
+      "source_bytes": 525,
+      "source_sha256": "cefa9e6a93b3671a28ee154efb01fa755bedca56710f17a0314b8042c5a7b964",
+      "archive_bytes": 354,
+      "archive_sha256": "8e0fa0ca03da6323682815a80aaf31f1cb50e524e5a3538c2d8e715072c2c120",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-002/01-after-main.png",
+      "source_bytes": 37886,
+      "source_sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "archive_bytes": 37886,
+      "archive_sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-002/01-before-main.png",
+      "source_bytes": 26813,
+      "source_sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+      "archive_bytes": 26813,
+      "archive_sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-002/calibration/calibration-main.png",
+      "source_bytes": 26813,
+      "source_sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+      "archive_bytes": 26813,
+      "archive_sha256": "5811adf12a0d9536b7b814ba1a734fc9a1b6a31abcf9f407347011c4b63e7ea6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-002/calibration/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "d55eecdf47be6dc6e91da99eeea42bd902bfb0cabb390b14da726a8a3cb2c333",
+      "archive_bytes": 811,
+      "archive_sha256": "d55eecdf47be6dc6e91da99eeea42bd902bfb0cabb390b14da726a8a3cb2c333",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-002/calibration/plan.json",
+      "source_bytes": 275,
+      "source_sha256": "7fd924c42bf9bd592ec75dd28df9e77ffafed834d6bacfa3458cc40634c25953",
+      "archive_bytes": 275,
+      "archive_sha256": "7fd924c42bf9bd592ec75dd28df9e77ffafed834d6bacfa3458cc40634c25953",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-002/interaction.json",
+      "source_bytes": 1539,
+      "source_sha256": "4914a5d8d5dc1448b76c7a2c4837fbfdbc49305bf3bb93f3a91cda2ea2a74b7e",
+      "archive_bytes": 1539,
+      "archive_sha256": "4914a5d8d5dc1448b76c7a2c4837fbfdbc49305bf3bb93f3a91cda2ea2a74b7e",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-002-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-002-driver.log.gz",
+      "source_bytes": 1539,
+      "source_sha256": "4914a5d8d5dc1448b76c7a2c4837fbfdbc49305bf3bb93f3a91cda2ea2a74b7e",
+      "archive_bytes": 639,
+      "archive_sha256": "35b825cb17597cc1b43969a39ebba86c4c082b0b1416b2404dc6148fbc22da3b",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-003/01-after-main.png",
+      "source_bytes": 29827,
+      "source_sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "archive_bytes": 29827,
+      "archive_sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-003/01-before-main.png",
+      "source_bytes": 37886,
+      "source_sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "archive_bytes": 37886,
+      "archive_sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-003/calibration/calibration-main.png",
+      "source_bytes": 37886,
+      "source_sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "archive_bytes": 37886,
+      "archive_sha256": "17e2e4443977bf3c96ef6cae819f5843ab0ee36a5e08e57213a24846a3364513",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-003/calibration/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "f9d11c6a4557e289f4cd54cebe2af06ae817678cdf99acbaae9326363acf86b2",
+      "archive_bytes": 811,
+      "archive_sha256": "f9d11c6a4557e289f4cd54cebe2af06ae817678cdf99acbaae9326363acf86b2",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-003/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "37af782b3a477d7603b0cf95b7cd0b6815583394075698df62bb9c5b09f05e71",
+      "archive_bytes": 281,
+      "archive_sha256": "37af782b3a477d7603b0cf95b7cd0b6815583394075698df62bb9c5b09f05e71",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-003/interaction.json",
+      "source_bytes": 1545,
+      "source_sha256": "b91f7bb46e4ac0273cb622ed1431cd97043ad8fc561008cfde8dde4350625d2f",
+      "archive_bytes": 1545,
+      "archive_sha256": "b91f7bb46e4ac0273cb622ed1431cd97043ad8fc561008cfde8dde4350625d2f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-003-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-003-driver.log.gz",
+      "source_bytes": 1545,
+      "source_sha256": "b91f7bb46e4ac0273cb622ed1431cd97043ad8fc561008cfde8dde4350625d2f",
+      "archive_bytes": 641,
+      "archive_sha256": "294491cfcb3f71a3bc65b4ec503acfe7540890a8427b7a371580e255ce60cd1f",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-004/01-after-main.png",
+      "source_bytes": 40854,
+      "source_sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "archive_bytes": 40854,
+      "archive_sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-004/01-before-main.png",
+      "source_bytes": 29827,
+      "source_sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "archive_bytes": 29827,
+      "archive_sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-004/calibration/calibration-main.png",
+      "source_bytes": 29827,
+      "source_sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "archive_bytes": 29827,
+      "archive_sha256": "5f2c2e6d9c32014024d1527b1f0947d46f3206f579e244730b63a2759a991f29",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-004/calibration/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "df69815ac95ea9b733867496c7f56965e3be985a0f9ddc9164f71009879fd395",
+      "archive_bytes": 811,
+      "archive_sha256": "df69815ac95ea9b733867496c7f56965e3be985a0f9ddc9164f71009879fd395",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-004/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "f0ddebe2a57fef430fbeac1414df6364a68ed4b95ff2f23bc8da534633871084",
+      "archive_bytes": 281,
+      "archive_sha256": "f0ddebe2a57fef430fbeac1414df6364a68ed4b95ff2f23bc8da534633871084",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-004/interaction.json",
+      "source_bytes": 1545,
+      "source_sha256": "64d077022729cf5d218aca7a6ae19c544e45909ae2d3286ed93cd99ede356e2b",
+      "archive_bytes": 1545,
+      "archive_sha256": "64d077022729cf5d218aca7a6ae19c544e45909ae2d3286ed93cd99ede356e2b",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-004-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-004-driver.log.gz",
+      "source_bytes": 1545,
+      "source_sha256": "64d077022729cf5d218aca7a6ae19c544e45909ae2d3286ed93cd99ede356e2b",
+      "archive_bytes": 640,
+      "archive_sha256": "9361d6bacd7860a9c0dc3b5bc81b6cc99c06865f10944fdb1400c0176574a158",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-005/01-after-main.png",
+      "source_bytes": 39491,
+      "source_sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "archive_bytes": 39491,
+      "archive_sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-005/01-before-main.png",
+      "source_bytes": 40854,
+      "source_sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "archive_bytes": 40854,
+      "archive_sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-005/calibration/calibration-main.png",
+      "source_bytes": 40854,
+      "source_sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "archive_bytes": 40854,
+      "archive_sha256": "70fb16051a40c30fbebd012d283957e10939471c41175c7b4337fcf87523ff92",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-005/calibration/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "3f992d82da575ede7bbd0b61308119467b0bad4ebea76403ac76e4023084738f",
+      "archive_bytes": 811,
+      "archive_sha256": "3f992d82da575ede7bbd0b61308119467b0bad4ebea76403ac76e4023084738f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-005/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "a6386b28464e33a921e2517e1a7e05ebd3f4dffd3758922b6ae0d99b477a0546",
+      "archive_bytes": 281,
+      "archive_sha256": "a6386b28464e33a921e2517e1a7e05ebd3f4dffd3758922b6ae0d99b477a0546",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-005/interaction.json",
+      "source_bytes": 1545,
+      "source_sha256": "ba27d5ef4ce8f3bad4afa202a7204bfbf6d6d9741a999c8e40289adac29790c4",
+      "archive_bytes": 1545,
+      "archive_sha256": "ba27d5ef4ce8f3bad4afa202a7204bfbf6d6d9741a999c8e40289adac29790c4",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-005-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-005-driver.log.gz",
+      "source_bytes": 1545,
+      "source_sha256": "ba27d5ef4ce8f3bad4afa202a7204bfbf6d6d9741a999c8e40289adac29790c4",
+      "archive_bytes": 642,
+      "archive_sha256": "3f3540885ca01d543918fe9d28f209e179f6085b448689be4900194cef8d267a",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-006/01-after-main.png",
+      "source_bytes": 32706,
+      "source_sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "archive_bytes": 32706,
+      "archive_sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-006/01-before-main.png",
+      "source_bytes": 39491,
+      "source_sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "archive_bytes": 39491,
+      "archive_sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-006/calibration/calibration-main.png",
+      "source_bytes": 39491,
+      "source_sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "archive_bytes": 39491,
+      "archive_sha256": "89f1fe2e970ecc01ab46771191fc78145c7b676d71114447d6660bb7e322f265",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-006/calibration/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "e754afafcfa216d5f9898bbc2403bb8ea59009197729d574cf72846c292cf361",
+      "archive_bytes": 811,
+      "archive_sha256": "e754afafcfa216d5f9898bbc2403bb8ea59009197729d574cf72846c292cf361",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-006/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "3986000a7f06ad4f39dfdf57730659ee03f0f4515f9c20884199a449ca3d58e6",
+      "archive_bytes": 281,
+      "archive_sha256": "3986000a7f06ad4f39dfdf57730659ee03f0f4515f9c20884199a449ca3d58e6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-006/interaction.json",
+      "source_bytes": 1545,
+      "source_sha256": "eec85fdbad0451aa7dc4c52f9276dc0cac94ba2a1b310770ce9ad84377b1c520",
+      "archive_bytes": 1545,
+      "archive_sha256": "eec85fdbad0451aa7dc4c52f9276dc0cac94ba2a1b310770ce9ad84377b1c520",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-006-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-006-driver.log.gz",
+      "source_bytes": 1545,
+      "source_sha256": "eec85fdbad0451aa7dc4c52f9276dc0cac94ba2a1b310770ce9ad84377b1c520",
+      "archive_bytes": 641,
+      "archive_sha256": "618062ddc1860c3829c970a3bcebb6166ebe8bbf0ced77865f5a1f0606d1a096",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/01-after-fep.png",
+      "archive_path": "cancel-transfer-c19-01/input-007/01-after-fep.png",
+      "source_bytes": 3216,
+      "source_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "archive_bytes": 3216,
+      "archive_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-007/01-after-main.png",
+      "source_bytes": 20080,
+      "source_sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "archive_bytes": 20080,
+      "archive_sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-007/01-before-main.png",
+      "source_bytes": 32706,
+      "source_sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "archive_bytes": 32706,
+      "archive_sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-007/calibration/calibration-main.png",
+      "source_bytes": 32706,
+      "source_sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "archive_bytes": 32706,
+      "archive_sha256": "8e50cf1f777377fba6d76872fe821cb67f2a482aade2ee5a02203269af45eb62",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-007/calibration/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "7488a9c241edf43635ba2894fa9a2a3866664c736b7c403ed01167f078737acb",
+      "archive_bytes": 811,
+      "archive_sha256": "7488a9c241edf43635ba2894fa9a2a3866664c736b7c403ed01167f078737acb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-007/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "1536ce20a4a916ab9683f8951fe5814289601d3380e72460d74d7f952ce9c2d0",
+      "archive_bytes": 281,
+      "archive_sha256": "1536ce20a4a916ab9683f8951fe5814289601d3380e72460d74d7f952ce9c2d0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-007/interaction.json",
+      "source_bytes": 1817,
+      "source_sha256": "d1aec03f77dd04aad465b092f775879d4efe57e96d79da42476e0cfa8aa8e6b1",
+      "archive_bytes": 1817,
+      "archive_sha256": "d1aec03f77dd04aad465b092f775879d4efe57e96d79da42476e0cfa8aa8e6b1",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-007-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-007-driver.log.gz",
+      "source_bytes": 1817,
+      "source_sha256": "d1aec03f77dd04aad465b092f775879d4efe57e96d79da42476e0cfa8aa8e6b1",
+      "archive_bytes": 721,
+      "archive_sha256": "880fac44b63fa9657faf8a3adaddfc74e76a8773bd3c468068d38b6594ac4958",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-008/01-after-main.png",
+      "source_bytes": 28850,
+      "source_sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "archive_bytes": 28850,
+      "archive_sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/01-before-fep.png",
+      "archive_path": "cancel-transfer-c19-01/input-008/01-before-fep.png",
+      "source_bytes": 3202,
+      "source_sha256": "11fbbb4a8e364f7b600aeecb194bacc2d24dc6486ebca1a5505eab8f4ce0fa7f",
+      "archive_bytes": 3202,
+      "archive_sha256": "11fbbb4a8e364f7b600aeecb194bacc2d24dc6486ebca1a5505eab8f4ce0fa7f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-008/01-before-main.png",
+      "source_bytes": 20080,
+      "source_sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "archive_bytes": 20080,
+      "archive_sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/calibration/calibration-fep.png",
+      "archive_path": "cancel-transfer-c19-01/input-008/calibration/calibration-fep.png",
+      "source_bytes": 3216,
+      "source_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "archive_bytes": 3216,
+      "archive_sha256": "90f82311f72b1f783df2affd9e8952ad6e08819bbc63e4d014ab5c68fc25abbb",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-008/calibration/calibration-main.png",
+      "source_bytes": 20080,
+      "source_sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "archive_bytes": 20080,
+      "archive_sha256": "205f8fa418161921770a01b459ce481d2a02d762eea552d53ceab2ccafdbd792",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-008/calibration/calibration.json",
+      "source_bytes": 1104,
+      "source_sha256": "369252af25a9ab3e640dda4c55cdfe9d727347216dfa4f218b8f35b44f73de60",
+      "archive_bytes": 1104,
+      "archive_sha256": "369252af25a9ab3e640dda4c55cdfe9d727347216dfa4f218b8f35b44f73de60",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-008/calibration/plan.json",
+      "source_bytes": 280,
+      "source_sha256": "ea1b653f152700c89f0c2ecc48ce2318c6aafdb77b8f717588b3659f10c334de",
+      "archive_bytes": 280,
+      "archive_sha256": "ea1b653f152700c89f0c2ecc48ce2318c6aafdb77b8f717588b3659f10c334de",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-008/interaction.json",
+      "source_bytes": 2104,
+      "source_sha256": "132e7d886107629b2c57f831f898d54f38b0308669a24d0123ba976adbb52676",
+      "archive_bytes": 2104,
+      "archive_sha256": "132e7d886107629b2c57f831f898d54f38b0308669a24d0123ba976adbb52676",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-008-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-008-driver.log.gz",
+      "source_bytes": 2104,
+      "source_sha256": "132e7d886107629b2c57f831f898d54f38b0308669a24d0123ba976adbb52676",
+      "archive_bytes": 779,
+      "archive_sha256": "f125364fbe909f0b185fa32fe195fea8a529d6bfe194e2f913596e15e631615b",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-009/01-after-main.png",
+      "source_bytes": 26891,
+      "source_sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "archive_bytes": 26891,
+      "archive_sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-009/01-before-main.png",
+      "source_bytes": 28850,
+      "source_sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "archive_bytes": 28850,
+      "archive_sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-009/calibration/calibration-main.png",
+      "source_bytes": 28850,
+      "source_sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "archive_bytes": 28850,
+      "archive_sha256": "a36084baf82fa12f51534ad681c5da6831641e1a43c74d80ba761bac241cd5d0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-009/calibration/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "565e2f3e94993be8408bdf946bcee5ef115aa8383cfa5f8d43c406aec0c6cc66",
+      "archive_bytes": 811,
+      "archive_sha256": "565e2f3e94993be8408bdf946bcee5ef115aa8383cfa5f8d43c406aec0c6cc66",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-009/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "4983fb0dc81c706e3a5a7a545c8c90e977214c4a871a0d9f3d5253828f299be6",
+      "archive_bytes": 281,
+      "archive_sha256": "4983fb0dc81c706e3a5a7a545c8c90e977214c4a871a0d9f3d5253828f299be6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-009/interaction.json",
+      "source_bytes": 1545,
+      "source_sha256": "704297f315288f5d2f3e778ff86e39117aceac1ec4085854c6a41edc80be5970",
+      "archive_bytes": 1545,
+      "archive_sha256": "704297f315288f5d2f3e778ff86e39117aceac1ec4085854c6a41edc80be5970",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-009-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-009-driver.log.gz",
+      "source_bytes": 1545,
+      "source_sha256": "704297f315288f5d2f3e778ff86e39117aceac1ec4085854c6a41edc80be5970",
+      "archive_bytes": 644,
+      "archive_sha256": "bd57c8503905cea87d78c7666a73c6513a6ced8389175b435c80935729e7b7de",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-010/01-after-main.png",
+      "source_bytes": 42267,
+      "source_sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "archive_bytes": 42267,
+      "archive_sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-010/01-before-main.png",
+      "source_bytes": 26891,
+      "source_sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "archive_bytes": 26891,
+      "archive_sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-010/calibration/calibration-main.png",
+      "source_bytes": 26891,
+      "source_sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "archive_bytes": 26891,
+      "archive_sha256": "6ea2353e89fd16d128be4579b3bf63a1e8f02d548215ba0c59148b284dedb10f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-010/calibration/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "71d2a873320c9fd20dfd043be86201db5a57357f95fcc433a0a89d6f703825c2",
+      "archive_bytes": 811,
+      "archive_sha256": "71d2a873320c9fd20dfd043be86201db5a57357f95fcc433a0a89d6f703825c2",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-010/calibration/plan.json",
+      "source_bytes": 281,
+      "source_sha256": "7b03b47e5acd739bfc95edb9d5a0fa0712b64d2883b164b825c53643d9599721",
+      "archive_bytes": 281,
+      "archive_sha256": "7b03b47e5acd739bfc95edb9d5a0fa0712b64d2883b164b825c53643d9599721",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-010/interaction.json",
+      "source_bytes": 1545,
+      "source_sha256": "64d8a8f39852ad569bc0802b2d1bd18d4d83705d311dcc5564d7dd0ec27ccd96",
+      "archive_bytes": 1545,
+      "archive_sha256": "64d8a8f39852ad569bc0802b2d1bd18d4d83705d311dcc5564d7dd0ec27ccd96",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-010-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-010-driver.log.gz",
+      "source_bytes": 1545,
+      "source_sha256": "64d8a8f39852ad569bc0802b2d1bd18d4d83705d311dcc5564d7dd0ec27ccd96",
+      "archive_bytes": 641,
+      "archive_sha256": "641498b16963a32e4809ab42d19412a74cb576e12f107b67a2b74d870e762571",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/01-after-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-011/01-after-main.png",
+      "source_bytes": 31920,
+      "source_sha256": "4a42f0a868af4c5dd02295a95967c7ca87b3dee93b4dc1aea93ad1155f1c9ac0",
+      "archive_bytes": 31920,
+      "archive_sha256": "4a42f0a868af4c5dd02295a95967c7ca87b3dee93b4dc1aea93ad1155f1c9ac0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/01-before-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-011/01-before-main.png",
+      "source_bytes": 42267,
+      "source_sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "archive_bytes": 42267,
+      "archive_sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/calibration/calibration-main.png",
+      "archive_path": "cancel-transfer-c19-01/input-011/calibration/calibration-main.png",
+      "source_bytes": 42267,
+      "source_sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "archive_bytes": 42267,
+      "archive_sha256": "98edd6835c0fddc249946ee5bdc96ee4ef4a9feda290fb76d57daa6794041a3f",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/calibration/calibration.json",
+      "archive_path": "cancel-transfer-c19-01/input-011/calibration/calibration.json",
+      "source_bytes": 811,
+      "source_sha256": "483e3dd641a4b60321a9c9452436f250febc035a2afe1bd461fd6bdb7032f16d",
+      "archive_bytes": 811,
+      "archive_sha256": "483e3dd641a4b60321a9c9452436f250febc035a2afe1bd461fd6bdb7032f16d",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/calibration/plan.json",
+      "archive_path": "cancel-transfer-c19-01/input-011/calibration/plan.json",
+      "source_bytes": 285,
+      "source_sha256": "6eacbf710a4f03c4366957896b878d964edbdbc5f78f812f1065a1ad3b31c0dd",
+      "archive_bytes": 285,
+      "archive_sha256": "6eacbf710a4f03c4366957896b878d964edbdbc5f78f812f1065a1ad3b31c0dd",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011/interaction.json",
+      "archive_path": "cancel-transfer-c19-01/input-011/interaction.json",
+      "source_bytes": 1549,
+      "source_sha256": "9fc937ad76453737386a36cdaa6807521686644fe9ef59741249dace53a65bc3",
+      "archive_bytes": 1549,
+      "archive_sha256": "9fc937ad76453737386a36cdaa6807521686644fe9ef59741249dace53a65bc3",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/input-011-driver.log",
+      "archive_path": "cancel-transfer-c19-01/input-011-driver.log.gz",
+      "source_bytes": 1549,
+      "source_sha256": "9fc937ad76453737386a36cdaa6807521686644fe9ef59741249dace53a65bc3",
+      "archive_bytes": 645,
+      "archive_sha256": "5f061c763f8e38e713c70afe72a96706831652fb09e7732bf06e03016a1a23da",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-002.json",
+      "archive_path": "cancel-transfer-c19-01/plan-002.json",
+      "source_bytes": 275,
+      "source_sha256": "7fd924c42bf9bd592ec75dd28df9e77ffafed834d6bacfa3458cc40634c25953",
+      "archive_bytes": 275,
+      "archive_sha256": "7fd924c42bf9bd592ec75dd28df9e77ffafed834d6bacfa3458cc40634c25953",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-003.json",
+      "archive_path": "cancel-transfer-c19-01/plan-003.json",
+      "source_bytes": 281,
+      "source_sha256": "37af782b3a477d7603b0cf95b7cd0b6815583394075698df62bb9c5b09f05e71",
+      "archive_bytes": 281,
+      "archive_sha256": "37af782b3a477d7603b0cf95b7cd0b6815583394075698df62bb9c5b09f05e71",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-004.json",
+      "archive_path": "cancel-transfer-c19-01/plan-004.json",
+      "source_bytes": 281,
+      "source_sha256": "f0ddebe2a57fef430fbeac1414df6364a68ed4b95ff2f23bc8da534633871084",
+      "archive_bytes": 281,
+      "archive_sha256": "f0ddebe2a57fef430fbeac1414df6364a68ed4b95ff2f23bc8da534633871084",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-005.json",
+      "archive_path": "cancel-transfer-c19-01/plan-005.json",
+      "source_bytes": 281,
+      "source_sha256": "a6386b28464e33a921e2517e1a7e05ebd3f4dffd3758922b6ae0d99b477a0546",
+      "archive_bytes": 281,
+      "archive_sha256": "a6386b28464e33a921e2517e1a7e05ebd3f4dffd3758922b6ae0d99b477a0546",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-006.json",
+      "archive_path": "cancel-transfer-c19-01/plan-006.json",
+      "source_bytes": 281,
+      "source_sha256": "3986000a7f06ad4f39dfdf57730659ee03f0f4515f9c20884199a449ca3d58e6",
+      "archive_bytes": 281,
+      "archive_sha256": "3986000a7f06ad4f39dfdf57730659ee03f0f4515f9c20884199a449ca3d58e6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-007.json",
+      "archive_path": "cancel-transfer-c19-01/plan-007.json",
+      "source_bytes": 281,
+      "source_sha256": "1536ce20a4a916ab9683f8951fe5814289601d3380e72460d74d7f952ce9c2d0",
+      "archive_bytes": 281,
+      "archive_sha256": "1536ce20a4a916ab9683f8951fe5814289601d3380e72460d74d7f952ce9c2d0",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-008.json",
+      "archive_path": "cancel-transfer-c19-01/plan-008.json",
+      "source_bytes": 280,
+      "source_sha256": "ea1b653f152700c89f0c2ecc48ce2318c6aafdb77b8f717588b3659f10c334de",
+      "archive_bytes": 280,
+      "archive_sha256": "ea1b653f152700c89f0c2ecc48ce2318c6aafdb77b8f717588b3659f10c334de",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-009.json",
+      "archive_path": "cancel-transfer-c19-01/plan-009.json",
+      "source_bytes": 281,
+      "source_sha256": "4983fb0dc81c706e3a5a7a545c8c90e977214c4a871a0d9f3d5253828f299be6",
+      "archive_bytes": 281,
+      "archive_sha256": "4983fb0dc81c706e3a5a7a545c8c90e977214c4a871a0d9f3d5253828f299be6",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-010.json",
+      "archive_path": "cancel-transfer-c19-01/plan-010.json",
+      "source_bytes": 281,
+      "source_sha256": "7b03b47e5acd739bfc95edb9d5a0fa0712b64d2883b164b825c53643d9599721",
+      "archive_bytes": 281,
+      "archive_sha256": "7b03b47e5acd739bfc95edb9d5a0fa0712b64d2883b164b825c53643d9599721",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/plan-011.json",
+      "archive_path": "cancel-transfer-c19-01/plan-011.json",
+      "source_bytes": 285,
+      "source_sha256": "6eacbf710a4f03c4366957896b878d964edbdbc5f78f812f1065a1ad3b31c0dd",
+      "archive_bytes": 285,
+      "archive_sha256": "6eacbf710a4f03c4366957896b878d964edbdbc5f78f812f1065a1ad3b31c0dd",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-1.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-1.log.gz",
+      "source_bytes": 7940,
+      "source_sha256": "d14205d568ec26f5e819e49c2202cd317530ea1259a9f966be8b1138257cda4d",
+      "archive_bytes": 1873,
+      "archive_sha256": "4863fe89e5ed98e1036289d6aee99df61645baa9bcdeebe3d9ee956e57654c6a",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-10.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-10.log.gz",
+      "source_bytes": 8870,
+      "source_sha256": "a2c824f13bf9a588174a2d860d3f9e221536a52ca2ad29a6ad3213295aaeae75",
+      "archive_bytes": 1933,
+      "archive_sha256": "72857cd400beca50055dc23276ae8d280cbf6a91c3a1680dc3d1766fc0c8f3ce",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-11.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-11.log.gz",
+      "source_bytes": 8973,
+      "source_sha256": "ea7879964594482bfea4f38fc62abb3410cef5f823c1defe7d26b3a5efd1481e",
+      "archive_bytes": 1935,
+      "archive_sha256": "f6e0c7c0abc5a7c51da7fbb65a1529032929124da4924659cd844caa4ebc5cd3",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-2.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-2.log.gz",
+      "source_bytes": 8045,
+      "source_sha256": "1a78d0fec432bb2b74c3c62696f4c13444ab6ed39f7726743aa2396af697af73",
+      "archive_bytes": 1896,
+      "archive_sha256": "4ca15a40bc6abd8d5463dda0f36d1ffc69f612e7df4dafcf2612617708a09a4a",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-3.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-3.log.gz",
+      "source_bytes": 8148,
+      "source_sha256": "006a55652f1188a1ab95f42ceab9baf08983288ce8d79f01f6733fd3167ba997",
+      "archive_bytes": 1906,
+      "archive_sha256": "38eaed17bc9d6686ec77806532eb3dffe46d892fc82f78cc7fbf894fe5ea1f3f",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-4.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-4.log.gz",
+      "source_bytes": 8251,
+      "source_sha256": "da9a45cf737bef0e82da8f69dd63cb785cc44f6f5010c159c956139d43fae7ba",
+      "archive_bytes": 1908,
+      "archive_sha256": "155853100c8e0eaad806aebe57d7a35397adc4fca99838cc6454ce03c8db487e",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-5.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-5.log.gz",
+      "source_bytes": 8354,
+      "source_sha256": "bdec773c9645496ce2494cfa8a3238111067339e9af62b004fa802a19d587436",
+      "archive_bytes": 1914,
+      "archive_sha256": "c0629adb46b860c6664f64b3dbf5f113125ddb189d814a06dde6e45e6aed202d",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-6.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-6.log.gz",
+      "source_bytes": 8457,
+      "source_sha256": "fc61b1adfdc0846082c94f47629bcd0fa1e39afc4c2ed49425ba5e5f41cb62f1",
+      "archive_bytes": 1913,
+      "archive_sha256": "bacff7b711ff7bc63e14f16ba2a52c555f41c761873c67b7e1a4b6b0758c60d0",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-7.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-7.log.gz",
+      "source_bytes": 8668,
+      "source_sha256": "f950f29e1fd8e9bb9f83ed3fe39c6e39825c3940b9de81fde34223ff82359ad5",
+      "archive_bytes": 1927,
+      "archive_sha256": "af89c0f9b4ec788c065bc944c372501f96d27363881b2e328c1e30a1f04c7128",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-8.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-8.log.gz",
+      "source_bytes": 8663,
+      "source_sha256": "009de1d6ea186611f8be554635bbbd8e882a0422e8d03c17244af1fcbc9a41d9",
+      "archive_bytes": 1922,
+      "archive_sha256": "e8203095f5993de137e0fea72322d7852637bd9eb9ff7e1577bab6325761130f",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-control-9.log",
+      "archive_path": "cancel-transfer-c19-01/root-control-9.log.gz",
+      "source_bytes": 8766,
+      "source_sha256": "cfdacd967c9ac3bbcf654dd31052dc41c01c89823f74cefc26506e98828d6e80",
+      "archive_bytes": 1928,
+      "archive_sha256": "0cbf312e4b3999b7ccc8a26159e9297d2f7fef2f8135a22a8a2ea7013ef1ee48",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-final-review.json",
+      "archive_path": "cancel-transfer-c19-01/root-final-review.json",
+      "source_bytes": 9002,
+      "source_sha256": "2705749fd280af0ac867a94a4f091d65f71a179e7d66f4a366c1b0ff5e1a52a4",
+      "archive_bytes": 9002,
+      "archive_sha256": "2705749fd280af0ac867a94a4f091d65f71a179e7d66f4a366c1b0ff5e1a52a4",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/root-release.json",
+      "archive_path": "cancel-transfer-c19-01/root-release.json",
+      "source_bytes": 9003,
+      "source_sha256": "4a876176588bf8606ff2a3b8fc031728a5729795d4740b0affcf22fc7c8dbc8c",
+      "archive_bytes": 9003,
+      "archive_sha256": "4a876176588bf8606ff2a3b8fc031728a5729795d4740b0affcf22fc7c8dbc8c",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/runner-report.json",
+      "archive_path": "cancel-transfer-c19-01/runner-report.json",
+      "source_bytes": 571,
+      "source_sha256": "e6816fed5e1d7e25314009be607eb6027f21ee60c554c5e7996bc7a5c792f48d",
+      "archive_bytes": 571,
+      "archive_sha256": "e6816fed5e1d7e25314009be607eb6027f21ee60c554c5e7996bc7a5c792f48d",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/runner.log",
+      "archive_path": "cancel-transfer-c19-01/runner.log.gz",
+      "source_bytes": 937,
+      "source_sha256": "ce2103203085522ee72736abfa2f510a76d6e455634540ffad3cbe114eb08e0a",
+      "archive_bytes": 506,
+      "archive_sha256": "2f6587cf72fe895dccf2dc13796f5d12ac8ca14d9bd870b6114ce7aaac6d4354",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/state.json",
+      "archive_path": "cancel-transfer-c19-01/state.json",
+      "source_bytes": 11418,
+      "source_sha256": "06e20d0aed8d05b2a2e0104f701412e3488ab000a70f0895c55bc0f3374e0d30",
+      "archive_bytes": 11418,
+      "archive_sha256": "06e20d0aed8d05b2a2e0104f701412e3488ab000a70f0895c55bc0f3374e0d30",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/validation.json",
+      "archive_path": "cancel-transfer-c19-01/validation.json",
+      "source_bytes": 13189,
+      "source_sha256": "6e4dffd2190524502fc4f3b6da261ad2a864f6be2fef74e41e496cf0e7faef80",
+      "archive_bytes": 13189,
+      "archive_sha256": "6e4dffd2190524502fc4f3b6da261ad2a864f6be2fef74e41e496cf0e7faef80",
+      "gzip": false,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/runs/cancel-transfer-c19-01/validation.log",
+      "archive_path": "cancel-transfer-c19-01/validation.log.gz",
+      "source_bytes": 13189,
+      "source_sha256": "6e4dffd2190524502fc4f3b6da261ad2a864f6be2fef74e41e496cf0e7faef80",
+      "archive_bytes": 2245,
+      "archive_sha256": "cd9e1e4a25a28d59bd6a83f6c55ae59bf93bd1d994b236a68410d3fcc6eb17eb",
+      "gzip": true,
+      "provenance": "retained actual run"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate19/browser_ui.rsc",
+      "archive_path": "tools/pinned-inputs/browser_ui.rsc",
+      "source_bytes": 242,
+      "source_sha256": "251cfbede521cc5d0a3e36400cf108b12b6bb8eb7956e33a6781d8ef4bf5bc3d",
+      "archive_bytes": 242,
+      "archive_sha256": "251cfbede521cc5d0a3e36400cf108b12b6bb8eb7956e33a6781d8ef4bf5bc3d",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate19/browser_reg.rsc",
+      "archive_path": "tools/pinned-inputs/browser_reg.rsc",
+      "source_bytes": 97,
+      "source_sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "archive_bytes": 97,
+      "archive_sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate19/browser_loc.rsc",
+      "archive_path": "tools/pinned-inputs/browser_loc.rsc",
+      "source_bytes": 74,
+      "source_sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "archive_bytes": 74,
+      "archive_sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-runtime-work/fixture.py",
+      "archive_path": "tools/pinned-inputs/fixture.py",
+      "source_bytes": 7515,
+      "source_sha256": "3ae15a0a48ad2f9055c395e44a258a67395d12790958d3af08c1c676034aa14d",
+      "archive_bytes": 7515,
+      "archive_sha256": "3ae15a0a48ad2f9055c395e44a258a67395d12790958d3af08c1c676034aa14d",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-runtime-work/native.py",
+      "archive_path": "tools/pinned-inputs/native.py",
+      "source_bytes": 9586,
+      "source_sha256": "2a4f6488768369eac9e1c36e1870e4a275ac286b1a1ad1bcf79970a85b1cd22f",
+      "archive_bytes": 9586,
+      "archive_sha256": "2a4f6488768369eac9e1c36e1870e4a275ac286b1a1ad1bcf79970a85b1cd22f",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-runtime-work/snapshot.py",
+      "archive_path": "tools/pinned-inputs/snapshot.py",
+      "source_bytes": 3090,
+      "source_sha256": "98db662fd62a3a1626061946aef0b661f4f0ef48f75cd65dae71d6868ed60569",
+      "archive_bytes": 3090,
+      "archive_sha256": "98db662fd62a3a1626061946aef0b661f4f0ef48f75cd65dae71d6868ed60569",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-runtime-work/validate.py",
+      "archive_path": "tools/pinned-inputs/validate.py",
+      "source_bytes": 21482,
+      "source_sha256": "6e84a4484e6465e58d65675da24e898d168d8a7ecb9535b6ad4966b7113436e0",
+      "archive_bytes": 21482,
+      "archive_sha256": "6e84a4484e6465e58d65675da24e898d168d8a7ecb9535b6ad4966b7113436e0",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh",
+      "archive_path": "tools/pinned-inputs/run-browser.sh",
+      "source_bytes": 7616,
+      "source_sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+      "archive_bytes": 7616,
+      "archive_sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-p1-system-runtime-work/runtime_support.py",
+      "archive_path": "tools/pinned-inputs/runtime_support.py",
+      "source_bytes": 22818,
+      "source_sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9",
+      "archive_bytes": 22818,
+      "archive_sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/run-case.py",
+      "archive_path": "tools/pinned-inputs/run-case.py",
+      "source_bytes": 25157,
+      "source_sha256": "156029d6a868a8a9047e9f9ecd9f35e19b14bd0b271fe133689d5516802445c2",
+      "archive_bytes": 25157,
+      "archive_sha256": "156029d6a868a8a9047e9f9ecd9f35e19b14bd0b271fe133689d5516802445c2",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/symbian-download-suite-resume/control.py",
+      "archive_path": "tools/pinned-inputs/control.py",
+      "source_bytes": 2980,
+      "source_sha256": "0e4d0892169fb4366d7e54f98e8b03d6d647e850caf6f27aab779e4994a635b0",
+      "archive_bytes": 2980,
+      "archive_sha256": "0e4d0892169fb4366d7e54f98e8b03d6d647e850caf6f27aab779e4994a635b0",
+      "gzip": false,
+      "provenance": "actual runtime input hash pinned by this run state.json"
+    },
+    {
+      "source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/downloads/server.py",
+      "archive_path": "tools/pinned-inputs/download-server.py",
+      "source_bytes": 9096,
+      "source_sha256": "34138202c12a0b3937430d22d268fb283d1b31d04b59c8a5163112faa9dfe2cf",
+      "archive_bytes": 9096,
+      "archive_sha256": "34138202c12a0b3937430d22d268fb283d1b31d04b59c8a5163112faa9dfe2cf",
+      "gzip": false,
+      "provenance": "reused HTTP fixture pinned by ready.json"
+    },
+    {
+      "source_path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+      "archive_path": "tools/pinned-inputs/native-interact.py",
+      "source_bytes": 20789,
+      "source_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+      "archive_bytes": 20789,
+      "archive_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+      "gzip": false,
+      "provenance": "actual XTest helper pinned by input ledger"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate19/build-identities.json",
+      "archive_path": "c19/build-identities.json",
+      "source_bytes": 1036,
+      "source_sha256": "028c6b608f7787335dc92baccf86066ea9ce1e4e3a7cc5ab19e9b5343614f402",
+      "archive_bytes": 1036,
+      "archive_sha256": "028c6b608f7787335dc92baccf86066ea9ce1e4e3a7cc5ab19e9b5343614f402",
+      "gzip": false,
+      "provenance": "candidate source/build identity"
+    },
+    {
+      "source_path": "/workspace/symbian-belle-work/candidate19/source-identities.json",
+      "archive_path": "c19/source-identities.json",
+      "source_bytes": 11560,
+      "source_sha256": "8a0f9d22b21c6947b43849721831ec1ace93830f73f1c1fa17af77de741de65e",
+      "archive_bytes": 11560,
+      "archive_sha256": "8a0f9d22b21c6947b43849721831ec1ace93830f73f1c1fa17af77de741de65e",
+      "gzip": false,
+      "provenance": "candidate source/build identity"
+    }
+  ],
+  "excluded": []
+}

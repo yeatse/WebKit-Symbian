@@ -1,0 +1,1 @@
+PASS pressure policy: 9717 checks (thresholds, hysteresis, 9699-event flood, cooldown, unavailable HAL)

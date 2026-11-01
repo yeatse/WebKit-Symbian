@@ -1,0 +1,8 @@
+{
+  "source_log_bytes": 181038,
+  "source_log_sha256": "681ad71b0caa6ee287cb2e3032882cc53b578fb56bcfdae64f7ed0eb39df74d0",
+  "gzip_sha256": "d8c51f30e3fb055fb51b0c53aa4066afc5b98511238e4ceac9671dc96eff0c71",
+  "build_driver_sha256": "4c772e650ab5f12dd087144324b05f4cf9be5c4cf1d2e109c17246bc279e107e",
+  "command": "source host-build-env.sh; ninja -j2 -C EKA2L1/build eka2l1_qt",
+  "scope": "Normal host build, followed by the existing DLL restoration and four known MMF asset hash checks. No guest run."
+}

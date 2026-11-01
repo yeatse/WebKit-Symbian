@@ -9,6 +9,9 @@ list(APPEND WebKitLegacy_SOURCES
     symbian/WebResourceLoadSchedulerSymbian.cpp
     symbian/BackForwardList.cpp
     symbian/SymbianChromeClient.cpp
+    symbian/SymbianClipboard.cpp
+    symbian/SymbianDownload.cpp
+    symbian/SymbianDownloadManager.cpp
     symbian/SymbianCompositor.cpp
     symbian/SymbianEditorClient.cpp
     symbian/SymbianFrameLoaderClient.cpp
@@ -23,6 +26,9 @@ list(APPEND WebKitLegacy_PRIVATE_INCLUDE_DIRECTORIES
 
 list(APPEND WebKitLegacy_PUBLIC_FRAMEWORK_HEADERS
     symbian/WebKitSymbian.h
+    symbian/WebKitSymbianClipboard.h
+    symbian/WebKitSymbianTouch.h
+    symbian/DownloadFile.h
 )
 
 if (ENABLE_VIDEO)

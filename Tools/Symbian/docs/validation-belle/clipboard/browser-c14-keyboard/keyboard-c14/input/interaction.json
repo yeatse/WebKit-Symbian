@@ -1,0 +1,489 @@
+{
+  "status": "INPUT_AND_PAGE_CONTRACT_PASS_PENDING_RUNTIME",
+  "run": "clipboard-keyboard-c14-20261101-01",
+  "mode": "keyboard",
+  "pid": 516403,
+  "origin": "http://localhost:8802",
+  "started_utc": "2026-11-01T02:36:19.320811+00:00",
+  "through_step": 9,
+  "content_rect": [
+    270,
+    77,
+    360,
+    532
+  ],
+  "main_size": [
+    900,
+    700
+  ],
+  "input_module": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+  "input_module_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+  "driver_sha256": "187fcd8bc8aa30d777aa58e635f4db7fff65c5bb5d2bfba60e7463b5b44758c6",
+  "contract_sha256": "048997ff50c929bebdde3ef26dd02ab6b7acb2008b3a64c3533f2402b5b11720",
+  "menu_plan_sha256": null,
+  "clipboard_read_or_written_directly": false,
+  "dom_injection": false,
+  "screenshots_taken": false,
+  "clipboard_restoration": "outer runner responsibility; not observed by this driver",
+  "records": [
+    {
+      "event": "start-pointer-click",
+      "elapsed": 6.004180579009699,
+      "step": 1,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 1,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 6.488167644012719,
+      "step": 1,
+      "operation": "paste",
+      "shortcut": "Ctrl+V",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 1,
+        "operation": "paste",
+        "target": "target",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 270,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 7.799249425006565,
+      "step": 1,
+      "name": "trusted Unicode multiline copy and native paste"
+    },
+    {
+      "event": "start-pointer-click",
+      "elapsed": 8.004157862014836,
+      "step": 2,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 2,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 8.801868184003979,
+      "step": 2,
+      "operation": "paste",
+      "shortcut": "Ctrl+V",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 2,
+        "operation": "paste",
+        "target": "target",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 270,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 10.733244472998194,
+      "step": 2,
+      "name": "trusted partial cut and native paste"
+    },
+    {
+      "event": "start-pointer-click",
+      "elapsed": 10.93775050502154,
+      "step": 3,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 3,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 11.424967482016655,
+      "step": 3,
+      "operation": "paste",
+      "shortcut": "Ctrl+V",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 3,
+        "operation": "paste",
+        "target": "richTarget",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 244,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 12.743653787008952,
+      "step": 3,
+      "name": "contenteditable copy and plain native paste"
+    },
+    {
+      "event": "start-pointer-click",
+      "elapsed": 12.947042629006319,
+      "step": 4,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 4,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 13.75450514201657,
+      "step": 4,
+      "name": "DOM paste remains denied with a trusted click"
+    },
+    {
+      "event": "start-pointer-click",
+      "elapsed": 13.957427556015318,
+      "step": 5,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 5,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 14.441496809013188,
+      "step": 5,
+      "operation": "paste",
+      "shortcut": "Ctrl+V",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 5,
+        "operation": "paste",
+        "target": "target",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 305,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 15.754791582003236,
+      "step": 5,
+      "name": "password copy and cut cannot replace clipboard"
+    },
+    {
+      "event": "start-pointer-click",
+      "elapsed": 15.957561230025021,
+      "step": 6,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 6,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 16.444511087000137,
+      "step": 6,
+      "operation": "paste",
+      "shortcut": "Ctrl+V",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 6,
+        "operation": "paste",
+        "target": "target",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 305,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 17.772524800006067,
+      "step": 6,
+      "name": "readonly cut preserves text and clipboard"
+    },
+    {
+      "event": "start-pointer-click",
+      "elapsed": 17.974741701997118,
+      "step": 7,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 7,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 18.863240011996822,
+      "step": 7,
+      "operation": "copy",
+      "shortcut": "Ctrl+C",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 7,
+        "operation": "copy",
+        "target": "source",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 191,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 20.86800785001833,
+      "step": 7,
+      "operation": "paste",
+      "shortcut": "Ctrl+V",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 7,
+        "operation": "paste",
+        "target": "target",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 270,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 22.78872295402107,
+      "step": 7,
+      "name": "native Copy and native Paste"
+    },
+    {
+      "event": "start-pointer-click",
+      "elapsed": 22.991634181002155,
+      "step": 8,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 8,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 23.786052730021765,
+      "step": 8,
+      "operation": "cut",
+      "shortcut": "Ctrl+X",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 8,
+        "operation": "cut",
+        "target": "source",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 191,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 25.80466658200021,
+      "step": 8,
+      "operation": "paste",
+      "shortcut": "Ctrl+V",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 8,
+        "operation": "paste",
+        "target": "target",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 270,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 27.737716775998706,
+      "step": 8,
+      "name": "native Cut and native Paste"
+    },
+    {
+      "event": "start-pointer-click",
+      "elapsed": 27.94167954500881,
+      "step": 9,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 9,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 28.833374644018477,
+      "step": 9,
+      "operation": "select-all",
+      "shortcut": "Ctrl+A",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 9,
+        "operation": "select-all",
+        "target": "source",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 191,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 29.82438877300592,
+      "step": 9,
+      "operation": "copy",
+      "shortcut": "Ctrl+C",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 9,
+        "operation": "copy",
+        "target": "source",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 191,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 31.828094999014866,
+      "step": 9,
+      "operation": "paste",
+      "shortcut": "Ctrl+V",
+      "action": {
+        "run": "clipboard-keyboard-c14-20261101-01",
+        "step": 9,
+        "operation": "paste",
+        "target": "target",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 270,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 33.75141817101394,
+      "step": 9,
+      "name": "native SelectAll then Copy and Paste"
+    },
+    {
+      "event": "report-contract-passed",
+      "elapsed": 34.26114524700097,
+      "cases": 9
+    }
+  ],
+  "cases": 9,
+  "report": "/workspace/symbian-clipboard-browser-work/reports/clipboard-keyboard-c14-20261101-01-keyboard.json",
+  "report_sha256": "220075253831f7fda64d07043c0b85613df94269446fe36183fb49428576e032",
+  "finished_utc": "2026-11-01T02:36:53.581849+00:00"
+}

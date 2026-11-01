@@ -1,0 +1,59 @@
+{
+  "status": "PASS",
+  "scope": "C14 genuine keyboard input, nine clipboard cases only",
+  "run": "clipboard-keyboard-c14-20261101-01",
+  "mode": "keyboard",
+  "browser_sha256": "b222b858e58703c057c538a8ee65c642e7ceb0b20cdcad47ea523305c86da065",
+  "emulator_sha256": "b2ce947b4781d7253658552e157c6b1b342868effdfbe7bbae3f8c2993cd2fd8",
+  "browser_source_head_at_snapshot": "46234c2b06392d938985296f3b52ac07440a320a",
+  "source_snapshot_files_verified": 70,
+  "launcher_exit": 0,
+  "clipboard_original_state_restored": true,
+  "keyboard_config_and_profile_restored": true,
+  "normal_host_close": "normal Qt close through standard run-browser.sh, launcher exit0; not official EndTask lifecycle proof",
+  "root_observed_session_exits": {
+    "input_driver": 0,
+    "preservation_wrapper": 0,
+    "profile_guard": 0,
+    "independent_page_verify": 0
+  },
+  "root_observed_sessions": {
+    "input_driver": 32804,
+    "preservation_wrapper": 31282
+  },
+  "page_cases": 9,
+  "page_pass": 9,
+  "start_clicks": 9,
+  "native_control_commands": 12,
+  "fep_escape_actions": 0,
+  "dom_injection": false,
+  "screenshots_captured": false,
+  "menu_mode_validated": false,
+  "actual_editor_tap_opens_fep_validated": false,
+  "eka_fep_cancel_candidate_validated": false,
+  "driver_started_utc": "2026-11-01T02:36:19.320811+00:00",
+  "driver_finished_utc": "2026-11-01T02:36:53.581849+00:00",
+  "prior_attempts": [
+    {
+      "run": "clipboard-keyboard-c12-20261101-01",
+      "classification": "FAIL: partial cut/paste exact-range assertion",
+      "raw_wrapper_status": "FAIL",
+      "driver_error": "same-PID FEP opened; review its cancel behavior and calibrate --fep-escape before a new run",
+      "cases_passed": [
+        1
+      ],
+      "fep_escape_count": 0
+    },
+    {
+      "run": "clipboard-keyboard-c12-20261101-02",
+      "classification": "INCOMPLETE: FEP escape then keyboard focus left EKA; raw wrapper/page remain FAIL",
+      "raw_wrapper_status": "FAIL",
+      "driver_error": "keyboard focus left the selected emulator window",
+      "cases_passed": [
+        1
+      ],
+      "fep_escape_count": 1
+    }
+  ],
+  "evidence_note": "Raw driver and wrapper statuses retain their layer-specific pending states; this summary combines page/report, actual input ledger, standard launcher exit and preservation evidence. No new guest/feature runs performed while archiving."
+}

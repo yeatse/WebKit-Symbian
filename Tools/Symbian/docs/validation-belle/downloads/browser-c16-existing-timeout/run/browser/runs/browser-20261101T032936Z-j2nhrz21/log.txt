@@ -1,0 +1,8 @@
+03:29:38.098 WebKit Browser starting
+03:29:38.112 network: starting the connection
+03:29:39.539 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+03:29:40.016 network: connected through "Host network"
+03:29:40.031 load http://localhost:37839/?run=dl-e-01238fe7825b
+console: :0: READY: belle-download-runtime {"run":"dl-e-01238fe7825b","case":"existing"}

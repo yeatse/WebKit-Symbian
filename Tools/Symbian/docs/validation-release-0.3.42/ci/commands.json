@@ -1,0 +1,26 @@
+{
+  "sis_payload_verification": {
+    "command": [
+      "python3",
+      "/workspace/symbian-ci42-validation/verify-payloads.py",
+      "/workspace/symbian-ci42-validation",
+      "--tools-root",
+      "/workspace/WebKit-Symbian-graphics/Tools/Symbian"
+    ],
+    "exit_code": 0,
+    "parser_matches_pinned_source": true
+  },
+  "icu_data_verification": {
+    "command": [
+      "python3",
+      "/workspace/symbian-ci42-validation/verification-tools/Tools/Symbian/tests/icu-idna/run.py",
+      "--icu-root",
+      "/workspace/symbian-work/icu",
+      "--existing-data",
+      "/workspace/symbian-ci42-validation/payloads/icudt70l.dat",
+      "--output",
+      "/workspace/symbian-ci42-validation/icu-payload-idna.json"
+    ],
+    "exit_code": 0
+  }
+}

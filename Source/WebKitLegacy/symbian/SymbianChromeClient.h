@@ -37,6 +37,7 @@ public:
 
 private:
     void chromeDestroyed() final;
+    unsigned maximumTouchPoints() const final;
 
     void setWindowRect(const WebCore::FloatRect&) final { }
     WebCore::FloatRect windowRect() const final;
@@ -85,6 +86,8 @@ private:
     // A touch screen: no hover, a coarse pointer.
     bool hoverSupportedByPrimaryPointingDevice() const final { return false; }
     bool hoverSupportedByAnyAvailablePointingDevice() const final { return false; }
+    // Touch-driven scrolling must not manufacture a hovering mouse pointer.
+    bool shouldDispatchFakeMouseMoveEvents() const final { return false; }
     std::optional<WebCore::PointerCharacteristics> pointerCharacteristicsOfPrimaryPointingDevice() const final { return WebCore::PointerCharacteristics::Coarse; }
     OptionSet<WebCore::PointerCharacteristics> pointerCharacteristicsOfAllAvailablePointingDevices() const final { return WebCore::PointerCharacteristics::Coarse; }
 

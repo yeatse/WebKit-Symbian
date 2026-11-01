@@ -1,0 +1,142 @@
+{
+  "status": "FAIL",
+  "browser_sha256": "20f58cef43d6fa4252546cb337940bfa609ba7ef71d0059ef1336bd126ef5288",
+  "host_sha256": "0d2714494b322684872c0fc036c2f206b8514e54d021dc2ec1e3182af5855b98",
+  "fixture_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+  "content_rect": [
+    270,
+    77,
+    360,
+    532
+  ],
+  "calibration_image_sha256": "23ea9b476a42b6b275d969a83eab49240c17f5fad269a5dc20130ced5acad806",
+  "cases": [
+    {
+      "case": "prevent-start",
+      "run": "24d7a3b1efde47fb8e55f91db1489b71",
+      "url": "http://localhost:8783/?case=prevent-start&run=24d7a3b1efde47fb8e55f91db1489b71",
+      "status": "PASS",
+      "ready": {
+        "run": "24d7a3b1efde47fb8e55f91db1489b71",
+        "maxTouchPoints": 8,
+        "instruction": "Tap once: touchstart.preventDefault must suppress compatibility mouse/click.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 94,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "500149",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "prevent-start",
+        "--run",
+        "24d7a3b1efde47fb8e55f91db1489b71",
+        "--start",
+        "450",
+        "337",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-start/input"
+      ],
+      "input_exit": 0,
+      "launcher_exit": 0
+    },
+    {
+      "case": "prevent-move",
+      "run": "2bdbbfeda3094ffab56e3a0ef25cbb67",
+      "url": "http://localhost:8783/?case=prevent-move&run=2bdbbfeda3094ffab56e3a0ef25cbb67",
+      "status": "PASS",
+      "ready": {
+        "run": "2bdbbfeda3094ffab56e3a0ef25cbb67",
+        "maxTouchPoints": 8,
+        "instruction": "Drag upward at least 30 px: touchmove.preventDefault must prevent scrolling.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 94,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "500212",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "prevent-move",
+        "--run",
+        "2bdbbfeda3094ffab56e3a0ef25cbb67",
+        "--start",
+        "450",
+        "337",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-move/input",
+        "--end",
+        "450",
+        "201"
+      ],
+      "input_exit": 0,
+      "launcher_exit": 0
+    },
+    {
+      "case": "pan",
+      "run": "00aff08c86cb48d4a43a3869bad9f07e",
+      "url": "http://localhost:8783/?case=pan&run=00aff08c86cb48d4a43a3869bad9f07e",
+      "status": "FAIL",
+      "ready": {
+        "run": "00aff08c86cb48d4a43a3869bad9f07e",
+        "maxTouchPoints": 8,
+        "instruction": "Drag upward at least 30 px: native scrolling must cancel DOM touch/pointer streams.",
+        "viewport": {
+          "width": 360,
+          "height": 532
+        },
+        "pad": {
+          "left": 10,
+          "top": 94,
+          "width": 340,
+          "height": 196
+        }
+      },
+      "input_command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+        "--pid",
+        "500273",
+        "--guest-log",
+        "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/log.txt",
+        "--case",
+        "pan",
+        "--run",
+        "00aff08c86cb48d4a43a3869bad9f07e",
+        "--start",
+        "450",
+        "337",
+        "--output",
+        "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/pan/input",
+        "--end",
+        "450",
+        "201"
+      ],
+      "input_exit": 1,
+      "launcher_exit": 1,
+      "error": "Native input or launcher failed"
+    }
+  ]
+}

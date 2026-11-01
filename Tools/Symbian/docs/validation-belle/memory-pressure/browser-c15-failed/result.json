@@ -1,0 +1,458 @@
+{
+  "status": "FAIL",
+  "suite": "memory-pressure",
+  "token": "c5743e863b554fef97bac2c285920177",
+  "started_utc": "2026-11-01T02:56:50.809549+00:00",
+  "forced_cleanup": false,
+  "normal_host_exit": false,
+  "scope": "Normal browser live-object retention under real native RChunk memory pressure",
+  "inputs": {
+    "browser": {
+      "path": "/workspace/symbian-belle-work/candidate15/browser.exe",
+      "exists": true,
+      "mode": 384,
+      "bytes": 58793784,
+      "sha256": "473679d5c12d7dfeb057955ebd2ec0291cdd5db4654b6a3a2c2dba7c31fb995e"
+    },
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "exists": true,
+      "mode": 448,
+      "bytes": 65479136,
+      "sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff"
+    },
+    "browser_reg.rsc": {
+      "path": "/workspace/symbian-belle-work/candidate15/browser_reg.rsc",
+      "exists": true,
+      "mode": 384,
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "browser_loc.rsc": {
+      "path": "/workspace/symbian-belle-work/candidate15/browser_loc.rsc",
+      "exists": true,
+      "mode": 384,
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "browser_ui.rsc": {
+      "path": "/workspace/symbian-belle-work/candidate15/browser_ui.rsc",
+      "exists": true,
+      "mode": 384,
+      "bytes": 192,
+      "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+    },
+    "worker": {
+      "path": "/workspace/symbian-memory-pressure-work/browser-worker-build/build/e32/memory_pressure_probe.exe",
+      "exists": true,
+      "mode": 384,
+      "bytes": 75708,
+      "sha256": "73e73b4bb778a0bd299c161a334c4f4fdf913908e7555026d6621318be9fe10f"
+    },
+    "exit_helper": {
+      "path": "/workspace/symbian-ui-work/app-exit-build/e32/browser_exit_request.exe",
+      "exists": true,
+      "mode": 384,
+      "bytes": 77252,
+      "sha256": "e668e662f15b563b71e5237b910db422f86fc265de7f6a88925b310776e7489d"
+    },
+    "memory_html": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/memory-pressure/browser-live.html",
+      "exists": true,
+      "mode": 384,
+      "bytes": 571,
+      "sha256": "3a9ac4758e50487e548588bbe536e6124a659ca45ec8efd30b4bef23ce3fb852"
+    },
+    "memory_js": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/memory-pressure/browser-live.js",
+      "exists": true,
+      "mode": 384,
+      "bytes": 4007,
+      "sha256": "f2b8c895fc1e16b5b4db4151e37935329244b96460b9fb7b1179cb5e04c12e96"
+    },
+    "memory_validator": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/memory-pressure/validate-browser.py",
+      "exists": true,
+      "mode": 448,
+      "bytes": 5632,
+      "sha256": "a7c0a382e5c7ca849441f232cd8ebd8f3d01d4ae163f7a8b2a1eca3370d0931c"
+    },
+    "qt_launcher": {
+      "path": "/workspace/symbian-p1-system-runtime-c15-work/qt-launch-process.py",
+      "exists": true,
+      "mode": 448,
+      "bytes": 8386,
+      "sha256": "901a8d76a2e30218e84f1ace295786787ed768653e1128ff8aba85c80ef66023"
+    },
+    "ui_config": {
+      "path": "/workspace/symbian-p1-system-runtime-work/ui-config-20261101.json",
+      "exists": true,
+      "mode": 384,
+      "bytes": 560,
+      "sha256": "796e4a635c151dd60a15d919d553e852880b4b463a69decf5ad5fe4e1bdb185e"
+    }
+  },
+  "restoration": {
+    "backup_directory": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177",
+    "files": [
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+          "exists": true,
+          "mode": 448,
+          "directory": true,
+          "device": 27,
+          "inode": 932801,
+          "mtime_ns": 1793501734621225665
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177/0",
+        "directory": true,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+          "exists": true,
+          "mode": 448,
+          "directory": true,
+          "device": 27,
+          "inode": 932801,
+          "mtime_ns": 1793501734621225665
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 58793784,
+          "sha256": "473679d5c12d7dfeb057955ebd2ec0291cdd5db4654b6a3a2c2dba7c31fb995e"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177/1",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 58793784,
+          "sha256": "473679d5c12d7dfeb057955ebd2ec0291cdd5db4654b6a3a2c2dba7c31fb995e"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177/2",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177/3",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 192,
+          "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177/4",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 192,
+          "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/memory_pressure_probe.exe",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/memory_pressure_probe.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 86360,
+          "sha256": "d13a09da3554a27dd172ebae77ec9818831fd2f425abccf1412a08a6c878c689"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177/5",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/memory_pressure_probe.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 86360,
+          "sha256": "d13a09da3554a27dd172ebae77ec9818831fd2f425abccf1412a08a6c878c689"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser_exit_request.exe",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser_exit_request.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 77252,
+          "sha256": "e668e662f15b563b71e5237b910db422f86fc265de7f6a88925b310776e7489d"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177/6",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser_exit_request.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 77252,
+          "sha256": "e668e662f15b563b71e5237b910db422f86fc265de7f6a88925b310776e7489d"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/memory-pressure-worker.log",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/memory-pressure-worker.log",
+          "exists": false
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177/7",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/memory-pressure-worker.log",
+          "exists": false
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/memory-pressure-start",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/memory-pressure-start",
+          "exists": false
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-c5743e863b554fef97bac2c285920177/8",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/memory-pressure-start",
+          "exists": false
+        }
+      }
+    ],
+    "restored": true
+  },
+  "logs": {
+    "browser.log": {
+      "path": "/workspace/symbian-p1-system-runtime-c15-work/memory-c15-01/browser.log",
+      "exists": true,
+      "mode": 384,
+      "bytes": 1365,
+      "sha256": "dd0dcb1cb1f669ca28c2a381103e3198d98bb43516771b35879778038c5c53f4"
+    },
+    "memory-pressure-worker.log": {
+      "path": "/workspace/symbian-p1-system-runtime-c15-work/memory-c15-01/memory-pressure-worker.log",
+      "exists": true,
+      "mode": 384,
+      "bytes": 1429,
+      "sha256": "5a5ba5cc8efe7d5e90544749ea8742781d4b7f79550a1d4e9f42ca24c392d931"
+    }
+  },
+  "runner_sha256": "e87a78277462db65be6237b275fbcd0cbbc7fd779c60a050b44b3550bb7fa568",
+  "pins_sha256": "d2f35233f876ac60666ceb3cdb79097c59438321bc2913cf4215067598c68f24",
+  "deployed": [
+    {
+      "source": {
+        "path": "/workspace/symbian-belle-work/candidate15/browser.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 58793784,
+        "sha256": "473679d5c12d7dfeb057955ebd2ec0291cdd5db4654b6a3a2c2dba7c31fb995e"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 58793784,
+        "sha256": "473679d5c12d7dfeb057955ebd2ec0291cdd5db4654b6a3a2c2dba7c31fb995e"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/symbian-belle-work/candidate15/browser_reg.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 97,
+        "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 97,
+        "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/symbian-belle-work/candidate15/browser_loc.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 74,
+        "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 74,
+        "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/symbian-belle-work/candidate15/browser_ui.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 192,
+        "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 192,
+        "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/symbian-memory-pressure-work/browser-worker-build/build/e32/memory_pressure_probe.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 75708,
+        "sha256": "73e73b4bb778a0bd299c161a334c4f4fdf913908e7555026d6621318be9fe10f"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/memory_pressure_probe.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 75708,
+        "sha256": "73e73b4bb778a0bd299c161a334c4f4fdf913908e7555026d6621318be9fe10f"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/symbian-ui-work/app-exit-build/e32/browser_exit_request.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 77252,
+        "sha256": "e668e662f15b563b71e5237b910db422f86fc265de7f6a88925b310776e7489d"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser_exit_request.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 77252,
+        "sha256": "e668e662f15b563b71e5237b910db422f86fc265de7f6a88925b310776e7489d"
+      }
+    }
+  ],
+  "worker_hard_cap_bytes": 260046848,
+  "synthetic_pressure": false,
+  "browser_test_hook": false,
+  "wm_close_sent": false,
+  "url": "http://localhost:52037/browser-live.html?run=c5743e863b554fef97bac2c285920177",
+  "script_url": "http://localhost:52037/browser-live.js",
+  "command": [
+    "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+    "--device",
+    "RM-707",
+    "--run",
+    "C:\\sys\\bin\\browser.exe",
+    " http://localhost:52037/browser-live.html?run=c5743e863b554fef97bac2c285920177"
+  ],
+  "host_pid": 519791,
+  "launched_monotonic": 238289.015948927,
+  "deadline_monotonic": 238439.015504062,
+  "page_ready_monotonic": 238298.128784769,
+  "subprocesses": [
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/symbian-p1-system-runtime-c15-work/qt-launch-process.py",
+        "--execute",
+        "--pid",
+        "519791",
+        "--guest-exe",
+        "C:\\sys\\bin\\memory_pressure_probe.exe",
+        "--ui-config",
+        "/workspace/symbian-p1-system-runtime-work/ui-config-20261101.json",
+        "--output-dir",
+        "/workspace/symbian-p1-system-runtime-c15-work/memory-c15-01/worker-ui",
+        "--timeout",
+        "20"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"status\": \"INPUT_SENT\",\n  \"guest_exe\": \"C:\\\\sys\\\\bin\\\\memory_pressure_probe.exe\",\n  \"ui_config\": {\n    \"path\": \"/workspace/symbian-p1-system-runtime-work/ui-config-20261101.json\",\n    \"bytes\": 560,\n    \"sha256\": \"796e4a635c151dd60a15d919d553e852880b4b463a69decf5ad5fe4e1bdb185e\"\n  },\n  \"calibrated\": true,\n  \"xinput_helper\": {\n    \"path\": \"/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py\",\n    \"bytes\": 20789,\n    \"sha256\": \"3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0\"\n  },\n  \"pid\": 519791,\n  \"actions\": [\n    {\n      \"action\": \"open Emulation menu\",\n      \"point\": [\n        75,\n        10\n      ],\n      \"monotonic\": 238298.36208833\n    },\n    {\n      \"action\": \"select Launch process\",\n      \"point\": [\n        110,\n        77\n      ],\n      \"monotonic\": 238298.86358962\n    },\n    {\n      \"action\": \"focus executable path\",\n      \"point\": [\n        400,\n        58\n      ],\n      \"monotonic\": 238299.366738814\n    },\n    {\n      \"action\": \"typed executable path through XTest\",\n      \"guest_exe\": \"C:\\\\sys\\\\bin\\\\memory_pressure_probe.exe\",\n      \"monotonic\": 238302.648466266\n    },\n    {\n      \"action\": \"Launch\",\n      \"point\": [\n        748,\n        186\n      ],\n      \"monotonic\": 238302.849125892\n    }\n  ],\n  \"main_window\": {\n    \"id\": \"0x60000b\",\n    \"geometry\": [\n      1,\n      25,\n      900,\n      700\n    ]\n  },\n  \"dialog_window\": {\n    \"id\": \"0x60005f\",\n    \"geometry\": [\n      0,\n      212,\n      885,\n      246\n    ]\n  },\n  \"guest_launch_confirmed\": false\n}\n",
+      "stderr": ""
+    }
+  ],
+  "secondary_launches": [
+    {
+      "guest_executable": "C:\\sys\\bin\\memory_pressure_probe.exe",
+      "input_record": {
+        "path": "/workspace/symbian-p1-system-runtime-c15-work/memory-c15-01/worker-ui/input.json",
+        "bytes": 1537,
+        "sha256": "239e319a8956b56a9a15992d99a7c4c31b40b1d790ce925df539ed48bcbca553"
+      },
+      "same_host_pid": 519791,
+      "method": "Qt Emulation -> Launch process via PID-bound XTest"
+    }
+  ],
+  "start_signal": {
+    "token": "c5743e863b554fef97bac2c285920177",
+    "bytes": 33,
+    "written_after_unique_ready": true,
+    "monotonic": 238302.976418534
+  },
+  "host_exit": -11,
+  "error": "Host exited before live retention PASS and normal worker EXIT",
+  "finished_utc": "2026-11-01T02:57:18.125316+00:00",
+  "host_log": {
+    "path": "/workspace/symbian-p1-system-runtime-c15-work/memory-c15-01/emulator.log",
+    "exists": true,
+    "mode": 384,
+    "bytes": 223169,
+    "sha256": "0a2aea5b64387c9d9b7eefcbd1f259698a9458d7523be870bdba1790089422d0"
+  },
+  "runtime_locks_released": true
+}

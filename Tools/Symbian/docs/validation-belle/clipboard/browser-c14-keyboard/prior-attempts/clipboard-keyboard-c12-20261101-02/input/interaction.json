@@ -1,0 +1,107 @@
+{
+  "status": "FAIL",
+  "run": "clipboard-keyboard-c12-20261101-02",
+  "mode": "keyboard",
+  "pid": 513226,
+  "origin": "http://localhost:8802",
+  "started_utc": "2026-11-01T02:22:54.450105+00:00",
+  "through_step": 9,
+  "content_rect": [
+    270,
+    77,
+    360,
+    532
+  ],
+  "main_size": [
+    900,
+    700
+  ],
+  "input_module": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+  "input_module_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+  "driver_sha256": "4e9ea59e424f31c7929d26fff6a1aa9b7887b67c6de2018e9293e8d0f570082e",
+  "contract_sha256": "048997ff50c929bebdde3ef26dd02ab6b7acb2008b3a64c3533f2402b5b11720",
+  "menu_plan_sha256": null,
+  "clipboard_read_or_written_directly": false,
+  "dom_injection": false,
+  "screenshots_taken": false,
+  "clipboard_restoration": "outer runner responsibility; not observed by this driver",
+  "records": [
+    {
+      "event": "start-pointer-click",
+      "elapsed": 5.846959798014723,
+      "step": 1,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c12-20261101-02",
+        "step": 1,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-keyboard-operation",
+      "elapsed": 6.330268021993106,
+      "step": 1,
+      "operation": "paste",
+      "shortcut": "Ctrl+V",
+      "action": {
+        "run": "clipboard-keyboard-c12-20261101-02",
+        "step": 1,
+        "operation": "paste",
+        "target": "target",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 270,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "case-passed",
+      "elapsed": 7.646126245002961,
+      "step": 1,
+      "name": "trusted Unicode multiline copy and native paste"
+    },
+    {
+      "event": "start-pointer-click",
+      "elapsed": 7.8477416730020195,
+      "step": 2,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-keyboard-c12-20261101-02",
+        "step": 2,
+        "operation": "start",
+        "target": "start",
+        "mode": "keyboard",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "fep-escape",
+      "elapsed": 8.229618225013837,
+      "window": "0x600064",
+      "geometry": [
+        241,
+        185,
+        400,
+        300
+      ]
+    }
+  ],
+  "error": "keyboard focus left the selected emulator window",
+  "finished_utc": "2026-11-01T02:23:03.084349+00:00"
+}

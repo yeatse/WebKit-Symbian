@@ -74,3 +74,11 @@ list(APPEND WebCore_LIBRARIES
     ${MBEDX509_LIBRARY}
     ${MBEDCRYPTO_LIBRARY}
 )
+
+# Isolate native descriptors/leaves from WebCore's no-exceptions translation units.
+list(APPEND WebCore_SOURCES platform/symbian/NetworkStateNotifierSymbianNative.cpp)
+set_source_files_properties(platform/symbian/NetworkStateNotifierSymbianNative.cpp PROPERTIES
+    INCLUDE_DIRECTORIES "${SYMBIAN_SDK_PREFIX}/include/native"
+    COMPILE_OPTIONS "-fexceptions;-fno-rtti"
+    COMPILE_DEFINITIONS "__SUPPORT_CPP_EXCEPTIONS__;__LEAVE_EQUALS_THROW__")
+list(APPEND WebCore_LIBRARIES "${SYMBIAN_SDK_PREFIX}/proxies/connmon/connmon.dso")

@@ -1,7 +1,6 @@
 list(APPEND WTF_SOURCES
     generic/MainThreadGeneric.cpp
     generic/MemoryFootprintGeneric.cpp
-    generic/MemoryPressureHandlerGeneric.cpp
     generic/RunLoopGeneric.cpp
     generic/WorkQueueGeneric.cpp
 
@@ -14,6 +13,8 @@ list(APPEND WTF_SOURCES
     symbian/FileSystemSymbian.cpp
     symbian/FileSystemSymbianNative.cpp
     symbian/LibcxxSupport.cpp
+    symbian/MemoryPressureHandlerSymbian.cpp
+    symbian/MemoryPressureMonitorSymbianNative.cpp
     symbian/OSAllocatorSymbian.cpp
     symbian/SymbianSystem.cpp
 
@@ -26,6 +27,7 @@ list(APPEND WTF_SOURCES
 
 list(APPEND WTF_PUBLIC_HEADERS
     symbian/SymbianSystem.h
+    symbian/MemoryPressureHandlerSymbian.h
 )
 
 list(APPEND WTF_LIBRARIES

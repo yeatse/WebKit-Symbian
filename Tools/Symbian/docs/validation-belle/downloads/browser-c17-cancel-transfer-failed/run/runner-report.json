@@ -1,0 +1,29 @@
+{
+  "run": "dl-x-2b6107823e76",
+  "case": "cancel-transfer",
+  "url": "http://localhost:43067/?run=dl-x-2b6107823e76",
+  "host_exit_code": null,
+  "normal_close": false,
+  "forced_cleanup": null,
+  "browser_sha256": "0d91d91ea1e016b7725097bac0768a9aa2fdf9710b765795769d2da07608a1c8",
+  "emulator_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+  "finished_utc": "2026-11-01T03:44:03.108245+00:00",
+  "native_ui_reviewed": false,
+  "selected_guest_path": null,
+  "functional_failure": {
+    "reason": "unexpected terminal callback",
+    "expected": {
+      "terminal": 1,
+      "error": 0,
+      "cleanup": 0
+    },
+    "observed": [
+      {
+        "id": 1,
+        "terminal": 4,
+        "error": 28,
+        "cleanup": 0
+      }
+    ]
+  }
+}

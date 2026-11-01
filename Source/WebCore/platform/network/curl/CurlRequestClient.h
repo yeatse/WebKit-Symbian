@@ -26,6 +26,7 @@
 #pragma once
 
 #include <wtf/AbstractRefCounted.h>
+#include <wtf/CompletionHandler.h>
 #include <wtf/Ref.h>
 
 namespace WebCore {
@@ -42,6 +43,15 @@ public:
     virtual void curlDidSendData(CurlRequest&, unsigned long long bytesSent, unsigned long long totalBytesToBeSent) = 0;
     virtual void curlDidReceiveResponse(CurlRequest&, CurlResponse&&) = 0;
     virtual void curlDidReceiveData(CurlRequest&, Ref<SharedBuffer>&&) = 0;
+#if OS(SYMBIAN)
+    // Consumers that defer delivery retain consumed with the buffer. It must
+    // run after that buffer is consumed or discarded, including cancellation.
+    virtual void curlDidReceiveDownloadData(CurlRequest& request, Ref<SharedBuffer>&& buffer, CompletionHandler<void()>&& consumed)
+    {
+        curlDidReceiveData(request, WTF::move(buffer));
+        consumed();
+    }
+#endif
     virtual void curlDidComplete(CurlRequest&, NetworkLoadMetrics&&) = 0;
     virtual void curlDidFailWithError(CurlRequest&, ResourceError&&, CertificateInfo&&) = 0;
 };

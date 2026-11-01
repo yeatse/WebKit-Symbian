@@ -1,0 +1,11 @@
+{
+  "scope": "Five pinned assets for the actual 2026-11-01 local build; update only after validating a new build",
+  "runtime_patch_dir": "EKA_BUILD/bin/patch",
+  "assets": {
+    "avkonfep_general.dll": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b",
+    "mediaclientaudio_general.dll": "a07674f2957410a00f0bcdbc997590feca50eb028147a1497934713d8aa65d49",
+    "mediaclientvideo_v100.dll": "03fd46f1ce54a2b5863fe841e87bdc17b99fbd05ef99459f5a56b7dbd75209c3",
+    "mediaclientaudio.dll.map": "5fadc737e5182ddd24230885af23717cd7537daf7427501ff09e43a9e40df5d3",
+    "mediaclientvideo.dll.map": "1d0f3e76bcbc25d65207b0cb5674bcbbc9c19e58bdf0959b2d3ac0f7f9824282"
+  }
+}

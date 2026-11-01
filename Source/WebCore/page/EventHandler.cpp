@@ -5374,8 +5374,16 @@ static HitTestResult hitTestResultInFrame(LocalFrame* frame, const LayoutPoint& 
     return result;
 }
 
-Expected<bool, RemoteFrameGeometryTransformer> EventHandler::handleTouchEvent(const PlatformTouchEvent& event)
+Expected<bool, RemoteFrameGeometryTransformer> EventHandler::handleTouchEvent(const PlatformTouchEvent& event
+#if OS(SYMBIAN)
+    , bool* touchEventPrevented
+#endif
+)
 {
+#if OS(SYMBIAN)
+    if (touchEventPrevented)
+        *touchEventPrevented = false;
+#endif
     Ref frame = m_frame.get();
 
     // First build up the lists to use for the 'touches', 'targetTouches' and 'changedTouches' attributes
@@ -5505,7 +5513,11 @@ Expected<bool, RemoteFrameGeometryTransformer> EventHandler::handleTouchEvent(co
         if (!targetFrame)
             continue;
 
-#if PLATFORM(WPE) || PLATFORM(GTK)
+#if PLATFORM(WPE) || PLATFORM(GTK) || OS(SYMBIAN)
+#if OS(SYMBIAN)
+        // Stationary contacts belong in TouchLists, not duplicate pointermove.
+        if (pointState != PlatformTouchPoint::TouchStationary) {
+#endif
         RefPtr<EventTarget> pointerTarget = touchTarget;
 
         if (pointState != PlatformTouchPoint::TouchPressed) {
@@ -5524,7 +5536,13 @@ Expected<bool, RemoteFrameGeometryTransformer> EventHandler::handleTouchEvent(co
         // Apple's m_touchLastGlobalPositionAndDeltaMap
         RefPtr page = document->protectedPage();
         page->pointerCaptureController().dispatchEventForTouchAtIndex(
-            *pointerTarget, event, index, !index, *document->windowProxy(), { 0, 0 });
+            *pointerTarget, event, index,
+#if OS(SYMBIAN)
+            point.isPrimary(),
+#else
+            !index,
+#endif
+            *document->windowProxy(), { 0, 0 });
 
         // https://w3c.github.io/pointerevents/#suppressing-a-compatibility-mouse-event
         // If pointerdown was canceled via preventDefault(), suppress compatibility mouse events
@@ -5532,6 +5550,9 @@ Expected<bool, RemoteFrameGeometryTransformer> EventHandler::handleTouchEvent(co
         // doneWithTouchEvent(wasEventHandled=true), preventing gesture-based mouse synthesis.
         if (page->pointerCaptureController().preventsCompatibilityMouseEventsForIdentifier(PointerEvent::pointerIdForTouchPoint(point)))
             swallowedEvent = true;
+#if OS(SYMBIAN)
+        }
+#endif
 #endif
 
         // pagePoint should always be relative to the target elements containing frame.
@@ -5596,6 +5617,10 @@ Expected<bool, RemoteFrameGeometryTransformer> EventHandler::handleTouchEvent(co
                 stateName, downcast<Node>(*target).document().windowProxy(), { }, event.modifiers());
             target->dispatchEvent(touchEvent);
             swallowedEvent = swallowedEvent || touchEvent->defaultPrevented() || touchEvent->defaultHandled();
+#if OS(SYMBIAN)
+            if (touchEventPrevented)
+                *touchEventPrevented |= touchEvent->defaultPrevented() || touchEvent->defaultHandled();
+#endif
         }
     }
 

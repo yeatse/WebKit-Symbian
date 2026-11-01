@@ -1,0 +1,32 @@
+{
+  "status": "SCRIPT_PREPARATION_CHECKS_PASS_FULL_REBUILD_NOT_RUN",
+  "checks": [
+    "AST parse of both Python scripts",
+    "CLI --help",
+    "Actual --prepare-only reads patched EKA and SDK without invoking compiler/converter",
+    "11 staged files byte-identical to original real build inputs",
+    "Dispatch differs only by local include path",
+    "Official git blobs and SHA256 verify",
+    "Portable scripts/patch have no machine-specific absolute paths"
+  ],
+  "full_portable_rebuild_run": false,
+  "guest_run": false,
+  "shared_sdk_modified": false,
+  "shared_eka_modified": false,
+  "historical_header": {
+    "bytes": 4390,
+    "sha256": "c83101290a8e283da89f083a16d96da2f2a5d9438ae74f3e3019977b0f16f418",
+    "note": "One extra final LF relative to exact official Git blob"
+  },
+  "portable_header": {
+    "bytes": 4389,
+    "sha256": "2333e6bdce3a1bb21c4726f33439e5ac1f7dbcb0d417882ee98de9e977653ca1",
+    "git_blob": "72727614eb4a380f2941e53a67719402fb944077"
+  },
+  "only_header_difference": "one additional EOF LF in the previously built local header",
+  "independent_script_review": {
+    "status": "no blockers",
+    "reviewed": "path isolation, prepare-only has no toolchain calls, CMake data flow, explicit plugin UID2 launcher",
+    "compilation_or_guest_run": false
+  }
+}

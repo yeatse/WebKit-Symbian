@@ -1,0 +1,6 @@
+{
+  "actual_get02_source_sha256": "b998df65b0ecf351fb9fb9ac19a92e7247a074767234eff18de4a9120c9e0506",
+  "previous_preparation_source_sha256": "706ad4d7faae5e96a57b9e335a61066a3338170a6776fb59ae347872ff50de4e",
+  "difference": "root added parents=True to output mkdir before get-c13-02",
+  "evidence_scope": "source snapshot saved after actual get02 pass, before subsequent setup-error handling fix; no new guest run claimed"
+}

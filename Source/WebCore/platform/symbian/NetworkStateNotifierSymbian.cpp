@@ -24,17 +24,34 @@
 
 #include "config.h"
 #include "NetworkStateNotifier.h"
+#include "NetworkStateNotifierSymbianNative.h"
+
+#include <wtf/MainThread.h>
 
 namespace WebCore {
 
-// FIXME: Follow the connection manager (RConnectionMonitor) for the online state.
+// NetworkStateNotifier is process-lived. The native observer uses the same UI
+// active-scheduler thread; its callback only queues WebCore main-thread work.
+static void* networkObserver;
+
 void NetworkStateNotifier::updateStateWithoutNotifying()
 {
-    m_isOnLine = true;
+    startObserving();
+    bool online;
+    if (SymbianNetworkState::state(networkObserver, online))
+        m_isOnLine = online;
 }
 
 void NetworkStateNotifier::startObserving()
 {
+    ASSERT(isMainThread());
+    if (networkObserver)
+        return;
+    networkObserver = SymbianNetworkState::createObserver([](void*) {
+        callOnMainThread([] {
+            singleton().updateStateSoon();
+        });
+    }, nullptr);
 }
 
 } // namespace WebCore

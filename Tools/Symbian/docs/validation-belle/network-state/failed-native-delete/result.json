@@ -1,0 +1,12 @@
+{
+  "status": "FAIL",
+  "scope": "native RConnection and ConnMon baseline before patch 0020",
+  "expected_total_checks": 19,
+  "image_sha256": "99f26b90ec66d1690cfb17e2f78999bdfd8a012395c36d87ebe167d6676c8f83",
+  "emulator_sha256": "71cbce0aa8a8eff9d167614a34f2870d26387df18b3940cf4818a34524933093",
+  "forced_cleanup": false,
+  "host_pid": 435827,
+  "host_exit": 0,
+  "panic_or_access_violation": true,
+  "error": "missing or duplicate result/guest-exit records"
+}

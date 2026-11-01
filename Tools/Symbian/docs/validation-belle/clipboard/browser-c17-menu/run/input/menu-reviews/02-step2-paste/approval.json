@@ -1,0 +1,20 @@
+{
+  "run": "clipboard-menu-c17-20261101-01",
+  "step": 2,
+  "operation": "paste",
+  "observed_label": "Paste",
+  "opened_sha256": "5e02b99fa3d5689b5cd52e796376583cece459b48b3769b56f58f6d4140ce87f",
+  "pid": 526512,
+  "window": "0x60000b",
+  "geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "point": [
+    450,
+    445
+  ],
+  "screenshots_reviewed": true
+}

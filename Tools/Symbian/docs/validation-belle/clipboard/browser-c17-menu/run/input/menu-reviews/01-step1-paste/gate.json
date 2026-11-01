@@ -1,0 +1,20 @@
+{
+  "run": "clipboard-menu-c17-20261101-01",
+  "step": 1,
+  "operation": "paste",
+  "expected_label": "Paste",
+  "pid": 526512,
+  "window": "0x60000b",
+  "geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "opened": {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-20261101-01/input/menu-reviews/01-step1-paste/opened.png",
+    "sha256": "d35c592864b5b4eff6ee2e93bfa375ea25572329512005c9032c767f26c9cf96"
+  },
+  "state": "WAITING_ROOT_POINT_REVIEW",
+  "no_edit_command_selected": true
+}

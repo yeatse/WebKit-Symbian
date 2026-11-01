@@ -1,0 +1,10 @@
+02:25:49.946 WebKit Browser starting
+02:25:49.966 network: starting the connection
+02:25:51.391 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+02:25:51.875 network: connected through "Host network"
+02:25:51.893 load http://localhost:8783/?case=pointer-pan&run=dc3109ae147746aab259dfd51dab34b5
+console: http://localhost:8783/?case=pointer-pan&run=dc3109ae147746aab259dfd51dab34b5:35: SYMBIAN TOUCH pointer-pan READY {"run":"dc3109ae147746aab259dfd51dab34b5","maxTouchPoints":8,"instruction":"Drag upward at least 30 px: pointerdown.preventDefault must still allow native scrolling.","viewport":{"width":360,"height":532},"pad":{"left":10,"top":111,"width":340,"height":196}}
+console: http://localhost:8783/?case=pointer-pan&run=dc3109ae147746aab259dfd51dab34b5:35: SYMBIAN TOUCH pointer-pan DONE PASS native sequence validated; maxTouchPoints=8, peak contacts=1 {"pointerdown":1,"touchstart":1,"gotpointercapture":1,"pointermove":1,"touchmove":1,"changed-touch-move":1,"pointercancel":1,"lostpointercapture":1,"touchcancel":1}
+console: http://localhost:8783/?case=pointer-pan&run=dc3109ae147746aab259dfd51dab34b5:35: SYMBIAN TOUCH pointer-pan EVENTS [{"type":"pointerdown","target":"content","pointerId":2,"primary":true,"pointerType":"touch"},{"type":"touchstart","target":"content","touches":[0],"changed":[0]},{"type":"gotpointercapture","target":"content","pointerId":2,"primary":true,"pointerType":"touch"},{"type":"pointermove","target":"content","pointerId":2,"primary":true,"pointerType":"touch"},{"type":"touchmove","target":"content","touches":[0],"changed":[0]},{"type":"pointercancel","target":"content","pointerId":2,"primary":true,"pointerType":"touch"},{"type":"lostpointercapture","target":"content","pointerId":2,"primary":true,"pointerType":"touch"},{"type":"touchcancel","target":"content","touches":[],"changed":[0]}]

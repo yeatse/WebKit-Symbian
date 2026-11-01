@@ -1,0 +1,16 @@
+{
+  "status": "prepared; post-fix runtime pending",
+  "unchanged_suite_case_counts": [
+    12,
+    3,
+    1
+  ],
+  "note": "Preserved candidate9/10 identities remain in their own result files. Main-origin 24 MiB and all quota thresholds are unchanged; a second-origin 20 MiB Blob is checked after restart.",
+  "sha256": {
+    "Tools/Symbian/tests/idb-quota/page.js": "bd50aa06cbe79495cb782ebeb56f4faf99261914dd79c1a34eba54a950e51480",
+    "Tools/Symbian/tests/idb-quota/contract.py": "88f86d018301ae0fa501b1f22a6fcf57d886750a56e8f404a9bef0bf80fe23c6",
+    "Tools/Symbian/tests/native-large-file/probe.cpp": "eeec5e1e616fe5a5823de6d0bb4ecc808b13eda8880222a74869f7b7cd9257f1",
+    "Tools/Symbian/tests/native-large-file/expected-patterns.json": "f6d99c26e0aab056c72227149434ce917f9dbf9fba97d8e4b9b29eaa9f788ab2",
+    "Tools/Symbian/tests/native-idb-copy/probe.cpp": "4092a3ed92ac2f3f408b9ef530a026d5a2233402d38befb65a2af91f51bd19f0"
+  }
+}

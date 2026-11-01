@@ -1,0 +1,192 @@
+
+/workspace/symbian-memory-pressure-work/native-threshold-final/build/CMakeFiles/memory_pressure_probe.dir/MemoryPressureMonitorSymbianNative.cpp.obj:     file format elf32-littlearm
+
+
+Disassembly of section .text._ZN3WTF13SymbianSystem27createMemoryPressureMonitorEPFvPvjiES1_Ri:
+
+00000000 <WTF::SymbianSystem::createMemoryPressureMonitor(void (*)(void*, unsigned int, int), void*, int&)>:
+   0:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
+   4:	e1a04002 	mov	r4, r2
+   8:	e3500000 	cmp	r0, #0
+   c:	0a000028 	beq	b4 <WTF::SymbianSystem::createMemoryPressureMonitor(void (*)(void*, unsigned int, int), void*, int&)+0xb4>
+  10:	e1a06001 	mov	r6, r1
+  14:	e1a07000 	mov	r7, r0
+  18:	ebfffffe 	bl	0 <CActiveScheduler::Current()>
+			18: R_ARM_CALL	CActiveScheduler::Current()
+  1c:	e3500000 	cmp	r0, #0
+  20:	0a000023 	beq	b4 <WTF::SymbianSystem::createMemoryPressureMonitor(void (*)(void*, unsigned int, int), void*, int&)+0xb4>
+  24:	e3a00028 	mov	r0, #40	@ 0x28
+  28:	ebfffffe 	bl	0 <User::AllocZ(int)>
+			28: R_ARM_CALL	User::AllocZ(int)
+  2c:	e3500000 	cmp	r0, #0
+  30:	0a000023 	beq	c4 <WTF::SymbianSystem::createMemoryPressureMonitor(void (*)(void*, unsigned int, int), void*, int&)+0xc4>
+  34:	e3a01000 	mov	r1, #0
+  38:	e1a05000 	mov	r5, r0
+  3c:	e3a08000 	mov	r8, #0
+  40:	ebfffffe 	bl	0 <CActive::CActive(int)>
+			40: R_ARM_CALL	CActive::CActive(int)
+  44:	e580801c 	str	r8, [r0, #28]
+  48:	e5807020 	str	r7, [r0, #32]
+  4c:	e5806024 	str	r6, [r0, #36]	@ 0x24
+  50:	e59f0094 	ldr	r0, [pc, #148]	@ ec <WTF::SymbianSystem::createMemoryPressureMonitor(void (*)(void*, unsigned int, int), void*, int&)+0xec>
+  54:	e2800008 	add	r0, r0, #8
+  58:	e5850000 	str	r0, [r5]
+  5c:	e1a00005 	mov	r0, r5
+  60:	ebfffffe 	bl	0 <CActiveScheduler::Add(CActive*)>
+			60: R_ARM_CALL	CActiveScheduler::Add(CActive*)
+  64:	e285601c 	add	r6, r5, #28
+  68:	e1a00006 	mov	r0, r6
+  6c:	ebfffffe 	bl	0 <RChangeNotifier::Create()>
+			6c: R_ARM_CALL	RChangeNotifier::Create()
+  70:	e3500000 	cmp	r0, #0
+  74:	1a000004 	bne	8c <WTF::SymbianSystem::createMemoryPressureMonitor(void (*)(void*, unsigned int, int), void*, int&)+0x8c>
+  78:	e2851004 	add	r1, r5, #4
+  7c:	e1a00006 	mov	r0, r6
+  80:	ebfffffe 	bl	0 <RChangeNotifier::Logon(TRequestStatus&) const>
+			80: R_ARM_CALL	RChangeNotifier::Logon(TRequestStatus&) const
+  84:	e3500000 	cmp	r0, #0
+  88:	0a000011 	beq	d4 <WTF::SymbianSystem::createMemoryPressureMonitor(void (*)(void*, unsigned int, int), void*, int&)+0xd4>
+  8c:	e5840000 	str	r0, [r4]
+  90:	e1a00005 	mov	r0, r5
+  94:	ebfffffe 	bl	0 <CActive::Cancel()>
+			94: R_ARM_CALL	CActive::Cancel()
+  98:	e1a00006 	mov	r0, r6
+  9c:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			9c: R_ARM_CALL	RHandleBase::Close()
+  a0:	e1a00005 	mov	r0, r5
+  a4:	ebfffffe 	bl	0 <CActive::~CActive()>
+			a4: R_ARM_CALL	CActive::~CActive()
+  a8:	ebfffffe 	bl	0 <User::Free(void*)>
+			a8: R_ARM_CALL	User::Free(void*)
+  ac:	e3a00000 	mov	r0, #0
+  b0:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
+  b4:	e3e00011 	mvn	r0, #17
+  b8:	e5840000 	str	r0, [r4]
+  bc:	e3a00000 	mov	r0, #0
+  c0:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
+  c4:	e3e00003 	mvn	r0, #3
+  c8:	e5840000 	str	r0, [r4]
+  cc:	e3a00000 	mov	r0, #0
+  d0:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
+  d4:	e1a00005 	mov	r0, r5
+  d8:	ebfffffe 	bl	0 <CActive::SetActive()>
+			d8: R_ARM_CALL	CActive::SetActive()
+  dc:	e3a00000 	mov	r0, #0
+  e0:	e5840000 	str	r0, [r4]
+  e4:	e1a00005 	mov	r0, r5
+  e8:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
+  ec:	00000000 	.word	0x00000000
+			ec: R_ARM_ABS32	vtable for WTF::SymbianSystem::CMemoryPressureMonitor
+
+Disassembly of section .text._ZN3WTF13SymbianSystem22CMemoryPressureMonitorD2Ev:
+
+00000000 <WTF::SymbianSystem::CMemoryPressureMonitor::~CMemoryPressureMonitor()>:
+   0:	e92d4010 	push	{r4, lr}
+   4:	e1a04000 	mov	r4, r0
+   8:	ebfffffe 	bl	0 <CActive::Cancel()>
+			8: R_ARM_CALL	CActive::Cancel()
+   c:	e284001c 	add	r0, r4, #28
+  10:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			10: R_ARM_CALL	RHandleBase::Close()
+  14:	e1a00004 	mov	r0, r4
+  18:	e8bd4010 	pop	{r4, lr}
+  1c:	eafffffe 	b	0 <CActive::~CActive()>
+			1c: R_ARM_JUMP24	CActive::~CActive()
+
+Disassembly of section .text._ZN3WTF13SymbianSystem28destroyMemoryPressureMonitorEPv:
+
+00000000 <WTF::SymbianSystem::destroyMemoryPressureMonitor(void*)>:
+   0:	e3500000 	cmp	r0, #0
+   4:	012fff1e 	bxeq	lr
+   8:	e92d4010 	push	{r4, lr}
+   c:	e1a04000 	mov	r4, r0
+  10:	ebfffffe 	bl	0 <CActive::Cancel()>
+			10: R_ARM_CALL	CActive::Cancel()
+  14:	e284001c 	add	r0, r4, #28
+  18:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			18: R_ARM_CALL	RHandleBase::Close()
+  1c:	e1a00004 	mov	r0, r4
+  20:	ebfffffe 	bl	0 <CActive::~CActive()>
+			20: R_ARM_CALL	CActive::~CActive()
+  24:	e8bd4010 	pop	{r4, lr}
+  28:	eafffffe 	b	0 <User::Free(void*)>
+			28: R_ARM_JUMP24	User::Free(void*)
+
+Disassembly of section .text._ZN3WTF13SymbianSystem16systemFreeMemoryERy:
+
+00000000 <WTF::SymbianSystem::systemFreeMemory(unsigned long long&)>:
+   0:	e92d4830 	push	{r4, r5, fp, lr}
+   4:	e24dd008 	sub	sp, sp, #8
+   8:	e1a04000 	mov	r4, r0
+   c:	e28d1004 	add	r1, sp, #4
+  10:	e3a00010 	mov	r0, #16
+  14:	e3a05000 	mov	r5, #0
+  18:	e58d5004 	str	r5, [sp, #4]
+  1c:	ebfffffe 	bl	0 <HAL::Get(HALData::TAttribute, int&)>
+			1c: R_ARM_CALL	HAL::Get(HALData::TAttribute, int&)
+  20:	e59d2004 	ldr	r2, [sp, #4]
+  24:	e16f0f10 	clz	r0, r0
+  28:	e3a01000 	mov	r1, #0
+  2c:	e3720001 	cmn	r2, #1
+  30:	e1a002a0 	lsr	r0, r0, #5
+  34:	c3a01001 	movgt	r1, #1
+  38:	e0000001 	and	r0, r0, r1
+  3c:	e3500001 	cmp	r0, #1
+  40:	08840024 	stmeq	r4, {r2, r5}
+  44:	e28dd008 	add	sp, sp, #8
+  48:	e8bd8830 	pop	{r4, r5, fp, pc}
+
+Disassembly of section .text._ZN3WTF13SymbianSystem22CMemoryPressureMonitorD0Ev:
+
+00000000 <WTF::SymbianSystem::CMemoryPressureMonitor::~CMemoryPressureMonitor()>:
+   0:	e92d4010 	push	{r4, lr}
+   4:	e1a04000 	mov	r4, r0
+   8:	ebfffffe 	bl	0 <CActive::Cancel()>
+			8: R_ARM_CALL	CActive::Cancel()
+   c:	e284001c 	add	r0, r4, #28
+  10:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			10: R_ARM_CALL	RHandleBase::Close()
+  14:	e1a00004 	mov	r0, r4
+  18:	ebfffffe 	bl	0 <CActive::~CActive()>
+			18: R_ARM_CALL	CActive::~CActive()
+  1c:	e8bd4010 	pop	{r4, lr}
+  20:	eafffffe 	b	0 <User::Free(void*)>
+			20: R_ARM_JUMP24	User::Free(void*)
+
+Disassembly of section .text._ZN3WTF13SymbianSystem22CMemoryPressureMonitor8DoCancelEv:
+
+00000000 <WTF::SymbianSystem::CMemoryPressureMonitor::DoCancel()>:
+   0:	e280001c 	add	r0, r0, #28
+   4:	eafffffe 	b	0 <RChangeNotifier::LogonCancel() const>
+			4: R_ARM_JUMP24	RChangeNotifier::LogonCancel() const
+
+Disassembly of section .text._ZN3WTF13SymbianSystem22CMemoryPressureMonitor4RunLEv:
+
+00000000 <WTF::SymbianSystem::CMemoryPressureMonitor::RunL()>:
+   0:	e92d4070 	push	{r4, r5, r6, lr}
+   4:	e5904004 	ldr	r4, [r0, #4]
+   8:	e1a05000 	mov	r5, r0
+   c:	e3740001 	cmn	r4, #1
+  10:	da00000d 	ble	4c <WTF::SymbianSystem::CMemoryPressureMonitor::RunL()+0x4c>
+  14:	e2851004 	add	r1, r5, #4
+  18:	e285001c 	add	r0, r5, #28
+  1c:	ebfffffe 	bl	0 <RChangeNotifier::Logon(TRequestStatus&) const>
+			1c: R_ARM_CALL	RChangeNotifier::Logon(TRequestStatus&) const
+  20:	e1a06000 	mov	r6, r0
+  24:	e3500000 	cmp	r0, #0
+  28:	1a000001 	bne	34 <WTF::SymbianSystem::CMemoryPressureMonitor::RunL()+0x34>
+  2c:	e1a00005 	mov	r0, r5
+  30:	ebfffffe 	bl	0 <CActive::SetActive()>
+			30: R_ARM_CALL	CActive::SetActive()
+  34:	e5953020 	ldr	r3, [r5, #32]
+  38:	e5950024 	ldr	r0, [r5, #36]	@ 0x24
+  3c:	e1a01004 	mov	r1, r4
+  40:	e1a02006 	mov	r2, r6
+  44:	e8bd4070 	pop	{r4, r5, r6, lr}
+  48:	e12fff13 	bx	r3
+  4c:	e5953020 	ldr	r3, [r5, #32]
+  50:	e5950024 	ldr	r0, [r5, #36]	@ 0x24
+  54:	e3a01000 	mov	r1, #0
+  58:	e1a02004 	mov	r2, r4
+  5c:	e8bd4070 	pop	{r4, r5, r6, lr}
+  60:	e12fff13 	bx	r3

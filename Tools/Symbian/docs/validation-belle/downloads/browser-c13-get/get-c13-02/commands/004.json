@@ -1,0 +1,1 @@
+{"run": "dl-g-6caef608f056", "sequence": 4, "operation": "act", "capture_sha256": "8ee886cb7eec9492d0bbd4895f3950b71deb682a3b05d011b5520298ab40541f", "screenshots_reviewed": true, "actions": [{"target": "main", "role": "native-step", "wait": 0.5, "point": [400, 365]}]}

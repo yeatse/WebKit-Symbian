@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "normal browser performance monotonic/timer page plus normal standard launcher exit0",
+  "run": "81ebcf24de174593a7128ba2c853d073",
+  "browser_sha256": "473679d5c12d7dfeb057955ebd2ec0291cdd5db4654b6a3a2c2dba7c31fb995e",
+  "host_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+  "fep_sha256": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b",
+  "launcher_exit": 0,
+  "finished_utc": "2026-11-01T02:55:57.598282+00:00",
+  "validator_exit": 0,
+  "run_directory": "/workspace/symbian-clock-work/browser-c15-01/runs/browser-20261101T025530Z-1d4hnhj9",
+  "fixture_hashes": {
+    "validate.py": "d4a941d11e14ba8c7def45416c56fe72cf1ae472b2309e50963dccf17122e525",
+    "README.md": "7fbc37edde59ab9ba500a5e8caf92bd989bd5d16d02d7e3af7f88684542e4cbf",
+    "host-validator-tests.log": "1a2a3644f8f24e45ebce4771feb34fc5b59ef87db77816ad38b59dd2cda6c72d",
+    "test-validator.py": "de97c6a569991d6ea7a1a0f76b0a6ff3dfa98b93a2cb2ca30898bfc142b71dfd",
+    "index.html": "891c1d578192cb4db8e4b61ff50c05b30e211914bc33f3aa869318f54fdeb004",
+    "suite.js": "6fb7fd82fc34843080d83385e270cd209357358af4c7733d2679b9306e7b8ded",
+    "SHA256SUMS": "0d3b41c31717bfe55022544225fd3f96dd906fe3fa973c52e9ccb440769d1dc6"
+  }
+}

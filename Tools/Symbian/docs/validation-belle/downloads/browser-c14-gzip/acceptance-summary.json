@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "scope": "Actual C14 gzip, host0027; independent of other candidates and CI41",
+  "run": "dl-z-d75249df5942",
+  "case": "gzip",
+  "url": "http://localhost:46841/?run=dl-z-d75249df5942",
+  "browser_sha256": "b222b858e58703c057c538a8ee65c642e7ceb0b20cdcad47ea523305c86da065",
+  "emulator_sha256": "b2ce947b4781d7253658552e157c6b1b342868effdfbe7bbae3f8c2993cd2fd8",
+  "actual_supervisor_sha256": "15948267cf88385ffb072e90926e3543bb0fa6b8090f3d10810fec00069f7b80",
+  "actual_controller_sha256": "0e4d0892169fb4366d7e54f98e8b03d6d647e850caf6f27aab779e4994a635b0",
+  "browser_tool_session": {
+    "id": 96051,
+    "exit_code": 0,
+    "provenance": "explicit root tool-session confirmation in archive task"
+  },
+  "retained_runner_exit": 0,
+  "retained_validator_exit": 0,
+  "download_request_count": 1,
+  "before_files": [],
+  "after_files": [
+    {
+      "name": "payload.bin",
+      "bytes": 524288,
+      "sha256": "33bc8aab40703678c3ebe94d2dd8f2afff285dd901f9234e841e4679f8204fd5",
+      "mtime_ns": 1793500822927598883,
+      "inode": 982645
+    }
+  ],
+  "config_restored": true,
+  "resources_profile_and_destination_restored": true,
+  "restoration_errors": [],
+  "archival_only": true,
+  "guest_started_by_archiver": false,
+  "excluded_private_or_previous_files": []
+}

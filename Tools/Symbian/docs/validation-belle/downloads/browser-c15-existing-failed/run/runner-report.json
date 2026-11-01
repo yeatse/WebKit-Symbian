@@ -1,0 +1,29 @@
+{
+  "run": "dl-e-96cb1c9bde37",
+  "case": "existing",
+  "url": "http://localhost:38591/?run=dl-e-96cb1c9bde37",
+  "host_exit_code": null,
+  "normal_close": false,
+  "forced_cleanup": null,
+  "browser_sha256": "473679d5c12d7dfeb057955ebd2ec0291cdd5db4654b6a3a2c2dba7c31fb995e",
+  "emulator_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+  "finished_utc": "2026-11-01T03:11:05.771078+00:00",
+  "native_ui_reviewed": false,
+  "selected_guest_path": null,
+  "functional_failure": {
+    "reason": "unexpected terminal callback",
+    "expected": {
+      "terminal": 1,
+      "error": 0,
+      "cleanup": 0
+    },
+    "observed": [
+      {
+        "id": 1,
+        "terminal": 5,
+        "error": -11,
+        "cleanup": 0
+      }
+    ]
+  }
+}

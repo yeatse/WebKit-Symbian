@@ -1,0 +1,237 @@
+{
+  "status": "FAIL",
+  "run": "clipboard-menu-c17-cal-20261101-01",
+  "mode": "menu",
+  "through_step": 1,
+  "inputs": {
+    "browser.exe": {
+      "path": "/workspace/symbian-belle-work/candidate17/browser.exe",
+      "sha256": "0d91d91ea1e016b7725097bac0768a9aa2fdf9710b765795769d2da07608a1c8"
+    },
+    "browser_ui.rsc": {
+      "path": "/workspace/symbian-belle-work/candidate17/browser_ui.rsc",
+      "sha256": "251cfbede521cc5d0a3e36400cf108b12b6bb8eb7956e33a6781d8ef4bf5bc3d"
+    },
+    "browser_reg.rsc": {
+      "path": "/workspace/symbian-belle-work/candidate17/browser_reg.rsc",
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "browser_loc.rsc": {
+      "path": "/workspace/symbian-belle-work/candidate17/browser_loc.rsc",
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff"
+    },
+    "fep": {
+      "path": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+      "sha256": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b"
+    },
+    "deployed_fep": {
+      "path": "/workspace/eka-validation/xdg/data/EKA2L1/patch/avkonfep_general.dll",
+      "sha256": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b"
+    },
+    "runner": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh",
+      "sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444"
+    },
+    "base_driver": {
+      "path": "/workspace/symbian-clipboard-browser-work/drive.py",
+      "sha256": "187fcd8bc8aa30d777aa58e635f4db7fff65c5bb5d2bfba60e7463b5b44758c6"
+    },
+    "review_driver": {
+      "path": "/workspace/symbian-clipboard-menu-c17-work/review-drive.py",
+      "sha256": "1e45a353fca18260393b0816ed2ff3fe2cdeea4b132498de1b83136ca049eea7"
+    },
+    "menu_plan": {
+      "path": "/workspace/symbian-clipboard-menu-c17-work/menu-candidate.json",
+      "sha256": "9d8ce461f7c9e2b34a0d9c99caf6c6aeff3a51bf11f0cf6e09260b7ff2334772"
+    },
+    "menu_profile": {
+      "path": "/workspace/symbian-clipboard-menu-c17-work/webkit-menu-review.yml",
+      "sha256": "3771e6fe1cf8972e8ee14b6556a0929f04229b9eac9f71ff725e1c3da936fd36"
+    },
+    "fixture": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-clipboard/suite.js",
+      "sha256": "f93e1645d5aac70ae847a227fa3e8158a9d6c22e46cc01859d738f84f2a058bd"
+    },
+    "verifier": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-clipboard/verify.py",
+      "sha256": "655d3de8586a96d5944180e98636c20829076e9f6783b9edbd47d6222bae0a5f"
+    }
+  },
+  "ui_review": "Every menu operation requires root approval of exact selected screenshot before Return",
+  "started_utc": "2026-11-01T03:50:21.352692+00:00",
+  "restoration": {
+    "backup_directory": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-clipboard-menu-c17-cal-20261101-01",
+    "files": [
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+          "exists": true,
+          "mode": 448,
+          "directory": true,
+          "device": 27,
+          "inode": 932801,
+          "mtime_ns": 1793503583319028900
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-clipboard-menu-c17-cal-20261101-01/0",
+        "directory": true,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+          "exists": true,
+          "mode": 448,
+          "directory": true,
+          "device": 27,
+          "inode": 932801,
+          "mtime_ns": 1793503583319028900
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 58795308,
+          "sha256": "654a620f3f94c6d130fb649dbd45f8f49d2142416c244ad59b1cb9a1738de37e"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-clipboard-menu-c17-cal-20261101-01/1",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 58795308,
+          "sha256": "654a620f3f94c6d130fb649dbd45f8f49d2142416c244ad59b1cb9a1738de37e"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-clipboard-menu-c17-cal-20261101-01/2",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-clipboard-menu-c17-cal-20261101-01/3",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 192,
+          "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-clipboard-menu-c17-cal-20261101-01/4",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 192,
+          "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/icu/icudt70l.dat",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/icu/icudt70l.dat",
+          "exists": true,
+          "mode": 384,
+          "bytes": 10261824,
+          "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-clipboard-menu-c17-cal-20261101-01/5",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/icu/icudt70l.dat",
+          "exists": true,
+          "mode": 384,
+          "bytes": 10261824,
+          "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/fontconfig/fonts.conf",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/fontconfig/fonts.conf",
+          "exists": true,
+          "mode": 384,
+          "bytes": 935,
+          "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-clipboard-menu-c17-cal-20261101-01/6",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/fontconfig/fonts.conf",
+          "exists": true,
+          "mode": 384,
+          "bytes": 935,
+          "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c"
+        }
+      }
+    ],
+    "restored": true
+  },
+  "url": "http://localhost:8802/index.html?run=clipboard-menu-c17-cal-20261101-01&mode=menu",
+  "input_exit": 1,
+  "launcher_exit": 1,
+  "no_guest_running_at_restore": true,
+  "clipboard_parent_absence_restored": true,
+  "private_files_restored": true,
+  "private_restoration": [
+    {
+      "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/d/System/Data/Clpboard.cbd",
+      "restored": true
+    },
+    {
+      "target": "/workspace/eka-validation/xdg/data/EKA2L1/bindings/webkit-menu-review.yml",
+      "restored": true
+    },
+    {
+      "target": "/workspace/eka-validation/xdg/data/EKA2L1/config.yml",
+      "restored": true
+    }
+  ],
+  "finished_utc": "2026-11-01T03:51:01.489140+00:00"
+}

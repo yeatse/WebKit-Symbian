@@ -1,0 +1,98 @@
+{
+  "select-all": [
+    {
+      "key": "F2",
+      "wait": 0.35
+    },
+    {
+      "key": "End",
+      "wait": 0.25
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Return",
+      "wait": 0.25
+    }
+  ],
+  "paste": [
+    {
+      "key": "F2",
+      "wait": 0.35
+    },
+    {
+      "key": "End",
+      "wait": 0.25
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Return",
+      "wait": 0.25
+    }
+  ],
+  "copy": [
+    {
+      "key": "F2",
+      "wait": 0.35
+    },
+    {
+      "key": "End",
+      "wait": 0.25
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Return",
+      "wait": 0.25
+    }
+  ],
+  "cut": [
+    {
+      "key": "F2",
+      "wait": 0.35
+    },
+    {
+      "key": "End",
+      "wait": 0.25
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Up",
+      "wait": 0.18
+    },
+    {
+      "key": "Return",
+      "wait": 0.25
+    }
+  ]
+}

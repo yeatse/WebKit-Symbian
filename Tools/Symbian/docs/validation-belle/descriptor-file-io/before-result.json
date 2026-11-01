@@ -1,0 +1,29 @@
+{
+  "harness_sha256": "09f76cb6c88f6642f660bf3ba50a64ff59f6533bcf69c9ade49fb1e614b34053",
+  "runner_sha256": "bb3a48ba7a1b57d3ccb8cd777dc4f672ece8ba763364861971469b3ca29c5088",
+  "scope": "Actual descriptor definitions/methods and file_read/file_write bodies; substituted guest mapping, IPC and VFS. Not guest IPC acceptance.",
+  "sources": {
+    "src/emu/utils/include/utils/des.h": "e6defe55505c2ab42b346abddebaca2ef3d6dad59bfbc50c5641fb39ad928eb2",
+    "src/emu/utils/src/des.cpp": "88eb67ea7707f763326ed265e050af7fe796b0e5c67932d6972c6b4938320ebe",
+    "src/emu/services/src/fs/files.cpp": "c4ff3e3631ceb5169a95585fc5f07120ce2fede404d6c1facf3a99157b1c87ed"
+  },
+  "command": [
+    "c++",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Wno-unused-parameter",
+    "-I$WORK",
+    "$WEBKIT/Tools/Symbian/tests/eka-file-io/host.cpp",
+    "-o",
+    "$WORK/host-test"
+  ],
+  "compile_exit": 0,
+  "run_exit": 1,
+  "original_external_result_sha256": "bc3a5669b857216ba8691e354a7eea70ba2148dbe3151554e15ba733dda84fc9",
+  "path_normalization": "Command paths only are normalized; hashes, exits and separately copied log bytes unchanged."
+}

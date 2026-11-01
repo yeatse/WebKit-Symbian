@@ -1,0 +1,31 @@
+{
+  "case": "prevent-start",
+  "run": "19dae8032ac44606afa3c10e9c8a0d1f",
+  "pid": 512679,
+  "status": "INPUT_AND_PAGE_PASS",
+  "native_input": [
+    {
+      "motion": [
+        450,
+        337
+      ],
+      "monotonic": 236021.600306977
+    },
+    {
+      "button1": true,
+      "monotonic": 236021.600666447
+    },
+    {
+      "button1": false,
+      "monotonic": 236021.724356202
+    }
+  ],
+  "ready": "console: http://localhost:8783/?case=prevent-start&run=19dae8032ac44606afa3c10e9c8a0d1f:35: SYMBIAN TOUCH prevent-start READY {\"run\":\"19dae8032ac44606afa3c10e9c8a0d1f\",\"maxTouchPoints\":8,\"instruction\":\"Tap once: touchstart.preventDefault must suppress compatibility mouse/click.\",\"viewport\":{\"width\":360,\"height\":532},\"pad\":{\"left\":10,\"top\":94,\"width\":340,\"height\":196}}",
+  "window_geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "completion": "console: http://localhost:8783/?case=prevent-start&run=19dae8032ac44606afa3c10e9c8a0d1f:35: SYMBIAN TOUCH prevent-start DONE PASS native sequence validated; maxTouchPoints=8, peak contacts=1 {\"pointerdown\":1,\"touchstart\":1,\"gotpointercapture\":1,\"pointerup\":1,\"lostpointercapture\":1,\"touchend\":1}"
+}

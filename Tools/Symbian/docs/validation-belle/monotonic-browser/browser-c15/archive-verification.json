@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "retained_original_files": 89,
+  "all_source_and_retained_hashes_valid": true,
+  "gzip_expands_to_exact_original_bytes": true,
+  "private_data_copied": false,
+  "new_guest_runs": false
+}

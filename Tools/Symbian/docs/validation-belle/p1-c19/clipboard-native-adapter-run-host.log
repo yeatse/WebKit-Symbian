@@ -1,0 +1,26 @@
+PASS web normalization handles empty and each native line ending
+PASS web normalization handles empty and each native line ending
+PASS web normalization handles empty and each native line ending
+PASS web normalization handles empty and each native line ending
+PASS web normalization handles empty and each native line ending
+PASS web normalization handles empty and each native line ending
+PASS web normalization preserves Unicode and surrogate code units
+PASS web normalization preserves embedded null code units
+PASS native write normalization preserves Unicode and folds CRLF once
+PASS native empty string is admitted
+PASS nonempty null pointer rejected
+PASS negative write length rejected
+PASS oversized write rejected without dereferencing source
+PASS invalid writes are rejected before native allocation
+PASS serialized text boundary accepted
+PASS serialized text boundary accepted
+PASS serialized text outside bounds rejected
+PASS serialized text outside bounds rejected
+PASS maximum store and dictionary counts accepted
+PASS oversized physical store rejected
+PASS oversized dictionary count rejected
+PASS unsupported drive rejected before panic-prone CClipboard calls
+PASS unsupported drive rejected before panic-prone CClipboard calls
+PASS HAL error propagates before native clipboard construction
+RESULT checks=24 failures=0
+

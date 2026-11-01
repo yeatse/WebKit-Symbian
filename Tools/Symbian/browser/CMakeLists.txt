@@ -18,8 +18,12 @@ set(BROWSER_UID3 0xE1A5C002 CACHE STRING "UID3 of browser.exe (unprotected range
 option(BROWSER_STUB_ENGINE "Link the stand-in engine instead of WebKit" OFF)
 
 set(shell_sources
+  AuthenticationUI.cpp
   BrowserApp.cpp
   BrowserLog.cpp
+  ClipboardNative.cpp
+  DownloadFileNative.cpp
+  DownloadUI.cpp
   NetworkConnection.cpp
   PageList.cpp
   RunLoopDriver.cpp
@@ -53,7 +57,8 @@ if(browser_media)
 endif()
 
 if (BROWSER_STUB_ENGINE)
-  symbian_add_executable(browser SOURCES ${shell_sources} StubWebView.cpp)
+  symbian_add_executable(browser SOURCES ${shell_sources} StubWebView.cpp
+    "${WEBKIT_SOURCE_DIR}/Source/WebKitLegacy/symbian/SymbianClipboard.cpp")
 else ()
   symbian_add_executable(browser SOURCES ${shell_sources})
 endif ()
@@ -79,7 +84,7 @@ target_include_directories(browser SYSTEM PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/i
 # extensions make __wchar_t a keyword, which Open C's sys/_types.h declares.
 target_compile_options(browser PRIVATE -fms-extensions -Wno-microsoft-extra-qualification)
 target_compile_definitions(browser PRIVATE __wchar_t=__symbian_wchar_t)
-foreach (dll avkon cone eikcore eikcoctl eikctl apparc apgrfx bafl efsrv fbscli bitgdi gdi ws32 etext form esock commondialogs)
+foreach (dll avkon cone eikcore eikcoctl eikctl eikdlg apparc apgrfx bafl efsrv fbscli bitgdi gdi ws32 etext form esock commondialogs connmon estor hal)
   target_link_libraries(browser PRIVATE "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
 endforeach ()
 if(browser_media)
@@ -127,7 +132,6 @@ if (NOT BROWSER_STUB_ENGINE)
     --end-group
     Symbian::Streams
     "${SYMBIAN_SDK_PREFIX}/proxies/euser/euser.dso"
-    "${SYMBIAN_SDK_PREFIX}/proxies/hal/hal.dso"
     "${SYMBIAN_SDK_PREFIX}/proxies/libdl/libdl.dso")
   # Calls beyond an ARM BL's +-32 MB (or a Thumb BL's +-4 MB) go through
   # position-independent LLD thunks, which need no relocation and which the

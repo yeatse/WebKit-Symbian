@@ -61,7 +61,8 @@ public:
     URL url;
     long statusCode { 0 };
     long httpConnectCode { 0 };
-    long long expectedContentLength { 0 };
+    // Unknown is distinct from an explicit Content-Length: 0.
+    long long expectedContentLength { -1 };
     Vector<String> headers;
 
     URL proxyUrl;

@@ -1,0 +1,28 @@
+{
+  "scope": "HTTP 401 Basic/Digest origin authentication",
+  "native_execution": false,
+  "engine_full_build": false,
+  "checks": {
+    "native_controller_asan_ubsan": "pass",
+    "frame_contract_asan_ubsan": "pass",
+    "arm_syntax": [
+      "WebContainer.cpp",
+      "AuthenticationUI.cpp",
+      "ResourceHandleCurl.cpp",
+      "SymbianFrameLoaderClient.cpp",
+      "WebViewImpl.cpp"
+    ],
+    "native_ARM_object": "pass",
+    "browser_ui_rcomp": "pass",
+    "native_imports_resolved": 81
+  },
+  "upstream": {
+    "repository": "SymbianSource/oss.FCL.sf.mw.classicui",
+    "commit": "dcea899751dfa099dcca7a5508cf32eab64afa7a",
+    "sha256": {
+      "AknQueryControl.cpp": "22d43c7be6c4f07f6e8fc4ddaea9aa7f04dc621bc20af70bc60bf999e6307eaf",
+      "AknQueryDialog.cpp": "2ad8968df562876264fd912d9712e33ed46bf46b35d149ee869f1fa2db61d710",
+      "EIKON.RH": "f443fbd6532da4a66e8237fa338c4d051b2fbba4d9a71ae16c2e408a87167b69"
+    }
+  }
+}

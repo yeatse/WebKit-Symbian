@@ -40,11 +40,14 @@
 #include "WebDatabaseProvider.h"
 #include "WebStorageNamespaceProvider.h"
 #include <JavaScriptCore/InitializeThreading.h>
+#include <JavaScriptCore/JSLock.h>
+#include <JavaScriptCore/VM.h>
 #include <WebCore/BackForwardCache.h>
 #include <WebCore/BackForwardController.h>
 #include <WebCore/CacheStorageProvider.h>
 #include <WebCore/CompositionHighlight.h>
 #include <WebCore/CompositionUnderline.h>
+#include <WebCore/CommonVM.h>
 #include <WebCore/CookieJar.h>
 #include <WebCore/CookieJarDB.h>
 #include <WebCore/DocumentLoader.h>
@@ -55,6 +58,7 @@
 #include <WebCore/FrameDestructionObserverInlines.h>
 #include <WebCore/DummySpeechRecognitionProvider.h>
 #include <WebCore/Editor.h>
+#include <WebCore/UserGestureIndicator.h>
 #include <WebCore/EmptyClients.h>
 #include <WebCore/GraphicsContextCairo.h>
 #include <WebCore/FrameTreeSyncData.h>
@@ -68,18 +72,28 @@
 #include <WebCore/LocalFrameView.h>
 #include <WebCore/GraphicsContext.h>
 #include <WebCore/HTMLInputElement.h>
+#include <WebCore/HTMLFormControlElement.h>
 #include <WebCore/HandleUserInputEventResult.h>
 #include <WebCore/ScrollingCoordinatorTypes.h>
 #include <WebCore/HTMLNames.h>
 #include <WebCore/HTMLTextAreaElement.h>
 #include <WebCore/KeyboardEvent.h>
 #include <WebCore/MemoryCache.h>
+#include <WebCore/MemoryRelease.h>
 #include <WebCore/NetworkStorageSession.h>
 #include <WebCore/Page.h>
 #include <WebCore/PageIdentifier.h>
 #include <WebCore/PageConfiguration.h>
 #include <WebCore/PlatformKeyboardEvent.h>
 #include <WebCore/PlatformMouseEvent.h>
+#include <WebCore/PlatformTouchEvent.h>
+#include <WebCore/RemoteFrameGeometryTransformer.h>
+#include <WebCore/PointerCaptureController.h>
+#include <WebCore/PointerEvent.h>
+#include <WebCore/HitTestResult.h>
+#include <WebCore/RenderObjectInlines.h>
+#include <WebCore/RenderStyle+GettersInlines.h>
+#include <WebCore/StyleTouchAction.h>
 #include <WebCore/PlatformWheelEvent.h>
 #include <WebCore/ProgressTracker.h>
 #include <WebCore/ProgressTrackerClient.h>
@@ -99,7 +113,9 @@
 #include <wtf/HashSet.h>
 #include <wtf/HexNumber.h>
 #include <wtf/MainThread.h>
+#include <wtf/MemoryPressureHandler.h>
 #include <wtf/RunLoop.h>
+#include <wtf/symbian/MemoryPressureHandlerSymbian.h>
 #include <wtf/text/StringBuilder.h>
 
 namespace WebKitSymbian {
@@ -243,12 +259,36 @@ void WebView::initializeProcess(const char* directory)
 void WebView::setWakeUpCallback(void (*wakeUp)(void*), void* context)
 {
     if (!wakeUp) {
+        WTF::stopMemoryPressureMonitoring();
+        MemoryPressureHandler::singleton().setLowMemoryHandler({ });
         RunLoop::setWakeUpCallback({ });
         return;
     }
     RunLoop::setWakeUpCallback([wakeUp, context] {
         wakeUp(context);
     });
+    auto& pressureHandler = MemoryPressureHandler::singleton();
+    pressureHandler.setLowMemoryHandler([](Critical critical, Synchronous synchronous) {
+        ASSERT(isMainThread());
+        // Protect the VM while observing its actual JS heap. These numbers are
+        // neither process RSS nor a limit; this callback never forces a test GC.
+        RefPtr<JSC::VM> protectedVM = commonVMOrNull();
+        auto logHeap = [&](const char* phase) {
+            if (!protectedVM)
+                return;
+            JSC::JSLockHolder lock(protectedVM.get());
+            size_t heapBytes = protectedVM->heap.size();
+            size_t extraBytes = protectedVM->heap.extraMemorySize();
+            size_t cellBytes = heapBytes >= extraBytes ? heapBytes - extraBytes : 0;
+            WTFLogAlways("Symbian memory pressure: JS heap phase=%s cellBytes=%zu extraBytes=%zu", phase, cellBytes, extraBytes);
+        };
+        logHeap("before");
+        // Release the diagnostic JS lock before WebCore calls its own GC/cache
+        // routines. Their usual asynchronous GC policy preserves all JS roots.
+        WebCore::releaseMemory(critical, synchronous, MaintainBackForwardCache::No, MaintainMemoryCache::No);
+        logHeap("after-scheduling");
+    });
+    pressureHandler.install();
 }
 
 void WebView::setMediaPlayerFactory(MediaPlayerFactory factory, void* context)
@@ -284,6 +324,7 @@ WebView* WebView::create(WebViewClient& client, int width, int height)
 
 WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
     : m_client(client)
+    , m_downloads(SymbianDownloadManager::create(client))
     , m_size(width, height)
     , m_scaleTimer([this] { updateScale(); })
 {
@@ -312,6 +353,7 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
 
     Settings& settings = m_page->settings();
     settings.setScriptEnabled(true);
+    settings.setDownloadAttributeEnabled(true);
     // Direct Page construction uses WebCore's disabled storage defaults,
     // even though the Legacy storage namespace is supplied above.
     settings.setLocalStorageEnabled(true);
@@ -336,7 +378,10 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
 
 WebViewImpl::~WebViewImpl()
 {
+    m_client.cancelAuthenticationChallenge(0);
+    m_downloads->detach();
     m_scaleTimer.stop();
+    cancelTouches();
     disableCompositing();
     m_page->localMainFrame()->loader().detachFromParent();
 }
@@ -619,27 +664,32 @@ void WebViewImpl::load(const char* url)
     URL parsed(URL(), string);
     if (!parsed.isValid() || parsed.protocol().isEmpty() || !string.contains(':'))
         parsed = URL(URL(), makeString("http://"_s, string));
+    m_client.cancelAuthenticationChallenge(0);
     LocalFrame& frame = *m_page->localMainFrame();
     frame.loader().load(FrameLoadRequest(frame, ResourceRequest(WTF::move(parsed))));
 }
 
 void WebViewImpl::reload()
 {
+    m_client.cancelAuthenticationChallenge(0);
     m_page->localMainFrame()->loader().reload();
 }
 
 void WebViewImpl::stop()
 {
+    m_client.cancelAuthenticationChallenge(0);
     m_page->localMainFrame()->loader().stopAllLoaders();
 }
 
 void WebViewImpl::goBack()
 {
+    m_client.cancelAuthenticationChallenge(0);
     m_page->backForward().goBack();
 }
 
 void WebViewImpl::goForward()
 {
+    m_client.cancelAuthenticationChallenge(0);
     m_page->backForward().goForward();
 }
 
@@ -655,13 +705,224 @@ bool WebViewImpl::canGoForward() const
 
 void WebViewImpl::setFocused(bool focused)
 {
-    if (!focused)
+    if (!focused) {
+        cancelTouches();
         PlatformKeyboardEvent::setCurrentModifierState({ });
+    }
     m_page->focusController().setActive(true);
     m_page->focusController().setFocused(focused);
 }
 
 static const int tapSlop = 8;
+
+#if ENABLE(TOUCH_EVENTS)
+class SymbianPlatformTouchPoint final : public PlatformTouchPoint {
+public:
+    explicit SymbianPlatformTouchPoint(const TouchPoint& point)
+    {
+        m_id = point.identifier;
+        m_isPrimary = point.isPrimary;
+        m_pos = DoublePoint(point.x, point.y);
+        m_screenPos = DoublePoint(point.screenX, point.screenY);
+        m_radius = { 0.5, 0.5 };
+        m_force = point.pressure;
+        m_twist = 0;
+        switch (point.state) {
+        case TouchState::Pressed: m_state = TouchPressed; break;
+        case TouchState::Moved: m_state = TouchMoved; break;
+        case TouchState::Released: m_state = TouchReleased; break;
+        case TouchState::Stationary: m_state = TouchStationary; break;
+        case TouchState::Cancelled: m_state = TouchCancelled; break;
+        }
+    }
+};
+
+class SymbianPlatformTouchEvent final : public PlatformTouchEvent {
+public:
+    SymbianPlatformTouchEvent(const TouchPoint* points, unsigned count, unsigned modifiers)
+    {
+        m_timestamp = MonotonicTime::now();
+        m_type = PlatformEventType::TouchMove;
+        if (modifiers & ShiftKey)
+            m_modifiers.add(Modifier::ShiftKey);
+        if (modifiers & ControlKey)
+            m_modifiers.add(Modifier::ControlKey);
+        if (modifiers & AltKey)
+            m_modifiers.add(Modifier::AltKey);
+        for (unsigned i = 0; i < count; ++i) {
+            m_touchPoints.append(SymbianPlatformTouchPoint(points[i]));
+            switch (points[i].state) {
+            case TouchState::Pressed: m_type = PlatformEventType::TouchStart; break;
+            case TouchState::Released: m_type = PlatformEventType::TouchEnd; break;
+            case TouchState::Cancelled: m_type = PlatformEventType::TouchCancel; break;
+            default: break;
+            }
+        }
+    }
+};
+#endif
+
+unsigned WebViewImpl::setTouchCapabilities(unsigned capacity)
+{
+    cancelTouches();
+#if ENABLE(TOUCH_EVENTS)
+    m_touchCapacity = std::min(capacity, maximumSupportedTouchPoints);
+#else
+    UNUSED_PARAM(capacity);
+    m_touchCapacity = 0;
+#endif
+    return m_touchCapacity;
+}
+
+void WebViewImpl::cancelDOMTouches()
+{
+#if ENABLE(TOUCH_EVENTS)
+    if (m_touchDOMCancelled || m_touchPoints.isEmpty())
+        return;
+    auto generation = m_touchGeneration;
+    m_touchDOMCancelled = true;
+    auto cancelled = m_touchPoints;
+    for (auto& point : cancelled) {
+        point.state = TouchState::Cancelled;
+        point.pressure = 0;
+    }
+    if (RefPtr frame = m_page->localMainFrame(); frame && frame->view())
+        frame->eventHandler().handleTouchEvent(SymbianPlatformTouchEvent(cancelled.span().data(), cancelled.size(), 0));
+    if (generation != m_touchGeneration)
+        return;
+    for (auto& point : cancelled)
+        m_page->pointerCaptureController().touchWithIdentifierWasRemoved(mousePointerID + 1 + point.identifier);
+#endif
+}
+
+void WebViewImpl::cancelTouches()
+{
+    auto generation = ++m_touchGeneration;
+    auto cancelled = std::exchange(m_touchPoints, { });
+    bool alreadyCancelled = std::exchange(m_touchDOMCancelled, false);
+    m_touchGesture.reset();
+    m_pointerDown = false;
+    m_pointerScrolling = false;
+    m_lastTapWasOnFocusedEditableElement = false;
+    m_client.didCancelTouchSequence();
+#if ENABLE(TOUCH_EVENTS)
+    if (!alreadyCancelled && !cancelled.isEmpty()) {
+        for (auto& point : cancelled) {
+            point.state = TouchState::Cancelled;
+            point.pressure = 0;
+        }
+        if (RefPtr frame = m_page->localMainFrame(); frame && frame->view())
+            frame->eventHandler().handleTouchEvent(SymbianPlatformTouchEvent(cancelled.span().data(), cancelled.size(), 0));
+    }
+    if (generation == m_touchGeneration) {
+        for (auto& point : cancelled)
+            m_page->pointerCaptureController().touchWithIdentifierWasRemoved(mousePointerID + 1 + point.identifier);
+    }
+#else
+    UNUSED_PARAM(generation);
+    UNUSED_PARAM(cancelled);
+    UNUSED_PARAM(alreadyCancelled);
+#endif
+}
+
+bool WebViewImpl::handleTouch(const TouchPoint* points, unsigned count, unsigned modifiers)
+{
+#if ENABLE(TOUCH_EVENTS)
+    if (!m_touchCapacity || !points || !count || count > m_touchCapacity)
+        return false;
+    std::array<bool, maximumSupportedTouchPoints> identifiers { };
+    bool fresh = m_touchPoints.isEmpty();
+    bool allReleased = true;
+    bool hasPressed = false;
+    bool cancelled = false;
+    for (unsigned i = 0; i < count; ++i) {
+        const auto& point = points[i];
+        if (point.identifier >= m_touchCapacity || identifiers[point.identifier]) {
+            cancelTouches();
+            return false;
+        }
+        identifiers[point.identifier] = true;
+        hasPressed |= point.state == TouchState::Pressed;
+        cancelled |= point.state == TouchState::Cancelled;
+        if (point.state != TouchState::Released && point.state != TouchState::Cancelled)
+            allReleased = false;
+    }
+    if (cancelled) {
+        cancelTouches();
+        return false;
+    }
+    if (fresh && !hasPressed)
+        return false;
+    RefPtr frame = m_page->localMainFrame();
+    if (!frame || !frame->view()) {
+        cancelTouches();
+        return false;
+    }
+
+    if (fresh) {
+        m_lastTapWasOnFocusedEditableElement = false;
+        ++m_touchGeneration;
+        m_touchDOMCancelled = false;
+        m_touchAllowsDoubleTap = true;
+        m_touchGesture.reset();
+        auto pagePoint = frame->view()->windowToContents(IntPoint(points[0].x, points[0].y));
+        auto hit = frame->eventHandler().hitTestResultAtPoint(pagePoint, { HitTestRequest::Type::ReadOnly, HitTestRequest::Type::Active, HitTestRequest::Type::TouchEvent, HitTestRequest::Type::AllowChildFrameContent });
+        if (RefPtr node = hit.innerNode(); node && node->renderer()) {
+            auto actions = Style::toPlatform(node->renderer()->style().usedTouchAction());
+            bool unrestrictedPan = actions.contains(TouchAction::Auto) || actions.contains(TouchAction::Manipulation);
+            m_touchGesture.setPanDirections(unrestrictedPan || actions.contains(TouchAction::PanX), unrestrictedPan || actions.contains(TouchAction::PanY));
+            m_touchAllowsDoubleTap = actions.contains(TouchAction::Auto);
+        }
+    }
+    auto generation = m_touchGeneration;
+    m_touchPoints.clear();
+    for (unsigned i = 0; i < count; ++i) {
+        if (points[i].state != TouchState::Released) {
+            auto point = points[i];
+            point.state = TouchState::Stationary;
+            m_touchPoints.append(point);
+        }
+    }
+    bool prevented = false;
+    bool suppressCompatibilityMouse = false;
+    if (!m_touchDOMCancelled) {
+        auto result = frame->eventHandler().handleTouchEvent(SymbianPlatformTouchEvent(points, count, modifiers), &prevented);
+        suppressCompatibilityMouse = result.value_or(true);
+        if (!result)
+            prevented = true;
+    }
+    // DOM handlers may synchronously navigate or move native focus.
+    if (generation != m_touchGeneration)
+        return false;
+    if (prevented || suppressCompatibilityMouse || count > 1)
+        m_lastTapTime = { };
+    auto action = m_touchGesture.update(points, count, prevented, suppressCompatibilityMouse);
+    bool tapped = false;
+    if (action.action == TouchGesture::Action::BeginScroll)
+        cancelDOMTouches();
+    if (generation != m_touchGeneration)
+        return false;
+    if (action.action == TouchGesture::Action::BeginScroll || action.action == TouchGesture::Action::Scroll)
+        scrollAt({ action.x, action.y }, { action.deltaX, action.deltaY });
+    else if (action.action == TouchGesture::Action::Tap) {
+        tapped = tap({ action.x, action.y }, action.identifier, true);
+    }
+    if (generation != m_touchGeneration)
+        return false;
+    for (unsigned i = 0; i < count; ++i) {
+        if (points[i].state == TouchState::Released)
+            m_page->pointerCaptureController().touchWithIdentifierWasRemoved(mousePointerID + 1 + points[i].identifier);
+    }
+    if (allReleased)
+        m_touchDOMCancelled = false;
+    return tapped;
+#else
+    UNUSED_PARAM(points);
+    UNUSED_PARAM(count);
+    UNUSED_PARAM(modifiers);
+    return false;
+#endif
+}
 
 void WebViewImpl::handlePointer(PointerEvent event, int x, int y)
 {
@@ -669,6 +930,7 @@ void WebViewImpl::handlePointer(PointerEvent event, int x, int y)
     IntPoint point(x, y);
     switch (event) {
     case PointerEvent::Down:
+        m_lastTapWasOnFocusedEditableElement = false;
         m_pointerDown = true;
         m_pointerScrolling = false;
         m_pointerStart = m_pointerLast = point;
@@ -696,8 +958,33 @@ void WebViewImpl::handlePointer(PointerEvent event, int x, int y)
 static const Seconds doubleTapInterval = 400_ms;
 static const int doubleTapSlop = 24;
 
-void WebViewImpl::tap(const IntPoint& point)
+RefPtr<Element> WebViewImpl::editableElementAt(const IntPoint& point) const
 {
+    RefPtr frame = m_page->localMainFrame();
+    if (!frame || !frame->view())
+        return nullptr;
+    auto pagePoint = frame->view()->windowToContents(point);
+    auto hit = frame->eventHandler().hitTestResultAtPoint(pagePoint, { HitTestRequest::Type::ReadOnly, HitTestRequest::Type::Active, HitTestRequest::Type::AllowChildFrameContent });
+    // Text controls hit their UA shadow editor; compare the public control
+    // with the focused element, not that internal editor's selection root.
+    hit.setToNonUserAgentShadowAncestor();
+    RefPtr node = hit.innerNode();
+    if (!node)
+        return nullptr;
+    for (RefPtr current = node; current; current = current->parentNode()) {
+        if (auto* input = dynamicDowncast<HTMLInputElement>(*current))
+            return !input->isDisabledFormControl() && !input->isReadOnly() && input->isTextField() ? input : nullptr;
+        if (auto* textArea = dynamicDowncast<HTMLTextAreaElement>(*current))
+            return !textArea->isDisabledFormControl() && !textArea->isReadOnly() ? textArea : nullptr;
+        if (is<HTMLFormControlElement>(*current))
+            return nullptr;
+    }
+    return node->rootEditableElement();
+}
+
+bool WebViewImpl::tap(const IntPoint& point, unsigned touchIdentifier, bool fromTouch)
+{
+    m_lastTapWasOnFocusedEditableElement = false;
     MonotonicTime now = MonotonicTime::now();
     IntSize moved = point - m_lastTap;
     bool doubleTap = now - m_lastTapTime < doubleTapInterval
@@ -707,19 +994,46 @@ void WebViewImpl::tap(const IntPoint& point)
     m_lastTapTime = doubleTap ? MonotonicTime() : now;
     // The first tap has clicked already; the second zooms instead, on pages
     // that can zoom.
-    if (doubleTap && m_maximumScale > m_minimumScale)
+    if (doubleTap && (!fromTouch || m_touchAllowsDoubleTap) && m_maximumScale > m_minimumScale) {
         zoomAt(point);
-    else
-        click(point);
+        return false;
+    }
+    auto generation = m_touchGeneration;
+    RefPtr tappedEditable = click(point, touchIdentifier, fromTouch);
+    if (generation == m_touchGeneration && tappedEditable && tappedEditable->isConnected() && focusedInputType() != InputType::None) {
+        auto* document = focusedFrame().document();
+        RefPtr focused = document ? document->focusedElement() : nullptr;
+        if (focused && (is<HTMLInputElement>(*focused) || is<HTMLTextAreaElement>(*focused)))
+            m_lastTapWasOnFocusedEditableElement = tappedEditable == focused;
+        else
+            m_lastTapWasOnFocusedEditableElement = tappedEditable.get() == editableRoot();
+    }
+    return true;
 }
 
-void WebViewImpl::click(const IntPoint& point)
+RefPtr<Element> WebViewImpl::click(const IntPoint& point, unsigned touchIdentifier, bool fromTouch)
 {
     auto& handler = m_page->localMainFrame()->eventHandler();
     MonotonicTime now = MonotonicTime::now();
-    handler.mouseMoved(PlatformMouseEvent(point, point, MouseButton::None, PlatformEvent::Type::MouseMoved, 0, { }, now, 0, SyntheticClickType::NoTap));
-    handler.handleMousePressEvent(PlatformMouseEvent(point, point, MouseButton::Left, PlatformEvent::Type::MousePressed, 1, { }, now, ForceAtClick, SyntheticClickType::OneFingerTap));
-    handler.handleMouseReleaseEvent(PlatformMouseEvent(point, point, MouseButton::Left, PlatformEvent::Type::MouseReleased, 1, { }, now, ForceAtClick, SyntheticClickType::OneFingerTap));
+    class CompatibilityMouseEvent : public PlatformMouseEvent {
+    public:
+        CompatibilityMouseEvent(const IntPoint& point, MouseButton button, Type type, MonotonicTime now, unsigned identifier, bool touch)
+            : PlatformMouseEvent(point, point, button, type, button == MouseButton::None ? 0 : 1, { }, now,
+                button == MouseButton::None ? 0 : ForceAtClick,
+                touch || button != MouseButton::None ? SyntheticClickType::OneFingerTap : SyntheticClickType::NoTap,
+                touch ? mousePointerID + 1 + identifier : mousePointerID)
+        {
+            if (touch)
+                m_pointerType = touchPointerEventType();
+        }
+    };
+    handler.mouseMoved(CompatibilityMouseEvent(point, MouseButton::None, PlatformEvent::Type::MouseMoved, now, touchIdentifier, fromTouch));
+    // Mouse-over handlers have run; retain the actual press hit before down/
+    // click handlers can redirect focus or change the layout.
+    RefPtr tappedEditable = editableElementAt(point);
+    handler.handleMousePressEvent(CompatibilityMouseEvent(point, MouseButton::Left, PlatformEvent::Type::MousePressed, now, touchIdentifier, fromTouch));
+    handler.handleMouseReleaseEvent(CompatibilityMouseEvent(point, MouseButton::Left, PlatformEvent::Type::MouseReleased, now, touchIdentifier, fromTouch));
+    return tappedEditable;
 }
 
 void WebViewImpl::scrollAt(const IntPoint& point, const IntSize& delta)
@@ -728,6 +1042,7 @@ void WebViewImpl::scrollAt(const IntPoint& point, const IntSize& delta)
     // A wheel event scrolls whatever is under the finger, overflow areas
     // included; the content follows the finger.
     PlatformWheelEvent event(point, point, delta.width(), delta.height(), 0, 0, PlatformWheelEventGranularity::ScrollByPixelWheelEvent, false, false, false, false);
+    event.setHasPreciseScrollingDeltas(true);
     m_page->localMainFrame()->eventHandler().handleWheelEvent(event, { WheelEventProcessingSteps::SynchronousScrolling, WheelEventProcessingSteps::BlockingDOMEventDispatch });
 }
 
@@ -755,9 +1070,12 @@ bool WebViewImpl::handleKey(bool isDown, int keyCode, Text text, unsigned modifi
     if (!isDown)
         return handler.keyEvent(PlatformKeyboardEvent(PlatformEvent::Type::KeyUp, { }, { }, key, { }, keyIdentifier, keyCode, false, false, false, eventModifiers, now));
 
-    // As on Windows: a raw key down, then the characters it typed.
+    // Text also carries the DOM key identity. Control shortcuts must not turn
+    // into text insertion when the page/editor leaves their keydown unhandled.
+    // Keep printable Ctrl+Alt (AltGr) output supplied by the native input method.
     bool handled = handler.keyEvent(PlatformKeyboardEvent(PlatformEvent::Type::RawKeyDown, { }, { }, key, { }, keyIdentifier, keyCode, false, false, false, eventModifiers, now));
-    if (handled || characters.isEmpty())
+    if (handled || characters.isEmpty()
+        || ((modifiers & ControlKey) && (!(modifiers & AltKey) || characters[0] < ' ')))
         return handled;
     return focusedFrame().eventHandler().keyEvent(PlatformKeyboardEvent(PlatformEvent::Type::Char, characters, characters, key, { }, keyIdentifier, keyCode, false, false, false, eventModifiers, now));
 }
@@ -861,6 +1179,35 @@ bool WebViewImpl::handleEditingKeyboardEvent(KeyboardEvent& event)
     if (event.charCode() < ' ')
         return false;
     return frame->editor().insertText(keyEvent->text(), &event);
+}
+
+namespace {
+String editCommandName(EditCommand command)
+{
+    switch (command) {
+    case EditCommand::Cut: return "Cut"_s;
+    case EditCommand::Copy: return "Copy"_s;
+    case EditCommand::Paste: return "Paste"_s;
+    case EditCommand::SelectAll: return "SelectAll"_s;
+    }
+    return { };
+}
+}
+
+bool WebViewImpl::canExecuteEditCommand(EditCommand command) const
+{
+    auto name = editCommandName(command);
+    return !name.isNull() && focusedFrame().editor().command(name).isEnabled();
+}
+
+bool WebViewImpl::executeEditCommand(EditCommand command)
+{
+    auto name = editCommandName(command);
+    if (name.isNull())
+        return false;
+    Ref frame = focusedFrame();
+    UserGestureIndicator gesture(IsProcessingUserGesture::Yes, frame->document());
+    return frame->editor().command(name).execute();
 }
 
 // Editing for the input method. Offsets count characters of the root

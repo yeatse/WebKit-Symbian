@@ -1,0 +1,18 @@
+{
+  "run": "dl-e-3917b1c007b2",
+  "case": "existing",
+  "guest_directory": "C:\\Data\\DownloadRuntime\\dl-e-3917b1c007b2\\",
+  "host_directory": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/DownloadRuntime/dl-e-3917b1c007b2",
+  "files": [
+    {
+      "name": "payload.bin",
+      "bytes": 54,
+      "sha256": "8c730aa98f27f92d004ce364040f5d0201161edb19bd0f19078a3c91fbd09fba",
+      "mtime_ns": 1793504158122768536,
+      "inode": 983906
+    }
+  ],
+  "directories": [],
+  "captured_utc": "2026-11-01T03:37:37.157694+00:00",
+  "archive_directory": "/workspace/symbian-download-suite-resume/runs/existing-c16-02/after-files"
+}

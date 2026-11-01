@@ -1,0 +1,6 @@
+{
+  "source": "Source/WTF/wtf/symbian/FileSystemSymbian.cpp",
+  "source_sha256": "ad60af085cd8a1012784da76254c3037592614f1a87324642af1af5a8d801c87",
+  "function_sha256": "b0c0d96f9a72a88355d63cbae168bac35269de967c097290bdd15c96328de7df",
+  "scope": "Exact production copy function; std::string substitutes WTF path storage, actual OpenC APIs unchanged"
+}

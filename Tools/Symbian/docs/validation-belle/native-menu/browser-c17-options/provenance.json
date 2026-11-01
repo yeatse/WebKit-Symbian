@@ -1,0 +1,333 @@
+{
+  "archived_utc": "2026-11-01T04:01:41.274576+00:00",
+  "scope": "read-only archive of completed root runs",
+  "excluded": [
+    "private backups/config/profile/clipboard contents",
+    "previous/original logs",
+    "build executable/DLL binaries"
+  ],
+  "source_records": [
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/acceptance.json",
+      "source_bytes": 740,
+      "source_sha256": "3209f07aaab99591d910f3c898431548e2adcd37746d8f902e34ce58ee5e213b",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/acceptance.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/capture-01/calibration-main.png",
+      "source_bytes": 13409,
+      "source_sha256": "79d21b6e7c5616604478c5f2a3881c659cfb568511d927deea8c4cbc7f8c86c7",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/capture-01/calibration-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/capture-01/calibration.json",
+      "source_bytes": 794,
+      "source_sha256": "f57815847ca5428df112b0bf28251addb20fd07a4466b0927f5563590adea746",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/capture-01/calibration.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/capture-02/calibration-main.png",
+      "source_bytes": 24875,
+      "source_sha256": "b64bf850b30867099f9b7d034d27a1ac6e427f35c9bb029a948041c83729fa48",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/capture-02/calibration-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/capture-02/calibration.json",
+      "source_bytes": 794,
+      "source_sha256": "fe69b0082a89748aea0c629cc05fa1af3456d3fd4b161224dbca38845ce05993",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/capture-02/calibration.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/capture-03/calibration-main.png",
+      "source_bytes": 13546,
+      "source_sha256": "29ebedebfd1d6d3e949576cfdf0fc0d701710c87b36d668fa17d0432e9f32295",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/capture-03/calibration-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/capture-03/calibration.json",
+      "source_bytes": 794,
+      "source_sha256": "91110216130e5eef1156e645fe9196af1542369eb056f720d8eb110b3d6c0e9b",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/capture-03/calibration.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/capture-04/calibration-main.png",
+      "source_bytes": 27026,
+      "source_sha256": "1a0cfc4c4855feb34b74396ec2831e3ff41cd3fd000547165e24de8ea1a67939",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/capture-04/calibration-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/capture-04/calibration.json",
+      "source_bytes": 794,
+      "source_sha256": "b63760adb0f3302bf1326fd29bf3bd6b0d3072805f9b58a96c3e65e3f4d4749e",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/capture-04/calibration.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-01/01-after-main.png",
+      "source_bytes": 24875,
+      "source_sha256": "b64bf850b30867099f9b7d034d27a1ac6e427f35c9bb029a948041c83729fa48",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-01/01-after-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-01/01-before-main.png",
+      "source_bytes": 13409,
+      "source_sha256": "79d21b6e7c5616604478c5f2a3881c659cfb568511d927deea8c4cbc7f8c86c7",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-01/01-before-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-01/calibration/calibration-main.png",
+      "source_bytes": 13409,
+      "source_sha256": "79d21b6e7c5616604478c5f2a3881c659cfb568511d927deea8c4cbc7f8c86c7",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-01/calibration/calibration-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-01/calibration/calibration.json",
+      "source_bytes": 794,
+      "source_sha256": "f57815847ca5428df112b0bf28251addb20fd07a4466b0927f5563590adea746",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-01/calibration/calibration.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-01/calibration/plan.json",
+      "source_bytes": 210,
+      "source_sha256": "064ca0e0e85af5fc0183b2478e11213dd7fb6ade45c467aa7f47f582123cf856",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-01/calibration/plan.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-01/interaction.json",
+      "source_bytes": 1528,
+      "source_sha256": "f187ad9179c7e3634742095d6d8669ff828d448097dbcb7e81797e6749931091",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-01/interaction.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-01-driver.log",
+      "source_bytes": 1528,
+      "source_sha256": "f187ad9179c7e3634742095d6d8669ff828d448097dbcb7e81797e6749931091",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-01-driver.log.gz",
+      "compression": "gzip"
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-02/01-after-main.png",
+      "source_bytes": 13546,
+      "source_sha256": "29ebedebfd1d6d3e949576cfdf0fc0d701710c87b36d668fa17d0432e9f32295",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-02/01-after-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-02/01-before-main.png",
+      "source_bytes": 24875,
+      "source_sha256": "b64bf850b30867099f9b7d034d27a1ac6e427f35c9bb029a948041c83729fa48",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-02/01-before-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-02/calibration/calibration-main.png",
+      "source_bytes": 24875,
+      "source_sha256": "b64bf850b30867099f9b7d034d27a1ac6e427f35c9bb029a948041c83729fa48",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-02/calibration/calibration-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-02/calibration/calibration.json",
+      "source_bytes": 794,
+      "source_sha256": "fe69b0082a89748aea0c629cc05fa1af3456d3fd4b161224dbca38845ce05993",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-02/calibration/calibration.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-02/calibration/plan.json",
+      "source_bytes": 210,
+      "source_sha256": "b071b6b0d5dd5d648beb35ec2be17d01e970156d7f70908040a37f1c61ed6466",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-02/calibration/plan.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-02/interaction.json",
+      "source_bytes": 1528,
+      "source_sha256": "b5acf66c14de0cba1ab944d4520711f273f244a57cd83c3def387ad9e4b004ad",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-02/interaction.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-03/01-after-main.png",
+      "source_bytes": 27026,
+      "source_sha256": "1a0cfc4c4855feb34b74396ec2831e3ff41cd3fd000547165e24de8ea1a67939",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-03/01-after-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-03/01-before-main.png",
+      "source_bytes": 13546,
+      "source_sha256": "29ebedebfd1d6d3e949576cfdf0fc0d701710c87b36d668fa17d0432e9f32295",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-03/01-before-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-03/calibration/calibration-main.png",
+      "source_bytes": 13546,
+      "source_sha256": "29ebedebfd1d6d3e949576cfdf0fc0d701710c87b36d668fa17d0432e9f32295",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-03/calibration/calibration-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-03/calibration/calibration.json",
+      "source_bytes": 794,
+      "source_sha256": "91110216130e5eef1156e645fe9196af1542369eb056f720d8eb110b3d6c0e9b",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-03/calibration/calibration.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-03/calibration/plan.json",
+      "source_bytes": 202,
+      "source_sha256": "f945ca96cdf067235e5e0a5ca6596fd57a0d08128033d9cf35633a9253519110",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-03/calibration/plan.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-03/interaction.json",
+      "source_bytes": 1490,
+      "source_sha256": "5824950683ff19e04137126dd48dc7f76a346e15aef408b783fc648cab14e691",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-03/interaction.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-04/01-after-main.png",
+      "source_bytes": 13409,
+      "source_sha256": "79d21b6e7c5616604478c5f2a3881c659cfb568511d927deea8c4cbc7f8c86c7",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-04/01-after-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-04/01-before-main.png",
+      "source_bytes": 27026,
+      "source_sha256": "1a0cfc4c4855feb34b74396ec2831e3ff41cd3fd000547165e24de8ea1a67939",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-04/01-before-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-04/calibration/calibration-main.png",
+      "source_bytes": 27026,
+      "source_sha256": "1a0cfc4c4855feb34b74396ec2831e3ff41cd3fd000547165e24de8ea1a67939",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-04/calibration/calibration-main.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-04/calibration/calibration.json",
+      "source_bytes": 794,
+      "source_sha256": "b63760adb0f3302bf1326fd29bf3bd6b0d3072805f9b58a96c3e65e3f4d4749e",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-04/calibration/calibration.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-04/calibration/plan.json",
+      "source_bytes": 210,
+      "source_sha256": "a0256ad4a7b8fd3b35bdb0f5b0e632a759b75c0df6a254a75de28ea040d7b9c0",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-04/calibration/plan.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/input-04/interaction.json",
+      "source_bytes": 1528,
+      "source_sha256": "a4d5268ece47de58fbecfe025d763b1d90a48aa595f397acb5aba11f036eb777",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/input-04/interaction.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/plan-01.json",
+      "source_bytes": 210,
+      "source_sha256": "064ca0e0e85af5fc0183b2478e11213dd7fb6ade45c467aa7f47f582123cf856",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/plan-01.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/plan-02.json",
+      "source_bytes": 210,
+      "source_sha256": "b071b6b0d5dd5d648beb35ec2be17d01e970156d7f70908040a37f1c61ed6466",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/plan-02.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/plan-03.json",
+      "source_bytes": 202,
+      "source_sha256": "f945ca96cdf067235e5e0a5ca6596fd57a0d08128033d9cf35633a9253519110",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/plan-03.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/plan-04.json",
+      "source_bytes": 210,
+      "source_sha256": "a0256ad4a7b8fd3b35bdb0f5b0e632a759b75c0df6a254a75de28ea040d7b9c0",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/plan-04.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/result.json",
+      "source_bytes": 6688,
+      "source_sha256": "387d0ead959a8ccd281c7d46e27074f73f5811278db3b78e21dc09acd4f13c52",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/result.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/runner-pid",
+      "source_bytes": 6,
+      "source_sha256": "cc3b5e5f11747a39bbb5822b3445a287465f1d67529538fd3436b8e68e0469f8",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/runner-pid",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/runner.log",
+      "source_bytes": 547,
+      "source_sha256": "09a78390816303071b0c9176926e1dea076fa42a320bf8e0a26f0d06fe44aa72",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/runner.log.gz",
+      "compression": "gzip"
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/runs/browser-20261101T033853Z-p4jmlylw/emulator.log",
+      "source_bytes": 195111,
+      "source_sha256": "3844be10a24503815798b0f6bd746f098df361b12576acf1d63a195ecd6bb4bc",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/runs/browser-20261101T033853Z-p4jmlylw/emulator.log.gz",
+      "compression": "gzip"
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/options-calibration-c17/runs/browser-20261101T033853Z-p4jmlylw/log.txt",
+      "source_bytes": 358,
+      "source_sha256": "257f4468f8b9f6c83f174612521c1fadaa22304828a142c8303beffb8eeec1b8",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/run/runs/browser-20261101T033853Z-p4jmlylw/log.txt",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/run-options-c17.py",
+      "source_bytes": 2610,
+      "source_sha256": "4ae1dcb2c7cf9292ab68ec087f2e4716589de0a9899c185e5ce9019a93a69ac0",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/tools/run-options-c17.py",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-download-runtime-work/native.py",
+      "source_bytes": 9586,
+      "source_sha256": "2a4f6488768369eac9e1c36e1870e4a275ac286b1a1ad1bcf79970a85b1cd22f",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/tools/native.py",
+      "compression": null
+    },
+    {
+      "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+      "source_bytes": 20789,
+      "source_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/native-menu/browser-c17-options/tools/native-interact.py",
+      "compression": null
+    }
+  ]
+}

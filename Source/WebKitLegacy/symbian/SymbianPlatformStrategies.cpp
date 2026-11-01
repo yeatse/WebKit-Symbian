@@ -23,19 +23,20 @@
  */
 
 #include "SymbianPlatformStrategies.h"
+#include "WebKitSymbianClipboard.h"
 
 #include "WebResourceLoadScheduler.h"
 #include <WebCore/BlobRegistry.h>
 #include <WebCore/BlobRegistryImpl.h>
 #include <WebCore/MediaStrategy.h>
 #include <WebCore/Pasteboard.h>
+#include <WebCore/PasteboardCustomData.h>
 #include <WebCore/PasteboardItemInfo.h>
 #include <WebCore/PasteboardStrategy.h>
 #include <WebCore/SharedBuffer.h>
 #include <WebCore/PolicyContainer.h>
-#include <wtf/HashMap.h>
 #include <wtf/NeverDestroyed.h>
-#include <wtf/text/StringHash.h>
+#include <wtf/text/StringView.h>
 
 namespace WebKitSymbian {
 
@@ -64,13 +65,55 @@ private:
     BlobRegistryImpl m_blobRegistry;
 };
 
-// The pasteboard lives in the process, by MIME type.
-// FIXME: Exchange text with the system clipboard (CClipboard).
 class SymbianPasteboardStrategy final : public PasteboardStrategy {
-private:
+    static bool isPlainText(const String& type)
+    {
+        return type == "text/plain"_s || type == "text/plain;charset=utf-8"_s;
+    }
+
+    bool hasText() const
+    {
+        auto* client = clipboardClient();
+        return client && client->hasPlainText();
+    }
+
+    bool writeText(const String& text)
+    {
+        auto* client = clipboardClient();
+        if (!client || text.isNull() || text.length() > maximumClipboardTextLength)
+            return false;
+        auto characters = StringView(text).upconvertedCharacters();
+        return client->writePlainText({ reinterpret_cast<const uint16_t*>(characters.get()), static_cast<int>(text.length()) });
+    }
+
+    class ReadResult final : public TextResult {
+    public:
+        void setText(Text text) final
+        {
+            // The native result is copied while its storage is still alive.
+            bool wasCalled = called;
+            called = true;
+            if (wasCalled || text.length < 0 || text.length > maximumClipboardTextLength || (text.length && !text.characters)) {
+                valid = false;
+                return;
+            }
+            valid = true;
+            value = text.length ? String(std::span(reinterpret_cast<const UChar*>(text.characters), static_cast<size_t>(text.length))) : emptyString();
+        }
+        String value;
+        bool called { false };
+        bool valid { false };
+    };
+
     String readStringFromPasteboard(size_t index, const String& type, const String&, const PasteboardContext*) final
     {
-        return index ? String() : m_items.get(type);
+        auto* client = clipboardClient();
+        if (index || !isPlainText(type) || !client)
+            return { };
+        ReadResult result;
+        if (!client->readPlainText(result) || !result.called || !result.valid)
+            return { };
+        return result.value;
     }
 
     RefPtr<SharedBuffer> readBufferFromPasteboard(std::optional<size_t>, const String&, const String&, const PasteboardContext*) final { return nullptr; }
@@ -78,10 +121,10 @@ private:
 
     std::optional<PasteboardItemInfo> informationForItemAtIndex(size_t index, const String&, int64_t, const PasteboardContext*) final
     {
-        if (index || m_items.isEmpty())
+        if (index || !hasText())
             return std::nullopt;
         PasteboardItemInfo info;
-        info.platformTypesByFidelity = copyToVector(m_items.keys());
+        info.platformTypesByFidelity = { "text/plain"_s, "text/plain;charset=utf-8"_s };
         return info;
     }
 
@@ -93,27 +136,37 @@ private:
         return items;
     }
 
-    int getPasteboardItemsCount(const String&, const PasteboardContext*) final { return m_items.isEmpty() ? 0 : 1; }
-    Vector<String> typesSafeForDOMToReadAndWrite(const String&, const String&, const PasteboardContext*) final { return copyToVector(m_items.keys()); }
-    int64_t writeCustomData(const Vector<PasteboardCustomData>&, const String&, const PasteboardContext*) final { return 0; }
-    bool containsStringSafeForDOMToReadForType(const String& type, const String&, const PasteboardContext*) final { return m_items.contains(type); }
-
-    void getTypes(Vector<String>& types) final { types = copyToVector(m_items.keys()); }
-
-    void writeToPasteboard(const PasteboardWebContent& content) final
+    int getPasteboardItemsCount(const String&, const PasteboardContext*) final { return hasText() ? 1 : 0; }
+    Vector<String> typesSafeForDOMToReadAndWrite(const String&, const String&, const PasteboardContext*) final
     {
-        m_items.clear();
-        m_items.set("text/plain;charset=utf-8"_s, content.text);
-        m_items.set("text/html;charset=utf-8"_s, content.markup);
+        return hasText() ? Vector<String> { "text/plain"_s } : Vector<String> { };
     }
-
-    void writeToPasteboard(const String& type, const String& text) final
+    int64_t writeCustomData(const Vector<PasteboardCustomData>& items, const String&, const PasteboardContext*) final
     {
-        m_items.clear();
-        m_items.set(type, text);
+        if (items.size() != 1)
+            return 0;
+        // HTML, custom types, files and rich-text fields are not advertised.
+        // Do not retain stale process-local content after an external copy.
+        const auto& item = items[0];
+        for (const auto& type : item.orderedTypes()) {
+            if (isPlainText(type))
+                return writeText(item.readString(type)) ? 1 : 0;
+        }
+        return 0;
     }
+    bool containsStringSafeForDOMToReadForType(const String& type, const String&, const PasteboardContext*) final { return isPlainText(type) && hasText(); }
 
-    HashMap<String, String> m_items;
+    void getTypes(Vector<String>& types) final
+    {
+        types = hasText() ? Vector<String> { "text/plain"_s, "text/plain;charset=utf-8"_s } : Vector<String> { };
+    }
+    bool writeToPasteboard(const PasteboardWebContent& content) final { return writeText(content.text); }
+    bool writeToPasteboard(const String& type, const String& text) final { return isPlainText(type) && writeText(text); }
+    bool clearPasteboard() final
+    {
+        auto* client = clipboardClient();
+        return client && client->clear();
+    }
 };
 
 } // namespace

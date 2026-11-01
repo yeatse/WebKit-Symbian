@@ -1,0 +1,11 @@
+{
+  "previous_sha256": "8d3877d7cf0d523bd4d7a0d9338a7c2f7a93c64fd259d57d61e55bc6784d6d34",
+  "deployed_sha256": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b",
+  "deployed_bytes": 99272,
+  "host_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+  "source": "/workspace/symbian-fep-sdk-build-work/artifacts/avkonfep_general.dll",
+  "target": "/workspace/EKA2L1-validation/build/bin/patch/avkonfep_general.dll",
+  "extra_ordinal_remap": false,
+  "native_UI_verified": false,
+  "future_host_build": "Restore this FEP DLL plus four pinned MMF assets after every host build"
+}

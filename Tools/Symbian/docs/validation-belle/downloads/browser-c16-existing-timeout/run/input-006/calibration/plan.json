@@ -1,0 +1,15 @@
+{
+  "calibration_sha256": "f5ed27bdf14cbfbaed502a3f1a4bd790b73e18b1f6156b32a0a31e868b975305",
+  "screenshots_reviewed": true,
+  "actions": [
+    {
+      "target": "main",
+      "role": "native-step",
+      "wait": 0.5,
+      "point": [
+        450,
+        367
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "run": "clipboard-menu-c17-20261101-01",
+  "step": 9,
+  "operation": "select-all",
+  "expected_label": "Select all",
+  "pid": 526512,
+  "window": "0x60000b",
+  "geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "opened": {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-20261101-01/input/menu-reviews/10-step9-select-all/opened.png",
+    "sha256": "5bc229b5a8f11df058e83bae895871f6c29d6b35a2af914fa2ea344b56d4028f"
+  },
+  "state": "WAITING_ROOT_POINT_REVIEW",
+  "no_edit_command_selected": true
+}

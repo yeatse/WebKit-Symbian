@@ -141,6 +141,11 @@ void SymbianChromeClient::chromeDestroyed()
 
 }
 
+unsigned SymbianChromeClient::maximumTouchPoints() const
+{
+    return m_view.maximumTouchPoints();
+}
+
 FloatRect SymbianChromeClient::windowRect() const
 {
     return FloatRect(FloatPoint(), m_view.size());

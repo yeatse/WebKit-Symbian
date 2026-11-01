@@ -1,0 +1,13 @@
+test_backward_and_zero_progress_rejected (__main__.Contracts.test_backward_and_zero_progress_rejected) ... ok
+test_coarse_tick_valid_samples (__main__.Contracts.test_coarse_tick_valid_samples) ... ok
+test_duplicate_missing_and_failure_results_rejected (__main__.Contracts.test_duplicate_missing_and_failure_results_rejected) ... ok
+test_every_yield_one_second_rejected (__main__.Contracts.test_every_yield_one_second_rejected) ... ok
+test_forged_report_and_nonfinite_samples_rejected (__main__.Contracts.test_forged_report_and_nonfinite_samples_rejected) ... ok
+test_requested_contract_change_rejected (__main__.Contracts.test_requested_contract_change_rejected) ... ok
+test_two_large_vm_scheduling_delays_allowed (__main__.Contracts.test_two_large_vm_scheduling_delays_allowed) ... ok
+test_wrong_token_and_url_rejected (__main__.Contracts.test_wrong_token_and_url_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.002s
+
+OK

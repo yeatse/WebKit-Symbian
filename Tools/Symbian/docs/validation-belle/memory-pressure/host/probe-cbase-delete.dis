@@ -1,0 +1,1418 @@
+
+/workspace/symbian-memory-pressure-work/native-threshold-final/build/CMakeFiles/memory_pressure_probe.dir/probe.cpp.obj:     file format elf32-littlearm
+
+
+Disassembly of section .text.main:
+
+00000000 <main>:
+       0:	e92d4ff0 	push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
+       4:	e24dd0e4 	sub	sp, sp, #228	@ 0xe4
+       8:	e59f0ef0 	ldr	r0, [pc, #3824]	@ f00 <main+0xf00>
+       c:	e59f1ef0 	ldr	r1, [pc, #3824]	@ f04 <main+0xf04>
+      10:	ebfffffe 	bl	0 <fopen>
+			10: R_ARM_CALL	fopen
+      14:	e59f1eec 	ldr	r1, [pc, #3820]	@ f08 <main+0xf08>
+      18:	e3500000 	cmp	r0, #0
+      1c:	e5810004 	str	r0, [r1, #4]
+      20:	0a0000db 	beq	394 <main+0x394>
+      24:	e3a01000 	mov	r1, #0
+      28:	e3a02002 	mov	r2, #2
+      2c:	e3a03000 	mov	r3, #0
+      30:	ebfffffe 	bl	0 <setvbuf>
+			30: R_ARM_CALL	setvbuf
+      34:	ebfffffe 	bl	0 <User::MarkCleanupStack()>
+			34: R_ARM_CALL	User::MarkCleanupStack()
+      38:	e1a04000 	mov	r4, r0
+      3c:	e28d00cc 	add	r0, sp, #204	@ 0xcc
+      40:	ebfffffe 	bl	0 <CActiveScheduler::CActiveScheduler()>
+			40: R_ARM_CALL	CActiveScheduler::CActiveScheduler()
+      44:	e28d00cc 	add	r0, sp, #204	@ 0xcc
+      48:	ebfffffe 	bl	0 <CActiveScheduler::Install(CActiveScheduler*)>
+			48: R_ARM_CALL	CActiveScheduler::Install(CActiveScheduler*)
+      4c:	e3a00020 	mov	r0, #32
+      50:	ebfffffe 	bl	0 <User::AllocZL(int)>
+			50: R_ARM_CALL	User::AllocZL(int)
+      54:	e3a01000 	mov	r1, #0
+      58:	e1a05000 	mov	r5, r0
+      5c:	ebfffffe 	bl	0 <CTimer::CTimer(int)>
+			5c: R_ARM_CALL	CTimer::CTimer(int)
+      60:	e59f0ea4 	ldr	r0, [pc, #3748]	@ f0c <main+0xf0c>
+      64:	e2800008 	add	r0, r0, #8
+      68:	e5850000 	str	r0, [r5]
+      6c:	e1a00005 	mov	r0, r5
+      70:	ebfffffe 	bl	0 <CActiveScheduler::Add(CActive*)>
+			70: R_ARM_CALL	CActiveScheduler::Add(CActive*)
+      74:	e1a00005 	mov	r0, r5
+      78:	ebfffffe 	bl	0 <CleanupStack::PushL(CBase*)>
+			78: R_ARM_CALL	CleanupStack::PushL(CBase*)
+      7c:	e1a00005 	mov	r0, r5
+      80:	ebfffffe 	bl	0 <CTimer::ConstructL()>
+			80: R_ARM_CALL	CTimer::ConstructL()
+      84:	e59f1e7c 	ldr	r1, [pc, #3708]	@ f08 <main+0xf08>
+      88:	e3a00001 	mov	r0, #1
+      8c:	e5c10000 	strb	r0, [r1]
+      90:	e3a00000 	mov	r0, #0
+      94:	e58d00c8 	str	r0, [sp, #200]	@ 0xc8
+      98:	e59f0e70 	ldr	r0, [pc, #3696]	@ f10 <main+0xf10>
+      9c:	e28d20c8 	add	r2, sp, #200	@ 0xc8
+      a0:	e3a01000 	mov	r1, #0
+      a4:	ebfffffe 	bl	0 <WTF::SymbianSystem::createMemoryPressureMonitor(void (*)(void*, unsigned int, int), void*, int&)>
+			a4: R_ARM_CALL	WTF::SymbianSystem::createMemoryPressureMonitor(void (*)(void*, unsigned int, int), void*, int&)
+      a8:	e3500000 	cmp	r0, #0
+      ac:	e1a01000 	mov	r1, r0
+      b0:	e1a06000 	mov	r6, r0
+      b4:	13a01001 	movne	r1, #1
+      b8:	e59d20c8 	ldr	r2, [sp, #200]	@ 0xc8
+      bc:	e59f0e50 	ldr	r0, [pc, #3664]	@ f14 <main+0xf14>
+      c0:	ebfffffe 	bl	0 <main>
+			c0: R_ARM_CALL	log(char const*, ...)
+      c4:	e3560000 	cmp	r6, #0
+      c8:	1a000001 	bne	d4 <main+0xd4>
+      cc:	e59d00c8 	ldr	r0, [sp, #200]	@ 0xc8
+      d0:	ebfffffe 	bl	0 <User::Leave(int)>
+			d0: R_ARM_CALL	User::Leave(int)
+      d4:	e3a01e12 	mov	r1, #288	@ 0x120
+      d8:	e3811a7a 	orr	r1, r1, #499712	@ 0x7a000
+      dc:	e1a00005 	mov	r0, r5
+      e0:	ebfffffe 	bl	0 <CTimer::After(TTimeIntervalMicroSeconds32)>
+			e0: R_ARM_CALL	CTimer::After(TTimeIntervalMicroSeconds32)
+      e4:	ebfffffe 	bl	0 <CActiveScheduler::Start()>
+			e4: R_ARM_CALL	CActiveScheduler::Start()
+      e8:	e59f0e18 	ldr	r0, [pc, #3608]	@ f08 <main+0xf08>
+      ec:	e5900008 	ldr	r0, [r0, #8]
+      f0:	e58d0068 	str	r0, [sp, #104]	@ 0x68
+      f4:	e3a00000 	mov	r0, #0
+      f8:	e58d00c4 	str	r0, [sp, #196]	@ 0xc4
+      fc:	e28d00c4 	add	r0, sp, #196	@ 0xc4
+     100:	ebfffffe 	bl	0 <RChangeNotifier::Create()>
+			100: R_ARM_CALL	RChangeNotifier::Create()
+     104:	e1a07000 	mov	r7, r0
+     108:	e3500000 	cmp	r0, #0
+     10c:	e58d00c8 	str	r0, [sp, #200]	@ 0xc8
+     110:	1a000002 	bne	120 <main+0x120>
+     114:	e28d00c4 	add	r0, sp, #196	@ 0xc4
+     118:	ebfffffe 	bl	0 <main>
+			118: R_ARM_CALL	boundedLogon(RChangeNotifier&)
+     11c:	e1a07000 	mov	r7, r0
+     120:	e59f0df0 	ldr	r0, [pc, #3568]	@ f18 <main+0xf18>
+     124:	e59d2068 	ldr	r2, [sp, #104]	@ 0x68
+     128:	e1a01007 	mov	r1, r7
+     12c:	ebfffffe 	bl	0 <main>
+			12c: R_ARM_CALL	log(char const*, ...)
+     130:	e3a00000 	mov	r0, #0
+     134:	e58d7038 	str	r7, [sp, #56]	@ 0x38
+     138:	e58d602c 	str	r6, [sp, #44]	@ 0x2c
+     13c:	e58d5044 	str	r5, [sp, #68]	@ 0x44
+     140:	e58d4028 	str	r4, [sp, #40]	@ 0x28
+     144:	e58d00c0 	str	r0, [sp, #192]	@ 0xc0
+     148:	e58d00bc 	str	r0, [sp, #188]	@ 0xbc
+     14c:	e58d00b8 	str	r0, [sp, #184]	@ 0xb8
+     150:	e58d00b4 	str	r0, [sp, #180]	@ 0xb4
+     154:	e58d00b0 	str	r0, [sp, #176]	@ 0xb0
+     158:	e58d00ac 	str	r0, [sp, #172]	@ 0xac
+     15c:	e58d00a8 	str	r0, [sp, #168]	@ 0xa8
+     160:	e58d00a4 	str	r0, [sp, #164]	@ 0xa4
+     164:	e58d009c 	str	r0, [sp, #156]	@ 0x9c
+     168:	e58d0098 	str	r0, [sp, #152]	@ 0x98
+     16c:	e58d0094 	str	r0, [sp, #148]	@ 0x94
+     170:	e58d0090 	str	r0, [sp, #144]	@ 0x90
+     174:	e58d008c 	str	r0, [sp, #140]	@ 0x8c
+     178:	e58d0088 	str	r0, [sp, #136]	@ 0x88
+     17c:	e58d0084 	str	r0, [sp, #132]	@ 0x84
+     180:	e58d0080 	str	r0, [sp, #128]	@ 0x80
+     184:	e58d007c 	str	r0, [sp, #124]	@ 0x7c
+     188:	e58d0078 	str	r0, [sp, #120]	@ 0x78
+     18c:	e28d0078 	add	r0, sp, #120	@ 0x78
+     190:	ebfffffe 	bl	0 <WTF::SymbianSystem::systemFreeMemory(unsigned long long&)>
+			190: R_ARM_CALL	WTF::SymbianSystem::systemFreeMemory(unsigned long long&)
+     194:	e59d6078 	ldr	r6, [sp, #120]	@ 0x78
+     198:	e59d507c 	ldr	r5, [sp, #124]	@ 0x7c
+     19c:	e1a04000 	mov	r4, r0
+     1a0:	e58d6070 	str	r6, [sp, #112]	@ 0x70
+     1a4:	e58d5074 	str	r5, [sp, #116]	@ 0x74
+     1a8:	e3a0053e 	mov	r0, #260046848	@ 0xf800000
+     1ac:	e58d0000 	str	r0, [sp]
+     1b0:	e59f0ff8 	ldr	r0, [pc, #4088]	@ 11b0 <main+0x11b0>
+     1b4:	e1a01004 	mov	r1, r4
+     1b8:	e1a02006 	mov	r2, r6
+     1bc:	e1a03005 	mov	r3, r5
+     1c0:	ebfffffe 	bl	0 <main>
+			1c0: R_ARM_CALL	log(char const*, ...)
+     1c4:	e28d10a4 	add	r1, sp, #164	@ 0xa4
+     1c8:	e2810004 	add	r0, r1, #4
+     1cc:	e58d0048 	str	r0, [sp, #72]	@ 0x48
+     1d0:	e2810008 	add	r0, r1, #8
+     1d4:	e58d004c 	str	r0, [sp, #76]	@ 0x4c
+     1d8:	e281000c 	add	r0, r1, #12
+     1dc:	e58d0050 	str	r0, [sp, #80]	@ 0x50
+     1e0:	e2810010 	add	r0, r1, #16
+     1e4:	e58d0054 	str	r0, [sp, #84]	@ 0x54
+     1e8:	e2810014 	add	r0, r1, #20
+     1ec:	e58d0058 	str	r0, [sp, #88]	@ 0x58
+     1f0:	e2810018 	add	r0, r1, #24
+     1f4:	e58d005c 	str	r0, [sp, #92]	@ 0x5c
+     1f8:	e281001c 	add	r0, r1, #28
+     1fc:	e58d0060 	str	r0, [sp, #96]	@ 0x60
+     200:	e1a00c26 	lsr	r0, r6, #24
+     204:	e1800405 	orr	r0, r0, r5, lsl #8
+     208:	e2700006 	rsbs	r0, r0, #6
+     20c:	e3a01000 	mov	r1, #0
+     210:	e0d10c25 	sbcs	r0, r1, r5, lsr #24
+     214:	e3a00000 	mov	r0, #0
+     218:	e59f5fe8 	ldr	r5, [pc, #4072]	@ 1208 <main+0x1208>
+     21c:	33a00001 	movcc	r0, #1
+     220:	e0044000 	and	r4, r4, r0
+     224:	e3a0b0fb 	mov	fp, #251	@ 0xfb
+     228:	e3a07000 	mov	r7, #0
+     22c:	e28d0080 	add	r0, sp, #128	@ 0x80
+     230:	e58d001c 	str	r0, [sp, #28]
+     234:	e3140001 	tst	r4, #1
+     238:	e58d706c 	str	r7, [sp, #108]	@ 0x6c
+     23c:	0a000059 	beq	3a8 <main+0x3a8>
+     240:	e59d00c8 	ldr	r0, [sp, #200]	@ 0xc8
+     244:	e3500000 	cmp	r0, #0
+     248:	1a000056 	bne	3a8 <main+0x3a8>
+     24c:	e1a00ba7 	lsr	r0, r7, #23
+     250:	e350001e 	cmp	r0, #30
+     254:	8a000053 	bhi	3a8 <main+0x3a8>
+     258:	e59d8070 	ldr	r8, [sp, #112]	@ 0x70
+     25c:	e59da074 	ldr	sl, [sp, #116]	@ 0x74
+     260:	e2850841 	add	r0, r5, #4259840	@ 0x410000
+     264:	e0500008 	subs	r0, r0, r8
+     268:	e2fa0000 	rscs	r0, sl, #0
+     26c:	2a00004d 	bcs	3a8 <main+0x3a8>
+     270:	e1a09ca7 	lsr	r9, r7, #25
+     274:	e28d0080 	add	r0, sp, #128	@ 0x80
+     278:	e7904109 	ldr	r4, [r0, r9, lsl #2]
+     27c:	e3540000 	cmp	r4, #0
+     280:	1a00000c 	bne	2b8 <main+0x2b8>
+     284:	e3a00000 	mov	r0, #0
+     288:	e58d0000 	str	r0, [sp]
+     28c:	e28d00a4 	add	r0, sp, #164	@ 0xa4
+     290:	e0800109 	add	r0, r0, r9, lsl #2
+     294:	e3a01000 	mov	r1, #0
+     298:	e3a02000 	mov	r2, #0
+     29c:	e3a03402 	mov	r3, #33554432	@ 0x2000000
+     2a0:	ebfffffe 	bl	0 <RChunk::CreateDisconnectedLocal(int, int, int, TOwnerType)>
+			2a0: R_ARM_CALL	RChunk::CreateDisconnectedLocal(int, int, int, TOwnerType)
+     2a4:	e3500000 	cmp	r0, #0
+     2a8:	e58d00c8 	str	r0, [sp, #200]	@ 0xc8
+     2ac:	1a00003c 	bne	3a4 <main+0x3a4>
+     2b0:	e59d8070 	ldr	r8, [sp, #112]	@ 0x70
+     2b4:	e59da074 	ldr	sl, [sp, #116]	@ 0x74
+     2b8:	e28d00a4 	add	r0, sp, #164	@ 0xa4
+     2bc:	e0806109 	add	r6, r0, r9, lsl #2
+     2c0:	e1a00006 	mov	r0, r6
+     2c4:	e1a01004 	mov	r1, r4
+     2c8:	e3a02501 	mov	r2, #4194304	@ 0x400000
+     2cc:	ebfffffe 	bl	0 <RChunk::Commit(int, int) const>
+			2cc: R_ARM_CALL	RChunk::Commit(int, int) const
+     2d0:	e3500000 	cmp	r0, #0
+     2d4:	e58d00c8 	str	r0, [sp, #200]	@ 0xc8
+     2d8:	1a000031 	bne	3a4 <main+0x3a4>
+     2dc:	e1a00006 	mov	r0, r6
+     2e0:	ebfffffe 	bl	0 <RChunk::Base() const>
+			2e0: R_ARM_CALL	RChunk::Base() const
+     2e4:	e59f5f20 	ldr	r5, [pc, #3872]	@ 120c <main+0x120c>
+     2e8:	e0892209 	add	r2, r9, r9, lsl #4
+     2ec:	e2841501 	add	r1, r4, #4194304	@ 0x400000
+     2f0:	e1a03fc4 	asr	r3, r4, #31
+     2f4:	e0843a23 	add	r3, r4, r3, lsr #20
+     2f8:	e0823643 	add	r3, r2, r3, asr #12
+     2fc:	e7573513 	smmla	r7, r3, r5, r3
+     300:	e1a063c7 	asr	r6, r7, #7
+     304:	e0867fa7 	add	r7, r6, r7, lsr #31
+     308:	e0070b97 	mul	r7, r7, fp
+     30c:	e0433007 	sub	r3, r3, r7
+     310:	e2833001 	add	r3, r3, #1
+     314:	e7c03004 	strb	r3, [r0, r4]
+     318:	e0807004 	add	r7, r0, r4
+     31c:	e2844a01 	add	r4, r4, #4096	@ 0x1000
+     320:	e22330a5 	eor	r3, r3, #165	@ 0xa5
+     324:	e1540001 	cmp	r4, r1
+     328:	e5c73fff 	strb	r3, [r7, #4095]	@ 0xfff
+     32c:	baffffef 	blt	2f0 <main+0x2f0>
+     330:	e28d0080 	add	r0, sp, #128	@ 0x80
+     334:	e7801109 	str	r1, [r0, r9, lsl #2]
+     338:	e28d0070 	add	r0, sp, #112	@ 0x70
+     33c:	ebfffffe 	bl	0 <WTF::SymbianSystem::systemFreeMemory(unsigned long long&)>
+			33c: R_ARM_CALL	WTF::SymbianSystem::systemFreeMemory(unsigned long long&)
+     340:	e59f5ec0 	ldr	r5, [pc, #3776]	@ 1208 <main+0x1208>
+     344:	e59d2070 	ldr	r2, [sp, #112]	@ 0x70
+     348:	e59d3074 	ldr	r3, [sp, #116]	@ 0x74
+     34c:	e3a06000 	mov	r6, #0
+     350:	e0581002 	subs	r1, r8, r2
+     354:	e0da7003 	sbcs	r7, sl, r3
+     358:	23a06001 	movcs	r6, #1
+     35c:	e0551001 	subs	r1, r5, r1
+     360:	e2f71000 	rscs	r1, r7, #0
+     364:	e3a01000 	mov	r1, #0
+     368:	e59d706c 	ldr	r7, [sp, #108]	@ 0x6c
+     36c:	33a01001 	movcc	r1, #1
+     370:	e0000006 	and	r0, r0, r6
+     374:	e0004001 	and	r4, r0, r1
+     378:	e59d00c8 	ldr	r0, [sp, #200]	@ 0xc8
+     37c:	e2877501 	add	r7, r7, #4194304	@ 0x400000
+     380:	e88d0011 	stm	sp, {r0, r4}
+     384:	e59f0ea0 	ldr	r0, [pc, #3744]	@ 122c <main+0x122c>
+     388:	e1a01007 	mov	r1, r7
+     38c:	ebfffffe 	bl	0 <main>
+			38c: R_ARM_CALL	log(char const*, ...)
+     390:	eaffffa7 	b	234 <main+0x234>
+     394:	e3a04002 	mov	r4, #2
+     398:	e1a00004 	mov	r0, r4
+     39c:	e28dd0e4 	add	sp, sp, #228	@ 0xe4
+     3a0:	e8bd8ff0 	pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+     3a4:	e3a04001 	mov	r4, #1
+     3a8:	e59d0044 	ldr	r0, [sp, #68]	@ 0x44
+     3ac:	e3a01e12 	mov	r1, #288	@ 0x120
+     3b0:	e3811a7a 	orr	r1, r1, #499712	@ 0x7a000
+     3b4:	ebfffffe 	bl	0 <CTimer::After(TTimeIntervalMicroSeconds32)>
+			3b4: R_ARM_CALL	CTimer::After(TTimeIntervalMicroSeconds32)
+     3b8:	ebfffffe 	bl	0 <CActiveScheduler::Start()>
+			3b8: R_ARM_CALL	CActiveScheduler::Start()
+     3bc:	e59d0038 	ldr	r0, [sp, #56]	@ 0x38
+     3c0:	e3a010a0 	mov	r1, #160	@ 0xa0
+     3c4:	e3811102 	orr	r1, r1, #-2147483648	@ 0x80000000
+     3c8:	e0000001 	and	r0, r0, r1
+     3cc:	e3a02000 	mov	r2, #0
+     3d0:	e58d003c 	str	r0, [sp, #60]	@ 0x3c
+     3d4:	e3500020 	cmp	r0, #32
+     3d8:	e3a00000 	mov	r0, #0
+     3dc:	1a000003 	bne	3f0 <main+0x3f0>
+     3e0:	e59d0068 	ldr	r0, [sp, #104]	@ 0x68
+     3e4:	e16f0f10 	clz	r0, r0
+     3e8:	e1a002a0 	lsr	r0, r0, #5
+     3ec:	e0000004 	and	r0, r0, r4
+     3f0:	e58d0030 	str	r0, [sp, #48]	@ 0x30
+     3f4:	e59d0070 	ldr	r0, [sp, #112]	@ 0x70
+     3f8:	e59d1074 	ldr	r1, [sp, #116]	@ 0x74
+     3fc:	e58d4034 	str	r4, [sp, #52]	@ 0x34
+     400:	e2500502 	subs	r0, r0, #8388608	@ 0x800000
+     404:	e2d10000 	sbcs	r0, r1, #0
+     408:	e3a00000 	mov	r0, #0
+     40c:	33a00001 	movcc	r0, #1
+     410:	e58d0024 	str	r0, [sp, #36]	@ 0x24
+     414:	e59d00c8 	ldr	r0, [sp, #200]	@ 0xc8
+     418:	e59d1068 	ldr	r1, [sp, #104]	@ 0x68
+     41c:	e58d0020 	str	r0, [sp, #32]
+     420:	e59f0ddc 	ldr	r0, [pc, #3548]	@ 1204 <main+0x1204>
+     424:	e5900008 	ldr	r0, [r0, #8]
+     428:	e1500001 	cmp	r0, r1
+     42c:	83a02001 	movhi	r2, #1
+     430:	e58d2040 	str	r2, [sp, #64]	@ 0x40
+     434:	e28d00a4 	add	r0, sp, #164	@ 0xa4
+     438:	ebfffffe 	bl	0 <RChunk::Base() const>
+			438: R_ARM_CALL	RChunk::Base() const
+     43c:	e59f4dc8 	ldr	r4, [pc, #3528]	@ 120c <main+0x120c>
+     440:	e59d106c 	ldr	r1, [sp, #108]	@ 0x6c
+     444:	e59d8080 	ldr	r8, [sp, #128]	@ 0x80
+     448:	e3a05000 	mov	r5, #0
+     44c:	e1a02c21 	lsr	r2, r1, #24
+     450:	e3520004 	cmp	r2, #4
+     454:	83a05001 	movhi	r5, #1
+     458:	e3a01000 	mov	r1, #0
+     45c:	e3580001 	cmp	r8, #1
+     460:	ba00001a 	blt	4d0 <main+0x4d0>
+     464:	e3a02001 	mov	r2, #1
+     468:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     46c:	e3a06000 	mov	r6, #0
+     470:	ea000006 	b	490 <main+0x490>
+     474:	e59f4d90 	ldr	r4, [pc, #3472]	@ 120c <main+0x120c>
+     478:	e2866a01 	add	r6, r6, #4096	@ 0x1000
+     47c:	e0055007 	and	r5, r5, r7
+     480:	e2811001 	add	r1, r1, #1
+     484:	e2822001 	add	r2, r2, #1
+     488:	e1560008 	cmp	r6, r8
+     48c:	aa00000f 	bge	4d0 <main+0x4d0>
+     490:	e0847491 	umull	r7, r4, r1, r4
+     494:	e1a073a4 	lsr	r7, r4, #7
+     498:	e7d0e006 	ldrb	lr, [r0, r6]
+     49c:	e0070c97 	mul	r7, r7, ip
+     4a0:	e0424007 	sub	r4, r2, r7
+     4a4:	e3a07000 	mov	r7, #0
+     4a8:	e6ef3074 	uxtb	r3, r4
+     4ac:	e15e0003 	cmp	lr, r3
+     4b0:	1affffef 	bne	474 <main+0x474>
+     4b4:	e0803006 	add	r3, r0, r6
+     4b8:	e5d33fff 	ldrb	r3, [r3, #4095]	@ 0xfff
+     4bc:	e0243003 	eor	r3, r4, r3
+     4c0:	e24330a5 	sub	r3, r3, #165	@ 0xa5
+     4c4:	e16f3f13 	clz	r3, r3
+     4c8:	e1a072a3 	lsr	r7, r3, #5
+     4cc:	eaffffe8 	b	474 <main+0x474>
+     4d0:	e59d0048 	ldr	r0, [sp, #72]	@ 0x48
+     4d4:	e58d8014 	str	r8, [sp, #20]
+     4d8:	ebfffffe 	bl	0 <RChunk::Base() const>
+			4d8: R_ARM_CALL	RChunk::Base() const
+     4dc:	e59db084 	ldr	fp, [sp, #132]	@ 0x84
+     4e0:	e35b0001 	cmp	fp, #1
+     4e4:	ba00001b 	blt	558 <main+0x558>
+     4e8:	e3a01000 	mov	r1, #0
+     4ec:	e3a02012 	mov	r2, #18
+     4f0:	e3a03011 	mov	r3, #17
+     4f4:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     4f8:	ea000006 	b	518 <main+0x518>
+     4fc:	e59f4d08 	ldr	r4, [pc, #3336]	@ 120c <main+0x120c>
+     500:	e2811a01 	add	r1, r1, #4096	@ 0x1000
+     504:	e0055007 	and	r5, r5, r7
+     508:	e2833001 	add	r3, r3, #1
+     50c:	e2822001 	add	r2, r2, #1
+     510:	e151000b 	cmp	r1, fp
+     514:	aa00000f 	bge	558 <main+0x558>
+     518:	e0864493 	umull	r4, r6, r3, r4
+     51c:	e1a063a6 	lsr	r6, r6, #7
+     520:	e7d07001 	ldrb	r7, [r0, r1]
+     524:	e0060c96 	mul	r6, r6, ip
+     528:	e0424006 	sub	r4, r2, r6
+     52c:	e6ef6074 	uxtb	r6, r4
+     530:	e1570006 	cmp	r7, r6
+     534:	e3a07000 	mov	r7, #0
+     538:	1affffef 	bne	4fc <main+0x4fc>
+     53c:	e0807001 	add	r7, r0, r1
+     540:	e5d77fff 	ldrb	r7, [r7, #4095]	@ 0xfff
+     544:	e0247007 	eor	r7, r4, r7
+     548:	e24770a5 	sub	r7, r7, #165	@ 0xa5
+     54c:	e16f7f17 	clz	r7, r7
+     550:	e1a072a7 	lsr	r7, r7, #5
+     554:	eaffffe8 	b	4fc <main+0x4fc>
+     558:	e59d004c 	ldr	r0, [sp, #76]	@ 0x4c
+     55c:	ebfffffe 	bl	0 <RChunk::Base() const>
+			55c: R_ARM_CALL	RChunk::Base() const
+     560:	e59d1088 	ldr	r1, [sp, #136]	@ 0x88
+     564:	e3510001 	cmp	r1, #1
+     568:	e58d1064 	str	r1, [sp, #100]	@ 0x64
+     56c:	ba00001c 	blt	5e4 <main+0x5e4>
+     570:	e3a01000 	mov	r1, #0
+     574:	e3a02023 	mov	r2, #35	@ 0x23
+     578:	e3a03022 	mov	r3, #34	@ 0x22
+     57c:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     580:	ea000007 	b	5a4 <main+0x5a4>
+     584:	e59f4c80 	ldr	r4, [pc, #3200]	@ 120c <main+0x120c>
+     588:	e0055007 	and	r5, r5, r7
+     58c:	e59d7064 	ldr	r7, [sp, #100]	@ 0x64
+     590:	e2811a01 	add	r1, r1, #4096	@ 0x1000
+     594:	e2833001 	add	r3, r3, #1
+     598:	e2822001 	add	r2, r2, #1
+     59c:	e1510007 	cmp	r1, r7
+     5a0:	aa00000f 	bge	5e4 <main+0x5e4>
+     5a4:	e0864493 	umull	r4, r6, r3, r4
+     5a8:	e1a063a6 	lsr	r6, r6, #7
+     5ac:	e7d07001 	ldrb	r7, [r0, r1]
+     5b0:	e0060c96 	mul	r6, r6, ip
+     5b4:	e0424006 	sub	r4, r2, r6
+     5b8:	e6ef6074 	uxtb	r6, r4
+     5bc:	e1570006 	cmp	r7, r6
+     5c0:	e3a07000 	mov	r7, #0
+     5c4:	1affffee 	bne	584 <main+0x584>
+     5c8:	e0807001 	add	r7, r0, r1
+     5cc:	e5d77fff 	ldrb	r7, [r7, #4095]	@ 0xfff
+     5d0:	e0247007 	eor	r7, r4, r7
+     5d4:	e24770a5 	sub	r7, r7, #165	@ 0xa5
+     5d8:	e16f7f17 	clz	r7, r7
+     5dc:	e1a072a7 	lsr	r7, r7, #5
+     5e0:	eaffffe7 	b	584 <main+0x584>
+     5e4:	e59d0050 	ldr	r0, [sp, #80]	@ 0x50
+     5e8:	ebfffffe 	bl	0 <RChunk::Base() const>
+			5e8: R_ARM_CALL	RChunk::Base() const
+     5ec:	e59d108c 	ldr	r1, [sp, #140]	@ 0x8c
+     5f0:	e3510001 	cmp	r1, #1
+     5f4:	e58d1068 	str	r1, [sp, #104]	@ 0x68
+     5f8:	ba00001c 	blt	670 <main+0x670>
+     5fc:	e3a01000 	mov	r1, #0
+     600:	e3a02034 	mov	r2, #52	@ 0x34
+     604:	e3a03033 	mov	r3, #51	@ 0x33
+     608:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     60c:	ea000007 	b	630 <main+0x630>
+     610:	e59f4bf4 	ldr	r4, [pc, #3060]	@ 120c <main+0x120c>
+     614:	e0055007 	and	r5, r5, r7
+     618:	e59d7068 	ldr	r7, [sp, #104]	@ 0x68
+     61c:	e2811a01 	add	r1, r1, #4096	@ 0x1000
+     620:	e2833001 	add	r3, r3, #1
+     624:	e2822001 	add	r2, r2, #1
+     628:	e1510007 	cmp	r1, r7
+     62c:	aa00000f 	bge	670 <main+0x670>
+     630:	e0864493 	umull	r4, r6, r3, r4
+     634:	e1a063a6 	lsr	r6, r6, #7
+     638:	e7d07001 	ldrb	r7, [r0, r1]
+     63c:	e0060c96 	mul	r6, r6, ip
+     640:	e0424006 	sub	r4, r2, r6
+     644:	e6ef6074 	uxtb	r6, r4
+     648:	e1570006 	cmp	r7, r6
+     64c:	e3a07000 	mov	r7, #0
+     650:	1affffee 	bne	610 <main+0x610>
+     654:	e0807001 	add	r7, r0, r1
+     658:	e5d77fff 	ldrb	r7, [r7, #4095]	@ 0xfff
+     65c:	e0247007 	eor	r7, r4, r7
+     660:	e24770a5 	sub	r7, r7, #165	@ 0xa5
+     664:	e16f7f17 	clz	r7, r7
+     668:	e1a072a7 	lsr	r7, r7, #5
+     66c:	eaffffe7 	b	610 <main+0x610>
+     670:	e59d0054 	ldr	r0, [sp, #84]	@ 0x54
+     674:	ebfffffe 	bl	0 <RChunk::Base() const>
+			674: R_ARM_CALL	RChunk::Base() const
+     678:	e59d1090 	ldr	r1, [sp, #144]	@ 0x90
+     67c:	e1a08001 	mov	r8, r1
+     680:	e3510001 	cmp	r1, #1
+     684:	ba00001b 	blt	6f8 <main+0x6f8>
+     688:	e3a01000 	mov	r1, #0
+     68c:	e3a02045 	mov	r2, #69	@ 0x45
+     690:	e3a03044 	mov	r3, #68	@ 0x44
+     694:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     698:	ea000006 	b	6b8 <main+0x6b8>
+     69c:	e59f4b68 	ldr	r4, [pc, #2920]	@ 120c <main+0x120c>
+     6a0:	e2811a01 	add	r1, r1, #4096	@ 0x1000
+     6a4:	e0055007 	and	r5, r5, r7
+     6a8:	e2833001 	add	r3, r3, #1
+     6ac:	e2822001 	add	r2, r2, #1
+     6b0:	e1510008 	cmp	r1, r8
+     6b4:	aa00000f 	bge	6f8 <main+0x6f8>
+     6b8:	e0864493 	umull	r4, r6, r3, r4
+     6bc:	e1a063a6 	lsr	r6, r6, #7
+     6c0:	e7d07001 	ldrb	r7, [r0, r1]
+     6c4:	e0060c96 	mul	r6, r6, ip
+     6c8:	e0424006 	sub	r4, r2, r6
+     6cc:	e6ef6074 	uxtb	r6, r4
+     6d0:	e1570006 	cmp	r7, r6
+     6d4:	e3a07000 	mov	r7, #0
+     6d8:	1affffef 	bne	69c <main+0x69c>
+     6dc:	e0807001 	add	r7, r0, r1
+     6e0:	e5d77fff 	ldrb	r7, [r7, #4095]	@ 0xfff
+     6e4:	e0247007 	eor	r7, r4, r7
+     6e8:	e24770a5 	sub	r7, r7, #165	@ 0xa5
+     6ec:	e16f7f17 	clz	r7, r7
+     6f0:	e1a072a7 	lsr	r7, r7, #5
+     6f4:	eaffffe8 	b	69c <main+0x69c>
+     6f8:	e59d0058 	ldr	r0, [sp, #88]	@ 0x58
+     6fc:	ebfffffe 	bl	0 <RChunk::Base() const>
+			6fc: R_ARM_CALL	RChunk::Base() const
+     700:	e59d9094 	ldr	r9, [sp, #148]	@ 0x94
+     704:	e3590001 	cmp	r9, #1
+     708:	ba00001b 	blt	77c <main+0x77c>
+     70c:	e3a01000 	mov	r1, #0
+     710:	e3a02056 	mov	r2, #86	@ 0x56
+     714:	e3a03055 	mov	r3, #85	@ 0x55
+     718:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     71c:	ea000006 	b	73c <main+0x73c>
+     720:	e59f4ae4 	ldr	r4, [pc, #2788]	@ 120c <main+0x120c>
+     724:	e2811a01 	add	r1, r1, #4096	@ 0x1000
+     728:	e0055006 	and	r5, r5, r6
+     72c:	e2833001 	add	r3, r3, #1
+     730:	e2822001 	add	r2, r2, #1
+     734:	e1510009 	cmp	r1, r9
+     738:	aa00000f 	bge	77c <main+0x77c>
+     73c:	e0847493 	umull	r7, r4, r3, r4
+     740:	e1a073a4 	lsr	r7, r4, #7
+     744:	e7d06001 	ldrb	r6, [r0, r1]
+     748:	e0070c97 	mul	r7, r7, ip
+     74c:	e0427007 	sub	r7, r2, r7
+     750:	e6ef4077 	uxtb	r4, r7
+     754:	e1560004 	cmp	r6, r4
+     758:	e3a06000 	mov	r6, #0
+     75c:	1affffef 	bne	720 <main+0x720>
+     760:	e0806001 	add	r6, r0, r1
+     764:	e5d66fff 	ldrb	r6, [r6, #4095]	@ 0xfff
+     768:	e0277006 	eor	r7, r7, r6
+     76c:	e24770a5 	sub	r7, r7, #165	@ 0xa5
+     770:	e16f7f17 	clz	r7, r7
+     774:	e1a062a7 	lsr	r6, r7, #5
+     778:	eaffffe8 	b	720 <main+0x720>
+     77c:	e59d005c 	ldr	r0, [sp, #92]	@ 0x5c
+     780:	ebfffffe 	bl	0 <RChunk::Base() const>
+			780: R_ARM_CALL	RChunk::Base() const
+     784:	e59da098 	ldr	sl, [sp, #152]	@ 0x98
+     788:	e35a0001 	cmp	sl, #1
+     78c:	ba00001b 	blt	800 <main+0x800>
+     790:	e3a01000 	mov	r1, #0
+     794:	e3a02067 	mov	r2, #103	@ 0x67
+     798:	e3a03066 	mov	r3, #102	@ 0x66
+     79c:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     7a0:	ea000006 	b	7c0 <main+0x7c0>
+     7a4:	e59f4a60 	ldr	r4, [pc, #2656]	@ 120c <main+0x120c>
+     7a8:	e2811a01 	add	r1, r1, #4096	@ 0x1000
+     7ac:	e0055006 	and	r5, r5, r6
+     7b0:	e2833001 	add	r3, r3, #1
+     7b4:	e2822001 	add	r2, r2, #1
+     7b8:	e151000a 	cmp	r1, sl
+     7bc:	aa00000f 	bge	800 <main+0x800>
+     7c0:	e0847493 	umull	r7, r4, r3, r4
+     7c4:	e1a073a4 	lsr	r7, r4, #7
+     7c8:	e7d06001 	ldrb	r6, [r0, r1]
+     7cc:	e0070c97 	mul	r7, r7, ip
+     7d0:	e0427007 	sub	r7, r2, r7
+     7d4:	e6ef4077 	uxtb	r4, r7
+     7d8:	e1560004 	cmp	r6, r4
+     7dc:	e3a06000 	mov	r6, #0
+     7e0:	1affffef 	bne	7a4 <main+0x7a4>
+     7e4:	e0806001 	add	r6, r0, r1
+     7e8:	e5d66fff 	ldrb	r6, [r6, #4095]	@ 0xfff
+     7ec:	e0277006 	eor	r7, r7, r6
+     7f0:	e24770a5 	sub	r7, r7, #165	@ 0xa5
+     7f4:	e16f7f17 	clz	r7, r7
+     7f8:	e1a062a7 	lsr	r6, r7, #5
+     7fc:	eaffffe8 	b	7a4 <main+0x7a4>
+     800:	e59d0060 	ldr	r0, [sp, #96]	@ 0x60
+     804:	ebfffffe 	bl	0 <RChunk::Base() const>
+			804: R_ARM_CALL	RChunk::Base() const
+     808:	e59d1020 	ldr	r1, [sp, #32]
+     80c:	e59d2030 	ldr	r2, [sp, #48]	@ 0x30
+     810:	e58db018 	str	fp, [sp, #24]
+     814:	e16f1f11 	clz	r1, r1
+     818:	e1a012a1 	lsr	r1, r1, #5
+     81c:	e0021001 	and	r1, r2, r1
+     820:	e59d2024 	ldr	r2, [sp, #36]	@ 0x24
+     824:	e59db09c 	ldr	fp, [sp, #156]	@ 0x9c
+     828:	e0011002 	and	r1, r1, r2
+     82c:	e59d2040 	ldr	r2, [sp, #64]	@ 0x40
+     830:	e35b0001 	cmp	fp, #1
+     834:	e0011002 	and	r1, r1, r2
+     838:	e58d1040 	str	r1, [sp, #64]	@ 0x40
+     83c:	ba00001b 	blt	8b0 <main+0x8b0>
+     840:	e3a01000 	mov	r1, #0
+     844:	e3a02078 	mov	r2, #120	@ 0x78
+     848:	e3a03077 	mov	r3, #119	@ 0x77
+     84c:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     850:	ea000006 	b	870 <main+0x870>
+     854:	e59f49b0 	ldr	r4, [pc, #2480]	@ 120c <main+0x120c>
+     858:	e2811a01 	add	r1, r1, #4096	@ 0x1000
+     85c:	e0055006 	and	r5, r5, r6
+     860:	e2833001 	add	r3, r3, #1
+     864:	e2822001 	add	r2, r2, #1
+     868:	e151000b 	cmp	r1, fp
+     86c:	aa00000f 	bge	8b0 <main+0x8b0>
+     870:	e0847493 	umull	r7, r4, r3, r4
+     874:	e1a073a4 	lsr	r7, r4, #7
+     878:	e7d06001 	ldrb	r6, [r0, r1]
+     87c:	e0070c97 	mul	r7, r7, ip
+     880:	e0427007 	sub	r7, r2, r7
+     884:	e6ef4077 	uxtb	r4, r7
+     888:	e1560004 	cmp	r6, r4
+     88c:	e3a06000 	mov	r6, #0
+     890:	1affffef 	bne	854 <main+0x854>
+     894:	e0806001 	add	r6, r0, r1
+     898:	e5d66fff 	ldrb	r6, [r6, #4095]	@ 0xfff
+     89c:	e0277006 	eor	r7, r7, r6
+     8a0:	e24770a5 	sub	r7, r7, #165	@ 0xa5
+     8a4:	e16f7f17 	clz	r7, r7
+     8a8:	e1a062a7 	lsr	r6, r7, #5
+     8ac:	eaffffe8 	b	854 <main+0x854>
+     8b0:	e59d2070 	ldr	r2, [sp, #112]	@ 0x70
+     8b4:	e59d3074 	ldr	r3, [sp, #116]	@ 0x74
+     8b8:	e2050001 	and	r0, r5, #1
+     8bc:	e58d0004 	str	r0, [sp, #4]
+     8c0:	e59f0948 	ldr	r0, [pc, #2376]	@ 1210 <main+0x1210>
+     8c4:	e59d1040 	ldr	r1, [sp, #64]	@ 0x40
+     8c8:	e59d406c 	ldr	r4, [sp, #108]	@ 0x6c
+     8cc:	e58d4000 	str	r4, [sp]
+     8d0:	ebfffffe 	bl	0 <main>
+			8d0: R_ARM_CALL	log(char const*, ...)
+     8d4:	e59d6038 	ldr	r6, [sp, #56]	@ 0x38
+     8d8:	e59f0924 	ldr	r0, [pc, #2340]	@ 1204 <main+0x1204>
+     8dc:	e3e07000 	mvn	r7, #0
+     8e0:	e3540407 	cmp	r4, #117440512	@ 0x7000000
+     8e4:	e590000c 	ldr	r0, [r0, #12]
+     8e8:	e58d0024 	str	r0, [sp, #36]	@ 0x24
+     8ec:	e3a00000 	mov	r0, #0
+     8f0:	e58d0030 	str	r0, [sp, #48]	@ 0x30
+     8f4:	3a000052 	bcc	a44 <main+0xa44>
+     8f8:	e35b0506 	cmp	fp, #25165824	@ 0x1800000
+     8fc:	ba000005 	blt	918 <main+0x918>
+     900:	e59d1060 	ldr	r1, [sp, #96]	@ 0x60
+     904:	e28d0080 	add	r0, sp, #128	@ 0x80
+     908:	e3a08007 	mov	r8, #7
+     90c:	e280001c 	add	r0, r0, #28
+     910:	e58d001c 	str	r0, [sp, #28]
+     914:	ea00003b 	b	a08 <main+0xa08>
+     918:	e59f08f4 	ldr	r0, [pc, #2292]	@ 1214 <main+0x1214>
+     91c:	e15a0000 	cmp	sl, r0
+     920:	da000006 	ble	940 <main+0x940>
+     924:	e28d0080 	add	r0, sp, #128	@ 0x80
+     928:	e2800018 	add	r0, r0, #24
+     92c:	e58d001c 	str	r0, [sp, #28]
+     930:	e3a08006 	mov	r8, #6
+     934:	e59d105c 	ldr	r1, [sp, #92]	@ 0x5c
+     938:	e1a0b00a 	mov	fp, sl
+     93c:	ea000031 	b	a08 <main+0xa08>
+     940:	e1590000 	cmp	r9, r0
+     944:	da000006 	ble	964 <main+0x964>
+     948:	e28d0080 	add	r0, sp, #128	@ 0x80
+     94c:	e2800014 	add	r0, r0, #20
+     950:	e58d001c 	str	r0, [sp, #28]
+     954:	e3a08005 	mov	r8, #5
+     958:	e59d1058 	ldr	r1, [sp, #88]	@ 0x58
+     95c:	e1a0b009 	mov	fp, r9
+     960:	ea000028 	b	a08 <main+0xa08>
+     964:	e1580000 	cmp	r8, r0
+     968:	da000006 	ble	988 <main+0x988>
+     96c:	e28d0080 	add	r0, sp, #128	@ 0x80
+     970:	e2800010 	add	r0, r0, #16
+     974:	e1a0b008 	mov	fp, r8
+     978:	e58d001c 	str	r0, [sp, #28]
+     97c:	e59d1054 	ldr	r1, [sp, #84]	@ 0x54
+     980:	e3a08004 	mov	r8, #4
+     984:	ea00001f 	b	a08 <main+0xa08>
+     988:	e59db068 	ldr	fp, [sp, #104]	@ 0x68
+     98c:	e15b0000 	cmp	fp, r0
+     990:	da000005 	ble	9ac <main+0x9ac>
+     994:	e28d0080 	add	r0, sp, #128	@ 0x80
+     998:	e280000c 	add	r0, r0, #12
+     99c:	e58d001c 	str	r0, [sp, #28]
+     9a0:	e3a08003 	mov	r8, #3
+     9a4:	e59d1050 	ldr	r1, [sp, #80]	@ 0x50
+     9a8:	ea000016 	b	a08 <main+0xa08>
+     9ac:	e59db064 	ldr	fp, [sp, #100]	@ 0x64
+     9b0:	e15b0000 	cmp	fp, r0
+     9b4:	da000005 	ble	9d0 <main+0x9d0>
+     9b8:	e28d0080 	add	r0, sp, #128	@ 0x80
+     9bc:	e2800008 	add	r0, r0, #8
+     9c0:	e58d001c 	str	r0, [sp, #28]
+     9c4:	e3a08002 	mov	r8, #2
+     9c8:	e59d104c 	ldr	r1, [sp, #76]	@ 0x4c
+     9cc:	ea00000d 	b	a08 <main+0xa08>
+     9d0:	e59db018 	ldr	fp, [sp, #24]
+     9d4:	e15b0000 	cmp	fp, r0
+     9d8:	da000005 	ble	9f4 <main+0x9f4>
+     9dc:	e28d0080 	add	r0, sp, #128	@ 0x80
+     9e0:	e3800004 	orr	r0, r0, #4
+     9e4:	e58d001c 	str	r0, [sp, #28]
+     9e8:	e59d1048 	ldr	r1, [sp, #72]	@ 0x48
+     9ec:	e3a08001 	mov	r8, #1
+     9f0:	ea000004 	b	a08 <main+0xa08>
+     9f4:	e59db014 	ldr	fp, [sp, #20]
+     9f8:	e3a08000 	mov	r8, #0
+     9fc:	e28d10a4 	add	r1, sp, #164	@ 0xa4
+     a00:	e15b0000 	cmp	fp, r0
+     a04:	da00000c 	ble	a3c <main+0xa3c>
+     a08:	e24b7506 	sub	r7, fp, #25165824	@ 0x1800000
+     a0c:	e3a00506 	mov	r0, #25165824	@ 0x1800000
+     a10:	e58d0064 	str	r0, [sp, #100]	@ 0x64
+     a14:	e1a00001 	mov	r0, r1
+     a18:	e1a01007 	mov	r1, r7
+     a1c:	e3a02506 	mov	r2, #25165824	@ 0x1800000
+     a20:	ebfffffe 	bl	0 <RChunk::Decommit(int, int) const>
+			a20: R_ARM_CALL	RChunk::Decommit(int, int) const
+     a24:	e59d001c 	ldr	r0, [sp, #28]
+     a28:	e58d7030 	str	r7, [sp, #48]	@ 0x30
+     a2c:	e2444506 	sub	r4, r4, #25165824	@ 0x1800000
+     a30:	e5807000 	str	r7, [r0]
+     a34:	e1a07008 	mov	r7, r8
+     a38:	ea000002 	b	a48 <main+0xa48>
+     a3c:	e3a00000 	mov	r0, #0
+     a40:	e58d0030 	str	r0, [sp, #48]	@ 0x30
+     a44:	e58d0064 	str	r0, [sp, #100]	@ 0x64
+     a48:	e59d0044 	ldr	r0, [sp, #68]	@ 0x44
+     a4c:	e3a01e12 	mov	r1, #288	@ 0x120
+     a50:	e3811a7a 	orr	r1, r1, #499712	@ 0x7a000
+     a54:	ebfffffe 	bl	0 <CTimer::After(TTimeIntervalMicroSeconds32)>
+			a54: R_ARM_CALL	CTimer::After(TTimeIntervalMicroSeconds32)
+     a58:	ebfffffe 	bl	0 <CActiveScheduler::Start()>
+			a58: R_ARM_CALL	CActiveScheduler::Start()
+     a5c:	e28d0070 	add	r0, sp, #112	@ 0x70
+     a60:	ebfffffe 	bl	0 <WTF::SymbianSystem::systemFreeMemory(unsigned long long&)>
+			a60: R_ARM_CALL	WTF::SymbianSystem::systemFreeMemory(unsigned long long&)
+     a64:	e1a09000 	mov	r9, r0
+     a68:	e59f0794 	ldr	r0, [pc, #1940]	@ 1204 <main+0x1204>
+     a6c:	e59d1024 	ldr	r1, [sp, #36]	@ 0x24
+     a70:	e3a0a000 	mov	sl, #0
+     a74:	e3a0b000 	mov	fp, #0
+     a78:	e590000c 	ldr	r0, [r0, #12]
+     a7c:	e1500001 	cmp	r0, r1
+     a80:	e59d0070 	ldr	r0, [sp, #112]	@ 0x70
+     a84:	e59d1074 	ldr	r1, [sp, #116]	@ 0x74
+     a88:	83a0a001 	movhi	sl, #1
+     a8c:	e1a00ba0 	lsr	r0, r0, #23
+     a90:	e1800481 	orr	r0, r0, r1, lsl #9
+     a94:	e2700002 	rsbs	r0, r0, #2
+     a98:	e0db0ba1 	sbcs	r0, fp, r1, lsr #23
+     a9c:	33a0b001 	movcc	fp, #1
+     aa0:	e3560000 	cmp	r6, #0
+     aa4:	4a000006 	bmi	ac4 <main+0xac4>
+     aa8:	e28d00c4 	add	r0, sp, #196	@ 0xc4
+     aac:	ebfffffe 	bl	0 <main>
+			aac: R_ARM_CALL	boundedLogon(RChangeNotifier&)
+     ab0:	e1a06000 	mov	r6, r0
+     ab4:	e3a000a0 	mov	r0, #160	@ 0xa0
+     ab8:	e3800102 	orr	r0, r0, #-2147483648	@ 0x80000000
+     abc:	e0060000 	and	r0, r6, r0
+     ac0:	e58d003c 	str	r0, [sp, #60]	@ 0x3c
+     ac4:	e28d00c4 	add	r0, sp, #196	@ 0xc4
+     ac8:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			ac8: R_ARM_CALL	RHandleBase::Close()
+     acc:	e28d00a4 	add	r0, sp, #164	@ 0xa4
+     ad0:	e58d7068 	str	r7, [sp, #104]	@ 0x68
+     ad4:	e1a08006 	mov	r8, r6
+     ad8:	e58d406c 	str	r4, [sp, #108]	@ 0x6c
+     adc:	ebfffffe 	bl	0 <RChunk::Base() const>
+			adc: R_ARM_CALL	RChunk::Base() const
+     ae0:	e59de080 	ldr	lr, [sp, #128]	@ 0x80
+     ae4:	e35e0001 	cmp	lr, #1
+     ae8:	ba00001b 	blt	b5c <main+0xb5c>
+     aec:	e3a02001 	mov	r2, #1
+     af0:	e3a03000 	mov	r3, #0
+     af4:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     af8:	e3a04000 	mov	r4, #0
+     afc:	ea000005 	b	b18 <main+0xb18>
+     b00:	e2844a01 	add	r4, r4, #4096	@ 0x1000
+     b04:	e0055006 	and	r5, r5, r6
+     b08:	e2833001 	add	r3, r3, #1
+     b0c:	e2822001 	add	r2, r2, #1
+     b10:	e154000e 	cmp	r4, lr
+     b14:	aa000010 	bge	b5c <main+0xb5c>
+     b18:	e59f16ec 	ldr	r1, [pc, #1772]	@ 120c <main+0x120c>
+     b1c:	e7d06004 	ldrb	r6, [r0, r4]
+     b20:	e0817193 	umull	r7, r1, r3, r1
+     b24:	e1a013a1 	lsr	r1, r1, #7
+     b28:	e0010c91 	mul	r1, r1, ip
+     b2c:	e0427001 	sub	r7, r2, r1
+     b30:	e6ef1077 	uxtb	r1, r7
+     b34:	e1560001 	cmp	r6, r1
+     b38:	e3a06000 	mov	r6, #0
+     b3c:	1affffef 	bne	b00 <main+0xb00>
+     b40:	e0801004 	add	r1, r0, r4
+     b44:	e5d11fff 	ldrb	r1, [r1, #4095]	@ 0xfff
+     b48:	e0271001 	eor	r1, r7, r1
+     b4c:	e24110a5 	sub	r1, r1, #165	@ 0xa5
+     b50:	e16f1f11 	clz	r1, r1
+     b54:	e1a062a1 	lsr	r6, r1, #5
+     b58:	eaffffe8 	b	b00 <main+0xb00>
+     b5c:	e59d0048 	ldr	r0, [sp, #72]	@ 0x48
+     b60:	ebfffffe 	bl	0 <RChunk::Base() const>
+			b60: R_ARM_CALL	RChunk::Base() const
+     b64:	e59de084 	ldr	lr, [sp, #132]	@ 0x84
+     b68:	e35e0001 	cmp	lr, #1
+     b6c:	ba00001b 	blt	be0 <main+0xbe0>
+     b70:	e3a02000 	mov	r2, #0
+     b74:	e3a03012 	mov	r3, #18
+     b78:	e3a06011 	mov	r6, #17
+     b7c:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     b80:	ea000005 	b	b9c <main+0xb9c>
+     b84:	e2822a01 	add	r2, r2, #4096	@ 0x1000
+     b88:	e0055004 	and	r5, r5, r4
+     b8c:	e2866001 	add	r6, r6, #1
+     b90:	e2833001 	add	r3, r3, #1
+     b94:	e152000e 	cmp	r2, lr
+     b98:	aa000010 	bge	be0 <main+0xbe0>
+     b9c:	e59f1668 	ldr	r1, [pc, #1640]	@ 120c <main+0x120c>
+     ba0:	e7d04002 	ldrb	r4, [r0, r2]
+     ba4:	e0817196 	umull	r7, r1, r6, r1
+     ba8:	e1a013a1 	lsr	r1, r1, #7
+     bac:	e0010c91 	mul	r1, r1, ip
+     bb0:	e0437001 	sub	r7, r3, r1
+     bb4:	e6ef1077 	uxtb	r1, r7
+     bb8:	e1540001 	cmp	r4, r1
+     bbc:	e3a04000 	mov	r4, #0
+     bc0:	1affffef 	bne	b84 <main+0xb84>
+     bc4:	e0801002 	add	r1, r0, r2
+     bc8:	e5d11fff 	ldrb	r1, [r1, #4095]	@ 0xfff
+     bcc:	e0271001 	eor	r1, r7, r1
+     bd0:	e24110a5 	sub	r1, r1, #165	@ 0xa5
+     bd4:	e16f1f11 	clz	r1, r1
+     bd8:	e1a042a1 	lsr	r4, r1, #5
+     bdc:	eaffffe8 	b	b84 <main+0xb84>
+     be0:	e59d004c 	ldr	r0, [sp, #76]	@ 0x4c
+     be4:	ebfffffe 	bl	0 <RChunk::Base() const>
+			be4: R_ARM_CALL	RChunk::Base() const
+     be8:	e59de088 	ldr	lr, [sp, #136]	@ 0x88
+     bec:	e35e0001 	cmp	lr, #1
+     bf0:	ba00001b 	blt	c64 <main+0xc64>
+     bf4:	e3a02000 	mov	r2, #0
+     bf8:	e3a03023 	mov	r3, #35	@ 0x23
+     bfc:	e3a06022 	mov	r6, #34	@ 0x22
+     c00:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     c04:	ea000005 	b	c20 <main+0xc20>
+     c08:	e2822a01 	add	r2, r2, #4096	@ 0x1000
+     c0c:	e0055004 	and	r5, r5, r4
+     c10:	e2866001 	add	r6, r6, #1
+     c14:	e2833001 	add	r3, r3, #1
+     c18:	e152000e 	cmp	r2, lr
+     c1c:	aa000010 	bge	c64 <main+0xc64>
+     c20:	e59f15e4 	ldr	r1, [pc, #1508]	@ 120c <main+0x120c>
+     c24:	e7d04002 	ldrb	r4, [r0, r2]
+     c28:	e0817196 	umull	r7, r1, r6, r1
+     c2c:	e1a013a1 	lsr	r1, r1, #7
+     c30:	e0010c91 	mul	r1, r1, ip
+     c34:	e0437001 	sub	r7, r3, r1
+     c38:	e6ef1077 	uxtb	r1, r7
+     c3c:	e1540001 	cmp	r4, r1
+     c40:	e3a04000 	mov	r4, #0
+     c44:	1affffef 	bne	c08 <main+0xc08>
+     c48:	e0801002 	add	r1, r0, r2
+     c4c:	e5d11fff 	ldrb	r1, [r1, #4095]	@ 0xfff
+     c50:	e0271001 	eor	r1, r7, r1
+     c54:	e24110a5 	sub	r1, r1, #165	@ 0xa5
+     c58:	e16f1f11 	clz	r1, r1
+     c5c:	e1a042a1 	lsr	r4, r1, #5
+     c60:	eaffffe8 	b	c08 <main+0xc08>
+     c64:	e59d0050 	ldr	r0, [sp, #80]	@ 0x50
+     c68:	ebfffffe 	bl	0 <RChunk::Base() const>
+			c68: R_ARM_CALL	RChunk::Base() const
+     c6c:	e59de08c 	ldr	lr, [sp, #140]	@ 0x8c
+     c70:	e35e0001 	cmp	lr, #1
+     c74:	ba00001b 	blt	ce8 <main+0xce8>
+     c78:	e3a02000 	mov	r2, #0
+     c7c:	e3a03034 	mov	r3, #52	@ 0x34
+     c80:	e3a06033 	mov	r6, #51	@ 0x33
+     c84:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     c88:	ea000005 	b	ca4 <main+0xca4>
+     c8c:	e2822a01 	add	r2, r2, #4096	@ 0x1000
+     c90:	e0055004 	and	r5, r5, r4
+     c94:	e2866001 	add	r6, r6, #1
+     c98:	e2833001 	add	r3, r3, #1
+     c9c:	e152000e 	cmp	r2, lr
+     ca0:	aa000010 	bge	ce8 <main+0xce8>
+     ca4:	e59f1560 	ldr	r1, [pc, #1376]	@ 120c <main+0x120c>
+     ca8:	e7d04002 	ldrb	r4, [r0, r2]
+     cac:	e0817196 	umull	r7, r1, r6, r1
+     cb0:	e1a013a1 	lsr	r1, r1, #7
+     cb4:	e0010c91 	mul	r1, r1, ip
+     cb8:	e0437001 	sub	r7, r3, r1
+     cbc:	e6ef1077 	uxtb	r1, r7
+     cc0:	e1540001 	cmp	r4, r1
+     cc4:	e3a04000 	mov	r4, #0
+     cc8:	1affffef 	bne	c8c <main+0xc8c>
+     ccc:	e0801002 	add	r1, r0, r2
+     cd0:	e5d11fff 	ldrb	r1, [r1, #4095]	@ 0xfff
+     cd4:	e0271001 	eor	r1, r7, r1
+     cd8:	e24110a5 	sub	r1, r1, #165	@ 0xa5
+     cdc:	e16f1f11 	clz	r1, r1
+     ce0:	e1a042a1 	lsr	r4, r1, #5
+     ce4:	eaffffe8 	b	c8c <main+0xc8c>
+     ce8:	e59d0054 	ldr	r0, [sp, #84]	@ 0x54
+     cec:	ebfffffe 	bl	0 <RChunk::Base() const>
+			cec: R_ARM_CALL	RChunk::Base() const
+     cf0:	e59de090 	ldr	lr, [sp, #144]	@ 0x90
+     cf4:	e35e0001 	cmp	lr, #1
+     cf8:	ba00001b 	blt	d6c <main+0xd6c>
+     cfc:	e3a02000 	mov	r2, #0
+     d00:	e3a03045 	mov	r3, #69	@ 0x45
+     d04:	e3a06044 	mov	r6, #68	@ 0x44
+     d08:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     d0c:	ea000005 	b	d28 <main+0xd28>
+     d10:	e2822a01 	add	r2, r2, #4096	@ 0x1000
+     d14:	e0055004 	and	r5, r5, r4
+     d18:	e2866001 	add	r6, r6, #1
+     d1c:	e2833001 	add	r3, r3, #1
+     d20:	e152000e 	cmp	r2, lr
+     d24:	aa000010 	bge	d6c <main+0xd6c>
+     d28:	e59f14dc 	ldr	r1, [pc, #1244]	@ 120c <main+0x120c>
+     d2c:	e7d04002 	ldrb	r4, [r0, r2]
+     d30:	e0817196 	umull	r7, r1, r6, r1
+     d34:	e1a013a1 	lsr	r1, r1, #7
+     d38:	e0010c91 	mul	r1, r1, ip
+     d3c:	e0437001 	sub	r7, r3, r1
+     d40:	e6ef1077 	uxtb	r1, r7
+     d44:	e1540001 	cmp	r4, r1
+     d48:	e3a04000 	mov	r4, #0
+     d4c:	1affffef 	bne	d10 <main+0xd10>
+     d50:	e0801002 	add	r1, r0, r2
+     d54:	e5d11fff 	ldrb	r1, [r1, #4095]	@ 0xfff
+     d58:	e0271001 	eor	r1, r7, r1
+     d5c:	e24110a5 	sub	r1, r1, #165	@ 0xa5
+     d60:	e16f1f11 	clz	r1, r1
+     d64:	e1a042a1 	lsr	r4, r1, #5
+     d68:	eaffffe8 	b	d10 <main+0xd10>
+     d6c:	e59d0058 	ldr	r0, [sp, #88]	@ 0x58
+     d70:	ebfffffe 	bl	0 <RChunk::Base() const>
+			d70: R_ARM_CALL	RChunk::Base() const
+     d74:	e59de094 	ldr	lr, [sp, #148]	@ 0x94
+     d78:	e35e0001 	cmp	lr, #1
+     d7c:	ba00001b 	blt	df0 <main+0xdf0>
+     d80:	e3a02000 	mov	r2, #0
+     d84:	e3a03056 	mov	r3, #86	@ 0x56
+     d88:	e3a06055 	mov	r6, #85	@ 0x55
+     d8c:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     d90:	ea000005 	b	dac <main+0xdac>
+     d94:	e2822a01 	add	r2, r2, #4096	@ 0x1000
+     d98:	e0055004 	and	r5, r5, r4
+     d9c:	e2866001 	add	r6, r6, #1
+     da0:	e2833001 	add	r3, r3, #1
+     da4:	e152000e 	cmp	r2, lr
+     da8:	aa000010 	bge	df0 <main+0xdf0>
+     dac:	e59f1458 	ldr	r1, [pc, #1112]	@ 120c <main+0x120c>
+     db0:	e7d04002 	ldrb	r4, [r0, r2]
+     db4:	e0817196 	umull	r7, r1, r6, r1
+     db8:	e1a013a1 	lsr	r1, r1, #7
+     dbc:	e0010c91 	mul	r1, r1, ip
+     dc0:	e0437001 	sub	r7, r3, r1
+     dc4:	e6ef1077 	uxtb	r1, r7
+     dc8:	e1540001 	cmp	r4, r1
+     dcc:	e3a04000 	mov	r4, #0
+     dd0:	1affffef 	bne	d94 <main+0xd94>
+     dd4:	e0801002 	add	r1, r0, r2
+     dd8:	e5d11fff 	ldrb	r1, [r1, #4095]	@ 0xfff
+     ddc:	e0271001 	eor	r1, r7, r1
+     de0:	e24110a5 	sub	r1, r1, #165	@ 0xa5
+     de4:	e16f1f11 	clz	r1, r1
+     de8:	e1a042a1 	lsr	r4, r1, #5
+     dec:	eaffffe8 	b	d94 <main+0xd94>
+     df0:	e59d005c 	ldr	r0, [sp, #92]	@ 0x5c
+     df4:	ebfffffe 	bl	0 <RChunk::Base() const>
+			df4: R_ARM_CALL	RChunk::Base() const
+     df8:	e59de098 	ldr	lr, [sp, #152]	@ 0x98
+     dfc:	e35e0001 	cmp	lr, #1
+     e00:	ba00001b 	blt	e74 <main+0xe74>
+     e04:	e3a02000 	mov	r2, #0
+     e08:	e3a03067 	mov	r3, #103	@ 0x67
+     e0c:	e3a06066 	mov	r6, #102	@ 0x66
+     e10:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     e14:	ea000005 	b	e30 <main+0xe30>
+     e18:	e2822a01 	add	r2, r2, #4096	@ 0x1000
+     e1c:	e0055004 	and	r5, r5, r4
+     e20:	e2866001 	add	r6, r6, #1
+     e24:	e2833001 	add	r3, r3, #1
+     e28:	e152000e 	cmp	r2, lr
+     e2c:	aa000010 	bge	e74 <main+0xe74>
+     e30:	e59f13d4 	ldr	r1, [pc, #980]	@ 120c <main+0x120c>
+     e34:	e7d04002 	ldrb	r4, [r0, r2]
+     e38:	e0817196 	umull	r7, r1, r6, r1
+     e3c:	e1a013a1 	lsr	r1, r1, #7
+     e40:	e0010c91 	mul	r1, r1, ip
+     e44:	e0437001 	sub	r7, r3, r1
+     e48:	e6ef1077 	uxtb	r1, r7
+     e4c:	e1540001 	cmp	r4, r1
+     e50:	e3a04000 	mov	r4, #0
+     e54:	1affffef 	bne	e18 <main+0xe18>
+     e58:	e0801002 	add	r1, r0, r2
+     e5c:	e5d11fff 	ldrb	r1, [r1, #4095]	@ 0xfff
+     e60:	e0271001 	eor	r1, r7, r1
+     e64:	e24110a5 	sub	r1, r1, #165	@ 0xa5
+     e68:	e16f1f11 	clz	r1, r1
+     e6c:	e1a042a1 	lsr	r4, r1, #5
+     e70:	eaffffe8 	b	e18 <main+0xe18>
+     e74:	e59d0060 	ldr	r0, [sp, #96]	@ 0x60
+     e78:	ebfffffe 	bl	0 <RChunk::Base() const>
+			e78: R_ARM_CALL	RChunk::Base() const
+     e7c:	e59de09c 	ldr	lr, [sp, #156]	@ 0x9c
+     e80:	e009100b 	and	r1, r9, fp
+     e84:	e001900a 	and	r9, r1, sl
+     e88:	e35e0001 	cmp	lr, #1
+     e8c:	ba000022 	blt	f1c <main+0xf1c>
+     e90:	e3a02000 	mov	r2, #0
+     e94:	e3a03078 	mov	r3, #120	@ 0x78
+     e98:	e3a06077 	mov	r6, #119	@ 0x77
+     e9c:	e3a0c0fb 	mov	ip, #251	@ 0xfb
+     ea0:	ea000005 	b	ebc <main+0xebc>
+     ea4:	e2822a01 	add	r2, r2, #4096	@ 0x1000
+     ea8:	e0055004 	and	r5, r5, r4
+     eac:	e2866001 	add	r6, r6, #1
+     eb0:	e2833001 	add	r3, r3, #1
+     eb4:	e152000e 	cmp	r2, lr
+     eb8:	aa000017 	bge	f1c <main+0xf1c>
+     ebc:	e59f1348 	ldr	r1, [pc, #840]	@ 120c <main+0x120c>
+     ec0:	e7d04002 	ldrb	r4, [r0, r2]
+     ec4:	e0817196 	umull	r7, r1, r6, r1
+     ec8:	e1a013a1 	lsr	r1, r1, #7
+     ecc:	e0010c91 	mul	r1, r1, ip
+     ed0:	e0437001 	sub	r7, r3, r1
+     ed4:	e6ef1077 	uxtb	r1, r7
+     ed8:	e1540001 	cmp	r4, r1
+     edc:	e3a04000 	mov	r4, #0
+     ee0:	1affffef 	bne	ea4 <main+0xea4>
+     ee4:	e0801002 	add	r1, r0, r2
+     ee8:	e5d11fff 	ldrb	r1, [r1, #4095]	@ 0xfff
+     eec:	e0271001 	eor	r1, r7, r1
+     ef0:	e24110a5 	sub	r1, r1, #165	@ 0xa5
+     ef4:	e16f1f11 	clz	r1, r1
+     ef8:	e1a042a1 	lsr	r4, r1, #5
+     efc:	eaffffe8 	b	ea4 <main+0xea4>
+     f00:	00000000 	.word	0x00000000
+			f00: R_ARM_ABS32	.rodata.str1.1
+     f04:	00000026 	.word	0x00000026
+			f04: R_ARM_ABS32	.rodata.str1.1
+	...
+			f08: R_ARM_ABS32	.bss..L_MergedGlobals
+			f0c: R_ARM_ABS32	vtable for CDeadline
+			f10: R_ARM_ABS32	.text._ZL7changedPvji
+     f14:	00000036 	.word	0x00000036
+			f14: R_ARM_ABS32	.rodata.str1.1
+     f18:	00000051 	.word	0x00000051
+			f18: R_ARM_ABS32	.rodata.str1.1
+     f1c:	e59d2070 	ldr	r2, [sp, #112]	@ 0x70
+     f20:	e59d3074 	ldr	r3, [sp, #116]	@ 0x74
+     f24:	e2050001 	and	r0, r5, #1
+     f28:	e59d406c 	ldr	r4, [sp, #108]	@ 0x6c
+     f2c:	e58d000c 	str	r0, [sp, #12]
+     f30:	e59f02e0 	ldr	r0, [pc, #736]	@ 1218 <main+0x1218>
+     f34:	e58d8008 	str	r8, [sp, #8]
+     f38:	e88d0210 	stm	sp, {r4, r9}
+     f3c:	ebfffffe 	bl	0 <main>
+			f3c: R_ARM_CALL	log(char const*, ...)
+     f40:	e59d002c 	ldr	r0, [sp, #44]	@ 0x2c
+     f44:	e59d6068 	ldr	r6, [sp, #104]	@ 0x68
+     f48:	ebfffffe 	bl	0 <WTF::SymbianSystem::destroyMemoryPressureMonitor(void*)>
+			f48: R_ARM_CALL	WTF::SymbianSystem::destroyMemoryPressureMonitor(void*)
+     f4c:	e59f12b0 	ldr	r1, [pc, #688]	@ 1204 <main+0x1204>
+     f50:	e3a00000 	mov	r0, #0
+     f54:	e3560000 	cmp	r6, #0
+     f58:	e5918010 	ldr	r8, [r1, #16]
+     f5c:	e5c10000 	strb	r0, [r1]
+     f60:	4a000005 	bmi	f7c <main+0xf7c>
+     f64:	e28d00a4 	add	r0, sp, #164	@ 0xa4
+     f68:	e0800106 	add	r0, r0, r6, lsl #2
+     f6c:	e59d1030 	ldr	r1, [sp, #48]	@ 0x30
+     f70:	e59d2064 	ldr	r2, [sp, #100]	@ 0x64
+     f74:	ebfffffe 	bl	0 <RChunk::Commit(int, int) const>
+			f74: R_ARM_CALL	RChunk::Commit(int, int) const
+     f78:	e58d00c8 	str	r0, [sp, #200]	@ 0xc8
+     f7c:	e28d00a4 	add	r0, sp, #164	@ 0xa4
+     f80:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			f80: R_ARM_CALL	RHandleBase::Close()
+     f84:	e59d0048 	ldr	r0, [sp, #72]	@ 0x48
+     f88:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			f88: R_ARM_CALL	RHandleBase::Close()
+     f8c:	e59d004c 	ldr	r0, [sp, #76]	@ 0x4c
+     f90:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			f90: R_ARM_CALL	RHandleBase::Close()
+     f94:	e59d0050 	ldr	r0, [sp, #80]	@ 0x50
+     f98:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			f98: R_ARM_CALL	RHandleBase::Close()
+     f9c:	e59d0054 	ldr	r0, [sp, #84]	@ 0x54
+     fa0:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			fa0: R_ARM_CALL	RHandleBase::Close()
+     fa4:	e59d0058 	ldr	r0, [sp, #88]	@ 0x58
+     fa8:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			fa8: R_ARM_CALL	RHandleBase::Close()
+     fac:	e59d005c 	ldr	r0, [sp, #92]	@ 0x5c
+     fb0:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			fb0: R_ARM_CALL	RHandleBase::Close()
+     fb4:	e59d0060 	ldr	r0, [sp, #96]	@ 0x60
+     fb8:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			fb8: R_ARM_CALL	RHandleBase::Close()
+     fbc:	e59d0044 	ldr	r0, [sp, #68]	@ 0x44
+     fc0:	e3a01e12 	mov	r1, #288	@ 0x120
+     fc4:	e3811a7a 	orr	r1, r1, #499712	@ 0x7a000
+     fc8:	ebfffffe 	bl	0 <CTimer::After(TTimeIntervalMicroSeconds32)>
+			fc8: R_ARM_CALL	CTimer::After(TTimeIntervalMicroSeconds32)
+     fcc:	ebfffffe 	bl	0 <CActiveScheduler::Start()>
+			fcc: R_ARM_CALL	CActiveScheduler::Start()
+     fd0:	e59f022c 	ldr	r0, [pc, #556]	@ 1204 <main+0x1204>
+     fd4:	e59d10c8 	ldr	r1, [sp, #200]	@ 0xc8
+     fd8:	e5902010 	ldr	r2, [r0, #16]
+     fdc:	e5903014 	ldr	r3, [r0, #20]
+     fe0:	e5900018 	ldr	r0, [r0, #24]
+     fe4:	e88d0003 	stm	sp, {r0, r1}
+     fe8:	e59f022c 	ldr	r0, [pc, #556]	@ 121c <main+0x121c>
+     fec:	e1a01008 	mov	r1, r8
+     ff0:	ebfffffe 	bl	0 <main>
+			ff0: R_ARM_CALL	log(char const*, ...)
+     ff4:	e59f0208 	ldr	r0, [pc, #520]	@ 1204 <main+0x1204>
+     ff8:	e59f7224 	ldr	r7, [pc, #548]	@ 1224 <main+0x1224>
+     ffc:	e59f321c 	ldr	r3, [pc, #540]	@ 1220 <main+0x1220>
+    1000:	e280b010 	add	fp, r0, #16
+    1004:	e1a01007 	mov	r1, r7
+    1008:	e89b0c04 	ldm	fp, {r2, sl, fp}
+    100c:	e35b0000 	cmp	fp, #0
+    1010:	11a01003 	movne	r1, r3
+    1014:	13a0b001 	movne	fp, #1
+    1018:	e35a0000 	cmp	sl, #0
+    101c:	e59d60c8 	ldr	r6, [sp, #200]	@ 0xc8
+    1020:	11a01003 	movne	r1, r3
+    1024:	13a0a001 	movne	sl, #1
+    1028:	e1520008 	cmp	r2, r8
+    102c:	11a01003 	movne	r1, r3
+    1030:	e0528008 	subs	r8, r2, r8
+    1034:	e1a00004 	mov	r0, r4
+    1038:	13a08001 	movne	r8, #1
+    103c:	e3560000 	cmp	r6, #0
+    1040:	13a06001 	movne	r6, #1
+    1044:	e3a04000 	mov	r4, #0
+    1048:	e3500405 	cmp	r0, #83886080	@ 0x5000000
+    104c:	b3a04001 	movlt	r4, #1
+    1050:	e59d003c 	ldr	r0, [sp, #60]	@ 0x3c
+    1054:	e1a02003 	mov	r2, r3
+    1058:	a1a02007 	movge	r2, r7
+    105c:	e3150001 	tst	r5, #1
+    1060:	01a02003 	moveq	r2, r3
+    1064:	e35000a0 	cmp	r0, #160	@ 0xa0
+    1068:	e1a00007 	mov	r0, r7
+    106c:	11a00003 	movne	r0, r3
+    1070:	e88d0005 	stm	sp, {r0, r2}
+    1074:	e59d0034 	ldr	r0, [sp, #52]	@ 0x34
+    1078:	e58d1008 	str	r1, [sp, #8]
+    107c:	e1a01003 	mov	r1, r3
+    1080:	e3100001 	tst	r0, #1
+    1084:	e59d0040 	ldr	r0, [sp, #64]	@ 0x40
+    1088:	11a01007 	movne	r1, r7
+    108c:	e1a02003 	mov	r2, r3
+    1090:	e3100001 	tst	r0, #1
+    1094:	e59f018c 	ldr	r0, [pc, #396]	@ 1228 <main+0x1228>
+    1098:	11a02007 	movne	r2, r7
+    109c:	e3190001 	tst	r9, #1
+    10a0:	11a03007 	movne	r3, r7
+    10a4:	ebfffffe 	bl	0 <main>
+			10a4: R_ARM_CALL	log(char const*, ...)
+    10a8:	ebfffffe 	bl	0 <CleanupStack::PopAndDestroy()>
+			10a8: R_ARM_CALL	CleanupStack::PopAndDestroy()
+    10ac:	e3a00000 	mov	r0, #0
+    10b0:	ebfffffe 	bl	0 <CActiveScheduler::Install(CActiveScheduler*)>
+			10b0: R_ARM_CALL	CActiveScheduler::Install(CActiveScheduler*)
+    10b4:	e59d0034 	ldr	r0, [sp, #52]	@ 0x34
+    10b8:	e59d1040 	ldr	r1, [sp, #64]	@ 0x40
+    10bc:	e0000001 	and	r0, r0, r1
+    10c0:	e59d103c 	ldr	r1, [sp, #60]	@ 0x3c
+    10c4:	e0000009 	and	r0, r0, r9
+    10c8:	e24110a0 	sub	r1, r1, #160	@ 0xa0
+    10cc:	e16f1f11 	clz	r1, r1
+    10d0:	e1a012a1 	lsr	r1, r1, #5
+    10d4:	e0000001 	and	r0, r0, r1
+    10d8:	e0000005 	and	r0, r0, r5
+    10dc:	e2200001 	eor	r0, r0, #1
+    10e0:	e1800004 	orr	r0, r0, r4
+    10e4:	e1800006 	orr	r0, r0, r6
+    10e8:	e180000b 	orr	r0, r0, fp
+    10ec:	e180000a 	orr	r0, r0, sl
+    10f0:	e1800008 	orr	r0, r0, r8
+    10f4:	e3100001 	tst	r0, #1
+    10f8:	0a000001 	beq	1104 <main+0x1104>
+    10fc:	e3e00001 	mvn	r0, #1
+    1100:	ebfffffe 	bl	0 <User::Leave(int)>
+			1100: R_ARM_CALL	User::Leave(int)
+    1104:	e28d00cc 	add	r0, sp, #204	@ 0xcc
+    1108:	ebfffffe 	bl	0 <CActiveScheduler::~CActiveScheduler()>
+			1108: R_ARM_CALL	CActiveScheduler::~CActiveScheduler()
+    110c:	e3a04000 	mov	r4, #0
+    1110:	e59d0028 	ldr	r0, [sp, #40]	@ 0x28
+    1114:	ebfffffe 	bl	0 <User::UnMarkCleanupStack(TTrapHandler*)>
+			1114: R_ARM_CALL	User::UnMarkCleanupStack(TTrapHandler*)
+    1118:	e59f0110 	ldr	r0, [pc, #272]	@ 1230 <main+0x1230>
+    111c:	e1a01004 	mov	r1, r4
+    1120:	ebfffffe 	bl	0 <main>
+			1120: R_ARM_CALL	log(char const*, ...)
+    1124:	e59f00d8 	ldr	r0, [pc, #216]	@ 1204 <main+0x1204>
+    1128:	e5900004 	ldr	r0, [r0, #4]
+    112c:	ebfffffe 	bl	0 <fclose>
+			112c: R_ARM_CALL	fclose
+    1130:	e3540000 	cmp	r4, #0
+    1134:	13a04001 	movne	r4, #1
+    1138:	e1a00004 	mov	r0, r4
+    113c:	e28dd0e4 	add	sp, sp, #228	@ 0xe4
+    1140:	e8bd8ff0 	pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+    1144:	ea00001a 	b	11b4 <main+0x11b4>
+    1148:	ea000019 	b	11b4 <main+0x11b4>
+    114c:	ea000018 	b	11b4 <main+0x11b4>
+    1150:	ea000017 	b	11b4 <main+0x11b4>
+    1154:	ea000016 	b	11b4 <main+0x11b4>
+    1158:	e1a06000 	mov	r6, r0
+    115c:	e1a00005 	mov	r0, r5
+    1160:	e1a04001 	mov	r4, r1
+    1164:	ebfffffe 	bl	0 <CTimer::~CTimer()>
+			1164: R_ARM_CALL	CTimer::~CTimer()
+    1168:	ea000013 	b	11bc <main+0x11bc>
+    116c:	ea000010 	b	11b4 <main+0x11b4>
+    1170:	ea00000f 	b	11b4 <main+0x11b4>
+    1174:	ea00000e 	b	11b4 <main+0x11b4>
+    1178:	ea00000d 	b	11b4 <main+0x11b4>
+    117c:	ea00000c 	b	11b4 <main+0x11b4>
+    1180:	e1a04001 	mov	r4, r1
+    1184:	e1a06000 	mov	r6, r0
+    1188:	ea00000d 	b	11c4 <main+0x11c4>
+    118c:	ea000008 	b	11b4 <main+0x11b4>
+    1190:	ea000007 	b	11b4 <main+0x11b4>
+    1194:	ea000006 	b	11b4 <main+0x11b4>
+    1198:	ea000005 	b	11b4 <main+0x11b4>
+    119c:	ea000004 	b	11b4 <main+0x11b4>
+    11a0:	ea000003 	b	11b4 <main+0x11b4>
+    11a4:	ea000002 	b	11b4 <main+0x11b4>
+    11a8:	ea000001 	b	11b4 <main+0x11b4>
+    11ac:	ea000000 	b	11b4 <main+0x11b4>
+    11b0:	0000006b 	.word	0x0000006b
+			11b0: R_ARM_ABS32	.rodata.str1.1
+    11b4:	e1a04001 	mov	r4, r1
+    11b8:	e1a06000 	mov	r6, r0
+    11bc:	e28d00cc 	add	r0, sp, #204	@ 0xcc
+    11c0:	ebfffffe 	bl	0 <CActiveScheduler::~CActiveScheduler()>
+			11c0: R_ARM_CALL	CActiveScheduler::~CActiveScheduler()
+    11c4:	e1a00006 	mov	r0, r6
+    11c8:	ebfffffe 	bl	0 <__cxa_begin_catch>
+			11c8: R_ARM_CALL	__cxa_begin_catch
+    11cc:	e3540002 	cmp	r4, #2
+    11d0:	1a000002 	bne	11e0 <main+0x11e0>
+    11d4:	ebfffffe 	bl	0 <XLeaveException::GetReason() const>
+			11d4: R_ARM_CALL	XLeaveException::GetReason() const
+    11d8:	e1a04000 	mov	r4, r0
+    11dc:	ea000001 	b	11e8 <main+0x11e8>
+    11e0:	e3a04000 	mov	r4, #0
+    11e4:	ebfffffe 	bl	0 <User::Invariant()>
+			11e4: R_ARM_CALL	User::Invariant()
+    11e8:	ebfffffe 	bl	0 <__cxa_end_catch>
+			11e8: R_ARM_CALL	__cxa_end_catch
+    11ec:	eaffffc9 	b	1118 <main+0x1118>
+    11f0:	ebfffffe 	bl	0 <__cxa_end_catch>
+			11f0: R_ARM_CALL	__cxa_end_catch
+    11f4:	ea000000 	b	11fc <main+0x11fc>
+    11f8:	ebfffffe 	bl	0 <__cxa_end_catch>
+			11f8: R_ARM_CALL	__cxa_end_catch
+    11fc:	ebfffffe 	bl	0 <__cxa_end_cleanup>
+			11fc: R_ARM_CALL	__cxa_end_cleanup
+    1200:	ebfffffe 	bl	0 <main>
+			1200: R_ARM_CALL	__clang_call_terminate
+    1204:	00000000 	.word	0x00000000
+			1204: R_ARM_ABS32	.bss..L_MergedGlobals
+    1208:	003effff 	.word	0x003effff
+    120c:	828cbfbf 	.word	0x828cbfbf
+    1210:	000000c5 	.word	0x000000c5
+			1210: R_ARM_ABS32	.rodata.str1.1
+    1214:	017fffff 	.word	0x017fffff
+    1218:	000000f1 	.word	0x000000f1
+			1218: R_ARM_ABS32	.rodata.str1.1
+    121c:	00000132 	.word	0x00000132
+			121c: R_ARM_ABS32	.rodata.str1.1
+    1220:	000001ca 	.word	0x000001ca
+			1220: R_ARM_ABS32	.rodata.str1.1
+    1224:	000001c5 	.word	0x000001c5
+			1224: R_ARM_ABS32	.rodata.str1.1
+    1228:	0000016f 	.word	0x0000016f
+			1228: R_ARM_ABS32	.rodata.str1.1
+    122c:	00000094 	.word	0x00000094
+			122c: R_ARM_ABS32	.rodata.str1.1
+    1230:	00000028 	.word	0x00000028
+			1230: R_ARM_ABS32	.rodata.str1.1
+
+Disassembly of section .text.__clang_call_terminate:
+
+00000000 <__clang_call_terminate>:
+   0:	ebfffffe 	bl	0 <__cxa_begin_catch>
+			0: R_ARM_CALL	__cxa_begin_catch
+   4:	ebfffffe 	bl	0 <std::terminate()>
+			4: R_ARM_CALL	std::terminate()
+
+Disassembly of section .text._ZL3logPKcz:
+
+00000000 <log(char const*, ...)>:
+   0:	e24dd00c 	sub	sp, sp, #12
+   4:	e92d4010 	push	{r4, lr}
+   8:	e24dd004 	sub	sp, sp, #4
+   c:	e59f4040 	ldr	r4, [pc, #64]	@ 54 <log(char const*, ...)+0x54>
+  10:	e1a0c000 	mov	ip, r0
+  14:	e28d000c 	add	r0, sp, #12
+  18:	e880000e 	stm	r0, {r1, r2, r3}
+  1c:	e5940004 	ldr	r0, [r4, #4]
+  20:	e28d200c 	add	r2, sp, #12
+  24:	e1a0100c 	mov	r1, ip
+  28:	e58d2000 	str	r2, [sp]
+  2c:	ebfffffe 	bl	0 <vfprintf>
+			2c: R_ARM_CALL	vfprintf
+  30:	e5941004 	ldr	r1, [r4, #4]
+  34:	e3a0000a 	mov	r0, #10
+  38:	ebfffffe 	bl	0 <fputc>
+			38: R_ARM_CALL	fputc
+  3c:	e5940004 	ldr	r0, [r4, #4]
+  40:	ebfffffe 	bl	0 <fflush>
+			40: R_ARM_CALL	fflush
+  44:	e28dd004 	add	sp, sp, #4
+  48:	e8bd4010 	pop	{r4, lr}
+  4c:	e28dd00c 	add	sp, sp, #12
+  50:	e12fff1e 	bx	lr
+  54:	00000000 	.word	0x00000000
+			54: R_ARM_ABS32	.bss..L_MergedGlobals
+
+Disassembly of section .text._ZL7changedPvji:
+
+00000000 <changed(void*, unsigned int, int)>:
+   0:	e92d4010 	push	{r4, lr}
+   4:	e59f405c 	ldr	r4, [pc, #92]	@ 68 <changed(void*, unsigned int, int)+0x68>
+   8:	e3a0c001 	mov	ip, #1
+   c:	e00ce3a1 	and	lr, ip, r1, lsr #7
+  10:	e5943010 	ldr	r3, [r4, #16]
+  14:	e00cc2a1 	and	ip, ip, r1, lsr #5
+  18:	e2833001 	add	r3, r3, #1
+  1c:	e5843010 	str	r3, [r4, #16]
+  20:	e5943008 	ldr	r3, [r4, #8]
+  24:	e3520000 	cmp	r2, #0
+  28:	e083300e 	add	r3, r3, lr
+  2c:	e5843008 	str	r3, [r4, #8]
+  30:	e594300c 	ldr	r3, [r4, #12]
+  34:	e083300c 	add	r3, r3, ip
+  38:	e584300c 	str	r3, [r4, #12]
+  3c:	e5d43000 	ldrb	r3, [r4]
+  40:	e594c014 	ldr	ip, [r4, #20]
+  44:	e2230001 	eor	r0, r3, #1
+  48:	e08c0000 	add	r0, ip, r0
+  4c:	e5840014 	str	r0, [r4, #20]
+  50:	e5940018 	ldr	r0, [r4, #24]
+  54:	12800001 	addne	r0, r0, #1
+  58:	e5840018 	str	r0, [r4, #24]
+  5c:	e59f0008 	ldr	r0, [pc, #8]	@ 6c <changed(void*, unsigned int, int)+0x6c>
+  60:	e8bd4010 	pop	{r4, lr}
+  64:	eafffffe 	b	0 <changed(void*, unsigned int, int)>
+			64: R_ARM_JUMP24	log(char const*, ...)
+  68:	00000000 	.word	0x00000000
+			68: R_ARM_ABS32	.bss..L_MergedGlobals
+  6c:	000001cf 	.word	0x000001cf
+			6c: R_ARM_ABS32	.rodata.str1.1
+
+Disassembly of section .text._ZL12boundedLogonR15RChangeNotifier:
+
+00000000 <boundedLogon(RChangeNotifier&)>:
+   0:	e92d4830 	push	{r4, r5, fp, lr}
+   4:	e24dd018 	sub	sp, sp, #24
+   8:	e1a04000 	mov	r4, r0
+   c:	e28d0014 	add	r0, sp, #20
+  10:	e3a05000 	mov	r5, #0
+  14:	e58d5014 	str	r5, [sp, #20]
+  18:	ebfffffe 	bl	0 <RTimer::CreateLocal()>
+			18: R_ARM_CALL	RTimer::CreateLocal()
+  1c:	e3500000 	cmp	r0, #0
+  20:	0a000001 	beq	2c <boundedLogon(RChangeNotifier&)+0x2c>
+  24:	e28dd018 	add	sp, sp, #24
+  28:	e8bd8830 	pop	{r4, r5, fp, pc}
+  2c:	e3a02e12 	mov	r2, #288	@ 0x120
+  30:	e28d0014 	add	r0, sp, #20
+  34:	e28d100c 	add	r1, sp, #12
+  38:	e3822a7a 	orr	r2, r2, #499712	@ 0x7a000
+  3c:	e58d5010 	str	r5, [sp, #16]
+  40:	e58d5008 	str	r5, [sp, #8]
+  44:	ebfffffe 	bl	0 <RTimer::After(TRequestStatus&, TTimeIntervalMicroSeconds32)>
+			44: R_ARM_CALL	RTimer::After(TRequestStatus&, TTimeIntervalMicroSeconds32)
+  48:	e28d1004 	add	r1, sp, #4
+  4c:	e1a00004 	mov	r0, r4
+  50:	ebfffffe 	bl	0 <RChangeNotifier::Logon(TRequestStatus&) const>
+			50: R_ARM_CALL	RChangeNotifier::Logon(TRequestStatus&) const
+  54:	e3500000 	cmp	r0, #0
+  58:	1a00000a 	bne	88 <boundedLogon(RChangeNotifier&)+0x88>
+  5c:	e28d0004 	add	r0, sp, #4
+  60:	e28d100c 	add	r1, sp, #12
+  64:	ebfffffe 	bl	0 <User::WaitForRequest(TRequestStatus&, TRequestStatus&)>
+			64: R_ARM_CALL	User::WaitForRequest(TRequestStatus&, TRequestStatus&)
+  68:	e59d0004 	ldr	r0, [sp, #4]
+  6c:	e3500106 	cmp	r0, #-2147483647	@ 0x80000001
+  70:	1a000004 	bne	88 <boundedLogon(RChangeNotifier&)+0x88>
+  74:	e1a00004 	mov	r0, r4
+  78:	ebfffffe 	bl	0 <RChangeNotifier::LogonCancel() const>
+			78: R_ARM_CALL	RChangeNotifier::LogonCancel() const
+  7c:	e28d0004 	add	r0, sp, #4
+  80:	ebfffffe 	bl	0 <User::WaitForRequest(TRequestStatus&)>
+			80: R_ARM_CALL	User::WaitForRequest(TRequestStatus&)
+  84:	e3e00020 	mvn	r0, #32
+  88:	e28d4014 	add	r4, sp, #20
+  8c:	e1a05000 	mov	r5, r0
+  90:	e1a00004 	mov	r0, r4
+  94:	ebfffffe 	bl	0 <RTimer::Cancel()>
+			94: R_ARM_CALL	RTimer::Cancel()
+  98:	e28d000c 	add	r0, sp, #12
+  9c:	ebfffffe 	bl	0 <User::WaitForRequest(TRequestStatus&)>
+			9c: R_ARM_CALL	User::WaitForRequest(TRequestStatus&)
+  a0:	e1a00004 	mov	r0, r4
+  a4:	ebfffffe 	bl	0 <RHandleBase::Close()>
+			a4: R_ARM_CALL	RHandleBase::Close()
+  a8:	e1a00005 	mov	r0, r5
+  ac:	e28dd018 	add	sp, sp, #24
+  b0:	e8bd8830 	pop	{r4, r5, fp, pc}
+
+Disassembly of section .text._ZN9CDeadlineD0Ev:
+
+00000000 <CDeadline::~CDeadline()>:
+   0:	e92d4800 	push	{fp, lr}
+   4:	ebfffffe 	bl	0 <CTimer::~CTimer()>
+			4: R_ARM_CALL	CTimer::~CTimer()
+   8:	ebfffffe 	bl	0 <User::Free(void*)>
+			8: R_ARM_CALL	User::Free(void*)
+   c:	e8bd8800 	pop	{fp, pc}
+  10:	ebfffffe 	bl	0 <CDeadline::~CDeadline()>
+			10: R_ARM_CALL	__clang_call_terminate
+
+Disassembly of section .text._ZN9CDeadline4RunLEv:
+
+00000000 <CDeadline::RunL()>:
+   0:	eafffffe 	b	0 <CActiveScheduler::Stop()>
+			0: R_ARM_JUMP24	CActiveScheduler::Stop()

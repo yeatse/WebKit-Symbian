@@ -1,0 +1,16 @@
+BEGIN idb-copy-probe version=1
+PASS: create two distinct same-drive source and sentinel files
+INFO sourceDev=2 sourceIno=0 otherDev=2 otherIno=0
+PASS: real OpenC reports zero inode for distinct same-drive files
+PASS: production O_EXCL copy accepts a new target with zero inode
+PASS: copied bytes and original binary payload match exactly
+PASS: existing target refuses overwrite and retains its contents
+PASS: same-path exclusive copy preserves source
+FAIL: case-insensitive alias refuses copy and preserves source
+PASS: overwrite same-source guard remains fail-closed
+PASS: partial write failure removes owned output and preserves source
+PASS: rollback cleanup permits a fresh successful exclusive copy
+PASS: cleanup removes only owned test files
+RESULT {"probe":"idb-copy-probe","passed":10,"failed":1}
+FAIL: idb-copy-probe 10/11
+idb-copy-probe exiting 1

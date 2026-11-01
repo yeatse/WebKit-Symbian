@@ -1,0 +1,15 @@
+{
+  "section": ".text.SymbianRuntimeSteadyClockNanoseconds",
+  "installed_bytes": 196,
+  "rebuilt_bytes": 196,
+  "installed_code_sha256": "4cf9434e13a1d6526f43ff4868b5f7ff3c91da25a96f2c3e04b06999bbdfe08c",
+  "rebuilt_code_sha256": "4cf9434e13a1d6526f43ff4868b5f7ff3c91da25a96f2c3e04b06999bbdfe08c",
+  "code_bytes_equal": true,
+  "compiler_mode": "ARMv6 Thumb1 -O3, matching installed object THM_CALL relocations and optimization attribute",
+  "code_relocations_and_state_equal": {
+    ".text.SymbianRuntimeSteadyClockNanoseconds": true,
+    ".rel.text.SymbianRuntimeSteadyClockNanoseconds": true,
+    ".data._ZN12_GLOBAL__N_110last_ticksE": true,
+    ".bss._ZN12_GLOBAL__N_116tick_mode_periodE": true
+  }
+}

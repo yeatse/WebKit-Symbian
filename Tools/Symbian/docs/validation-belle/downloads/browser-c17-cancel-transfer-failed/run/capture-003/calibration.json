@@ -1,0 +1,30 @@
+{
+  "run": "dl-x-2b6107823e76",
+  "case": "cancel-transfer",
+  "pid": 524508,
+  "window": "0x60000b",
+  "status": "CALIBRATION_CAPTURED",
+  "records": [],
+  "screenshots": [
+    {
+      "path": "calibration-main.png",
+      "sha256": "d211d1d138349a229b3d38e92ddfdc07422d289124e128826e34eee4eb619387",
+      "target": "main",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "monotonic_ns": 241015957483318
+    }
+  ],
+  "input_source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+  "input_source_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+  "scope": "actual XTest input; no guest launch, injected JavaScript, dialog hooks or file mutation",
+  "main_size": [
+    900,
+    700
+  ],
+  "fep_size": null
+}

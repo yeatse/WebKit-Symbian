@@ -38,6 +38,7 @@ public:
 
 private:
     bool isMainFrame() const;
+    void cancelAuthenticationChallenge();
 
     Ref<WebCore::DocumentLoader> createDocumentLoader(WebCore::ResourceRequest&&, WebCore::SubstituteData&&) final;
 
@@ -47,10 +48,10 @@ private:
     void makeRepresentation(WebCore::DocumentLoader*) final { }
     void forceLayoutForNonHTML() final { }
     void setCopiesOnScroll() final { }
-    void detachedFromParent2() final { }
+    void detachedFromParent2() final { cancelAuthenticationChallenge(); }
     void detachedFromParent3() final { }
 
-    void convertMainResourceLoadToDownload(WebCore::DocumentLoader*, const WebCore::ResourceRequest&, const WebCore::ResourceResponse&) final { }
+    void convertMainResourceLoadToDownload(WebCore::DocumentLoader*, const WebCore::ResourceRequest&, const WebCore::ResourceResponse&) final;
 
     void assignIdentifierToInitialRequest(WebCore::ResourceLoaderIdentifier, WebCore::DocumentLoader*, const WebCore::ResourceRequest&) final { }
     bool shouldUseCredentialStorage(WebCore::DocumentLoader*, WebCore::ResourceLoaderIdentifier) final { return true; }
@@ -59,7 +60,7 @@ private:
     void dispatchDidReceiveResponse(WebCore::DocumentLoader*, WebCore::ResourceLoaderIdentifier, const WebCore::ResourceResponse&) final { }
     void dispatchDidReceiveContentLength(WebCore::DocumentLoader*, WebCore::ResourceLoaderIdentifier, int) final { }
     void dispatchDidFinishLoading(WebCore::DocumentLoader*, WebCore::ResourceLoaderIdentifier) final { }
-    void dispatchDidFailLoading(WebCore::DocumentLoader*, WebCore::ResourceLoaderIdentifier, const WebCore::ResourceError&) final { }
+    void dispatchDidFailLoading(WebCore::DocumentLoader*, WebCore::ResourceLoaderIdentifier, const WebCore::ResourceError&) final;
     bool dispatchDidLoadResourceFromMemoryCache(WebCore::DocumentLoader*, const WebCore::ResourceRequest&, const WebCore::ResourceResponse&, int) final { return false; }
 
     void dispatchDidDispatchOnloadEvents() final { }
@@ -70,7 +71,7 @@ private:
     void dispatchDidPushStateWithinPage() final;
     void dispatchDidReplaceStateWithinPage() final;
     void dispatchDidPopStateWithinPage() final;
-    void dispatchWillClose() final { }
+    void dispatchWillClose() final { cancelAuthenticationChallenge(); }
     void dispatchDidStartProvisionalLoad() final;
     void dispatchDidReceiveTitle(const WebCore::StringWithDirection&) final;
     void dispatchDidCommitLoad(std::optional<WebCore::HasInsecureContent>, std::optional<WebCore::UsedLegacyTLS>, std::optional<WebCore::WasPrivateRelayed>) final;
@@ -98,7 +99,7 @@ private:
     void setMainDocumentError(WebCore::DocumentLoader*, const WebCore::ResourceError&) final { }
     void setMainFrameDocumentReady(bool) final { }
 
-    void startDownload(const WebCore::ResourceRequest&, const String&, WebCore::FromDownloadAttribute) final { }
+    void startDownload(const WebCore::ResourceRequest&, const String&, WebCore::FromDownloadAttribute) final;
 
     void willChangeTitle(WebCore::DocumentLoader*) final { }
     void didChangeTitle(WebCore::DocumentLoader*) final { }
@@ -162,6 +163,7 @@ private:
     void dispatchLoadEventToOwnerElementInAnotherProcess() final { }
     RefPtr<WebCore::HistoryItem> createHistoryItemTree(bool, WebCore::BackForwardItemIdentifier) const final;
 
+    std::optional<WebCore::ResourceLoaderIdentifier> m_authenticationIdentifier;
     WebViewImpl& m_view;
     WebCore::LocalFrame* m_frame { nullptr };
 };

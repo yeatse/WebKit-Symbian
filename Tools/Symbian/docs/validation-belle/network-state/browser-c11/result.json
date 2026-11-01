@@ -1,0 +1,371 @@
+{
+  "status": "FAIL",
+  "suite": "network-state",
+  "token": "2cd5507048d64ffd87998c40b67c9cf0",
+  "started_utc": "2026-10-29T23:02:24.732210+00:00",
+  "forced_cleanup": false,
+  "normal_host_exit": false,
+  "scope": "Trusted browser online/offline events driven by real RConnection Start/Stop/Attach",
+  "inputs": {
+    "browser": {
+      "path": "/workspace/symbian-belle-work/candidate11/browser.exe",
+      "exists": true,
+      "mode": 384,
+      "bytes": 58792332,
+      "sha256": "20f58cef43d6fa4252546cb337940bfa609ba7ef71d0059ef1336bd126ef5288"
+    },
+    "host": {
+      "path": "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+      "exists": true,
+      "mode": 448,
+      "bytes": 65474624,
+      "sha256": "0d2714494b322684872c0fc036c2f206b8514e54d021dc2ec1e3182af5855b98"
+    },
+    "browser_reg.rsc": {
+      "path": "/workspace/symbian-belle-work/candidate11/browser_reg.rsc",
+      "exists": true,
+      "mode": 384,
+      "bytes": 97,
+      "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+    },
+    "browser_loc.rsc": {
+      "path": "/workspace/symbian-belle-work/candidate11/browser_loc.rsc",
+      "exists": true,
+      "mode": 384,
+      "bytes": 74,
+      "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+    },
+    "browser_ui.rsc": {
+      "path": "/workspace/symbian-belle-work/candidate11/browser_ui.rsc",
+      "exists": true,
+      "mode": 384,
+      "bytes": 192,
+      "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+    },
+    "controller": {
+      "path": "/workspace/symbian-online-work/controller-build/e32/network_state_controller.exe",
+      "exists": true,
+      "mode": 384,
+      "bytes": 85060,
+      "sha256": "828ab94f8bd991d1deac67b1f104d580276fbbf0aa60531032a352fa1e1ef35b"
+    },
+    "online_fixture": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/network-state/browser.html",
+      "exists": true,
+      "mode": 384,
+      "bytes": 4697,
+      "sha256": "08e41a87248d86b945e527496396faf8aee4eabcdfe0c8ffdff27629a40865df"
+    },
+    "online_validator": {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/network-state/validate-browser.py",
+      "exists": true,
+      "mode": 448,
+      "bytes": 6012,
+      "sha256": "a52ca3e411a3fc5021b17f954388ee971ce1ad5e06ef3cb559a82db9c32c373d"
+    }
+  },
+  "restoration": {
+    "backup_directory": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-2cd5507048d64ffd87998c40b67c9cf0",
+    "files": [
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+          "exists": true,
+          "mode": 448,
+          "directory": true,
+          "device": 27,
+          "inode": 932801,
+          "mtime_ns": 1793314663916601573
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-2cd5507048d64ffd87998c40b67c9cf0/0",
+        "directory": true,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit",
+          "exists": true,
+          "mode": 448,
+          "directory": true,
+          "device": 27,
+          "inode": 932801,
+          "mtime_ns": 1793314663916601573
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 58792332,
+          "sha256": "20f58cef43d6fa4252546cb337940bfa609ba7ef71d0059ef1336bd126ef5288"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-2cd5507048d64ffd87998c40b67c9cf0/1",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+          "exists": true,
+          "mode": 384,
+          "bytes": 58792332,
+          "sha256": "20f58cef43d6fa4252546cb337940bfa609ba7ef71d0059ef1336bd126ef5288"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-2cd5507048d64ffd87998c40b67c9cf0/2",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 97,
+          "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-2cd5507048d64ffd87998c40b67c9cf0/3",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 74,
+          "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 192,
+          "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-2cd5507048d64ffd87998c40b67c9cf0/4",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+          "exists": true,
+          "mode": 384,
+          "bytes": 192,
+          "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+        }
+      },
+      {
+        "target": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/network_state_controller.exe",
+        "before": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/network_state_controller.exe",
+          "exists": false
+        },
+        "backup": "/workspace/eka-validation/xdg/data/EKA2L1/data/.p1-originals-2cd5507048d64ffd87998c40b67c9cf0/5",
+        "directory": false,
+        "restored": true,
+        "after": {
+          "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/network_state_controller.exe",
+          "exists": false
+        }
+      }
+    ],
+    "restored": true
+  },
+  "logs": {
+    "browser.log": {
+      "path": "/workspace/symbian-p1-system-runtime-work/online-c11-1/browser.log",
+      "exists": true,
+      "mode": 384,
+      "bytes": 7880,
+      "sha256": "991b63bbb8f53f538a9b706bc20d011bf321ad17c9f1fc5c4ebf28b5371225f4"
+    },
+    "network-state-controller.log": {
+      "path": "/workspace/symbian-p1-system-runtime-work/online-c11-1/network-state-controller.log",
+      "exists": true,
+      "mode": 384,
+      "bytes": 1572,
+      "sha256": "9787381c4ddaded51efa589c46d04af4074a8f4638c9a683cf66ea901a3cf28e"
+    }
+  },
+  "runner_sha256": "4e43d2e53dc9e0de1f104b02d7f5ca3292e2754de3e3240f85544d275a9cbfe9",
+  "pins_sha256": "4697114690f82094789c468827e9ca3e1b3c4c9c33a439089647a6fa27b0d396",
+  "deployed": [
+    {
+      "source": {
+        "path": "/workspace/symbian-belle-work/candidate11/browser.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 58792332,
+        "sha256": "20f58cef43d6fa4252546cb337940bfa609ba7ef71d0059ef1336bd126ef5288"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/browser.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 58792332,
+        "sha256": "20f58cef43d6fa4252546cb337940bfa609ba7ef71d0059ef1336bd126ef5288"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/symbian-belle-work/candidate11/browser_reg.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 97,
+        "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/private/10003a3f/import/apps/browser_reg.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 97,
+        "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/symbian-belle-work/candidate11/browser_loc.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 74,
+        "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_loc.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 74,
+        "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/symbian-belle-work/candidate11/browser_ui.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 192,
+        "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/resource/apps/browser_ui.rsc",
+        "exists": true,
+        "mode": 384,
+        "bytes": 192,
+        "sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/symbian-online-work/controller-build/e32/network_state_controller.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 85060,
+        "sha256": "828ab94f8bd991d1deac67b1f104d580276fbbf0aa60531032a352fa1e1ef35b"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/sys/bin/network_state_controller.exe",
+        "exists": true,
+        "mode": 384,
+        "bytes": 85060,
+        "sha256": "828ab94f8bd991d1deac67b1f104d580276fbbf0aa60531032a352fa1e1ef35b"
+      }
+    },
+    {
+      "source": {
+        "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/network-state/browser.html",
+        "exists": true,
+        "mode": 384,
+        "bytes": 4697,
+        "sha256": "08e41a87248d86b945e527496396faf8aee4eabcdfe0c8ffdff27629a40865df"
+      },
+      "target": {
+        "path": "/workspace/eka-validation/xdg/data/EKA2L1/data/drives/c/Data/WebKit/network-state-browser.html",
+        "exists": true,
+        "mode": 384,
+        "bytes": 4697,
+        "sha256": "08e41a87248d86b945e527496396faf8aee4eabcdfe0c8ffdff27629a40865df"
+      }
+    }
+  ],
+  "synthetic_connectivity": false,
+  "http_failure_inference": false,
+  "wm_close_sent": false,
+  "command": [
+    "/workspace/EKA2L1-validation/build/bin/eka2l1_qt",
+    "--device",
+    "RM-707",
+    "--run",
+    "C:\\sys\\bin\\network_state_controller.exe",
+    " 2cd5507048d64ffd87998c40b67c9cf0"
+  ],
+  "host_pid": 499512,
+  "launched_monotonic": 51422.957560944,
+  "deadline_monotonic": 51512.957176349,
+  "subprocesses": [
+    {
+      "command": [
+        "import",
+        "-window",
+        "0x60000b",
+        "/workspace/symbian-p1-system-runtime-work/online-c11-1/online-final.png"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/workspace/symbian-p1-system-runtime-work/online-c11-1/online-final.png",
+      "exists": true,
+      "mode": 384,
+      "bytes": 84240,
+      "sha256": "483fa5991519f95735b2fe88a27d4fe49b579b9f74f2cd190e51654612802565",
+      "width": 900,
+      "height": 700,
+      "channel_stddev": [
+        44.89193779437058,
+        44.48077699467263,
+        44.88050722288038
+      ],
+      "window_geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "host_pid": 499512,
+      "captured_monotonic": 51464.688248632,
+      "nonblank": true,
+      "visual_page_review_required": true
+    }
+  ],
+  "host_exit": -11,
+  "error": "Host exited with -11",
+  "finished_utc": "2026-10-29T23:03:12.546008+00:00",
+  "host_log": {
+    "path": "/workspace/symbian-p1-system-runtime-work/online-c11-1/emulator.log",
+    "exists": true,
+    "mode": 384,
+    "bytes": 404058,
+    "sha256": "3dd37f6b45a66e6b6235864e65347576056302d22a112d79fb0ebdfd2b3b404b"
+  },
+  "runtime_locks_released": true
+}

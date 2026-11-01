@@ -1,0 +1,9 @@
+CREATE monitor=1 error=0
+HAL before valid=1 free=268435456
+RESERVE bytes=67108864 error=0 freeValid=1 free=268435456
+COMMIT attempted=1 bytes=67108864 error=0 freeValid=1 free=268435456
+RELEASE freeValid=1 free=268435456 pattern=1
+CANCEL completed=0 after=0 late=0 errors=0
+PROBE_RESULT bridge=PASS pattern=PASS accounting=UNAVAILABLE memoryNotifications=0
+NOTE no notification is required unless a real system threshold was crossed; no threshold was changed
+EXIT error=0

@@ -1,0 +1,16 @@
+[
+  {
+    "object": "/workspace/symbian-memory-pressure-work/native-threshold-final/build/CMakeFiles/memory_pressure_probe.dir/probe.cpp.obj",
+    "object_sha256": "27f83cff75886be857b81c21b91f97ecc49bc4bbdcdcd29f79d9fcfe651b1d3f",
+    "disassembly": "probe-cbase-delete.dis",
+    "disassembly_sha256": "18951a5a0f501e549cd97587b44d5dd34d11d0110f67e0d6cc4d0ea90fc1d3aa",
+    "check": "class-specific D0 destructor targets User::Free; actual ARM relocation recorded"
+  },
+  {
+    "object": "/workspace/symbian-memory-pressure-work/native-threshold-final/build/CMakeFiles/memory_pressure_probe.dir/MemoryPressureMonitorSymbianNative.cpp.obj",
+    "object_sha256": "7affe4ca2f8777be405a6fb31cc71b26a5d4e8c401b4c57f3fa0b38b3a44e1ae",
+    "disassembly": "bridge-cbase-delete.dis",
+    "disassembly_sha256": "930912d85c3235318ebbe86b46590ec1065c4c52abc1a56fb2dec5ce3b87b9b8",
+    "check": "class-specific D0 destructor targets User::Free; actual ARM relocation recorded"
+  }
+]

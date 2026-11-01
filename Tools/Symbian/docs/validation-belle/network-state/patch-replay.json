@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "baseline_revision": "5bbc0435cf9a3a3d0f08d20259d35f60255c3a8a",
+  "patch": "Tools/Symbian/patches/eka2l1/0020-Observe-real-RConnection-state-through-ConnMon.patch",
+  "patch_sha256": "a2bbe5fb3baa71fc0384d662af95d8c7ca1747e2c447e93469bb65e2a2c9608e",
+  "files": {
+    "src/emu/services/include/services/internet/connmonitor.h": {
+      "before": "09013a56155d4a4f7d0aaa59e4ff279d6e812484973999a6caf64bf596df1cec",
+      "after": "87837d55ae2c3bb47e99bc799a6aadbab513935757128ee7c3bf5128939ec5cd"
+    },
+    "src/emu/services/include/services/socket/connection.h": {
+      "before": "52b9f335674602bb87215ec28f76b357effa87a5f365a71ad08fee20f76df250",
+      "after": "915a1c9a56666a7292cffcff91108dad9704341f34f07db0dcd0e22838a0197e"
+    },
+    "src/emu/services/include/services/socket/server.h": {
+      "before": "68e5d68a934d18b0e2687b904f0e1a79ca3ca5d502a88de69bdd32d13a903b37",
+      "after": "1aed1f5d6e87423bd1d251a8c8b532ef6b16159b3268c67ae5b13682ec4c5310"
+    },
+    "src/emu/services/src/internet/connmonitor.cpp": {
+      "before": "91d53d9282a5d3c77d070d62c44adfd8424ca82533cf7cd2d5ea309d06e29b19",
+      "after": "0b299eba073519c0bc9fb1c0134b9d4993739c780e633f2134c43cb348aacb2c"
+    },
+    "src/emu/services/src/socket/connection.cpp": {
+      "before": "fec11ca7f853b056f27e8797b19b7a077da108dd8078bedebeffa62d2845cd2d",
+      "after": "6741abfde862e518c8c62460aecfd0f4859150a2868fba33154e1a83cb7467d3"
+    }
+  },
+  "applied_sources_equal": true
+}

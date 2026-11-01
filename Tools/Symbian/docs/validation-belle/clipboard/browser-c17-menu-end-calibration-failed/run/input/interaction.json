@@ -1,0 +1,102 @@
+{
+  "status": "FAIL",
+  "run": "clipboard-menu-c17-cal-20261101-01",
+  "mode": "menu",
+  "pid": 525881,
+  "origin": "http://localhost:8802",
+  "started_utc": "2026-11-01T03:50:26.519079+00:00",
+  "through_step": 1,
+  "content_rect": [
+    270,
+    77,
+    360,
+    532
+  ],
+  "main_size": [
+    900,
+    700
+  ],
+  "input_module": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+  "input_module_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+  "driver_sha256": "187fcd8bc8aa30d777aa58e635f4db7fff65c5bb5d2bfba60e7463b5b44758c6",
+  "contract_sha256": "048997ff50c929bebdde3ef26dd02ab6b7acb2008b3a64c3533f2402b5b11720",
+  "menu_plan_sha256": "9d8ce461f7c9e2b34a0d9c99caf6c6aeff3a51bf11f0cf6e09260b7ff2334772",
+  "clipboard_read_or_written_directly": false,
+  "dom_injection": false,
+  "screenshots_taken": false,
+  "clipboard_restoration": "outer runner responsibility; not observed by this driver",
+  "records": [
+    {
+      "event": "start-pointer-click",
+      "elapsed": 0.31133413198404014,
+      "step": 1,
+      "point": [
+        450,
+        201
+      ],
+      "action": {
+        "run": "clipboard-menu-c17-cal-20261101-01",
+        "step": 1,
+        "operation": "start",
+        "target": "start",
+        "mode": "menu",
+        "x": 180,
+        "y": 124,
+        "width": 360,
+        "height": 532
+      }
+    },
+    {
+      "event": "native-menu-action",
+      "elapsed": 0.7990198349871207,
+      "step": 1,
+      "operation": "paste",
+      "number": 1,
+      "action": {
+        "key": "F2",
+        "wait": 0.35
+      }
+    },
+    {
+      "event": "native-menu-action",
+      "elapsed": 1.2981913599942345,
+      "step": 1,
+      "operation": "paste",
+      "number": 2,
+      "action": {
+        "key": "End",
+        "wait": 0.25
+      }
+    },
+    {
+      "event": "native-menu-action",
+      "elapsed": 1.693591835006373,
+      "step": 1,
+      "operation": "paste",
+      "number": 3,
+      "action": {
+        "key": "Up",
+        "wait": 0.18
+      }
+    },
+    {
+      "event": "native-menu-action",
+      "elapsed": 1.9544300920097157,
+      "step": 1,
+      "operation": "paste",
+      "number": 4,
+      "action": {
+        "key": "Up",
+        "wait": 0.18
+      }
+    },
+    {
+      "event": "menu-review-waiting",
+      "elapsed": 2.1995526849932503,
+      "gate": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/menu-reviews/01-step1-paste/gate.json",
+      "selected_sha256": "54aaff53c423bca893ff7952b6f5c8bab2727841f3ee0293b9deb2659968ce28"
+    }
+  ],
+  "error": "root menu screenshot review deadline; preserve incomplete run",
+  "finished_utc": "2026-11-01T03:51:00.756487+00:00"
+}

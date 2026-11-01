@@ -1,0 +1,1 @@
+{"run": "dl-e-96cb1c9bde37", "sequence": 11, "operation": "act", "capture_sha256": "635f8c11557d68bf3893f78df7cc058a51f9a9f29229ba4ce75cba5556bcaab1", "screenshots_reviewed": true, "actions": [{"target": "fep", "role": "edit-name", "wait": 0.5, "point": [200, 277]}]}

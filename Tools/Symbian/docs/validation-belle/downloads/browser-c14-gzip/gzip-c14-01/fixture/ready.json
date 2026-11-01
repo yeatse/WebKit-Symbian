@@ -1,0 +1,12 @@
+{
+  "run": "dl-z-d75249df5942",
+  "case": "gzip",
+  "url": "http://localhost:46841/?run=dl-z-d75249df5942",
+  "host_control_url": "http://127.0.0.1:46841",
+  "payload_bytes": 524288,
+  "payload_sha256": "33bc8aab40703678c3ebe94d2dd8f2afff285dd901f9234e841e4679f8204fd5",
+  "fixture_source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/downloads/server.py",
+  "fixture_source_sha256": "34138202c12a0b3937430d22d268fb283d1b31d04b59c8a5163112faa9dfe2cf",
+  "scope": "ordinary download behavior only",
+  "gate_seconds": 300.0
+}

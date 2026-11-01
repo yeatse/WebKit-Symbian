@@ -1,0 +1,15 @@
+{
+  "calibration_sha256": "a953fd20da18ce2ad95555c712445776159c4acfc86f9f4f8e00762de0e502c2",
+  "screenshots_reviewed": true,
+  "actions": [
+    {
+      "target": "fep",
+      "role": "edit-name",
+      "wait": 0.5,
+      "point": [
+        200,
+        277
+      ]
+    }
+  ]
+}

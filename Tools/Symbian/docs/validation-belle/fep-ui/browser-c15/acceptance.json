@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "reviewed_utc": "2026-11-01T03:17:33.792237+00:00",
+  "native_ui_reviewed": true,
+  "image_sha256": "473679d5c12d7dfeb057955ebd2ec0291cdd5db4654b6a3a2c2dba7c31fb995e",
+  "host_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+  "fep_dll_sha256": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b",
+  "cases": [
+    {
+      "case": "cancel",
+      "run": "8070eacd3dde4fad8ecb8a81100b8e67",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "status": "PASS"
+    },
+    {
+      "case": "submit",
+      "run": "a01760f224ff44c1bc59b18e2c852868",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "status": "PASS"
+    },
+    {
+      "case": "programmatic",
+      "run": "bf724744a2264da7bf443a04961bb4eb",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "status": "PASS"
+    },
+    {
+      "case": "readonly",
+      "run": "ab07afdad78e41a98b5257d787654884",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "status": "PASS"
+    },
+    {
+      "case": "empty",
+      "run": "fep-empty-c15-01",
+      "input_exit": 0,
+      "launcher_exit": 0,
+      "status": "PASS"
+    }
+  ],
+  "scope": "Real editable click opens same-PID FEP; cancel preserves exact known Unicode value and selected range; accepted replacement/empty; programmatic focus and readonly do not open FEP. No pending-navigation/EndTask or secret-field masking claim."
+}

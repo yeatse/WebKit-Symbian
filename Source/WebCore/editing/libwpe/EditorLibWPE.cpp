@@ -56,8 +56,15 @@ static RefPtr<DocumentFragment> createFragmentFromPasteboardData(Pasteboard& pas
         return nullptr;
 
     if (types.contains("text/plain;charset=utf-8"_s)) {
+        auto text = pasteboard.readString("text/plain;charset=utf-8"_s);
+#if OS(SYMBIAN)
+        // A native read can fail after the type query (locked/replaced store).
+        // Keep the selection intact; a successful empty string is non-null.
+        if (text.isNull())
+            return nullptr;
+#endif
         chosePlainText = true;
-        return createFragmentFromText(range, pasteboard.readString("text/plain;charset=utf-8"_s));
+        return createFragmentFromText(range, text);
     }
 
     return nullptr;

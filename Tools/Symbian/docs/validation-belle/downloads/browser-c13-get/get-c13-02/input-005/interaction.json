@@ -1,0 +1,63 @@
+{
+  "run": "dl-g-6caef608f056",
+  "case": "get",
+  "pid": 515881,
+  "window": "0x60000b",
+  "status": "INPUT_RECORDED",
+  "records": [
+    {
+      "action": {
+        "target": "main",
+        "role": "native-step",
+        "wait": 0.5,
+        "point": [
+          450,
+          293
+        ]
+      },
+      "window": "0x60000b",
+      "monotonic_ns": 236986401412981
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "calibration/calibration-main.png",
+      "sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "target": "main",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "monotonic_ns": 236977254955754
+    },
+    {
+      "path": "01-before-main.png",
+      "sha256": "d667fd00a1d404b52e151e72f7e76596de0e50baaef3314c4c2747306b57b0e0",
+      "target": "main",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "monotonic_ns": 236986401328796
+    },
+    {
+      "path": "01-after-main.png",
+      "sha256": "774fa0cfc2f85fa318f9b32d6718a435f48a204ccb2a9f52a6381aea5de1a566",
+      "target": "main",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "monotonic_ns": 236987167578911
+    }
+  ],
+  "input_source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+  "input_source_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+  "scope": "actual XTest input; no guest launch, injected JavaScript, dialog hooks or file mutation"
+}

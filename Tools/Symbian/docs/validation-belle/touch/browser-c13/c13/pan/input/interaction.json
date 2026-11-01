@@ -1,0 +1,115 @@
+{
+  "case": "pan",
+  "run": "b33b003eaa404a53b73a414fc3f64f48",
+  "pid": 514022,
+  "status": "INPUT_AND_PAGE_PASS",
+  "native_input": [
+    {
+      "motion": [
+        450,
+        337
+      ],
+      "monotonic": 236419.694080527
+    },
+    {
+      "button1": true,
+      "monotonic": 236419.694152353
+    },
+    {
+      "motion": [
+        450,
+        326
+      ],
+      "monotonic": 236419.844594705
+    },
+    {
+      "motion": [
+        450,
+        314
+      ],
+      "monotonic": 236419.914993439
+    },
+    {
+      "motion": [
+        450,
+        303
+      ],
+      "monotonic": 236419.985317319
+    },
+    {
+      "motion": [
+        450,
+        292
+      ],
+      "monotonic": 236420.055747114
+    },
+    {
+      "motion": [
+        450,
+        280
+      ],
+      "monotonic": 236420.126287542
+    },
+    {
+      "motion": [
+        450,
+        269
+      ],
+      "monotonic": 236420.197486986
+    },
+    {
+      "motion": [
+        450,
+        258
+      ],
+      "monotonic": 236420.268244259
+    },
+    {
+      "motion": [
+        450,
+        246
+      ],
+      "monotonic": 236420.338656223
+    },
+    {
+      "motion": [
+        450,
+        235
+      ],
+      "monotonic": 236420.409045935
+    },
+    {
+      "motion": [
+        450,
+        224
+      ],
+      "monotonic": 236420.479398431
+    },
+    {
+      "motion": [
+        450,
+        212
+      ],
+      "monotonic": 236420.550046533
+    },
+    {
+      "motion": [
+        450,
+        201
+      ],
+      "monotonic": 236420.620377007
+    },
+    {
+      "button1": false,
+      "monotonic": 236420.690819015
+    }
+  ],
+  "ready": "console: http://localhost:8783/?case=pan&run=b33b003eaa404a53b73a414fc3f64f48:35: SYMBIAN TOUCH pan READY {\"run\":\"b33b003eaa404a53b73a414fc3f64f48\",\"maxTouchPoints\":8,\"instruction\":\"Drag upward at least 30 px: native scrolling must cancel DOM touch/pointer streams.\",\"viewport\":{\"width\":360,\"height\":532},\"pad\":{\"left\":10,\"top\":94,\"width\":340,\"height\":196}}",
+  "window_geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "completion": "console: http://localhost:8783/?case=pan&run=b33b003eaa404a53b73a414fc3f64f48:35: SYMBIAN TOUCH pan DONE PASS native sequence validated; maxTouchPoints=8, peak contacts=1 {\"pointerdown\":1,\"touchstart\":1,\"gotpointercapture\":1,\"pointermove\":1,\"touchmove\":1,\"changed-touch-move\":1,\"pointercancel\":1,\"lostpointercapture\":1,\"touchcancel\":1}"
+}

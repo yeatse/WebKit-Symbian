@@ -1,0 +1,1865 @@
+[
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/result.json",
+    "retained": "c11-stable-viewport/result.json",
+    "source_bytes": 4420,
+    "source_sha256": "6944c369282af26aa42d61f2cc71196c2a323cfad2f16a64a90426b18c6e64fa",
+    "retained_bytes": 4420,
+    "retained_sha256": "6944c369282af26aa42d61f2cc71196c2a323cfad2f16a64a90426b18c6e64fa",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/fixture.html",
+    "retained": "c11-stable-viewport/fixture.html",
+    "source_bytes": 10822,
+    "source_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+    "retained_bytes": 10822,
+    "retained_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-start/runs/browser-20261029T231046Z-e1juztu3/log.txt",
+    "retained": "c11-stable-viewport/prevent-start/browser/log.txt",
+    "source_bytes": 1739,
+    "source_sha256": "2ba9f4542a7bb20078d30fa312cbd1ab76334d4bc564e4fb17857be8d9c03c0e",
+    "retained_bytes": 1739,
+    "retained_sha256": "2ba9f4542a7bb20078d30fa312cbd1ab76334d4bc564e4fb17857be8d9c03c0e",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-start/runs/browser-20261029T231046Z-e1juztu3/emulator.log",
+    "retained": "c11-stable-viewport/prevent-start/browser/emulator.log.gz",
+    "source_bytes": 197021,
+    "source_sha256": "741ff720e6747f6871bb75c6b8a49584947dd703c464779228c195db3cc53b3a",
+    "retained_bytes": 18039,
+    "retained_sha256": "2ac1d1ed98295466f0b1db40965997aef8c3f5ecbe06e5ab4f696b53ed1df177",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-start/runs/browser-20261029T231046Z-e1juztu3/browser.png",
+    "retained": "c11-stable-viewport/prevent-start/browser/browser.png",
+    "source_bytes": 37877,
+    "source_sha256": "337eb0846e10de8b1d7f21210b40ca09ed9a36a038cc626810cad1f956687148",
+    "retained_bytes": 37877,
+    "retained_sha256": "337eb0846e10de8b1d7f21210b40ca09ed9a36a038cc626810cad1f956687148",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-start/driver.log",
+    "retained": "c11-stable-viewport/prevent-start/driver.log.gz",
+    "source_bytes": 2093,
+    "source_sha256": "a7f96c1ce58b9e8c4674d89c6e72932bdfd84cbccb2a6f398ed28c72aefa49e2",
+    "retained_bytes": 786,
+    "retained_sha256": "779ac3f4f1ca81d2675dca847c5238dda5ac79f9d53d30628287cf50c307c571",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-start/input-driver.log",
+    "retained": "c11-stable-viewport/prevent-start/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-start/input/after.png",
+    "retained": "c11-stable-viewport/prevent-start/input/after.png",
+    "source_bytes": 31522,
+    "source_sha256": "07f74bb5ee5fddd26f8f4c184632f339e70575d9734f33b23b5f4d81e51e2540",
+    "retained_bytes": 31522,
+    "retained_sha256": "07f74bb5ee5fddd26f8f4c184632f339e70575d9734f33b23b5f4d81e51e2540",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-start/input/before.png",
+    "retained": "c11-stable-viewport/prevent-start/input/before.png",
+    "source_bytes": 31522,
+    "source_sha256": "07f74bb5ee5fddd26f8f4c184632f339e70575d9734f33b23b5f4d81e51e2540",
+    "retained_bytes": 31522,
+    "retained_sha256": "07f74bb5ee5fddd26f8f4c184632f339e70575d9734f33b23b5f4d81e51e2540",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-start/input/interaction.json",
+    "retained": "c11-stable-viewport/prevent-start/input/interaction.json",
+    "source_bytes": 1192,
+    "source_sha256": "bb38cd395dd272a3abdb27dd557bd44d835c9405978c2d0d69380bef8036acb1",
+    "retained_bytes": 1192,
+    "retained_sha256": "bb38cd395dd272a3abdb27dd557bd44d835c9405978c2d0d69380bef8036acb1",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-move/runs/browser-20261029T231058Z-7ittw5fh/log.txt",
+    "retained": "c11-stable-viewport/prevent-move/browser/log.txt",
+    "source_bytes": 3720,
+    "source_sha256": "780c219d62d4802b04bb386db2771aaf635a9cae9b8acacbf8f646dfb7a28f2c",
+    "retained_bytes": 3720,
+    "retained_sha256": "780c219d62d4802b04bb386db2771aaf635a9cae9b8acacbf8f646dfb7a28f2c",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-move/runs/browser-20261029T231058Z-7ittw5fh/emulator.log",
+    "retained": "c11-stable-viewport/prevent-move/browser/emulator.log.gz",
+    "source_bytes": 197728,
+    "source_sha256": "2ed583de1ecd62da83b8f99de9539f4dff33356eb8c88c6a3f572647ae6264e1",
+    "retained_bytes": 18089,
+    "retained_sha256": "da8a715d04e863f411810f1e8dcd7c86582b81196eb6484e96da7203265bcdd5",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-move/runs/browser-20261029T231058Z-7ittw5fh/browser.png",
+    "retained": "c11-stable-viewport/prevent-move/browser/browser.png",
+    "source_bytes": 41672,
+    "source_sha256": "7c32dcacc560d304900de8827ac66d5352618808c6d26e0106f78f55f500d021",
+    "retained_bytes": 41672,
+    "retained_sha256": "7c32dcacc560d304900de8827ac66d5352618808c6d26e0106f78f55f500d021",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-move/driver.log",
+    "retained": "c11-stable-viewport/prevent-move/driver.log.gz",
+    "source_bytes": 4072,
+    "source_sha256": "674bb01529bd7b68c77fb4b9a55f7ffd21062886f0024a78bbf09bb963e1cbb8",
+    "retained_bytes": 837,
+    "retained_sha256": "7428cc1e1498ceb0fd935dd37a65520fa706fbe9f9788dd3ae0a698f326b88ad",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-move/input-driver.log",
+    "retained": "c11-stable-viewport/prevent-move/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-move/input/after.png",
+    "retained": "c11-stable-viewport/prevent-move/input/after.png",
+    "source_bytes": 41672,
+    "source_sha256": "7c32dcacc560d304900de8827ac66d5352618808c6d26e0106f78f55f500d021",
+    "retained_bytes": 41672,
+    "retained_sha256": "7c32dcacc560d304900de8827ac66d5352618808c6d26e0106f78f55f500d021",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-move/input/before.png",
+    "retained": "c11-stable-viewport/prevent-move/input/before.png",
+    "source_bytes": 32067,
+    "source_sha256": "7e6be171b26f66711c81dd53793f91463296330f80f0ecc96dbf72a310bd7991",
+    "retained_bytes": 32067,
+    "retained_sha256": "7e6be171b26f66711c81dd53793f91463296330f80f0ecc96dbf72a310bd7991",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/prevent-move/input/interaction.json",
+    "retained": "c11-stable-viewport/prevent-move/input/interaction.json",
+    "source_bytes": 2446,
+    "source_sha256": "b488e0a85c7d5498145604f52d112aada4899ea028cb535bcf30969e7e0110f6",
+    "retained_bytes": 2446,
+    "retained_sha256": "b488e0a85c7d5498145604f52d112aada4899ea028cb535bcf30969e7e0110f6",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/pan/runs/browser-20261029T231111Z-jm1sc4e2/log.txt",
+    "retained": "c11-stable-viewport/pan/browser/log.txt",
+    "source_bytes": 1893,
+    "source_sha256": "2dc023a8172e135952fdd0753368b2913d744f6a9bf53ae425b036706433616e",
+    "retained_bytes": 1893,
+    "retained_sha256": "2dc023a8172e135952fdd0753368b2913d744f6a9bf53ae425b036706433616e",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/pan/runs/browser-20261029T231111Z-jm1sc4e2/emulator.log",
+    "retained": "c11-stable-viewport/pan/browser/emulator.log.gz",
+    "source_bytes": 200197,
+    "source_sha256": "0ab45a6ea63c12e111a6eaa76d062bcba443ae30d7080157e357dba16b06acf7",
+    "retained_bytes": 18465,
+    "retained_sha256": "ed0d7968df34a79bfe0a15b773a2ac3963b5eebf02bf5207dc20e41abdd734d2",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/pan/runs/browser-20261029T231111Z-jm1sc4e2/browser.png",
+    "retained": "c11-stable-viewport/pan/browser/browser.png",
+    "source_bytes": 37644,
+    "source_sha256": "63c83c0a276ae5af9d39e7bf4e802ac651a526c3692db366ad1ebec2c04b75b6",
+    "retained_bytes": 37644,
+    "retained_sha256": "63c83c0a276ae5af9d39e7bf4e802ac651a526c3692db366ad1ebec2c04b75b6",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/pan/driver.log",
+    "retained": "c11-stable-viewport/pan/driver.log.gz",
+    "source_bytes": 2090,
+    "source_sha256": "3392f92c1d1b191d3edf82cf3839646dcf7fdde20d338d416e0e0a5c7c2766b6",
+    "retained_bytes": 788,
+    "retained_sha256": "c4037be903882973f5b055336e7011818c87a02bc2752d480f158342e2186fe9",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/pan/input-driver.log",
+    "retained": "c11-stable-viewport/pan/input-driver.log.gz",
+    "source_bytes": 298,
+    "source_sha256": "ac01769fdfc20924cd353361d8ee64eca129e386b0bdb4b8b90fd0ebc1b90c6a",
+    "retained_bytes": 211,
+    "retained_sha256": "675aac64b7e514fe8b40b42ab513874688767de244bbe4c14d7a5e7951863422",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/pan/input/before.png",
+    "retained": "c11-stable-viewport/pan/input/before.png",
+    "source_bytes": 32780,
+    "source_sha256": "128ae71c5df7418f7b60c2d644dfa55225155260937ac68ecb293ff712986de6",
+    "retained_bytes": 32780,
+    "retained_sha256": "128ae71c5df7418f7b60c2d644dfa55225155260937ac68ecb293ff712986de6",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-viewport/pan/input/interaction.json",
+    "retained": "c11-stable-viewport/pan/input/interaction.json",
+    "source_bytes": 2438,
+    "source_sha256": "e4a222f09f56bdfd5a6a399b954fa4f256127d100660345d955ce7e4b5e06eec",
+    "retained_bytes": 2438,
+    "retained_sha256": "e4a222f09f56bdfd5a6a399b954fa4f256127d100660345d955ce7e4b5e06eec",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/result.json",
+    "retained": "c12/result.json",
+    "source_bytes": 4399,
+    "source_sha256": "37d74772397835de4e07d94a66413ebf96d104d8dde485db5c6bc84ef99fe8e1",
+    "retained_bytes": 4399,
+    "retained_sha256": "37d74772397835de4e07d94a66413ebf96d104d8dde485db5c6bc84ef99fe8e1",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/fixture.html",
+    "retained": "c12/fixture.html",
+    "source_bytes": 10822,
+    "source_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+    "retained_bytes": 10822,
+    "retained_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-start/runs/browser-20261101T021859Z-5rmlgcld/log.txt",
+    "retained": "c12/prevent-start/browser/log.txt",
+    "source_bytes": 1739,
+    "source_sha256": "875892ca6dae40c5d56a31fa07344422bf4083583e9ad9ed338b8edccfd81b79",
+    "retained_bytes": 1739,
+    "retained_sha256": "875892ca6dae40c5d56a31fa07344422bf4083583e9ad9ed338b8edccfd81b79",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-start/runs/browser-20261101T021859Z-5rmlgcld/emulator.log",
+    "retained": "c12/prevent-start/browser/emulator.log.gz",
+    "source_bytes": 197028,
+    "source_sha256": "4683b110994905f34469e82048621602f48f280a20df01f58fc3ba6938050fe6",
+    "retained_bytes": 18047,
+    "retained_sha256": "fc15aae8c95fab1cc948cc34f17c90f279c32605c2b39473b79612d8423c8805",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-start/runs/browser-20261101T021859Z-5rmlgcld/browser.png",
+    "retained": "c12/prevent-start/browser/browser.png",
+    "source_bytes": 37843,
+    "source_sha256": "494996a95289f40ea5ca15b88f5f4ce37b393b0f24438e9547fabd1b0a3d16fd",
+    "retained_bytes": 37843,
+    "retained_sha256": "494996a95289f40ea5ca15b88f5f4ce37b393b0f24438e9547fabd1b0a3d16fd",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-start/driver.log",
+    "retained": "c12/prevent-start/driver.log.gz",
+    "source_bytes": 2079,
+    "source_sha256": "0b547dc3cd81b32930f38df5fcee63096e7df31bdbbe4b1dd9a21d5616b239ba",
+    "retained_bytes": 782,
+    "retained_sha256": "2f92b1c300d014e741f7ead97057b10890db5f95531bf5c998c1839a82249389",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-start/input-driver.log",
+    "retained": "c12/prevent-start/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-start/input/after.png",
+    "retained": "c12/prevent-start/input/after.png",
+    "source_bytes": 37843,
+    "source_sha256": "494996a95289f40ea5ca15b88f5f4ce37b393b0f24438e9547fabd1b0a3d16fd",
+    "retained_bytes": 37843,
+    "retained_sha256": "494996a95289f40ea5ca15b88f5f4ce37b393b0f24438e9547fabd1b0a3d16fd",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-start/input/before.png",
+    "retained": "c12/prevent-start/input/before.png",
+    "source_bytes": 31523,
+    "source_sha256": "cd253c1faf4bdf9a912c6ea738919797ec81193ceb47dcd389a45e42612fb272",
+    "retained_bytes": 31523,
+    "retained_sha256": "cd253c1faf4bdf9a912c6ea738919797ec81193ceb47dcd389a45e42612fb272",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-start/input/interaction.json",
+    "retained": "c12/prevent-start/input/interaction.json",
+    "source_bytes": 1195,
+    "source_sha256": "358fbd8313835f944f6a3e5ee1c808c6445263f61a4adae651aa32bc299e8ccf",
+    "retained_bytes": 1195,
+    "retained_sha256": "358fbd8313835f944f6a3e5ee1c808c6445263f61a4adae651aa32bc299e8ccf",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-move/runs/browser-20261101T021910Z-cw1nhkyu/log.txt",
+    "retained": "c12/prevent-move/browser/log.txt",
+    "source_bytes": 3720,
+    "source_sha256": "1471256185715ce0a190c76c06653cbb0c25f177431178af93c69e18308f3dfd",
+    "retained_bytes": 3720,
+    "retained_sha256": "1471256185715ce0a190c76c06653cbb0c25f177431178af93c69e18308f3dfd",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-move/runs/browser-20261101T021910Z-cw1nhkyu/emulator.log",
+    "retained": "c12/prevent-move/browser/emulator.log.gz",
+    "source_bytes": 197877,
+    "source_sha256": "cd701ef29d3c0377b9e68148d20e8c042148d24fa9a0f5530e6e5f8c2faa66c1",
+    "retained_bytes": 18125,
+    "retained_sha256": "5f8c082eab049525b13bf6015a292d679ae5ada0fd09c7bd7e0e51131395a222",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-move/runs/browser-20261101T021910Z-cw1nhkyu/browser.png",
+    "retained": "c12/prevent-move/browser/browser.png",
+    "source_bytes": 41630,
+    "source_sha256": "49912a7937800a158f56cec6cee35d352902d0f5bb95b394935208d358957247",
+    "retained_bytes": 41630,
+    "retained_sha256": "49912a7937800a158f56cec6cee35d352902d0f5bb95b394935208d358957247",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-move/driver.log",
+    "retained": "c12/prevent-move/driver.log.gz",
+    "source_bytes": 4058,
+    "source_sha256": "6725a7490cdd3860b3c0a718e29f5dcaadc895047c16af95b60bfb6303f340cf",
+    "retained_bytes": 833,
+    "retained_sha256": "d975b399a8a2cae9deee4e316b5266118cf5ec547dcbbec1da19244592e65830",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-move/input-driver.log",
+    "retained": "c12/prevent-move/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-move/input/after.png",
+    "retained": "c12/prevent-move/input/after.png",
+    "source_bytes": 41630,
+    "source_sha256": "49912a7937800a158f56cec6cee35d352902d0f5bb95b394935208d358957247",
+    "retained_bytes": 41630,
+    "retained_sha256": "49912a7937800a158f56cec6cee35d352902d0f5bb95b394935208d358957247",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-move/input/before.png",
+    "retained": "c12/prevent-move/input/before.png",
+    "source_bytes": 32017,
+    "source_sha256": "e9bad4d368ab008d87d97a31c7861cd1b07e8bef05c7be76037f74bbd87f9450",
+    "retained_bytes": 32017,
+    "retained_sha256": "e9bad4d368ab008d87d97a31c7861cd1b07e8bef05c7be76037f74bbd87f9450",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/prevent-move/input/interaction.json",
+    "retained": "c12/prevent-move/input/interaction.json",
+    "source_bytes": 2462,
+    "source_sha256": "1c159620f4ddcab24249fa8aa37c51dec6f04901fe40866a94226af5e7226c80",
+    "retained_bytes": 2462,
+    "retained_sha256": "1c159620f4ddcab24249fa8aa37c51dec6f04901fe40866a94226af5e7226c80",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/pan/runs/browser-20261101T021923Z-c72hmwjq/log.txt",
+    "retained": "c12/pan/browser/log.txt",
+    "source_bytes": 1886,
+    "source_sha256": "41e6aa91824b7560db35135f24067ad284781e53d04e51babb0d5641e52d55b5",
+    "retained_bytes": 1886,
+    "retained_sha256": "41e6aa91824b7560db35135f24067ad284781e53d04e51babb0d5641e52d55b5",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/pan/runs/browser-20261101T021923Z-c72hmwjq/emulator.log",
+    "retained": "c12/pan/browser/emulator.log.gz",
+    "source_bytes": 200190,
+    "source_sha256": "07a75fd0ca523c3794388b360a799c001e34ed8c18d6994d47caccea0ab2c24a",
+    "retained_bytes": 18475,
+    "retained_sha256": "fd3f858fa1f8c9628f9d708384e877ecc19d1f4fb15899a7cf788e857d57eece",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/pan/runs/browser-20261101T021923Z-c72hmwjq/browser.png",
+    "retained": "c12/pan/browser/browser.png",
+    "source_bytes": 36648,
+    "source_sha256": "d6788594dd1a61f4c2c934f71bb732fc49a48ede1403ce60a4c852bc2fa582bd",
+    "retained_bytes": 36648,
+    "retained_sha256": "d6788594dd1a61f4c2c934f71bb732fc49a48ede1403ce60a4c852bc2fa582bd",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/pan/driver.log",
+    "retained": "c12/pan/driver.log.gz",
+    "source_bytes": 2076,
+    "source_sha256": "86c8799fae750420810731d912f25ac481cbef6f272088e88bda1b73be0cff17",
+    "retained_bytes": 786,
+    "retained_sha256": "42555555d6cfb49a64d2ef03c97f96a600a6b046a12c6ca01bc9fc3f41d19aea",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/pan/input-driver.log",
+    "retained": "c12/pan/input-driver.log.gz",
+    "source_bytes": 298,
+    "source_sha256": "ac01769fdfc20924cd353361d8ee64eca129e386b0bdb4b8b90fd0ebc1b90c6a",
+    "retained_bytes": 211,
+    "retained_sha256": "675aac64b7e514fe8b40b42ab513874688767de244bbe4c14d7a5e7951863422",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/pan/input/before.png",
+    "retained": "c12/pan/input/before.png",
+    "source_bytes": 32671,
+    "source_sha256": "db53b1f410390a610306f3948386f87c6b1a1ffe92942e12d79671456277a730",
+    "retained_bytes": 32671,
+    "retained_sha256": "db53b1f410390a610306f3948386f87c6b1a1ffe92942e12d79671456277a730",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c12-20261101/pan/input/interaction.json",
+    "retained": "c12/pan/input/interaction.json",
+    "source_bytes": 2447,
+    "source_sha256": "887bdc2b5b9f5d72db3aebe73596d243768b8523e59051115de407b6defba752",
+    "retained_bytes": 2447,
+    "retained_sha256": "887bdc2b5b9f5d72db3aebe73596d243768b8523e59051115de407b6defba752",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/result.json",
+    "retained": "c13/result.json",
+    "source_bytes": 9727,
+    "source_sha256": "ecb058305b4114470b388b793100a0162b52bc71fa78849471626db8d1688571",
+    "retained_bytes": 9727,
+    "retained_sha256": "ecb058305b4114470b388b793100a0162b52bc71fa78849471626db8d1688571",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/fixture.html",
+    "retained": "c13/fixture.html",
+    "source_bytes": 10822,
+    "source_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+    "retained_bytes": 10822,
+    "retained_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-start/runs/browser-20261101T022511Z-44d24fda/log.txt",
+    "retained": "c13/prevent-start/browser/log.txt",
+    "source_bytes": 1739,
+    "source_sha256": "001eedda1bc71eee13be1fa609568f8f82d339c66fc438710d1372c33a8d2387",
+    "retained_bytes": 1739,
+    "retained_sha256": "001eedda1bc71eee13be1fa609568f8f82d339c66fc438710d1372c33a8d2387",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-start/runs/browser-20261101T022511Z-44d24fda/emulator.log",
+    "retained": "c13/prevent-start/browser/emulator.log.gz",
+    "source_bytes": 197019,
+    "source_sha256": "a9634bc60379052788c0460d1c2af19260b5220865ad8f11564c85fd0a6ed173",
+    "retained_bytes": 18018,
+    "retained_sha256": "6572bd512fac59c4c2aec8bcee78d577eaa033817ad5784df4ce46524546c286",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-start/runs/browser-20261101T022511Z-44d24fda/browser.png",
+    "retained": "c13/prevent-start/browser/browser.png",
+    "source_bytes": 37979,
+    "source_sha256": "baddf94d2b17a5c9089da861508db813efad83554114b2aa54cc3e59d0441b1b",
+    "retained_bytes": 37979,
+    "retained_sha256": "baddf94d2b17a5c9089da861508db813efad83554114b2aa54cc3e59d0441b1b",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-start/driver.log",
+    "retained": "c13/prevent-start/driver.log.gz",
+    "source_bytes": 2079,
+    "source_sha256": "e851485ec50606808b82bc8c65daa24ade54dd6921960d5c304bf7f211399a78",
+    "retained_bytes": 784,
+    "retained_sha256": "b8acadc20b74e84b27fe53b7aff44cd4ac3bc42ec490f70c931b26a60ce8f84c",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-start/input-driver.log",
+    "retained": "c13/prevent-start/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-start/input/after.png",
+    "retained": "c13/prevent-start/input/after.png",
+    "source_bytes": 31590,
+    "source_sha256": "ec3e994ae40cefae3bc1ed9d3a850d784654ecddf84125241cb62a4366a6e6b1",
+    "retained_bytes": 31590,
+    "retained_sha256": "ec3e994ae40cefae3bc1ed9d3a850d784654ecddf84125241cb62a4366a6e6b1",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-start/input/before.png",
+    "retained": "c13/prevent-start/input/before.png",
+    "source_bytes": 31590,
+    "source_sha256": "ec3e994ae40cefae3bc1ed9d3a850d784654ecddf84125241cb62a4366a6e6b1",
+    "retained_bytes": 31590,
+    "retained_sha256": "ec3e994ae40cefae3bc1ed9d3a850d784654ecddf84125241cb62a4366a6e6b1",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-start/input/interaction.json",
+    "retained": "c13/prevent-start/input/interaction.json",
+    "source_bytes": 1194,
+    "source_sha256": "a2df81552626ec5e28317a0a4cc9677626b9f5ced2260d1920efe8e9e797c825",
+    "retained_bytes": 1194,
+    "retained_sha256": "a2df81552626ec5e28317a0a4cc9677626b9f5ced2260d1920efe8e9e797c825",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-move/runs/browser-20261101T022523Z-vty60ykn/log.txt",
+    "retained": "c13/prevent-move/browser/log.txt",
+    "source_bytes": 3720,
+    "source_sha256": "340494c32f0a7d4978b3fc7a3d2c1c90db01806e749af56f6dcae699f3347ba1",
+    "retained_bytes": 3720,
+    "retained_sha256": "340494c32f0a7d4978b3fc7a3d2c1c90db01806e749af56f6dcae699f3347ba1",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-move/runs/browser-20261101T022523Z-vty60ykn/emulator.log",
+    "retained": "c13/prevent-move/browser/emulator.log.gz",
+    "source_bytes": 197724,
+    "source_sha256": "93eab255dc3081d247d3a10b2188cdd3e609766b11f8814af13b7f2bbd69bba3",
+    "retained_bytes": 18095,
+    "retained_sha256": "c7769c7682fa7f903004a7efb3faf1375b62fe2d45d1801e5e16de155b93b9ad",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-move/runs/browser-20261101T022523Z-vty60ykn/browser.png",
+    "retained": "c13/prevent-move/browser/browser.png",
+    "source_bytes": 41635,
+    "source_sha256": "17ca35b8eaa04aae08638c55e537d5cd93e0970f2f82e49ad08d125c7a1bd019",
+    "retained_bytes": 41635,
+    "retained_sha256": "17ca35b8eaa04aae08638c55e537d5cd93e0970f2f82e49ad08d125c7a1bd019",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-move/driver.log",
+    "retained": "c13/prevent-move/driver.log.gz",
+    "source_bytes": 4058,
+    "source_sha256": "eba9d6cb675d24246e8d8be260f9bd12059a103ffa755c6d71453cc8d656f94a",
+    "retained_bytes": 832,
+    "retained_sha256": "705d084706096961dd6bea093f8566962475e715b6520ec08169f3b20b0f3aa6",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-move/input-driver.log",
+    "retained": "c13/prevent-move/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-move/input/after.png",
+    "retained": "c13/prevent-move/input/after.png",
+    "source_bytes": 41635,
+    "source_sha256": "17ca35b8eaa04aae08638c55e537d5cd93e0970f2f82e49ad08d125c7a1bd019",
+    "retained_bytes": 41635,
+    "retained_sha256": "17ca35b8eaa04aae08638c55e537d5cd93e0970f2f82e49ad08d125c7a1bd019",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-move/input/before.png",
+    "retained": "c13/prevent-move/input/before.png",
+    "source_bytes": 32025,
+    "source_sha256": "c49085c7220c2d2503bb1add9e2d1ddd062aa43f42fe483e27858f39b79de748",
+    "retained_bytes": 32025,
+    "retained_sha256": "c49085c7220c2d2503bb1add9e2d1ddd062aa43f42fe483e27858f39b79de748",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/prevent-move/input/interaction.json",
+    "retained": "c13/prevent-move/input/interaction.json",
+    "source_bytes": 2461,
+    "source_sha256": "98f24913ccec57960856277aef0d89e38950904c2878554b186bf61305eaa969",
+    "retained_bytes": 2461,
+    "retained_sha256": "98f24913ccec57960856277aef0d89e38950904c2878554b186bf61305eaa969",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pan/runs/browser-20261101T022536Z-cbkedim_/log.txt",
+    "retained": "c13/pan/browser/log.txt",
+    "source_bytes": 1904,
+    "source_sha256": "298c48381b16b6bd2a7f65cbb20ad16e0688a2a5e2f5f5a606955ebdbf4f40d4",
+    "retained_bytes": 1904,
+    "retained_sha256": "298c48381b16b6bd2a7f65cbb20ad16e0688a2a5e2f5f5a606955ebdbf4f40d4",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pan/runs/browser-20261101T022536Z-cbkedim_/emulator.log",
+    "retained": "c13/pan/browser/emulator.log.gz",
+    "source_bytes": 197016,
+    "source_sha256": "d6931abfde89a5c6d1d9037987723d861f6e2cbd0bb2d4da0bace976ba14583a",
+    "retained_bytes": 18017,
+    "retained_sha256": "09e74aaa31bdd7b8023a9008b0871ae4e91608add2e074168ab9f27256d65fa3",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pan/runs/browser-20261101T022536Z-cbkedim_/browser.png",
+    "retained": "c13/pan/browser/browser.png",
+    "source_bytes": 38827,
+    "source_sha256": "16d1b1f39def00c710d6e40392f58ca38447b8a9c1406de51014f002d4d4fe58",
+    "retained_bytes": 38827,
+    "retained_sha256": "16d1b1f39def00c710d6e40392f58ca38447b8a9c1406de51014f002d4d4fe58",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pan/driver.log",
+    "retained": "c13/pan/driver.log.gz",
+    "source_bytes": 2224,
+    "source_sha256": "69e43fc2fd5c01bb6373d02c08bc882435dce227f396670f4e6a7eed2eb8fd54",
+    "retained_bytes": 803,
+    "retained_sha256": "04b11f855b3ed6ac869250dd8f56a468b6f1a5968ea084ed5bb8a4c52debd561",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pan/input-driver.log",
+    "retained": "c13/pan/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pan/input/after.png",
+    "retained": "c13/pan/input/after.png",
+    "source_bytes": 38749,
+    "source_sha256": "2fff8b1fd5d947f752775473364e39039e30740a4a452b59d0bec5b641390fb9",
+    "retained_bytes": 38749,
+    "retained_sha256": "2fff8b1fd5d947f752775473364e39039e30740a4a452b59d0bec5b641390fb9",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pan/input/before.png",
+    "retained": "c13/pan/input/before.png",
+    "source_bytes": 32595,
+    "source_sha256": "8651b8329e9d9d45250aec6c04d2420ef0a008a6f76a5444e59b99387cea1cde",
+    "retained_bytes": 32595,
+    "retained_sha256": "8651b8329e9d9d45250aec6c04d2420ef0a008a6f76a5444e59b99387cea1cde",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pan/input/interaction.json",
+    "retained": "c13/pan/input/interaction.json",
+    "source_bytes": 2430,
+    "source_sha256": "7a1aed007c51a365c641d55fe775ac8f4367f0a7eca7099852ec0c447781f315",
+    "retained_bytes": 2430,
+    "retained_sha256": "7a1aed007c51a365c641d55fe775ac8f4367f0a7eca7099852ec0c447781f315",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pointer-pan/runs/browser-20261101T022548Z-76usa9in/log.txt",
+    "retained": "c13/pointer-pan/browser/log.txt",
+    "source_bytes": 1967,
+    "source_sha256": "8aaf94afcc2531436b9f0027c998f50f4b3f95e8516f88d2cb3566eef5628633",
+    "retained_bytes": 1967,
+    "retained_sha256": "8aaf94afcc2531436b9f0027c998f50f4b3f95e8516f88d2cb3566eef5628633",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pointer-pan/runs/browser-20261101T022548Z-76usa9in/emulator.log",
+    "retained": "c13/pointer-pan/browser/emulator.log.gz",
+    "source_bytes": 197021,
+    "source_sha256": "4a20152731a350f11fb76a49e8814354ac47dd6aeba3b40226298b42e7c5689d",
+    "retained_bytes": 18021,
+    "retained_sha256": "3b4d7ba64b4a0e541c423293b260d9c85aad4c639899355633962a41fb28e422",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pointer-pan/runs/browser-20261101T022548Z-76usa9in/browser.png",
+    "retained": "c13/pointer-pan/browser/browser.png",
+    "source_bytes": 39708,
+    "source_sha256": "d17542fcc5997d527d7ef2d97b2533e149514b997a204f1f730ae50e22493818",
+    "retained_bytes": 39708,
+    "retained_sha256": "d17542fcc5997d527d7ef2d97b2533e149514b997a204f1f730ae50e22493818",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pointer-pan/driver.log",
+    "retained": "c13/pointer-pan/driver.log.gz",
+    "source_bytes": 2303,
+    "source_sha256": "45636d9dd95f732ac336b9463aaed03664bf8c8787cd8534a152089e9d61930d",
+    "retained_bytes": 816,
+    "retained_sha256": "a6ee1c7ef2eb8975162555e6774e7c60b24e605d2dd7a32f804376df7449f4ce",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pointer-pan/input-driver.log",
+    "retained": "c13/pointer-pan/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pointer-pan/input/after.png",
+    "retained": "c13/pointer-pan/input/after.png",
+    "source_bytes": 39748,
+    "source_sha256": "af71569dadc5a7c313a53ac94265dc43557e70dcbfca45a752ef74250a4de848",
+    "retained_bytes": 39748,
+    "retained_sha256": "af71569dadc5a7c313a53ac94265dc43557e70dcbfca45a752ef74250a4de848",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pointer-pan/input/before.png",
+    "retained": "c13/pointer-pan/input/before.png",
+    "source_bytes": 32781,
+    "source_sha256": "38975b4c6395b8859d36c74cf8edcc54151fee046aa06456a0d13f46cd304a9c",
+    "retained_bytes": 32781,
+    "retained_sha256": "38975b4c6395b8859d36c74cf8edcc54151fee046aa06456a0d13f46cd304a9c",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/pointer-pan/input/interaction.json",
+    "retained": "c13/pointer-pan/input/interaction.json",
+    "source_bytes": 2475,
+    "source_sha256": "df9cda80d79e442a58f8d6cf61b938c6ea25b2fb3ff5bd396c5fce3b415c6adb",
+    "retained_bytes": 2475,
+    "retained_sha256": "df9cda80d79e442a58f8d6cf61b938c6ea25b2fb3ff5bd396c5fce3b415c6adb",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/none/runs/browser-20261101T022600Z-kktvgbcp/log.txt",
+    "retained": "c13/none/browser/log.txt",
+    "source_bytes": 3681,
+    "source_sha256": "5fe8eaeb5e39fd8e668c799a15a198846d48cd89f63b71422625599b217c2947",
+    "retained_bytes": 3681,
+    "retained_sha256": "5fe8eaeb5e39fd8e668c799a15a198846d48cd89f63b71422625599b217c2947",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/none/runs/browser-20261101T022600Z-kktvgbcp/emulator.log",
+    "retained": "c13/none/browser/emulator.log.gz",
+    "source_bytes": 197713,
+    "source_sha256": "9e9f6edf31117493f56a34d94d8a2e233b30bd9dc5b1e23f25989dd30adf3f01",
+    "retained_bytes": 18082,
+    "retained_sha256": "1a24993eb8b81a912f274908e1bf1f0a1044d953ef1487053cb29a856bf174d8",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/none/runs/browser-20261101T022600Z-kktvgbcp/browser.png",
+    "retained": "c13/none/browser/browser.png",
+    "source_bytes": 41861,
+    "source_sha256": "813627289832694fd31e995c7c38e0cc3be776aefab02c166a288b2b16e5afc4",
+    "retained_bytes": 41861,
+    "retained_sha256": "813627289832694fd31e995c7c38e0cc3be776aefab02c166a288b2b16e5afc4",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/none/driver.log",
+    "retained": "c13/none/driver.log.gz",
+    "source_bytes": 4003,
+    "source_sha256": "169c0fb6d1b1d9a856df003cddb77b213a85697e340ae0e3e8a707bacd5d7032",
+    "retained_bytes": 829,
+    "retained_sha256": "79b3679d196d33d1ffaee2ad212a9119df6ae0eb53b9991827b94d55976124b5",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/none/input-driver.log",
+    "retained": "c13/none/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/none/input/after.png",
+    "retained": "c13/none/input/after.png",
+    "source_bytes": 41861,
+    "source_sha256": "813627289832694fd31e995c7c38e0cc3be776aefab02c166a288b2b16e5afc4",
+    "retained_bytes": 41861,
+    "retained_sha256": "813627289832694fd31e995c7c38e0cc3be776aefab02c166a288b2b16e5afc4",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/none/input/before.png",
+    "retained": "c13/none/input/before.png",
+    "source_bytes": 32939,
+    "source_sha256": "6f855e9b5cbb99161c60898109cf51061bc383eb75c3727a02cc33cadc42e1ae",
+    "retained_bytes": 32939,
+    "retained_sha256": "6f855e9b5cbb99161c60898109cf51061bc383eb75c3727a02cc33cadc42e1ae",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/none/input/interaction.json",
+    "retained": "c13/none/input/interaction.json",
+    "source_bytes": 2438,
+    "source_sha256": "c528bf61e15dce22e9524f5435d6410edd1a0a0262cc976d8290b7552463b901",
+    "retained_bytes": 2438,
+    "retained_sha256": "c528bf61e15dce22e9524f5435d6410edd1a0a0262cc976d8290b7552463b901",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/capture/runs/browser-20261101T022613Z-mdm9qbzs/log.txt",
+    "retained": "c13/capture/browser/log.txt",
+    "source_bytes": 3675,
+    "source_sha256": "eb126fd201812f2af6792268c0cc18aa08256fb6670b994b07824a0a27afe597",
+    "retained_bytes": 3675,
+    "retained_sha256": "eb126fd201812f2af6792268c0cc18aa08256fb6670b994b07824a0a27afe597",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/capture/runs/browser-20261101T022613Z-mdm9qbzs/emulator.log",
+    "retained": "c13/capture/browser/emulator.log.gz",
+    "source_bytes": 197706,
+    "source_sha256": "6464f7fe6d9fcd97208a89c2eff9bd592a6c8f29e603b731a2be54a37d554c0d",
+    "retained_bytes": 18077,
+    "retained_sha256": "fa4831db296dee656111ee7f7696832f80d25db6ae873a34efb193af5288554b",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/capture/runs/browser-20261101T022613Z-mdm9qbzs/browser.png",
+    "retained": "c13/capture/browser/browser.png",
+    "source_bytes": 42638,
+    "source_sha256": "c8a66129334a398059d9c33dd5e49a2aedcf1743ce5c72436b8bb14467e8f00f",
+    "retained_bytes": 42638,
+    "retained_sha256": "c8a66129334a398059d9c33dd5e49a2aedcf1743ce5c72436b8bb14467e8f00f",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/capture/driver.log",
+    "retained": "c13/capture/driver.log.gz",
+    "source_bytes": 4003,
+    "source_sha256": "56f49b354c3c5c10dcb603d2b0b9202afb0ddf6bc5288ac634889acd98dbbcad",
+    "retained_bytes": 855,
+    "retained_sha256": "027105e384898c859fa72314ea29f04e06843c57a235137ed109a6acbd2e3d80",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/capture/input-driver.log",
+    "retained": "c13/capture/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/capture/input/after.png",
+    "retained": "c13/capture/input/after.png",
+    "source_bytes": 42638,
+    "source_sha256": "c8a66129334a398059d9c33dd5e49a2aedcf1743ce5c72436b8bb14467e8f00f",
+    "retained_bytes": 42638,
+    "retained_sha256": "c8a66129334a398059d9c33dd5e49a2aedcf1743ce5c72436b8bb14467e8f00f",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/capture/input/before.png",
+    "retained": "c13/capture/input/before.png",
+    "source_bytes": 31881,
+    "source_sha256": "a8e9f3993b911a26672d9721e0500eed0c3b1e5013c2a321a88f8341c8aae86c",
+    "retained_bytes": 31881,
+    "retained_sha256": "a8e9f3993b911a26672d9721e0500eed0c3b1e5013c2a321a88f8341c8aae86c",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/capture/input/interaction.json",
+    "retained": "c13/capture/input/interaction.json",
+    "source_bytes": 2485,
+    "source_sha256": "3d58dfb94c24f72072a7d0ebd194c49b23afa3fe07c6d6df7450d865cb500386",
+    "retained_bytes": 2485,
+    "retained_sha256": "3d58dfb94c24f72072a7d0ebd194c49b23afa3fe07c6d6df7450d865cb500386",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/navigation/runs/browser-20261101T022626Z-luq2o3s9/log.txt",
+    "retained": "c13/navigation/browser/log.txt",
+    "source_bytes": 1083,
+    "source_sha256": "a957d7d3c6f3a7dbeeadb61d2ea7e654f22c1445656ffdab82364bc2e6174505",
+    "retained_bytes": 1083,
+    "retained_sha256": "a957d7d3c6f3a7dbeeadb61d2ea7e654f22c1445656ffdab82364bc2e6174505",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/navigation/runs/browser-20261101T022626Z-luq2o3s9/emulator.log",
+    "retained": "c13/navigation/browser/emulator.log.gz",
+    "source_bytes": 198654,
+    "source_sha256": "c1ee67ec33fa906adc925b5cfa26d85d64fa3abbfd6703db801156572add952c",
+    "retained_bytes": 18055,
+    "retained_sha256": "1c3488220477e70245355ef373c7e4d62bd61f2aa10a5978409f8adbb6c3b819",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/navigation/runs/browser-20261101T022626Z-luq2o3s9/browser.png",
+    "retained": "c13/navigation/browser/browser.png",
+    "source_bytes": 31902,
+    "source_sha256": "9416bc6131c9277cbd9b9963d22c90ec00ce999104d12b4ba69c0321653fe4a0",
+    "retained_bytes": 31902,
+    "retained_sha256": "9416bc6131c9277cbd9b9963d22c90ec00ce999104d12b4ba69c0321653fe4a0",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/navigation/driver.log",
+    "retained": "c13/navigation/driver.log.gz",
+    "source_bytes": 1417,
+    "source_sha256": "b980175e76c3ca14878e73d096d4a925f508c22378ed43222202843822cac083",
+    "retained_bytes": 647,
+    "retained_sha256": "fb283ec1ea984106ed6d104c54731e29a4b6921fd65fb1cbe494199c231f440a",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/navigation/input-driver.log",
+    "retained": "c13/navigation/input-driver.log.gz",
+    "source_bytes": 94,
+    "source_sha256": "1e0b59ac1ad651b9af8ed57ea41bf95a5e76c138b84ee9d6188669edf2febf66",
+    "retained_bytes": 99,
+    "retained_sha256": "45c4901ae72c24b1eb6194b8251e619ac13d03e16f6197fe3fedd181b6b9fd66",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/navigation/input/after.png",
+    "retained": "c13/navigation/input/after.png",
+    "source_bytes": 31902,
+    "source_sha256": "9416bc6131c9277cbd9b9963d22c90ec00ce999104d12b4ba69c0321653fe4a0",
+    "retained_bytes": 31902,
+    "retained_sha256": "9416bc6131c9277cbd9b9963d22c90ec00ce999104d12b4ba69c0321653fe4a0",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/navigation/input/before.png",
+    "retained": "c13/navigation/input/before.png",
+    "source_bytes": 32253,
+    "source_sha256": "bb3c93488d622ccd7f5098ff2b40ade4847cf706324e96b29dfd84bb88248a5a",
+    "retained_bytes": 32253,
+    "retained_sha256": "bb3c93488d622ccd7f5098ff2b40ade4847cf706324e96b29dfd84bb88248a5a",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c13-20261101/navigation/input/interaction.json",
+    "retained": "c13/navigation/input/interaction.json",
+    "source_bytes": 1056,
+    "source_sha256": "ed9f8ce8d609f07ba14ee6ea8aaff50392d6c483064577d12a553f68bdc80a5c",
+    "retained_bytes": 1056,
+    "retained_sha256": "ed9f8ce8d609f07ba14ee6ea8aaff50392d6c483064577d12a553f68bdc80a5c",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-profile-c13-20261101/profile-guard.json",
+    "retained": "c13/profile-guard.json",
+    "source_bytes": 473,
+    "source_sha256": "a6fadf1f8e839aa5d0e74e526d99171f3561820d9326e208d0a6b158fc00f6b9",
+    "retained_bytes": 473,
+    "retained_sha256": "a6fadf1f8e839aa5d0e74e526d99171f3561820d9326e208d0a6b158fc00f6b9",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/run-touch-suite.py",
+    "retained": "tools/run-touch-suite.py",
+    "source_bytes": 6099,
+    "source_sha256": "b11a684a99f539f2f24b1cea8b44064518c977537c7e851f5897e8f308f19dc3",
+    "retained_bytes": 6099,
+    "retained_sha256": "b11a684a99f539f2f24b1cea8b44064518c977537c7e851f5897e8f308f19dc3",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/run-touch-c12.py",
+    "retained": "tools/run-touch-c12.py",
+    "source_bytes": 6092,
+    "source_sha256": "b6098d47aee2ef7bbb9e4b0924a76eb9157522113f0649347d67c7d2c2b47920",
+    "retained_bytes": 6092,
+    "retained_sha256": "b6098d47aee2ef7bbb9e4b0924a76eb9157522113f0649347d67c7d2c2b47920",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/run-touch-c13.py",
+    "retained": "tools/run-touch-c13.py",
+    "source_bytes": 6092,
+    "source_sha256": "5205abd9062e5c7de6cc04388c3c0302233cefe27dd43924a1b12a03a8c89342",
+    "retained_bytes": 6092,
+    "retained_sha256": "5205abd9062e5c7de6cc04388c3c0302233cefe27dd43924a1b12a03a8c89342",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/drive-touch.py",
+    "retained": "tools/drive-touch.py",
+    "source_bytes": 4218,
+    "source_sha256": "cf0ad5365b58edb4dc55b9345e5ad25c3bf6f0d0441c9620f4abd74cae8e2a8a",
+    "retained_bytes": 4218,
+    "retained_sha256": "cf0ad5365b58edb4dc55b9345e5ad25c3bf6f0d0441c9620f4abd74cae8e2a8a",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/with-editor-profile.py",
+    "retained": "tools/with-editor-profile.py",
+    "source_bytes": 1794,
+    "source_sha256": "b5b820488da50f871d494639c68f1a7fe7ab3559e4f5c3d9018e00fe87fcc06a",
+    "retained_bytes": 1794,
+    "retained_sha256": "b5b820488da50f871d494639c68f1a7fe7ab3559e4f5c3d9018e00fe87fcc06a",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-c13-driver-20261101.log",
+    "retained": "tools/touch-c13-driver-20261101.log.gz",
+    "source_bytes": 109,
+    "source_sha256": "93b31b0bacd6eba2c4854613c63dad5920f11ee981c18ae8b6ffd8a79551c5db",
+    "retained_bytes": 85,
+    "retained_sha256": "161473e3b78ef3cfefccc4347a2ab6ade644f1c48cd230bb2546c127b0412314",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-c12-driver-20261101.log",
+    "retained": "tools/touch-c12-driver-20261101.log.gz",
+    "source_bytes": 49,
+    "source_sha256": "1ac4422114e3e9fbcfc3cda686d90275af8882f2365e68f3bf07775b3d2b9b21",
+    "retained_bytes": 57,
+    "retained_sha256": "aaeac7f0b35932b85156a5d0c1db12ded122f449bab6c24954914a800c487d22",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-sequences-c11-stable-driver.log",
+    "retained": "tools/touch-sequences-c11-stable-driver.log.gz",
+    "source_bytes": 49,
+    "source_sha256": "1ac4422114e3e9fbcfc3cda686d90275af8882f2365e68f3bf07775b3d2b9b21",
+    "retained_bytes": 57,
+    "retained_sha256": "aaeac7f0b35932b85156a5d0c1db12ded122f449bab6c24954914a800c487d22",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-validation/touch-tap-c11/calibration.png",
+    "retained": "tools/original-main-geometry-calibration.png",
+    "source_bytes": 28722,
+    "source_sha256": "23ea9b476a42b6b275d969a83eab49240c17f5fad269a5dc20130ced5acad806",
+    "retained_bytes": 28722,
+    "retained_sha256": "23ea9b476a42b6b275d969a83eab49240c17f5fad269a5dc20130ced5acad806",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/eka2l1/run-browser.sh",
+    "retained": "source/Tools/Symbian/eka2l1/run-browser.sh",
+    "source_bytes": 7616,
+    "source_sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+    "retained_bytes": 7616,
+    "retained_sha256": "9f015ec14bc694772ca8b417272d49ec58f008d637b0ddd591873a8bca10a444",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+    "retained": "source/Tools/Symbian/tests/belle-ui/native-interact.py",
+    "source_bytes": 20789,
+    "source_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+    "retained_bytes": 20789,
+    "retained_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-touch/index.html",
+    "retained": "source/Tools/Symbian/tests/belle-touch/index.html",
+    "source_bytes": 10822,
+    "source_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+    "retained_bytes": 10822,
+    "retained_sha256": "091623da8197f053bb8c456b8bf8f8235617739d1fde37d25eb6ed53cf035b91",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate11/source-identities.json",
+    "retained": "identities/candidate11/source-identities.json",
+    "source_bytes": 15016,
+    "source_sha256": "9875bf5cfdc38f27ca1428a41ed80bc026311592808355683017631aa2716d18",
+    "retained_bytes": 15016,
+    "retained_sha256": "9875bf5cfdc38f27ca1428a41ed80bc026311592808355683017631aa2716d18",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate11/build-identities.json",
+    "retained": "identities/candidate11/build-identities.json",
+    "source_bytes": 3089,
+    "source_sha256": "3d43e3e8f193eca3a9f045736ed9a969e78f019c7f1479c753a0cc3daa92d714",
+    "retained_bytes": 3089,
+    "retained_sha256": "3d43e3e8f193eca3a9f045736ed9a969e78f019c7f1479c753a0cc3daa92d714",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate12/source-identities.json",
+    "retained": "identities/candidate12/source-identities.json",
+    "source_bytes": 11251,
+    "source_sha256": "2851f1c8983bd7080b5100e33a252c387e9f2955593312821bfe9b4a5366aefe",
+    "retained_bytes": 11251,
+    "retained_sha256": "2851f1c8983bd7080b5100e33a252c387e9f2955593312821bfe9b4a5366aefe",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate12/build-identities.json",
+    "retained": "identities/candidate12/build-identities.json",
+    "source_bytes": 1138,
+    "source_sha256": "bc8de48f2883fe3dbc28fdd5e11f2e0b6edbba5e715c0c028d6b4ad4c0aa3070",
+    "retained_bytes": 1138,
+    "retained_sha256": "bc8de48f2883fe3dbc28fdd5e11f2e0b6edbba5e715c0c028d6b4ad4c0aa3070",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source-identities.json",
+    "retained": "identities/candidate13/source-identities.json",
+    "source_bytes": 11251,
+    "source_sha256": "a397a22f71d518809c22fe4ec432b92e1e130680820743d34606cce197156257",
+    "retained_bytes": 11251,
+    "retained_sha256": "a397a22f71d518809c22fe4ec432b92e1e130680820743d34606cce197156257",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/build-identities.json",
+    "retained": "identities/candidate13/build-identities.json",
+    "source_bytes": 956,
+    "source_sha256": "2bde24ec0408fc52c832180b4953f6a63d70c7bef5e60bac59b0d7725cfe49fd",
+    "retained_bytes": 956,
+    "retained_sha256": "2bde24ec0408fc52c832180b4953f6a63d70c7bef5e60bac59b0d7725cfe49fd",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WTF/wtf/PlatformSymbian.cmake",
+    "retained": "identities/candidate13/source/Source/WTF/wtf/PlatformSymbian.cmake",
+    "source_bytes": 939,
+    "source_sha256": "a8daad36865541e08d7557d31b134551f5d15ad87bf00d79ada5daa66a1545f7",
+    "retained_bytes": 939,
+    "retained_sha256": "a8daad36865541e08d7557d31b134551f5d15ad87bf00d79ada5daa66a1545f7",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WTF/wtf/symbian/MemoryPressureHandlerSymbian.cpp",
+    "retained": "identities/candidate13/source/Source/WTF/wtf/symbian/MemoryPressureHandlerSymbian.cpp",
+    "source_bytes": 6549,
+    "source_sha256": "915b710fef9165c22cec30140313ef4729499d9ff7dd11f583d91099c1f7ab7b",
+    "retained_bytes": 6549,
+    "retained_sha256": "915b710fef9165c22cec30140313ef4729499d9ff7dd11f583d91099c1f7ab7b",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WTF/wtf/symbian/MemoryPressureHandlerSymbian.h",
+    "retained": "identities/candidate13/source/Source/WTF/wtf/symbian/MemoryPressureHandlerSymbian.h",
+    "source_bytes": 391,
+    "source_sha256": "cdc8ccbdd4251caedec885fbefd310b4a1c04bfc047f14df5c18ee10a080d096",
+    "retained_bytes": 391,
+    "retained_sha256": "cdc8ccbdd4251caedec885fbefd310b4a1c04bfc047f14df5c18ee10a080d096",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WTF/wtf/symbian/MemoryPressureMonitorSymbianNative.cpp",
+    "retained": "identities/candidate13/source/Source/WTF/wtf/symbian/MemoryPressureMonitorSymbianNative.cpp",
+    "source_bytes": 2820,
+    "source_sha256": "2f01523303ba2e07c519e86e3329e17f96c0d61a161a4156784bd32eaf302014",
+    "retained_bytes": 2820,
+    "retained_sha256": "2f01523303ba2e07c519e86e3329e17f96c0d61a161a4156784bd32eaf302014",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WTF/wtf/symbian/MemoryPressureMonitorSymbianNative.h",
+    "retained": "identities/candidate13/source/Source/WTF/wtf/symbian/MemoryPressureMonitorSymbianNative.h",
+    "source_bytes": 709,
+    "source_sha256": "01a580fb0a03687f457cc6a9745caca9340b9e4e00607bfdb6856defc68edeb7",
+    "retained_bytes": 709,
+    "retained_sha256": "01a580fb0a03687f457cc6a9745caca9340b9e4e00607bfdb6856defc68edeb7",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WTF/wtf/symbian/MemoryPressurePolicy.h",
+    "retained": "identities/candidate13/source/Source/WTF/wtf/symbian/MemoryPressurePolicy.h",
+    "source_bytes": 2219,
+    "source_sha256": "7fa39f50ee5b375dd6c323399144f6b851823ba7ae50c6c1a647d5073329eaae",
+    "retained_bytes": 2219,
+    "retained_sha256": "7fa39f50ee5b375dd6c323399144f6b851823ba7ae50c6c1a647d5073329eaae",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/PlatformSymbian.cmake",
+    "retained": "identities/candidate13/source/Source/WebCore/PlatformSymbian.cmake",
+    "source_bytes": 3030,
+    "source_sha256": "851efcb170df1a3faca85c40d9da4c0c3d4557997eb24409097165f614004f60",
+    "retained_bytes": 3030,
+    "retained_sha256": "851efcb170df1a3faca85c40d9da4c0c3d4557997eb24409097165f614004f60",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/SourcesSymbian.txt",
+    "retained": "identities/candidate13/source/Source/WebCore/SourcesSymbian.txt",
+    "source_bytes": 2039,
+    "source_sha256": "9431aef3556b6ecac835b06c69d7ad0fba925c23e915297635b1a23990359040",
+    "retained_bytes": 2039,
+    "retained_sha256": "9431aef3556b6ecac835b06c69d7ad0fba925c23e915297635b1a23990359040",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/dom/PointerEvent.h",
+    "retained": "identities/candidate13/source/Source/WebCore/dom/PointerEvent.h",
+    "source_bytes": 11168,
+    "source_sha256": "a5afad91086783859153ac0f99105d86f02f863e4e738052405950553d38db4f",
+    "retained_bytes": 11168,
+    "retained_sha256": "a5afad91086783859153ac0f99105d86f02f863e4e738052405950553d38db4f",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/dom/symbian/PointerEventSymbian.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/dom/symbian/PointerEventSymbian.cpp",
+    "source_bytes": 5399,
+    "source_sha256": "fe8bff257d0e2e8a7ffffba82fadcbc10439a35e961e5a899decc5d2aac7a671",
+    "retained_bytes": 5399,
+    "retained_sha256": "fe8bff257d0e2e8a7ffffba82fadcbc10439a35e961e5a899decc5d2aac7a671",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/editing/Editor.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/editing/Editor.cpp",
+    "source_bytes": 201659,
+    "source_sha256": "88387a2986c1cebbbdc78aec2efdd11b5fc45aff52abfbea674f2ff51b1cc015",
+    "retained_bytes": 201659,
+    "retained_sha256": "88387a2986c1cebbbdc78aec2efdd11b5fc45aff52abfbea674f2ff51b1cc015",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/editing/libwpe/EditorLibWPE.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/editing/libwpe/EditorLibWPE.cpp",
+    "source_bytes": 4157,
+    "source_sha256": "430a3e4a93a0eb0dce0fd5cda64275246783f111d7464b0e0b8c2abeca6a111a",
+    "retained_bytes": 4157,
+    "retained_sha256": "430a3e4a93a0eb0dce0fd5cda64275246783f111d7464b0e0b8c2abeca6a111a",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/loader/ResourceLoader.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/loader/ResourceLoader.cpp",
+    "source_bytes": 37473,
+    "source_sha256": "8b83f2129e5a06f16d6f08cc7ee6510cca73abcf1a6b87d94d702fc4256bd865",
+    "retained_bytes": 37473,
+    "retained_sha256": "8b83f2129e5a06f16d6f08cc7ee6510cca73abcf1a6b87d94d702fc4256bd865",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/loader/ResourceLoader.h",
+    "retained": "identities/candidate13/source/Source/WebCore/loader/ResourceLoader.h",
+    "source_bytes": 11441,
+    "source_sha256": "ef988d992b898b9ad2a02886015b8ccf8395a67b4bca7184f30ee7fa6934e9a0",
+    "retained_bytes": 11441,
+    "retained_sha256": "ef988d992b898b9ad2a02886015b8ccf8395a67b4bca7184f30ee7fa6934e9a0",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/page/ChromeClient.h",
+    "retained": "identities/candidate13/source/Source/WebCore/page/ChromeClient.h",
+    "source_bytes": 36636,
+    "source_sha256": "8fb167f1c61c51e7e27b168668bd28eb35bf181913ecd37dda6e9a904d4424b0",
+    "retained_bytes": 36636,
+    "retained_sha256": "8fb167f1c61c51e7e27b168668bd28eb35bf181913ecd37dda6e9a904d4424b0",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/page/EventHandler.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/page/EventHandler.cpp",
+    "source_bytes": 230282,
+    "source_sha256": "d5a3201c976e97fb0d2cedae095e5ac21e4bd69dd1d4756ee2d6bfdd0508b575",
+    "retained_bytes": 230282,
+    "retained_sha256": "d5a3201c976e97fb0d2cedae095e5ac21e4bd69dd1d4756ee2d6bfdd0508b575",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/page/EventHandler.h",
+    "retained": "identities/candidate13/source/Source/WebCore/page/EventHandler.h",
+    "source_bytes": 32716,
+    "source_sha256": "ebcd1898ed6221235ce5594667485e4ca6be23c990b57da6abfc8b236ac2eae6",
+    "retained_bytes": 32716,
+    "retained_sha256": "ebcd1898ed6221235ce5594667485e4ca6be23c990b57da6abfc8b236ac2eae6",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/page/Navigator.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/page/Navigator.cpp",
+    "source_bytes": 15667,
+    "source_sha256": "b21a8102cc5054defb6d90319dfbaa3ec7e97b28596fe267485e2552690ac81d",
+    "retained_bytes": 15667,
+    "retained_sha256": "b21a8102cc5054defb6d90319dfbaa3ec7e97b28596fe267485e2552690ac81d",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/page/PointerCaptureController.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/page/PointerCaptureController.cpp",
+    "source_bytes": 33282,
+    "source_sha256": "d7fb4e33dc573ba4c4833eb244427c3575f1a075f06fb5588de42f3aad5d349b",
+    "retained_bytes": 33282,
+    "retained_sha256": "d7fb4e33dc573ba4c4833eb244427c3575f1a075f06fb5588de42f3aad5d349b",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/page/PointerCaptureController.h",
+    "retained": "identities/candidate13/source/Source/WebCore/page/PointerCaptureController.h",
+    "source_bytes": 5972,
+    "source_sha256": "1431cf772748effd333f7d905200b03001aab770cac35e43262bd4f5d0183233",
+    "retained_bytes": 5972,
+    "retained_sha256": "1431cf772748effd333f7d905200b03001aab770cac35e43262bd4f5d0183233",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/Pasteboard.h",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/Pasteboard.h",
+    "source_bytes": 15584,
+    "source_sha256": "9ba98a7118960eb07d9fc7780073a1767d8ef0fc8e220ea47e2e577a27071a9a",
+    "retained_bytes": 15584,
+    "retained_sha256": "9ba98a7118960eb07d9fc7780073a1767d8ef0fc8e220ea47e2e577a27071a9a",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/PasteboardStrategy.h",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/PasteboardStrategy.h",
+    "source_bytes": 7323,
+    "source_sha256": "c2edb23c1cff18dd03c497c38767a3f25c9d59b5d3cf1b2ab8605017c8305350",
+    "retained_bytes": 7323,
+    "retained_sha256": "c2edb23c1cff18dd03c497c38767a3f25c9d59b5d3cf1b2ab8605017c8305350",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/PlatformTouchPoint.h",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/PlatformTouchPoint.h",
+    "source_bytes": 2210,
+    "source_sha256": "52eb1789af462458dfc2045b02f8b9d950ede2245f2fb9ed5c0ad6e03cd8c3d3",
+    "retained_bytes": 2210,
+    "retained_sha256": "52eb1789af462458dfc2045b02f8b9d950ede2245f2fb9ed5c0ad6e03cd8c3d3",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/ScrollingEffectsController.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/ScrollingEffectsController.cpp",
+    "source_bytes": 22937,
+    "source_sha256": "5511ba7bf387c0dcef7b3957d9ec0a86980c1e4842b138bb20279b83593a1c7e",
+    "retained_bytes": 22937,
+    "retained_sha256": "5511ba7bf387c0dcef7b3957d9ec0a86980c1e4842b138bb20279b83593a1c7e",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/libwpe/PasteboardLibWPE.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/libwpe/PasteboardLibWPE.cpp",
+    "source_bytes": 5154,
+    "source_sha256": "eba5fb71f1920bed9144556aae94262c7bfef2b7e384270e6e9c2997fbeb6525",
+    "retained_bytes": 5154,
+    "retained_sha256": "eba5fb71f1920bed9144556aae94262c7bfef2b7e384270e6e9c2997fbeb6525",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/network/ResourceHandle.h",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/network/ResourceHandle.h",
+    "source_bytes": 8978,
+    "source_sha256": "9974f90a0c55ed73c579b0949c998f5f649ab60861ae526114514209c413e481",
+    "retained_bytes": 8978,
+    "retained_sha256": "9974f90a0c55ed73c579b0949c998f5f649ab60861ae526114514209c413e481",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/network/ResourceHandleInternal.h",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/network/ResourceHandleInternal.h",
+    "source_bytes": 5329,
+    "source_sha256": "5d26cddad5f85223bf03938be1fe3d895165e892d6b513f8deb9f9e6f8b1f2ec",
+    "retained_bytes": 5329,
+    "retained_sha256": "5d26cddad5f85223bf03938be1fe3d895165e892d6b513f8deb9f9e6f8b1f2ec",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/network/curl/CurlDownloadBuffer.h",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/network/curl/CurlDownloadBuffer.h",
+    "source_bytes": 1813,
+    "source_sha256": "579219b5b21f9078e41d3f9623f7b7559a11a5676879783d46f6a6ace236142b",
+    "retained_bytes": 1813,
+    "retained_sha256": "579219b5b21f9078e41d3f9623f7b7559a11a5676879783d46f6a6ace236142b",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/network/curl/CurlRequest.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/network/curl/CurlRequest.cpp",
+    "source_bytes": 26370,
+    "source_sha256": "ab689dd7ada5727ef674560e4c5a9530dd3bb31c9258ede9bf9774dbe7e40309",
+    "retained_bytes": 26370,
+    "retained_sha256": "ab689dd7ada5727ef674560e4c5a9530dd3bb31c9258ede9bf9774dbe7e40309",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/network/curl/CurlRequest.h",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/network/curl/CurlRequest.h",
+    "source_bytes": 8076,
+    "source_sha256": "ed1f3f300068dee1143df84641a11c34173f6c4623bc251b1048f456ed18a841",
+    "retained_bytes": 8076,
+    "retained_sha256": "ed1f3f300068dee1143df84641a11c34173f6c4623bc251b1048f456ed18a841",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/network/curl/CurlRequestClient.h",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/network/curl/CurlRequestClient.h",
+    "source_bytes": 2547,
+    "source_sha256": "93eca93dbdc36c6f4fbdaefea408434a0835f02b15d0ff67ea711f8daf82886e",
+    "retained_bytes": 2547,
+    "retained_sha256": "93eca93dbdc36c6f4fbdaefea408434a0835f02b15d0ff67ea711f8daf82886e",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/network/curl/ResourceHandleCurl.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/network/curl/ResourceHandleCurl.cpp",
+    "source_bytes": 19773,
+    "source_sha256": "b619d29714218bce65f3868022a967415472fd6cb9b059435a542185eea7208f",
+    "retained_bytes": 19773,
+    "retained_sha256": "b619d29714218bce65f3868022a967415472fd6cb9b059435a542185eea7208f",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/symbian/NetworkStateNotifierSymbian.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/symbian/NetworkStateNotifierSymbian.cpp",
+    "source_bytes": 2155,
+    "source_sha256": "d56432ffc976fe30de4a9eb90738fbaf1af3d6302cd53cafb6bd58f7bbbced00",
+    "retained_bytes": 2155,
+    "retained_sha256": "d56432ffc976fe30de4a9eb90738fbaf1af3d6302cd53cafb6bd58f7bbbced00",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/symbian/NetworkStateNotifierSymbianNative.cpp",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/symbian/NetworkStateNotifierSymbianNative.cpp",
+    "source_bytes": 7977,
+    "source_sha256": "411ffb804dd7efb3a8771ba565da56121b7f958e2b73383bf947e1c2d5e55217",
+    "retained_bytes": 7977,
+    "retained_sha256": "411ffb804dd7efb3a8771ba565da56121b7f958e2b73383bf947e1c2d5e55217",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebCore/platform/symbian/NetworkStateNotifierSymbianNative.h",
+    "retained": "identities/candidate13/source/Source/WebCore/platform/symbian/NetworkStateNotifierSymbianNative.h",
+    "source_bytes": 592,
+    "source_sha256": "b5906a1667ef6d79e61b6a1e79a926bb0938a612f010be9bcbcfe278f22ec539",
+    "retained_bytes": 592,
+    "retained_sha256": "b5906a1667ef6d79e61b6a1e79a926bb0938a612f010be9bcbcfe278f22ec539",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/PlatformSymbian.cmake",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/PlatformSymbian.cmake",
+    "source_bytes": 1376,
+    "source_sha256": "6592263143fed56eecb5c1301ae3de5db68701940ab0425560b9141055f96046",
+    "retained_bytes": 1376,
+    "retained_sha256": "6592263143fed56eecb5c1301ae3de5db68701940ab0425560b9141055f96046",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/DownloadFile.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/DownloadFile.h",
+    "source_bytes": 1262,
+    "source_sha256": "a3b6e4f6cf784080b44e97139e696f740e98506cc985472dbcd430d7446e70b8",
+    "retained_bytes": 1262,
+    "retained_sha256": "a3b6e4f6cf784080b44e97139e696f740e98506cc985472dbcd430d7446e70b8",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/DownloadFilename.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/DownloadFilename.h",
+    "source_bytes": 3710,
+    "source_sha256": "15924c4efcd694e830172a18e67c1136f05b77108428de8d85ae89be61e86c15",
+    "retained_bytes": 3710,
+    "retained_sha256": "15924c4efcd694e830172a18e67c1136f05b77108428de8d85ae89be61e86c15",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianChromeClient.cpp",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianChromeClient.cpp",
+    "source_bytes": 9623,
+    "source_sha256": "dff949e74eccca9826e4eb860bf7719d53ab49e4f4e51d32ef71afdd8da80386",
+    "retained_bytes": 9623,
+    "retained_sha256": "dff949e74eccca9826e4eb860bf7719d53ab49e4f4e51d32ef71afdd8da80386",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianChromeClient.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianChromeClient.h",
+    "source_bytes": 8505,
+    "source_sha256": "c0d93721f05a8a28559981c3a8aaf524334b679fdda0a3881e81adb9326fe904",
+    "retained_bytes": 8505,
+    "retained_sha256": "c0d93721f05a8a28559981c3a8aaf524334b679fdda0a3881e81adb9326fe904",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianClipboard.cpp",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianClipboard.cpp",
+    "source_bytes": 365,
+    "source_sha256": "94ed143c848d0d0a4a2e5edc1e1867da33785883044b789c333779f1f9a2a671",
+    "retained_bytes": 365,
+    "retained_sha256": "94ed143c848d0d0a4a2e5edc1e1867da33785883044b789c333779f1f9a2a671",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianDownload.cpp",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianDownload.cpp",
+    "source_bytes": 12182,
+    "source_sha256": "b886fc59bc9b64ced95e795c029911e02d363648c4bf63a892b2716982925660",
+    "retained_bytes": 12182,
+    "retained_sha256": "b886fc59bc9b64ced95e795c029911e02d363648c4bf63a892b2716982925660",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianDownload.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianDownload.h",
+    "source_bytes": 4056,
+    "source_sha256": "6deb3d85ad1826ac98a637ffe92f98445d1911577830d376d786d19cb6fc827f",
+    "retained_bytes": 4056,
+    "retained_sha256": "6deb3d85ad1826ac98a637ffe92f98445d1911577830d376d786d19cb6fc827f",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianDownloadManager.cpp",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianDownloadManager.cpp",
+    "source_bytes": 5742,
+    "source_sha256": "bd22fa1ff4dcf27c57d5b9a0fae284daf5d49c7948ce87a5b451226678aa482d",
+    "retained_bytes": 5742,
+    "retained_sha256": "bd22fa1ff4dcf27c57d5b9a0fae284daf5d49c7948ce87a5b451226678aa482d",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianDownloadManager.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianDownloadManager.h",
+    "source_bytes": 1712,
+    "source_sha256": "9d2a5501c01e5d324489d44435cfe489f12756bc363e0f95cd497d393fc53c5e",
+    "retained_bytes": 1712,
+    "retained_sha256": "9d2a5501c01e5d324489d44435cfe489f12756bc363e0f95cd497d393fc53c5e",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianFrameLoaderClient.cpp",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianFrameLoaderClient.cpp",
+    "source_bytes": 14065,
+    "source_sha256": "efddb3c866302ad6dd90dd3f0104f1f57ecdef687df1e27d2a2c4787a8c8151f",
+    "retained_bytes": 14065,
+    "retained_sha256": "efddb3c866302ad6dd90dd3f0104f1f57ecdef687df1e27d2a2c4787a8c8151f",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianFrameLoaderClient.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianFrameLoaderClient.h",
+    "source_bytes": 10135,
+    "source_sha256": "fa9fe3631acf7aca334257583c82bb59200790fc51e4219b888de72fdaecb21d",
+    "retained_bytes": 10135,
+    "retained_sha256": "fa9fe3631acf7aca334257583c82bb59200790fc51e4219b888de72fdaecb21d",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianPlatformStrategies.cpp",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianPlatformStrategies.cpp",
+    "source_bytes": 9190,
+    "source_sha256": "7682995d3d4a4bb8247a01d852713bb6e6f851da6b0df375cc9e88e06ca4be91",
+    "retained_bytes": 9190,
+    "retained_sha256": "7682995d3d4a4bb8247a01d852713bb6e6f851da6b0df375cc9e88e06ca4be91",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/SymbianTouchGesture.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/SymbianTouchGesture.h",
+    "source_bytes": 4504,
+    "source_sha256": "381684bc855ac6dd16d5930ffc59564e3d0804837789702c236f874682424004",
+    "retained_bytes": 4504,
+    "retained_sha256": "381684bc855ac6dd16d5930ffc59564e3d0804837789702c236f874682424004",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/WebKitSymbian.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/WebKitSymbian.h",
+    "source_bytes": 11362,
+    "source_sha256": "8b309a9108305a791d94d2494119d7515b923a256a99eab0ef42b5ce225d1be7",
+    "retained_bytes": 11362,
+    "retained_sha256": "8b309a9108305a791d94d2494119d7515b923a256a99eab0ef42b5ce225d1be7",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/WebKitSymbianClipboard.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/WebKitSymbianClipboard.h",
+    "source_bytes": 1119,
+    "source_sha256": "6d1591a0bd081c24eced5d8a2efd25f37ce4e34b5181b5ba065252b3cd322523",
+    "retained_bytes": 1119,
+    "retained_sha256": "6d1591a0bd081c24eced5d8a2efd25f37ce4e34b5181b5ba065252b3cd322523",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/WebKitSymbianTouch.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/WebKitSymbianTouch.h",
+    "source_bytes": 663,
+    "source_sha256": "7ec63086dcf7cc2f1b8da6cf6fae8499a92b70fc098753aeb464f953b3a561ba",
+    "retained_bytes": 663,
+    "retained_sha256": "7ec63086dcf7cc2f1b8da6cf6fae8499a92b70fc098753aeb464f953b3a561ba",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/WebViewImpl.cpp",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/WebViewImpl.cpp",
+    "source_bytes": 47381,
+    "source_sha256": "a91499c8fface3519783a48a175e871340c88c19c81c5bbd5968c8bf6afaba98",
+    "retained_bytes": 47381,
+    "retained_sha256": "a91499c8fface3519783a48a175e871340c88c19c81c5bbd5968c8bf6afaba98",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Source/WebKitLegacy/symbian/WebViewImpl.h",
+    "retained": "identities/candidate13/source/Source/WebKitLegacy/symbian/WebViewImpl.h",
+    "source_bytes": 6461,
+    "source_sha256": "30b0f46908a09802e65e7e4a964ebfa240284b42a18c15297f68d35bb33b3282",
+    "retained_bytes": 6461,
+    "retained_sha256": "30b0f46908a09802e65e7e4a964ebfa240284b42a18c15297f68d35bb33b3282",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/AuthenticationUI.cpp",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/AuthenticationUI.cpp",
+    "source_bytes": 3564,
+    "source_sha256": "a75ba73d0a9a6ba743bf9dc1c1e3bdd6291b9a6ad0d2f7e72cabf2821183ce83",
+    "retained_bytes": 3564,
+    "retained_sha256": "a75ba73d0a9a6ba743bf9dc1c1e3bdd6291b9a6ad0d2f7e72cabf2821183ce83",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/AuthenticationUI.h",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/AuthenticationUI.h",
+    "source_bytes": 752,
+    "source_sha256": "d38a74cb4e00244d6f65d4de2e33feadeb1405fb0abf36d5c0a7e9c121d27782",
+    "retained_bytes": 752,
+    "retained_sha256": "d38a74cb4e00244d6f65d4de2e33feadeb1405fb0abf36d5c0a7e9c121d27782",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/BrowserApp.cpp",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/BrowserApp.cpp",
+    "source_bytes": 34918,
+    "source_sha256": "1e8ba234c31f2490ce3fd2740fe64f8ee557f8199f50753d3dce1bab8164fcfc",
+    "retained_bytes": 34918,
+    "retained_sha256": "1e8ba234c31f2490ce3fd2740fe64f8ee557f8199f50753d3dce1bab8164fcfc",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/CMakeLists.txt",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/CMakeLists.txt",
+    "source_bytes": 8115,
+    "source_sha256": "7261500f2804fda090662cd3a5e45e1909b911b3abe707ffe84b532b72e573da",
+    "retained_bytes": 8115,
+    "retained_sha256": "7261500f2804fda090662cd3a5e45e1909b911b3abe707ffe84b532b72e573da",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/ClipboardNative.cpp",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/ClipboardNative.cpp",
+    "source_bytes": 7309,
+    "source_sha256": "bf4372aa805e03f401ea90cf7e857af26c9bac7f9839e59dc548bd5d38fcdb0a",
+    "retained_bytes": 7309,
+    "retained_sha256": "bf4372aa805e03f401ea90cf7e857af26c9bac7f9839e59dc548bd5d38fcdb0a",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/ClipboardNative.h",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/ClipboardNative.h",
+    "source_bytes": 217,
+    "source_sha256": "228fe2f71fe8ede28094d006c7836e409c4edd563cd3c2e24f84fb2756aab5c3",
+    "retained_bytes": 217,
+    "retained_sha256": "228fe2f71fe8ede28094d006c7836e409c4edd563cd3c2e24f84fb2756aab5c3",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/DownloadFileNative.cpp",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/DownloadFileNative.cpp",
+    "source_bytes": 3189,
+    "source_sha256": "2876534f2fc61e456fe4e0667da2cfc724ef5fe7323f91926725a43b7fa13b44",
+    "retained_bytes": 3189,
+    "retained_sha256": "2876534f2fc61e456fe4e0667da2cfc724ef5fe7323f91926725a43b7fa13b44",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/DownloadFileNative.h",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/DownloadFileNative.h",
+    "source_bytes": 392,
+    "source_sha256": "8bb4927adcc9c146a8c9788ea226c7a2ff177f0fd1ae61cd46e5a0f40c9fdbaf",
+    "retained_bytes": 392,
+    "retained_sha256": "8bb4927adcc9c146a8c9788ea226c7a2ff177f0fd1ae61cd46e5a0f40c9fdbaf",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/DownloadUI.cpp",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/DownloadUI.cpp",
+    "source_bytes": 4020,
+    "source_sha256": "4ff04a1fc089f8136ae946e76cec08b2e61f6c3f002595eb6f38e80a614bcb2a",
+    "retained_bytes": 4020,
+    "retained_sha256": "4ff04a1fc089f8136ae946e76cec08b2e61f6c3f002595eb6f38e80a614bcb2a",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/DownloadUI.h",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/DownloadUI.h",
+    "source_bytes": 400,
+    "source_sha256": "78274b3c1284026d78e7df026afb7c5ae701f9765df6d401c40b47e9a0e745e6",
+    "retained_bytes": 400,
+    "retained_sha256": "78274b3c1284026d78e7df026afb7c5ae701f9765df6d401c40b47e9a0e745e6",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/TouchTracker.h",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/TouchTracker.h",
+    "source_bytes": 3140,
+    "source_sha256": "1a998a307da54a9ca86b2a979ae8e7b71cb6c4b59e9264f595cc02dfaf2a81d2",
+    "retained_bytes": 3140,
+    "retained_sha256": "1a998a307da54a9ca86b2a979ae8e7b71cb6c4b59e9264f595cc02dfaf2a81d2",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/WebContainer.cpp",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/WebContainer.cpp",
+    "source_bytes": 32970,
+    "source_sha256": "32a3b4367b776686763cd443319c6b5e3496f6f2c1cd98476ffd36b363006fba",
+    "retained_bytes": 32970,
+    "retained_sha256": "32a3b4367b776686763cd443319c6b5e3496f6f2c1cd98476ffd36b363006fba",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/WebContainer.h",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/WebContainer.h",
+    "source_bytes": 7179,
+    "source_sha256": "5f70ca2af1caba7cd43de56b6223daa3cd52054a482dc24cb0252411f6b56538",
+    "retained_bytes": 7179,
+    "retained_sha256": "5f70ca2af1caba7cd43de56b6223daa3cd52054a482dc24cb0252411f6b56538",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/browser_ui.rss",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/browser_ui.rss",
+    "source_bytes": 1636,
+    "source_sha256": "4294c896f6793f7d41818f199af15fd8667909f295f84f66dd46d4d8549bda2f",
+    "retained_bytes": 1636,
+    "retained_sha256": "4294c896f6793f7d41818f199af15fd8667909f295f84f66dd46d4d8549bda2f",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/resources/BrowserQuery.rh",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/resources/BrowserQuery.rh",
+    "source_bytes": 2029,
+    "source_sha256": "be0959c0ca41aa64efbaad26768a1d187ad9ab5be6a0b13e5e65fd78c0389d9f",
+    "retained_bytes": 2029,
+    "retained_sha256": "be0959c0ca41aa64efbaad26768a1d187ad9ab5be6a0b13e5e65fd78c0389d9f",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/source/Tools/Symbian/browser/resources/README.md",
+    "retained": "identities/candidate13/source/Tools/Symbian/browser/resources/README.md",
+    "source_bytes": 2132,
+    "source_sha256": "b346362c2817ef89b1c0692a4b9c7a438378050c81c2e0e1da0b082066dd2751",
+    "retained_bytes": 2132,
+    "retained_sha256": "b346362c2817ef89b1c0692a4b9c7a438378050c81c2e0e1da0b082066dd2751",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/browser_ui.rsc",
+    "retained": "identities/candidate13/browser_ui.rsc",
+    "source_bytes": 192,
+    "source_sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48",
+    "retained_bytes": 192,
+    "retained_sha256": "43080e0ff913e6490045daf9a3a0cb362bad29dd4f4e5d3800bd6dc19afe2d48",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/browser_reg.rsc",
+    "retained": "identities/candidate13/browser_reg.rsc",
+    "source_bytes": 97,
+    "source_sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+    "retained_bytes": 97,
+    "retained_sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/browser_loc.rsc",
+    "retained": "identities/candidate13/browser_loc.rsc",
+    "source_bytes": 74,
+    "source_sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+    "retained_bytes": 74,
+    "retained_sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/candidate13/libraries.json",
+    "retained": "identities/candidate13/libraries.json",
+    "source_bytes": 59,
+    "source_sha256": "d471e7e47cff37252dc9c741bdb82ce9cac4d4d68c48f504d544a48fb0cf5534",
+    "retained_bytes": 59,
+    "retained_sha256": "d471e7e47cff37252dc9c741bdb82ce9cac4d4d68c48f504d544a48fb0cf5534",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/host-0027-20261101/identities.json",
+    "retained": "identities/host-0027/identities.json",
+    "source_bytes": 903,
+    "source_sha256": "a16fd5815b0900f959565a5aab3d5ea573e3f45d5bbe8e24437c6ffe17db2ac2",
+    "retained_bytes": 903,
+    "retained_sha256": "a16fd5815b0900f959565a5aab3d5ea573e3f45d5bbe8e24437c6ffe17db2ac2",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/host-0027-20261101/build-and-verify.sh",
+    "retained": "identities/host-0027/build-and-verify.sh",
+    "source_bytes": 2045,
+    "source_sha256": "b6846a6bd3f4d2d318a89ae084bd33ec208c80ce4eeedabd4c3249cd3fb0c71b",
+    "retained_bytes": 2045,
+    "retained_sha256": "b6846a6bd3f4d2d318a89ae084bd33ec208c80ce4eeedabd4c3249cd3fb0c71b",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/host-0027-20261101/build.log",
+    "retained": "identities/host-0027/build.log.gz",
+    "source_bytes": 26312,
+    "source_sha256": "c4651b81bd369a1174ab1fa736f9f5519bb475483bb73a02525784dae82eefd1",
+    "retained_bytes": 1939,
+    "retained_sha256": "125118eed0e9001dbfe134ffac5f50bba4cef3f135a8c59a2b10bddca7f4ed10",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/patches/eka2l1/0027-Translate-Ctrl-Alt-and-refresh-repeated-key-codes.patch",
+    "retained": "identities/host-0027/0027-keyboard.patch",
+    "source_bytes": 10980,
+    "source_sha256": "3d36f48681c3e1c2545190d8c0fed6f59a64c5939a494c775a33070dfcd89c8d",
+    "retained_bytes": 10980,
+    "retained_sha256": "3d36f48681c3e1c2545190d8c0fed6f59a64c5939a494c775a33070dfcd89c8d",
+    "compression": "none"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-engine-c13-20261101.log",
+    "retained": "identities/candidate13/p1-engine-c13-20261101.log.gz",
+    "source_bytes": 12679,
+    "source_sha256": "8a208d3f4f828ac74272ee80f7fe93ee98283e783848e21a4cba4a26a715b863",
+    "retained_bytes": 1530,
+    "retained_sha256": "127ba907420f617b954bb6f69875b8d37983b40f30ab4d6428bc9b74ae46e3cc",
+    "compression": "gzip"
+  },
+  {
+    "source": "/workspace/symbian-belle-work/p1-browser-c13-20261101.log",
+    "retained": "identities/candidate13/p1-browser-c13-20261101.log.gz",
+    "source_bytes": 386,
+    "source_sha256": "b55a934dc63ba65249b5a51027157a483cfa6f8cfcdde5b32a2b7cc8d8429031",
+    "retained_bytes": 153,
+    "retained_sha256": "457ccffbac9d9ff38c1cd07174e89756872e9168f4fc43556bc90e6b177e5023",
+    "compression": "gzip"
+  }
+]

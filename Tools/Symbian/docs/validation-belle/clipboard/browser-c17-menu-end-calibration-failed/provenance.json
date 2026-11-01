@@ -1,0 +1,158 @@
+{
+  "archived_utc": "2026-11-01T04:01:41.254687+00:00",
+  "scope": "read-only archive of completed root runs",
+  "excluded": [
+    "private backups/config/profile/clipboard contents",
+    "previous/original logs",
+    "build executable/DLL binaries"
+  ],
+  "source_records": [
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/actions.jsonl",
+      "source_bytes": 1148,
+      "source_sha256": "1cfed1303a01872c94c85a569e2a222dc19e9d9f475542e2f71535e50afe1884",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/input/actions.jsonl",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/interaction.json",
+      "source_bytes": 2728,
+      "source_sha256": "192c416471e60464ad406ec1c4254870ca565b946b1066a0ac9ec2a61eb85384",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/input/interaction.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/menu-reviews/01-step1-paste/end.png",
+      "source_bytes": 33571,
+      "source_sha256": "a82b53579675adb0e55c2ff7c998f994baeec81694e8b68427cb69975beed27c",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/input/menu-reviews/01-step1-paste/end.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/menu-reviews/01-step1-paste/gate.json",
+      "source_bytes": 933,
+      "source_sha256": "9c9bd71236a388a5eb4e5a4a20d43a48fd7bbc4370418929595bdf6440c4adea",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/input/menu-reviews/01-step1-paste/gate.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/menu-reviews/01-step1-paste/opened.png",
+      "source_bytes": 35781,
+      "source_sha256": "c4de5401de70ec53fe7516bbcc33c2c17a0acb3c81f547243b12a2f4703cb3e5",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/input/menu-reviews/01-step1-paste/opened.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/menu-reviews/01-step1-paste/selected.png",
+      "source_bytes": 33061,
+      "source_sha256": "54aaff53c423bca893ff7952b6f5c8bab2727841f3ee0293b9deb2659968ce28",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/input/menu-reviews/01-step1-paste/selected.png",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input-driver.log",
+      "source_bytes": 314,
+      "source_sha256": "87dd2154d64307960d3ab14620fa6dbde5da2caa17f499a9dbe5bb5714dfc47d",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/input-driver.log.gz",
+      "compression": "gzip"
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/result.json",
+      "source_bytes": 10068,
+      "source_sha256": "cf1d0c4d2905ef65243b444c17d1dbb901b004d3d09826c01005ab4ba75bd02f",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/result.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/runner.log",
+      "source_bytes": 1369,
+      "source_sha256": "ddae6da37cf724047740a25e2983fe16c95ac5f1ccec72dc1ecf04635b6c3ff2",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/runner.log.gz",
+      "compression": "gzip"
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/runs/browser-20261101T035021Z-to81y0tz/emulator.log",
+      "source_bytes": 220086,
+      "source_sha256": "a36f0b02f7edc3e97680a55aa5476ada2e1110876f5145b63440a1405a8efe6c",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/runs/browser-20261101T035021Z-to81y0tz/emulator.log.gz",
+      "compression": "gzip"
+    },
+    {
+      "source": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/runs/browser-20261101T035021Z-to81y0tz/log.txt",
+      "source_bytes": 1191,
+      "source_sha256": "92c8db28fb6d8d5f4a79e8b15190a1b7d23b9654701782ccce6f5cdd46687067",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/run/runs/browser-20261101T035021Z-to81y0tz/log.txt",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/README.md",
+      "source_bytes": 5035,
+      "source_sha256": "94b551797291db7c3c068bd0a9d02309998b348d18597d907d05c9f50758bc69",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/README.md",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/SHA256SUMS",
+      "source_bytes": 740,
+      "source_sha256": "9b0521899784cef3edde3eca1482c04fe8cca0c93e221dc141fe44384cf2bad4",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/SHA256SUMS",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/approve.py",
+      "source_bytes": 1027,
+      "source_sha256": "7ecfc41ebd98a8f44edb9974a7df279983768cd3cde7f41c62ae5ebe7c7c5e56",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/approve.py",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/manifest.json",
+      "source_bytes": 1362,
+      "source_sha256": "4e9e200b458cd3b348d76c45d59a2e309bdabc3b01dec0e37391cbd810824ebe",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/manifest.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/menu-candidate.json",
+      "source_bytes": 1215,
+      "source_sha256": "9d8ce461f7c9e2b34a0d9c99caf6c6aeff3a51bf11f0cf6e09260b7ff2334772",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/menu-candidate.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/preparation.json",
+      "source_bytes": 2905,
+      "source_sha256": "13cea9c734be2de72850efb2b330e29216c0319cc57ff1d71bee27007bc473f6",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/preparation.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/profile-provenance.json",
+      "source_bytes": 659,
+      "source_sha256": "6a72e17c9f7f074764f31f253258d8df9a7a2a19a890ad6375f67573672f1860",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/profile-provenance.json",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/review-drive.py",
+      "source_bytes": 3738,
+      "source_sha256": "1e45a353fca18260393b0816ed2ff3fe2cdeea4b132498de1b83136ca049eea7",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/review-drive.py",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/run-c17.py",
+      "source_bytes": 12648,
+      "source_sha256": "996df708df1d17a7efb147423ab2020e5d23b91a2679d6be51c2a82321d55313",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/run-c17.py",
+      "compression": null
+    },
+    {
+      "source": "/workspace/symbian-clipboard-menu-c17-work/versions/end-navigation/webkit-menu-review.yml",
+      "source_bytes": 3538,
+      "source_sha256": "3771e6fe1cf8972e8ee14b6556a0929f04229b9eac9f71ff725e1c3da936fd36",
+      "destination": "/workspace/symbian-clipboard-menu-c17-work/docs-candidate/validation-belle/clipboard/browser-c17-menu-end-calibration-failed/tools-end-navigation/webkit-menu-review.yml",
+      "compression": null
+    }
+  ]
+}

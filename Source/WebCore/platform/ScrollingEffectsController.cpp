@@ -424,7 +424,13 @@ bool ScrollingEffectsController::handleWheelEvent(const PlatformWheelEvent& whee
         return false;
 
 #if ENABLE(SMOOTH_SCROLLING)
-    if (m_client.scrollAnimationEnabled() && !m_inScrollGesture) {
+    bool animateScroll = m_client.scrollAnimationEnabled() && !m_inScrollGesture;
+#if OS(SYMBIAN)
+    // Finger deltas follow the contact directly even without kinetic scrolling
+    // to track m_inScrollGesture. Keep discrete wheel animation unchanged.
+    animateScroll &= !wheelEvent.hasPreciseScrollingDeltas();
+#endif
+    if (animateScroll) {
         if (!retargetAnimatedScrollBy({ deltaX, deltaY }))
             startAnimatedScrollToDestination(scrollOffset, scrollOffset + FloatSize { deltaX, deltaY });
         return true;

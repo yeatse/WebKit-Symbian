@@ -353,7 +353,11 @@ public:
 #endif
 
 #if ENABLE(TOUCH_EVENTS)
+#if OS(SYMBIAN)
+    WEBCORE_EXPORT Expected<bool, RemoteFrameGeometryTransformer> handleTouchEvent(const PlatformTouchEvent&, bool* touchEventPrevented = nullptr);
+#else
     WEBCORE_EXPORT Expected<bool, RemoteFrameGeometryTransformer> handleTouchEvent(const PlatformTouchEvent&);
+#endif
 #endif
 
     bool useHandCursor(Node*, bool isOverLink, bool shiftKey);

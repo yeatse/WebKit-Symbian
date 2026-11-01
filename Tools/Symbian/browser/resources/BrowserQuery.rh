@@ -37,6 +37,11 @@ STRUCT EDWIN
 	AKN_EDITOR_EXTENSIONS
     }
 
+STRUCT SECRETED
+    {
+    WORD num_letters=8;
+    }
+
 STRUCT CBA
 	{
 	LONG flags=EEikButtonGroupAddToStack;

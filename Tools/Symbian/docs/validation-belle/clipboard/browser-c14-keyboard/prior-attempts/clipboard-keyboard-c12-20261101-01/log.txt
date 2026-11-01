@@ -1,0 +1,17 @@
+02:21:12.241 WebKit Browser starting
+02:21:12.262 network: starting the connection
+02:21:13.762 touch: digitizer=1 enabled=8 query=0 accepted=8
+Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
+Symbian compositor: native EGL/GLES2 presented 360x532
+02:21:14.244 network: connected through "Host network"
+02:21:14.259 load http://localhost:8802/index.html?run=clipboard-keyboard-c12-20261101-01&mode=keyboard
+console: http://localhost:8802/suite.js:13: START: belle-clipboard {"run":"clipboard-keyboard-c12-20261101-01","mode":"keyboard","total":9}
+console: http://localhost:8802/suite.js:13: ACTION: belle-clipboard {"run":"clipboard-keyboard-c12-20261101-01","step":1,"operation":"start","target":"start","mode":"keyboard","x":180,"y":124,"width":360,"height":532}
+console: http://localhost:8802/suite.js:13: BEGIN: belle-clipboard {"run":"clipboard-keyboard-c12-20261101-01","step":1,"name":"trusted Unicode multiline copy and native paste","trustedClick":true}
+console: http://localhost:8802/suite.js:13: ACTION: belle-clipboard {"run":"clipboard-keyboard-c12-20261101-01","step":1,"operation":"paste","target":"target","mode":"keyboard","x":180,"y":270,"width":360,"height":532}
+console: http://localhost:8802/suite.js:13: PASS: trusted Unicode multiline copy and native paste
+console: http://localhost:8802/suite.js:13: ACTION: belle-clipboard {"run":"clipboard-keyboard-c12-20261101-01","step":2,"operation":"start","target":"start","mode":"keyboard","x":180,"y":124,"width":360,"height":532}
+console: http://localhost:8802/suite.js:13: BEGIN: belle-clipboard {"run":"clipboard-keyboard-c12-20261101-01","step":2,"name":"trusted partial cut and native paste","trustedClick":true}
+console: http://localhost:8802/suite.js:13: ACTION: belle-clipboard {"run":"clipboard-keyboard-c12-20261101-01","step":2,"operation":"paste","target":"target","mode":"keyboard","x":180,"y":270,"width":360,"height":532}
+console: http://localhost:8802/suite.js:13: FAIL: trusted partial cut and native paste: Error: paste did not insert the exact text at the selected range
+console: http://localhost:8802/suite.js:13: ACTION: belle-clipboard {"run":"clipboard-keyboard-c12-20261101-01","step":3,"operation":"start","target":"start","mode":"keyboard","x":180,"y":124,"width":360,"height":532}

@@ -1,0 +1,115 @@
+{
+  "case": "capture",
+  "run": "bd6b64e15fb54674a1957b6b6f32af44",
+  "pid": 514245,
+  "status": "INPUT_AND_PAGE_PASS",
+  "native_input": [
+    {
+      "motion": [
+        450,
+        337
+      ],
+      "monotonic": 236456.693315383
+    },
+    {
+      "button1": true,
+      "monotonic": 236456.693399177
+    },
+    {
+      "motion": [
+        465,
+        337
+      ],
+      "monotonic": 236456.843879575
+    },
+    {
+      "motion": [
+        479,
+        337
+      ],
+      "monotonic": 236456.914183882
+    },
+    {
+      "motion": [
+        494,
+        337
+      ],
+      "monotonic": 236456.984514664
+    },
+    {
+      "motion": [
+        508,
+        337
+      ],
+      "monotonic": 236457.054936784
+    },
+    {
+      "motion": [
+        523,
+        337
+      ],
+      "monotonic": 236457.125285666
+    },
+    {
+      "motion": [
+        538,
+        337
+      ],
+      "monotonic": 236457.195609733
+    },
+    {
+      "motion": [
+        552,
+        337
+      ],
+      "monotonic": 236457.266027587
+    },
+    {
+      "motion": [
+        567,
+        337
+      ],
+      "monotonic": 236457.336334488
+    },
+    {
+      "motion": [
+        581,
+        337
+      ],
+      "monotonic": 236457.40689275
+    },
+    {
+      "motion": [
+        596,
+        337
+      ],
+      "monotonic": 236457.477236215
+    },
+    {
+      "motion": [
+        610,
+        337
+      ],
+      "monotonic": 236457.547566429
+    },
+    {
+      "motion": [
+        625,
+        337
+      ],
+      "monotonic": 236457.617914361
+    },
+    {
+      "button1": false,
+      "monotonic": 236457.68828108
+    }
+  ],
+  "ready": "console: http://localhost:8783/?case=capture&run=bd6b64e15fb54674a1957b6b6f32af44:35: SYMBIAN TOUCH capture READY {\"run\":\"bd6b64e15fb54674a1957b6b6f32af44\",\"maxTouchPoints\":8,\"instruction\":\"Press blue panel, drag outside its right edge, then release: pointer capture must retain delivery.\",\"viewport\":{\"width\":360,\"height\":532},\"pad\":{\"left\":10,\"top\":94,\"width\":340,\"height\":196}}",
+  "window_geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "completion": "console: http://localhost:8783/?case=capture&run=bd6b64e15fb54674a1957b6b6f32af44:35: SYMBIAN TOUCH capture DONE PASS native sequence validated; maxTouchPoints=8, peak contacts=1 {\"pointerdown\":1,\"touchstart\":1,\"gotpointercapture\":1,\"pointermove\":12,\"touchmove\":12,\"changed-touch-move\":12,\"captured-outside\":true,\"pointerup\":1,\"lostpointercapture\":1,\"touchend\":1}"
+}

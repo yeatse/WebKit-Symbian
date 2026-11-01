@@ -1,0 +1,37 @@
+{
+  "token": "e64e6c94355b435f9ed6c4a152c265c4",
+  "recorded_utc": "2026-10-29T21:17:17.866410+00:00",
+  "selection": "Only database directories with SQLite bytes containing this exact fixture token; include their Blob sidecar files",
+  "files": [
+    {
+      "relative_path": "v1/http_localhost_8790/01D01606FBE05AB3305BD22EBE1488A55BA329266B03288079412E731E76C68F/4be83f3d-aa45-4416-a1d2-4fee88e60aa2.blob",
+      "bytes": 5059824,
+      "sha256": "2fa0b08925b76d858e3d2172c67e04878184400872c8069c7dbd489c43946cb2"
+    },
+    {
+      "relative_path": "v1/http_localhost_8790/01D01606FBE05AB3305BD22EBE1488A55BA329266B03288079412E731E76C68F/IndexedDB.sqlite3",
+      "bytes": 73728,
+      "sha256": "891d8f23fa46d5b45c2cfeff8d287ba4ef84a35b1c335ce04c661715556792d5"
+    },
+    {
+      "relative_path": "v1/http_localhost_8790/189F23211840678222DF7C56B45B44E68102D0CD2BBBCBBCB4572205FB5C6FCC/IndexedDB.sqlite3",
+      "bytes": 73728,
+      "sha256": "abf4b6ea462c800a208388a46f2dd700460a16b2e7d54bdd8c666f1814292267"
+    },
+    {
+      "relative_path": "v1/http_localhost_8790/3775B788CB434EE5CCB929A2531AAEB3C4F591D5437154814E8ECDFF3B9BEA88/IndexedDB.sqlite3",
+      "bytes": 73728,
+      "sha256": "78fe239948cefc789a5f4938aaf5e4c1edebca2cee67f5a21c27e4096d118de0"
+    },
+    {
+      "relative_path": "v1/http_localhost_8790/9EA3828C3EE940E220152E5BB6710A90CA3C9E909414F12CEC20D91E0BE61FA1/41e102cf-74eb-4177-b7a7-1e88fa1f3810.blob",
+      "bytes": 40,
+      "sha256": "93974f24037f4d7a9564ddf630ff6e803ef97ae271a0cc50cab30f7a35a98760"
+    },
+    {
+      "relative_path": "v1/http_localhost_8790/9EA3828C3EE940E220152E5BB6710A90CA3C9E909414F12CEC20D91E0BE61FA1/IndexedDB.sqlite3",
+      "bytes": 25272320,
+      "sha256": "58fe2ca46cbb2265320016856528ceb1d64915f70ae790c91016cf6c27d43b74"
+    }
+  ]
+}

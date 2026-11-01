@@ -1,0 +1,20 @@
+{
+  "run": "clipboard-menu-c17-20261101-01",
+  "step": 8,
+  "operation": "cut",
+  "observed_label": "Cut",
+  "opened_sha256": "b410e0fb13560ac38c092b5b62864518b1b5a5a2cc75198389374faa50020e53",
+  "pid": 526512,
+  "window": "0x60000b",
+  "geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "point": [
+    450,
+    345
+  ],
+  "screenshots_reviewed": true
+}

@@ -1,0 +1,96 @@
+{
+  "run": "dl-e-96cb1c9bde37",
+  "case": "existing",
+  "pid": 520622,
+  "window": "0x60000b",
+  "status": "INPUT_RECORDED",
+  "records": [
+    {
+      "action": {
+        "target": "fep",
+        "role": "edit-name",
+        "wait": 0.5,
+        "key": "BackSpace"
+      },
+      "window": "0x600096",
+      "monotonic_ns": 239074699996285
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "calibration/calibration-main.png",
+      "sha256": "1ce453a7eba5a89a856337e567bc7a367b632575191d9b7bdf63a130e9be4151",
+      "target": "main",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "monotonic_ns": 239067268431612
+    },
+    {
+      "path": "calibration/calibration-fep.png",
+      "sha256": "30724c05979421d4dc4db5762d7c929857e1b971b5beeac4a138d274dfa3f6c7",
+      "target": "fep",
+      "geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "monotonic_ns": 239067300454937
+    },
+    {
+      "path": "01-before-main.png",
+      "sha256": "1ce453a7eba5a89a856337e567bc7a367b632575191d9b7bdf63a130e9be4151",
+      "target": "main",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "monotonic_ns": 239074667285824
+    },
+    {
+      "path": "01-before-fep.png",
+      "sha256": "da6f303fb46ea384432ade8524226d1c0384d1bca11800c9849e8176725b833a",
+      "target": "fep",
+      "geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "monotonic_ns": 239074699507253
+    },
+    {
+      "path": "01-after-main.png",
+      "sha256": "1ce453a7eba5a89a856337e567bc7a367b632575191d9b7bdf63a130e9be4151",
+      "target": "main",
+      "geometry": [
+        1,
+        25,
+        900,
+        700
+      ],
+      "monotonic_ns": 239075306431311
+    },
+    {
+      "path": "01-after-fep.png",
+      "sha256": "00dd8309afd13afcfc030503ad1fd98ecf35bbf506269c966ff925291e0edce6",
+      "target": "fep",
+      "geometry": [
+        241,
+        185,
+        400,
+        300
+      ],
+      "monotonic_ns": 239075338865298
+    }
+  ],
+  "input_source": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/belle-ui/native-interact.py",
+  "input_source_sha256": "3b31229833fc4544cdd17b1a6357e766bb1de40c165e2efa4f7452e41947b2f0",
+  "scope": "actual XTest input; no guest launch, injected JavaScript, dialog hooks or file mutation"
+}

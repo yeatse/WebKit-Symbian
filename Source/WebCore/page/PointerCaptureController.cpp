@@ -36,6 +36,10 @@
 #include "FrameDestructionObserverInlines.h"
 #include "FrameInlines.h"
 #include "HitTestResult.h"
+#if OS(SYMBIAN)
+#include "LocalFrameView.h"
+#include "DocumentView.h"
+#endif
 #include "MouseEventTypes.h"
 #include "NodeDocument.h"
 #include "Page.h"
@@ -212,7 +216,7 @@ bool PointerCaptureController::preventsCompatibilityMouseEventsForIdentifier(Poi
     return capturingData && capturingData->preventsCompatibilityMouseEvents;
 }
 
-#if ENABLE(TOUCH_EVENTS) && (PLATFORM(IOS_FAMILY) || PLATFORM(WPE) || PLATFORM(GTK))
+#if ENABLE(TOUCH_EVENTS) && (PLATFORM(IOS_FAMILY) || PLATFORM(WPE) || PLATFORM(GTK) || OS(SYMBIAN))
 static bool hierarchyHasCapturingEventListeners(Element* target, const AtomString& eventName)
 {
     for (RefPtr<ContainerNode> currentNode = target; currentNode; currentNode = currentNode->parentInComposedTree()) {
@@ -333,6 +337,16 @@ void PointerCaptureController::dispatchEventForTouchAtIndex(EventTarget& target,
         dispatchEnterOrLeaveEvent(eventNames().pointerenterEvent, *currentTarget, platformTouchEvent, index, isPrimary, view, touchDelta);
     }
 
+#if OS(SYMBIAN)
+    if (pointerEvent->type() == eventNames().pointercancelEvent) {
+        processPendingPointerCapture(pointerEvent->pointerId());
+        auto point = flooredIntPoint(platformTouchEvent.touchPoints()[index].pos());
+        if (RefPtr frame = page->localMainFrame(); frame && frame->view())
+            point = frame->view()->windowToContents(point);
+        cancelPointer(pointerEvent->pointerId(), point, pointerEvent.ptr());
+        return;
+    }
+#endif
 #if PLATFORM(IOS_FAMILY)
     if (pointerEvent->type() == eventNames().pointercancelEvent) {
         cancelPointer(pointerEvent->pointerId(), IntPoint(platformTouchEvent.touchLocationInRootViewAtIndex(index)), pointerEvent.ptr());
@@ -382,7 +396,7 @@ void PointerCaptureController::dispatchEventForTouchAtIndex(EventTarget& target,
     capturingData->state = CapturingData::State::Finished;
     capturingData->previousTarget = nullptr;
 }
-#endif // ENABLE(TOUCH_EVENTS) && (PLATFORM(IOS_FAMILY) || PLATFORM(WPE) || PLATFORM(GTK))
+#endif // ENABLE(TOUCH_EVENTS) && (PLATFORM(IOS_FAMILY) || PLATFORM(WPE) || PLATFORM(GTK) || OS(SYMBIAN))
 
 void PointerCaptureController::clearUnmatchedMouseDown(PointerID pointerID)
 {
@@ -568,7 +582,7 @@ void PointerCaptureController::cancelPointer(PointerID pointerId, const IntPoint
     capturingData->pendingTargetOverride = nullptr;
     capturingData->state = CapturingData::State::Cancelled;
 
-#if ENABLE(TOUCH_EVENTS) && (PLATFORM(IOS_FAMILY) || PLATFORM(WPE) || PLATFORM(GTK))
+#if ENABLE(TOUCH_EVENTS) && (PLATFORM(IOS_FAMILY) || PLATFORM(WPE) || PLATFORM(GTK) || OS(SYMBIAN))
     capturingData->previousTarget = nullptr;
 #endif
 

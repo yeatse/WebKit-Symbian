@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "scope": "Downloaded artifact, SIS package/source payload and host IDNA verification only; no guest installation or runtime",
+  "completed_utc": "2026-11-01T02:50:11.273815+00:00",
+  "repo": "yeatse/WebKit-Symbian",
+  "run_id": 41265079906,
+  "job_id": 124726099581,
+  "head_sha": "46234c2b06392d938985296f3b52ac07440a320a",
+  "branch": "2.52.6-symbian",
+  "sis_artifact": {
+    "id": 13067725061,
+    "bytes": 33652863,
+    "sha256": "29710b505b67f77b7fe4f6662fe41459b704aed1dcbd9da1666bb241e44a99bf",
+    "matches_github_digest": true
+  },
+  "workflow_status": "success",
+  "all_three_sis_sha256_match_artifact_manifest": true,
+  "package_version": "0.3.42",
+  "payload_count": 13,
+  "all_package_headers_sections_crc_valid": true,
+  "all_decompressed_payload_sha1_valid": true,
+  "all_payload_sizes_valid": true,
+  "unsigned": true,
+  "source_backed_payloads_exact_match": 6,
+  "pinned_ca_match": true,
+  "icu_data_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+  "idna_host_groups": 8,
+  "verification_tools_pinned_to_source_commit": true,
+  "packages": [
+    {
+      "name": "symbian-webkit-icu.sis",
+      "bytes": 4768936,
+      "sha256": "33565aeee99a021c2dead1275da6e706af7e80baea8111775bd73cd075e981fa"
+    },
+    {
+      "name": "jsc.sis",
+      "bytes": 6894492,
+      "sha256": "b8abd2412aa66d029e66803eb0aa31d820a52a391991a5acce454bf43b9c43cb"
+    },
+    {
+      "name": "browser.sis",
+      "bytes": 21988704,
+      "sha256": "a3dc80af19c39f74483e51275cf85813a0a725bbe4eaecd76622ae93f2960e4a"
+    }
+  ],
+  "guest_installation_performed": false,
+  "guest_runtime_performed": false,
+  "physical_phone_verification_performed": false,
+  "elf_artifact_downloaded": false,
+  "c13_c14_runtime_results_reused": false
+}

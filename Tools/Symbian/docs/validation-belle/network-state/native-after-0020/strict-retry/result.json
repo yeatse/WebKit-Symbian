@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "scope": "native RConnection and ConnMon after patch 0020",
+  "expected_total_checks": 19,
+  "image_sha256": "55bd4d154d4d6853d2260c19ba3413689f648fea1dded83bca15064c7d7975a9",
+  "emulator_sha256": "046bc41192886a671c144983dd74d1e45de6860d179ae073a335a5db997c1e64",
+  "forced_cleanup": false,
+  "host_pid": 448556,
+  "host_exit": 0,
+  "panic_or_access_violation": false,
+  "passed": 19,
+  "failed": 0,
+  "guest_exit": 0
+}

@@ -1,0 +1,20 @@
+{
+  "run": "clipboard-menu-c17-20261101-01",
+  "step": 7,
+  "operation": "copy",
+  "expected_label": "Copy",
+  "pid": 526512,
+  "window": "0x60000b",
+  "geometry": [
+    1,
+    25,
+    900,
+    700
+  ],
+  "opened": {
+    "path": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-20261101-01/input/menu-reviews/06-step7-copy/opened.png",
+    "sha256": "fe21226ea8633e67874bfcfc4881c8989560cd94ce426b39146ea409d8a39a32"
+  },
+  "state": "WAITING_ROOT_POINT_REVIEW",
+  "no_edit_command_selected": true
+}

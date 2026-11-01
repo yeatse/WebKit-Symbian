@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "scope": "Root reviewed new native Options popup on about:blank only; Save-dialog return case separately failed",
+  "browser_sha256": "0d91d91ea1e016b7725097bac0768a9aa2fdf9710b765795769d2da07608a1c8",
+  "host_sha256": "277db2b3e44c69d4b860b2f76cf194178e820556671ad32f4891fcae2cb4c2ff",
+  "fep_sha256": "aad1a4c6a4a52c70d3ac430d45dce671a8ff664071c921146bc65f754a612f6b",
+  "checks": [
+    "touch Options shows actual rows and Cancel",
+    "Cancel returns and restores main softkeys",
+    "F2 reopens actual popup",
+    "Reload row returns to page",
+    "normal launcher exit and originals restored"
+  ],
+  "excludes": [
+    "download cancellation",
+    "menus after RunSaveDlgLD",
+    "clipboard menu actions"
+  ]
+}

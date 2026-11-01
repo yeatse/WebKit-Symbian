@@ -1,0 +1,13 @@
+{
+  "run": "REPLACE_WITH_ACTUAL_RUN",
+  "case": "REPLACE_WITH_ACTUAL_CASE",
+  "url": "COPY_EXACT_FIXTURE_READY_URL",
+  "host_exit_code": null,
+  "normal_close": null,
+  "forced_cleanup": null,
+  "browser_sha256": "SHA256_OF_ACTUAL_C11_BROWSER_EXE",
+  "emulator_sha256": "SHA256_OF_ACTUAL_EMULATOR_BINARY",
+  "finished_utc": null,
+  "native_ui_reviewed": false,
+  "selected_guest_path": "ACTUAL_NATIVE_PATH_CONFIRMED_IN_SCREENSHOT"
+}
