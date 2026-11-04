@@ -1,6 +1,6 @@
 # 交接：WebKit for Symbian^3 与 EKA2L1
 
-写于 2026-10-29，给下一个会话。新会话以 [yeatse/EKA2L1](https://github.com/yeatse/EKA2L1) 为主仓库，再用 add_repo 挂上 [yeatse/WebKit-Symbian](https://github.com/yeatse/WebKit-Symbian)。两个仓库名字不同，可以同时挂。**不要再挂上游 EKA2L1/EKA2L1**：它和 fork 同名，挂了之后 fork 就加不进来、推不上去，上一个会话就卡在这里。
+写于 2026-11-04，给下一个会话。新会话以 [yeatse/EKA2L1](https://github.com/yeatse/EKA2L1) 为主仓库，再用 add_repo 挂上 [yeatse/WebKit-Symbian](https://github.com/yeatse/WebKit-Symbian)。两个仓库名字不同，可以同时挂。**不要再挂上游 EKA2L1/EKA2L1**：它和 fork 同名，挂了之后 fork 就加不进来、推不上去，上一个会话就卡在这里。
 
 构建方法、目录结构和移植笔记见 [Development.md](Development.md)。这里只记那份文档里没有的东西：当前进度、本地环境怎么搭、怎么测、怎么查崩溃，以及约定。
 
@@ -21,7 +21,9 @@
 | `83051a52` | 关掉 accelerated compositing。移植没有合成器，`GraphicsLayerSymbian` 是空壳；用 transform、`will-change` 的页面会建出没人接收的图层树，拆的时候在 `GraphicsLayer::removeFromParent` 里出现 KERN-EXEC 3 |
 | `2fb286a7` | 页对齐分配（JSC 的 16 KB MarkedBlock）改用一块独立的 64 MB disconnected chunk（`FastMalloc.cpp` 的 `AlignedPool`）。SDK 的 mimalloc 在复杂页面上，提交量才 16 MB 左右时 `mi_malloc_aligned(16384, 16384)` 就返回空，导致 `RELEASE_ASSERT` 触发 USER-EXEC 3。调小 `mi_option_arena_reserve` 没用：SDK 启动时就保留了 48 MB |
 | `086320b3`, `3876430f` | Web Crypto 接到 mbedTLS 上。模拟器里 `crypto.html` 26 项全过（摘要、HMAC、AES、PBKDF2、HKDF、RSA、ECDSA/ECDH，以及各种导入导出格式） |
-| `c8e958f3`, `625a370c` | `<audio>`/`<video>` 走 MMF 播放器，视频用打洞方式显示在窗口底下。模拟器里视频能正常显示和播放；音频能打开，但这个容器没有声卡（cubeb 初始化失败），所以报 `error 3`，要到真机上验证 |
+| `4c490acf`, `4102eeea` | 边下边播：媒体一边下载一边写进文件，下到够打开的量就开始播；播到已下载部分的末尾时暂停，再下大约 5 秒的内容（按平均码率，至少 64 KB）后重新打开并接着播。模拟器里限速测试通过（视频 20 KB/s、音频 40 KB/s；moov 在末尾的 MP4 等下完再播） |
+| `314ea9fa` | curl 访问数字 IP（`http://127.0.0.1`）报 "Failed initialization"：Open C 的 `sa_family_t` 是 8 位，`AF_INET` 是 0x0800，curl 的 `CURL_SA_FAMILY_T` 把地址族截成了 0。`build-deps.sh` 里改成 `u_short` |
+| `c8e958f3`, `625a370c` | `<audio>`/`<video>` 走 MMF 播放器，视频用打洞方式显示在窗口底下。模拟器里视频和音频都正常（音频要接虚拟声卡，见“在模拟器里测试浏览器”） |
 | `8807f545`, `9c03b2fb`, `79fb433f` | 线程结束方式写进日志；curl 里初始化 PSA crypto；TLS 握手跟踪 |
 
 ## EKA2L1 补丁
@@ -75,6 +77,14 @@ git am /path/to/WebKit-Symbian/Tools/Symbian/patches/eka2l1/000{1,5}-*.patch
    * 浏览器日志在 `drives/c/Data/WebKit/log.txt`（上一次的是 `log.old.txt`）。带 `curl-verbose` 时，每 2 秒记一次 UI 线程状态、线程列表（含结束方式）和 mimalloc 用量。
    * curl 跟踪在 `curl.txt`。
    * 模拟器日志里搜 `Access violation`、`panicked`、`terminated`、`Unimplemented`。
+5. 音频：容器里没有声卡，cubeb 打不开设备，MMF 播放器会报 `error 3`。启动模拟器前建一个 PulseAudio 空设备，需要的话把它录下来，用 sox 看有没有声音：
+   ```sh
+   pulseaudio --check || pulseaudio --daemonize=yes --exit-idle-time=-1 -n \
+       --load="module-null-sink sink_name=vsink" --load=module-native-protocol-unix
+   parec -d vsink.monitor --file-format=wav out.wav &     # 跑完后 kill
+   sox out.wav -n stat 2>&1 | grep 'RMS     amplitude'    # 静音是 0
+   ```
+6. 边下边播：在本机起一个限速的 HTTP 服务器（每秒只发若干字节），页面里放 `<audio>`/`<video>`，用脚本每隔几秒把 `currentTime`、`buffered` 和事件（`waiting`、`canplay`、`ended`）打在页面上，再截图看。测试视频要用 `-pix_fmt yuv420p`（ffmpeg 默认的 4:4:4 baseline 播不了），分别准备 moov 在前（`-movflags faststart`）和 moov 在后的两份。
 
 用户在手机上测试时，会贴出带 `curl-verbose` 的 log.txt 和 curl.txt。
 
