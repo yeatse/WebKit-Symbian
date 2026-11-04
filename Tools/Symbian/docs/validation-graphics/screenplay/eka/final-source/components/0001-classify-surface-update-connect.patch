@@ -1,0 +1,42 @@
+diff --git a/src/emu/services/src/window/surface_update.cpp b/src/emu/services/src/window/surface_update.cpp
+--- a/src/emu/services/src/window/surface_update.cpp
++++ b/src/emu/services/src/window/surface_update.cpp
+@@ -164,14 +164,34 @@
+         }
+     }
+     surface_update_server::surface_update_server(system *sys)
+-        : typical_server(sys, "SURFACE_UPDATE_SERVER") {}
++        : typical_server(sys, "SURFACE_UPDATE_SERVER") {
++        LOG_ERROR(SERVICE_WINDOW, "ScreenPlay SUS public classification: server_constructed");
++    }
+     void surface_update_server::connect(service::ipc_context &context) {
+         const auto version = get_version(&context);
+-        if (!version) { context.complete(epoc::error_argument); return; }
+-        if (version->major != 1 || version->minor > 1 || (version->minor == 1 && version->build > 3)) {
++        LOG_ERROR(SERVICE_WINDOW, "ScreenPlay SUS public classification: connect_entered");
++        if (!version) {
++            LOG_ERROR(SERVICE_WINDOW, "ScreenPlay SUS public classification: framework_version_missing");
++            context.complete(epoc::error_argument); return;
++        }
++        if (version->major != 1) {
++            LOG_ERROR(SERVICE_WINDOW, "ScreenPlay SUS public classification: framework_major_rejected");
+             context.complete(epoc::error_not_supported); return;
+         }
+-        if (!create_session<surface_update_session>(&context)) { context.complete(epoc::error_no_memory); return; }
++        if (version->minor > 1) {
++            LOG_ERROR(SERVICE_WINDOW, "ScreenPlay SUS public classification: framework_minor_rejected");
++            context.complete(epoc::error_not_supported); return;
++        }
++        if (version->minor == 1 && version->build > 3) {
++            LOG_ERROR(SERVICE_WINDOW, "ScreenPlay SUS public classification: framework_build_rejected");
++            context.complete(epoc::error_not_supported); return;
++        }
++        LOG_ERROR(SERVICE_WINDOW, "ScreenPlay SUS public classification: framework_version_compatible");
++        if (!create_session<surface_update_session>(&context)) {
++            LOG_ERROR(SERVICE_WINDOW, "ScreenPlay SUS public classification: session_creation_failed");
++            context.complete(epoc::error_no_memory); return;
++        }
++        LOG_ERROR(SERVICE_WINDOW, "ScreenPlay SUS public classification: session_created");
+         context.complete(epoc::error_none);
+     }
+ }

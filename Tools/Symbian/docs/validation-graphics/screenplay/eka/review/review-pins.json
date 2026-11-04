@@ -1,0 +1,269 @@
+{
+  "status": "SOURCE_REVIEW_PASS_WITH_EXPLICIT_FINISH_LIMITATION",
+  "created_utc": "2026-11-02T00:07:48.918662+00:00",
+  "source_candidate_version": 3,
+  "source_candidate_root": "/workspace/symbian-screenplay-eka-work",
+  "candidate_artifacts": {
+    "manifest.json": {
+      "bytes": 7414,
+      "sha256": "569b0f2586e735fc5983816498d7bf8e83f4ef8f6c89702c67ce0b0f9d52506e"
+    },
+    "screenplay-native-surfaces.patch": {
+      "bytes": 76169,
+      "sha256": "0e6dbbdb9f5ca721a1ed786fa8ac2f159f1fda9b52b817861c5b5318fdf87ec3"
+    },
+    "SHA256SUMS": {
+      "bytes": 4057,
+      "sha256": "0bf99fb6ed6358e815bba0d9d321493405b8debff16edd6598a415fc9ee53add"
+    }
+  },
+  "paths": [
+    {
+      "path": "src/emu/common/include/common/queue.h",
+      "bytes": 6391,
+      "sha256": "b8b7b21f26aaba4610b50b7c50cdcd3916c101bcb24f83193bbab85492ded0f4",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/drivers/include/drivers/graphics/backend/ogl/graphics_ogl.h",
+      "bytes": 8410,
+      "sha256": "23b353dec482f6b93fda240f13e8181240f2465f01104bf71fa7ff21157c66c6",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/drivers/include/drivers/graphics/graphics.h",
+      "bytes": 11972,
+      "sha256": "b7b80b7602f147ebd8866adc6093d48b257266e4cae77d8ca23e5ca05031ab3b",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/drivers/src/graphics/backend/ogl/graphics_ogl.cpp",
+      "bytes": 77442,
+      "sha256": "9e17e318684b40134703817df33869b999af4edc6778aa8d5cdf1005aa95ce19",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/ldd/CMakeLists.txt",
+      "bytes": 858,
+      "sha256": "770efe62067d10f145fc1664dabafa27d15d7ffa4773b5b2643810e3d9b6f3ef",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/ldd/include/ldd/surfacemanager/surfacemanager.h",
+      "bytes": 1339,
+      "sha256": "641edfbbb59472c27b04690ad3e01fd06d3aecedfd9191305f11f6365661132e",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/ldd/src/collection.cpp",
+      "bytes": 2484,
+      "sha256": "9c4e44370f278238b25f59d385a31ad8aaceca9bab5b4c483c80e3915bbe8c1e",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/ldd/src/surfacemanager/surfacemanager.cpp",
+      "bytes": 12501,
+      "sha256": "9d7fb20b14e1d28821631c1dac5345d4426aa21a0a5264110024a75a220aa7e7",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/services/CMakeLists.txt",
+      "bytes": 14618,
+      "sha256": "4d35269ff3a74334db2df67c8d9d60fca95e8f97e585ab6eebe14c2618d8df1e",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/services/include/services/window/managed_surface.h",
+      "bytes": 4810,
+      "sha256": "751388e2d569c10f0ddf1d67664689afdb3c7fdd8689bb865a5d411bc608f048",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/services/include/services/window/surface_update.h",
+      "bytes": 886,
+      "sha256": "465c19017255ba601e5ba8c871e8083471e14ef6d26f1d7b46cf107f9eb7710f",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/services/include/services/window/window.h",
+      "bytes": 21226,
+      "sha256": "03fa80bfcf1ddc8623cd8d539f17e07cd340695e614e9d3bb61928213cab01d8",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/services/src/init.cpp",
+      "bytes": 18893,
+      "sha256": "d1b003e0a9364be5417128eab679c57c266eb3f13ba1cc29af1a2cab044a9cf1",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/services/src/window/classes/winuser.cpp",
+      "bytes": 90079,
+      "sha256": "fb8fd117c354a77ba23c8d2402003f58b9fd2ef3152319e25761dc1f1044d060",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/services/src/window/managed_surface.cpp",
+      "bytes": 14191,
+      "sha256": "4672419fa17f814ad2f8ef23560eaf2a4527a64330e4f9295ba5f8f31283391d",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/services/src/window/surface_update.cpp",
+      "bytes": 9193,
+      "sha256": "87964df5dac2bb07d49273889687aee3acb9f37388624166e1c8b618ebbc25ca",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/emu/services/src/window/window.cpp",
+      "bytes": 106002,
+      "sha256": "6b4229eaec8eeae0d85f58b3943314f260394bd248e4be62dd93770f6139d7dd",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/tests/epoc/CMakeLists.txt",
+      "bytes": 3798,
+      "sha256": "625cc94f095d2c9a751ebc3a18eb8d21bcc828ec22a4f329cafb5143189e93d8",
+      "exact_final_replay_match": true
+    },
+    {
+      "path": "src/tests/epoc/services/window/managed_surface.cpp",
+      "bytes": 3372,
+      "sha256": "82cad8ba205ab3fa3e0c252bbca1529f2174b6a2bd81b140561c37da0feba17a",
+      "exact_final_replay_match": true
+    }
+  ],
+  "sdk_sources": [
+    {
+      "path": "graphicshwdrivers/surfacemgr/inc/surfacemanager.h",
+      "bytes": 7024,
+      "sha256": "08582668d3b1463e4e9c13f92e3eb45b15730185df6e4fcb154eba88c44ef43b",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "graphicshwdrivers/surfacemgr/inc/surfacemanagerdriver.h",
+      "bytes": 3209,
+      "sha256": "94d81c47e8573c4b716ad4ccdf8e291f9290965c1a3793e442cd34464e02cf79",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "graphicshwdrivers/surfacemgr/inc/surfacemanagerdriver.inl",
+      "bytes": 15261,
+      "sha256": "603463c101aabaf7f264fbec2d89910355dd35fa13d1764b868b24e0f56d0c3f",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "graphicshwdrivers/surfacemgr/src/surfacemanager.cpp",
+      "bytes": 15707,
+      "sha256": "dfb00be6faf8146a116efe2a79849806b2923a39986ea3f1ef13144c3dd92a30",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "graphicscomposition/surfaceupdate/inc/surfaceupdate.h",
+      "bytes": 1109,
+      "sha256": "fb115fa08deb0c21263e68b0c53ab34cd09d63c2fcd3d1e69edf9e73a49bc244",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "graphicscomposition/surfaceupdate/inc/surfaceupdateclient.h",
+      "bytes": 16589,
+      "sha256": "9e3fd2f8e49e3984af7fc6b3ad823471e695f93a4e85aeb53436938501741c41",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "graphicscomposition/surfaceupdate/inc/suerror.h",
+      "bytes": 1375,
+      "sha256": "49a92e3e4fe7fac0bd5cfeab82a6bafcbf193a70d3dbe6032e094792281b4c04",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "graphicscomposition/surfaceupdate/src/surfaceupdateclient.cpp",
+      "bytes": 4820,
+      "sha256": "3802ef161726fcd7d84e4912958bc53749759df9859703584cf6bacfb845aede",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "graphicscomposition/surfaceupdate/src/surfaceupdateserver.cpp",
+      "bytes": 31858,
+      "sha256": "dfc2cfa6fbe10839e978d5c0314aa186cdce0172bde3e19fa582808416bca825",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "windowing/windowserver/nga/CLIENT/RWINDOW.CPP",
+      "bytes": 146582,
+      "sha256": "63f89f297e845494f97a024cb85ee2572302794fb54b19afc150565f354cb15d",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "windowing/windowserver/nga/CLIENT/RWS.CPP",
+      "bytes": 102376,
+      "sha256": "ae49fd445cea725af42744823dae1da80d61ce346768b8623e76176544629cd3",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "windowing/windowserver/inc/Graphics/openwfc/surfaceconfiguration.inl",
+      "bytes": 14582,
+      "sha256": "33c3c6cfc5965cb9f55deb97deb317042718eef8d838170be0bd90c3caf3a591",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    },
+    {
+      "path": "graphicsutils/commongraphicsheaders/inc/surface.h",
+      "bytes": 1880,
+      "sha256": "ccbd34d1a5b91ba2615336f054fbad9d978971259c521bfee6f3e7c594d07854",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "matches_pinned_source_manifest": true
+    }
+  ],
+  "canary_v2": {
+    "source": {
+      "bytes": 21027,
+      "sha256": "2695362b3603fac109c8a4db6b62ae5ab09ce2b1f952d395e5512c2ce9d83b81"
+    },
+    "manifest": {
+      "bytes": 4274,
+      "sha256": "57342f380f57a870042d3207ca6f273c3d9bc544db30a084f9819efb11f2ec24"
+    },
+    "opaque_window_precondition_checked": true,
+    "actual_keycolor_api_path_checked": true
+  },
+  "verification": {
+    "all_36_author_checksums_pass": true,
+    "all_19_overlay_paths_match_final_manifest_and_replay": true,
+    "source_review_only": true,
+    "reviewer_compiled": false,
+    "reviewer_ran_host_functional_tests": false,
+    "reviewer_ran_guest_or_display": false,
+    "reviewer_modified_shared_source_or_sdk": false
+  },
+  "remaining_limits": [
+    "Finish reports NotReady for pending WServ redraw or a contended screen mutex; it only fences already submitted graphics commands.",
+    "NativeFullFinish is not fully implemented.",
+    "Canary success/display/native compatibility are pending Root verification.",
+    "Available reflects owned-copy release, not display or vblank."
+  ]
+}

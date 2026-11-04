@@ -1,0 +1,10 @@
+{
+  "compile_exit": 0,
+  "try_egl": true,
+  "screenplay": true,
+  "source_actual": true,
+  "link_executed": false,
+  "guest_executed": false,
+  "schema": "screenplay-default-auto-TU-v1",
+  "scope": "Actual WebContainer TU compiled with both TRY_EGL and SCREENPLAY enabled; no link, guest, default-route runtime, MMF or phone acceptance"
+}

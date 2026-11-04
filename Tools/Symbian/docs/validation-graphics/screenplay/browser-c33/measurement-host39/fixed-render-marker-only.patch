@@ -1,0 +1,24 @@
+--- a/src/emu/qt/src/displaywidget.cpp
++++ b/src/emu/qt/src/displaywidget.cpp
+@@ -73,6 +73,9 @@
+     wsi.type = get_window_system_type();
+ 
+     QWindow *window = windowHandle();
++    // Public validation label on this exact native rendering child.
++    if (window)
++        window->setTitle(QStringLiteral("EKA2L1 ScreenPlay render area v1"));
+ 
+     // Our Win32 Qt external doesn't have the private API.
+     #if defined(WIN32) || defined(__APPLE__) || defined(__HAIKU__)
+@@ -135,7 +138,10 @@
+ }
+ 
+ void display_widget::change_title(std::string title) {
+-    setWindowTitle(QString::fromUtf8(title.c_str()));
++    // Preserve the validation label when the guest changes its public title.
++    (void)title;
++    if (QWindow *window = windowHandle())
++        window->setTitle(QStringLiteral("EKA2L1 ScreenPlay render area v1"));
+ }
+ 
+ eka2l1::vec2 display_widget::window_size() {

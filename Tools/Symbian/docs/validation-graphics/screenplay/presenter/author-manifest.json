@@ -1,0 +1,138 @@
+{
+  "status": "PASS_PRESENTER_COMPAT_ADAPTER_READY",
+  "integration_files": [
+    "Tools/Symbian/tests/screenplay/README.md",
+    "Tools/Symbian/tests/screenplay/run.py",
+    "Tools/Symbian/tests/screenplay/fake-sdk/ScreenPlayUpdateSession.h"
+  ],
+  "unchanged_files": [
+    "fake-sdk/NativeHeapDelete.h",
+    "fake-sdk/adapter.cpp",
+    "fake-sdk/adapter_state.h",
+    "fake-sdk/bitstd.h",
+    "fake-sdk/e32base.h",
+    "fake-sdk/e32cmn.h",
+    "fake-sdk/e32std.h",
+    "fake-sdk/fake_symbian.h",
+    "fake-sdk/graphics/suerror.h",
+    "fake-sdk/graphics/surface.h",
+    "fake-sdk/graphics/surfaceconfiguration.h",
+    "fake-sdk/graphics/surfacemanager.h",
+    "fake-sdk/graphics/surfaceupdateclient.h",
+    "fake-sdk/pixelformats.h",
+    "fake-sdk/w32std.h",
+    "tests.cpp"
+  ],
+  "overlay_files": {
+    "overlay/Tools/Symbian/tests/screenplay/README.md": {
+      "bytes": 2473,
+      "sha256": "9596c90e55a8b10c4df660763d909ad005c5e557915497d9777cbaf405825610"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/NativeHeapDelete.h": {
+      "bytes": 215,
+      "sha256": "0bd2e49403e7f38243971745c14cc45362f1be36d0d7bbd9a8f89eb322432ad0"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/ScreenPlayUpdateSession.h": {
+      "bytes": 172,
+      "sha256": "df5b732614d2a80336774a26f575b3520cee20da0c0beaf6eb86446005bc0163"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/adapter.cpp": {
+      "bytes": 4508,
+      "sha256": "e371d4e250d940b8b6b390e7648153d8ce3605fa4b588f86724229eeb9fce637"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/adapter_state.h": {
+      "bytes": 1610,
+      "sha256": "168b41e6d8ae8733f07528e9d7a670fa7b7e4138153efc2e5d1971a1cb3cb54f"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/bitstd.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/e32base.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/e32cmn.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/e32std.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/fake_symbian.h": {
+      "bytes": 8035,
+      "sha256": "5cdecc7288226dc3f8fe237eb759c85805ff1f74d00ed944196ecea09595e027"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/graphics/suerror.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/graphics/surface.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/graphics/surfaceconfiguration.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/graphics/surfacemanager.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/graphics/surfaceupdateclient.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/pixelformats.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/fake-sdk/w32std.h": {
+      "bytes": 39,
+      "sha256": "4a1ce7d8be3a8010bc50fa875a0e630521aa93f38557060d3e9ea3bd5a0802ac"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/run.py": {
+      "bytes": 4370,
+      "sha256": "b5de799b91e0f8c3a906503a9135b258a50de73bd5dc0b4f176a1713fde00ac9"
+    },
+    "overlay/Tools/Symbian/tests/screenplay/tests.cpp": {
+      "bytes": 9799,
+      "sha256": "c922de292893054067615416f0d3a71151496724f65996f54f1ad1c8b5e4ec15"
+    }
+  },
+  "result": {
+    "bytes": 801,
+    "sha256": "41e4e1ee9e1416ac0f8460eaac2694858a6fb2fde790ce1097bc5ec8fe1909fe"
+  },
+  "source_snapshots": {
+    "ScreenPlaySurface.cpp": {
+      "bytes": 13659,
+      "sha256": "ffad6dafcddaaf2993425bf8fc2e59933ba9f5cc7e6d1f5424d7eac4229269f4"
+    },
+    "ScreenPlaySurface.h": {
+      "bytes": 3074,
+      "sha256": "cceb09a382294627d1f10f81a2452f7022d52ebbc229827c17b038d382afdf26"
+    },
+    "ScreenPlayUpdateProtocol.h": {
+      "bytes": 1502,
+      "sha256": "ce1f8eef2617c69576a0d040129448359b6b5ddd77dd8c5cad7b743185620dce"
+    },
+    "ScreenPlayUpdateSession.h": {
+      "bytes": 16898,
+      "sha256": "dc61d8dacd93e71742773ce190713cef5c85571110f73c4ffc23a53844347a24"
+    }
+  },
+  "checks": {
+    "cases": 47,
+    "assertions": 298,
+    "undefined_behavior_sanitizer": true,
+    "byte_exact_presenter_copies": true,
+    "real_private_header_present_next_to_source": true,
+    "private_header_excluded_from_compilation_snapshot": true,
+    "production_tests_cpp_unchanged": true,
+    "guest_run": false,
+    "shared_repository_modified_by_this_task": false,
+    "private_client_protocol_verified": false
+  }
+}

@@ -1,0 +1,361 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ScreenPlay v2 opaque-window public API record components",
+  "description": "Framing, freshness and cross-field checks are authoritative in validate.py. Schemas do not prove execution.",
+  "definitions": {
+    "begin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run",
+        "suite",
+        "version"
+      ],
+      "properties": {
+        "suite": {
+          "const": "screenplay-capability"
+        },
+        "version": {
+          "const": 2
+        },
+        "run": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{8,64}$"
+        }
+      }
+    },
+    "cycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "available_after_second",
+        "background_owned",
+        "close_surface_rc",
+        "configuration_rc",
+        "create_rc",
+        "cycle",
+        "detach_rc",
+        "detached",
+        "exact_two_buffers",
+        "finish_rc",
+        "first_available_rc",
+        "first_pending_before_second",
+        "get_rc",
+        "info_rc",
+        "layout_valid",
+        "map_rc",
+        "mapping_closed",
+        "notifications_drained",
+        "offsets_rc",
+        "overlay_uses_key_color",
+        "pixels_verified",
+        "rc",
+        "register_rc",
+        "run",
+        "second_available_rc",
+        "set_rc",
+        "submit0_rc",
+        "submit1_rc",
+        "suite",
+        "surface_closed",
+        "sync_rc",
+        "timed_out",
+        "two_buffers_submitted",
+        "unregistered",
+        "version"
+      ],
+      "properties": {
+        "suite": {
+          "const": "screenplay-capability"
+        },
+        "version": {
+          "const": 2
+        },
+        "run": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{8,64}$"
+        },
+        "mapping_closed": {
+          "type": "boolean"
+        },
+        "two_buffers_submitted": {
+          "type": "boolean"
+        },
+        "unregistered": {
+          "type": "boolean"
+        },
+        "background_owned": {
+          "type": "boolean"
+        },
+        "surface_closed": {
+          "type": "boolean"
+        },
+        "overlay_uses_key_color": {
+          "type": "boolean"
+        },
+        "available_after_second": {
+          "type": "boolean"
+        },
+        "layout_valid": {
+          "type": "boolean"
+        },
+        "exact_two_buffers": {
+          "type": "boolean"
+        },
+        "notifications_drained": {
+          "type": "boolean"
+        },
+        "timed_out": {
+          "type": "boolean"
+        },
+        "pixels_verified": {
+          "type": "boolean"
+        },
+        "first_pending_before_second": {
+          "type": "boolean"
+        },
+        "detached": {
+          "type": "boolean"
+        },
+        "second_available_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "info_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "sync_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "configuration_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "detach_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "submit1_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "set_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "create_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "close_surface_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "register_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "first_available_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "offsets_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "finish_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "map_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "submit0_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "get_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "cycle": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cycles_attempted",
+        "cycles_completed",
+        "display_verified",
+        "fbs_disconnected",
+        "fbs_rc",
+        "graphics_rc",
+        "group_rc",
+        "manager_closed",
+        "manager_rc",
+        "opaque_window",
+        "performance_verified",
+        "rc",
+        "retained_pending_requests",
+        "run",
+        "screen_rc",
+        "status",
+        "submissions",
+        "suite",
+        "timed_out",
+        "update_rc",
+        "update_session_closed",
+        "version",
+        "vsync_verified",
+        "window_closed",
+        "window_group_closed",
+        "window_rc",
+        "ws_closed",
+        "ws_rc"
+      ],
+      "properties": {
+        "suite": {
+          "const": "screenplay-capability"
+        },
+        "version": {
+          "const": 2
+        },
+        "run": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{8,64}$"
+        },
+        "opaque_window": {
+          "type": "boolean"
+        },
+        "window_group_closed": {
+          "type": "boolean"
+        },
+        "retained_pending_requests": {
+          "type": "boolean"
+        },
+        "performance_verified": {
+          "type": "boolean"
+        },
+        "ws_closed": {
+          "type": "boolean"
+        },
+        "vsync_verified": {
+          "type": "boolean"
+        },
+        "manager_closed": {
+          "type": "boolean"
+        },
+        "fbs_disconnected": {
+          "type": "boolean"
+        },
+        "update_session_closed": {
+          "type": "boolean"
+        },
+        "timed_out": {
+          "type": "boolean"
+        },
+        "window_closed": {
+          "type": "boolean"
+        },
+        "display_verified": {
+          "type": "boolean"
+        },
+        "group_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "ws_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "manager_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "fbs_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "graphics_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "update_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "screen_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "window_rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "rc": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 0
+        },
+        "status": {
+          "enum": [
+            "AVAILABLE",
+            "UNAVAILABLE"
+          ]
+        },
+        "cycles_attempted": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "submissions": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "cycles_completed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        }
+      }
+    }
+  }
+}

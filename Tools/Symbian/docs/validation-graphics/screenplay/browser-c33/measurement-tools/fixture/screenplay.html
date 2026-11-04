@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ScreenPlay page requests</title>
+<style>
+html,body { margin:0; padding:0; background:#fff; color:#000; font:14px sans-serif; }
+#heading { position:absolute; left:8px; top:8px; margin:0; font:16px/24px sans-serif; }
+#scene { position:absolute; left:8px; top:40px; width:288px; height:360px; background:#fff; outline:2px solid #000; overflow:hidden; }
+.patch { position:absolute; top:8px; width:48px; height:40px; }
+#red { left:8px; background:#f00; } #green { left:72px; background:#0f0; }
+#blue { left:136px; background:#00f; } #yellow { left:200px; background:#ff0; }
+#alpha { position:absolute; left:8px; top:64px; width:48px; height:40px; background:rgba(255,0,0,.5); }
+#clip { position:absolute; left:72px; top:64px; width:48px; height:40px; overflow:hidden; background:#fff; }
+#clipped { position:absolute; left:24px; top:0; width:48px; height:40px; background:#f0f; }
+#font { position:absolute; left:136px; top:64px; width:144px; height:40px; margin:0; overflow:hidden; font:16px/20px sans-serif; }
+#moving { position:absolute; left:8px; top:128px; width:32px; height:32px; background:#008080; }
+.animate { animation:slide 1000ms linear forwards; }
+@keyframes slide { from { transform:translateX(0); } to { transform:translateX(128px); } }
+#dirty { position:absolute; left:8px; top:184px; width:48px; height:32px; background:#000; }
+#resize { position:absolute; left:88px; top:184px; width:48px; height:32px; background:#800080; }
+#canvas2d,#webgl { position:absolute; top:240px; width:48px; height:32px; background:#fff; }
+#canvas2d { left:8px; } #webgl { left:72px; }
+#scope { position:absolute; left:136px; top:238px; width:144px; margin:0; font:11px/14px sans-serif; }
+#tap { position:absolute; left:8px; top:296px; width:224px; height:40px; box-sizing:border-box; border:2px solid #000; padding:0; background:#eee; color:#000; font:14px sans-serif; }
+#status { position:absolute; left:8px; top:410px; width:288px; margin:0; font:12px/16px monospace; }
+</style>
+<h1 id="heading">ScreenPlay page requests</h1>
+<div id="scene">
+  <div class="patch" id="red"></div><div class="patch" id="green"></div>
+  <div class="patch" id="blue"></div><div class="patch" id="yellow"></div>
+  <div id="alpha"></div><div id="clip"><div id="clipped"></div></div>
+  <p id="font">Text Aa 0123<br>ordinary DOM</p>
+  <div id="moving"></div><div id="dirty"></div><div id="resize"></div>
+  <canvas id="canvas2d" width="48" height="32"></canvas>
+  <canvas id="webgl" width="48" height="32"></canvas>
+  <p id="scope">DOM / paint requests only</p>
+  <button id="tap" type="button">Optional external tap</button>
+</div>
+<pre id="status">CONFIGURATION REQUIRED: run token and explicit scope query</pre>
+<script>
+(function () {
+    'use strict';
+    // Only this fixed label and flat whitelisted JSON records reach console.
+    // Never log exception messages, URLs, environment strings, or native details.
+    var label = 'SYMBIAN SCREENPLAY ';
+    var names = ['opaque_patches', 'font_layout', 'overflow_clip', 'overwhite_alpha',
+        'dirty_updates', 'css_motion', 'dom_resize', 'canvas2d', 'webgl', 'hit_test'];
+    var query = /^\?run=([0-9a-f]{32})&canvas2d=([01])&webgl=([01])&tap=([01])$/.exec(location.search);
+    if (!query) return;
+    var run = query[1], useCanvas = query[2] === '1', useWebGL = query[3] === '1', useTap = query[4] === '1';
+    var seq = 0, start = Date.now(), finished = false, finishReady = false, checks = {}, timers = [], dirtyCount = 0, inputSeen = false, resizeSaw80 = false;
+    var status = document.getElementById('status'), scope = document.getElementById('scope');
+    function record(event, fields) {
+        var value = {version:1, run:run, seq:seq++, event:event};
+        Object.keys(fields).forEach(function (key) { value[key] = fields[key]; });
+        console.log(label + JSON.stringify(value));
+    }
+    function later(delay, action) {
+        timers.push(setTimeout(function () {
+            if (finished) return;
+            try { action(); } catch (_) { finish('runtime_exception'); }
+        }, Math.max(0, delay - (Date.now() - start))));
+    }
+    function check(name, condition, skipped) {
+        if (checks[name]) return;
+        checks[name] = skipped ? 'skipped' : (condition ? 'pass' : 'fail');
+        record('check', {name:name, outcome:checks[name]});
+        maybeFinish();
+    }
+    function maybeFinish() {
+        if (finished || !finishReady) return;
+        if (names.every(function (name) { return !!checks[name]; })) finish('complete');
+    }
+    function near(a, b) { return Math.abs(a - b) < 0.75; }
+    function rect(id) { return document.getElementById(id).getBoundingClientRect(); }
+    function inside(element, x, y) { return document.elementFromPoint(x, y) === element; }
+    function finish(reason) {
+        if (finished) return;
+        finished = true;
+        timers.forEach(function (timer) { clearTimeout(timer); });
+        names.forEach(function (name) {
+            if (!checks[name]) check(name, false, (name === 'canvas2d' && !useCanvas) || (name === 'webgl' && !useWebGL));
+        });
+        var passed = 0, failed = 0, skipped = 0;
+        names.forEach(function (name) {
+            if (checks[name] === 'pass') ++passed;
+            else if (checks[name] === 'fail') ++failed;
+            else ++skipped;
+        });
+        var result = failed || reason !== 'complete' ? 'PAGE_REQUESTS_FAIL' : 'PAGE_REQUESTS_PASS';
+        status.textContent = result + '\nDisplay: UNVERIFIED\nTrusted input: UNVERIFIED';
+        document.title = result + ' ScreenPlay';
+        record('done', {result:result, passed:passed, failed:failed, skipped:skipped,
+            reason:reason, elapsedMs:Math.max(0, Date.now() - start), display:'UNVERIFIED', trustedInput:'UNVERIFIED'});
+    }
+    try {
+        record('start', {scope:'dom-paint-requests', canvas2d:useCanvas, webgl:useWebGL, tap:useTap});
+        later(9000,function () { finish('watchdog'); });
+        status.textContent = 'RUNNING: DOM / paint requests\nDisplay: UNVERIFIED';
+        scope.textContent = '2D ' + (useCanvas ? 'requested' : 'off') + '\nWebGL ' + (useWebGL ? 'requested' : 'off') + '\nDisplay unverified';
+        var red = rect('red'), green = rect('green'), blue = rect('blue'), yellow = rect('yellow');
+        check('opaque_patches', near(red.left,16) && near(red.top,48) && near(red.width,48) && near(red.height,40) &&
+            near(green.left,80) && near(blue.left,144) && near(yellow.left,208) &&
+            getComputedStyle(document.getElementById('red')).backgroundColor === 'rgb(255, 0, 0)' &&
+            getComputedStyle(document.getElementById('green')).backgroundColor === 'rgb(0, 255, 0)' &&
+            getComputedStyle(document.getElementById('blue')).backgroundColor === 'rgb(0, 0, 255)' &&
+            getComputedStyle(document.getElementById('yellow')).backgroundColor === 'rgb(255, 255, 0)');
+        var font = rect('font'), fontStyle = getComputedStyle(document.getElementById('font'));
+        check('font_layout', near(font.width,144) && near(font.height,40) && fontStyle.fontSize === '16px' && fontStyle.lineHeight === '20px');
+        var clip = document.getElementById('clip'), child = document.getElementById('clipped'), clipRect = rect('clip');
+        check('overflow_clip', inside(child,clipRect.left+36,clipRect.top+16) && !inside(child,clipRect.right+8,clipRect.top+16) &&
+            getComputedStyle(clip).overflow === 'hidden');
+        var alpha = document.getElementById('alpha');
+        check('overwhite_alpha', getComputedStyle(alpha).backgroundColor === 'rgba(255, 0, 0, 0.5)' &&
+            getComputedStyle(document.getElementById('scene')).backgroundColor === 'rgb(255, 255, 255)');
+        var tap = document.getElementById('tap'), tapRect = rect('tap');
+        check('hit_test', inside(tap,tapRect.left+112,tapRect.top+20));
+        if (useTap) {
+            tap.addEventListener('click', function (event) {
+                if (finished || inputSeen) return;
+                inputSeen = true;
+                var r = rect('tap');
+                record('input', {trusted:event.isTrusted === true,
+                    inside:inside(tap,r.left+r.width/2,r.top+r.height/2)});
+                tap.textContent = 'Input observed; external proof needed';
+            });
+        }
+        var movingElement = document.getElementById('moving');
+        // The animation starts at a style/layout update, not at script entry.
+        // Install the completion barrier before adding the animation class.
+        movingElement.addEventListener('animationend', function (event) {
+            if (finished || event.target !== movingElement || event.animationName !== 'slide') return;
+            try {
+                var moving = rect('moving');
+                check('css_motion',near(moving.left,144) && near(moving.top,168));
+            } catch (_) { finish('runtime_exception'); }
+        });
+        movingElement.className = 'animate';
+        var colors = [{name:'orange',css:'#ff8000'}, {name:'purple',css:'#800080'}, {name:'cyan',css:'#00ffff'}];
+        colors.forEach(function (color, index) {
+            later(250*(index+1), function () {
+                document.getElementById('dirty').style.backgroundColor = color.css;
+                ++dirtyCount;
+                record('dirty', {index:index+1, color:color.name});
+            });
+        });
+        later(500,function () {
+            document.getElementById('resize').style.width = '80px';
+            resizeSaw80 = near(rect('resize').width,80);
+        });
+        later(1100,function () { document.getElementById('resize').style.width = '64px'; });
+        if (useCanvas) {
+            var canvas = document.getElementById('canvas2d'), context = canvas.getContext('2d');
+            if (!context) check('canvas2d',false);
+            else {
+                context.fillStyle = '#ffffff'; context.fillRect(0,0,48,32);
+                context.fillStyle = '#008000'; context.fillRect(0,0,48,32);
+                var pixel = context.getImageData(24,16,1,1).data;
+                check('canvas2d', pixel[0] === 0 && pixel[1] === 128 && pixel[2] === 0 && pixel[3] === 255);
+            }
+        } else check('canvas2d',false,true);
+        if (useWebGL) {
+            var gl = document.getElementById('webgl').getContext('webgl', {alpha:false,antialias:false,preserveDrawingBuffer:true});
+            if (!gl) check('webgl',false);
+            else {
+                gl.viewport(0,0,48,32); gl.clearColor(1,0,1,1); gl.clear(gl.COLOR_BUFFER_BIT);
+                var glPixel = new Uint8Array(4);
+                gl.readPixels(24,16,1,1,gl.RGBA,gl.UNSIGNED_BYTE,glPixel);
+                check('webgl', gl.getError() === gl.NO_ERROR && glPixel[0] === 255 && glPixel[1] === 0 && glPixel[2] === 255 && glPixel[3] === 255);
+            }
+        } else check('webgl',false,true);
+        later(1800,function () {
+            var resize = rect('resize');
+            check('dirty_updates',dirtyCount === 3 && getComputedStyle(document.getElementById('dirty')).backgroundColor === 'rgb(0, 255, 255)');
+            check('dom_resize',resizeSaw80 && near(resize.width,64) && near(resize.height,32));
+        });
+        later(useTap ? 8500 : 2500,function () { finishReady = true; maybeFinish(); });
+    } catch (_) { finish('runtime_exception'); }
+}());
+</script>
+</html>

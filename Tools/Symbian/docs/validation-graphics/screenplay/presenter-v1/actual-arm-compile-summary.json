@@ -1,0 +1,10 @@
+{
+  "schema": "screenplay-arm-compile-public-summary-v1",
+  "actual_ARM_compile": true,
+  "exit": 0,
+  "sources": {
+    "ScreenPlaySurface.h": "d458369acdacce725b4fae1b2abe772d40ebf6e03194dfe56189c3dda0d756aa",
+    "ScreenPlaySurface.cpp": "ffad6dafcddaaf2993425bf8fc2e59933ba9f5cc7e6d1f5424d7eac4229269f4"
+  },
+  "scope": "Production ScreenPlaySurface translation unit, actual ARM SDK compiler; full compiler command/build output omitted from this public summary"
+}

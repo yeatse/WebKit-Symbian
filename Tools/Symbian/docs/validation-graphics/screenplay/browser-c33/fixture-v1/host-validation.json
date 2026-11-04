@@ -1,0 +1,30 @@
+{
+  "schema": "symbian-screenplay-fixture-host-validation-v1",
+  "utc": "2026-11-02T00:24:54.142180+00:00",
+  "status": "HOST_CHECKS_PASS",
+  "command": [
+    "python3",
+    "test_host.py"
+  ],
+  "exit_code": 0,
+  "test_count": 26,
+  "skipped_tests": 0,
+  "performed": [
+    "synthetic console protocol validation",
+    "negative and stale record rejection",
+    "all eight optional scope combinations",
+    "offline source audit",
+    "Node JavaScript syntax parse only",
+    "JSON Schema validation",
+    "manifest protocol and ROI bounds"
+  ],
+  "browser_launched": false,
+  "guest_run": false,
+  "display_opened": false,
+  "network_requested": false,
+  "namespace_created": false,
+  "sdk_installed": false,
+  "trusted_input_performed": false,
+  "render_status": "UNVERIFIED",
+  "NativeFullFinish_status": "NOT_PROVEN"
+}

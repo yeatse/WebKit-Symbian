@@ -1,0 +1,19 @@
+{
+  "schema": "screenplay-private-probe-v3-build-summary",
+  "record_version": 3,
+  "actual_ARM_compile": true,
+  "ELF_link_and_E32_conversion": true,
+  "private_update_protocol": "1.1.3",
+  "exe": {
+    "bytes": 94896,
+    "sha256": "1e88d2013aa2b9f699f995eb4933caee764ca61f664b1902aeba953ecf786bcd"
+  },
+  "source_sha256": "058daffe7f0d4f1be2559ba0bb768ddd4784404d945fb6cd543897299c375b4f",
+  "validator_sha256": "217a516f9db97ae3880ad7f8d4e0d4f5231593d1bb6b7c0d036f5fdb67516eaa",
+  "surfaceupdateclient_imported": false,
+  "parser_synthetic_cases": 34,
+  "native_target_executed_by_this_documentation_task": false,
+  "runtime_acceptance": "PENDING_NATIVE_STATUS_DIAGNOSIS",
+  "display_verified": false,
+  "scope": "Root native run rejected positive status fields; source diagnosis in progress; no binary payload or suspect positive value archived; parser/build checks do not establish native acceptance"
+}

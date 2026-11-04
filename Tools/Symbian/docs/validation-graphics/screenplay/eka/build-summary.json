@@ -1,0 +1,17 @@
+{
+  "schema": "screenplay-eka-public-build-summary-v1",
+  "status": "EXTERNAL_HOST35_LINK_PASS",
+  "exit": 0,
+  "default_host_replaced": false,
+  "native_assets_rebuilt_or_copied": false,
+  "root_reported_actual_build": {
+    "core_steps": 196,
+    "dependent_libraries": 3,
+    "Qt_translation_units": 15,
+    "external_host_link_pass": true
+  },
+  "scope": "Root build report and external link result only; binary/commands/raw output omitted",
+  "native_API_verified": false,
+  "display_verified": false,
+  "phone_verified": false
+}

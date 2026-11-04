@@ -16,6 +16,18 @@ set(DEPS_DIR "" CACHE PATH "Installed WebCore dependencies")
 set(ICU_LIBRARY_DIR "" CACHE PATH "Cross-built ICU libraries")
 set(BROWSER_UID3 0xE1A5C002 CACHE STRING "UID3 of browser.exe (unprotected range)")
 option(BROWSER_STUB_ENGINE "Link the stand-in engine instead of WebKit" OFF)
+set(BROWSER_PRESENTATION "auto" CACHE STRING "Presentation: auto, screenplay, or bitmap")
+set_property(CACHE BROWSER_PRESENTATION PROPERTY STRINGS auto screenplay bitmap)
+if(NOT BROWSER_PRESENTATION MATCHES "^(auto|screenplay|bitmap)$")
+  message(FATAL_ERROR "BROWSER_PRESENTATION must be auto, screenplay, or bitmap")
+endif()
+set(browser_screenplay ON)
+set(browser_try_egl OFF)
+if(BROWSER_PRESENTATION STREQUAL "auto")
+  set(browser_try_egl ON)
+elseif(BROWSER_PRESENTATION STREQUAL "bitmap")
+  set(browser_screenplay OFF)
+endif()
 
 set(shell_sources
   AuthenticationUI.cpp
@@ -28,6 +40,9 @@ set(shell_sources
   PageList.cpp
   RunLoopDriver.cpp
   WebContainer.cpp)
+if(browser_screenplay)
+  list(APPEND shell_sources ScreenPlaySurface.cpp ScreenPlayUpdateSession.cpp)
+endif()
 
 # Match the engine's configured features without importing its private
 # config.h into the native AVKON translation units.
@@ -76,6 +91,8 @@ target_include_directories(browser PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 target_compile_features(browser PRIVATE cxx_std_23)
 target_compile_definitions(browser PRIVATE
   SYMBIAN_BROWSER_MEDIA=$<BOOL:${browser_media}>
+  SYMBIAN_BROWSER_SCREENPLAY=$<BOOL:${browser_screenplay}>
+  SYMBIAN_BROWSER_TRY_EGL=$<BOOL:${browser_try_egl}>
   SYMBIAN_BROWSER_COMPOSITING=$<BOOL:${browser_compositing}>)
 # Leaves (exceptions) cross the AVKON framework, but no typeinfo: the FEP
 # interfaces' type information lives in fepbase.dll, which has no proxy.
@@ -95,6 +112,14 @@ target_compile_definitions(browser PRIVATE __wchar_t=__symbian_wchar_t)
 foreach (dll avkon cone eikcore eikcoctl eikctl eikdlg apparc apgrfx bafl efsrv fbscli bitgdi gdi ws32 etext form esock insock commondialogs connmon estor hal)
   target_link_libraries(browser PRIVATE "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
 endforeach ()
+if(browser_screenplay)
+  foreach(dll surfacemanager)
+    if(NOT EXISTS "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
+      message(FATAL_ERROR "ScreenPlay requires the SDK surface API patch: missing ${dll}.dso")
+    endif()
+    target_link_libraries(browser PRIVATE "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
+  endforeach()
+endif()
 if(browser_media)
   foreach(dll mediaclientaudio mediaclientvideo)
     target_link_libraries(browser PRIVATE "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")

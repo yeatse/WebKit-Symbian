@@ -175,6 +175,9 @@ public:
     virtual bool setNativeWindow(void*) { return false; }
     virtual bool usesAcceleratedCompositing() const { return false; }
     virtual void renderCompositedFrame() { }
+    // MMF Utility2 owns the RWindow background while native video is open.
+    // Embedders must suspend their own background surface during this time.
+    virtual bool requiresNativeVideoWindow() const { return false; }
     // Paints area into a 32-bit buffer of premultiplied ARGB words
     // (0xAARRGGBB) that covers the whole view.
     virtual void paint(uint8_t* pixels, int stride, const Rect& area) = 0;

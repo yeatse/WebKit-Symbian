@@ -140,11 +140,17 @@ void CWebContainer::ConstructL(const TRect& aRect)
 
     // SetRequiredDisplayMode does not enable window transparency on NGA.
     Window().SetRequiredDisplayMode(EColor16MA);
-#if SYMBIAN_BROWSER_MEDIA
+#if SYMBIAN_BROWSER_MEDIA && !SYMBIAN_BROWSER_SCREENPLAY
     // Preserve the page's alpha-zero video holes over MMF background surfaces,
     // including the window server's clear before a redraw.
     User::LeaveIfError(Window().SetTransparencyAlphaChannel());
     Window().SetBackgroundColor(TRgb(0, 0, 0, 0));
+    iNativeVideoWindowPrepared = true;
+    iNativeVideoWindowError = KErrNone;
+#elif SYMBIAN_BROWSER_SCREENPLAY
+    // ScreenPlay's GetBackgroundSurface contract forbids alpha windows. Keep
+    // this window opaque until the first native video requires the alpha path.
+    Window().SetBackgroundColor(KRgbWhite);
 #endif
     TInt digitizer = 0;
     TInt enabledPointers = 0;
@@ -171,9 +177,9 @@ void CWebContainer::ConstructL(const TRect& aRect)
     // EGL consumes an RWindow pointer, not the window server's handle.
     iCoeEnv->WsSession().Finish();
 #if SYMBIAN_BROWSER_MEDIA
-    WebView::setMediaPlayerFactory(CreateMediaPlayer, &Window());
+    WebView::setMediaPlayerFactory(CreateMediaPlayer, static_cast<MNativeVideoWindow*>(this));
 #endif
-#if SYMBIAN_BROWSER_COMPOSITING
+#if SYMBIAN_BROWSER_COMPOSITING && SYMBIAN_BROWSER_TRY_EGL
     iWebView->setNativeWindow(&Window());
 #endif
 }
@@ -201,6 +207,9 @@ CWebContainer::~CWebContainer()
 void CWebContainer::PrepareForExit()
 {
     iClosing = true;
+#if SYMBIAN_BROWSER_SCREENPLAY
+    DetachScreenPlay();
+#endif
     cancelAuthenticationChallenge(0);
     if (iWebView)
         iWebView->detachDownloads();
@@ -230,7 +239,10 @@ void CWebContainer::SizeChanged()
 {
     if (iClosing)
         return;
-    TRAP_IGNORE(EnsureBitmapL());
+    iDirty = TRect(Size());
+#if SYMBIAN_BROWSER_SCREENPLAY
+    DetachScreenPlay();
+#endif
     if (!iWebView)
         return;
     iCoeEnv->WsSession().Finish();
@@ -245,6 +257,9 @@ void CWebContainer::Draw(const TRect& aRect) const
     if (iClosing)
         return;
     if (iWebView && iWebView->usesAcceleratedCompositing()) {
+#if SYMBIAN_BROWSER_SCREENPLAY
+        DetachScreenPlay();
+#endif
         iWebView->renderCompositedFrame();
         if (iWebView->usesAcceleratedCompositing())
             return;
@@ -252,6 +267,67 @@ void CWebContainer::Draw(const TRect& aRect) const
         iDirty = TRect(Size());
     }
     CWindowGc& gc = SystemGc();
+#if SYMBIAN_BROWSER_SCREENPLAY
+    if (iWebView && iWebView->requiresNativeVideoWindow()) {
+#if SYMBIAN_BROWSER_MEDIA
+        // Do this before painting can add MMF's background surface, while
+        // GetBackgroundSurface is still legal on our opaque page window.
+        const_cast<CWebContainer*>(this)->PrepareNativeVideoWindow();
+#else
+        DetachScreenPlay();
+#endif
+    } else if (iWebView && !iScreenPlayFailed) {
+        if (!iScreenPlay) {
+            TRAPD(error, iScreenPlay = CScreenPlaySurface::NewL(
+                iCoeEnv->WsSession(), const_cast<CWebContainer*>(this)->Window(),
+                iCoeEnv->ScreenDevice()->GetScreenNumber(),
+                *const_cast<CWebContainer*>(this)));
+            if (error != KErrNone) {
+                BrowserLog("ScreenPlay: initialization unavailable (%d), using bitmap", error);
+                iScreenPlayFailed = true;
+            }
+        }
+        if (iScreenPlay) {
+            CScreenPlaySurface::TFrame frame;
+            TInt error = iScreenPlay->BeginFrame(Size(), iDirty, frame);
+            bool currentFrame = error == KErrAlreadyExists;
+            if (error == KErrInUse)
+                return; // The availability AO requests another redraw.
+            if (error == KErrNone) {
+                // Cairo paints directly into this available surface buffer.
+                // Keep invalidations raised during painting for the next frame.
+                iDirty = TRect();
+                WebKitSymbian::Rect dirty { frame.iDirty.iTl.iX, frame.iDirty.iTl.iY,
+                    frame.iDirty.Width(), frame.iDirty.Height() };
+                iWebView->paint(frame.iPixels, frame.iStride, dirty);
+                error = iScreenPlay->SubmitFrame(frame);
+            }
+            if (error == KErrNone || currentFrame) {
+                // Discard retained bitmap drawing so the background surface is
+                // visible. WriteAlpha preserves transparency for system UI.
+                gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+                gc.SetBrushColor(const_cast<CWebContainer*>(this)->Window().KeyColor());
+                gc.Clear(aRect);
+                gc.SetDrawMode(CGraphicsContext::EDrawModePEN);
+                if (!iScreenPlayPresented) {
+                    iScreenPlayPresented = true;
+                    TPoint origin = PositionRelativeToScreen();
+                    BrowserLog("ScreenPlay: surface submitted %dx%d at %d,%d",
+                        Size().iWidth, Size().iHeight, origin.iX, origin.iY);
+                    // The current redraw can be clipped. Clear any retained
+                    // bitmap outside it in one subsequent full-window redraw.
+                    const_cast<CWebContainer*>(this)->DrawDeferred();
+                }
+                return;
+            }
+            BrowserLog("ScreenPlay: frame failed (%d), using bitmap", error);
+            iScreenPlayFailed = true;
+            DetachScreenPlay();
+            iDirty = TRect(Size());
+        }
+    }
+#endif
+    TRAP_IGNORE(const_cast<CWebContainer*>(this)->EnsureBitmapL());
     if (!iBitmap) {
         gc.SetBrushColor(KRgbWhite);
         gc.Clear(aRect);
@@ -273,6 +349,53 @@ void CWebContainer::Draw(const TRect& aRect) const
     gc.BitBlt(aRect.iTl, iBitmap, source);
     gc.SetDrawMode(CGraphicsContext::EDrawModePEN);
 }
+
+#if SYMBIAN_BROWSER_SCREENPLAY
+void CWebContainer::ScreenPlaySurfaceReady()
+{
+    if (!iClosing && iScreenPlay)
+        DrawDeferred();
+}
+
+void CWebContainer::DetachScreenPlay() const
+{
+    if (!iScreenPlay)
+        return;
+    // Detach checks the current background ID before removing it: MMF may
+    // already have replaced our surface with its own native video surface.
+    delete iScreenPlay;
+    iScreenPlay = nullptr;
+    iScreenPlayPresented = false;
+    iDirty = TRect(Size());
+}
+#endif
+
+#if SYMBIAN_BROWSER_MEDIA
+TInt CWebContainer::PrepareNativeVideoWindow()
+{
+    if (iNativeVideoWindowPrepared)
+        return iNativeVideoWindowError;
+    iNativeVideoWindowPrepared = true;
+    // MMF can prepare a display before the next page redraw. Retire EGL now,
+    // before it can destroy a window surface subsequently attached by MMF.
+    if (iWebView && iWebView->usesAcceleratedCompositing())
+        iWebView->setNativeWindow(nullptr);
+#if SYMBIAN_BROWSER_SCREENPLAY
+    // Retire the page surface while the window is still opaque. Alpha cannot
+    // be undone reliably on NGA, so this window stays on the bitmap/video path.
+    DetachScreenPlay();
+    iScreenPlayFailed = true;
+#endif
+    iNativeVideoWindowError = Window().SetTransparencyAlphaChannel();
+    if (iNativeVideoWindowError == KErrNone)
+        Window().SetBackgroundColor(TRgb(0, 0, 0, 0));
+    else
+        BrowserLog("video: alpha window unavailable (%d)", iNativeVideoWindowError);
+    iDirty = TRect(Size());
+    DrawDeferred();
+    return iNativeVideoWindowError;
+}
+#endif
 
 void CWebContainer::FocusChanged(TDrawNow)
 {

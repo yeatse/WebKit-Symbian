@@ -5,6 +5,12 @@
 #pragma once
 #include "NativeHeapDelete.h"
 #include "TouchTracker.h"
+#if SYMBIAN_BROWSER_SCREENPLAY
+#include "ScreenPlaySurface.h"
+#endif
+#if SYMBIAN_BROWSER_MEDIA
+#include "MediaPlayers.h"
+#endif
 
 #include <WebKitSymbian.h>
 #include <coecntrl.h>
@@ -35,6 +41,12 @@ const TInt KAknSplitInputDisabled = 0x2001E2C1;
 class CWebContainer : public CCoeControl
     , public WebKitSymbian::WebViewClient
     , public MCoeFepAwareTextEditor
+#if SYMBIAN_BROWSER_MEDIA
+    , private MNativeVideoWindow
+#endif
+#if SYMBIAN_BROWSER_SCREENPLAY
+    , private MScreenPlaySurfaceObserver
+#endif
     , public MCoeFepAwareTextEditor_Extension1 {
 public:
     SYMBIAN_BROWSER_NATIVE_DELETE
@@ -125,6 +137,14 @@ private:
     void ReportEditorEventL(TInt aEvent);
     void RequestTouchInputL();
     void EnsureBitmapL();
+#if SYMBIAN_BROWSER_MEDIA
+    RWindow& VideoWindow() override { return Window(); }
+    TInt PrepareNativeVideoWindow() override;
+#endif
+#if SYMBIAN_BROWSER_SCREENPLAY
+    void ScreenPlaySurfaceReady() override;
+    void DetachScreenPlay() const;
+#endif
     void RevealCaret();
 
     MWebContainerObserver& iObserver;
@@ -137,6 +157,15 @@ private:
     CFbsBitmap* iBitmap { nullptr };
     TInt iUiResourceOffset { -1 };
     mutable TRect iDirty;
+#if SYMBIAN_BROWSER_MEDIA
+    bool iNativeVideoWindowPrepared { false };
+    TInt iNativeVideoWindowError { KErrNotReady };
+#endif
+#if SYMBIAN_BROWSER_SCREENPLAY
+    mutable CScreenPlaySurface* iScreenPlay { nullptr };
+    mutable bool iScreenPlayFailed { false };
+    mutable bool iScreenPlayPresented { false };
+#endif
 
     // The field's input method state, owned on behalf of the FEP; the AVKON
     // FEP's is a CAknEdwinState under KNullUid.

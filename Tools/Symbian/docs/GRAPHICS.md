@@ -1,5 +1,17 @@
 # Symbian graphics and WebGL implementation
 
+ScreenPlay update (2026-11-04): pinned host0038 passes the recorded native API
+subset, and local C33 on measurement host0039 passes forced-ScreenPlay browser
+presentation: page checks 9 pass/1 WebGL skip, 14 owned flat-color regions,
+7200 sampled pixels with zero mismatches, one ScreenPlay tag and no bitmap
+fallback. Strict audit, normal shutdown, restoration and task-private cleanup
+pass without force. C33 includes original local WIP and a 383-byte UI resource;
+it is not the pure CI package. Default `auto` still selects EGL → ScreenPlay →
+bitmap, but default-route runtime, MMF handoff, trusted input, phone and
+performance are unaccepted here. The known Finish whole-call deadline gap under
+stock queue backpressure remains. See [SCREENPLAY.md](SCREENPLAY.md).
+The older EGL/WebGL results below do not validate this ScreenPlay run.
+
 Status recorded on 2026-10-29: the EKA2L1 browser passed **10/10 compositing** and
 **9/9 WebGL** checks, with native EGL/GLES2 initialization and successful
 360 × 532 presentation recorded separately for each page. Both browser drivers

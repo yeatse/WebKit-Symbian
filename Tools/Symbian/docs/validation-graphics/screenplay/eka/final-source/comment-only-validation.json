@@ -1,0 +1,11 @@
+{
+  "status": "PASS_EXACT_COMMENT_REPLACEMENT",
+  "path": "src/emu/services/src/window/window.cpp",
+  "before_sha256": "54e5056b8070ecfc88487ed3008f392559f40a72f6305dfa15866ea42a6c7abd",
+  "after_sha256": "051884313f383d9aad07d6d92c7ea811970d083a027a6a69fbffe37fdb9a1062",
+  "before_comment": "// runs. HLE servers/screens themselves outlive the joined OS thread.",
+  "after_comment": "// runs. Frontend teardown follows this synchronous call returning.",
+  "exact_literal_replacement": true,
+  "executable_code_changed": false,
+  "shared_source_modified_by_this_agent": false
+}

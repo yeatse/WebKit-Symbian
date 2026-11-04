@@ -1,0 +1,40 @@
+{
+  "result": "pass",
+  "candidate_file_count": 7,
+  "original_frozen_package_unchanged": true,
+  "guest_executed": false,
+  "tests": {
+    "gcc-default": {
+      "result": "pass",
+      "checks": 75,
+      "cases": 8,
+      "source_sha256": "380904ada53b188fb8580cbfb1e60e20e101d03ffff5de672676d0815225824f",
+      "sanitizers": []
+    },
+    "clang-default": {
+      "result": "pass",
+      "checks": 75,
+      "cases": 8,
+      "source_sha256": "380904ada53b188fb8580cbfb1e60e20e101d03ffff5de672676d0815225824f",
+      "sanitizers": []
+    },
+    "gcc-sanitizer": {
+      "result": "pass",
+      "checks": 75,
+      "cases": 8,
+      "source_sha256": "380904ada53b188fb8580cbfb1e60e20e101d03ffff5de672676d0815225824f",
+      "sanitizers": [
+        "address",
+        "undefined",
+        "address-use-after-scope"
+      ],
+      "nonrecoverable_sanitizer_errors": true
+    }
+  },
+  "relocation_test": "Default browser lookup worked from an isolated checkout with spaces in its path.",
+  "source_resolution": "Production ScreenPlayUpdateSession.cpp is compiled directly, without a bundled implementation copy.",
+  "missing_source_failure_checked": true,
+  "candidate_fixed_workspace_paths": false,
+  "sanitizer_fail_fast": true,
+  "runner_sha256": "728e055e644a4ba6b315e8f0f53c4722553221cf5e0980357046e16349112407"
+}

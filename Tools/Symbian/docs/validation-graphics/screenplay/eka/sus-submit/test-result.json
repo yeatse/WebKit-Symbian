@@ -1,0 +1,21 @@
+{
+  "status": "EXACT_SUS_PARSER_SUBMIT_HOST_CONTRACT_PASS",
+  "baseline_reproduces_err_argument_for_omitted_nonzero_slot": true,
+  "patched_omitted_slot_ignores_all_four_raw_sentinels": true,
+  "explicit_descriptor_validation_preserved": true,
+  "variants": [
+    {
+      "variant": "base",
+      "exact_parser_and_submit_bodies_compiled": true,
+      "stdout": "PASS: omitted-slot sentinels, 8-bit const/mutable region, empty region, malformed length, 16-bit rejection, maximum length"
+    },
+    {
+      "variant": "overlay",
+      "exact_parser_and_submit_bodies_compiled": true,
+      "stdout": "PASS: omitted-slot sentinels, 8-bit const/mutable region, empty region, malformed length, 16-bit rejection, maximum length"
+    }
+  ],
+  "guest_or_display_run": false,
+  "full_eka_compilation": false,
+  "native_runtime_pass_claim": false
+}

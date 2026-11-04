@@ -41,6 +41,18 @@ Classic WebAudio现默认ON。除本地C28外，[C29已独立运行CI50/0.3.50�
 
 IAP原生前置查询已有[host0032/0033真实对照](validation-belle/network-iap-native/service-host0033-control0032/README.md)：修订后Start/Id/Network/Service全部成功，审计与恢复通过；[host0034](validation-belle/network-iap-native/host0034-readonly-rom/README.md)还通过只读原ROM启动。此结果不代表代理或CommDB读取通过。所选IAP的DNS需显式Name/clone绑定；三参数原生resolver不会因OpenC setdefaultif自动继承连接。修订正在外部重建和验收，尚未合入发布源。
 
+ScreenPlay 软件呈现已有本地构建及模拟器验收（2026-11-04），见
+[SCREENPLAY.md](SCREENPLAY.md)：host0038 两种尺寸/四次提交、Available、Finish、
+清理及审计恢复通过。C33/测量用 host0039 的强制 ScreenPlay 页面 9 项通过、WebGL
+1 项跳过；14 个屏幕纯色区域共 7200 像素、差异 0，提交标记 1、bitmap 回退 0，
+正常关闭、审计、恢复与私有目录清理全部通过。v8 清理失败记录仍为 FAIL。
+C33 含 IAP/CookieStore/多文件上传 WIP、UI 资源 383 字节，不能当作纯 CI 包。
+默认 `auto` 仍依次尝试 EGL、ScreenPlay、bitmap；其实际切换、可信输入、MMF
+退场、原生浏览器窗口缩放、真机及性能未因此通过。默认 auto 目前另有真实 TU
+编译通过，未运行。Finish 整次调用在 stock 满队列下的硬时限缺口已有 host 反例。
+浏览器依赖 Surface Manager，SUS1.1.3 客户端在本地；窗口初始不透明，首次 MMF
+display 前退场再启 alpha 并永久禁用本窗口 ScreenPlay。不宣称零拷贝或真机支持。
+
 | 顺序 | 能力和现状 | Belle/现有代码基础 | 实施与验收要求 |
 | --- | --- | --- | --- |
 | P0.1 | **已接通** localStorage 和 BroadcastChannel | 真实 namespace/registry；[20 项运行检查](validation-belle/storage/README.md) | 已验证跨进程重启、localStorage 配额、来源隔离、同来源消息、关闭后不投递及 Worker 通信 |
@@ -55,6 +67,7 @@ IAP原生前置查询已有[host0032/0033真实对照](validation-belle/network-
 | P1.7 | 内存压力与 online/offline 后端已入候选；整体验收未完成 | RChangeNotifier、EChangesFreeMemory、HAL、实际 RConnection/ConnMon | online 页面19项通过但EndTask后host -11，整轮FAIL。C15真实压力已及时READY；worker提交46,137,344字节、实际critical通知/释放/模式检查和worker退出0，浏览器三次VERIFIED后host -11，[整轮仍FAIL](validation-belle/memory-pressure/browser-c15-failed/README.md)。未满足40s保留及80MiB JSCell门槛；系统剩余RAM不等于进程可分配容量 |
 | P1.8 | **IPv6/HTTP2 已接通并完成受控模拟器正向验收** | curl7.88.1/nghttp2 1.68.0/SDK mbedTLS ALPN；owned native DNS桥，EKA0030/0032 | [C25真实AAAA/双栈回退/HTTPS/WSS](validation-belle/network-native-resolver/c25-host0032-dns-pass/README.md)、[真实IPv6 hostname H2](validation-belle/network-native-resolver/c25-host0032-aaaa-ipv6-h2-pass/README.md)及IPv4 H2/H1通过；12流704512B、实际峰值4/限制8、窗口256KiB/流控通过。真机IAP/ISP DNS/Scope/DNS64、导航取消及预算耗尽未验收；UDP开句柄不等于IPv6 UDP数据路径通过 |
 | P1.9 | CookieStore 已合入本地 C21 WIP；未提交或上线；无 HTTP 磁盘缓存 | document provider/Curl SQLite/变更观察已通过 host/ARM、完整链接及 HTTPS页面15项DOM功能 | 官方 EndTask 后 guest KERN-EXEC3，整轮仍FAIL；先解决有明确依据的生命周期问题再验收退出。无 SW manager/partitioned；磁盘GET缓存另需 ETag/304/Vary/no-store/认证隔离/中断写 |
+| P1.10 | **ScreenPlay 不透明软件呈现本地实现；模拟器原生 API 与强制路径显示已验** | SDK0010 正式头/冻结导入、私有 SUS1.1.3；双 buffer/direct Cairo/逐 buffer damage/cache/Available；[实现与边界](SCREENPLAY.md) | host0038 两尺寸/四提交及清理通过；C33/host0039 v9 页面9过1跳过、14区7200像素差异0、SP1/回退0、审计恢复正常关闭与清理通过。原WIP与UI383非纯CI；默认EGL/MMF/输入/原生窗口缩放/真机/性能待验；Finish stock队列硬时限缺口保留 |
 | P2.1 | **经典 WebAudio 默认开启；C28 受控模拟器验收通过** | CMdaAudioOutputStream、真实 FFT/HRTF、WAV 解码；SDK0007/0009 数学运行库 | [离线数值与实际 PCM](validation-belle/webaudio/browser-c28-host0032/README.md)：128帧延迟、声道、振荡器/FFT、WAV、Biquad；真实点击后997Hz双声道及暂停/恢复/关闭通过。音频要求用户手势；Worklet隐藏、MMF媒体元素PCM源明确NotSupported。真机、系统资源中断及无缝pause未验收；EKA采用明确不支持pause后的Stop/reopen/re-prime路径 |
 | P2.2 | Fullscreen、Media Session 及视频帧读取缺失 | AVKON 全屏、MMF Utility2/GetFrameL、按控制器查询播放速率 | 用户手势、导航/软键退出、原生视频定位；异步帧缓存后再接 drawImage(video)/WebGL 视频纹理；不能假定所有音频支持变速 |
 | P2.3 | 地理位置、方向/运动、振动等设备桥缺失 | LBS/RPositioner、Sensor Server、HWRM；按机型查询 | 权限和原生 capability、订阅取消、前后台/导航生命周期、错误/缺设备路径；真机数据与耗电验证 |

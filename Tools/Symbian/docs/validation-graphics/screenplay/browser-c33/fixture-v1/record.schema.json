@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:symbian:screenplay:public-record:v1",
+  "title": "Public DOM and paint-request records; not display proof",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 1,
+          "type": "integer"
+        },
+        "run": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "event": {
+          "const": "start"
+        },
+        "scope": {
+          "const": "dom-paint-requests"
+        },
+        "canvas2d": {
+          "type": "boolean"
+        },
+        "webgl": {
+          "type": "boolean"
+        },
+        "tap": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "version",
+        "run",
+        "seq",
+        "event",
+        "scope",
+        "canvas2d",
+        "webgl",
+        "tap"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 1,
+          "type": "integer"
+        },
+        "run": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "event": {
+          "const": "check"
+        },
+        "name": {
+          "enum": [
+            "opaque_patches",
+            "font_layout",
+            "overflow_clip",
+            "overwhite_alpha",
+            "dirty_updates",
+            "css_motion",
+            "dom_resize",
+            "canvas2d",
+            "webgl",
+            "hit_test"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail",
+            "skipped"
+          ]
+        }
+      },
+      "required": [
+        "version",
+        "run",
+        "seq",
+        "event",
+        "name",
+        "outcome"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 1,
+          "type": "integer"
+        },
+        "run": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "event": {
+          "const": "dirty"
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "color": {
+          "enum": [
+            "orange",
+            "purple",
+            "cyan"
+          ]
+        }
+      },
+      "required": [
+        "version",
+        "run",
+        "seq",
+        "event",
+        "index",
+        "color"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 1,
+          "type": "integer"
+        },
+        "run": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "event": {
+          "const": "input"
+        },
+        "trusted": {
+          "type": "boolean"
+        },
+        "inside": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "version",
+        "run",
+        "seq",
+        "event",
+        "trusted",
+        "inside"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 1,
+          "type": "integer"
+        },
+        "run": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "event": {
+          "const": "done"
+        },
+        "result": {
+          "enum": [
+            "PAGE_REQUESTS_PASS",
+            "PAGE_REQUESTS_FAIL"
+          ]
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "skipped": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "reason": {
+          "enum": [
+            "complete",
+            "watchdog",
+            "runtime_exception"
+          ]
+        },
+        "elapsedMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "display": {
+          "const": "UNVERIFIED"
+        },
+        "trustedInput": {
+          "const": "UNVERIFIED"
+        }
+      },
+      "required": [
+        "version",
+        "run",
+        "seq",
+        "event",
+        "result",
+        "passed",
+        "failed",
+        "skipped",
+        "reason",
+        "elapsedMs",
+        "display",
+        "trustedInput"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

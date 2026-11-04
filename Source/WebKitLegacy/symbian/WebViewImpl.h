@@ -83,6 +83,7 @@ public:
     void scheduleRenderingUpdate();
     void requestCompositedDisplay();
     bool usesAcceleratedCompositing() const final;
+    bool requiresNativeVideoWindow() const final;
     unsigned maximumTouchPoints() const { return m_touchCapacity; }
     void cancelTouches() final;
 

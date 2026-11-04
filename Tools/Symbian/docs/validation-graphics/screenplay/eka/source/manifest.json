@@ -1,0 +1,242 @@
+{
+  "status": "EXTERNAL_FINAL_SOURCE_ROOT_COMPILE_PENDING",
+  "files": [
+    {
+      "path": "src/emu/common/include/common/queue.h",
+      "before": {
+        "bytes": 5861,
+        "sha256": "cf1687fb1513053f2380fc7a7218bbfdcdeaeb047ea2f470388ce6c6cf7ee421",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 6391,
+        "sha256": "b8b7b21f26aaba4610b50b7c50cdcd3916c101bcb24f83193bbab85492ded0f4",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/drivers/include/drivers/graphics/backend/ogl/graphics_ogl.h",
+      "before": {
+        "bytes": 7878,
+        "sha256": "502a0b7299fced977e1dd901f07ba470ff2ff91cbd038260c74433f257f1a08a",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 8410,
+        "sha256": "23b353dec482f6b93fda240f13e8181240f2465f01104bf71fa7ff21157c66c6",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/drivers/include/drivers/graphics/graphics.h",
+      "before": {
+        "bytes": 7511,
+        "sha256": "4179a3514d237ab2f8996deaed54729203e6ea3a0e68c4e898e0fca4c4a2e6c1",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 11972,
+        "sha256": "b7b80b7602f147ebd8866adc6093d48b257266e4cae77d8ca23e5ca05031ab3b",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/drivers/src/graphics/backend/ogl/graphics_ogl.cpp",
+      "before": {
+        "bytes": 75367,
+        "sha256": "b0a44f01e602f040c7d024dbb4354f4016f9316b74912b0e110101acd42c8bba",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 77442,
+        "sha256": "9e17e318684b40134703817df33869b999af4edc6778aa8d5cdf1005aa95ce19",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/ldd/CMakeLists.txt",
+      "before": {
+        "bytes": 759,
+        "sha256": "edab035f2b82a8411396c90fe22e13498b00f837659b3123a57bc6507fe658d1",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 858,
+        "sha256": "770efe62067d10f145fc1664dabafa27d15d7ffa4773b5b2643810e3d9b6f3ef",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/ldd/include/ldd/surfacemanager/surfacemanager.h",
+      "before": null,
+      "after": {
+        "bytes": 1339,
+        "sha256": "641edfbbb59472c27b04690ad3e01fd06d3aecedfd9191305f11f6365661132e",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/ldd/src/collection.cpp",
+      "before": {
+        "bytes": 2316,
+        "sha256": "84171610b39b0b6770d3d7b27b677038caeb34242097728a2d73bf56fa980aae",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 2484,
+        "sha256": "9c4e44370f278238b25f59d385a31ad8aaceca9bab5b4c483c80e3915bbe8c1e",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/ldd/src/surfacemanager/surfacemanager.cpp",
+      "before": null,
+      "after": {
+        "bytes": 12501,
+        "sha256": "9d7fb20b14e1d28821631c1dac5345d4426aa21a0a5264110024a75a220aa7e7",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/services/CMakeLists.txt",
+      "before": {
+        "bytes": 14541,
+        "sha256": "baa19487e575a12a92658320c3c40d777ea23376a79f1db20bfed309aeb26bd6",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 14618,
+        "sha256": "4d35269ff3a74334db2df67c8d9d60fca95e8f97e585ab6eebe14c2618d8df1e",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/services/include/services/window/managed_surface.h",
+      "before": null,
+      "after": {
+        "bytes": 4810,
+        "sha256": "751388e2d569c10f0ddf1d67664689afdb3c7fdd8689bb865a5d411bc608f048",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/services/include/services/window/surface_update.h",
+      "before": null,
+      "after": {
+        "bytes": 886,
+        "sha256": "465c19017255ba601e5ba8c871e8083471e14ef6d26f1d7b46cf107f9eb7710f",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/services/include/services/window/window.h",
+      "before": {
+        "bytes": 20776,
+        "sha256": "1ed6a4361ca9bcd13ea7760b0c075c4d502c791b512821663f13934113143c47",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 21226,
+        "sha256": "03fa80bfcf1ddc8623cd8d539f17e07cd340695e614e9d3bb61928213cab01d8",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/services/src/init.cpp",
+      "before": {
+        "bytes": 18707,
+        "sha256": "1870f81cadbd1ee9ba01a35ea4d5dddc487cf7c318bb4a45eefd82226f6ea263",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 18893,
+        "sha256": "d1b003e0a9364be5417128eab679c57c266eb3f13ba1cc29af1a2cab044a9cf1",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/services/src/window/classes/winuser.cpp",
+      "before": {
+        "bytes": 88729,
+        "sha256": "d0daf72624bcec35f379f1dee4140df85ef67e123f58a221d9277689e4ba7a4f",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 90079,
+        "sha256": "fb8fd117c354a77ba23c8d2402003f58b9fd2ef3152319e25761dc1f1044d060",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/services/src/window/managed_surface.cpp",
+      "before": null,
+      "after": {
+        "bytes": 14191,
+        "sha256": "4672419fa17f814ad2f8ef23560eaf2a4527a64330e4f9295ba5f8f31283391d",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/services/src/window/surface_update.cpp",
+      "before": null,
+      "after": {
+        "bytes": 9193,
+        "sha256": "87964df5dac2bb07d49273889687aee3acb9f37388624166e1c8b618ebbc25ca",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/emu/services/src/window/window.cpp",
+      "before": {
+        "bytes": 101542,
+        "sha256": "b46eacd72ac448ebc74c19927a8c6af9470081884ac8969884b5e0e0673bb652",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 106002,
+        "sha256": "6b4229eaec8eeae0d85f58b3943314f260394bd248e4be62dd93770f6139d7dd",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/tests/epoc/CMakeLists.txt",
+      "before": {
+        "bytes": 3730,
+        "sha256": "eb87a87ec012f5e158a87526e9fdd7a1c3168991cb93b9cebc1ad54c842a6c1d",
+        "mode": 384
+      },
+      "after": {
+        "bytes": 3798,
+        "sha256": "625cc94f095d2c9a751ebc3a18eb8d21bcc828ec22a4f329cafb5143189e93d8",
+        "mode": 384
+      }
+    },
+    {
+      "path": "src/tests/epoc/services/window/managed_surface.cpp",
+      "before": null,
+      "after": {
+        "bytes": 3372,
+        "sha256": "82cad8ba205ab3fa3e0c252bbca1529f2174b6a2bd81b140561c37da0feba17a",
+        "mode": 384
+      }
+    }
+  ],
+  "patch_sha256": "0e6dbbdb9f5ca721a1ed786fa8ac2f159f1fda9b52b817861c5b5318fdf87ec3",
+  "external_patch_check": true,
+  "external_exact_replay_paths": 19,
+  "external_reverse_check": true,
+  "all_shared_baselines_unchanged": true,
+  "SDK_default_host_patch_assets_or_guest_data_modified": false,
+  "tests_prepared_not_executed": [
+    "Catch2 [managed_surface]",
+    "finite-finish-contract.cpp"
+  ],
+  "limits": [
+    "CPU mappable ARGB8888_PRE only",
+    "NotifyDisplayed and DisplayedXTimes return NotSupported",
+    "physical-contiguous allocation, existing-chunk creation, hints and DMA-write synchronization unsupported",
+    "64MiB registry budget does not count chunks retained only by mapped RChunk handles",
+    "Finish explicitly returns NotReady for contended screen state or pending WServ rendering",
+    "successful finite wait covers already-submitted drawing, not vblank, scanout or displayed notification"
+  ]
+}

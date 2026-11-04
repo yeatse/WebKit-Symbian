@@ -1,0 +1,103 @@
+{
+  "schema": "screenplay-probe-v2-public-build-summary-v1",
+  "record_version": 2,
+  "source": {
+    "bytes": 21027,
+    "sha256": "2695362b3603fac109c8a4db6b62ae5ab09ce2b1f952d395e5512c2ce9d83b81"
+  },
+  "build_status": "ARM_ELF_E32_IMPORTS_PASS_NOT_EXECUTED",
+  "elf_needed_libraries": [
+    "euser.dso",
+    "surfacemanager.dso",
+    "surfaceupdateclient.dso",
+    "ws32.dso",
+    "fbscli.dso",
+    "libc.dso",
+    "drtaeabi.dso",
+    "libpthread.dso"
+  ],
+  "e32_imports": [
+    {
+      "dll": "drtaeabi.dll",
+      "slots": 16
+    },
+    {
+      "dll": "euser.dll",
+      "slots": 57
+    },
+    {
+      "dll": "fbscli.dll",
+      "slots": 2
+    },
+    {
+      "dll": "libc.dll",
+      "slots": 8
+    },
+    {
+      "dll": "libpthread.dll",
+      "slots": 8
+    },
+    {
+      "dll": "surfacemanager.dll",
+      "slots": 9
+    },
+    {
+      "dll": "surfaceupdateclient.dll",
+      "slots": 6
+    },
+    {
+      "dll": "ws32.dll",
+      "slots": 31
+    }
+  ],
+  "e32_dll_count": 8,
+  "e32_import_slots": 137,
+  "test_uid3_and_secure_id": "0xe0000936",
+  "capabilities": "0x0",
+  "actual_stage_header_dependencies": [
+    {
+      "relative": "graphics/surfacemanager.h",
+      "bytes": 7024,
+      "sha256": "08582668d3b1463e4e9c13f92e3eb45b15730185df6e4fcb154eba88c44ef43b"
+    },
+    {
+      "relative": "graphics/surfaceupdateclient.h",
+      "bytes": 16589,
+      "sha256": "9e3fd2f8e49e3984af7fc6b3ad823471e695f93a4e85aeb53436938501741c41"
+    },
+    {
+      "relative": "graphics/suerror.h",
+      "bytes": 1375,
+      "sha256": "49a92e3e4fe7fac0bd5cfeab82a6bafcbf193a70d3dbe6032e094792281b4c04"
+    },
+    {
+      "relative": "graphics/surfaceconfiguration.h",
+      "bytes": 4238,
+      "sha256": "d727d52201cfa121b97ad7da983d4b4564e4566340c497fde6c79c4a806acc88"
+    },
+    {
+      "relative": "graphics/surfaceconfiguration.inl",
+      "bytes": 14582,
+      "sha256": "33c3c6cfc5965cb9f55deb97deb317042718eef8d838170be0bd90c3caf3a591"
+    },
+    {
+      "relative": "pixelformats.h",
+      "bytes": 6727,
+      "sha256": "faec7b63083ab89344013c37f2262e853f54a1714b6bba379201cab6a3350a49"
+    }
+  ],
+  "actual_final_ELF_window_API_references": {
+    "key_color": 1,
+    "background_surface_query": 1,
+    "enable_window_alpha": 0
+  },
+  "synthetic_record_boundary_test_methods": 34,
+  "opaque_window_precondition_preserved": true,
+  "v1_superseded": true,
+  "v1_must_not_be_executed": true,
+  "display_verified": false,
+  "vsync_verified": false,
+  "performance_verified": false,
+  "phone_verified": false,
+  "scope": "Build/import and synthetic-record checks only. Native attempts are separately recorded; no binaries copied."
+}

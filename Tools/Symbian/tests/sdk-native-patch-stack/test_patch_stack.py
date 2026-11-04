@@ -48,7 +48,7 @@ class NativePatchStackTests(unittest.TestCase):
         cls.base.mkdir()
         git(cls.base, "init", "--quiet")
         cls.patches = sorted(ARGS.patch_dir.resolve().glob("*.patch"))
-        assert len(cls.patches) == 9, "Tests pin the original six plus math0007/MMF0008/complex0009"
+        assert len(cls.patches) == 10, "Tests pin original nine plus ScreenPlay0010"
         names = set()
         for patch in cls.patches:
             for record in git(cls.base, "apply", "--numstat", "-z", str(patch)).split(b"\0"):
@@ -228,6 +228,35 @@ class NativePatchStackTests(unittest.TestCase):
         self.assertEqual(report["status"], "ALREADY_APPLIED")
         self.assertEqual(report["from_prefix"], 8)
         self.assertEqual(snapshot(self.directory, self.names), before)
+
+    def test_original_nine_series_still_idempotent(self):
+        self.prefix(9)
+        legacy = self.root / "legacy-nine-patches"
+        legacy.mkdir()
+        for patch in self.patches[:9]:
+            shutil.copy2(patch, legacy / patch.name)
+        before = snapshot(self.directory, self.names)
+        result = self.helper(legacy)
+        self.assertEqual(result.returncode, 0, result.stderr.decode())
+        report = json.loads(result.stdout)
+        self.assertEqual(report["status"], "ALREADY_APPLIED")
+        self.assertEqual(report["from_prefix"], 9)
+        self.assertEqual(snapshot(self.directory, self.names), before)
+
+    def test_partial_screenplay_patch_is_rejected_without_writes(self):
+        self.prefix(9)
+        name = "symbian/toolchain/cmake/SymbianScreenPlay.cmake"
+        path = self.directory / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes((self.expected / name).read_bytes())
+        self.assert_no_write_failure()
+
+    def test_unknown_screenplay_manifest_edit_is_preserved(self):
+        self.prefix(10)
+        path = self.directory / "research/native-sdk/screenplay.json"
+        with path.open("ab") as stream:
+            stream.write(b"\nUser-owned source contract change.\n")
+        self.assert_no_write_failure()
 
     def test_unknown_owned_file_edit_is_preserved(self):
         self.prefix(5)

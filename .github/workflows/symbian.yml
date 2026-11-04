@@ -321,6 +321,10 @@ jobs:
           tests/curl-address-family/run-host.sh "$SYMBIAN_WEBKIT_WORK/deps/src/curl-7.88.1"
       - name: WebCore
         run: scripts/build-webcore.sh
+      - name: ScreenPlay buffer lifecycle regression
+        run: |
+          python3 tests/screenplay/run.py
+          python3 tests/screenplay-update/run.py
       - name: browser.exe
         run: scripts/build-browser.sh
       - name: Save the compiler cache

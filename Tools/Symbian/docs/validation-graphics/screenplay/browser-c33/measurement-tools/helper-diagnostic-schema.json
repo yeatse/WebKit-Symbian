@@ -1,0 +1,48 @@
+{
+  "keys": [
+    "phase",
+    "proc_identity_checks",
+    "proc_identity_passes",
+    "xres_extension_present",
+    "xres_version_supported",
+    "query_client_ids_calls",
+    "query_client_ids_successes",
+    "query_client_ids_values",
+    "query_client_ids_owner_matches",
+    "windows_examined",
+    "declared_pid_matches",
+    "wm_delete_candidate_count",
+    "render_marker_count",
+    "marker_all_nodes",
+    "marker_nonleaf_nodes"
+  ],
+  "bool_keys": [
+    "xres_extension_present",
+    "xres_version_supported"
+  ],
+  "phases": [
+    "ARGS",
+    "COMPLETE",
+    "NATIVE_LEAF_CANDIDATES",
+    "PROC_ANCESTRY",
+    "PROC_EXECUTABLE",
+    "PROC_LEAF_IDENTITY",
+    "PROC_NAMESPACE",
+    "PROC_ROOT_IDENTITY",
+    "PUBLIC_ROI_BOUNDS",
+    "PUBLIC_ROI_FORMAT",
+    "PUBLIC_ROI_READ",
+    "QUERY_CLIENT_IDS",
+    "RENDER_MARKER",
+    "STABLE_RECHECK",
+    "WINDOW_GEOMETRY",
+    "WINDOW_TREE",
+    "WM_DELETE_CANDIDATES",
+    "WM_DELETE_SEND",
+    "WM_PID_PROPERTY",
+    "XRES_EXTENSION",
+    "X_DISPLAY_OPEN"
+  ],
+  "count_min": 0,
+  "count_max": 65536
+}

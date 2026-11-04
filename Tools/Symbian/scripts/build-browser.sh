@@ -6,6 +6,11 @@
 #   STUB=1 scripts/build-browser.sh     the shell with a stand-in engine
 . "$(dirname "$0")/common.sh"
 require_sdk
+if [ "${BROWSER_PRESENTATION:-auto}" != bitmap ]; then
+  python3 "$REPO/scripts/rebuild-sdk-screenplay.py" \
+    --sdk "$SDK" --converter "$SYMBIAN_NATIVE" \
+    --work "$WORK/sdk-screenplay-interfaces"
+fi
 if [ -n "${STUB:-}" ]; then
   build=$WORK/build/browser-stub
   options=(-DBROWSER_STUB_ENGINE=ON)
@@ -19,6 +24,7 @@ fi
   -DSYMBIAN_NATIVE_CONVERTER="$SYMBIAN_NATIVE" \
   -DWEBKIT_SOURCE_DIR="$WEBKIT_SRC" -DWEBKIT_BUILD_DIR="$WEBCORE_BUILD" \
   -DDEPS_DIR="$DEPS_DIR/install" -DICU_LIBRARY_DIR="$ICU_DIR/install/lib" \
+  -DBROWSER_PRESENTATION="${BROWSER_PRESENTATION:-auto}" \
   "${options[@]}" > "$WORK/browser-configure.log"
 "$SDK/bin/ninja" -j"$JOBS" -C "$build" > "$WORK/browser-build.log"
 # WebKit needs far more than a GUI application's default 1 MB heap, and its

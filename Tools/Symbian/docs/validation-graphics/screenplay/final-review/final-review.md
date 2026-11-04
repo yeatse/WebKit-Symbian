@@ -1,0 +1,7 @@
+# Final ScreenPlay browser evidence delta review
+
+Read-only final delta review passed; no unresolved finding. Parent may freeze and import after normal manifest verification. Archived v8/v9 whitelisted result fields equal the actual public records. v8 retains whole-run cleanup FAIL and false global display/native flags. The separate v9 run accepts the pinned local forced-ScreenPlay subset: page 9 pass/1 WebGL skip, 14 owned fixed color regions, 7200 sampled pixels, zero mismatches, one ScreenPlay submission tag, no fallback, normal XRes close with independent host exit, audit, original-state restoration and task cleanup.
+
+All 36 public measurement files equal the actual final v9 source. Selected v8/v9 ownership, audit, helper/render and fixture source remain byte-identical. Original fixture v1 remains; v2 has the recorded animation-barrier hash. The external Qt role marker is excluded from the production 20-path EKA patch. Default auto is only a TU compile result. C33 retains original WIP and the 383-byte UI resource, not pure CI identity. Finish whole-call deadline limitations and unaccepted trusted input/default EGL/MMF/native window resize/phone/performance remain explicit.
+
+No fresh launch token or raw URL is archived in the result records; there are no screenshots, runtime-log or binary payloads. Two exact source headers retain cp1252 punctuation, and the two fixed public adapter-output logs remain allowed. Final preflight passes. This review did not execute a guest, query a display, modify shared source or read private data.

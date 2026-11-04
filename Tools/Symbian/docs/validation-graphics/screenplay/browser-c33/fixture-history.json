@@ -1,0 +1,9 @@
+{
+  "schema": "screenplay-browser-fixture-history-v1",
+  "original_fixture_html_sha256": "caa21e68570910720a994b120c7e499124a9f7a5786f59200a2b54bb9e6efabc",
+  "version2_html_sha256": "78a6f3f4df3cdc37b6b634d104bab3d783b4c56749b0c340b96142b6b91b882f",
+  "version2_change": "Register animationend before adding the CSS animation class; complete after actual terminal motion check; retain original expected position/ROIs and 9000ms watchdog",
+  "original_fixture_preserved": true,
+  "version2_raises_or_relaxes_pixel_expectations": false,
+  "scope": "Fixture content revision, separate from browser binary or native API implementation; early functional failures remain recorded."
+}

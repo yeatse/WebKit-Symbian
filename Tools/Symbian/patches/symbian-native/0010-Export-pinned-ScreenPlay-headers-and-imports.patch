@@ -1,0 +1,219 @@
+From: Symbian WebKit port <fixture@example.invalid>
+Subject: [PATCH] Export pinned ScreenPlay headers and frozen imports
+
+Preserve original publishedPartner/prototype declarations and frozen ordinals.
+Provide separate CMake targets; actual firmware support remains a runtime check.
+No runtime archive or image-capability changes.
+
+--- /dev/null
++++ b/research/native-sdk/screenplay.json
+@@ -0,0 +1,87 @@
++{
++  "schema": "symbian.screenplay/v1",
++  "sdk_version": "0.3.0",
++  "exposure": "publishedPartner/prototype original APIs; no publishedAll or firmware-compatibility claim",
++  "firmware_compatibility": "unknown",
++  "headers": [
++    {
++      "source": "graphics/graphicsutils/commongraphicsheaders/inc/surface.h",
++      "destination": "include/native/graphics/surface.h",
++      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
++      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
++      "git_blob_sha1": "2e3dd16e9e317e988f5f876dc783833bd65040ca",
++      "sha256": "ccbd34d1a5b91ba2615336f054fbad9d978971259c521bfee6f3e7c594d07854"
++    },
++    {
++      "source": "graphics/graphicshwdrivers/surfacemgr/inc/surfacemanager.h",
++      "destination": "include/native/graphics/surfacemanager.h",
++      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
++      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
++      "git_blob_sha1": "d83d3d7273b5e283f448351e983026cae3b32a39",
++      "sha256": "08582668d3b1463e4e9c13f92e3eb45b15730185df6e4fcb154eba88c44ef43b"
++    },
++    {
++      "source": "graphics/graphicscomposition/surfaceupdate/inc/surfaceupdateclient.h",
++      "destination": "include/native/graphics/surfaceupdateclient.h",
++      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
++      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
++      "git_blob_sha1": "5119d6909cbe6a7d7090494013328f8ee2a89466",
++      "sha256": "9e3fd2f8e49e3984af7fc6b3ad823471e695f93a4e85aeb53436938501741c41"
++    },
++    {
++      "source": "graphics/graphicscomposition/surfaceupdate/inc/suerror.h",
++      "destination": "include/native/graphics/suerror.h",
++      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
++      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
++      "git_blob_sha1": "4c7a3d87bbdb438d883670417d9679bf22a48ffc",
++      "sha256": "49a92e3e4fe7fac0bd5cfeab82a6bafcbf193a70d3dbe6032e094792281b4c04"
++    },
++    {
++      "source": "graphics/windowing/windowserver/inc/Graphics/surfaceconfiguration.h",
++      "destination": "include/native/graphics/surfaceconfiguration.h",
++      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
++      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
++      "git_blob_sha1": "5daaceabd17acdf9357e05c34fdacd9fe38a7ad1",
++      "sha256": "d727d52201cfa121b97ad7da983d4b4564e4566340c497fde6c79c4a806acc88"
++    },
++    {
++      "source": "graphics/windowing/windowserver/inc/Graphics/openwfc/surfaceconfiguration.inl",
++      "destination": "include/native/graphics/surfaceconfiguration.inl",
++      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
++      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
++      "git_blob_sha1": "6f9a5ce28b2b9b8d89a31e3244a93e7bdd565035",
++      "sha256": "33c3c6cfc5965cb9f55deb97deb317042718eef8d838170be0bd90c3caf3a591"
++    },
++    {
++      "source": "kernelhwsrv/kernel/eka/include/pixelformats.h",
++      "destination": "include/native/pixelformats.h",
++      "repository": "SymbianSource/oss.FCL.sf.os.kernelhwsrv",
++      "revision": "0c3208650587ac0230aed8a74e9bddb5288023eb",
++      "git_blob_sha1": "e064e14d3dcd36a0cce13e2a5db57d2fa52d908b",
++      "sha256": "faec7b63083ab89344013c37f2262e853f54a1714b6bba379201cab6a3350a49"
++    }
++  ],
++  "libraries": [
++    {
++      "source": "graphics/graphicshwdrivers/surfacemgr/eabi/surfacemanageru.def",
++      "destination": "share/symbian/screenplay/defs/surfacemanager.dll.def",
++      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
++      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
++      "git_blob_sha1": "5423cb9636caba8874d446036415c9b9999de83b",
++      "sha256": "d0fafa4f79bf28a89a2e5b172f08d715a825a0e0ca27108546ebb78399941fdb",
++      "dll": "surfacemanager.dll",
++      "exports": 16
++    },
++    {
++      "source": "graphics/graphicscomposition/surfaceupdate/eabi/surfaceupdateclientU.def",
++      "destination": "share/symbian/screenplay/defs/surfaceupdateclient.dll.def",
++      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
++      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
++      "git_blob_sha1": "88f05a9ea1d8aeb6a0316702af6057f942c92812",
++      "sha256": "a4638d2b160fc2984ba8a58cded337aef3d1ae26a4e77377dee62833c4e4f775",
++      "dll": "surfaceupdateclient.dll",
++      "exports": 9
++    }
++  ],
++  "cmake_sha256": "c61b12faad7e0c3204308056be512eb79d25150b78f955c4a5c56c26828103a6"
++}
+--- /dev/null
++++ b/symbian/project/screenplay.py
+@@ -0,0 +1,65 @@
++"""Stage pinned original ScreenPlay headers and complete frozen DLL imports.
++
++These publishedPartner/prototype interfaces do not establish compatibility
++with an untested firmware. No system implementation or capability is supplied.
++"""
++
++import hashlib
++import json
++from pathlib import Path
++
++from symbian.sdk import build_import_proxy
++
++MANIFEST = "research/native-sdk/screenplay.json"
++
++
++def _records(workspace: Path) -> dict:
++    """Load the exact, separately reviewed ScreenPlay source contract."""
++    return json.loads((workspace / MANIFEST).read_text())
++
++
++def _copy(workspace: Path, output: Path, record: dict) -> None:
++    """Copy a pinned source without replacing a differing existing payload."""
++    source = workspace / "research/upstream" / record["source"]
++    data = source.read_bytes()
++    if hashlib.sha256(data).hexdigest() != record["sha256"]:
++        raise ValueError(f"ScreenPlay source digest mismatch: {source}")
++    destination = output / record["destination"]
++    if destination.is_symlink():
++        raise ValueError(f"ScreenPlay destination is a symlink: {destination}")
++    if destination.exists():
++        if not destination.is_file() or destination.read_bytes() != data:
++            raise ValueError(f"ScreenPlay payload differs: {destination}")
++        return
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    destination.write_bytes(data)
++
++
++def stage_screenplay_headers(workspace: Path, output: Path) -> None:
++    """Deliver the original include closure with its source provenance."""
++    manifest = _records(workspace)
++    for record in manifest["headers"]:
++        _copy(workspace, output, record)
++    destination = output / "share/symbian/screenplay/manifest.json"
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    data = (workspace / MANIFEST).read_bytes()
++    if destination.exists() and destination.read_bytes() != data:
++        raise ValueError("Existing ScreenPlay source manifest differs")
++    destination.write_bytes(data)
++
++
++def stage_screenplay_imports(
++    workspace: Path, output: Path, compiler: Path, linker: Path
++) -> None:
++    """Build complete frozen ordinal proxies, without firmware DLL bytes."""
++    for library in _records(workspace)["libraries"]:
++        _copy(workspace, output, library)
++        name = library["dll"].removesuffix(".dll")
++        build_import_proxy(
++            output / library["destination"],
++            [],
++            library["dll"],
++            output / "proxies" / name,
++            str(compiler),
++            str(linker),
++        )
+--- a/symbian/project/sdk.py
++++ b/symbian/project/sdk.py
+@@ -547,6 +547,9 @@
+     from symbian.project.native_surface import stage_native_headers
+ 
+     stage_native_headers(workspace, output)
++    from symbian.project.screenplay import stage_screenplay_headers
++
++    stage_screenplay_headers(workspace, output)
+     from symbian.project.portable import (
+         stage_freetype_headers,
+         stage_jpeg_headers,
+@@ -739,6 +742,9 @@
+     from symbian.project.native_surface import stage_native_imports
+ 
+     stage_native_imports(workspace, output, compiler, linker, progress=progress)
++    from symbian.project.screenplay import stage_screenplay_imports
++
++    stage_screenplay_imports(workspace, output, compiler, linker)
+     if progress:
+         progress("all frozen imports staged and validated")
+ 
+--- a/symbian/project/templates/SymbianApp.cmake
++++ b/symbian/project/templates/SymbianApp.cmake
+@@ -17,6 +17,7 @@
+ include(SymbianPlatform)
+ include(SymbianGraphics)
+ include(SymbianNativeSurface)
++include(SymbianScreenPlay)
+ include(SymbianPortable)
+ include(SymbianQtMobility)
+ set(SYMBIAN_CA_BUNDLE "" CACHE STRING
+--- /dev/null
++++ b/symbian/toolchain/cmake/SymbianScreenPlay.cmake
+@@ -0,0 +1,19 @@
++# Pinned publishedPartner/prototype ScreenPlay interfaces. Actual firmware
++# services, mappability and pixel-format support must be checked at runtime.
++include_guard(GLOBAL)
++foreach(pair IN ITEMS "SurfaceManager:surfacemanager"
++    "SurfaceUpdate:surfaceupdateclient")
++  string(REPLACE ":" ";" fields "${pair}")
++  list(GET fields 0 name)
++  list(GET fields 1 dll)
++  set(proxy "${SYMBIAN_SDK_PREFIX}/proxies/${dll}/${dll}.dso")
++  if(EXISTS "${proxy}" AND NOT TARGET Symbian::${name})
++    add_library(SymbianScreenPlay${name} INTERFACE)
++    add_library(Symbian::${name} ALIAS SymbianScreenPlay${name})
++    target_link_libraries(SymbianScreenPlay${name} INTERFACE
++      SymbianNativeAbi Symbian::EUser "${proxy}")
++    set_target_properties(SymbianScreenPlay${name} PROPERTIES
++      SYMBIAN_SCREENPLAY_API "${name}"
++      SYMBIAN_SCREENPLAY_FIRMWARE_COMPATIBILITY "unknown")
++  endif()
++endforeach()

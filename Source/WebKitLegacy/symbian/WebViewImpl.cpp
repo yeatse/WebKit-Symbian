@@ -456,6 +456,15 @@ void WebViewImpl::renderCompositedFrame()
 #endif
 }
 
+bool WebViewImpl::requiresNativeVideoWindow() const
+{
+#if ENABLE(VIDEO)
+    return MediaPlayerPrivateSymbian::requiresNativeVideoWindow();
+#else
+    return false;
+#endif
+}
+
 void WebViewImpl::attachRootGraphicsLayer(GraphicsLayer* layer)
 {
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)

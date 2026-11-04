@@ -1,0 +1,27 @@
+{
+  "status": "PASS_ACTUAL_SOURCE_OWNED_HOST_ADAPTER",
+  "cases": 47,
+  "assertions": 298,
+  "sanitizer": "undefined",
+  "source_files": [
+    {
+      "name": "ScreenPlaySurface.h",
+      "bytes": 3074,
+      "sha256": "cceb09a382294627d1f10f81a2452f7022d52ebbc229827c17b038d382afdf26"
+    },
+    {
+      "name": "ScreenPlaySurface.cpp",
+      "bytes": 13659,
+      "sha256": "ffad6dafcddaaf2993425bf8fc2e59933ba9f5cc7e6d1f5424d7eac4229269f4"
+    }
+  ],
+  "build_exit": 0,
+  "test_exit": 0,
+  "private_client_protocol_verified": false,
+  "native_ABI_verified": false,
+  "guest_run": false,
+  "display_verified": false,
+  "performance_verified": false,
+  "phone_verified": false,
+  "scope": "Byte-exact production presenter copy; owned deterministic API/callback adapter only; private client mocked"
+}

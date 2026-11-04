@@ -1,0 +1,29 @@
+{
+  "status": "HOST_CONTRACT_PASS_WITH_DOCUMENTED_BACKPRESSURE_LIMITATION",
+  "source_sha256": "54e5056b8070ecfc88487ed3008f392559f40a72f6305dfa15866ea42a6c7abd",
+  "actual_body_sha256": "05fb72a399d262774dfe893820f33e4842f2573cb016af9f8c5596a472c9729a",
+  "actual_queue_sha256": "b8b7b21f26aaba4610b50b7c50cdcd3916c101bcb24f83193bbab85492ded0f4",
+  "results": [
+    {
+      "name": "contract",
+      "cases": 15,
+      "compile_exit": 0,
+      "test_exit": 0
+    },
+    {
+      "name": "backpressure",
+      "cases": 1,
+      "compile_exit": 0,
+      "test_exit": 0
+    }
+  ],
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "guest_executed": false,
+  "display_verified": false,
+  "strict_whole_call_2000ms_guarantee": false,
+  "scope": "Actual method body and actual queue, with owned API/lock/session stand-ins; no HLE or graphics backend execution",
+  "limitation": "Normal legacy scheduler submission can block on a full queue while holding kernel; Finish then waits beyond its polling budget when reacquiring kernel. The bounded host counterexample releases the queue after 2250 ms."
+}

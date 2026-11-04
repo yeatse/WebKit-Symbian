@@ -1,0 +1,22 @@
+# Independent EKA ScreenPlay source review
+
+Status: final v3 source review passes with the explicit limited-Finish behavior below. No unresolved source blocker was found within this review's scope. This is not a claim that NativeFullFinish is fully implemented or that runtime verification passed.
+
+Scope: the external overlay under `/workspace/symbian-screenplay-eka-work/overlay`, its baseline, the pinned public SDK sources, and probe v2. This reviewer changed only this external review directory. Compilation/linking, guest execution, display observation, deployment and preservation remain Root-owned. No guest, display, namespace, firmware/private configuration, or prohibited runtime diagnostics were used.
+
+Review findings:
+
+1. The first Finish implementation invoked legacy `screen->redraw(driver)` while holding kernel/screen locks, before establishing its finite wait. A full legacy graphics queue could therefore wait forever. The final implementation removes that path, tries the screen mutex without waiting, and returns `KErrNotReady` when screen rendering is pending or contended. The corrected FIFO marker and late-completion ownership passed the helper's source recheck. This is a deliberately limited Finish implementation: success covers drawing already submitted to the graphics worker; callers can receive a real error while WServ drawing remains pending. The native full-Finish contract remains unimplemented for that pending work, and a Clear followed immediately by Finish may fail the canary honestly.
+2. Probe v2 calls `KeyColor()`, but the earlier overlay let `EWsWinOpKeyColor` fall through the unimplemented redraw-window handler, which returned zero. Final `winuser.cpp:1133` adds an explicit case returning transparent black, consistent with the implemented premultiplied-alpha GDI overlay and the pinned public alpha-mode/no-surface contract. This correction is present in final SHA256 `fb8fd117c354a77ba23c8d2402003f58b9fd2ef3152319e25761dc1f1044d060`.
+
+No other blocker was found in the reviewed normal API path. Surface Manager control numbers, `TDeviceParam` field order, creation/info fields, returned positive thread-owned chunk handle, per-process open counts and final-channel cleanup agree with the pinned client/driver interfaces. Unsupported creation variants, hints, formats and DMA-write synchronization return errors.
+
+The SUS path validates a registered managed surface and valid buffer, converts BGRA into an owned RGBA image and publishes a second owned mailbox copy before completing Available. A caller may reuse its mapped buffer after successful Available without a consumer retaining that chunk. Failed submissions complete the pending notification with the failure; cancellation/session teardown complete it with cancel. Displayed and DisplayedXTimes return not-supported. These facts establish buffer release only; they do not establish display, scanout or vblank.
+
+Explicit registration uses independent session/screen entries. Window attachment retains its own registration; replacement/removal/destruction releases it. Closing a WServ session destroys windows and releases explicit registrations. Registration keeps a managed surface alive after the last application surface reference closes. The alpha-window query rejection and managed dimensions before the first uploaded frame are present.
+
+Limits requiring Root's acceptance/verification: CPU-mappable ARGB8888_PRE only; up to three buffers, 4096 per dimension, 32 MiB per surface and a 64 MiB live registry budget. Chunks retained only by existing mapped RChunk handles are outside that registry budget. No runtime compatibility, presentation, performance, physical-phone, or full Finish support claim follows from this review.
+
+No host functional tests were run by this reviewer. The Catch2 validation cases and finite-finish contract source were read; they do not substitute for Root's final actual-source compile/link and runtime checks. `finish-review.md` records the separate FIFO/lifetime review and retains the initial blocker history.
+
+`review-pins.json` freezes all 19 final overlay paths, the final manifest/patch/checksum-root identities, 13 verified pinned public SDK sources, and the v2 canary source. All 36 author checksums passed independently, and all 19 overlay files match both final manifest and exact replay. Final manifest SHA256: `569b0f2586e735fc5983816498d7bf8e83f4ef8f6c89702c67ce0b0f9d52506e`. Final patch SHA256: `0e6dbbdb9f5ca721a1ed786fa8ac2f159f1fda9b52b817861c5b5318fdf87ec3`.

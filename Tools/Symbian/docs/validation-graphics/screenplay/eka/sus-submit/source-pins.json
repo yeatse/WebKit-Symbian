@@ -1,0 +1,84 @@
+{
+  "created_utc": "2026-11-02T01:32:52.114600+00:00",
+  "status": "SOURCE_BUG_CONFIRMED_EXTERNAL_FIX_AND_HOST_CONTRACT_PASS",
+  "exact_actual_caller_client_and_public_evidence": [
+    {
+      "path": "/workspace/symbian-screenplay-private-probe-work/screenplay_probe.cpp",
+      "bytes": 21065,
+      "sha256": "058daffe7f0d4f1be2559ba0bb768ddd4784404d945fb6cd543897299c375b4f"
+    },
+    {
+      "path": "/workspace/symbian-screenplay-private-probe-work/ScreenPlayUpdateSession.cpp",
+      "bytes": 5224,
+      "sha256": "380904ada53b188fb8580cbfb1e60e20e101d03ffff5de672676d0815225824f"
+    },
+    {
+      "path": "/workspace/WebKit-Symbian-graphics/Tools/Symbian/browser/ScreenPlayUpdateSession.cpp",
+      "bytes": 5224,
+      "sha256": "380904ada53b188fb8580cbfb1e60e20e101d03ffff5de672676d0815225824f"
+    },
+    {
+      "path": "/workspace/symbian-sdk/include/native/graphics/suerror.h",
+      "bytes": 1375,
+      "sha256": "49a92e3e4fe7fac0bd5cfeab82a6bafcbf193a70d3dbe6032e094792281b4c04"
+    },
+    {
+      "path": "/workspace/symbian-screenplay-root-private-nodbus-host37-run-01-public/result.json",
+      "bytes": 4786,
+      "sha256": "157afed4d5862f5cdbf8ba7ab2b529e63a6253117f3731759cf0d38f81928eb5"
+    }
+  ],
+  "public_original_provenance": [
+    {
+      "repository": "SymbianSource/oss.FCL.sf.os.kernelhwsrv",
+      "revision": "0c3208650587ac0230aed8a74e9bddb5288023eb",
+      "path": "kernel/eka/include/e32cmn.h",
+      "bytes": 194986,
+      "sha256": "3651ca75a1e9d1241fc14fe683796bc7445691b30191a67913195aab276830fb",
+      "git_blob_sha1": "d51f5bb0b0230a9113181177b0165ca8705ca002",
+      "original_tree_blob_verified": true,
+      "url": "https://raw.githubusercontent.com/SymbianSource/oss.FCL.sf.os.kernelhwsrv/0c3208650587ac0230aed8a74e9bddb5288023eb/kernel/eka/include/e32cmn.h"
+    },
+    {
+      "repository": "SymbianSource/oss.FCL.sf.os.kernelhwsrv",
+      "revision": "0c3208650587ac0230aed8a74e9bddb5288023eb",
+      "path": "kernel/eka/include/e32cmn.inl",
+      "bytes": 210507,
+      "sha256": "dc12b42f1af459c529416677e766a6bca1e8d7f4d2977d8566559a5426621345",
+      "git_blob_sha1": "d799ce9ddae1485b5abb76b6f62c1e6578f6e566",
+      "original_tree_blob_verified": true,
+      "url": "https://raw.githubusercontent.com/SymbianSource/oss.FCL.sf.os.kernelhwsrv/0c3208650587ac0230aed8a74e9bddb5288023eb/kernel/eka/include/e32cmn.inl"
+    },
+    {
+      "repository": "SymbianSource/oss.FCL.sf.os.kernelhwsrv",
+      "revision": "0c3208650587ac0230aed8a74e9bddb5288023eb",
+      "path": "kernel/eka/include/e32std.inl",
+      "bytes": 224989,
+      "sha256": "d862ba10326d93269d7a7c7d60d2110de62d88688bf3476e634b95f696d7e11b",
+      "git_blob_sha1": "ba67e818ad2087eede3181d20625adaa7959bdd7",
+      "original_tree_blob_verified": true,
+      "url": "https://raw.githubusercontent.com/SymbianSource/oss.FCL.sf.os.kernelhwsrv/0c3208650587ac0230aed8a74e9bddb5288023eb/kernel/eka/include/e32std.inl"
+    }
+  ],
+  "patch": {
+    "status": "EXTERNAL_MINIMAL_OPTIONAL_REGION_FIX_PREPARED",
+    "path": "src/emu/services/src/window/surface_update.cpp",
+    "before_sha256": "80349c3baf8034f66b597eaa6c12cdef5e3b85f3d0b05d99aa3d23f835cb8c76",
+    "after_sha256": "6c0b1bd7a2342ef2bd03ef5c38c89e6d9134c94a273ac8361480eb572bd8c340",
+    "patch_sha256": "755238fbc95daa764f04d054552a7b87f05a484448db72890e2b6d3d217dad22",
+    "external_apply_check": true,
+    "external_exact_replay": true,
+    "external_reverse_check": true,
+    "reviewer_shared_edits": false,
+    "original_19_path_freeze_modified": false
+  },
+  "test_result": {
+    "path": "/workspace/symbian-screenplay-eka-review-work/sus-submit/test-result.json",
+    "bytes": 840,
+    "sha256": "f4ccd75460cfd284ffd04fe054ad2ebc2f278b16d5e7ab02d90ac7e292a7c31d"
+  },
+  "reviewer_shared_edits": false,
+  "original_19_path_freeze_modified": false,
+  "reviewer_guest_or_display_run": false,
+  "native_runtime_pass_claim": false
+}

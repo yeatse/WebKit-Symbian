@@ -1,0 +1,13 @@
+{
+  "status": "EXTERNAL_SINGLE_LINE_SOURCE_FIX_NOT_SHARED_APPLIED",
+  "path": "src/emu/kernel/src/svc.cpp",
+  "before_sha256": "9ab34c9d569a5b56b48c9619abda2817d43193ab183a1249aa9207fc1b18b2ca",
+  "after_sha256": "4d87532f139d1959ba554bdc2f4b7a5e5c5c2c952ddd37ece5011de17bbbde5d",
+  "patch_sha256": "93d20ffc5fc99f945927f4346eb66ad69b539afd587c5c2ca2081caececd110d",
+  "external_apply_check": true,
+  "external_exact_replay": true,
+  "external_reverse_check": true,
+  "shared_source_unchanged": true,
+  "frozen_19_path_candidate_modified": false,
+  "scope": "Adds only S^3/v10 0x0A ChannelRequest registration; v94 unchanged."
+}

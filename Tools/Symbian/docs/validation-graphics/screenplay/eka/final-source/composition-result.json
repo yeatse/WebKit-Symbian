@@ -1,0 +1,16 @@
+{
+  "status": "PASS_SCOPED_SOURCE_COMPOSITION_WITH_DOCUMENTED_BACKPRESSURE_LIMITATION",
+  "paths": 20,
+  "component_count": 6,
+  "patch_sha256": "4389b6c9e2d23fc9b38c55b4899f20b0ec52dfc1d4247d4df40280cd9d0f6c00",
+  "manifest_sha256": "7dcc1de33264e7f4618e8be706d97454f3db72611b9dd3eae6314a80d5c9d1ab",
+  "forward_exact": true,
+  "reverse_exact": true,
+  "current_shared_source_match_paths": 20,
+  "comment_only_component": true,
+  "executable_code_changed_by_v2": false,
+  "whole_API_2000ms_guarantee": false,
+  "guest_executed_by_this_agent": false,
+  "browser_display_verified_by_this_agent": false,
+  "phone_verified": false
+}

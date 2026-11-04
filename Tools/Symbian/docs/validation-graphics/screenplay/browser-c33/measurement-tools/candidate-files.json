@@ -1,0 +1,58 @@
+{
+  "browser.exe": {
+    "bytes": 59986824,
+    "sha256": "1b01c39cd91fc28100d0566ace9c5dd357f29cca1b6231ec417f5c85660a8cac",
+    "clone_c_destination_components": [
+      "sys",
+      "bin",
+      "browser.exe"
+    ]
+  },
+  "browser_loc.rsc": {
+    "bytes": 74,
+    "sha256": "30724f35615879bf281c61e1a079497b0c938822d3fc25098b180ee275c58a00",
+    "clone_c_destination_components": [
+      "resource",
+      "apps",
+      "browser_loc.rsc"
+    ]
+  },
+  "browser_ui.rsc": {
+    "bytes": 383,
+    "sha256": "697d56af49ce2fbde1e73ad3063ea9b7325abe0ef0a2081f66e915facd6a3b82",
+    "clone_c_destination_components": [
+      "resource",
+      "apps",
+      "browser_ui.rsc"
+    ]
+  },
+  "browser_reg.rsc": {
+    "bytes": 97,
+    "sha256": "b0a97bcbaa79c250f78611f8a0e976c44e085cdb19dbbfe83fa8fbaae78e8056",
+    "clone_c_destination_components": [
+      "private",
+      "10003a3f",
+      "import",
+      "apps",
+      "browser_reg.rsc"
+    ]
+  },
+  "icudt70l.dat": {
+    "bytes": 10261824,
+    "sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+    "clone_c_destination_components": [
+      "resource",
+      "icu",
+      "icudt70l.dat"
+    ]
+  },
+  "fonts.conf": {
+    "bytes": 935,
+    "sha256": "3dbcf8a3c9b39c0d1e15e6c6906789c0b55a4f6c02f5a63dbc05fe4792aa864c",
+    "clone_c_destination_components": [
+      "resource",
+      "fontconfig",
+      "fonts.conf"
+    ]
+  }
+}

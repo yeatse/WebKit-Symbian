@@ -196,9 +196,10 @@ private:
 
 class CVideoPlayer final : public MediaPlayer, public MVideoPlayerUtilityObserver {
 public:
-    CVideoPlayer(MediaPlayerClient& aClient, RWindow& aWindow)
+    CVideoPlayer(MediaPlayerClient& aClient, MNativeVideoWindow& aWindow)
         : iClient(aClient)
-        , iWindow(aWindow)
+        , iNativeVideoWindow(aWindow)
+        , iWindow(aWindow.VideoWindow())
     {
     }
 
@@ -340,6 +341,11 @@ private:
             return KErrNone;
         }
         CCoeEnv* env = CCoeEnv::Static();
+        if (!iWindowAdded) {
+            TInt error = iNativeVideoWindow.PrepareNativeVideoWindow();
+            if (error != KErrNone)
+                return error;
+        }
         TRAPD(error, {
             if (!iWindowAdded) {
                 iUtility->AddDisplayWindowL(env->WsSession(), *env->ScreenDevice(), iWindow, iRect, iClip);
@@ -353,6 +359,7 @@ private:
     }
 
     MediaPlayerClient& iClient;
+    MNativeVideoWindow& iNativeVideoWindow;
     RWindow& iWindow;
     TMediaFile iFile;
     CVideoPlayerUtility2* iUtility { nullptr };
@@ -370,6 +377,6 @@ private:
 MediaPlayer* CreateMediaPlayer(void* aWindow, MediaPlayerClient& aClient, bool aHasVideo)
 {
     if (aHasVideo)
-        return new CVideoPlayer(aClient, *static_cast<RWindow*>(aWindow));
+        return new CVideoPlayer(aClient, *static_cast<MNativeVideoWindow*>(aWindow));
     return new CAudioPlayer(aClient);
 }
