@@ -197,6 +197,9 @@ public:
     virtual bool canGoForward() const = 0;
 
     virtual void setFocused(bool) = 0;
+    // Audible media and AudioContext start only from a user gesture by
+    // default (HTML "allowed to play"). Test harnesses may lift this.
+    virtual void setMediaPlaybackRequiresUserGesture(bool) { }
     // Taps become clicks; drags scroll.
     virtual void handlePointer(PointerEvent, int x, int y) = 0;
     // Returns the accepted capacity; zero retains the mouse-only fallback.

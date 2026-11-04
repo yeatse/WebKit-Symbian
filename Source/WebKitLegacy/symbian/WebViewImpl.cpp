@@ -367,8 +367,11 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
     // Worklet interfaces disabled until its asynchronous teardown is complete.
     settings.setWebAudioEnabled(true);
     settings.setAudioWorkletEnabled(false);
-    settings.setRequiresUserGestureForAudioPlayback(true);
 #endif
+    // HTML leaves "allowed to play" to the user agent. Like other mobile
+    // browsers, audible media and AudioContext start only from user
+    // activation; muted media may still autoplay.
+    settings.setRequiresUserGestureForAudioPlayback(true);
     settings.setServiceWorkersEnabled(false);
     settings.setSharedWorkerEnabled(false);
     settings.setCacheAPIEnabled(false);
@@ -717,6 +720,12 @@ bool WebViewImpl::canGoBack() const
 bool WebViewImpl::canGoForward() const
 {
     return m_page->backForward().canGoBackOrForward(1);
+}
+
+void WebViewImpl::setMediaPlaybackRequiresUserGesture(bool required)
+{
+    // Media sessions read the restriction when an element or context is made.
+    m_page->settings().setRequiresUserGestureForAudioPlayback(required);
 }
 
 void WebViewImpl::setFocused(bool focused)

@@ -1003,6 +1003,12 @@ void CWebContainer::MCoeFepAwareTextEditor_Extension1_Reserved_4()
 
 // Input self-test.
 
+void CWebContainer::AllowMediaWithoutUserGesture()
+{
+    // Test harnesses cannot supply user activation before autorun pages play.
+    iWebView->setMediaPlaybackRequiresUserGesture(false);
+}
+
 void CWebContainer::EnableInputSelfTest()
 {
     if (!iSelfTest)

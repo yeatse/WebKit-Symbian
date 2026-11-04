@@ -66,6 +66,7 @@ public:
     // Chinese and Latin input are replayed and the field's text is logged
     // through RDebug after each.
     void EnableInputSelfTest();
+    void AllowMediaWithoutUserGesture();
 
 private:
     CWebContainer(MWebContainerObserver& aObserver);

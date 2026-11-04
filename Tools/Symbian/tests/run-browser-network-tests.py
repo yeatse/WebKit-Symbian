@@ -283,6 +283,9 @@ def run_suite(args, suite, output, work, lock):
     origin = getattr(args, "origins", {}).get(suite, "http://localhost:8765" if suite == "network" else "https://localhost:8767")
     query = {"autorun": 1, "run": token, **getattr(args, "queries", {}).get(suite, {})}
     url = f"{origin}/{suite}.html?" + urlencode(query)
+    # Browser options precede the URL in the one command-line argument.
+    if options := getattr(args, "launch_options", {}).get(suite):
+        url = " ".join([*options, url])
     previous_reports = {path.name for path in args.reports.glob("*.json")}
     previous_runs = {path.resolve() for path in (work / "runs").glob("browser-*")}
     environment = os.environ.copy()

@@ -104,6 +104,7 @@ private:
     bool canGoBack() const final;
     bool canGoForward() const final;
     void setFocused(bool) final;
+    void setMediaPlaybackRequiresUserGesture(bool) final;
     void handlePointer(PointerEvent, int x, int y) final;
     unsigned setTouchCapabilities(unsigned) final;
     bool handleTouch(const TouchPoint*, unsigned count, unsigned modifiers) final;

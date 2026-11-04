@@ -59,6 +59,8 @@ def main():
         output=Path(tempfile.mkdtemp(prefix="media-validation-",dir=work / "runs"))
     network.EXPECTED["media"] = HTTP_CASES + (TLS_CASES if args.ca else ())
     args.origins={"media":"http://localhost:8775"}
+    # Autorun has no user activation; the browser requires one for audible play.
+    args.launch_options={"media":["media-autoplay"]}
     args.queries={"media":{"tls":1,"tlsPort":8776}} if args.ca else {}
     result={"status":"FAIL","started":datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "browser_sha256":hashlib.sha256(args.browser.read_bytes()).hexdigest(),
