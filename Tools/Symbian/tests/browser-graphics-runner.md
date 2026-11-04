@@ -4,13 +4,16 @@ The runner opens the compositing and WebGL pages, checks their console results
 and native presentation logs, and captures a screenshot. Configure EKA2L1 using
 [Testing](../docs/TESTING.md).
 
+Compositing and WebGL need a browser built with `BROWSER_PRESENTATION=auto`,
+which presents through EGL:
+
 ```sh
 python3 Tools/Symbian/tests/run-browser-graphics-tests.py /path/to/browser.exe \
   --suite all --output /tmp/graphics-results
 ```
 
 Use `--suite compositing` or `--suite webgl` to select one page. Run the ScreenPlay
-page with a browser built using `BROWSER_PRESENTATION=screenplay`:
+page with the default browser, built with `BROWSER_PRESENTATION=screenplay`:
 
 ```sh
 python3 Tools/Symbian/tests/run-browser-graphics-tests.py /path/to/browser.exe \

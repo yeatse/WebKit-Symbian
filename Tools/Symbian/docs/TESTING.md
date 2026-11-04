@@ -49,19 +49,21 @@ completion and saves logs under `$SYMBIAN_WEBKIT_WORK/runs`.
 
 ## Browser graphics
 
-```sh
-python3 Tools/Symbian/tests/run-browser-graphics-tests.py \
-  "$SYMBIAN_WEBKIT_WORK/build/browser/e32/browser.exe" \
-  --suite all --output /tmp/graphics-results
-```
-
-This runs compositing and WebGL. Build a ScreenPlay browser and run its fixture:
+The default browser presents through ScreenPlay:
 
 ```sh
-BROWSER_PRESENTATION=screenplay Tools/Symbian/scripts/build-browser.sh
 python3 Tools/Symbian/tests/run-browser-graphics-tests.py \
   "$SYMBIAN_WEBKIT_WORK/build/browser/e32/browser.exe" \
   --suite screenplay --output /tmp/screenplay-results
+```
+
+Compositing and WebGL need EGL. Build an `auto` browser and run them:
+
+```sh
+BROWSER_PRESENTATION=auto Tools/Symbian/scripts/build-browser.sh
+python3 Tools/Symbian/tests/run-browser-graphics-tests.py \
+  "$SYMBIAN_WEBKIT_WORK/build/browser/e32/browser.exe" \
+  --suite all --output /tmp/graphics-results
 ```
 
 Each output directory contains `result.json`, browser and emulator logs, and a

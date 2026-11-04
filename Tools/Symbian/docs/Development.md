@@ -52,7 +52,7 @@ SIS_VERSION=0.3.0 Tools/Symbian/scripts/package-sis.sh
 | Setting | Default | Purpose |
 | --- | --- | --- |
 | `SYMBIAN_JSC_MODE` | `dfg` | JavaScript execution mode: `dfg`, `baseline`, `llint` or `cloop`. Use a separate work directory for each mode. |
-| `BROWSER_PRESENTATION` | `auto` | Try EGL, then ScreenPlay, then bitmap presentation. `screenplay` starts with ScreenPlay; `bitmap` selects bitmap presentation. |
+| `BROWSER_PRESENTATION` | `screenplay` | Present through ScreenPlay, falling back to bitmap presentation. `auto` tries EGL compositing first (needed for accelerated compositing and WebGL); `bitmap` selects bitmap presentation. |
 | `ICU_DATA` | `file` | Load ICU data from `C:/resource/icu`. `static` embeds it in the executable. |
 | `ICU_LOCALES` | Selected common locales | Space-separated locale list, or `all`. |
 | `OPTIMIZE` | `-Os` | Target compiler optimization flags. |
