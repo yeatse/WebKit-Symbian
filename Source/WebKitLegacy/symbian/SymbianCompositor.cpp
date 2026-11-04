@@ -19,7 +19,6 @@
 #include <WebCore/TextureMapper.h>
 #include <WebCore/TextureMapperLayer.h>
 #include <wtf/SetForScope.h>
-#include <wtf/text/WTFString.h>
 
 namespace WebKitSymbian {
 using namespace WebCore;
@@ -42,10 +41,30 @@ SymbianCompositor::SymbianCompositor(WebViewImpl& view, void* window)
 
 static void logExtensions(const char* name, const char* extensions)
 {
-    // Log long lists in pieces; the browser log truncates long lines.
-    String list = String::fromLatin1(extensions ? extensions : "");
-    for (unsigned start = 0; start < list.length(); start += 200)
-        WTFLogAlways("Symbian compositor: %s[%u]: %s", name, start / 200, list.substring(start, 200).utf8().data());
+    // Log long lists in lines of whole names; the browser log truncates long lines.
+    constexpr size_t lineLength = 200;
+    const char* next = extensions ? extensions : "";
+    for (unsigned line = 0; *next; ++line) {
+        while (*next == ' ')
+            ++next;
+        const char* start = next;
+        const char* end = next;
+        while (*next && (next == start || static_cast<size_t>(next - start) < lineLength)) {
+            const char* word = next;
+            while (*next && *next != ' ')
+                ++next;
+            if (word != start && static_cast<size_t>(next - start) > lineLength) {
+                next = word;
+                break;
+            }
+            end = next;
+            while (*next == ' ')
+                ++next;
+        }
+        if (end == start)
+            break;
+        WTFLogAlways("Symbian compositor: %s[%u]: %.*s", name, line, static_cast<int>(end - start), start);
+    }
 }
 
 bool SymbianCompositor::initialize()

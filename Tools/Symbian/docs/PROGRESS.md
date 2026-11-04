@@ -89,14 +89,24 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 Measure each step on a Nokia 808 PureView: EKA2L1 maps GLES2 onto the host GPU,
 so emulator timings do not predict device performance.
 
-- [ ] P0: Frame timing in the browser log: page painting, texture upload,
-  `eglSwapBuffers` and ScreenPlay submission, with fixed scrolling, image,
-  animation and WebGL pages for ScreenPlay, EGL and bitmap presentation.
-- [ ] P0: Query the device's EGL and GLES2 extensions (EGLImage, preserved swap
-  and partial update) before work that depends on them.
-- [ ] P0: ScreenPlay for 2D pages and EGL composition on demand: create the
-  compositor when a page attaches composited layers and return to ScreenPlay
-  when they are removed, so the default browser keeps WebGL.
+- [x] P0: Frame timing in the browser log. `frame-stats` (a launch option or
+  `C:\Data\WebKit\frame-stats`) logs average/maximum milliseconds per stage
+  about once a second: EGL `update`, `backing` (painting and texture upload),
+  `draw` and `swap`; ScreenPlay `begin`, `paint` and `submit`; bitmap `paint`
+  and `blit`.
+- [ ] P0: Fixed scrolling, image, animation and WebGL pages, measured with
+  `frame-stats` on the 808 for ScreenPlay, EGL and bitmap presentation.
+- [ ] P0: The device's EGL and GLES2 extensions (EGLImage, preserved swap and
+  partial update), before work that depends on them. The compositor logs the
+  versions, both extension lists and the window surface's swap behavior once;
+  EKA2L1 reports destroyed swaps and no EGLImage, which says nothing about the
+  808.
+- [x] P0: ScreenPlay for 2D pages and EGL composition on demand. The default
+  `auto` build creates the compositor when WebCore attaches composited layers,
+  after ScreenPlay detaches, and returns to ScreenPlay two seconds after the
+  layers are removed. Verified in EKA2L1 by the compositing, WebGL and
+  ScreenPlay suites: ScreenPlay, then EGL (started in about 16 ms), then
+  ScreenPlay again on the same window.
 - [ ] P1: Partial texture uploads and a tiled root layer, preserved swaps with
   scissored composition, and a tile margin beyond the viewport for scrolling.
 - [ ] P1: Hardware JPEG decoding through ICL `CImageDecoder`, scaled to the
