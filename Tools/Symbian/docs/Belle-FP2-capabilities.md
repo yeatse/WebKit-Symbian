@@ -47,6 +47,10 @@ ScreenPlay 软件呈现已有本地构建及模拟器验收（2026-11-04），�
 1 项跳过；14 个屏幕纯色区域共 7200 像素、差异 0，提交标记 1、bitmap 回退 0，
 正常关闭、审计、恢复与私有目录清理全部通过。v8 清理失败记录仍为 FAIL。
 C33 含 IAP/CookieStore/多文件上传 WIP、UI 资源 383 字节，不能当作纯 CI 包。
+纯主树提交 `857a0545` 的 [Actions51 / 0.3.51 实际验包](validation-release-0.3.51/ci/README.md)
+另已通过：3 个 unsigned SIS、13 个载荷、Auth242、ICU、SDK十patch及两套
+ScreenPlay host回归通过；实际浏览器导入SM且无SUS DLL依赖。该CI镜像未安装或运行，
+不把C33显示结果改写成CI镜像实测；普通分支推送只产artifacts，非tag Release。
 默认 `auto` 仍依次尝试 EGL、ScreenPlay、bitmap；其实际切换、可信输入、MMF
 退场、原生浏览器窗口缩放、真机及性能未因此通过。默认 auto 目前另有真实 TU
 编译通过，未运行。Finish 整次调用在 stock 满队列下的硬时限缺口已有 host 反例。

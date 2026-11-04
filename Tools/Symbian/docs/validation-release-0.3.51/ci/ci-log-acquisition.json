@@ -1,0 +1,10 @@
+{
+  "status": "PASS_FIXED_SUMMARIES_ONLY",
+  "source_commit": "857a05456d0c87c104577ccf213dd0b7e2b2d688",
+  "run_id": 41808546697,
+  "job_id": 126501600220,
+  "method": "GitHub plugin fetch_workflow_job_logs -> anonymous stdin -> check-ci-log.py",
+  "raw_log_written_to_disk": false,
+  "raw_log_archived": false,
+  "private_runtime_log_read": false
+}

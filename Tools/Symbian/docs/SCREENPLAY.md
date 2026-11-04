@@ -15,6 +15,15 @@ not established by this run. The known stock-renderer Finish backpressure
 limitation remains documented below. Earlier failed attempts remain unchanged.
 Evidence is in [validation-graphics/screenplay](validation-graphics/screenplay/README.md).
 
+The clean production commit `857a05456d0c87c104577ccf213dd0b7e2b2d688` also
+passes [Actions #51 and actual SIS verification](validation-release-0.3.51/ci/README.md).
+The three unsigned 0.3.51 SIS files contain the expected 13 payloads; their
+browser imports Surface Manager and no Surface Update DLL. SDK patch-stack,
+both ScreenPlay host suites, actual ICU data and the 242-byte Auth resource
+pass verification. This branch push creates artifacts, not a GitHub Release.
+The CI51 binary has not been installed or run; the display evidence above
+belongs to the separately identified local C33 build.
+
 ## Selection and compatibility
 
 `Tools/Symbian/browser/CMakeLists.txt` exposes the build setting

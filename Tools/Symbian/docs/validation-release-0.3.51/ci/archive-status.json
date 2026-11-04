@@ -1,0 +1,20 @@
+{
+  "status": "PASS_ACTUAL_ARTIFACT_AND_INDEPENDENT_REVIEW",
+  "source_commit": "857a05456d0c87c104577ccf213dd0b7e2b2d688",
+  "run_id": 41808546697,
+  "run_number": 51,
+  "artifact_id": 13310974170,
+  "archive_bytes": 34187395,
+  "archive_sha256": "43016d08f6b14233f1556360470e3c2d9977e441696b90f4037040f48f56e11c",
+  "packages": 3,
+  "payloads": 13,
+  "raw_CI_log_archived": false,
+  "raw_runtime_log_read": false,
+  "temporary_download_reference_archived": false,
+  "ELF_downloaded": false,
+  "SIS_or_payload_binaries_archived": false,
+  "guest_executed": false,
+  "phone_verified": false,
+  "GitHub_Release_published_by_branch_push": false,
+  "created_utc": "2026-11-04T10:00:41.862255+00:00"
+}

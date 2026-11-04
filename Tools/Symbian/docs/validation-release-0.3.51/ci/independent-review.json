@@ -1,0 +1,64 @@
+{
+  "status": "PASS_INDEPENDENT_LOCAL_ACTUAL_ARTIFACT_REVIEW",
+  "source_commit": "857a05456d0c87c104577ccf213dd0b7e2b2d688",
+  "run_id": 41808546697,
+  "run_number": 51,
+  "job_id": 126501600220,
+  "artifact_id": 13310974170,
+  "zip_bytes": 34187395,
+  "zip_sha256": "43016d08f6b14233f1556360470e3c2d9977e441696b90f4037040f48f56e11c",
+  "packages": [
+    {
+      "name": "symbian-webkit-icu.sis",
+      "payloads": 1,
+      "crc_and_hash_verified": true
+    },
+    {
+      "name": "jsc.sis",
+      "payloads": 5,
+      "crc_and_hash_verified": true
+    },
+    {
+      "name": "browser.sis",
+      "payloads": 7,
+      "crc_and_hash_verified": true
+    }
+  ],
+  "payloads_reparsed": 13,
+  "exact_source_records_rebound": 39,
+  "Auth242_hash_verified": true,
+  "ICU_actual_payload_hash_bound_to_eight_check_report": true,
+  "E32_normal_parser_repeated": true,
+  "E32_header_and_import_bounds_verified": true,
+  "SurfaceManager_required": true,
+  "SurfaceUpdateClient_absent": true,
+  "audio_stream_retained": true,
+  "dependency_step_skipped_not_fresh_build_claim": true,
+  "CI_summary_matches_identity": true,
+  "raw_CI_log_intentionally_not_available_for_independent_replay": true,
+  "network_executed": false,
+  "guest_executed": false,
+  "phone_verified": false,
+  "raw_memory_or_disassembly_accessed": false,
+  "source_shared_files_modified": false,
+  "Auth11_exact_source_checks_bound": true,
+  "ten_patch_sources_rebound": true,
+  "math_complex_gate_sources_unchanged_from_validated_CI50": [
+    {
+      "path": "Tools/Symbian/scripts/rebuild-sdk-math.py",
+      "sha256": "feaf1c2f0087583b72fc8d3b87ba0ee0ca6cb299b2f62744134865da06691ed4"
+    },
+    {
+      "path": "Tools/Symbian/scripts/rebuild-sdk-complex.py",
+      "sha256": "16a1d6764d452c302241b4322c96859b79d8d7e4e22d4eb7d50d654ddb547111"
+    },
+    {
+      "path": "Tools/Symbian/patches/sdk-0.3.0/math/manifest.json",
+      "sha256": "665d3559cbd941d45558b666d8cadd16bc505a9eb8bec97b07375f8dc3590109"
+    },
+    {
+      "path": "Tools/Symbian/patches/sdk-0.3.0/complex/manifest.json",
+      "sha256": "565a9136147692686a8b53aaaa3d3d976a1998dcaf1d523ad570e651b192e286"
+    }
+  ]
+}

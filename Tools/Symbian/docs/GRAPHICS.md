@@ -12,6 +12,12 @@ performance are unaccepted here. The known Finish whole-call deadline gap under
 stock queue backpressure remains. See [SCREENPLAY.md](SCREENPLAY.md).
 The older EGL/WebGL results below do not validate this ScreenPlay run.
 
+[Actions #51](validation-release-0.3.51/ci/README.md) builds the clean production
+commit and passes actual verification of three unsigned 0.3.51 SIS files and
+13 payloads. Its browser imports Surface Manager, has no Surface Update DLL
+dependency and keeps the 242-byte Auth resource. CI51 installation/runtime has
+not been tested; the local C33 display result remains a separate scope.
+
 Status recorded on 2026-10-29: the EKA2L1 browser passed **10/10 compositing** and
 **9/9 WebGL** checks, with native EGL/GLES2 initialization and successful
 360 × 532 presentation recorded separately for each page. Both browser drivers

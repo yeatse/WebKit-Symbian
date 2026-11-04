@@ -1,0 +1,8 @@
+{
+  "status": "FAIL_CLI_REDIRECT_HTTP403",
+  "artifact_id": 13310974170,
+  "partial_bytes": 0,
+  "partial_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "redirect_URL_and_query_archived": false,
+  "credentials_archived": false
+}

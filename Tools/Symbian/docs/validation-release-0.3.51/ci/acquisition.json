@@ -1,0 +1,11 @@
+{
+  "artifact_id": 13310974170,
+  "file_name": "sis.zip",
+  "primary": "GitHub plugin download_workflow_artifact",
+  "credential_values_or_signed_download_query_archived": false,
+  "temporary_download_reference_written_to_disk": false,
+  "ELF_downloaded": false,
+  "status": "PASS_MATERIALIZED_DIGEST_MATCH",
+  "materialized_bytes": 34187395,
+  "sha256": "43016d08f6b14233f1556360470e3c2d9977e441696b90f4037040f48f56e11c"
+}

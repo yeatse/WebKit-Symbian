@@ -1,0 +1,60 @@
+{
+  "icu_version": "70.1",
+  "full_data_sha256": "672dafc4940a0183cb48c3e369c1a0795cc8dfbf19951c86ced0ad78398f9480",
+  "filter_sha256": "6d52e4489241b07a048ee9231a0add7fac23cb6ae49b8d71228d8030c2c66167",
+  "probe_sha256": "a58d2a4276ee76ac64ca16ed2265d5d37ff9944d4b99b8792f0414bbd98a12e3",
+  "isolation": "ICU host libicuuc.a plus freshly compiled empty stubdata.cpp; UDATA_NO_FILES; explicit udata_setCommonData",
+  "result": "PASS",
+  "checks": [
+    {
+      "name": "full package",
+      "data_sha256": "672dafc4940a0183cb48c3e369c1a0795cc8dfbf19951c86ced0ad78398f9480",
+      "expect_missing": false,
+      "result": "PASS"
+    },
+    {
+      "name": "existing package",
+      "data_sha256": "808fc9bd37589371288b409a8433cf3434ba792ca9d640109c5da41454895d0d",
+      "expect_missing": false,
+      "result": "PASS"
+    },
+    {
+      "name": "all-locales",
+      "data_sha256": "f73e8ac3da74d39c6be62366a277a10e4a0324c23f270d85bc84733a64d760ad",
+      "expect_missing": false,
+      "result": "PASS"
+    },
+    {
+      "name": "all-locales missing UTS46 negative control",
+      "data_sha256": "9e61bde8920418598fa504229f9d2442f0373c1944de9320988047c2254d2521",
+      "expect_missing": true,
+      "result": "PASS"
+    },
+    {
+      "name": "en-only",
+      "data_sha256": "d21308984ef8f5065c4eb94f5fc3f9922fe81de0644d207dda91a580d0693ce1",
+      "expect_missing": false,
+      "result": "PASS"
+    },
+    {
+      "name": "en-only missing UTS46 negative control",
+      "data_sha256": "6b521bb4386098e58d4e8ebc1032e4c1396c83a608a2032f99a28e133f16de5d",
+      "expect_missing": true,
+      "result": "PASS"
+    },
+    {
+      "name": "zh-only",
+      "data_sha256": "6ccfd8df4577be49d62ab88a6b02eedce81126418a71afe0e4b6f0f404a443fb",
+      "expect_missing": false,
+      "result": "PASS"
+    },
+    {
+      "name": "zh-only missing UTS46 negative control",
+      "data_sha256": "fc7c47b091894c0088745209f9cd57d40d96d179cc327d6378f13fc232d5ccde",
+      "expect_missing": true,
+      "result": "PASS"
+    }
+  ],
+  "public_fixed_stdout_omitted": true,
+  "actual_report_sha256": "5d84b5ccd7812d64d2d499987d262e835536f75b9630b39d8424566881dc0522"
+}
