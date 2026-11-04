@@ -83,3 +83,32 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 - [ ] Geolocation.
 - [ ] Device orientation and motion sensors.
 - [ ] Vibration API.
+
+## Symbian^3 graphics and media performance
+
+Measure each step on a Nokia 808 PureView: EKA2L1 maps GLES2 onto the host GPU,
+so emulator timings do not predict device performance.
+
+- [ ] P0: Frame timing in the browser log: page painting, texture upload,
+  `eglSwapBuffers` and ScreenPlay submission, with fixed scrolling, image,
+  animation and WebGL pages for ScreenPlay, EGL and bitmap presentation.
+- [ ] P0: Query the device's EGL and GLES2 extensions (EGLImage, preserved swap
+  and partial update) before work that depends on them.
+- [ ] P0: ScreenPlay for 2D pages and EGL composition on demand: create the
+  compositor when a page attaches composited layers and return to ScreenPlay
+  when they are removed, so the default browser keeps WebGL.
+- [ ] P1: Partial texture uploads and a tiled root layer, preserved swaps with
+  scissored composition, and a tile margin beyond the viewport for scrolling.
+- [ ] P1: Hardware JPEG decoding through ICL `CImageDecoder`, scaled to the
+  displayed size.
+- [ ] P1: Video surfaces that follow layer scrolling and transforms; EGLImage
+  import of MMF surfaces for Canvas 2D and WebGL video frames.
+- [ ] P1: HTTP disk cache, the largest remaining load-time cost.
+- [ ] P2: Media Source Extensions over DevVideo or OpenMAX IL, after
+  confirming that third-party applications can use them on the device.
+- [ ] P2: A3F DevSound output for lower Web Audio latency.
+- [ ] Before WebKit 2.54: compare Cairo, Skia CPU (ARM11 has no NEON) and Skia
+  GPU on the P0 pages; 2.54 removes Cairo.
+
+OpenVG has no WebKit backend, OpenWF-C is a device-manufacturer interface and the
+808 has one core, so these are not planned.
