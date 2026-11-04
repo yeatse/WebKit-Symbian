@@ -47,8 +47,6 @@
       "arg1_bytes": 12,
       "inner": 35,
       "thread": "uint64 little endian; must equal cancellation caller and subscription identity"
-    },
-    "outer4": "plugin message ID, not TOp; official GfxEffects CancelMessage is unimplemented; no policy cancellation inferred"
-  },
-  "rom_cross_check": "See docs/validation-belle/ui/exit-candidate9; gfxtransadapter +0x566 movs r6,#0x23 and SendSynchronousData import. No ROM binaries distributed."
+    }
+  }
 }

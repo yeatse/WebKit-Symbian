@@ -41,7 +41,7 @@ def main():
     completed = subprocess.run([str(args.output/'probe')], capture_output=True, text=True, timeout=10)
     (args.output/'log.txt').write_text(completed.stdout + completed.stderr)
     result = {'status': 'PASS' if completed.returncode == 0 else 'FAIL', 'exit': completed.returncode,
-              'scope': 'actual setter/wakeup functions, host lock and callback-lifetime ordering; not a guest shutdown test',
+              'scope': 'Run-loop wakeup and callback ordering',
               'source_sha256': hashlib.sha256(args.source.read_bytes()).hexdigest(),
               'extracted_sha256': hashlib.sha256(extracted.encode()).hexdigest(), 'compile_command': command}
     (args.output/'result.json').write_text(json.dumps(result, indent=2)+'\n')

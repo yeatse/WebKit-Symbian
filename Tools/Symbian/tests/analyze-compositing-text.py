@@ -34,7 +34,7 @@ def main():
               "image_size": list(image.size), "left": args.left, "width": args.width,
               "tolerance": args.tolerance, "rows": rows,
               "matched": all(row["one_pixel_alternation"] for row in rows.values()),
-              "scope": "Checks two specified stripe rows only; text and the rest of the page require visual review."}
+              "scope": "Text stripe pixel comparison"}
     print(json.dumps(result, indent=2))
     return int(args.require_match and not result["matched"])
 

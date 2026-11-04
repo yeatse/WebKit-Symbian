@@ -386,7 +386,7 @@ def main():
     result = {"status": "FAIL", "pid": args.pid, "window": hex(device.window), "run": args.run_token,
               "window_geometry": device.geometry(device.window), "content_rect": args.content_rect,
               "from_step": args.from_step, "through_step": args.through_step,
-              "scope": "Real XTest interaction only; normal runner shutdown/panic checks and upload records remain required."}
+              "scope": "XTest browser interaction"}
     try:
         session.execute(picker)
         result["status"] = "INTERACTION_COMPLETE" if args.through_step == 8 else "PARTIAL"

@@ -1,1 +1,0 @@
-{"run": "dl-e-3917b1c007b2", "sequence": 9, "operation": "act", "capture_sha256": "ef8db344d9a718b3fa75d3d5b0d67f1e6ea3d411c84813c5464f91b1451e2974", "screenshots_reviewed": true, "actions": [{"target": "fep", "role": "edit-name", "wait": 0.5, "key": "a", "modifier": "Control_L"}]}

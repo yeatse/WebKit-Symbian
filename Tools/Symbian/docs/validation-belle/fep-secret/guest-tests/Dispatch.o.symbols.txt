@@ -1,7 +1,0 @@
-00000018 T EHUICancelGlobalTextView
-0000000c T EHUIGetStoredText
-00000024 T EHUIIsKeypadBased
-00000030 T EHUIIsManualInput
-00000000 T EHUIOpenGlobalTextView
-00000048 T EHUIOpenGlobalTextViewWithSecret
-0000003c T EHUISetInputAvailable

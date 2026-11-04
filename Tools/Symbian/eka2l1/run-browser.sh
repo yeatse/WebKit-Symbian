@@ -40,13 +40,8 @@ run=Path(tempfile.mkdtemp(prefix='browser-'+datetime.datetime.now(datetime.timez
 c=data/'drives/c'
 for directory in ['sys/bin','Data/WebKit','private/10003a3f/import/apps','resource/apps','resource/icu','resource/fontconfig']:
     (c/directory).mkdir(parents=True,exist_ok=True)
-for src,dst in [(exe,'sys/bin/browser.exe'),(exe.parent/'browser_reg.rsc','private/10003a3f/import/apps/browser_reg.rsc'),(exe.parent/'browser_loc.rsc','resource/apps/browser_loc.rsc'),(Path(os.environ['SYMBIAN_BROWSER_ICU']),'resource/icu/icudt70l.dat'),(Path(os.environ['SYMBIAN_BROWSER_PAGE']),'Data/WebKit/test.html')]:
+for src,dst in [(exe,'sys/bin/browser.exe'),(exe.parent/'browser_reg.rsc','private/10003a3f/import/apps/browser_reg.rsc'),(exe.parent/'browser_loc.rsc','resource/apps/browser_loc.rsc'),(exe.parent/'browser_ui.rsc','resource/apps/browser_ui.rsc'),(Path(os.environ['SYMBIAN_BROWSER_ICU']),'resource/icu/icudt70l.dat'),(Path(os.environ['SYMBIAN_BROWSER_PAGE']),'Data/WebKit/test.html')]:
     shutil.copy2(src,c/dst)
-# Older archived browser images predate the native prompt resource. New
-# candidates carry it beside the executable, on the same guest drive.
-ui_resource=exe.parent/'browser_ui.rsc'
-if ui_resource.is_file():
-    shutil.copy2(ui_resource,c/'resource/apps/browser_ui.rsc')
 shutil.copy2(Path(os.environ['SYMBIAN_BROWSER_FONTCONFIG']),c/'resource/fontconfig/fonts.conf')
 for page in Path(os.environ['SYMBIAN_BROWSER_TESTS']).glob('*.html'):
     shutil.copy2(page,c/'Data/WebKit'/page.name)
@@ -63,9 +58,7 @@ if not os.environ.get('DISPLAY'):
     sys.exit('Set DISPLAY to a running Xvfb (-nolisten tcp) or X display for screenshots')
 expected=os.environ.get('EKA2L1_EXPECT_PASS','')
 deadline=time.monotonic()+float(os.environ.get('WAIT','60'))
-# Suites with a complete terminal marker may request a quiet observation period
-# after that marker. WAIT remains the hard deadline; existing callers retain
-# their full observation window. Only a fresh guest log can end the wait early.
+# Wait for the page completion marker and its observation interval.
 completion_grace=os.environ.get('EKA2L1_COMPLETION_GRACE')
 if completion_grace is not None:
     completion_grace=float(completion_grace)

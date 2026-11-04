@@ -1,4 +1,0 @@
-Curl_symbian_getaddrinfo t 2e5e494 4cc
-mbedtls_ssl_conf_alpn_protocols t e646c 44
-nghttp2_session_client_new3 T 2e5f194 4c
-symbian_curl_resolve_records t 2e5e960 498

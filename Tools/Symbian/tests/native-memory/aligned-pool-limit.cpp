@@ -1,5 +1,5 @@
 // Compiles the current production AlignedPool and SymbianSystem implementation.
-// Only native kernel services are replaced; this is not a phone RAM limit test.
+// Host services for the aligned allocation pool.
 #include <e32std.h>
 #include <pthread.h>
 #include <cstdio>

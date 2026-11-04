@@ -1,3 +1,0 @@
-#pragma once
-constexpr int R_BROWSER_PROMPT = 1;
-constexpr int R_BROWSER_AUTH_PASSWORD = 2;

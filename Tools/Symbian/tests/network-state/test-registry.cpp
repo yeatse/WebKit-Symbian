@@ -1,4 +1,4 @@
-// Link against the actual EKA connection.cpp, not a copy of its state logic.
+// Exercise EKA connection.cpp state tracking.
 #include <services/socket/connection.h>
 #include <cassert>
 #include <cstdio>

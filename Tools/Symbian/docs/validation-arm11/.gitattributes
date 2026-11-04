@@ -1,2 +1,0 @@
-# Preserve guest log bytes, including spaces emitted by the test logger.
-**/log.txt -whitespace

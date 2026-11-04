@@ -119,7 +119,7 @@ def main():
     args = parser.parse_args()
     report = {
         "status": "FAIL",
-        "scope": "guest log validation; host exit and fresh screenshot must be checked by runner",
+        "scope": "Network state page results",
         "run": args.run,
     }
     try:

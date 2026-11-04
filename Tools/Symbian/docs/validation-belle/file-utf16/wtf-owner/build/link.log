@@ -1,7 +1,0 @@
--- Configuring done (15.7s)
--- Generating done (0.0s)
--- Build files have been written to: /workspace/symbian-wtf-file-owner-contract-work/build
-ninja: Entering directory `/workspace/symbian-wtf-file-owner-contract-work/build'
-[1/2] Linking CXX executable wtf_file_owner_contract.elf
-[2/2] Generating e32/wtf_file_owner_contract.exe
-8818c12aa7af3db53fc5622089dbc2149f7c7ec907f9c88b886e75111ad2c44a  /workspace/symbian-wtf-file-owner-contract-work/build/e32/wtf_file_owner_contract.exe

@@ -1,9 +1,0 @@
-0297d258 T _ZN3WTF13MonotonicTime3nowEv
-2004cb40 b _ZZN3WTF13MonotonicTime3nowEvE8lastTime
-0050d780 t __ARMv4PILongBXThunk__ZN3WTF13MonotonicTime3nowEv
-00d0060c t __ARMv4PILongBXThunk_clock_gettime
-010fa234 t __ARMv4PILongBXThunk_clock_gettime
-000b60cc t __sync_val_compare_and_swap_1
-000b60b2 t __sync_val_compare_and_swap_4
-000b60f8 t __sync_val_compare_and_swap_8
-         U clock_gettime

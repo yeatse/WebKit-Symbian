@@ -1,4 +1,0 @@
-/workspace/symbian-eka-keyboard-work/profile-check.cpp: In function ‘std::optional<eka2l1::epoc::event> send(eka2l1::epoc::key_event_translator&, eka2l1::epoc::key_map&, uint32_t, bool)’:
-/workspace/symbian-eka-keyboard-work/profile-check.cpp:20:21: warning: narrowing conversion of ‘scan.std::optional<unsigned int>::operator*()’ from ‘unsigned int’ to ‘int32_t’ {aka ‘int’} [-Wnarrowing]
-   20 |     raw.key_evt_={0,*scan,0,0};return translator.translate(raw);
-      |                     ^~~~~

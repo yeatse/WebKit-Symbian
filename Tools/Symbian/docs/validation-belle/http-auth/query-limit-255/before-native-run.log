@@ -1,1 +1,0 @@
-before-native-ui: /workspace/symbian-auth-query-contract-work/overlay/Tools/Symbian/tests/http-auth/fakes/AknQueryDialog.h:33: bool CAknTextQueryDialog::ExecuteLD(int, const TDesC&): Assertion `maximumLength <= CEikSecretEditor::EMaxSecEdSecArrayLength' failed.

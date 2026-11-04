@@ -1,4 +1,4 @@
-// These are the production RSA import/DER/operation helpers, not a reimplementation.
+// Exercise the production RSA import, DER and operation helpers.
 #include "MbedTLSRSADER.h"
 #include "MbedTLSRSAOperations.h"
 #include "vectors.h"

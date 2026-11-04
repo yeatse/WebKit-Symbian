@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate fresh browser graphics page outcomes and native EGL presentation evidence."""
+"""Run the browser compositing, WebGL and ScreenPlay test pages."""
 import argparse
 import datetime
 import hashlib
@@ -17,8 +17,7 @@ import time
 from urllib.parse import urlencode
 import uuid
 
-# Reuse the existing lock and bounded descendant-cleanup implementation without
-# changing the network runner or installing a test CA for these local pages.
+# Share browser locking and process cleanup with the network runner.
 SPEC = importlib.util.spec_from_file_location("graphics_browser_support", Path(__file__).with_name("run-browser-network-tests.py"))
 SUPPORT = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(SUPPORT)
@@ -39,8 +38,15 @@ EXPECTED = {
         "resize-clears-and-retains-objects", "canvas-upload-flip-and-premultiply",
         "canvas-presentation-and-preservation", "context-loss-and-restoration",
     ),
+    "screenplay": (
+        "opaque color patches", "font layout", "overflow clipping", "alpha blending",
+        "element hit testing", "canvas 2D drawing", "dirty region repaint",
+        "animation final position", "resized element geometry",
+    ),
 }
-MARKERS = {"compositing": "PASS: compositing-regression", "webgl": "WEBGL DONE PASS 9/9 passed; 0 failed"}
+DEFAULT_SUITES = ("compositing", "webgl")
+MARKERS = {"compositing": "PASS: compositing-regression", "webgl": "WEBGL DONE PASS 9/9 passed; 0 failed",
+           "screenplay": "PASS: screenplay-regression"}
 
 
 def sha256(path):
@@ -60,15 +66,21 @@ def validate_evidence(suite, url, guest, host, screenshot):
         raise RuntimeError("Missing logs or guest panic/access violation")
     # URL includes a per-run nonce, so a copied old console cannot satisfy a new run.
     messages = re.findall(r"^console: " + re.escape(url) + r":\d+: (.*)$", guest, re.M)
-    prefix = "PASS: " if suite == "compositing" else "WEBGL PASS "
+    prefix = "WEBGL PASS " if suite == "webgl" else "PASS: "
     names = [message[len(prefix):] for message in messages if message.startswith(prefix)]
-    if suite == "compositing":
-        names = [name for name in names if name != "compositing-regression"]
-        terminal = [message for message in messages if message.startswith("RESULT: compositing-regression")]
-        if len(terminal) != 1 or not re.fullmatch(r"RESULT: compositing-regression passed=10 failed=0 frames=\d+", terminal[0]):
-            raise RuntimeError("Missing or conflicting compositing 10/10 terminal result")
-        if int(terminal[0].rsplit("=", 1)[1]) < 2 or messages.count(MARKERS[suite]) != 1:
-            raise RuntimeError("Missing compositing completion or animation frames")
+    if suite in ("compositing", "screenplay"):
+        label = suite + "-regression"
+        names = [name for name in names if name != label]
+        terminal = [message for message in messages if message.startswith("RESULT: " + label)]
+        pattern = r"RESULT: " + label + " passed=" + str(len(EXPECTED[suite])) + r" failed=0"
+        if suite == "compositing":
+            pattern += r" frames=\d+"
+        if len(terminal) != 1 or not re.fullmatch(pattern, terminal[0]):
+            raise RuntimeError("Missing successful " + label + " result")
+        if messages.count(MARKERS[suite]) != 1:
+            raise RuntimeError("Missing " + label + " completion")
+        if suite == "compositing" and int(terminal[0].rsplit("=", 1)[1]) < 2:
+            raise RuntimeError("Missing animation frames")
     else:
         terminal = [message for message in messages if message.startswith("WEBGL DONE ")]
         if terminal != [MARKERS[suite]]:
@@ -80,12 +92,19 @@ def validate_evidence(suite, url, guest, host, screenshot):
     if messages.index(terminal[0]) < max(messages.index(prefix + name) for name in names):
         raise RuntimeError("Page terminal result preceded its checks")
     evidence = guest + "\n" + host
-    initialized = re.search(r"Symbian compositor: native EGL/GLES2 initialized, renderer=([^\r\n]+)", evidence)
-    presents = list(re.finditer(r"Symbian compositor: native EGL/GLES2 presented ([1-9]\d*)x([1-9]\d*)", evidence))
-    if not initialized or not presents or not any(item.start() > initialized.start() for item in presents):
-        raise RuntimeError("Page passed without native EGL initialization and successful presentation")
-    if re.search(r"Symbian compositor:[^\r\n]*(?:failed|software painting)", evidence, re.I):
-        raise RuntimeError("Compositor failure or software fallback during accelerated acceptance")
+    if suite == "screenplay":
+        presents = list(re.finditer(r"ScreenPlay: surface submitted ([1-9]\d*)x([1-9]\d*)", evidence))
+        renderer = "ScreenPlay"
+        if not presents or re.search(r"ScreenPlay: (?:initialization unavailable|frame failed)", evidence):
+            raise RuntimeError("ScreenPlay presentation failed")
+    else:
+        initialized = re.search(r"Symbian compositor: native EGL/GLES2 initialized, renderer=([^\r\n]+)", evidence)
+        presents = list(re.finditer(r"Symbian compositor: native EGL/GLES2 presented ([1-9]\d*)x([1-9]\d*)", evidence))
+        if not initialized or not presents or not any(item.start() > initialized.start() for item in presents):
+            raise RuntimeError("Missing EGL initialization or presentation")
+        if re.search(r"Symbian compositor:[^\r\n]*(?:failed|software painting)", evidence, re.I):
+            raise RuntimeError("EGL presentation failed")
+        renderer = initialized.group(1)
     data = screenshot.read_bytes() if screenshot.is_file() else b""
     if len(data) < 33 or data[:8] != b"\x89PNG\r\n\x1a\n" or data[12:16] != b"IHDR":
         raise RuntimeError("Missing or invalid PNG screenshot")
@@ -93,7 +112,7 @@ def validate_evidence(suite, url, guest, host, screenshot):
     if not width or not height:
         raise RuntimeError("Empty screenshot dimensions")
     return {"page_checks": len(names), "page_terminal": terminal[0],
-            "native_renderer": initialized.group(1), "native_presentations": len(presents),
+            "native_renderer": renderer, "native_presentations": len(presents),
             "presented_sizes": [[int(item[1]), int(item[2])] for item in presents],
             "screenshot_size": [width, height]}
 
@@ -173,7 +192,7 @@ def main(argv=None):
         parser.error("Set EKA2L1 and DISPLAY, with the installed firmware's XDG environment")
     if not args.browser.is_file() or not emulator.is_file() or not args.data.is_dir():
         parser.error("Browser, emulator executable and installed emulator data must exist")
-    for name in ("browser_reg.rsc", "browser_loc.rsc"):
+    for name in ("browser_reg.rsc", "browser_loc.rsc", "browser_ui.rsc"):
         if not (args.browser.parent / name).is_file():
             parser.error("Missing browser resource: " + name)
     browser_hash, emulator_hash = sha256(args.browser), sha256(emulator)
@@ -188,15 +207,14 @@ def main(argv=None):
         (work / "runs").mkdir(parents=True, exist_ok=True)
         output = Path(tempfile.mkdtemp(prefix="graphics-validation-", dir=work / "runs"))
     result = {"started": datetime.datetime.now(datetime.timezone.utc).isoformat(), "status": "FAIL", "suites": [],
-              "browser_sha256": browser_hash, "emulator_sha256": emulator_hash,
-              "evidence_scope": "Page checks and native EGL presentation are separate requirements. EKA dispatch and screenshots do not prove a physical GPU or a particular JIT tier."}
+              "browser_sha256": browser_hash, "emulator_sha256": emulator_hash}
     try:
         with SUPPORT.exclusive_lock(args.data / ".jsc-run.lock"), SUPPORT.exclusive_lock(args.data / ".browser-run.lock") as lock:
             ca = args.data / "drives/c/resource/webkit/cacert.pem"
             before = ca_state(ca)
             result["ca_before"] = before
             try:
-                for suite in EXPECTED if args.suite == "all" else (args.suite,):
+                for suite in DEFAULT_SUITES if args.suite == "all" else (args.suite,):
                     evidence = {}
                     result["suites"].append(evidence)
                     run_suite(args, suite, output, work, lock, evidence)

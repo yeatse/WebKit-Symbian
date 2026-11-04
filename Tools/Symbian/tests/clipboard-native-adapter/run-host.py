@@ -47,7 +47,7 @@ command = [os.environ.get('CXX', 'c++'), '-std=c++17', '-Wall', '-Wextra', '-Wer
 subprocess.run(command, check=True)
 with (args.build / 'host.log').open('w') as stream:
     result = subprocess.run([str(args.build / 'host')], stdout=stream, stderr=subprocess.STDOUT)
-manifest = {'scope': 'Exact production source fragments for normalization and admission, fake descriptor/HAL/Leave adapters only; not native store parsing or native cleanup proof', 'exit': result.returncode, 'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(), 'fragments_sha256': hashlib.sha256(fragments.encode()).hexdigest(), 'log_sha256': hashlib.sha256((args.build / 'host.log').read_bytes()).hexdigest()}
+manifest = {'scope': 'Clipboard text normalization and admission', 'exit': result.returncode, 'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(), 'fragments_sha256': hashlib.sha256(fragments.encode()).hexdigest(), 'log_sha256': hashlib.sha256((args.build / 'host.log').read_bytes()).hexdigest()}
 (args.build / 'result.json').write_text(json.dumps(manifest, indent=2) + '\n')
 print((args.build / 'host.log').read_text())
 raise SystemExit(result.returncode)

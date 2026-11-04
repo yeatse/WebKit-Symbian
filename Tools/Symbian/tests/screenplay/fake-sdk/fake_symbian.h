@@ -1,5 +1,5 @@
 #pragma once
-// Owned host functional adapter; not a Symbian ABI/runtime implementation.
+// Host adapter for Surface Manager and Window Server calls.
 #include <algorithm>
 #include <cassert>
 #include <cstdint>

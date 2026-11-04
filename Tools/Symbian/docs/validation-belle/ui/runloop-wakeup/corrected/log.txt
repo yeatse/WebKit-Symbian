@@ -1,2 +1,0 @@
-PASS: unregister waits for in-flight native callback
-PASS: later wakes do not access destroyed native owner

@@ -1,4 +1,0 @@
-#define R_BROWSER_PROMPT_BUTTONS                  0x6f057002
-#define R_BROWSER_PROMPT                          0x6f057003
-#define R_BROWSER_AUTH_PASSWORD                   0x6f057004
-#define R_BROWSER_POPUP_BUTTONS                   0x6f057005

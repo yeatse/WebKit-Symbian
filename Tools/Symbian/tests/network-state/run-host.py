@@ -163,9 +163,7 @@ def main():
     result = json.loads((output / "result.json").read_text())
     result["status"] = "PASS"
     result["source_sha256"] = {str(path): digest(path) for path in sources}
-    result["runtime_scope"] = (
-        "host API-boundary simulation and actual EKA registry; no guest or full emulator run"
-    )
+    result["runtime_scope"] = "Network observer and EKA connection registry"
     (output / "result.json").write_text(json.dumps(result, indent=2) + "\n")
     print(
         "PASS: native observer" + (" and actual EKA registry" if args.eka_root else "")

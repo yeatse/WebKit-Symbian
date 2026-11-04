@@ -21,7 +21,7 @@ command = [os.environ.get("CXX", "c++"), "-std=c++20", "-O2", "-Wall", "-Wextra"
 subprocess.run(command, check=True)
 with (args.work / "test.log").open("w") as stream:
     result = subprocess.run([str(args.work / "test")], stdout=stream, stderr=subprocess.STDOUT)
-manifest = {"exit": result.returncode, "scope": "native host production helpers; not E32/browser validation", "archive_sha256": hashlib.sha256(args.mbedcrypto.read_bytes()).hexdigest(), "sources": {name: hashlib.sha256((checkout / "Source/WebCore/crypto/mbedtls" / name).read_bytes()).hexdigest() for name in ("MbedTLSRSAKey.h", "MbedTLSRSADER.h", "MbedTLSRSAOperations.h")}, "log_sha256": hashlib.sha256((args.work / "test.log").read_bytes()).hexdigest()}
+manifest = {"exit": result.returncode, "scope": "RSA import, export and operations", "archive_sha256": hashlib.sha256(args.mbedcrypto.read_bytes()).hexdigest(), "sources": {name: hashlib.sha256((checkout / "Source/WebCore/crypto/mbedtls" / name).read_bytes()).hexdigest() for name in ("MbedTLSRSAKey.h", "MbedTLSRSADER.h", "MbedTLSRSAOperations.h")}, "log_sha256": hashlib.sha256((args.work / "test.log").read_bytes()).hexdigest()}
 (args.work / "result.json").write_text(json.dumps(manifest, indent=2) + "\n")
 print((args.work / "test.log").read_text())
 raise SystemExit(result.returncode)

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Exercise production policy functions and SQL, plus the local fixture protocol.
-
-This is not a substitute for browser tests: request context creation, real WTF
-String parsing, WebCore's SQLite wrapper and on-device persistence need the guest.
-"""
+"""Exercise cookie policy functions, persistence SQL and the HTTP fixture."""
 
 import argparse
 import copy

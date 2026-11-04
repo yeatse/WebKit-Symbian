@@ -1,1 +1,0 @@
-{"status": "PASS", "suite": "belle-clipboard", "run": "clipboard-menu-c17-20261101-01", "mode": "menu", "cases": 9, "scope": "page/report contract only; native action ledger and normal guest/host exits remain required"}

@@ -1,1 +1,0 @@
-{"calibration_sha256": "91110216130e5eef1156e645fe9196af1542369eb056f720d8eb110b3d6c0e9b", "screenshots_reviewed": true, "actions": [{"target": "main", "role": "native-step", "wait": 0.5, "key": "F2"}]}

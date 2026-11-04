@@ -1,1 +1,0 @@
-PASS: actual inaccessible mapped root returns KErrAccessDenied

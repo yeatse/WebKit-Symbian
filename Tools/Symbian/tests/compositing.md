@@ -1,9 +1,13 @@
-# Compositing regression
+# Hardware compositing
 
-Load `compositing.html` through the normal browser. The finite test expects 10 checks, `failed=0`, and a final `PASS: compositing-regression` marker. It covers transformed layer geometry and hit testing, alpha style, overflow clipping, removing and restoring a compositing trigger, ordinary root text changes, scrolling, layout resize, and a finite CSS animation with animation-frame delivery. It uses ordinary web APIs and no production test hooks.
+The browser page covers layer transforms, clipping, opacity, scrolling, resizing
+and animation. Configure EKA2L1 as described in [Testing](../docs/TESTING.md).
 
-Inspect the final screenshot as well as the markers: ordinary black root text must remain above and below the layers; the red/blue overlap is purple; only a 30 by 30 magenta square is visible inside the clipping box; the green rectangle ends 160 pixels to the right of its starting position; the SVG cyan circle contains a black S; and the scroller shows its yellow band and text. The page's geometry checks do not inspect actual framebuffer pixels or prove that a compositor ran.
+```sh
+python3 Tools/Symbian/tests/run-browser-graphics-tests.py /path/to/browser.exe \
+  --suite compositing --output /tmp/compositing-results
+```
 
-For accelerated-path evidence, preserve native `Symbian compositor` diagnostics and verify that the EGL/GLES path initialized without subsequent draw/swap/fallback errors. Pair this with the independent `egl-probe` shader/FBO/pixel/swap probe. A browser screenshot plus successful page markers verifies integration; it does not by itself distinguish hardware composition from software painting. EKA exercises guest graphics dispatch; a physical-device GPU claim requires a device run.
-
-Repeat after opening/closing the input panel or changing the native window size, and navigate to a plain text page and back. Verify the native surface resize and destruction path does not blank ordinary content or leak stale frames. The page's own width change only tests layout resize, not native surface resize. With native MMF video active, this port deliberately logs a software fallback until window transparency with Utility2 has been verified.
+The runner installs the fixture, launches the browser and collects its report,
+logs and screenshot. A passing result completes the page's compositing checks.
+Use [Composited text](compositing-text.md) to inspect text and stripe sharpness.

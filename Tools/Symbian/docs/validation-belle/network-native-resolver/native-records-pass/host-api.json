@@ -1,1 +1,0 @@
-{"status": "PASS", "hostname": "dual-9db77950e61d7509.webkit-belle.test", "rows": [{"family": 10, "socktype": 1, "protocol": 6, "address": "::1"}, {"family": 2, "socktype": 1, "protocol": 6, "address": "127.0.0.1"}]}

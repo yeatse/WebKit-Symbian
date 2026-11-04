@@ -1,5 +1,0 @@
-curl_version_info t 2e55d68 118
-mbedtls_ssl_conf_alpn_protocols t e4e74 44
-mbedtls_ssl_get_alpn_protocol t e4eb8 6
-nghttp2_session_client_new3 T 2e5d01c 4c
-nghttp2_version T 2e6de30 18

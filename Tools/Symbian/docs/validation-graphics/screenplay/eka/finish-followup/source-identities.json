@@ -1,9 +1,0 @@
-{
-  "source": "/workspace/EKA2L1-validation/src/emu/services/src/window/window.cpp",
-  "source_sha256": "54e5056b8070ecfc88487ed3008f392559f40a72f6305dfa15866ea42a6c7abd",
-  "body_sha256": "05fb72a399d262774dfe893820f33e4842f2573cb016af9f8c5596a472c9729a",
-  "body_matches_prepared_candidate_except_trailing_blank_line": true,
-  "standin_namespace_matches_production": true,
-  "guest_executed": false,
-  "scope": "actual method body with deterministic owned API/lock/session stand-ins"
-}

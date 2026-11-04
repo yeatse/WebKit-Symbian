@@ -66,6 +66,6 @@ int main(){try{
  Case("never-armed-initially-pending-status-not-waited",[]{fake::Reset();fake::initial_status_pending=true;RWsSession ws;RWindow win;Observer obs;auto*p=CScreenPlaySurface::NewL(ws,win,0,obs);p->Detach();delete p;CHECK(fake::wait_calls==0);});
  for(int successful_allocations:{1,2})
   Case("partial-new-cleanup-never-waits-unarmed-status",[=]{fake::Reset();fake::initial_status_pending=true;fake::allocations_before_failure=successful_allocations;RWsSession ws;RWindow win;Observer obs;bool caught=false;try{delete CScreenPlaySurface::NewL(ws,win,0,obs);}catch(const FakeLeave&e){caught=e.code==KErrNoMemory;}CHECK(caught);CHECK(fake::wait_calls==0);CHECK(CleanupStack::entries.empty());});
- std::cout<<"RESULT cases="<<cases<<" checks="<<checks<<" scope=actual-source-owned-host-adapter native=false display=false\n";
+ std::cout<<"RESULT cases="<<cases<<" checks="<<checks<<"\n";
  return 0;
 }catch(...){return 1;}}

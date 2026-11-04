@@ -28,7 +28,7 @@ handlers = f[start:f.index('    struct fs_file_mapping', start)]
 cmd = ['c++', '-std=c++17', '-O1', '-g', '-Wall', '-Wextra', '-Wno-unused-parameter', '-I'+str(work), str(Path(__file__).with_name('host.cpp')), '-o', str(work/'host-test')]
 if a.sanitize:
     cmd[1:1] = ['-fsanitize=address,undefined', '-fno-omit-frame-pointer']
-result = {'harness_sha256':hashlib.sha256(Path(__file__).with_name('host.cpp').read_bytes()).hexdigest(), 'runner_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'scope':'Actual descriptor definitions/methods and file_read/file_write bodies; substituted guest mapping, IPC and VFS. Not guest IPC acceptance.', 'sources':{p:hashlib.sha256((a.eka/p).read_bytes()).hexdigest() for p in paths}, 'command':cmd}
+result = {'harness_sha256':hashlib.sha256(Path(__file__).with_name('host.cpp').read_bytes()).hexdigest(), 'runner_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'scope':'File descriptors and file read/write dispatch', 'sources':{p:hashlib.sha256((a.eka/p).read_bytes()).hexdigest() for p in paths}, 'command':cmd}
 c = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
 (work/'compile.log').write_text(c.stdout)
 result['compile_exit'] = c.returncode

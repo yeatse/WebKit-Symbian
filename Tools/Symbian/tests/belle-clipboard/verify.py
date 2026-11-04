@@ -26,7 +26,7 @@ def main():
     if 'FAIL:' in args.guest_log.read_text(errors='replace'):
         raise ValueError('guest log contains a failure')
     print(json.dumps({'status': 'PASS', 'suite': 'belle-clipboard', 'run': args.run, 'mode': args.mode, 'cases': 9,
-                      'scope': 'page/report contract only; native action ledger and normal guest/host exits remain required'}))
+                      'scope': 'Clipboard page results'}))
 
 
 if __name__ == '__main__':

@@ -1,9 +1,0 @@
-{
-  "status": "PENDING_ROOT_C28_FREEZE",
-  "browser": {
-    "path": null,
-    "sha256": null
-  },
-  "resource_directory": null,
-  "note": "No C28 executable identity is claimed. Supply an actual absolute regular file and its explicitly frozen 64-hex SHA-256 using --browser and --browser-sha256. Optional --resource-dir defaults to the executable parent. Missing or mismatched inputs forbid --execute."
-}

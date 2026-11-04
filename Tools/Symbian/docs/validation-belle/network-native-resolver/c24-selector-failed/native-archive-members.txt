@@ -1,2 +1,0 @@
-curl-symbian-resolver.c.o
-curl-symbian-resolver.cpp.o

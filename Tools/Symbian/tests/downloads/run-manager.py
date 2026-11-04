@@ -26,7 +26,7 @@ def main():
     body = source.read_text().split('namespace WebKitSymbian {', 1)[1].rsplit('} // namespace WebKitSymbian', 1)[0]
     (args.build / 'manager-body-under-test.inc').write_text(body)
     identities = {'files': [{'name': p.name, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in (client, header, source)],
-                  'scope': 'Actual manager class and all method bodies; host intrusive-ref, text, controller and UI substitutes. Not WebCore, native dialog or guest acceptance.'}
+                  'scope': 'Download manager callbacks and lifecycle'}
     (args.build / 'manager-source-identities.json').write_text(json.dumps(identities, indent=2) + '\n')
     subprocess.run([os.environ.get('CXX', 'c++'), '-std=c++23', '-Wall', '-Wextra', '-Werror',
                     '-I', str(args.build), '-I', str(sources), str(tests / 'manager.cpp'), '-o', str(args.build / 'manager-tests')], check=True)

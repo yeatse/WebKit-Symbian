@@ -1,1 +1,0 @@
-FAIL: official CancelPolicyUpdates completes original status before CActive::Cancel

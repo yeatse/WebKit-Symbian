@@ -1,5 +1,4 @@
-// Fault injection for the real DownloadFileNative.cpp adapter. This is not a
-// file-server emulator and does not establish RFs atomicity or disk behavior.
+// File-server adapter for DownloadFileNative.cpp fault injection.
 #pragma once
 #include <algorithm>
 #include <cstdint>

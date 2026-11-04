@@ -1,9 +1,0 @@
-{
-  "source_commit": "79aee8089ce6cec9816b7ed512ee91f0278491b6",
-  "source_path": "Tools/Symbian/scripts/package-sis.sh",
-  "git_blob": "9899b3383fea3a9d612d5176c3be289b21c72deb",
-  "bytes": 3370,
-  "sha256": "4c57262be3c5d7279542992811da00cb1587efba62c4c31a1b0016174c73b228",
-  "head_sha": "79aee8089ce6cec9816b7ed512ee91f0278491b6",
-  "CA_SHA256_pin": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505"
-}

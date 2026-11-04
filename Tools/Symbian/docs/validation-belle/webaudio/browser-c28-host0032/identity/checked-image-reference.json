@@ -1,8 +1,0 @@
-{
-  "scope": "Read-only streamed file identity; image bytes not copied or run.",
-  "path": "/workspace/symbian-belle-work/candidate28/browser.exe",
-  "bytes": 59961964,
-  "sha256": "ca1956441a681a3f9b7683d4f30654164a69507d1e8a6fc6d613c5a5059b3ad8",
-  "copied": false,
-  "executed_for_archive": false
-}

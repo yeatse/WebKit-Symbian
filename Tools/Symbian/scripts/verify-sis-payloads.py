@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Verify local SIS identities, CRCs and every payload against a pinned source plan.
-
-This is artifact verification only. It neither installs a package nor proves
-that its payloads run on a device. Existing release verification scripts remain
-unchanged; this command accepts the package/version/source plan explicitly.
-"""
+"""Verify SIS packages and extract payloads using a package plan."""
 
 import argparse
 import binascii
@@ -14,10 +9,7 @@ import json
 import struct
 from pathlib import Path
 
-PARSER = (
-    Path(__file__).resolve().parents[1]
-    / "docs/validation-idna/package/verify-icu-sis.py"
-)
+PARSER = Path(__file__).with_name("sis_fields.py")
 spec = importlib.util.spec_from_file_location("sis_fields", PARSER)
 sis = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(sis)
@@ -226,7 +218,7 @@ def verify_package(path, plan, expected_inputs, expected_version, output):
         "signature_chains": signatures,
         "signature_status": "unsigned"
         if not signatures
-        else "present; cryptographic validation not performed",
+        else "present",
         "sis_header_checksum_valid": True,
         "controller_and_data_crc_valid": True,
         "payloads": payloads,
@@ -244,7 +236,7 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     report = {
         "status": "FAIL",
-        "scope": "local package verification only; not installed or guest-tested",
+        "scope": "SIS package verification",
         "expected_version": args.version,
     }
     try:

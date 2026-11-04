@@ -1,7 +1,0 @@
-565a9136147692686a8b53aaaa3d3d976a1998dcaf1d523ad570e651b192e286  Tools/Symbian/patches/sdk-0.3.0/complex/manifest.json
-665d3559cbd941d45558b666d8cadd16bc505a9eb8bec97b07375f8dc3590109  Tools/Symbian/patches/sdk-0.3.0/math/manifest.json
-fc888526c28596f6dd8487c2203133586f231d311050e18e6bdcdd8587ae0936  Tools/Symbian/scripts/build-browser.sh
-b3932269b99d7a8fbee2f38dab1115dd3c6b06306939403988821a6e6b1963bb  Tools/Symbian/scripts/build-webcore.sh
-16a1d6764d452c302241b4322c96859b79d8d7e4e22d4eb7d50d654ddb547111  Tools/Symbian/scripts/rebuild-sdk-complex.py
-feaf1c2f0087583b72fc8d3b87ba0ee0ca6cb299b2f62744134865da06691ed4  Tools/Symbian/scripts/rebuild-sdk-math.py
-9128e997ed1f8dd003201bb5adf7e623646eeef42b465dab675d4cda8353cab6  Tools/Symbian/tests/sdk-native-patch-stack/test_patch_stack.py

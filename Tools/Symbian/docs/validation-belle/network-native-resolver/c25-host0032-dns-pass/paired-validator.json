@@ -1,7 +1,0 @@
-{
-  "status": "PASS",
-  "suite": "network-guest-c22-dns",
-  "run": "net-d442310379964bee9b234b2e9e9e0fa6",
-  "failures": [],
-  "scope": "real controlled DNS AAAA-only HTTPS/WSS, dual IPv6 and unreachable-IPv6/A fallback; outer wrapper must verify ordinary closure/restoration; not public Internet/realdevice/scoped DNS/TCP-DNS runtime claim"
-}

@@ -143,7 +143,7 @@ static void TestSubmitErrorAndCancel() {
 int main() {
     try {
         TestConnect(); TestCachedAndOverwrite(); TestOverwriteAll(); TestInvalidSubmit(); TestValidSubmit(); TestDirtyRegion(); TestXTimesValidation(); TestSubmitErrorAndCancel();
-        std::cout << "{\"result\":\"pass\",\"checks\":" << checks << ",\"scope\":\"host fake session/descriptor lifecycle against actual private client source\",\"guest_executed\":false,\"cases\":8}\n";
+        std::cout << "{\"result\":\"pass\",\"checks\":" << checks << ",\"cases\":8}\n";
         return 0;
     } catch (const std::exception& e) {
         std::cerr << "host lifecycle check failed: " << e.what() << '\n'; return 1;

@@ -1,7 +1,0 @@
-{
-  "status": "PREPARED_NOT_EXECUTED",
-  "purpose": "C25/nativeDNS+host0032 IPv4 h2/H1 regression against frozen first fixture",
-  "wrapper_sha256": "6a01733bba4b5a1416e06588040d7f2daaa1a2a45cde4fb854562177df714b9b",
-  "changed": "image/resources/host pins only",
-  "guest_started": false
-}

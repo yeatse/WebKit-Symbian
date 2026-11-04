@@ -1,1 +1,0 @@
-{"run": "dl-x-4f61d2a01597", "sequence": 11, "operation": "act", "capture_sha256": "e4d8b07515fc142adc082e1df0e2032e3688d82e050be9285e6d6c6177ba61c1", "screenshots_reviewed": true, "actions": [{"target": "main", "role": "native-step", "wait": 0.5, "key": "F2"}]}

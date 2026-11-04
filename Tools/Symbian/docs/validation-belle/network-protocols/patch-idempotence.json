@@ -1,9 +1,0 @@
-{
-  "result": "PASS",
-  "sources": {
-    "CMakeLists.txt": "cd94f14715f60d47cbc12258f35bc5ce36d0f1ded6f54803998bba8fbf7ba47a",
-    "lib/curl_addrinfo.c": "c391b22e62d79c8efdfcb49e3f4124c9ee2ec6f479ab7e32fe86de55547e5c4b",
-    "lib/http2.c": "5cb591a14fb34ecbab84f98c0f358327fb46b4b7d71425b54442b5aa25d88321",
-    "lib/dynbuf.h": "8ff8790e69e6b58a32665a17f5ef2aa5dda70b2abe56ea42a5abe0e7d0244054"
-  }
-}

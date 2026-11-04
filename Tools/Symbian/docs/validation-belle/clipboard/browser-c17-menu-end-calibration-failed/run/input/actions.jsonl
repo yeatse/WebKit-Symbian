@@ -1,6 +1,0 @@
-{"action": {"height": 532, "mode": "menu", "operation": "start", "run": "clipboard-menu-c17-cal-20261101-01", "step": 1, "target": "start", "width": 360, "x": 180, "y": 124}, "elapsed": 0.31133413198404014, "event": "start-pointer-click", "point": [450, 201], "step": 1}
-{"action": {"key": "F2", "wait": 0.35}, "elapsed": 0.7990198349871207, "event": "native-menu-action", "number": 1, "operation": "paste", "step": 1}
-{"action": {"key": "End", "wait": 0.25}, "elapsed": 1.2981913599942345, "event": "native-menu-action", "number": 2, "operation": "paste", "step": 1}
-{"action": {"key": "Up", "wait": 0.18}, "elapsed": 1.693591835006373, "event": "native-menu-action", "number": 3, "operation": "paste", "step": 1}
-{"action": {"key": "Up", "wait": 0.18}, "elapsed": 1.9544300920097157, "event": "native-menu-action", "number": 4, "operation": "paste", "step": 1}
-{"elapsed": 2.1995526849932503, "event": "menu-review-waiting", "gate": "/workspace/symbian-belle-work/p1-validation/clipboard-menu-c17-cal-20261101-01/input/menu-reviews/01-step1-paste/gate.json", "selected_sha256": "54aaff53c423bca893ff7952b6f5c8bab2727841f3ee0293b9deb2659968ce28"}

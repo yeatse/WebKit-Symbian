@@ -1,8 +1,0 @@
-{
-  "suite": "classic-webaudio-extra",
-  "run": "wa-0a36d4e3c44a48b1b5c0ee8e7c6f3aef",
-  "url": "http://localhost:8866/?run=wa-0a36d4e3c44a48b1b5c0ee8e7c6f3aef",
-  "port": 8866,
-  "deadline_seconds": 200,
-  "native_audio_claim": false
-}

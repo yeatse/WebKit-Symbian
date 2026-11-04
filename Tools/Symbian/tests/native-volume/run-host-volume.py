@@ -26,7 +26,7 @@ def main():
         '-std=c++20', '-Wall', '-Wextra', '-Werror',
         '-I' + str(root / 'src/emu/services/include'),
         '-I' + str(root / 'src/emu/utils/include'), str(source), '-o', str(binary)]
-    report = {'status': 'FAIL', 'scope': 'host helper; no emulator or IPC/guest execution',
+    report = {'status': 'FAIL', 'scope': 'Host volume lookup',
               'source_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in (source, helper)},
               'compile_command': command}
     try:

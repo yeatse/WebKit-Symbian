@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/workspace/symbian-ci49-validation/check-network-artifact.py", line 8, in <module>
-    step=next(s for s in job['steps'] if s['name']==name);assert step['status']=='completed' and step['conclusion']=='success'
-                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

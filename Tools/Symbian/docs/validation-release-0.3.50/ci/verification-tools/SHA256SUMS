@@ -1,4 +1,0 @@
-9f56277436245454548d5adf1d8d761bb6a47659f173872c8f48c9d42d84beae  docs/validation-idna/package/verify-icu-sis.py
-6d52e4489241b07a048ee9231a0add7fac23cb6ae49b8d71228d8030c2c66167  scripts/icu-filter.py
-a58d2a4276ee76ac64ca16ed2265d5d37ff9944d4b99b8792f0414bbd98a12e3  tests/icu-idna/probe.cpp
-bba8f27555a6ee77e9fa740e7c1d88e66b20b1b2e5d19472567f1a5c3c80b78d  tests/icu-idna/run.py

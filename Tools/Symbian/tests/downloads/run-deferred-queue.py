@@ -42,7 +42,7 @@ def main():
     identities = {"resource_handle_source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
                   "method_bodies_sha256": hashlib.sha256(bodies.encode()).hexdigest(),
                   "completion_scope_source_sha256": hashlib.sha256(scope.read_bytes()).hexdigest(),
-                  "scope": "Actual five ResourceHandle method bodies and CompletionHandlerCallingScope; host type substitutes, not full engine/guest integration."}
+                  "scope": "ResourceHandle deferred completion queue"}
     (args.build / "queue-source-identities.json").write_text(json.dumps(identities, indent=2) + "\n")
     command = [os.environ.get("CXX", "c++"), "-std=c++23", "-Wall", "-Wextra", "-Werror",
                "-I", str(args.build), "-I", str(checkout / "Source/WebCore/platform/network/curl"),

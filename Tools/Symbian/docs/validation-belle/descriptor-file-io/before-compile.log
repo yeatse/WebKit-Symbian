@@ -1,9 +1,0 @@
-In file included from /workspace/WebKit-Symbian-graphics/Tools/Symbian/tests/eka-file-io/host.cpp:87:
-/workspace/symbian-descriptor-work/host-negative-control/actual-file-io.inc: In member function ‘void eka2l1::fs_server_client::file_write(eka2l1::service::ipc_context*)’:
-/workspace/symbian-descriptor-work/host-negative-control/actual-file-io.inc:55:16: warning: unused variable ‘wrote_size’ [-Wunused-variable]
-   55 |         size_t wrote_size = vfs_file->write_file(write_data.value().data(), 1, write_len);
-      |                ^~~~~~~~~~
-/workspace/symbian-descriptor-work/host-negative-control/actual-file-io.inc: In member function ‘void eka2l1::fs_server_client::file_read(eka2l1::service::ipc_context*)’:
-/workspace/symbian-descriptor-work/host-negative-control/actual-file-io.inc:106:29: warning: comparison of integer expressions of different signedness: ‘uint64_t’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
-  106 |         if (size - read_pos < read_len) {
-      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~

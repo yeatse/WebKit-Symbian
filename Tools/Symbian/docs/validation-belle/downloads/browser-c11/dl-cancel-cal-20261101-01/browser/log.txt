@@ -1,9 +1,0 @@
-02:11:59.734 WebKit Browser starting
-02:11:59.755 network: starting the connection
-02:12:01.257 touch: digitizer=1 enabled=8 query=0 accepted=8
-Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
-Symbian compositor: native EGL/GLES2 presented 360x532
-02:12:01.750 network: connected through "Host network"
-02:12:01.765 load http://localhost:8800/?run=dl-cancel-cal-20261101-01
-console: :0: READY: belle-download-runtime {"run":"dl-cancel-cal-20261101-01","case":"cancel-save"}
-02:12:20.437 download 1: terminal=1 error=0 cleanup=0

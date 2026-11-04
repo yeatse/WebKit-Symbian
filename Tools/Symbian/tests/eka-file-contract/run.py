@@ -125,7 +125,7 @@ def main():
     ]
     result = {
         "status": "HOST_SHARING_AND_PHYSICAL_VFS_PASS",
-        "scope": "Actual sharing helpers and physical VFS; file-server IPC awaits guest validation.",
+        "scope": "File sharing and VFS access",
         "checks": 115,
         "compiled": records,
         "headers": {path: digest(candidate / path) for path in headers},

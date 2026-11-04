@@ -32,7 +32,7 @@ command = [args.cxx, "-std=c++20", "-O2", "-Wall", "-Wextra", "-Werror", "-DMBED
 subprocess.run(command, check=True)
 with (args.work / "test.log").open("w") as stream:
     result = subprocess.run([*runner, str(args.work / "test")], stdout=stream, stderr=subprocess.STDOUT, timeout=120)
-manifest = {"exit": result.returncode, "scope": "native helper tests; not E32/browser validation", "command": command,
+manifest = {"exit": result.returncode, "scope": "EC key encoding and operations", "command": command,
             "runner": runner, "archive_sha256": hashlib.sha256(args.mbedcrypto.read_bytes()).hexdigest(),
             "sources": {name: hashlib.sha256((helpers / name).read_bytes()).hexdigest() for name in ("MbedTLSECKey.h", "MbedTLSECDER.h", "MbedTLSECOperations.h", "MbedTLSRSADER.h", "MbedTLSRSAKey.h")},
             "test_sha256": hashlib.sha256((here / "host.cpp").read_bytes()).hexdigest(),

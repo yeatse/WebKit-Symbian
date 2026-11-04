@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the fixture in Chromium; this is not a Symbian capability result."""
+"""Run the storage page in Chromium."""
 import argparse
 import asyncio
 import json

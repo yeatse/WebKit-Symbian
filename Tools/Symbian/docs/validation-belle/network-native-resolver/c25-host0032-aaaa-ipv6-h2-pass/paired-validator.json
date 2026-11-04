@@ -1,8 +1,0 @@
-{
-  "status": "PASS",
-  "suite": "network-guest-c25-h2v6",
-  "run": "net-6c75f2c73c6e48679839e145de8b1da0",
-  "mode": "h2v6",
-  "failures": [],
-  "scope": "real controlled AAAA hostname IPv6 TLS h2 multiplex/flowcontrol; outer closure/restoration required, no ISP/scoped/race/budget exhaustion claim"
-}

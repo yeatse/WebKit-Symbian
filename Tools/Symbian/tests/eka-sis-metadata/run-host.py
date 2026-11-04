@@ -179,7 +179,7 @@ if check.returncode:
 results.update(
     status="PASS",
     case_count=len(cases),
-    scope="Metadata registration only; no emulator launch or installation; current source/binary unchanged",
+    scope="SIS application metadata registration",
     production_syntax={"command": command, "exit_code": check.returncode},
     source={
         "path": str(SOURCE),

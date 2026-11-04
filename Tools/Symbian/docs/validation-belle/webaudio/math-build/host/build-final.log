@@ -1,6 +1,0 @@
-[1/6] Scanning /workspace/symbian-sdk-audio-math-followup/host/actual-log2f.cpp for CXX dependencies
-[2/6] Scanning /workspace/symbian-sdk-audio-math-followup/host/test.cpp for CXX dependencies
-[3/6] Generating CXX dyndep file CMakeFiles/log2f_contract.dir/CXX.dd
-[4/6] Building CXX object CMakeFiles/log2f_contract.dir/actual-log2f.cpp.o
-[5/6] Building CXX object CMakeFiles/log2f_contract.dir/test.cpp.o
-[6/6] Linking CXX executable log2f_contract

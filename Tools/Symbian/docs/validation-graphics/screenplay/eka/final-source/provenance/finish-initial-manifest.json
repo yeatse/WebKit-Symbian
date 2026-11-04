@@ -1,9 +1,0 @@
-{
-  "relative": "src/emu/services/src/window/window.cpp",
-  "base_sha256": "6b4229eaec8eeae0d85f58b3943314f260394bd248e4be62dd93770f6139d7dd",
-  "candidate_sha256": "54e5056b8070ecfc88487ed3008f392559f40a72f6305dfa15866ea42a6c7abd",
-  "patch_sha256": "763f5db4510caa17e738e89923140174eb0cb41f82ca1e4f3519daff2bfaa569",
-  "shared_modified": false,
-  "guest_executed": false,
-  "host_test": "pending"
-}

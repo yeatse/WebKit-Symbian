@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Run HTTP media with fresh logs/reports, strict cleanup and temporary guest trust.
-
-This verifies the page contract. Pixel/PCM capture is additional required evidence.
-"""
+"""Run browser audio and video playback over HTTP and HTTPS."""
 import argparse
 import datetime
 import hashlib
@@ -65,7 +62,7 @@ def main():
     args.queries={"media":{"tls":1,"tlsPort":8776}} if args.ca else {}
     result={"status":"FAIL","started":datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "browser_sha256":hashlib.sha256(args.browser.read_bytes()).hexdigest(),
-            "fixtures":fixtures,"presentation_verified":False}
+            "fixtures":fixtures}
     host=Path(os.environ["EKA2L1"])
     if host.is_file():result["emulator_sha256"]=hashlib.sha256(host.read_bytes()).hexdigest()
     try:

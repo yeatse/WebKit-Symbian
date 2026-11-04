@@ -1,9 +1,0 @@
-06:58:47.610 WebKit Browser starting
-06:58:47.624 network: starting the connection
-06:58:49.095 touch: digitizer=1 enabled=8 query=0 accepted=8
-Symbian compositor: native EGL/GLES2 initialized, renderer=POWERVR EKA2L1
-Symbian compositor: native EGL/GLES2 presented 360x532
-06:58:49.575 network: connected through "Host network"
-06:58:49.590 load https://127.0.0.1:8824/?run=net-db6881f0502a423fa658eff10b05a8ab
-console: https://127.0.0.1:8824/?run=net-db6881f0502a423fa658eff10b05a8ab:2: NETWORK-GUEST-RESULT {"kind":"ready","status":"READY","suite":"network-guest-c22-dns","run":"net-db6881f0502a423fa658eff10b05a8ab"}
-console: https://127.0.0.1:8824/?run=net-db6881f0502a423fa658eff10b05a8ab:2: NETWORK-GUEST-RESULT {"kind":"result","status":"FAIL","error":"TypeError: Load failed","run":"net-db6881f0502a423fa658eff10b05a8ab"}
