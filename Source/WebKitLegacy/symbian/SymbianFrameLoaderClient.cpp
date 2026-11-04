@@ -251,6 +251,10 @@ String SymbianFrameLoaderClient::userAgent(const URL&) const
 void SymbianFrameLoaderClient::transitionToCommittedForNewPage()
 {
     m_frame->createView(m_view.size(), WTF::nullopt, { }, { });
+    // A subframe's pixels can't be moved on their own: the page around it
+    // can paint over them.
+    if (!m_frame->isMainFrame())
+        m_frame->view()->setCanBlitOnScroll(false);
 }
 
 RefPtr<Frame> SymbianFrameLoaderClient::createFrame(const String& name, HTMLFrameOwnerElement& ownerElement)

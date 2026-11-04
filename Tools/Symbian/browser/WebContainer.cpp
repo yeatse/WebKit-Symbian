@@ -335,6 +335,48 @@ void CWebContainer::didInvalidate(const WebKitSymbian::Rect& aRect)
     Window().Invalidate(TRect(rect.iTl + Rect().iTl, rect.Size()));
 }
 
+// Moves the page's pixels in the bitmap rather than painting them again.
+void CWebContainer::didScroll(const WebKitSymbian::Rect& aArea, int aDx, int aDy)
+{
+    TRect area(TPoint(aArea.x, aArea.y), TSize(aArea.width, aArea.height));
+    area.Intersection(TRect(Size()));
+    TPoint delta(aDx, aDy);
+    TRect target(area);
+    target.Move(delta);
+    target.Intersection(area);
+    if (!iBitmap || target.IsEmpty()) {
+        didInvalidate(aArea);
+        return;
+    }
+    // Pixels waiting to be painted again move as well.
+    TRect dirty(iDirty);
+    dirty.Intersection(area);
+    if (!dirty.IsEmpty()) {
+        dirty.Move(delta);
+        dirty.Intersection(area);
+        if (!dirty.IsEmpty())
+            iDirty.BoundingRect(dirty);
+    }
+
+    TRect source(target);
+    source.Move(-delta);
+    iBitmap->BeginDataAccess();
+    TUint8* pixels = reinterpret_cast<TUint8*>(iBitmap->DataAddress());
+    TInt stride = CFbsBitmap::ScanLineLength(iBitmap->SizeInPixels().iWidth, EColor16MAP);
+    TInt length = target.Width() * 4;
+    TInt rows = target.Height();
+    // Rows are copied away from the side they move to, so none is
+    // overwritten before it is copied.
+    TInt step = aDy > 0 ? -stride : stride;
+    TInt first = aDy > 0 ? rows - 1 : 0;
+    TUint8* to = pixels + (target.iTl.iY + first) * stride + target.iTl.iX * 4;
+    const TUint8* from = pixels + (source.iTl.iY + first) * stride + source.iTl.iX * 4;
+    for (TInt row = 0; row < rows; ++row, to += step, from += step)
+        Mem::Move(to, from, length);
+    iBitmap->EndDataAccess();
+    Window().Invalidate(TRect(area.iTl + Rect().iTl, area.Size()));
+}
+
 void CWebContainer::didChangeTitle(Text aTitle)
 {
     TRAP_IGNORE(iObserver.WebTitleChanged(ToDesC(aTitle)));

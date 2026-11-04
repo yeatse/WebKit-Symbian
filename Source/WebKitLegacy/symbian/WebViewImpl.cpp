@@ -469,6 +469,28 @@ void WebViewImpl::zoomAt(const IntPoint& point)
     m_page->setPageScaleFactor(zoomed, roundedIntPoint(documentPoint) - toIntSize(point));
 }
 
+void WebViewImpl::scroll(const IntRect& rect, const IntSize& delta)
+{
+    IntRect visible = intersection(rect, IntRect(IntPoint(), m_size));
+    if (visible.isEmpty())
+        return;
+    IntRect moved = intersection(visible, IntRect(visible.location() + delta, visible.size()));
+    if (moved.isEmpty()) {
+        invalidate(visible);
+        return;
+    }
+    m_client.didScroll({ visible.x(), visible.y(), visible.width(), visible.height() }, delta.width(), delta.height());
+    // What scrolled into view.
+    if (moved.y() > visible.y())
+        invalidate(IntRect(visible.x(), visible.y(), visible.width(), moved.y() - visible.y()));
+    if (moved.maxY() < visible.maxY())
+        invalidate(IntRect(visible.x(), moved.maxY(), visible.width(), visible.maxY() - moved.maxY()));
+    if (moved.x() > visible.x())
+        invalidate(IntRect(visible.x(), moved.y(), moved.x() - visible.x(), moved.height()));
+    if (moved.maxX() < visible.maxX())
+        invalidate(IntRect(moved.maxX(), moved.y(), visible.maxX() - moved.maxX(), moved.height()));
+}
+
 void WebViewImpl::paint(uint8_t* pixels, int stride, const Rect& area)
 {
     IntRect rect = intersection(IntRect(area.x, area.y, area.width, area.height), IntRect(IntPoint(), m_size));

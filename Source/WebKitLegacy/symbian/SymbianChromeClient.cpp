@@ -24,6 +24,7 @@
 
 #include "SymbianChromeClient.h"
 
+#include "MediaPlayerPrivateSymbian.h"
 #include "WebViewImpl.h"
 #include <WebCore/FrameView.h>
 #include <WebCore/NotImplemented.h>
@@ -173,10 +174,15 @@ void SymbianChromeClient::invalidateContentsForSlowScroll(const IntRect& rect)
     m_view.invalidate(rect);
 }
 
-void SymbianChromeClient::scroll(const IntSize&, const IntRect& scrollViewRect, const IntRect&)
+void SymbianChromeClient::scroll(const IntSize& scrollDelta, const IntRect& scrollViewRect, const IntRect& clipRect)
 {
-    // No blitting: the whole scrolled area is painted again.
-    m_view.invalidate(scrollViewRect);
+    IntRect rect = intersection(scrollViewRect, clipRect);
+    // A video moves only when it paints, so with one in the area all of it
+    // is painted again.
+    if (MediaPlayerPrivateSymbian::hasVideoIn(rect))
+        m_view.invalidate(rect);
+    else
+        m_view.scroll(rect, scrollDelta);
 }
 
 void SymbianChromeClient::showShareSheet(ShareDataWithParsedURL&, CompletionHandler<void(bool)>&& completionHandler)

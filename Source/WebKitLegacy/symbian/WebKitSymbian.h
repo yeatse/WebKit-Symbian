@@ -60,6 +60,10 @@ class WebViewClient {
 public:
     // The area needs painting; call WebView::paint() for it soon.
     virtual void didInvalidate(const Rect&) = 0;
+    // The page scrolled: what was painted in area moves by (dx, dy), and the
+    // part of area that it leaves is invalidated after this. An application
+    // that keeps the painted pixels moves them; one that doesn't repaints.
+    virtual void didScroll(const Rect& area, int /* dx */, int /* dy */) { didInvalidate(area); }
     virtual void didChangeTitle(Text) { }
     virtual void didChangeURL(Text) { }
     // Progress is from 0 to 1.

@@ -49,6 +49,7 @@ public:
     // Around each paint of the view, to tell which videos went out of sight.
     static void willPaint();
     static void didPaint(const WebCore::IntRect&);
+    static bool hasVideoIn(const WebCore::IntRect&);
 
     explicit MediaPlayerPrivateSymbian(WebCore::MediaPlayer*);
     ~MediaPlayerPrivateSymbian();

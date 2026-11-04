@@ -667,6 +667,15 @@ void MediaPlayerPrivateSymbian::willPaint()
         player->m_paintedVideo = false;
 }
 
+bool MediaPlayerPrivateSymbian::hasVideoIn(const IntRect& area)
+{
+    for (auto* player : players()) {
+        if (player->m_videoRect.intersects(area))
+            return true;
+    }
+    return false;
+}
+
 void MediaPlayerPrivateSymbian::didPaint(const IntRect& area)
 {
     // A video in the repainted area that didn't paint is no longer there:
