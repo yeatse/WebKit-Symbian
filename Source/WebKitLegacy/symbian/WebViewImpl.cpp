@@ -72,6 +72,7 @@
 #include <WebCore/FrameSelection.h>
 #include <WebCore/LocalFrameView.h>
 #include <WebCore/GraphicsContext.h>
+#include <WebCore/GraphicsLayer.h>
 #include <WebCore/HTMLInputElement.h>
 #include <WebCore/HTMLFormControlElement.h>
 #include <WebCore/HandleUserInputEventResult.h>

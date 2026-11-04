@@ -133,7 +133,10 @@ async function run() {
         ['natural end notification', () => media('video', async element => {
             await load(element, source('video.mp4'));
             let ended=0; element.addEventListener('ended',()=>++ended);
-            await seek(element,element.duration-1);
+            // Seekable covers only what has downloaded, and seeks clamp to it.
+            const target=element.duration-1;
+            await until(()=>!!element.error || (element.seekable.length && element.seekable.end(element.seekable.length-1) >= target),'end is seekable');
+            await seek(element,target);
             await startPlayback(element);
             // ended reflects the playback position before the queued media
             // event runs. Wait for that event before load() in our cleanup can
