@@ -71,7 +71,7 @@ Tools/Symbian/scripts/package-sis.sh
 
 ## Run and test
 
-Use EKA2L1 with GLES2, native MMF media, connection observers and the [integration patches](../eka2l1/patches/README.md). Set up a Symbian^3 or Belle firmware profile and an X display. The browser runner installs the executable, resources, ICU data and test pages into that profile.
+Use EKA2L1 from the `webkit-symbian` branch of [yeatse/EKA2L1](https://github.com/yeatse/EKA2L1/tree/webkit-symbian), with the [Dynarmic patch](../eka2l1/patches/README.md). Set up a Symbian^3 or Belle firmware profile and an X display. The browser runner installs the executable, resources, ICU data and test pages into that profile.
 
 ```sh
 export EKA2L1=/path/to/eka2l1_qt

@@ -1,18 +1,23 @@
 # EKA2L1 integration
 
-These patches provide the emulator interfaces used by the browser and its test suites.
+The browser and its test suites use the EKA2L1 integration on the
+[`webkit-symbian`](https://github.com/yeatse/EKA2L1/tree/webkit-symbian) branch
+of `yeatse/EKA2L1`. It adds GLES2, native MMF media, connection observers,
+ScreenPlay surfaces, IAP service settings, mapped ROM files, file, network,
+keyboard and FEP fixes.
 
 | Patch | Purpose |
 | --- | --- |
-| `file-cache.patch` | Refresh case-insensitive directory lookups after file creation. |
-| `iap-service.patch` | Read the active connection's IAP service settings. |
-| `keyboard.patch` | Translate editing keys, modifiers and key repeat. |
-| `mapped-files.patch` | Map private writable copies of ROM-backed files. |
-| `network.patch` | Select TCP address families and resolve IPv4 and IPv6 hosts. |
-| `screenplay.patch` | Provide Surface Manager, Surface Update and window surface presentation. |
+| `dynarmic-tlb.patch` | Reject invalid Dynarmic TLB entries before direct guest memory access. |
 
-The patches target the port's EKA2L1 integration with GLES2, native MMF media
-and connection-observer support. Apply the relevant patch from that integration's
-source checkout, then build the emulator with its CMake instructions.
+The Dynarmic patch targets the `src/external/dynarmic` submodule at revision
+`855e885288fc21a616ed07ee4437f34abe7c3922`. Apply it inside that submodule:
 
-See [Development](../../docs/Development.md) for the browser build and [Testing](../../docs/TESTING.md) for emulator setup and test commands.
+```sh
+git clone --recurse-submodules -b webkit-symbian https://github.com/yeatse/EKA2L1
+git -C EKA2L1/src/external/dynarmic apply "$PWD/Tools/Symbian/eka2l1/patches/dynarmic-tlb.patch"
+```
+
+Then build the emulator with its CMake instructions. See
+[Development](../../docs/Development.md) for the browser build and
+[Testing](../../docs/TESTING.md) for emulator setup and test commands.
