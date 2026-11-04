@@ -166,6 +166,8 @@ public:
 
     using MediaPlayerFactory = MediaPlayer* (*)(void* context, MediaPlayerClient&, bool video);
     static void setMediaPlayerFactory(MediaPlayerFactory, void* context);
+    // Log per-stage timings of composited frames about once a second.
+    static void setFrameStatsEnabled(bool);
 
     static WebView* create(WebViewClient&, int width, int height);
     virtual ~WebView() = default;

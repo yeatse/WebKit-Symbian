@@ -27,6 +27,7 @@ list(APPEND WebKitLegacy_PRIVATE_INCLUDE_DIRECTORIES
 list(APPEND WebKitLegacy_PUBLIC_FRAMEWORK_HEADERS
     symbian/WebKitSymbian.h
     symbian/WebKitSymbianClipboard.h
+    symbian/WebKitSymbianFrameStats.h
     symbian/WebKitSymbianTouch.h
     symbian/DownloadFile.h
 )

@@ -289,6 +289,7 @@ void CWebContainer::Draw(const TRect& aRect) const
         }
         if (iScreenPlay) {
             CScreenPlaySurface::TFrame frame;
+            TUint32 marks[4] { FrameCounter() };
             TInt error = iScreenPlay->BeginFrame(Size(), iDirty, frame);
             bool currentFrame = error == KErrAlreadyExists;
             if (error == KErrInUse)
@@ -299,8 +300,13 @@ void CWebContainer::Draw(const TRect& aRect) const
                 iDirty = TRect();
                 WebKitSymbian::Rect dirty { frame.iDirty.iTl.iX, frame.iDirty.iTl.iY,
                     frame.iDirty.Width(), frame.iDirty.Height() };
+                marks[1] = FrameCounter();
                 iWebView->paint(frame.iPixels, frame.iStride, dirty);
+                marks[2] = FrameCounter();
                 error = iScreenPlay->SubmitFrame(frame);
+                marks[3] = FrameCounter();
+                if (error == KErrNone)
+                    RecordFrame(iScreenPlayStats, marks, 3);
             }
             if (error == KErrNone || currentFrame) {
                 // Discard retained bitmap drawing so the background surface is
@@ -333,7 +339,10 @@ void CWebContainer::Draw(const TRect& aRect) const
         gc.Clear(aRect);
         return;
     }
-    if (!iDirty.IsEmpty()) {
+    TUint32 marks[3] { };
+    bool painted = !iDirty.IsEmpty();
+    if (painted) {
+        marks[0] = FrameCounter();
         // The engine paints into the bitmap's pixels directly; EColor16MAP
         // is the premultiplied 0xAARRGGBB layout it expects.
         WebKitSymbian::Rect dirty { iDirty.iTl.iX, iDirty.iTl.iY, iDirty.Width(), iDirty.Height() };
@@ -343,11 +352,17 @@ void CWebContainer::Draw(const TRect& aRect) const
         int stride = CFbsBitmap::ScanLineLength(iBitmap->SizeInPixels().iWidth, EColor16MAP);
         iWebView->paint(pixels, stride, dirty);
         iBitmap->EndDataAccess();
+        marks[1] = FrameCounter();
     }
     TRect source(aRect.iTl - Rect().iTl, aRect.Size());
     gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
     gc.BitBlt(aRect.iTl, iBitmap, source);
     gc.SetDrawMode(CGraphicsContext::EDrawModePEN);
+    if (painted) {
+        // BitBlt queues a window server command; this times the client side.
+        marks[2] = FrameCounter();
+        RecordFrame(iBitmapStats, marks, 2);
+    }
 }
 
 #if SYMBIAN_BROWSER_SCREENPLAY
@@ -378,7 +393,8 @@ TInt CWebContainer::PrepareNativeVideoWindow()
     iNativeVideoWindowPrepared = true;
     // MMF can prepare a display before the next page redraw. Retire EGL now,
     // before it can destroy a window surface subsequently attached by MMF.
-    if (iWebView && iWebView->usesAcceleratedCompositing())
+    // Also stops EGL composition from starting later on this window.
+    if (iWebView)
         iWebView->setNativeWindow(nullptr);
 #if SYMBIAN_BROWSER_SCREENPLAY
     // Retire the page surface while the window is still opaque. Alpha cannot
@@ -1002,6 +1018,47 @@ void CWebContainer::MCoeFepAwareTextEditor_Extension1_Reserved_4()
 }
 
 // Input self-test.
+
+void CWebContainer::EnableFrameStats()
+{
+    if (iFrameStats)
+        return;
+    if (HAL::Get(HAL::EFastCounterFrequency, iFastCounterHz) != KErrNone || iFastCounterHz <= 0) {
+        BrowserLog("frame-stats: no fast counter");
+        return;
+    }
+    TInt countsUp = 1;
+    if (HAL::Get(HAL::EFastCounterCountsUp, countsUp) == KErrNone)
+        iFastCounterCountsUp = countsUp;
+    iFrameStats = true;
+    WebView::setFrameStatsEnabled(true);
+    BrowserLog("frame-stats: enabled, fast counter %d Hz", iFastCounterHz);
+}
+
+TUint32 CWebContainer::FrameCounter() const
+{
+    return iFrameStats ? User::FastCounter() : 0;
+}
+
+void CWebContainer::RecordFrame(WebKitSymbian::FrameStats& aStats, const TUint32* aMarks, TInt aStages) const
+{
+    if (!iFrameStats)
+        return;
+    auto milliseconds = [this](TUint32 aFrom, TUint32 aTo) {
+        TUint32 ticks = iFastCounterCountsUp ? aTo - aFrom : aFrom - aTo;
+        return ticks * 1000.0 / iFastCounterHz;
+    };
+    double durations[WebKitSymbian::FrameStats::maximumStages] { };
+    for (TInt i = 0; i < aStages; ++i)
+        durations[i] = milliseconds(aMarks[i], aMarks[i + 1]);
+    double since = iLastFrameCounter ? milliseconds(iLastFrameCounter, aMarks[aStages]) : 0;
+    iLastFrameCounter = aMarks[aStages];
+    if (aStats.add(durations, since)) {
+        char summary[256];
+        aStats.format(summary, sizeof(summary));
+        BrowserLog("%s", summary);
+    }
+}
 
 void CWebContainer::AllowMediaWithoutUserGesture()
 {

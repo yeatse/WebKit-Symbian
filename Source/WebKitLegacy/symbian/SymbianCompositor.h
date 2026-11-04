@@ -5,8 +5,10 @@
 
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
 #include <WebCore/GraphicsLayerClient.h>
+#include "WebKitSymbianFrameStats.h"
 #include <WebCore/Timer.h>
 #include <memory>
+#include <wtf/MonotonicTime.h>
 #include <wtf/RefPtr.h>
 
 namespace WebCore {
@@ -49,6 +51,8 @@ private:
     WebCore::Timer m_flushTimer;
     bool m_rendering { false };
     bool m_logNextPresentation { true };
+    FrameStats m_stats;
+    MonotonicTime m_lastFrame;
 };
 }
 #endif

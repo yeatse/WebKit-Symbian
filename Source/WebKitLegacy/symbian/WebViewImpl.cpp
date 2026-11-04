@@ -30,6 +30,7 @@
 #include "PageStorageSessionProvider.h"
 #include "SymbianChromeClient.h"
 #include "SymbianCompositor.h"
+#include "WebKitSymbianFrameStats.h"
 #if ENABLE(VIDEO)
 #include "MediaPlayerPrivateSymbian.h"
 #endif
@@ -291,6 +292,15 @@ void WebView::setWakeUpCallback(void (*wakeUp)(void*), void* context)
     pressureHandler.install();
 }
 
+static bool s_frameStatsEnabled;
+
+bool frameStatsEnabled() { return s_frameStatsEnabled; }
+
+void WebView::setFrameStatsEnabled(bool enabled)
+{
+    s_frameStatsEnabled = enabled;
+}
+
 void WebView::setMediaPlayerFactory(MediaPlayerFactory factory, void* context)
 {
 #if ENABLE(VIDEO)
@@ -326,6 +336,9 @@ WebViewImpl::WebViewImpl(WebViewClient& client, int width, int height)
     : m_client(client)
     , m_downloads(SymbianDownloadManager::create(client))
     , m_size(width, height)
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    , m_compositorIdleTimer([this] { requestCompositedDisplay(); })
+#endif
     , m_scaleTimer([this] { updateScale(); })
 {
     auto storageProvider = PageStorageSessionProvider::create();
@@ -396,13 +409,18 @@ WebViewImpl::~WebViewImpl()
     m_page->localMainFrame()->loader().detachFromParent();
 }
 
+// The embedding presents ordinary pages itself (ScreenPlay or bitmap). EGL
+// composition starts only while WebCore attaches composited layers, from the
+// embedding's next renderCompositedFrame(), after it has released its own
+// window surface. It ends when the layers have been gone for a while.
+static constexpr Seconds compositorIdleTimeout = 2_s;
+
 bool WebViewImpl::setNativeWindow(void* window)
 {
     disableCompositing();
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
-    if (window)
-        m_compositor = SymbianCompositor::create(*this, window);
-    if (m_compositor) {
+    if (window) {
+        m_nativeWindow = window;
         m_page->settings().setAcceleratedCompositingEnabled(true);
         invalidate(IntRect(IntPoint(), m_size));
         return true;
@@ -413,10 +431,28 @@ bool WebViewImpl::setNativeWindow(void* window)
     return false;
 }
 
+bool WebViewImpl::allowsAcceleratedCompositing() const
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    return !!m_nativeWindow;
+#else
+    return false;
+#endif
+}
+
+bool WebViewImpl::wantsCompositing() const
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    return m_nativeWindow && (m_rootLayer || m_overlayLayer);
+#else
+    return false;
+#endif
+}
+
 bool WebViewImpl::usesAcceleratedCompositing() const
 {
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
-    return !!m_compositor;
+    return m_compositor || wantsCompositing();
 #else
     return false;
 #endif
@@ -425,9 +461,13 @@ bool WebViewImpl::usesAcceleratedCompositing() const
 void WebViewImpl::disableCompositing()
 {
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
-    if (!m_compositor)
+    m_nativeWindow = nullptr;
+    m_compositorIdleTimer.stop();
+    m_compositorIdle = false;
+    if (!m_page->settings().acceleratedCompositingEnabled() && !m_compositor)
         return;
-    m_compositor->prepareForDestruction();
+    if (m_compositor)
+        m_compositor->prepareForDestruction();
     m_page->settings().setAcceleratedCompositingEnabled(false);
     // Disabling the setting tears down RenderLayer backings on the next
     // style/layout pass. Keep their parent/context alive for that pass.
@@ -436,6 +476,8 @@ void WebViewImpl::disableCompositing()
         view->flushCompositingStateIncludingSubframes();
     }
     m_compositor = nullptr;
+    m_rootLayer = nullptr;
+    m_overlayLayer = nullptr;
     invalidate(IntRect(IntPoint(), m_size));
 #endif
 }
@@ -443,7 +485,7 @@ void WebViewImpl::disableCompositing()
 void WebViewImpl::renderCompositedFrame()
 {
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
-    if (!m_compositor)
+    if (!usesAcceleratedCompositing())
         return;
 #if ENABLE(VIDEO)
     // MMF Utility2 video uses a native window below the page. Until EGL
@@ -454,6 +496,33 @@ void WebViewImpl::renderCompositedFrame()
         return;
     }
 #endif
+    if (wantsCompositing()) {
+        m_compositorIdle = false;
+        m_compositorIdleTimer.stop();
+    } else if (!m_compositorIdle) {
+        // Navigations often leave and re-enter compositing; keep EGL briefly.
+        m_compositorIdle = true;
+        m_compositorIdleTimer.startOneShot(compositorIdleTimeout);
+    } else if (!m_compositorIdleTimer.isActive()) {
+        WTFLogAlways("Symbian compositor: no composited layers, EGL composition ended");
+        m_compositorIdle = false;
+        m_compositor->prepareForDestruction();
+        m_compositor = nullptr;
+        // The embedding presents the whole view itself again.
+        m_client.didInvalidate({ 0, 0, m_size.width(), m_size.height() });
+        return;
+    }
+    if (!m_compositor) {
+        MonotonicTime start = MonotonicTime::now();
+        m_compositor = SymbianCompositor::create(*this, m_nativeWindow);
+        if (!m_compositor) {
+            disableCompositing();
+            return;
+        }
+        m_compositor->setRootLayer(m_rootLayer.get());
+        m_compositor->setOverlayLayer(m_overlayLayer.get());
+        WTFLogAlways("Symbian compositor: EGL composition started in %.1f ms", (MonotonicTime::now() - start).milliseconds());
+    }
     if (!m_compositor->render())
         disableCompositing();
 #endif
@@ -471,8 +540,12 @@ bool WebViewImpl::requiresNativeVideoWindow() const
 void WebViewImpl::attachRootGraphicsLayer(GraphicsLayer* layer)
 {
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    bool starts = layer && !usesAcceleratedCompositing();
+    m_rootLayer = layer;
     if (m_compositor)
         m_compositor->setRootLayer(layer);
+    else if (starts)
+        requestCompositedDisplay();
 #else
     UNUSED_PARAM(layer);
 #endif
@@ -481,8 +554,12 @@ void WebViewImpl::attachRootGraphicsLayer(GraphicsLayer* layer)
 void WebViewImpl::attachViewOverlayGraphicsLayer(GraphicsLayer* layer)
 {
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    bool starts = layer && !usesAcceleratedCompositing();
+    m_overlayLayer = layer;
     if (m_compositor)
         m_compositor->setOverlayLayer(layer);
+    else if (starts)
+        requestCompositedDisplay();
 #else
     UNUSED_PARAM(layer);
 #endif

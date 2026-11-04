@@ -587,13 +587,18 @@ void CBrowserAppUi::ConstructL()
     FocusPageL();
 
     // The command line may name a URL to load at start, fep-selftest,
-    // curl-verbose and the test-only media-autoplay. Options precede the URL.
+    // curl-verbose, frame-stats and the test-only media-autoplay. Options
+    // precede the URL. C:\Data\WebKit\frame-stats also enables frame-stats.
+    if (BaflUtils::FileExists(iEikonEnv->FsSession(), _L("C:\\Data\\WebKit\\frame-stats")))
+        iWebContainer->EnableFrameStats();
     TLex lex(commandLinePtr);
     for (TPtrC token = lex.NextToken(); token.Length(); token.Set(lex.NextToken())) {
         if (token == _L("fep-selftest"))
             iWebContainer->EnableInputSelfTest();
         else if (token == _L("media-autoplay"))
             iWebContainer->AllowMediaWithoutUserGesture();
+        else if (token == _L("frame-stats"))
+            iWebContainer->EnableFrameStats();
         else if (token != _L("curl-verbose"))
             LoadUrlL(token);
     }

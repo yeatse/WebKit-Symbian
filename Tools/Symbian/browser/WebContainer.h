@@ -13,6 +13,7 @@
 #endif
 
 #include <WebKitSymbian.h>
+#include <WebKitSymbianFrameStats.h>
 #include <coecntrl.h>
 #include <fepbase.h>
 
@@ -67,6 +68,8 @@ public:
     // through RDebug after each.
     void EnableInputSelfTest();
     void AllowMediaWithoutUserGesture();
+    // Log presentation stage timings about once a second of drawn frames.
+    void EnableFrameStats();
 
 private:
     CWebContainer(MWebContainerObserver& aObserver);
@@ -138,6 +141,8 @@ private:
     void ReportEditorEventL(TInt aEvent);
     void RequestTouchInputL();
     void EnsureBitmapL();
+    TUint32 FrameCounter() const;
+    void RecordFrame(WebKitSymbian::FrameStats&, const TUint32* aMarks, TInt aStages) const;
 #if SYMBIAN_BROWSER_MEDIA
     RWindow& VideoWindow() override { return Window(); }
     TInt PrepareNativeVideoWindow() override;
@@ -156,6 +161,12 @@ private:
     SymbianBrowser::TouchTracker iTouchTracker;
     TInt iMaximumTouchPressure { 0 };
     CFbsBitmap* iBitmap { nullptr };
+    bool iFrameStats { false };
+    TInt iFastCounterHz { 0 };
+    bool iFastCounterCountsUp { true };
+    mutable TUint32 iLastFrameCounter { 0 };
+    mutable WebKitSymbian::FrameStats iScreenPlayStats { "screenplay", { "begin", "paint", "submit", nullptr }, 3 };
+    mutable WebKitSymbian::FrameStats iBitmapStats { "bitmap", { "paint", "blit", nullptr, nullptr }, 2 };
     TInt iUiResourceOffset { -1 };
     mutable TRect iDirty;
 #if SYMBIAN_BROWSER_MEDIA

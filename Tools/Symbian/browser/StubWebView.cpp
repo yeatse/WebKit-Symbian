@@ -193,6 +193,8 @@ void WebView::setWakeUpCallback(void (*wakeUp)(void*), void* context)
 
 void WebView::runPendingWork() { }
 
+void WebView::setFrameStatsEnabled(bool) { }
+
 int64_t WebView::microsecondsUntilNextTimer() { return -1; }
 
 

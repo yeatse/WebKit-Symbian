@@ -83,6 +83,7 @@ public:
     void scheduleRenderingUpdate();
     void requestCompositedDisplay();
     bool usesAcceleratedCompositing() const final;
+    bool allowsAcceleratedCompositing() const;
     bool requiresNativeVideoWindow() const final;
     unsigned maximumTouchPoints() const { return m_touchCapacity; }
     void cancelTouches() final;
@@ -136,6 +137,7 @@ private:
     RefPtr<WebCore::Element> click(const WebCore::IntPoint&, unsigned touchIdentifier = 0, bool fromTouch = false);
     void scrollAt(const WebCore::IntPoint&, const WebCore::IntSize& delta);
     void disableCompositing();
+    bool wantsCompositing() const;
 
     WebViewClient& m_client;
     Ref<SymbianDownloadManager> m_downloads;
@@ -143,6 +145,11 @@ private:
     WebCore::IntSize m_size;
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
     std::unique_ptr<SymbianCompositor> m_compositor;
+    void* m_nativeWindow { nullptr };
+    RefPtr<WebCore::GraphicsLayer> m_rootLayer;
+    RefPtr<WebCore::GraphicsLayer> m_overlayLayer;
+    WebCore::Timer m_compositorIdleTimer;
+    bool m_compositorIdle { false };
 #endif
 
     // Pages lay out at the width their viewport asks for, 980 pixels for

@@ -5,6 +5,7 @@
 
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
 #include "WebViewImpl.h"
+#include <EGL/egl.h>
 #include <GLES2/gl2.h>
 #include <WebCore/DocumentView.h>
 #include <WebCore/BitmapTexturePool.h>
@@ -18,6 +19,7 @@
 #include <WebCore/TextureMapper.h>
 #include <WebCore/TextureMapperLayer.h>
 #include <wtf/SetForScope.h>
+#include <wtf/text/WTFString.h>
 
 namespace WebKitSymbian {
 using namespace WebCore;
@@ -34,7 +36,16 @@ SymbianCompositor::SymbianCompositor(WebViewImpl& view, void* window)
     : m_view(view)
     , m_nativeWindow(window)
     , m_flushTimer([this] { m_view.requestCompositedDisplay(); })
+    , m_stats("egl", { "update", "backing", "draw", "swap" }, 4)
 {
+}
+
+static void logExtensions(const char* name, const char* extensions)
+{
+    // Log long lists in pieces; the browser log truncates long lines.
+    String list = String::fromLatin1(extensions ? extensions : "");
+    for (unsigned start = 0; start < list.length(); start += 200)
+        WTFLogAlways("Symbian compositor: %s[%u]: %s", name, start / 200, list.substring(start, 200).utf8().data());
 }
 
 bool SymbianCompositor::initialize()
@@ -60,6 +71,18 @@ bool SymbianCompositor::initialize()
     m_root->setSize(m_view.size());
     m_root->setNeedsDisplay();
     WTFLogAlways("Symbian compositor: native EGL/GLES2 initialized, renderer=%s", glGetString(GL_RENDERER));
+    static bool loggedExtensions;
+    if (!loggedExtensions) {
+        // Partial update, preserved swaps and EGLImage decide later work.
+        loggedExtensions = true;
+        EGLDisplay eglDisplay = eglGetCurrentDisplay();
+        WTFLogAlways("Symbian compositor: EGL %s, GL %s", eglQueryString(eglDisplay, EGL_VERSION), glGetString(GL_VERSION));
+        logExtensions("EGL_EXTENSIONS", eglQueryString(eglDisplay, EGL_EXTENSIONS));
+        logExtensions("GL_EXTENSIONS", reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS)));
+        EGLint swapBehavior = 0;
+        eglQuerySurface(eglDisplay, eglGetCurrentSurface(EGL_DRAW), EGL_SWAP_BEHAVIOR, &swapBehavior);
+        WTFLogAlways("Symbian compositor: swap behavior %s", swapBehavior == EGL_BUFFER_PRESERVED ? "preserved" : "destroyed");
+    }
     return true;
 }
 
@@ -147,6 +170,8 @@ bool SymbianCompositor::render()
         return true;
     SetForScope rendering(m_rendering, true);
     m_flushTimer.stop();
+    const bool timing = frameStatsEnabled();
+    MonotonicTime start = timing ? MonotonicTime::now() : MonotonicTime();
     m_view.page().isolatedUpdateRendering();
     if (!m_context->makeContextCurrent()) {
         WTFLogAlways("Symbian compositor: EGL make-current failed: %s", GLContext::lastErrorString());
@@ -166,7 +191,9 @@ bool SymbianCompositor::render()
     // texture allocation/upload, not just before the final draw.
     if (!m_context->makeContextCurrent())
         return false;
+    MonotonicTime updated = timing ? MonotonicTime::now() : MonotonicTime();
     auto& root = downcast<GraphicsLayerTextureMapper>(*m_root);
+    // Backing includes Cairo painting of dirty layer tiles and their upload.
     if (!root.updateBackingStoreIncludingSubLayers(*m_textureMapper)) {
         WTFLogAlways("Symbian compositor: backing upload failed, using software painting");
         return false;
@@ -174,6 +201,7 @@ bool SymbianCompositor::render()
     // A canvas preparation can use an ANGLE context during layer flushing.
     if (!m_context->makeContextCurrent())
         return false;
+    MonotonicTime backed = timing ? MonotonicTime::now() : MonotonicTime();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, m_view.size().width(), m_view.size().height());
     // Root backing includes ordinary noncomposited content; clearing also
@@ -188,9 +216,22 @@ bool SymbianCompositor::render()
         WTFLogAlways("Symbian compositor: GLES draw failed (0x%x), using software painting", error);
         return false;
     }
+    MonotonicTime drawn = timing ? MonotonicTime::now() : MonotonicTime();
     if (!m_context->swapBuffersChecked()) {
         WTFLogAlways("Symbian compositor: EGL swap failed: %s", GLContext::lastErrorString());
         return false;
+    }
+    if (timing) {
+        MonotonicTime swapped = MonotonicTime::now();
+        double since = m_lastFrame ? (swapped - m_lastFrame).milliseconds() : 0;
+        m_lastFrame = swapped;
+        const double durations[FrameStats::maximumStages] { (updated - start).milliseconds(),
+            (backed - updated).milliseconds(), (drawn - backed).milliseconds(), (swapped - drawn).milliseconds() };
+        if (m_stats.add(durations, since)) {
+            char summary[256];
+            m_stats.format(summary, sizeof(summary));
+            WTFLogAlways("%s", summary);
+        }
     }
     if (m_logNextPresentation) {
         WTFLogAlways("Symbian compositor: native EGL/GLES2 presented %dx%d", m_view.size().width(), m_view.size().height());

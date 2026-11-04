@@ -257,7 +257,7 @@ void SymbianChromeClient::triggerRenderingUpdate()
     m_view.scheduleRenderingUpdate();
 }
 
-bool SymbianChromeClient::allowsAcceleratedCompositing() const { return m_view.usesAcceleratedCompositing(); }
+bool SymbianChromeClient::allowsAcceleratedCompositing() const { return m_view.allowsAcceleratedCompositing(); }
 void SymbianChromeClient::attachRootGraphicsLayer(LocalFrame&, GraphicsLayer* layer) { m_view.attachRootGraphicsLayer(layer); }
 void SymbianChromeClient::attachViewOverlayGraphicsLayer(GraphicsLayer* layer) { m_view.attachViewOverlayGraphicsLayer(layer); }
 

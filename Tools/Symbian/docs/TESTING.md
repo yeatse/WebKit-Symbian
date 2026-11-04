@@ -49,22 +49,20 @@ completion and saves logs under `$SYMBIAN_WEBKIT_WORK/runs`.
 
 ## Browser graphics
 
-The default browser presents through ScreenPlay:
+The default browser presents ordinary pages through ScreenPlay and composited
+pages through EGL, so one build runs compositing, WebGL and ScreenPlay:
 
 ```sh
-python3 Tools/Symbian/tests/run-browser-graphics-tests.py \
-  "$SYMBIAN_WEBKIT_WORK/build/browser/e32/browser.exe" \
-  --suite screenplay --output /tmp/screenplay-results
-```
-
-Compositing and WebGL need EGL. Build an `auto` browser and run them:
-
-```sh
-BROWSER_PRESENTATION=auto Tools/Symbian/scripts/build-browser.sh
 python3 Tools/Symbian/tests/run-browser-graphics-tests.py \
   "$SYMBIAN_WEBKIT_WORK/build/browser/e32/browser.exe" \
   --suite all --output /tmp/graphics-results
 ```
+
+Add `frame-stats` before the URL on the browser command line, or create
+`C:\Data\WebKit\frame-stats`, to log `frame-stats:` lines with average/maximum
+milliseconds per stage about once a second: `update`, `backing`, `draw` and
+`swap` for EGL, `begin`, `paint` and `submit` for ScreenPlay, `paint` and
+`blit` for bitmaps. Compare them on a device; emulator GPU timings use the host.
 
 Each output directory contains `result.json`, browser and emulator logs, and a
 PNG screenshot for each suite. Page checks cover layout, painting and animation;
