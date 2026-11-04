@@ -162,9 +162,42 @@ check('AES key length and usage rejection', async () => {
     const key = await importAES('AES-GCM', rawAES, ['encrypt']);
     await reject('InvalidAccessError', () => crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(12) }, key, new Uint8Array(16)));
 });
+async function signatureRoundTrip(generate, sign) {
+    const { publicKey, privateKey } = await crypto.subtle.generateKey(generate, true, ['sign', 'verify']);
+    const message = bytes('signed message');
+    const signature = await crypto.subtle.sign(sign, privateKey, message);
+    equal(await crypto.subtle.verify(sign, publicKey, signature, message), true);
+    equal(await crypto.subtle.verify(sign, publicKey, signature, bytes('other message')), false);
+    const tampered = new Uint8Array(signature.slice(0));
+    tampered[0] ^= 1;
+    equal(await crypto.subtle.verify(sign, publicKey, tampered, message), false);
+    await reject('InvalidAccessError', () => crypto.subtle.sign(sign, publicKey, message));
+    return { publicKey, signature };
+}
+// The rsa/ and ec/ suites carry the vectors; these confirm registration in the page.
+check('RSA-PSS generate, sign and verify', async () => {
+    const { publicKey, signature } = await signatureRoundTrip(
+        { name: 'RSA-PSS', modulusLength: 1024, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-256' },
+        { name: 'RSA-PSS', saltLength: 32 });
+    equal(signature.byteLength, 128);
+    const jwk = await crypto.subtle.exportKey('jwk', publicKey);
+    equal(jwk.alg, 'PS256');
+});
+check('ECDSA P-256 generate, sign and verify', async () => {
+    const { publicKey, signature } = await signatureRoundTrip(
+        { name: 'ECDSA', namedCurve: 'P-256' }, { name: 'ECDSA', hash: 'SHA-256' });
+    equal(signature.byteLength, 64);
+    equal((await crypto.subtle.exportKey('raw', publicKey)).byteLength, 65);
+});
+check('ECDH P-256 agrees on shared bits', async () => {
+    const algorithm = { name: 'ECDH', namedCurve: 'P-256' };
+    const alice = await crypto.subtle.generateKey(algorithm, false, ['deriveBits']);
+    const bob = await crypto.subtle.generateKey(algorithm, false, ['deriveBits']);
+    const left = await crypto.subtle.deriveBits({ name: 'ECDH', public: bob.publicKey }, alice.privateKey, 256);
+    const right = await crypto.subtle.deriveBits({ name: 'ECDH', public: alice.publicKey }, bob.privateKey, 256);
+    equal(hex(left), hex(right));
+});
 for (const algorithm of [
-    { name: 'RSA-PSS', modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-256' },
-    { name: 'ECDSA', namedCurve: 'P-256' },
     { name: 'Ed25519' },
     { name: 'X25519' }
 ]) check(algorithm.name + ' is not registered', () => reject('NotSupportedError', () => crypto.subtle.generateKey(algorithm, false, ['sign'])));
