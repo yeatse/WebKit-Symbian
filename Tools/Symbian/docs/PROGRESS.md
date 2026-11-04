@@ -5,8 +5,8 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 ## Build and distribution
 
 - [x] ARMv6/VFPv2 cross-build with the Symbian SDK.
-- [x] E32 image conversion and separate browser, JavaScriptCore and ICU packages.
-- [x] Automatic GitHub Actions packages, release tags and certificate signing.
+- [x] E32 image conversion and one SIS package with the browser, JavaScriptCore, ICU data and example scripts.
+- [x] Automatic GitHub Actions builds, release tags and certificate signing.
 - [x] Reproducible SDK interfaces, runtime libraries and build tools.
 - [ ] Expand physical-device compatibility and performance coverage.
 

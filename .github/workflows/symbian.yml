@@ -1,13 +1,7 @@
-# Builds jsc.exe and browser.exe for Symbian^3 on every push to a *-symbian
-# branch and packages them as SIS files (symbian-webkit-icu.sis, jsc.sis,
-# browser.sis), uploaded as the "sis" artifact; browser.elf, for symbolizing
-# crashes, is the "elf" artifact. A pushed symbian-v* tag also attaches the
-# SIS files to a release. See Tools/Symbian/README.md.
-#
-# The packages are unsigned, versioned 0.3.<run number> so that each build
-# installs over the previous one (a symbian-vX.Y.Z tag gives version X.Y.Z).
-# The repository secrets SIS_CERTIFICATE and SIS_KEY (a PEM certificate and
-# its RSA key), if set, sign them instead.
+# Build WebKit Browser, JavaScriptCore and ICU for Symbian^3, Anna and Belle.
+# Source pushes to *-symbian branches upload symbian-webkit.sis in the sis artifact.
+# A symbian-vX.Y.Z tag publishes version X.Y.Z; branch builds use 0.3.<run number>.
+# SIS_CERTIFICATE and SIS_KEY repository secrets supply the PEM signing identity.
 name: Symbian
 run-name: 'Symbian 2.52.6 ARM11 JIT (${{ github.ref_name }}) #${{ github.run_number }}'
 
@@ -83,6 +77,9 @@ jobs:
           sudo apt-get install -yq --no-install-recommends clang lld cmake ninja-build ruby perl binutils \
             libjson-pp-perl gperf flex bison unifdef python3 python3-cryptography pkg-config ccache openssl \
             autoconf automake libtool g++ patch
+
+      - name: SIS packaging
+        run: python3 tests/sis-package/run.py
 
       - name: Symbian memory allocation regression
         run: |
@@ -333,7 +330,7 @@ jobs:
         with:
           path: WebKitBuild/Symbian/ccache
           key: ccache-symbian-2.52.6-${{ env.SDK_VERSION }}-${{ github.sha }}
-      - name: SIS packages
+      - name: SIS package
         env:
           SIS_CERTIFICATE_PEM: ${{ secrets.SIS_CERTIFICATE }}
           SIS_KEY_PEM: ${{ secrets.SIS_KEY }}
@@ -349,19 +346,19 @@ jobs:
           printf 'SIS_VERSION=%s\n' "$SIS_VERSION" >> "$GITHUB_ENV"
           (
             cd "$SYMBIAN_WEBKIT_WORK/sis"
-            for package in symbian-webkit-icu.sis jsc.sis browser.sis; do test -s "$package"; done
-            sha256sum symbian-webkit-icu.sis jsc.sis browser.sis > SHA256SUMS
+            test -s symbian-webkit.sis
+            sha256sum symbian-webkit.sis > SHA256SUMS
           )
           rm -f "$RUNNER_TEMP/sis.key"
           ccache -s
 
-      - name: Upload SIS packages
+      - name: Upload SIS package
         id: sis
         uses: actions/upload-artifact@v4
         with:
           name: sis
           path: |
-            WebKitBuild/Symbian/sis/*.sis
+            WebKitBuild/Symbian/sis/symbian-webkit.sis
             WebKitBuild/Symbian/sis/SHA256SUMS
           compression-level: 0
           if-no-files-found: error
@@ -379,10 +376,10 @@ jobs:
         run: |
           {
             printf '### WebKit 2.52.6 for Symbian\n\n'
-            printf '[Download SIS packages](%s) · Version `%s`\n\n' "$SIS_ARTIFACT_URL" "$SIS_VERSION"
+            printf '[Download symbian-webkit.sis](%s) · Version `%s`\n\n' "$SIS_ARTIFACT_URL" "$SIS_VERSION"
             printf 'Branch: `%s` · Commit: `%s`\n\n' "$GITHUB_REF_NAME" "$GITHUB_SHA"
             printf 'JavaScript: ARM LLInt + Baseline JIT + DFG (ARMv6, VFPv2, softfp).\n\n'
-            printf 'Install `symbian-webkit-icu.sis` first, then `browser.sis` and/or `jsc.sis`.\n\n'
+            printf 'Install `symbian-webkit.sis` and launch WebKit Browser from the applications menu.\n\n'
             printf '```text\n'
             cat "$SYMBIAN_WEBKIT_WORK/sis/SHA256SUMS"
             printf '```\n'
@@ -416,4 +413,4 @@ jobs:
         run: |
           gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1 \
             || gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes
-          gh release upload "$GITHUB_REF_NAME" "$SYMBIAN_WEBKIT_WORK"/sis/*.sis --clobber
+          gh release upload "$GITHUB_REF_NAME" "$SYMBIAN_WEBKIT_WORK/sis/symbian-webkit.sis" --clobber

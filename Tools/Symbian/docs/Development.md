@@ -58,15 +58,9 @@ SIS_VERSION=0.3.0 Tools/Symbian/scripts/package-sis.sh
 | `OPTIMIZE` | `-Os` | Target compiler optimization flags. |
 | `JOBS` | Host CPU count | Parallel build jobs. |
 
-The packages are written to `$SYMBIAN_WEBKIT_WORK/sis`:
+The package is written to `$SYMBIAN_WEBKIT_WORK/sis/symbian-webkit.sis`. The browser, JavaScriptCore shell and application resources use the installer-selected drive. Shared ICU data, example scripts, certificate and font configuration files are installed on C:.
 
-| Package | Contents |
-| --- | --- |
-| `symbian-webkit-icu.sis` | ICU data |
-| `jsc.sis` | JavaScriptCore command-line shell |
-| `browser.sis` | Browser application |
-
-To sign the packages, provide a PEM certificate and private key:
+To sign the package, provide a PEM certificate and private key:
 
 ```sh
 SIS_VERSION=0.3.1 \
@@ -92,4 +86,4 @@ Pass a URL as the second argument to open another page. Runs and screenshots are
 
 ## GitHub Actions
 
-The [Symbian workflow](../../../.github/workflows/symbian.yml) builds source pushes to `*-symbian` branches and uploads the three packages as the `sis` artifact. Tags named `symbian-v<version>` publish a release. Repository secrets `SIS_CERTIFICATE` and `SIS_KEY` supply the PEM signing certificate and private key.
+The [Symbian workflow](../../../.github/workflows/symbian.yml) builds source pushes to `*-symbian` branches and uploads `symbian-webkit.sis` as the `sis` artifact. Tags named `symbian-v<version>` publish a release. Repository secrets `SIS_CERTIFICATE` and `SIS_KEY` supply the PEM signing certificate and private key.

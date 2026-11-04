@@ -11,6 +11,7 @@ Module guides contain the focused commands and expected behavior.
 
 | Area | Guide |
 | --- | --- |
+| Installation | [WebKit package](sis-package/README.md) |
 | JavaScript and DOM | [ARM11 DOM](arm11-dom.md) |
 | Graphics | [Browser graphics](browser-graphics-runner.md) |
 | ScreenPlay | [Presenter](screenplay/README.md), [Surface Update](screenplay-update/README.md) |

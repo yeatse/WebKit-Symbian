@@ -1,66 +1,66 @@
 [
   {
-    "name": "symbian-webkit-icu.sis:0",
+    "name": "symbian-webkit.sis:0",
     "stored": 4768109,
     "expanded": 10261824
   },
   {
-    "name": "jsc.sis:0",
-    "stored": 6891028,
-    "expanded": 18846844
+    "name": "symbian-webkit.sis:1",
+    "stored": 6890982,
+    "expanded": 18831228
   },
   {
-    "name": "jsc.sis:1",
+    "name": "symbian-webkit.sis:2",
     "stored": 1063,
     "expanded": 2587
   },
   {
-    "name": "jsc.sis:2",
+    "name": "symbian-webkit.sis:3",
     "stored": 638,
     "expanded": 1462
   },
   {
-    "name": "jsc.sis:3",
+    "name": "symbian-webkit.sis:4",
     "stored": 147,
     "expanded": 186
   },
   {
-    "name": "jsc.sis:4",
+    "name": "symbian-webkit.sis:5",
     "stored": 864,
     "expanded": 2715
   },
   {
-    "name": "browser.sis:0",
-    "stored": 21854176,
-    "expanded": 58640092
+    "name": "symbian-webkit.sis:6",
+    "stored": 22410479,
+    "expanded": 59872996
   },
   {
-    "name": "browser.sis:1",
+    "name": "symbian-webkit.sis:7",
     "stored": 76,
     "expanded": 97
   },
   {
-    "name": "browser.sis:2",
+    "name": "symbian-webkit.sis:8",
     "stored": 55,
     "expanded": 74
   },
   {
-    "name": "browser.sis:3",
-    "stored": 120,
-    "expanded": 150
+    "name": "symbian-webkit.sis:9",
+    "stored": 149,
+    "expanded": 242
   },
   {
-    "name": "browser.sis:4",
+    "name": "symbian-webkit.sis:10",
     "stored": 1244,
     "expanded": 2254
   },
   {
-    "name": "browser.sis:5",
+    "name": "symbian-webkit.sis:11",
     "stored": 108394,
     "expanded": 188900
   },
   {
-    "name": "browser.sis:6",
+    "name": "symbian-webkit.sis:12",
     "stored": 339,
     "expanded": 935
   },
