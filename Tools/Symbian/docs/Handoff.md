@@ -21,6 +21,7 @@
 | `83051a52` | 关掉 accelerated compositing。移植没有合成器，`GraphicsLayerSymbian` 是空壳；用 transform、`will-change` 的页面会建出没人接收的图层树，拆的时候在 `GraphicsLayer::removeFromParent` 里出现 KERN-EXEC 3 |
 | `2fb286a7` | 页对齐分配（JSC 的 16 KB MarkedBlock）改用一块独立的 64 MB disconnected chunk（`FastMalloc.cpp` 的 `AlignedPool`）。SDK 的 mimalloc 在复杂页面上，提交量才 16 MB 左右时 `mi_malloc_aligned(16384, 16384)` 就返回空，导致 `RELEASE_ASSERT` 触发 USER-EXEC 3。调小 `mi_option_arena_reserve` 没用：SDK 启动时就保留了 48 MB |
 | `086320b3`, `3876430f` | Web Crypto 接到 mbedTLS 上。模拟器里 `crypto.html` 26 项全过（摘要、HMAC、AES、PBKDF2、HKDF、RSA、ECDSA/ECDH，以及各种导入导出格式） |
+| `0ad3499e` | 滚动时搬像素：主框架滚动时，浏览器把位图里已画好的部分直接移过去，只画新露出来的一条（fixed 元素由 WebCore 另外重画）。子框架和有视频的区域照旧整块重画。模拟器里用 `scrollBy` 分 20 步滚动，和一步跳到同一位置的截图逐像素一致（含 fixed 页头、iframe、横向滚动） |
 | `4c490acf`, `4102eeea` | 边下边播：媒体一边下载一边写进文件，下到够打开的量就开始播；播到已下载部分的末尾时暂停，再下大约 5 秒的内容（按平均码率，至少 64 KB）后重新打开并接着播。模拟器里限速测试通过（视频 20 KB/s、音频 40 KB/s；moov 在末尾的 MP4 等下完再播） |
 | `314ea9fa` | curl 访问数字 IP（`http://127.0.0.1`）报 "Failed initialization"：Open C 的 `sa_family_t` 是 8 位，`AF_INET` 是 0x0800，curl 的 `CURL_SA_FAMILY_T` 把地址族截成了 0。`build-deps.sh` 里改成 `u_short` |
 | `c8e958f3`, `625a370c` | `<audio>`/`<video>` 走 MMF 播放器，视频用打洞方式显示在窗口底下。模拟器里视频和音频都正常（音频要接虚拟声卡，见“在模拟器里测试浏览器”） |
@@ -104,7 +105,7 @@ git am /path/to/WebKit-Symbian/Tools/Symbian/patches/eka2l1/000{1,5}-*.patch
 
 ## 待办
 
-1. 手机上的速度：先测量，再考虑滚动 blit 和局部 `-O2`。
+1. 手机上的速度：滚动 blit 已经做了（`0ad3499e`），先在手机上测拖动滚动的帧率，再考虑局部 `-O2`。
 2. 在手机上验证：桌面页面（980 像素布局、双击缩放），多个 HTTPS 连接共享 CA 链后不再出现 `mbedTLS -0x2880`，以及表单控件在真机字体和缩放下的样子。
 3. 在手机上验证 `<audio>`/`<video>`：音频输出；视频的洞在滚动和缩放之后位置是否正确；NGA 下 `CVideoPlayerUtility` 能不能正常显示在 `EColor16MA` 窗口下面。边下边播（写文件和读文件都用 `EFileShareReadersOrWriters`）在真机上能不能读到正在写入的文件。
 4. 远期：基于 GLES2 TextureMapper 的硬件合成。N8 有 OpenGL ES 2.0 和 EGL，但 GPU 内存和纹理上传都是瓶颈，GOOM 会杀进程，所以要单独评估。WebGL 要等它做好再开。Web Audio（没有 FFT 和解码器，CPU 也不够）和 service worker（WebKitLegacy 不支持）不打算做，原因见 Development.md。

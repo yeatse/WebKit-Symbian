@@ -344,6 +344,7 @@ Results:
 * `WebKitSymbian.h` is a plain C++ interface with no WebCore or Symbian types, so native AVKON code can include it next to the OS headers.
 * Clients: chrome, frame loader, editor, progress tracking; platform strategies with an in-process pasteboard; an error page for failed loads.
 * Painting: WebCore paints with cairo straight into the application's `CFbsBitmap` (`EColor16MAP` has cairo's premultiplied ARGB32 layout; the page is opaque except where video shows through).
+* Scrolling moves the pixels: when the main frame scrolls, `WebViewClient::didScroll()` tells the application how the area moved; the shell moves the rows in its bitmap, and only what scrolled into view (and fixed-position content, which WebCore invalidates) is painted. Subframes, which the page around them can paint over, and areas with a video in them, whose window moves only when it paints, are painted again in full.
 * Touch: a tap becomes a click; a drag scrolls whatever is under the finger, overflow areas included.
 * Viewport: the page lays out at the width its `<meta name=viewport>` asks for, or at 980 pixels without one, as other phone browsers do, and starts scaled to fit the view (`FrameView` fixed layout and the page scale factor, which WebCore applies as a transform on the root without compositing). A double tap toggles between that scale and a readable one (1, or twice the initial scale for pages that are already 1), keeping the point under the finger; `user-scalable=no` turns it off. The first tap of the two has clicked already. Only a change of width starts the page over at its initial scale, so the split view input keeps the zoom.
 * Event loop: WTF's generic `RunLoop` runs from the application's active scheduler. `RunLoop::nextTimerFireTime()` (added to WTF) tells the application when to wake it.
@@ -426,5 +427,5 @@ WebKit's own files keep their licenses (BSD-2-Clause / LGPL-2.1); the new `wtf/s
 * **Browser**: renders pages and takes touch input in EKA2L1, and opens local pages on a phone. The first phone runs could not resolve host names: there was no access point, which the shell now starts itself, and then curl's resolver failed on `socketpair()`, which curl is now built without.
 * **Next**:
   * testing on the phone: HTTP and HTTPS, the partial screen input, memory with a 31 MB image
-  * the speed of the `-Os` build on the phone: measure first, then scroll blitting and selective `-O2`
+  * the speed of the `-Os` build on the phone: measure first, with scroll blitting in, then selective `-O2`
   * following the connection manager for the online state
