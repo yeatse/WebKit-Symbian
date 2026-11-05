@@ -74,6 +74,8 @@ CScreenPlaySurface::CScreenPlaySurface(RWsSession& aWs, RWindow& aWindow,
 
 void CScreenPlaySurface::ConstructL()
 {
+    User::LeaveIfError(iCalls.Open());
+    iCallsOpen = ETrue;
     User::LeaveIfError(iManager.Open());
     iManagerOpen = ETrue;
     User::LeaveIfError(iUpdates.Connect());
@@ -92,6 +94,8 @@ CScreenPlaySurface::~CScreenPlaySurface()
         iUpdates.Close();
     if (iManagerOpen)
         iManager.Close();
+    if (iCallsOpen)
+        iCalls.Close();
 }
 
 TInt CScreenPlaySurface::Fail(TInt aError)
@@ -153,7 +157,7 @@ TInt CScreenPlaySurface::CreateSurface(const TSize& aSize)
         return KErrCorrupt;
     for (TInt buffer = 0; buffer < 2; ++buffer)
         Mem::Fill(iChunk.Base() + iOffsets[buffer], static_cast<TInt>(bytes), 0xff);
-    error = iWs.RegisterSurface(iScreen, iSurface);
+    error = iCalls.RegisterSurface(iWs, iScreen, iSurface);
     if (error != KErrNone)
         return error;
     iRegistered = ETrue;
@@ -215,7 +219,7 @@ TInt CScreenPlaySurface::CheckBackground() const
     // The caller must keep this window opaque while the presenter exists.
     // GetBackgroundSurface is not legal on a transparent RWindow.
     TSurfaceConfiguration configuration;
-    TInt error = iWindow.GetBackgroundSurface(configuration);
+    TInt error = iCalls.GetBackgroundSurface(iWindow, configuration);
     if (error != KErrNone)
         return error;
     TSurfaceId current = TSurfaceId::CreateNullId();
@@ -311,7 +315,7 @@ TInt CScreenPlaySurface::Attach()
     if (error == KErrNone)
         error = configuration.SetExtent(TRect(iSize));
     if (error == KErrNone)
-        error = iWindow.SetBackgroundSurface(configuration, EFalse);
+        error = iCalls.SetBackgroundSurface(iWindow, configuration, EFalse);
     if (error == KErrNone)
         error = iWs.Finish();
     return error;
@@ -382,7 +386,7 @@ void CScreenPlaySurface::ReleaseSurface()
         // MMF/EGL may have replaced our attachment since the previous frame.
         TInt error = CheckBackground();
         if (error == KErrNone) {
-            iWindow.RemoveBackgroundSurface(EFalse);
+            iCalls.RemoveBackgroundSurface(iWindow, EFalse);
             Fail(iWs.Finish());
         } else if (error != KErrNotFound && error != KErrAccessDenied)
             Fail(error);
@@ -390,7 +394,7 @@ void CScreenPlaySurface::ReleaseSurface()
         // remove composition's reference to the previously active buffer.
         CancelNotifications();
         if (iRegistered) {
-            iWs.UnregisterSurface(iScreen, iSurface);
+            iCalls.UnregisterSurface(iWs, iScreen, iSurface);
             Fail(iWs.Finish());
         }
         iChunk.Close();

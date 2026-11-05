@@ -8,6 +8,7 @@
 #include <graphics/surface.h>
 #include <graphics/surfacemanager.h>
 #include "ScreenPlayUpdateSession.h"
+#include "ScreenPlayWindowServer.h"
 #include <w32std.h>
 
 class MScreenPlaySurfaceObserver {
@@ -62,6 +63,8 @@ private:
 
     RWsSession& iWs;
     RWindow& iWindow;
+    RScreenPlayWindowServer iCalls;
+    TBool iCallsOpen { EFalse };
     TInt iScreen;
     MScreenPlaySurfaceObserver& iObserver;
     RSurfaceManager iManager;

@@ -311,8 +311,10 @@ void CWebContainer::Draw(const TRect& aRect) const
             if (error == KErrNone || currentFrame) {
                 // Discard retained bitmap drawing so the background surface is
                 // visible. WriteAlpha preserves transparency for system UI.
+                // Transparent black is the composition key; RWindowBase::KeyColor
+                // is not exported by every firmware (the Nokia 808 lacks it).
                 gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
-                gc.SetBrushColor(const_cast<CWebContainer*>(this)->Window().KeyColor());
+                gc.SetBrushColor(TRgb(0, 0, 0, 0));
                 gc.Clear(aRect);
                 gc.SetDrawMode(CGraphicsContext::EDrawModePEN);
                 if (!iScreenPlayPresented) {

@@ -402,7 +402,8 @@ void Session::reportPolicyInterruption(TInt error)
 
 void Session::MarncResourceAvailable(TUid event, const TDesC8&)
 {
-    if (m_closing || !m_policyInterrupted || m_availableNotified || event != KMMFEventCategoryAudioResourceAvailable)
+    // Compare the values: the Nokia 808 does not export TUid::operator!=.
+    if (m_closing || !m_policyInterrupted || m_availableNotified || event.iUid != KMMFEventCategoryAudioResourceAvailable.iUid)
         return;
     m_availableNotified = true;
     // Bind availability to the interruption, not to later Suspend mailboxes.
