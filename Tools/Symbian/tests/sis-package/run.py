@@ -21,11 +21,11 @@ def payload(entries, kind):
 
 def check(work, icu_data):
     generated = {
-        r"!:\sys\bin\jsc.exe": ("build/e32/e32/jsc.exe", b"JSC executable fixture\n"),
-        r"!:\sys\bin\browser.exe": ("build/browser/e32/browser.exe", b"Browser executable fixture\n"),
-        r"!:\private\10003a3f\import\apps\browser_reg.rsc": ("build/browser/e32/browser_reg.rsc", b"Browser registration\n"),
-        r"!:\resource\apps\browser_loc.rsc": ("build/browser/e32/browser_loc.rsc", b"Browser caption\n"),
-        r"!:\resource\apps\browser_ui.rsc": ("build/browser/e32/browser_ui.rsc", b"Browser commands\n"),
+        r"c:\sys\bin\jsc.exe": ("build/e32/e32/jsc.exe", b"JSC executable fixture\n"),
+        r"c:\sys\bin\browser.exe": ("build/browser/e32/browser.exe", b"Browser executable fixture\n"),
+        r"c:\private\10003a3f\import\apps\browser_reg.rsc": ("build/browser/e32/browser_reg.rsc", b"Browser registration\n"),
+        r"c:\resource\apps\browser_loc.rsc": ("build/browser/e32/browser_loc.rsc", b"Browser caption\n"),
+        r"c:\resource\apps\browser_ui.rsc": ("build/browser/e32/browser_ui.rsc", b"Browser commands\n"),
         r"c:\resource\icu\icudt70l.dat": ("icu/install/share/icu/icudt70l.dat", b"ICU data fixture\n"),
         r"c:\resource\webkit\cacert.pem": ("downloads/cacert-2026-09-25.pem", b"CA fixture\n"),
     }

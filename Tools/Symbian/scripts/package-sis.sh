@@ -32,19 +32,22 @@ if [ ! -f "$cacert" ]; then
   mv "$cacert.tmp" "$cacert"
 fi
 
+# Install on C:. On a phone, the loader rejects executables with more than
+# about 12 MiB of code from the mass-memory drive (E:) with KErrNoMemory;
+# the same images load from C:.
 python3 "$REPO/scripts/make-sis.py" \
   --uid 0xE1A5C012 --name "WebKit for Symbian" --vendor symbian-webkit \
   --version "$version" --output "$out/symbian-webkit.sis" \
   "${platforms[@]}" "${sign[@]}" "${files[@]}" \
-  --file "$jsc=!:\\sys\\bin\\jsc.exe" \
+  --file "$jsc=c:\\sys\\bin\\jsc.exe" \
   --file "$REPO/tests/es2020.js=c:\\data\\es2020.js" \
   --file "$REPO/tests/intl.js=c:\\data\\intl.js" \
   --file "$REPO/tests/basic.js=c:\\data\\basic.js" \
   --file "$REPO/tests/resizable-arraybuffer.js=c:\\data\\resizable-arraybuffer.js" \
-  --file "$browser/browser.exe=!:\\sys\\bin\\browser.exe" \
-  --file "$browser/browser_reg.rsc=!:\\private\\10003a3f\\import\\apps\\browser_reg.rsc" \
-  --file "$browser/browser_loc.rsc=!:\\resource\\apps\\browser_loc.rsc" \
-  --file "$browser/browser_ui.rsc=!:\\resource\\apps\\browser_ui.rsc" \
+  --file "$browser/browser.exe=c:\\sys\\bin\\browser.exe" \
+  --file "$browser/browser_reg.rsc=c:\\private\\10003a3f\\import\\apps\\browser_reg.rsc" \
+  --file "$browser/browser_loc.rsc=c:\\resource\\apps\\browser_loc.rsc" \
+  --file "$browser/browser_ui.rsc=c:\\resource\\apps\\browser_ui.rsc" \
   --file "$REPO/browser/test.html=c:\\data\\webkit\\test.html" \
   --file "$cacert=c:\\resource\\webkit\\cacert.pem" \
   --file "$REPO/resources/fonts.conf=c:\\resource\\fontconfig\\fonts.conf"
