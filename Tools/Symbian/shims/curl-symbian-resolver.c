@@ -43,6 +43,9 @@ int Curl_symbian_getaddrinfo(const char *host, const char *service,
   case SYMBIAN_CURL_TIMEOUT: return EAI_AGAIN;
   case SYMBIAN_CURL_NOMEM: return EAI_MEMORY;
   case SYMBIAN_CURL_INVALID: return EAI_NONAME;
+  /* The native resolver itself failed: EAI_SYSTEM lets curl_addrinfo.c
+     resolve through Open C instead. */
+  case SYMBIAN_CURL_FAILED: return EAI_SYSTEM;
   default: return EAI_FAIL;
   }
   if(!memchr(records.canonical, 0, sizeof(records.canonical)))

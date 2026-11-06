@@ -89,7 +89,7 @@ def patch(source):
     replace_once(resolver, '#include "curl_addrinfo.h"',
                  '#include "curl_addrinfo.h"\n#ifdef CURL_SYMBIAN_NATIVE_RESOLVER\n#include "curl-symbian-resolver.h"\n#endif')
     replace_once(resolver, "  *result = NULL; /* assume failure */",
-                 "  *result = NULL; /* assume failure */\n#ifdef CURL_SYMBIAN_NATIVE_RESOLVER\n  return Curl_symbian_getaddrinfo(nodename, servname, hints, result);\n#endif")
+                 "  *result = NULL; /* assume failure */\n#ifdef CURL_SYMBIAN_NATIVE_RESOLVER\n  /* Some firmware's native host resolver fails every lookup (the Nokia 808)\n     while Open C's resolves: fall back to getaddrinfo below. */\n  error = Curl_symbian_getaddrinfo(nodename, servname, hints, result);\n  if(error != EAI_SYSTEM)\n    return error;\n#endif")
 
     h2 = source / "lib/http2.c"
     replace_once(h2,

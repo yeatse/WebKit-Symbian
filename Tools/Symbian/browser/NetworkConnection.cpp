@@ -6,22 +6,7 @@
 #include <sys/socket.h>
 #include <net/if.h>
 #include <errno.h>
-#include <stdint.h>
 #include <string.h>
-
-// From curl's native resolver (shims/curl-symbian-resolver.h).
-extern "C" void symbian_curl_set_connection(uint32_t aIap, uint32_t aNetwork);
-
-namespace {
-// es_enum.h's TConnectionInfo (version 1), absent from the SDK.
-struct TConnectionInfoV1 {
-    TUint8 iVersion;
-    TUint8 iReserved[3];
-    TUint32 iIapId;
-    TUint32 iNetId;
-};
-static_assert(sizeof(TConnectionInfoV1) == 12);
-}
 
 CNetworkConnection* CNetworkConnection::NewL(MNetworkConnectionObserver& aObserver)
 {
@@ -38,10 +23,8 @@ CNetworkConnection::CNetworkConnection(MNetworkConnectionObserver& aObserver)
 CNetworkConnection::~CNetworkConnection()
 {
     Cancel();
-    if (iReady) {
-        symbian_curl_set_connection(0, 0);
+    if (iReady)
         unsetdefaultif();
-    }
     iConnection.Close();
     iSocketServ.Close();
 }
@@ -110,36 +93,12 @@ void CNetworkConnection::UseAccessPointL()
         length += count;
     }
     BrowserLog("network: connected through \"%s\"", request.ifr_name);
-    ShareWithResolver();
     // Open C's sockets now attach to this connection instead of starting
     // one of their own.
     if (setdefaultif(&request) == -1) {
         BrowserLog("network: setdefaultif failed, errno %d", errno);
         User::Leave(KErrNotReady);
     }
-}
-
-// curl's resolver threads look names up through their own socket server
-// sessions, whose host resolvers have no interface unless attached to this
-// connection: give them its access point and network.
-void CNetworkConnection::ShareWithResolver()
-{
-    TUint32 iap = 0;
-    TInt error = iConnection.GetIntSetting(_L("IAP\\Id"), iap);
-    TUint count = 0;
-    if (!error)
-        error = iConnection.EnumerateConnections(count);
-    for (TUint index = 1; !error && index <= count; ++index) {
-        TPckgBuf<TConnectionInfoV1> info;
-        if (iConnection.GetConnectionInfo(index, info) != KErrNone || info().iIapId != iap)
-            continue;
-        BrowserLog("network: resolver uses access point %u, network %u",
-            static_cast<unsigned>(iap), static_cast<unsigned>(info().iNetId));
-        symbian_curl_set_connection(iap, info().iNetId);
-        return;
-    }
-    BrowserLog("network: no connection information for the resolver (%d, %u connections)",
-        error, static_cast<unsigned>(count));
 }
 
 void CNetworkConnection::DoCancel()

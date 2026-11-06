@@ -31,7 +31,6 @@ private:
     void DoCancel();
     TInt RunError(TInt aError);
     void UseAccessPointL();
-    void ShareWithResolver();
 
     MNetworkConnectionObserver& iObserver;
     RSocketServ iSocketServ;

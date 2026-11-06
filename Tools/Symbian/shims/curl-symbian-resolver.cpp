@@ -8,12 +8,6 @@
 static_assert(sizeof(SymbianCurlAddress) == 24);
 static_assert(sizeof(SymbianCurlAddresses) == 644);
 namespace {
-/* es_enum.h's TConnectionInfo (version 1), absent from the SDK. */
-struct ConnectionInfo { TUint8 version; TUint8 reserved[3]; TUint32 iap; TUint32 network; };
-static_assert(sizeof(ConnectionInfo) == 12);
-/* Set once by the UI thread when its connection starts, read by curl's
-   resolver threads. */
-TUint32 connection_iap, connection_network;
 int classify(TInt error) {
   if(error == KErrNoMemory) return SYMBIAN_CURL_NOMEM;
   if(error == KErrTimedOut) return SYMBIAN_CURL_TIMEOUT;
@@ -48,11 +42,6 @@ int append(const TInetAddr& native, int family, SymbianCurlAddresses* absl_nonnu
   return SYMBIAN_CURL_OK;
 }
 }
-extern "C" void symbian_curl_set_connection(uint32_t iap, uint32_t network) {
-  __atomic_store_n(&connection_iap, 0, __ATOMIC_RELEASE);
-  __atomic_store_n(&connection_network, network, __ATOMIC_RELEASE);
-  __atomic_store_n(&connection_iap, iap, __ATOMIC_RELEASE);
-}
 extern "C" int symbian_curl_resolve_records(const char* absl_nullable host, int family,
     int numeric_only, SymbianCurlAddresses* absl_nullable out) {
   if(!out) return SYMBIAN_CURL_INVALID;
@@ -79,25 +68,12 @@ extern "C" int symbian_curl_resolve_records(const char* absl_nullable host, int 
   RSocketServ sockets;
   TInt error = sockets.Connect();
   if(error) return classify(error);
-  /* A host resolver of a new socket server session has no interface on a
-     phone; attach it to the connection the browser started (which Open C's
-     sockets use through setdefaultif). */
-  RConnection connection;
-  bool attached = false;
-  ConnectionInfo info{1, {}, __atomic_load_n(&connection_iap, __ATOMIC_ACQUIRE),
-                      __atomic_load_n(&connection_network, __ATOMIC_ACQUIRE)};
-  if(info.iap && connection.Open(sockets) == KErrNone) {
-    attached = connection.Attach(TPckgC<ConnectionInfo>(info),
-                                 RConnection::EAttachTypeNormal) == KErrNone;
-    if(!attached) connection.Close();
-  }
   RHostResolver resolver;
-  error = attached ? resolver.Open(sockets, KAfInet, KProtocolInetUdp, connection)
-                   : resolver.Open(sockets, KAfInet, KProtocolInetUdp);
-  if(error) { if(attached) connection.Close(); sockets.Close(); return classify(error); }
+  error = resolver.Open(sockets, KAfInet, KProtocolInetUdp);
+  if(error) { sockets.Close(); return classify(error); }
   RTimer timer;
   error = timer.CreateLocal();
-  if(error) { resolver.Close(); if(attached) connection.Close(); sockets.Close(); return classify(error); }
+  if(error) { resolver.Close(); sockets.Close(); return classify(error); }
   TRequestStatus request, timeout;
   TNameEntry entry;
   timer.After(timeout, TTimeIntervalMicroSeconds32(10000000));
@@ -128,7 +104,7 @@ extern "C" int symbian_curl_resolve_records(const char* absl_nullable host, int 
     resolver.Next(entry, request);
   }
   timer.Cancel(); User::WaitForRequest(timeout);
-  timer.Close(); resolver.Close(); if(attached) connection.Close(); sockets.Close();
+  timer.Close(); resolver.Close(); sockets.Close();
   if(status) memset(out, 0, sizeof(*out));
   return status;
 }
