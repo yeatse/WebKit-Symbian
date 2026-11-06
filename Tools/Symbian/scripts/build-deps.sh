@@ -367,7 +367,8 @@ def rows(path):
 object_rows = rows(resolver)
 undefined = {r[-1] for r in object_rows if len(r) >= 2 and r[-2] == 'U'}
 assert 'Curl_symbian_getaddrinfo' in undefined, 'native resolver selector missing from curl_addrinfo.o'
-assert not {'getaddrinfo', 'freeaddrinfo'} & undefined, 'legacy hostname conversion remains selected'
+# Open C's getaddrinfo stays as the fallback for a failing native resolver.
+assert {'getaddrinfo', 'freeaddrinfo'} <= undefined, 'Open C fallback resolver missing from curl_addrinfo.o'
 archive_rows = rows(archive)
 for symbol in ('Curl_symbian_getaddrinfo', 'symbian_curl_resolve_records'):
     assert sum(len(r) >= 3 and r[-2] in ('T', 't') and r[-1] == symbol for r in archive_rows) == 1, 'native bridge definition missing/duplicated: ' + symbol
