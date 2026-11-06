@@ -13,6 +13,9 @@ struct SymbianCurlAddresses { uint32_t count; struct SymbianCurlAddress addresse
 extern "C" {
 #endif
 int symbian_curl_resolve_records(const char *, int, int, struct SymbianCurlAddresses *);
+/* The started connection (access point and network ids) lookups attach to.
+   Zero ids detach: lookups then use the socket server's implicit connection. */
+void symbian_curl_set_connection(uint32_t iap, uint32_t network);
 struct addrinfo;
 struct Curl_addrinfo;
 int Curl_symbian_getaddrinfo(const char *, const char *, const struct addrinfo *, struct Curl_addrinfo **);
