@@ -14,7 +14,7 @@ using TUint = std::uint32_t;
 using TUint8 = std::uint8_t;
 using TUint32 = std::uint32_t;
 static_assert(sizeof(TInt) == 4 && sizeof(TUint) == 4 && sizeof(TUint32) == 4);
-constexpr TInt KErrNone=0, KErrNotSupported=-5, KErrArgument=-6, KErrAlreadyExists=-11, KErrCancel=-3;
+constexpr TInt KErrNone=0, KErrNotFound=-1, KErrNotSupported=-5, KErrArgument=-6, KErrAlreadyExists=-11, KErrCancel=-3;
 constexpr TInt KRequestPending=-1000, KNullHandle=0;
 #define _L(x) x
 #define _LIT(name, value) static constexpr const char* name = value
@@ -75,6 +75,8 @@ struct Event {
 struct Backend {
     TInt connect_result=0, submit_result=0;
     TInt connect_calls=0, close_calls=0;
+    // Name the server is registered under; other names get KErrNotFound.
+    std::string registered="!SURFACE_UPDATE_SERVER";
     std::string server;
     std::array<TInt,3> version{};
     TInt slots=0;
@@ -98,6 +100,7 @@ protected:
     TInt CreateSession(const char* name, const TVersion& v, TInt slots) {
         auto& b=host::backend;
         ++b.connect_calls; b.server=name; b.version={v.iMajor,v.iMinor,v.iBuild}; b.slots=slots;
+        if (b.server!=b.registered) return KErrNotFound;
         if (!b.connect_result) handle=1;
         return b.connect_result;
     }

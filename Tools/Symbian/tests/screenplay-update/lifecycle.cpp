@@ -52,7 +52,7 @@ static void Opcodes(std::initializer_list<TInt> wanted) {
 static void TestConnect() {
     host::backend.Reset(); RScreenPlayUpdateSession s;
     Check(s.Connect()==0,"default connect result");
-    Check(host::backend.server=="SURFACE_UPDATE_SERVER","server name");
+    Check(host::backend.server=="!SURFACE_UPDATE_SERVER" && host::backend.connect_calls==1,"protected server name first");
     Check(host::backend.version==std::array<TInt,3>{1,1,3},"version must be exactly 1.1.3");
     Check(host::backend.slots==6,"default slots");
     Check(s.Connect()==KErrAlreadyExists && host::backend.connect_calls==1,"AlreadyExists no second CreateSession");
@@ -62,6 +62,11 @@ static void TestConnect() {
     Check(host::backend.slots==9 && host::backend.connect_calls==1,"caller slots/no version retry");
     host::backend.connect_result=0;
     Check(s.Connect(8)==0 && host::backend.connect_calls==2,"explicit reconnect allowed"); s.Close();
+    host::backend.Reset(); host::backend.registered="SURFACE_UPDATE_SERVER";
+    Check(s.Connect()==0 && host::backend.connect_calls==2,"falls back to the unprotected name");
+    Check(host::backend.server=="SURFACE_UPDATE_SERVER" && host::backend.version==std::array<TInt,3>{1,1,3},"fallback name and version"); s.Close();
+    host::backend.Reset(); host::backend.registered="";
+    Check(s.Connect()==KErrNotFound && s.Handle()==0 && host::backend.connect_calls==2,"no server: KErrNotFound after both names");
 }
 static void TestCachedAndOverwrite() {
     auto s=Connected(); TRequestStatus old,latest,d,x; TScreenPlayUpdateTimeStamp t;
