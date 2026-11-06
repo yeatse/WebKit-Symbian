@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmark: WebGL</title>
+<style>
+body { margin:0; }
+canvas { display:block; width:340px; height:480px; }
+</style>
+<canvas id="canvas" width="340" height="480"></canvas>
+<script src="bench.js"></script>
+<script>
+var gl, angle;
+bench('webgl', {
+    setup: function () {
+        var canvas = document.getElementById('canvas');
+        gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl)
+            return 'no WebGL';
+        function shader(type, source) {
+            var object = gl.createShader(type);
+            gl.shaderSource(object, source);
+            gl.compileShader(object);
+            return object;
+        }
+        var program = gl.createProgram();
+        gl.attachShader(program, shader(gl.VERTEX_SHADER,
+            'attribute vec2 p; attribute vec3 c; uniform float a; varying vec3 v;' +
+            'void main() { float s = sin(a), k = cos(a);' +
+            ' gl_Position = vec4(p.x * k - p.y * s, p.x * s + p.y * k, 0.0, 1.0); v = c; }'));
+        gl.attachShader(program, shader(gl.FRAGMENT_SHADER,
+            'precision mediump float; varying vec3 v; void main() { gl_FragColor = vec4(v, 1.0); }'));
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS))
+            return 'shader link failed';
+        gl.useProgram(program);
+        // 200 small triangles in a ring.
+        var data = [];
+        for (var i = 0; i < 200; ++i) {
+            var r = 0.2 + (i % 20) * 0.04, base = i * 0.31;
+            for (var k = 0; k < 3; ++k) {
+                var a = base + k * 0.08;
+                data.push(Math.cos(a) * (r + k % 2 * 0.05), Math.sin(a) * (r + k % 2 * 0.05),
+                    (i % 7) / 6, (i % 5) / 4, (i % 3) / 2);
+            }
+        }
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
+        var p = gl.getAttribLocation(program, 'p'), c = gl.getAttribLocation(program, 'c');
+        gl.enableVertexAttribArray(p);
+        gl.enableVertexAttribArray(c);
+        gl.vertexAttribPointer(p, 2, gl.FLOAT, false, 20, 0);
+        gl.vertexAttribPointer(c, 3, gl.FLOAT, false, 20, 8);
+        angle = gl.getUniformLocation(program, 'a');
+        gl.clearColor(1, 1, 1, 1);
+        return null;
+    },
+    frame: function (elapsed) {
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.uniform1f(angle, elapsed / 1000);
+        gl.drawArrays(gl.TRIANGLES, 0, 600);
+    }
+});
+</script>

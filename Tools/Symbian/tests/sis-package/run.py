@@ -38,6 +38,8 @@ def check(work, icu_data):
     for name in ("basic.js", "es2020.js", "intl.js", "resizable-arraybuffer.js"):
         expected["c:\\data\\" + name] = (SYMBIAN / "tests" / name).read_bytes()
     expected[r"c:\data\webkit\test.html"] = (SYMBIAN / "browser/test.html").read_bytes()
+    for page in sorted((SYMBIAN / "tests/benchmarks").glob("*.html")) + sorted((SYMBIAN / "tests/benchmarks").glob("*.js")):
+        expected["c:\\data\\webkit\\bench\\" + page.name] = page.read_bytes()
     expected[r"c:\resource\fontconfig\fonts.conf"] = (SYMBIAN / "resources/fonts.conf").read_bytes()
     if icu_data == "static":
         del expected[r"c:\resource\icu\icudt70l.dat"]

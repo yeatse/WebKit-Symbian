@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmark: scrolling images</title>
+<style>
+body { margin:0; padding:4px; }
+/* Drawn at another size than decoded, so each repaint scales. */
+img { width:31%; height:auto; margin:1%; vertical-align:top; }
+</style>
+<div id="grid"></div>
+<script src="bench.js"></script>
+<script>
+bench('images', {
+    setup: function () {
+        var canvas = document.createElement('canvas');
+        canvas.width = 200;
+        canvas.height = 150;
+        var context = canvas.getContext('2d');
+        if (!context)
+            return 'no canvas';
+        var grid = document.getElementById('grid');
+        for (var i = 0; i < 60; ++i) {
+            var gradient = context.createLinearGradient(0, 0, 200, 150);
+            gradient.addColorStop(0, 'hsl(' + (i * 29 % 360) + ',70%,50%)');
+            gradient.addColorStop(1, 'hsl(' + ((i * 29 + 120) % 360) + ',70%,80%)');
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, 200, 150);
+            context.fillStyle = 'rgba(255,255,255,.8)';
+            context.beginPath();
+            context.arc(40 + i % 5 * 30, 75, 30, 0, Math.PI * 2);
+            context.fill();
+            var image = new Image();
+            // JPEG for half, PNG for the rest: both decoders.
+            image.src = canvas.toDataURL(i % 2 ? 'image/jpeg' : 'image/png');
+            grid.appendChild(image);
+        }
+        return null;
+    },
+    frame: benchScroller(8)
+});
+</script>

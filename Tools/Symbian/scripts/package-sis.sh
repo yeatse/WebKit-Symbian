@@ -32,6 +32,13 @@ if [ ! -f "$cacert" ]; then
   mv "$cacert.tmp" "$cacert"
 fi
 
+# Frame-rate benchmark pages (tests/benchmarks), opened from
+# file:///C:/Data/WebKit/bench/index.html.
+bench=()
+for page in "$REPO"/tests/benchmarks/*.html "$REPO"/tests/benchmarks/*.js; do
+  bench+=(--file "$page=c:\\data\\webkit\\bench\\$(basename "$page")")
+done
+
 # Install on C:. On a phone, the loader rejects executables with more than
 # about 12 MiB of code from the mass-memory drive (E:) with KErrNoMemory;
 # the same images load from C:.
@@ -49,6 +56,7 @@ python3 "$REPO/scripts/make-sis.py" \
   --file "$browser/browser_loc.rsc=c:\\resource\\apps\\browser_loc.rsc" \
   --file "$browser/browser_ui.rsc=c:\\resource\\apps\\browser_ui.rsc" \
   --file "$REPO/browser/test.html=c:\\data\\webkit\\test.html" \
+  "${bench[@]}" \
   --file "$cacert=c:\\resource\\webkit\\cacert.pem" \
   --file "$REPO/resources/fonts.conf=c:\\resource\\fontconfig\\fonts.conf"
 ls -l "$out/symbian-webkit.sis"

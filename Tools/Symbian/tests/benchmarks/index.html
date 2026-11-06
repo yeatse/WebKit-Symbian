@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Frame-rate benchmarks</title>
+<style>
+body { margin:0; padding:8px; font:15px/1.4 sans-serif; }
+a { display:block; padding:10px 0; font-size:17px; }
+#done { display:none; padding:8px; background:#dfd; }
+</style>
+<h1>Frame-rate benchmarks</h1>
+<p id="done">All benchmarks finished. Copy C:\Data\WebKit\log.txt.</p>
+<p>Create C:\Data\WebKit\frame-stats first (an empty file), then restart the browser.
+Each page runs for about 15 seconds and stops by itself.</p>
+<a href="scroll.html?all">Run all (about 2 minutes)</a>
+<a href="scroll.html">Scrolling text</a>
+<a href="images.html">Scrolling images</a>
+<a href="animation.html">Layout animation</a>
+<a href="composited.html">Composited animation</a>
+<a href="canvas.html">Canvas 2D</a>
+<a href="webgl.html">WebGL</a>
+<script>
+if (/[?&]done\b/.test(location.search))
+    document.getElementById('done').style.display = 'block';
+</script>

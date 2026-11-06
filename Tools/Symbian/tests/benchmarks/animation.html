@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmark: layout animation</title>
+<style>
+body { margin:0; font:14px sans-serif; }
+#stage { position:relative; height:520px; overflow:hidden; }
+/* left/top and colors: layout and repaint every frame, no compositing. */
+.ball { position:absolute; width:40px; height:40px; border-radius:20px; }
+</style>
+<div id="stage"></div>
+<script src="bench.js"></script>
+<script>
+var balls = [];
+bench('animation', {
+    setup: function () {
+        var stage = document.getElementById('stage');
+        for (var i = 0; i < 16; ++i) {
+            var ball = document.createElement('div');
+            ball.className = 'ball';
+            stage.appendChild(ball);
+            balls.push(ball);
+        }
+        return null;
+    },
+    frame: function (elapsed) {
+        var width = document.getElementById('stage').clientWidth - 40;
+        for (var i = 0; i < balls.length; ++i) {
+            var phase = elapsed / 1000 + i * 0.4;
+            balls[i].style.left = Math.round((Math.sin(phase) + 1) / 2 * width) + 'px';
+            balls[i].style.top = Math.round(i * 30 + Math.sin(phase * 2) * 10 + 10) + 'px';
+            balls[i].style.background = 'hsl(' + Math.round(elapsed / 20 + i * 22) % 360 + ',70%,50%)';
+        }
+    }
+});
+</script>

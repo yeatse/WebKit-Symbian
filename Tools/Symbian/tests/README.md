@@ -13,7 +13,7 @@ Module guides contain the focused commands and expected behavior.
 | --- | --- |
 | Installation | [WebKit package](sis-package/README.md) |
 | JavaScript and DOM | [ARM11 DOM](arm11-dom.md) |
-| Graphics | [Browser graphics](browser-graphics-runner.md) |
+| Graphics | [Browser graphics](browser-graphics-runner.md), [frame-rate benchmarks](benchmarks/README.md) |
 | ScreenPlay | [Presenter](screenplay/README.md), [Surface Update](screenplay-update/README.md) |
 | Networking | [HTTP and TLS](network-tests.md), [cookies](cookie-samesite/README.md) |
 | Media | [Audio and video](media.md) |

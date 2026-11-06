@@ -96,6 +96,8 @@ so emulator timings do not predict device performance.
   and `blit`.
 - [ ] P0: Fixed scrolling, image, animation and WebGL pages, measured with
   `frame-stats` on the 808 for ScreenPlay, EGL and bitmap presentation.
+  The pages and a log summarizer are in `tests/benchmarks` and installed at
+  `C:\Data\WebKit\bench`; the 808 measurements remain.
 - [ ] P0: The device's EGL and GLES2 extensions (EGLImage, preserved swap and
   partial update), before work that depends on them. The compositor logs the
   versions, both extension lists and the window surface's swap behavior once;

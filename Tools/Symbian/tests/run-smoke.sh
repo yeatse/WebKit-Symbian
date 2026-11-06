@@ -10,5 +10,6 @@ TEST_WORK="$test_work/idb-quota" bash "$test_dir/idb-quota/run-ledger.sh"
 python3 "$test_dir/cookie-samesite/test-host.py"
 python3 "$test_dir/screenplay/run.py"
 python3 "$test_dir/screenplay-update/run.py"
+python3 "$test_dir/benchmarks/test-summarize.py"
 
 printf 'PASS: Symbian host smoke tests\n'

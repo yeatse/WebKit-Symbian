@@ -64,6 +64,19 @@ milliseconds per stage about once a second: `update`, `backing`, `draw` and
 `swap` for EGL, `begin`, `paint` and `submit` for ScreenPlay, `paint` and
 `blit` for bitmaps. Compare them on a device; emulator GPU timings use the host.
 
+The package installs fixed benchmark pages (scrolling text and images, layout
+and composited animation, canvas 2D and WebGL) at
+`file:///C:/Data/WebKit/bench/index.html`. Each runs for 15 seconds and stops;
+"Run all" runs them in turn. Summarize the log per page and presentation, or
+compare two runs:
+
+```sh
+python3 Tools/Symbian/tests/benchmarks/summarize-frame-stats.py log.txt
+python3 Tools/Symbian/tests/benchmarks/summarize-frame-stats.py --compare before.txt after.txt
+```
+
+See [Benchmarks](../tests/benchmarks/README.md).
+
 Each output directory contains `result.json`, browser and emulator logs, and a
 PNG screenshot for each suite. Page checks cover layout, painting and animation;
 the runner checks native surface presentation. See
