@@ -56,12 +56,15 @@ private:
 };
 
 CScreenPlaySurface* CScreenPlaySurface::NewL(RWsSession& aWs, RWindow& aWindow,
-    TInt aScreen, MScreenPlaySurfaceObserver& aObserver)
+    TInt aScreen, MScreenPlaySurfaceObserver& aObserver, const char** aFailedStep)
 {
+    const char* unused = nullptr;
+    const char*& step = aFailedStep ? *aFailedStep : unused;
+    step = "allocate";
     CScreenPlaySurface* self = new (ELeave) CScreenPlaySurface(aWs, aWindow,
         aScreen, aObserver);
     CleanupStack::PushL(self);
-    self->ConstructL();
+    self->ConstructL(step);
     CleanupStack::Pop(self);
     return self;
 }
@@ -72,14 +75,18 @@ CScreenPlaySurface::CScreenPlaySurface(RWsSession& aWs, RWindow& aWindow,
 {
 }
 
-void CScreenPlaySurface::ConstructL()
+void CScreenPlaySurface::ConstructL(const char*& aStep)
 {
+    aStep = "window server calls";
     User::LeaveIfError(iCalls.Open());
     iCallsOpen = ETrue;
+    aStep = "surface manager";
     User::LeaveIfError(iManager.Open());
     iManagerOpen = ETrue;
+    aStep = "surface update server";
     User::LeaveIfError(iUpdates.Connect());
     iUpdatesOpen = ETrue;
+    aStep = "allocate";
     iAvailable[0] = new (ELeave) CAvailable(*this, 0);
     iAvailable[1] = new (ELeave) CAvailable(*this, 1);
 }

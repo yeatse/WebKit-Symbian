@@ -11,12 +11,12 @@ class TSurfaceConfiguration;
 // The window server's ScreenPlay surface calls, looked up in ws32.dll by
 // ordinal when a presenter starts instead of imported.
 //
-// Phone firmware does not export all of them at the SDK's frozen ordinals.
-// The Nokia 808 has nothing at those of UnregisterSurface,
-// GetBackgroundSurface and SetBackgroundSurface(TSurfaceConfiguration), and
-// the loader refuses an executable with a single absent import
-// (KErrNotSupported) before it runs. Open() returns KErrNotSupported unless
-// every call is present, so the browser draws through bitmaps instead.
+// On the Nokia 808 the loader refuses (KErrNotSupported) an executable that
+// imports UnregisterSurface, GetBackgroundSurface or
+// SetBackgroundSurface(TSurfaceConfiguration) at these ordinals, although
+// RLibrary::Lookup resolves all of them there and their code matches other
+// devices'. Open() returns KErrNotSupported unless every call is present, so
+// the browser draws through bitmaps instead.
 class RScreenPlayWindowServer {
 public:
     TInt Open()

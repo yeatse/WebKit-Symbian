@@ -44,6 +44,7 @@ enum TScreenPlayUpdateServRqst
 	};
 
 _LIT(KScreenPlayUpdateServerName, "SURFACE_UPDATE_SERVER");
+_LIT(KScreenPlayProtectedUpdateServerName, "!SURFACE_UPDATE_SERVER");
 
 
 #endif

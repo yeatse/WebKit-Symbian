@@ -83,6 +83,10 @@
         "\treturn CreateSession(KScreenPlayUpdateServerName, Version(), aMessageSlots);"
       ],
       [
+        "\treturn CreateSession(KScreenPlayUpdateServerName, Version(), aMessageSlots);",
+        "\t// Later firmware (the Nokia 808) registers the server under a protected name.\n\tTInt err = CreateSession(KScreenPlayProtectedUpdateServerName, Version(), aMessageSlots);\n\tif (err != KErrNotFound)\n\t\treturn err;\n\treturn CreateSession(KScreenPlayUpdateServerName, Version(), aMessageSlots);"
+      ],
+      [
         "\tTIpcArgs theArgs(aScreen, &pckgSurfaceId, aBuffer);",
         "\tTIpcArgs theArgs(aScreen, &pckgSurfaceId, aBuffer);\n\t// Keep the descriptor alive until the synchronous SubmitUpdate IPC returns.\n\tTPtrC8 ptrRect(NULL, 0);"
       ],
@@ -95,19 +99,24 @@
       [
         "_LIT(KScreenPlayUpdateTestServerName, \"T_SURFACE_UPDATE_TEST_SERVER\");\n",
         ""
+      ],
+      [
+        "_LIT(KScreenPlayUpdateServerName, \"SURFACE_UPDATE_SERVER\");",
+        "_LIT(KScreenPlayUpdateServerName, \"SURFACE_UPDATE_SERVER\");\n_LIT(KScreenPlayProtectedUpdateServerName, \"!SURFACE_UPDATE_SERVER\");"
       ]
     ]
   },
   "semantic_changes": [
     "Select the official production server branch unconditionally; TEST_SURFACE_UPDATE is not a browser feature.",
-    "Extend the nonempty dirty-region TPtrC8 descriptor lifetime through synchronous SubmitUpdate IPC; retain the same descriptor bytes and IPC slots."
+    "Extend the nonempty dirty-region TPtrC8 descriptor lifetime through synchronous SubmitUpdate IPC; retain the same descriptor bytes and IPC slots.",
+    "Connect first to the protected !SURFACE_UPDATE_SERVER name that later firmware (the Nokia 808) registers, and to SURFACE_UPDATE_SERVER only when that name is not found; the version, slots and protocol are unchanged."
   ],
   "preserved_semantics": [
-    "Direct RSessionBase CreateSession to SURFACE_UPDATE_SERVER using TVersion(1,1,3), caller slot count, default 6",
+    "Direct RSessionBase CreateSession to !SURFACE_UPDATE_SERVER, else SURFACE_UPDATE_SERVER, using TVersion(1,1,3), caller slot count, default 6",
     "All nine frozen exported entries implemented locally (constructor C1/C2 plus seven other public functions)",
     "Original IPC opcodes, argument positions, descriptor bytes, notification cache, validation, completion, cancellation and Close precondition",
     "Version and IssueRequestComplete implementations retained",
-    "No version retry, negotiation, firmware replacement, capability change or runtime instrumentation"
+    "No version retry, negotiation, firmware replacement, capability change or runtime instrumentation; the only retry is the server name fallback"
   ],
   "files": [
     {
@@ -228,6 +237,11 @@
           "count": 1
         },
         {
+          "from": "\treturn CreateSession(KScreenPlayUpdateServerName, Version(), aMessageSlots);",
+          "to": "\t// Later firmware (the Nokia 808) registers the server under a protected name.\n\tTInt err = CreateSession(KScreenPlayProtectedUpdateServerName, Version(), aMessageSlots);\n\tif (err != KErrNotFound)\n\t\treturn err;\n\treturn CreateSession(KScreenPlayUpdateServerName, Version(), aMessageSlots);",
+          "count": 1
+        },
+        {
           "from": "\tTIpcArgs theArgs(aScreen, &pckgSurfaceId, aBuffer);",
           "to": "\tTIpcArgs theArgs(aScreen, &pckgSurfaceId, aBuffer);\n\t// Keep the descriptor alive until the synchronous SubmitUpdate IPC returns.\n\tTPtrC8 ptrRect(NULL, 0);",
           "count": 1
@@ -238,7 +252,7 @@
           "count": 1
         }
       ],
-      "output_sha256": "380904ada53b188fb8580cbfb1e60e20e101d03ffff5de672676d0815225824f"
+      "output_sha256": "120c18df0733408d220039b6af6ad09c6cb8664b5300c38380a93453479e90ff"
     },
     {
       "output": "overlay/Tools/Symbian/browser/ScreenPlayUpdateProtocol.h",
@@ -281,9 +295,14 @@
           "from": "_LIT(KScreenPlayUpdateTestServerName, \"T_SURFACE_UPDATE_TEST_SERVER\");\n",
           "to": "",
           "count": 1
+        },
+        {
+          "from": "_LIT(KScreenPlayUpdateServerName, \"SURFACE_UPDATE_SERVER\");",
+          "to": "_LIT(KScreenPlayUpdateServerName, \"SURFACE_UPDATE_SERVER\");\n_LIT(KScreenPlayProtectedUpdateServerName, \"!SURFACE_UPDATE_SERVER\");",
+          "count": 1
         }
       ],
-      "output_sha256": "ce1f8eef2617c69576a0d040129448359b6b5ddd77dd8c5cad7b743185620dce"
+      "output_sha256": "0afc6d7aa2dd432de341978628aa25a09b647200692ac119d5d1eb0b60d7f1c1"
     }
   ],
   "browser_header_candidate": {

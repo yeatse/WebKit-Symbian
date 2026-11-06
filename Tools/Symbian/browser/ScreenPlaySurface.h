@@ -31,8 +31,9 @@ public:
         TInt iBuffer { -1 };
         TUint iSerial { 0 };
     };
+    // On a leave, aFailedStep (when given) names the step that failed.
     static CScreenPlaySurface* NewL(RWsSession&, RWindow&, TInt aScreen,
-        MScreenPlaySurfaceObserver&);
+        MScreenPlaySurfaceObserver&, const char** aFailedStep = nullptr);
     ~CScreenPlaySurface();
     // None: synchronously paint frame.iDirty, then SubmitFrame.
     // AlreadyExists: current frame valid, no new pixels needed.
@@ -48,7 +49,7 @@ public:
 private:
     class CAvailable;
     CScreenPlaySurface(RWsSession&, RWindow&, TInt, MScreenPlaySurfaceObserver&);
-    void ConstructL();
+    void ConstructL(const char*& aStep);
     TInt CreateSurface(const TSize&);
     TInt CheckBackground() const;
     TInt Attach();

@@ -46,6 +46,10 @@ TInt RScreenPlayUpdateSession::Connect(TInt aMessageSlots)
 	iStatusDisplayedXTimes = NULL;
 	
 	//establish connection to the server
+	// Later firmware (the Nokia 808) registers the server under a protected name.
+	TInt err = CreateSession(KScreenPlayProtectedUpdateServerName, Version(), aMessageSlots);
+	if (err != KErrNotFound)
+		return err;
 	return CreateSession(KScreenPlayUpdateServerName, Version(), aMessageSlots);
 	}
 

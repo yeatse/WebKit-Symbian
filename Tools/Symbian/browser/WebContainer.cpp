@@ -278,12 +278,14 @@ void CWebContainer::Draw(const TRect& aRect) const
 #endif
     } else if (iWebView && !iScreenPlayFailed) {
         if (!iScreenPlay) {
+            const char* step = "allocate";
             TRAPD(error, iScreenPlay = CScreenPlaySurface::NewL(
                 iCoeEnv->WsSession(), const_cast<CWebContainer*>(this)->Window(),
                 iCoeEnv->ScreenDevice()->GetScreenNumber(),
-                *const_cast<CWebContainer*>(this)));
+                *const_cast<CWebContainer*>(this), &step));
             if (error != KErrNone) {
-                BrowserLog("ScreenPlay: initialization unavailable (%d), using bitmap", error);
+                BrowserLog("ScreenPlay: initialization unavailable (%s: %d), using bitmap",
+                    step, error);
                 iScreenPlayFailed = true;
             }
         }
