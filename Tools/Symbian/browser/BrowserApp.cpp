@@ -26,6 +26,14 @@
 #include <eikenv.h>
 #include <gulcolor.h>
 
+// curl's native host resolver (Tools/Symbian/shims/curl-symbian-resolver.cpp).
+extern "C" void symbian_curl_set_resolver_observer(void (*)(int));
+
+static void LogNativeResolverFailure(int aError)
+{
+    BrowserLog("network: native host resolver failed (%d), resolving through Open C", aError);
+}
+
 using namespace WebKitSymbian;
 
 namespace {
@@ -551,6 +559,7 @@ void CBrowserAppUi::ConstructL()
     WebView::initializeProcess(KDataDirectory);
     BrowserLogOpen(KDataDirectory);
     BrowserLog("WebKit Browser starting");
+    symbian_curl_set_resolver_observer(LogNativeResolverFailure);
     if (curlTrace) {
         StartHeartbeatL();
         BrowserThreadWatchStart();

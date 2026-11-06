@@ -13,6 +13,9 @@ struct SymbianCurlAddresses { uint32_t count; struct SymbianCurlAddress addresse
 extern "C" {
 #endif
 int symbian_curl_resolve_records(const char *, int, int, struct SymbianCurlAddresses *);
+/* Called, from curl's resolver thread, with the Symbian error of each
+   distinct native resolver failure; lookups then go through Open C. */
+void symbian_curl_set_resolver_observer(void (*)(int));
 struct addrinfo;
 struct Curl_addrinfo;
 int Curl_symbian_getaddrinfo(const char *, const char *, const struct addrinfo *, struct Curl_addrinfo **);

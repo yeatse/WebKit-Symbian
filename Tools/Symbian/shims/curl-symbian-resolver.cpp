@@ -1,4 +1,4 @@
-/* Native DNS records only: no allocation, scheduler, thread, logging or ROM shim. */
+/* Native DNS records only: no allocation, scheduler, thread or ROM shim. */
 #include "curl-symbian-resolver.h"
 #include <absl/base/nullability.h>
 #include <e32base.h>
@@ -8,10 +8,31 @@
 static_assert(sizeof(SymbianCurlAddress) == 24);
 static_assert(sizeof(SymbianCurlAddresses) == 644);
 namespace {
+/* After the resolver itself fails (every lookup on the Nokia 808), skip it
+   for a while: curl then resolves through Open C without first paying for a
+   socket server session and a failed lookup per address family. */
+const TUint32 kRetrySeconds = 60;
+volatile TUint32 g_retry_at;
+volatile TInt g_reported_error;
+void (*volatile g_observer)(int);
+TUint32 now_seconds() {
+  TTime now;
+  now.UniversalTime();
+  return static_cast<TUint32>(now.Int64() / 1000000);
+}
+bool skipping() {
+  return static_cast<TInt32>(g_retry_at - now_seconds()) > 0;
+}
 int classify(TInt error) {
   if(error == KErrNoMemory) return SYMBIAN_CURL_NOMEM;
   if(error == KErrTimedOut) return SYMBIAN_CURL_TIMEOUT;
   if(error == KErrNotFound || error == KErrEof) return SYMBIAN_CURL_NONAME;
+  g_retry_at = now_seconds() + kRetrySeconds;
+  /* Report each distinct error once, not every minute. */
+  if(error != g_reported_error) {
+    g_reported_error = error;
+    if(void (*observer)(int) = g_observer) observer(error);
+  }
   return SYMBIAN_CURL_FAILED;
 }
 void copy_name(const TDesC& source, char* absl_nonnull dest) {
@@ -65,6 +86,7 @@ extern "C" int symbian_curl_resolve_records(const char* absl_nullable host, int 
     return status ? status : (out->count ? SYMBIAN_CURL_OK : SYMBIAN_CURL_NONAME);
   }
   if(numeric_only) return SYMBIAN_CURL_NONAME;
+  if(skipping()) return SYMBIAN_CURL_FAILED;
   RSocketServ sockets;
   TInt error = sockets.Connect();
   if(error) return classify(error);
@@ -107,4 +129,7 @@ extern "C" int symbian_curl_resolve_records(const char* absl_nullable host, int 
   timer.Close(); resolver.Close(); sockets.Close();
   if(status) memset(out, 0, sizeof(*out));
   return status;
+}
+extern "C" void symbian_curl_set_resolver_observer(void (*observer)(int)) {
+  g_observer = observer;
 }
