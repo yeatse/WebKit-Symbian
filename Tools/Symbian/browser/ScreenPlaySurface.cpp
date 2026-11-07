@@ -328,16 +328,22 @@ TInt CScreenPlaySurface::Attach()
     return error;
 }
 
-TInt CScreenPlaySurface::SubmitFrame(const TFrame& aFrame)
+TInt CScreenPlaySurface::SubmitFrame(const TFrame& aFrame, TUint32* aMarks)
 {
     if (!MatchesFrame(aFrame))
         return Fail(KErrArgument);
     const TInt buffer = iPainting;
     FlattenPaintedPixels(buffer, iPaintingDamage);
+    if (aMarks)
+        aMarks[0] = User::FastCounter();
     TInt error = iManager.SynchronizeCache(iSurface, buffer,
         RSurfaceManager::ESyncBeforeNonCPURead);
+    if (aMarks)
+        aMarks[1] = User::FastCounter();
     if (error == KErrNone)
         error = Attach();
+    if (aMarks)
+        aMarks[2] = User::FastCounter();
     if (error != KErrNone) {
         AbortFrame(aFrame);
         return Fail(error);

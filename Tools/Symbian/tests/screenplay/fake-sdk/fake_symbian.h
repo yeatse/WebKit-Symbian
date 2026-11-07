@@ -46,6 +46,7 @@ struct CleanupStack{inline static std::vector<CBase*>entries;
 };
 namespace fake{inline std::vector<std::string>events;inline int wait_calls=0;inline void event(const char*n){events.emplace_back(n);}}
 struct User{
+ static TUint32 FastCounter(){static TUint32 ticks=0;return ++ticks;}
  static void Free(void*p){std::free(p);}[[noreturn]]static void Leave(TInt e){CleanupStack::Unwind();throw FakeLeave(e);}
  static void LeaveIfError(TInt e){if(e<0)Leave(e);}static void WaitForRequest(TRequestStatus&s){++fake::wait_calls;fake::event("wait");if(s.Int()==KRequestPending)throw std::runtime_error("undrained owned status");}
 };

@@ -305,10 +305,11 @@ void CWebContainer::Draw(const TRect& aRect) const
                 marks[1] = FrameCounter();
                 iWebView->paint(frame.iPixels, frame.iStride, dirty);
                 marks[2] = FrameCounter();
-                error = iScreenPlay->SubmitFrame(frame);
-                marks[3] = FrameCounter();
+                TUint32 submitMarks[5] { marks[2] };
+                error = iScreenPlay->SubmitFrame(frame, iFrameStats ? submitMarks + 1 : nullptr);
+                marks[3] = submitMarks[4] = FrameCounter();
                 if (error == KErrNone)
-                    RecordFrame(iScreenPlayStats, marks, 3);
+                    RecordFrame(iScreenPlayStats, marks, 3, &iScreenPlaySubmitStats, submitMarks);
             }
             if (error == KErrNone || currentFrame) {
                 // Discard retained bitmap drawing so the background surface is
@@ -1044,7 +1045,8 @@ TUint32 CWebContainer::FrameCounter() const
     return iFrameStats ? User::FastCounter() : 0;
 }
 
-void CWebContainer::RecordFrame(WebKitSymbian::FrameStats& aStats, const TUint32* aMarks, TInt aStages) const
+void CWebContainer::RecordFrame(WebKitSymbian::FrameStats& aStats, const TUint32* aMarks, TInt aStages,
+    WebKitSymbian::FrameStats* aDetail, const TUint32* aDetailMarks) const
 {
     if (!iFrameStats)
         return;
@@ -1061,6 +1063,16 @@ void CWebContainer::RecordFrame(WebKitSymbian::FrameStats& aStats, const TUint32
         char summary[256];
         aStats.format(summary, sizeof(summary));
         BrowserLog("%s", summary);
+    }
+    if (aDetail) {
+        double details[WebKitSymbian::FrameStats::maximumStages] { };
+        for (TInt i = 0; i < 4; ++i)
+            details[i] = milliseconds(aDetailMarks[i], aDetailMarks[i + 1]);
+        if (aDetail->add(details, since)) {
+            char summary[256];
+            aDetail->format(summary, sizeof(summary));
+            BrowserLog("%s", summary);
+        }
     }
 }
 

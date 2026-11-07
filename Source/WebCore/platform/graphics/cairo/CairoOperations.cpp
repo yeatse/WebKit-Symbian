@@ -983,7 +983,16 @@ void drawSurface(GraphicsContextCairo& platformContext, cairo_surface_t* surface
         break;
     case InterpolationQuality::Medium:
     case InterpolationQuality::Default:
+#if OS(SYMBIAN)
+        // GOOD downscales through pixman's separable convolution. With the
+        // plain C pixman built here it is about 6 times slower than bilinear
+        // for a screen of images drawn at half size, and the Nokia 808 spent
+        // about 130 ms per frame painting one. Bilinear, as CairoUtilities'
+        // patterns already use for the default quality.
+        cairo_pattern_set_filter(pattern.get(), CAIRO_FILTER_BILINEAR);
+#else
         cairo_pattern_set_filter(pattern.get(), CAIRO_FILTER_GOOD);
+#endif
         break;
     case InterpolationQuality::High:
         cairo_pattern_set_filter(pattern.get(), CAIRO_FILTER_BEST);

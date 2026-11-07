@@ -142,7 +142,10 @@ private:
     void RequestTouchInputL();
     void EnsureBitmapL();
     TUint32 FrameCounter() const;
-    void RecordFrame(WebKitSymbian::FrameStats&, const TUint32* aMarks, TInt aStages) const;
+    // aDetail, when given, splits the frame's last stage: aDetailMarks holds
+    // its 5 counter marks.
+    void RecordFrame(WebKitSymbian::FrameStats&, const TUint32* aMarks, TInt aStages,
+        WebKitSymbian::FrameStats* aDetail = nullptr, const TUint32* aDetailMarks = nullptr) const;
 #if SYMBIAN_BROWSER_MEDIA
     RWindow& VideoWindow() override { return Window(); }
     TInt PrepareNativeVideoWindow() override;
@@ -166,6 +169,8 @@ private:
     bool iFastCounterCountsUp { true };
     mutable TUint32 iLastFrameCounter { 0 };
     mutable WebKitSymbian::FrameStats iScreenPlayStats { "screenplay", { "begin", "paint", "submit", nullptr }, 3 };
+    // ScreenPlay's submit stage, step by step.
+    mutable WebKitSymbian::FrameStats iScreenPlaySubmitStats { "screenplay-submit", { "flatten", "sync", "attach", "update" }, 4 };
     mutable WebKitSymbian::FrameStats iBitmapStats { "bitmap", { "paint", "blit", nullptr, nullptr }, 2 };
     TInt iUiResourceOffset { -1 };
     mutable TRect iDirty;

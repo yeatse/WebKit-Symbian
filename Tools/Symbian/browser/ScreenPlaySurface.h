@@ -41,7 +41,9 @@ public:
     // Other errors: detach and fully repaint through the bitmap fallback.
     // Positive dimensions required. All methods are nonleaving after NewL.
     TInt BeginFrame(const TSize&, const TRect& aInvalidated, TFrame&);
-    TInt SubmitFrame(const TFrame&);
+    // aMarks (when given) receives the fast counter after flattening, cache
+    // synchronization and attaching, before the update is submitted.
+    TInt SubmitFrame(const TFrame&, TUint32* aMarks = nullptr);
     void AbortFrame(const TFrame&);
     void Detach();
     TInt LastError() const { return iLastError; }
