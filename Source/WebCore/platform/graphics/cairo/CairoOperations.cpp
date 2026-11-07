@@ -182,8 +182,17 @@ static void drawShadowLayerBuffer(GraphicsContextCairo& platformContext, ImageBu
 // FIXME: This is mostly same as drawShadowLayerBuffer, so we should merge two.
 static void drawShadowImage(GraphicsContextCairo& platformContext, ImageBuffer& layerImage, const FloatRect& destRect, const FloatRect& srcRect, const ShadowState& shadowState)
 {
+#if OS(SYMBIAN)
+    // The pieces of a tiled shadow are its corners, drawn at their size, and
+    // one-pixel slices stretched along the sides, which sample the same
+    // value whatever the filter. Nearest sampling takes pixman's fast scaled
+    // paths instead of its general bilinear one, a fetch and blend per pixel.
+    ImagePaintingOptions options { shadowState.globalCompositeOperator, InterpolationQuality::DoNotInterpolate };
+#else
+    ImagePaintingOptions options { shadowState.globalCompositeOperator };
+#endif
     if (auto nativeImage = platformContext.nativeImageForDrawing(layerImage))
-        drawPlatformImage(platformContext, nativeImage->platformImage().get(), destRect, srcRect, { shadowState.globalCompositeOperator }, shadowState.globalAlpha, ShadowState());
+        drawPlatformImage(platformContext, nativeImage->platformImage().get(), destRect, srcRect, options, shadowState.globalAlpha, ShadowState());
 }
 
 static void fillShadowBuffer(GraphicsContextCairo& platformContext, ImageBuffer& layerImage, const FloatPoint& layerOrigin, const FloatSize& layerSize, const ShadowState& shadowState)

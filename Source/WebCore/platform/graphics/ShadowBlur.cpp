@@ -58,7 +58,7 @@ enum {
     RightLobe = 1
 };
 
-#if USE(CG)
+#if USE(CG) || OS(SYMBIAN)
 static inline int roundUpToMultipleOf32(int d)
 {
     return (1 + (d >> 5)) << 5;
@@ -180,7 +180,9 @@ ScratchBuffer& ScratchBuffer::singleton()
     static NeverDestroyed<ScratchBuffer> scratchBuffer;
     return scratchBuffer;
 }
+#endif
 
+#if USE(CG)
 static float radiusToLegacyRadius(float radius)
 {
     return radius > 8 ? 8 + 4 * sqrt((radius - 8) / 2) : radius;
@@ -792,7 +794,9 @@ void ShadowBlur::drawRectShadowWithTiling(const AffineTransform& transform, cons
 {
     FloatRect templateShadow = FloatRect(edgeSize.width(), edgeSize.height(), templateSize.width() - 2 * edgeSize.width(), templateSize.height() - 2 * edgeSize.height());
 
-#if USE(CG)
+    // Symbian paints on one thread, like CG ports can share this buffer: a
+    // list of boxes with the same shadow then blurs its template only once.
+#if USE(CG) || OS(SYMBIAN)
     if (ScratchBuffer::lock().tryLock()) {
         Locker locker { AdoptLock, ScratchBuffer::lock() };
         auto layerImageBuffer = ScratchBuffer::singleton().getScratchBuffer(templateSize);
@@ -848,7 +852,7 @@ void ShadowBlur::drawInsetShadowWithTiling(const AffineTransform& transform, con
     FloatRect templateBounds(0, 0, templateSize.width(), templateSize.height());
     FloatRect templateHole = FloatRect(edgeSize.width(), edgeSize.height(), templateSize.width() - 2 * edgeSize.width(), templateSize.height() - 2 * edgeSize.height());
 
-#if USE(CG)
+#if USE(CG) || OS(SYMBIAN)
     if (ScratchBuffer::lock().tryLock()) {
         Locker locker { AdoptLock, ScratchBuffer::lock() };
         auto layerImageBuffer = ScratchBuffer::singleton().getScratchBuffer(templateSize);
