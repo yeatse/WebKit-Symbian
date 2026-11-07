@@ -54,6 +54,8 @@ public:
     static void ScrollDamage(TRect& aDamage, const TRect& aArea, const TPoint& aDelta);
     void Detach();
     TInt LastError() const { return iLastError; }
+    // The current surface's size; empty without one.
+    TSize SurfaceSize() const { return iSize; }
 
 private:
     class CAvailable;
