@@ -22,6 +22,7 @@
 
 #include "FloatRect.h"
 #include "Image.h"
+#include "IntRect.h"
 #include "TextureMapperBackingStore.h"
 #include "TextureMapperTile.h"
 #include <wtf/RefCounted.h>
