@@ -579,6 +579,58 @@ bool GraphicsLayerTextureMapper::updateBackingStoreIncludingSubLayers(TextureMap
     return true;
 }
 
+bool GraphicsLayerTextureMapper::updateBackingStoreIncludingSubLayers(TextureMapper& textureMapper, const FloatRect& viewport, bool& morePending)
+{
+    // A reflection shows this layer and its descendants elsewhere: tile them
+    // whole. Masks are tiled whole too.
+    if (replicaLayer())
+        return updateBackingStoreIncludingSubLayers(textureMapper);
+    if (!updateBackingStoreWithCoverage(textureMapper, viewport, morePending))
+        return false;
+    if (maskLayer() && !downcast<GraphicsLayerTextureMapper>(*maskLayer()).updateBackingStoreIfNeeded(textureMapper))
+        return false;
+    for (auto& child : children()) {
+        if (!downcast<GraphicsLayerTextureMapper>(child.get()).updateBackingStoreIncludingSubLayers(textureMapper, viewport, morePending))
+            return false;
+    }
+    return true;
+}
+
+bool GraphicsLayerTextureMapper::updateBackingStoreWithCoverage(TextureMapper& textureMapper, const FloatRect& viewport, bool& morePending)
+{
+    if (!shouldHaveBackingStore()) {
+        ASSERT(!m_backingStore);
+        return true;
+    }
+    ASSERT(m_backingStore);
+
+    FloatRect bounds(FloatPoint::zero(), m_size);
+    FloatRect visible;
+    const auto& transform = m_layer.toSurfaceTransform();
+    if (!transform.isAffine())
+        visible = bounds; // Perspective: no simple inverse mapping, keep it all.
+    else if (auto inverse = transform.inverse())
+        visible = intersection(inverse->mapRect(viewport), bounds);
+
+    IntRect dirtyRect;
+    if (m_needsDisplay)
+        dirtyRect = enclosingIntRect(bounds);
+    else
+        dirtyRect = intersection(enclosingIntRect(m_needsDisplayRect), enclosingIntRect(bounds));
+
+    float scale = pageScaleFactor() * deviceScaleFactor();
+    m_backingStore->updateContentsScale(scale);
+    dirtyRect.scale(scale);
+    visible.scale(scale);
+    if (!m_backingStore->updateContentsWithCoverage(textureMapper, this, m_size, dirtyRect, enclosingIntRect(visible), morePending))
+        return false;
+
+    m_backingStoreUsesCoverage = true;
+    m_needsDisplay = false;
+    m_needsDisplayRect = IntRect();
+    return true;
+}
+
 bool GraphicsLayerTextureMapper::updateBackingStoreIfNeeded(TextureMapper& textureMapper)
 {
     if (!shouldHaveBackingStore()) {
@@ -586,6 +638,12 @@ bool GraphicsLayerTextureMapper::updateBackingStoreIfNeeded(TextureMapper& textu
         return true;
     }
     ASSERT(m_backingStore);
+
+    if (m_backingStoreUsesCoverage) {
+        // Coverage mode painted only part of the layer.
+        m_backingStoreUsesCoverage = false;
+        m_needsDisplay = true;
+    }
 
     IntRect dirtyRect = enclosingIntRect(FloatRect(FloatPoint::zero(), m_size));
     if (!m_needsDisplay)

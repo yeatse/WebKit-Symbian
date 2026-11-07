@@ -92,6 +92,12 @@ public:
     void flushCompositingStateForThisLayerOnly() override;
 
     WEBCORE_EXPORT bool updateBackingStoreIncludingSubLayers(TextureMapper&);
+    // With a viewport (in the root layer's coordinates), layers keep and paint
+    // tiles only around their visible part; see TextureMapperTiledBackingStore.
+    // The layer tree's transforms must be current (TextureMapperLayer::
+    // prepareForPainting). morePending asks for another update for tiles
+    // still to be painted ahead.
+    WEBCORE_EXPORT bool updateBackingStoreIncludingSubLayers(TextureMapper&, const FloatRect& viewport, bool& morePending);
 
     TextureMapperLayer& layer() { return m_layer; }
 
@@ -109,6 +115,7 @@ private:
     void commitLayerChanges();
     void updateDebugBorderAndRepaintCount();
     bool updateBackingStoreIfNeeded(TextureMapper&);
+    bool updateBackingStoreWithCoverage(TextureMapper&, const FloatRect& viewport, bool& morePending);
     void prepareBackingStoreIfNeeded();
     bool shouldHaveBackingStore() const;
 
@@ -165,6 +172,7 @@ private:
 
     int m_changeMask;
     bool m_needsDisplay;
+    bool m_backingStoreUsesCoverage { false };
     Color m_solidColor;
 
     Color m_debugBorderColor;

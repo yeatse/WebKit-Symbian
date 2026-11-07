@@ -23,6 +23,8 @@ LOG = """\
 10:00:08.000 console: file:///C:/Data/WebKit/bench/bench.js:48: bench: start composited
 10:00:09.000 frame-stats: egl frames=3 window=2000ms update=1.00/1.00 backing=5.00/5.00 draw=2.00/2.00 swap=4.00/4.00
 10:00:10.000 frame-stats: egl frames=25 window=1000ms update=1.00/2.00 backing=10.00/20.00 draw=3.00/4.00 swap=6.00/9.00
+10:00:10.000 egl-tiles: 4096 KB of 32768 KB
+10:00:10.200 egl-tiles: 6144 KB of 32768 KB
 10:00:10.500 frame-stats: screenplay frames=2 window=1500ms begin=1.00/1.00 paint=5.00/5.00 submit=1.00/1.00
 10:00:11.000 console: file:///C:/Data/WebKit/bench/bench.js:65: bench: end composited frames=30 ms=3000 fps=10.0 long=4 worst=90
 """
@@ -52,6 +54,7 @@ def main():
     composited = groups['composited']['presentations']
     assert composited['egl']['frames'] == 25 and composited['egl']['windows'] == 1
     close(composited['egl']['frame_ms'], 20.0)
+    assert groups['composited']['tiles_kb'] == 6144 and groups['scroll']['tiles_kb'] is None
     # A single screenplay line is the dropped first one: nothing presented.
     assert composited['screenplay']['windows'] == 0
 
@@ -59,6 +62,7 @@ def main():
     summarize.print_report(groups, out)
     text = out.getvalue()
     assert 'screenplay  20.0 fps' in text and 'skipped: no WebGL' in text, text
+    assert 'GPU tiles: up to 6144 KB' in text, text
 
     # Without markers, the whole log is one group and nothing is dropped.
     plain = summarize.report(summarize.parse(io.StringIO(

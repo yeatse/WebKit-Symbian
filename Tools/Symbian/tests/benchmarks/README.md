@@ -34,6 +34,12 @@ count frames actually presented and are the ones to compare; the page's rate
 is only how often it was given a frame. `--compare before.txt after.txt`
 prints the change per page and presentation, and `--json` the raw numbers.
 
+By default every page is composited with EGL and scrolls cached GPU tiles,
+so pages listed above as ScreenPlay show up as `egl`; "GPU tiles" is the most
+tile memory the page used (the budget is 32 MB). To measure the ScreenPlay
+path instead, also create an empty `C:\Data\WebKit\no-gpu-tiles` and restart
+the browser.
+
 ## How the log is grouped
 
 `bench.js` writes `bench: start NAME`, `bench: end NAME ...` and

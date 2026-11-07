@@ -302,6 +302,13 @@ void WebView::setFrameStatsEnabled(bool enabled)
     s_frameStatsEnabled = enabled;
 }
 
+static bool s_tiledCompositingEnabled = true;
+
+void WebView::setTiledCompositingEnabled(bool enabled)
+{
+    s_tiledCompositingEnabled = enabled;
+}
+
 void WebView::setMediaPlayerFactory(MediaPlayerFactory factory, void* context)
 {
 #if ENABLE(VIDEO)
@@ -422,6 +429,12 @@ bool WebViewImpl::setNativeWindow(void* window)
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
     if (window) {
         m_nativeWindow = window;
+        // The frame's content then lives in a layer whose tiles follow the
+        // scroll position (SymbianCompositor).
+        m_page->settings().setForceCompositingMode(s_tiledCompositingEnabled);
+        // Fixed and sticky boxes get layers of their own, which move with the
+        // scroll instead of being painted again into the document's tiles.
+        m_page->settings().setAcceleratedCompositingForFixedPositionEnabled(s_tiledCompositingEnabled);
         m_page->settings().setAcceleratedCompositingEnabled(true);
         invalidate(IntRect(IntPoint(), m_size));
         return true;
@@ -469,6 +482,7 @@ void WebViewImpl::disableCompositing()
         return;
     if (m_compositor)
         m_compositor->prepareForDestruction();
+    m_page->settings().setForceCompositingMode(false);
     m_page->settings().setAcceleratedCompositingEnabled(false);
     // Disabling the setting tears down RenderLayer backings on the next
     // style/layout pass. Keep their parent/context alive for that pass.

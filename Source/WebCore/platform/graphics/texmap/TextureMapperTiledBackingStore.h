@@ -34,7 +34,6 @@ class TextureMapper;
 class TextureMapperTiledBackingStore : public RefCounted<TextureMapperTiledBackingStore>, public TextureMapperBackingStore {
 public:
     static Ref<TextureMapperTiledBackingStore> create() { return adoptRef(*new TextureMapperTiledBackingStore); }
-    virtual ~TextureMapperTiledBackingStore() = default;
 
     void paintToTextureMapper(TextureMapper&, const FloatRect&, const TransformationMatrix&, float) override;
     void drawBorder(TextureMapper&, const Color&, float borderWidth, const FloatRect&, const TransformationMatrix&) override;
@@ -46,8 +45,32 @@ public:
 
     void setContentsToImage(Image* image) { m_image = image; }
 
+    // Coverage mode keeps tiles only around the part of the layer that is on
+    // screen (visibleRect, in contents-scaled layer coordinates), instead of
+    // tiling and painting the whole layer: a long page's document layer then
+    // costs a few screens of textures. Tiles that come into view are painted
+    // in the same update; the margin around them is painted a few tiles per
+    // update (morePending asks for another one). Textures kept for margins
+    // stay within coverageBudgetBytes across all coverage stores.
+    bool updateContentsWithCoverage(TextureMapper&, GraphicsLayer*, const FloatSize&, const IntRect& dirtyRect, const IntRect& visibleRect, bool& morePending);
+    static constexpr size_t coverageBudgetBytes = 32 * 1024 * 1024;
+    WEBCORE_EXPORT static size_t coverageBytes();
+
+    ~TextureMapperTiledBackingStore();
+
 private:
     TextureMapperTiledBackingStore() = default;
+
+    struct CoverageTile {
+        TextureMapperTile tile;
+        bool valid { false };
+    };
+    void clearCoverageTiles();
+    void removeCoverageTile(size_t index);
+    bool paintCoverageTile(CoverageTile&, GraphicsLayer*);
+    Vector<CoverageTile> m_coverageTiles;
+    size_t m_coverageBytes { 0 };
+    bool m_coverageMode { false };
 
     void createOrDestroyTilesIfNeeded(const FloatSize& backingStoreSize, const IntSize& tileSize, bool hasAlpha);
     void updateContentsFromImageIfNeeded(TextureMapper&);

@@ -172,6 +172,11 @@ public:
     static void setMediaPlayerFactory(MediaPlayerFactory, void* context);
     // Log per-stage timings of composited frames about once a second.
     static void setFrameStatsEnabled(bool);
+    // Composite every page with EGL once a native window is set (default),
+    // so scrolling moves cached GPU tiles instead of repainting. Off, the
+    // embedding presents ordinary pages and EGL is used only for pages with
+    // composited layers. Takes effect at the next setNativeWindow().
+    static void setTiledCompositingEnabled(bool);
 
     static WebView* create(WebViewClient&, int width, int height);
     virtual ~WebView() = default;

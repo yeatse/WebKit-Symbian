@@ -19,6 +19,7 @@ MARKER = re.compile(r'bench: (start|end|skip) (\S+)(.*)')
 STATS = re.compile(r'frame-stats: (\S+) frames=(\d+) window=(\d+)ms((?: [\w-]+=[\d.]+/[\d.]+)*)')
 STAGE = re.compile(r'([\w-]+)=([\d.]+)/([\d.]+)')
 FIELD = re.compile(r'(\w+)=([\d.]+)')
+TILES = re.compile(r'egl-tiles: (\d+) KB')
 SLOW_MS = 1000 / 30
 
 
@@ -32,7 +33,7 @@ def parse(lines):
     current = None
 
     def group(name):
-        return groups.setdefault(name, {'presentations': {}, 'page': None, 'skipped': None, 'seen': set()})
+        return groups.setdefault(name, {'presentations': {}, 'page': None, 'skipped': None, 'tiles_kb': None, 'seen': set()})
 
     for line in lines:
         marker = MARKER.search(line)
@@ -47,6 +48,11 @@ def parse(lines):
                 current = None
             else:
                 group(name)['skipped'] = rest.strip() or 'skipped'
+            continue
+        tiles = TILES.search(line)
+        if tiles:
+            entry = group(current or '(no benchmark)')
+            entry['tiles_kb'] = max(entry['tiles_kb'] or 0, int(tiles.group(1)))
             continue
         stats = STATS.search(line)
         if not stats:
@@ -93,7 +99,8 @@ def report(groups):
                 'windows': summary['lines'],
                 'slow_windows': summary['slow_windows'],
             }
-        result[name] = {'presentations': presentations, 'page': entry['page'], 'skipped': entry['skipped']}
+        result[name] = {'presentations': presentations, 'page': entry['page'], 'skipped': entry['skipped'],
+                        'tiles_kb': entry['tiles_kb']}
     return result
 
 
@@ -117,6 +124,8 @@ def print_report(result, out):
             print('  %-10s %5.1f fps  %4d frames  %5.1f ms/frame  slow %d/%d  [%s]' % (
                 presentation, summary['fps'], summary['frames'], summary['frame_ms'],
                 summary['slow_windows'], summary['windows'], stages), file=out)
+        if entry.get('tiles_kb') is not None:
+            print('  GPU tiles: up to %d KB' % entry['tiles_kb'], file=out)
         if not entry['skipped'] and not any(s['windows'] for s in entry['presentations'].values()):
             print('  no frames presented', file=out)
 

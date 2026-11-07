@@ -18,6 +18,7 @@
 #include <WebCore/PlatformDisplaySymbian.h>
 #include <WebCore/TextureMapper.h>
 #include <WebCore/TextureMapperLayer.h>
+#include <WebCore/TextureMapperTiledBackingStore.h>
 #include <wtf/SetForScope.h>
 
 namespace WebKitSymbian {
@@ -128,6 +129,13 @@ void SymbianCompositor::prepareForDestruction()
 
 void SymbianCompositor::updateChildren()
 {
+    // With WebCore's layers attached, the document is in them (the root
+    // layer of the frame is always composited then): painting the frame into
+    // the root as well would paint nothing, at the cost of a whole-view
+    // upload. Without them (view overlays only), the root shows the page.
+    m_root->setDrawsContent(!m_content);
+    if (!m_content)
+        m_root->setNeedsDisplay();
     m_root->removeAllChildren();
     if (m_content)
         m_root->addChild(*m_content);
@@ -215,8 +223,12 @@ bool SymbianCompositor::render()
         return false;
     MonotonicTime updated = timing ? MonotonicTime::now() : MonotonicTime();
     auto& root = downcast<GraphicsLayerTextureMapper>(*m_root);
+    // Tiles cover only what is on screen and a margin around it, which needs
+    // this frame's layer transforms (scroll positions included).
+    root.layer().prepareForPainting(*m_textureMapper);
+    bool morePending = false;
     // Backing includes Cairo painting of dirty layer tiles and their upload.
-    if (!root.updateBackingStoreIncludingSubLayers(*m_textureMapper)) {
+    if (!root.updateBackingStoreIncludingSubLayers(*m_textureMapper, FloatRect(FloatPoint(), m_root->size()), morePending)) {
         WTFLogAlways("Symbian compositor: backing upload failed, using software painting");
         return false;
     }
@@ -253,6 +265,8 @@ bool SymbianCompositor::render()
             char summary[256];
             m_stats.format(summary, sizeof(summary));
             WTFLogAlways("%s", summary);
+            WTFLogAlways("egl-tiles: %zu KB of %zu KB", TextureMapperTiledBackingStore::coverageBytes() / 1024,
+                TextureMapperTiledBackingStore::coverageBudgetBytes / 1024);
         }
     }
     if (m_logNextPresentation) {
@@ -261,6 +275,10 @@ bool SymbianCompositor::render()
     }
     if (root.layer().descendantsOrSelfHaveRunningAnimations())
         m_flushTimer.startOneShot(16_ms);
+    else if (morePending) {
+        // Paint the next tiles ahead after pending input and timers.
+        m_flushTimer.startOneShot(0_s);
+    }
     return true;
 }
 

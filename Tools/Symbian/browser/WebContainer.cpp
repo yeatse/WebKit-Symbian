@@ -180,6 +180,14 @@ void CWebContainer::ConstructL(const TRect& aRect)
     WebView::setMediaPlayerFactory(CreateMediaPlayer, static_cast<MNativeVideoWindow*>(this));
 #endif
 #if SYMBIAN_BROWSER_COMPOSITING && SYMBIAN_BROWSER_TRY_EGL
+    // Every page is composited with EGL and scrolls cached GPU tiles. For
+    // comparison, C:\Data\WebKit\no-gpu-tiles keeps ordinary pages on the
+    // ScreenPlay/bitmap path.
+    TEntry entry;
+    if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\no-gpu-tiles"), entry) == KErrNone) {
+        WebView::setTiledCompositingEnabled(false);
+        BrowserLog("compositing: GPU tiles off (no-gpu-tiles)");
+    }
     iWebView->setNativeWindow(&Window());
 #endif
 }
