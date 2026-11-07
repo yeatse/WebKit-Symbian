@@ -7,7 +7,7 @@
 // summarize-frame-stats.py groups the log's frame-stats lines by them.
 (function () {
     'use strict';
-    var ORDER = ['scroll', 'images', 'animation', 'composited', 'canvas', 'webgl'];
+    var ORDER = ['scroll', 'images', 'animation', 'composited', 'canvas', 'webgl', 'paint'];
     var all = /[?&]all\b/.test(location.search);
 
     function status(text) {
@@ -30,10 +30,49 @@
         setTimeout(function () { location.href = target; }, 1500);
     }
 
-    // frame(elapsedMs) runs once per animation frame. setup() may return a
-    // string to skip the page (a missing feature).
-    window.bench = function (name, options) {
+    // Measures requestAnimationFrame for duration ms after a settling second,
+    // then calls done(). frame(elapsedMs) runs once per animation frame.
+    function measure(name, options, done) {
         var duration = options.duration || 15000;
+        status(name + ': starting');
+        // Let layout and the first paint settle before measuring.
+        setTimeout(function () {
+            console.log('bench: start ' + name);
+            var start = performance.now(), last = start, frames = 0, slow = 0, worst = 0;
+            function tick(now) {
+                var interval = now - last;
+                last = now;
+                if (frames) {
+                    if (interval > 50)
+                        ++slow;
+                    if (interval > worst)
+                        worst = interval;
+                }
+                ++frames;
+                var elapsed = now - start;
+                if (elapsed >= duration) {
+                    if (options.finish)
+                        options.finish();
+                    var fps = frames * 1000 / elapsed;
+                    console.log('bench: end ' + name + ' frames=' + frames + ' ms=' + Math.round(elapsed) +
+                        ' fps=' + fps.toFixed(1) + ' long=' + slow + ' worst=' + Math.round(worst));
+                    status(name + ': ' + fps.toFixed(1) + ' fps, ' + slow + ' frames over 50 ms, worst ' +
+                        Math.round(worst) + ' ms');
+                    done();
+                    return;
+                }
+                if (options.frame)
+                    options.frame(elapsed);
+                if (frames % 30 === 0)
+                    status(name + ': ' + Math.ceil((duration - elapsed) / 1000) + ' s left');
+                requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        }, 1000);
+    }
+
+    // setup() may return a string to skip the page (a missing feature).
+    window.bench = function (name, options) {
         window.addEventListener('load', function () {
             var reason = options.setup ? options.setup() : null;
             if (reason) {
@@ -42,41 +81,26 @@
                 next(name);
                 return;
             }
-            status(name + ': starting');
-            // Let layout and the first paint settle before measuring.
-            setTimeout(function () {
-                console.log('bench: start ' + name);
-                var start = performance.now(), last = start, frames = 0, slow = 0, worst = 0;
-                function tick(now) {
-                    var interval = now - last;
-                    last = now;
-                    if (frames) {
-                        if (interval > 50)
-                            ++slow;
-                        if (interval > worst)
-                            worst = interval;
-                    }
-                    ++frames;
-                    var elapsed = now - start;
-                    if (elapsed >= duration) {
-                        if (options.finish)
-                            options.finish();
-                        var fps = frames * 1000 / elapsed;
-                        console.log('bench: end ' + name + ' frames=' + frames + ' ms=' + Math.round(elapsed) +
-                            ' fps=' + fps.toFixed(1) + ' long=' + slow + ' worst=' + Math.round(worst));
-                        status(name + ': ' + fps.toFixed(1) + ' fps, ' + slow + ' frames over 50 ms, worst ' +
-                            Math.round(worst) + ' ms');
-                        next(name);
-                        return;
-                    }
-                    if (options.frame)
-                        options.frame(elapsed);
-                    if (frames % 30 === 0)
-                        status(name + ': ' + Math.ceil((duration - elapsed) / 1000) + ' s left');
-                    requestAnimationFrame(tick);
+            measure(name, options, function () { next(name); });
+        });
+    };
+
+    // Runs cases one after another, each logged as NAME-CASE: a case's
+    // setup() prepares the page and frame(elapsedMs) runs per frame.
+    window.benchCases = function (name, cases, duration) {
+        window.addEventListener('load', function () {
+            var index = 0;
+            function run() {
+                if (index >= cases.length) {
+                    next(name);
+                    return;
                 }
-                requestAnimationFrame(tick);
-            }, 1000);
+                var item = cases[index++];
+                if (item.setup)
+                    item.setup();
+                measure(name + '-' + item.name, { duration: duration, frame: item.frame }, run);
+            }
+            run();
         });
     };
 
