@@ -374,7 +374,7 @@ for symbol in ('Curl_symbian_getaddrinfo', 'symbian_curl_resolve_records'):
     assert sum(len(r) >= 3 and r[-2] in ('T', 't') and r[-1] == symbol for r in archive_rows) == 1, 'native bridge definition missing/duplicated: ' + symbol
 print('Actual curl native resolver selector and archive definitions verified')
 PYVERIFY
-  printf '4\n' > "$P/lib/curl-symbian-network-version"
+  printf '5\n' > "$P/lib/curl-symbian-network-version"
 }
 
 # One library per process, so set -e applies inside build_NAME (it does not in

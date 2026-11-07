@@ -13,8 +13,10 @@ namespace {
    socket server session and a failed lookup per address family. */
 const TUint32 kRetrySeconds = 60;
 volatile TUint32 g_retry_at;
-volatile TInt g_reported_error;
-void (*volatile g_observer)(int);
+/* Read by the browser's UI thread: stderr written from curl's resolver
+   thread may not reach the browser log. */
+volatile unsigned g_resolved, g_failed;
+volatile TInt g_last_error;
 TUint32 now_seconds() {
   TTime now;
   now.UniversalTime();
@@ -28,11 +30,8 @@ int classify(TInt error) {
   if(error == KErrTimedOut) return SYMBIAN_CURL_TIMEOUT;
   if(error == KErrNotFound || error == KErrEof) return SYMBIAN_CURL_NONAME;
   g_retry_at = now_seconds() + kRetrySeconds;
-  /* Report each distinct error once, not every minute. */
-  if(error != g_reported_error) {
-    g_reported_error = error;
-    if(void (*observer)(int) = g_observer) observer(error);
-  }
+  g_last_error = error;
+  ++g_failed;
   return SYMBIAN_CURL_FAILED;
 }
 void copy_name(const TDesC& source, char* absl_nonnull dest) {
@@ -128,8 +127,11 @@ extern "C" int symbian_curl_resolve_records(const char* absl_nullable host, int 
   timer.Cancel(); User::WaitForRequest(timeout);
   timer.Close(); resolver.Close(); sockets.Close();
   if(status) memset(out, 0, sizeof(*out));
+  else ++g_resolved;
   return status;
 }
-extern "C" void symbian_curl_set_resolver_observer(void (*observer)(int)) {
-  g_observer = observer;
+extern "C" void symbian_curl_resolver_stats(unsigned* resolved, unsigned* failed, int* last_error) {
+  *resolved = g_resolved;
+  *failed = g_failed;
+  *last_error = g_last_error;
 }

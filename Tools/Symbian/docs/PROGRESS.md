@@ -94,10 +94,23 @@ so emulator timings do not predict device performance.
   about once a second: EGL `update`, `backing` (painting and texture upload),
   `draw` and `swap`; ScreenPlay `begin`, `paint` and `submit`; bitmap `paint`
   and `blit`.
-- [ ] P0: Fixed scrolling, image, animation and WebGL pages, measured with
+- [x] P0: Fixed scrolling, image, animation and WebGL pages, measured with
   `frame-stats` on the 808 for ScreenPlay, EGL and bitmap presentation.
   The pages and a log summarizer are in `tests/benchmarks` and installed at
-  `C:\Data\WebKit\bench`; the 808 measurements remain.
+  `C:\Data\WebKit\bench`. First 808 run (fps, then ms per frame by stage):
+
+  | Page | Path | fps | Stages (average ms) |
+  | --- | --- | --- | --- |
+  | scroll | ScreenPlay | 17.9 | begin 1.5, paint 17.5, submit 26.7 |
+  | images | ScreenPlay | 5.9 | begin 1.5, paint 130.9, submit 25.3 |
+  | animation | ScreenPlay | 17.2 | begin 1.3, paint 14.3, submit 25.5 |
+  | composited | EGL | 26.6 | update 1.2, backing 0.2, draw 6.1, swap 3.9 |
+  | canvas | EGL | 7.6 | update 104.9, backing 20.2, draw 3.6, swap 0.7 |
+  | webgl | EGL | 17.8 | update 40.0, backing 0.2, draw 10.5, swap 0.9 |
+
+  ScreenPlay's submit costs about 26 ms on every frame, whatever was
+  painted; scaled images (images) and 2D canvas drawing (canvas, presented
+  through EGL) are the slow paints; WebGL spends 40 ms per frame in update.
 - [ ] P0: The device's EGL and GLES2 extensions (EGLImage, preserved swap and
   partial update), before work that depends on them. The compositor logs the
   versions, both extension lists and the window surface's swap behavior once;

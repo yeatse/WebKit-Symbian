@@ -27,11 +27,25 @@
 #include <gulcolor.h>
 
 // curl's native host resolver (Tools/Symbian/shims/curl-symbian-resolver.cpp).
-extern "C" void symbian_curl_set_resolver_observer(void (*)(int));
+extern "C" void symbian_curl_resolver_stats(unsigned*, unsigned*, int*);
 
-static void LogNativeResolverFailure(int aError)
+// Logs, from the UI thread, how curl's native resolver has fared since the
+// last change: its own thread's stderr may not reach the log.
+static void LogNativeResolverStats()
 {
-    BrowserLog("network: native host resolver failed (%d), resolving through Open C", aError);
+    static unsigned loggedResolved, loggedFailed;
+    unsigned resolved, failed;
+    int lastError;
+    symbian_curl_resolver_stats(&resolved, &failed, &lastError);
+    if (resolved == loggedResolved && failed == loggedFailed)
+        return;
+    loggedResolved = resolved;
+    loggedFailed = failed;
+    if (failed)
+        BrowserLog("network: native resolver %u resolved, %u failed (last error %d, then Open C)",
+            resolved, failed, lastError);
+    else
+        BrowserLog("network: native resolver %u resolved", resolved);
 }
 
 using namespace WebKitSymbian;
@@ -559,7 +573,6 @@ void CBrowserAppUi::ConstructL()
     WebView::initializeProcess(KDataDirectory);
     BrowserLogOpen(KDataDirectory);
     BrowserLog("WebKit Browser starting");
-    symbian_curl_set_resolver_observer(LogNativeResolverFailure);
     if (curlTrace) {
         StartHeartbeatL();
         BrowserThreadWatchStart();
@@ -636,6 +649,7 @@ CBrowserAppUi::~CBrowserAppUi()
     User::Free(iTitle);
     delete iNetwork;
     delete iHeartbeat;
+    LogNativeResolverStats();
     BrowserLog("WebKit Browser exiting");
 }
 
@@ -997,6 +1011,7 @@ void CBrowserAppUi::WebProgressChanged(TBool aLoading, TInt aPercent)
         return;
     iLoading = aLoading;
     iProgress = aPercent;
+    LogNativeResolverStats();
     if (!iDownloading)
         iUrlBar->SetProgress(aLoading, aPercent);
 }
