@@ -12,6 +12,8 @@ body { margin:0; padding:8px; font:15px/1.5 sans-serif; }
 .shadow .tile { box-shadow:0 2px 6px rgba(0,0,0,.4); }
 .opacity .tile { opacity:.5; }
 .text-shadow p { text-shadow:1px 1px 2px #888; }
+/* Drawn at another size than decoded, so each repaint scales them. */
+.images img { width:31%; height:auto; margin:1%; vertical-align:top; }
 #overlay { position:absolute; left:0; top:0; right:0; bottom:0; background:rgba(0,0,0,.3); }
 </style>
 <div id="content"></div>
@@ -38,6 +40,31 @@ function tiles(style) {
 }
 function solid(i) { return 'hsl(' + (i * 37 % 360) + ',60%,60%)'; }
 function gradient(i) { return 'linear-gradient(#fff,' + solid(i) + ')'; }
+var imageSources;
+function images() {
+    if (!imageSources) {
+        imageSources = [];
+        var canvas = document.createElement('canvas');
+        canvas.width = 200;
+        canvas.height = 150;
+        var context = canvas.getContext('2d');
+        if (!context)
+            return '';
+        for (var i = 0; i < 12; ++i) {
+            context.fillStyle = solid(i);
+            context.fillRect(0, 0, 200, 150);
+            context.fillStyle = 'rgba(255,255,255,.8)';
+            context.beginPath();
+            context.arc(40 + i % 5 * 30, 75, 30, 0, Math.PI * 2);
+            context.fill();
+            imageSources.push(canvas.toDataURL(i % 2 ? 'image/jpeg' : 'image/png'));
+        }
+    }
+    var html = '';
+    for (var j = 0; j < imageSources.length; ++j)
+        html += '<img src="' + imageSources[j] + '">';
+    return html;
+}
 function content(className, html) {
     return function () {
         var element = document.getElementById('content');
@@ -60,6 +87,7 @@ benchCases('paint', [
     { name: 'shadow', setup: content('shadow', tiles(solid)), frame: repaint },
     { name: 'gradient', setup: content('', tiles(gradient)), frame: repaint },
     { name: 'opacity', setup: content('opacity', tiles(solid)), frame: repaint },
+    { name: 'images', setup: function () { content('images', images())(); }, frame: repaint },
     { name: 'overlay', setup: content('', paragraphs() + '<div id="overlay"></div>'), frame: repaint }
 ], 4000);
 </script>

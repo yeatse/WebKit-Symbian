@@ -11,7 +11,7 @@ package installs them at `C:\Data\WebKit\bench`.
 | `composited.html` | 8 layers animated with 3D transforms | EGL |
 | `canvas.html` | 150 shapes redrawn per frame on a 2D canvas | ScreenPlay, or EGL if the canvas is composited |
 | `webgl.html` | 200 triangles redrawn per frame | EGL |
-| `paint.html` | The whole view repainted per frame over ten kinds of content (text, shadows, rounded and translucent boxes, gradients), 4 seconds each, logged as `paint-CASE` | ScreenPlay |
+| `paint.html` | The whole view repainted per frame over eleven kinds of content (text, shadows, rounded and translucent boxes, gradients, scaled images), 4 seconds each, logged as `paint-CASE` | ScreenPlay |
 
 ## Running on the phone
 
