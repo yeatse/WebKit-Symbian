@@ -34,6 +34,10 @@ namespace WebCore {
 
 static size_t s_coverageBytes;
 static constexpr int coverageTileSize = 256;
+// Tiles are as wide as the layer up to this: a repaint across the view then
+// covers whole tile rows, which upload straight from the painted buffer.
+// Without EXT_unpack_subimage a part of a row is copied out first.
+static constexpr int coverageMaxTileWidth = 1024;
 // Margin tiles painted per update, so a frame that scrolls far does not wait
 // for a whole new screen of them.
 static constexpr unsigned coveragePrefetchPerUpdate = 2;
@@ -300,7 +304,7 @@ static int coverageDistance(const IntRect& tileRect, const IntRect& visibleRect)
     return dx + dy;
 }
 
-bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper&, GraphicsLayer* sourceLayer, const FloatSize& totalSize, const IntRect& dirtyRect, const IntRect& visibleRect, bool& morePending)
+bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper& textureMapper, GraphicsLayer* sourceLayer, const FloatSize& totalSize, const IntRect& dirtyRect, const IntRect& visibleRect, bool& morePending)
 {
     if (!m_coverageMode) {
         m_tiles.clear();
@@ -350,11 +354,16 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper&, 
     }
 
     if (!cover.isEmpty()) {
-        int firstX = cover.x() / coverageTileSize * coverageTileSize;
+        // Columns of equal width, so a layer slightly wider than the limit
+        // does not end in a sliver.
+        int maxTileWidth = std::max(coverageTileSize, std::min(coverageMaxTileWidth, textureMapper.maxTextureSize().width()));
+        int columns = std::max(1, (bounds.width() + maxTileWidth - 1) / maxTileWidth);
+        int tileWidth = std::max(1, (bounds.width() + columns - 1) / columns);
+        int firstX = bounds.x() + (cover.x() - bounds.x()) / tileWidth * tileWidth;
         int firstY = cover.y() / coverageTileSize * coverageTileSize;
         for (int y = firstY; y < cover.maxY(); y += coverageTileSize) {
-            for (int x = firstX; x < cover.maxX(); x += coverageTileSize) {
-                IntRect tileRect = intersection(IntRect(x, y, coverageTileSize, coverageTileSize), bounds);
+            for (int x = firstX; x < cover.maxX(); x += tileWidth) {
+                IntRect tileRect = intersection(IntRect(x, y, tileWidth, coverageTileSize), bounds);
                 if (tileRect.isEmpty())
                     continue;
                 bool exists = false;
