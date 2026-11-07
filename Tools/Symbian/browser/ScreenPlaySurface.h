@@ -41,8 +41,9 @@ public:
     // Other errors: detach and fully repaint through the bitmap fallback.
     // Positive dimensions required. All methods are nonleaving after NewL.
     TInt BeginFrame(const TSize&, const TRect& aInvalidated, TFrame&);
-    // aMarks (when given) receives the fast counter after flattening, cache
-    // synchronization and attaching, before the update is submitted.
+    // aMarks (when given) receives the fast counter after copying the frame
+    // into the surface, cache synchronization and attaching, before the
+    // update is submitted.
     TInt SubmitFrame(const TFrame&, TUint32* aMarks = nullptr);
     void AbortFrame(const TFrame&);
     void Detach();
@@ -55,8 +56,9 @@ private:
     TInt CreateSurface(const TSize&);
     TInt CheckBackground() const;
     TInt Attach();
-    void FillPaintBackground(TInt, const TRect&);
-    void FlattenPaintedPixels(TInt, const TRect&);
+    void FillPaintBackground(const TRect&);
+    void FlattenPaintedPixels(const TRect&);
+    void CopyToSurface(TInt, const TRect&);
     void AddDamage(const TRect&);
     TBool MatchesFrame(const TFrame&) const;
     void CancelNotifications();
@@ -82,6 +84,9 @@ private:
     TInt iStride { 0 };
     TInt iPainting { -1 };
     TRect iPaintingDamage;
+    TRect iPaintRect;
+    // Cached copy of the latest frame (iStride * iSize.iHeight bytes).
+    TUint8* iShadow { nullptr };
     TRect iPendingDamage;
     TUint iSerial { 0 };
     TInt iLastError { KErrNone };

@@ -13,6 +13,9 @@ namespace {
    socket server session and a failed lookup per address family. */
 const TUint32 kRetrySeconds = 60;
 volatile TUint32 g_retry_at;
+/* g_retry_at alone cannot mean "no failure yet": seconds since TTime's
+   epoch (0 AD) exceed 2^31, so a zero deadline compares as in the future. */
+volatile bool g_failing;
 /* Read by the browser's UI thread: stderr written from curl's resolver
    thread may not reach the browser log. */
 volatile unsigned g_resolved, g_failed;
@@ -23,13 +26,14 @@ TUint32 now_seconds() {
   return static_cast<TUint32>(now.Int64() / 1000000);
 }
 bool skipping() {
-  return static_cast<TInt32>(g_retry_at - now_seconds()) > 0;
+  return g_failing && static_cast<TInt32>(g_retry_at - now_seconds()) > 0;
 }
 int classify(TInt error) {
   if(error == KErrNoMemory) return SYMBIAN_CURL_NOMEM;
   if(error == KErrTimedOut) return SYMBIAN_CURL_TIMEOUT;
   if(error == KErrNotFound || error == KErrEof) return SYMBIAN_CURL_NONAME;
   g_retry_at = now_seconds() + kRetrySeconds;
+  g_failing = true;
   g_last_error = error;
   ++g_failed;
   return SYMBIAN_CURL_FAILED;

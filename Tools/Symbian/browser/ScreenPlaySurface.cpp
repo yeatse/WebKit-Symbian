@@ -145,6 +145,10 @@ TInt CScreenPlaySurface::CreateSurface(const TSize& aSize)
     const TInt64 bytes = static_cast<TInt64>(info().iStride) * aSize.iHeight;
     if (bytes <= 0 || bytes > KMaxTInt)
         return KErrCorrupt;
+    iShadow = static_cast<TUint8*>(User::Alloc(static_cast<TInt>(bytes)));
+    if (!iShadow)
+        return KErrNoMemory;
+    Mem::Fill(iShadow, static_cast<TInt>(bytes), 0xff);
     error = iManager.MapSurface(iSurface, iChunk);
     if (error != KErrNone)
         return error;
@@ -176,26 +180,24 @@ TInt CScreenPlaySurface::CreateSurface(const TSize& aSize)
     return KErrNone;
 }
 
-void CScreenPlaySurface::FillPaintBackground(TInt aBuffer, const TRect& aRect)
+void CScreenPlaySurface::FillPaintBackground(const TRect& aRect)
 {
-    // Each slot retains its own last frame. Repaint its accumulated damage
-    // over the same opaque white page base used by the native compositor.
+    // The engine paints into iShadow over the same opaque white page base
+    // used by the native compositor.
     for (TInt y = aRect.iTl.iY; y < aRect.iBr.iY; ++y) {
-        TUint32* row = reinterpret_cast<TUint32*>(iChunk.Base()
-            + iOffsets[aBuffer] + y * iStride);
+        TUint32* row = reinterpret_cast<TUint32*>(iShadow + y * iStride);
         for (TInt x = aRect.iTl.iX; x < aRect.iBr.iX; ++x)
             row[x] = 0xffffffffu;
     }
 }
 
-void CScreenPlaySurface::FlattenPaintedPixels(TInt aBuffer, const TRect& aRect)
+void CScreenPlaySurface::FlattenPaintedPixels(const TRect& aRect)
 {
     // SetBackgroundSurface(config) requires an opaque surface. The engine
     // paints premultiplied ARGB; flatten any explicit transparent operations
-    // over white in place. This is not a bitmap-to-surface frame copy.
+    // over white.
     for (TInt y = aRect.iTl.iY; y < aRect.iBr.iY; ++y) {
-        TUint32* row = reinterpret_cast<TUint32*>(iChunk.Base()
-            + iOffsets[aBuffer] + y * iStride);
+        TUint32* row = reinterpret_cast<TUint32*>(iShadow + y * iStride);
         for (TInt x = aRect.iTl.iX; x < aRect.iBr.iX; ++x) {
             TUint32 pixel = row[x];
             TUint32 missing = 255u - (pixel >> 24);
@@ -209,6 +211,21 @@ void CScreenPlaySurface::FlattenPaintedPixels(TInt aBuffer, const TRect& aRect)
             if (blue > 255u) blue = 255u;
             row[x] = 0xff000000u | (red << 16) | (green << 8) | blue;
         }
+    }
+}
+
+void CScreenPlaySurface::CopyToSurface(TInt aBuffer, const TRect& aRect)
+{
+    // Surface memory reads cost ~130 ns per pixel on the Nokia 808 (a
+    // full-frame flatten in place took 25 ms) while writes are fast, so the
+    // engine paints into cached memory and the surface is only written.
+    if (aRect.IsEmpty())
+        return;
+    const TInt offset = aRect.iTl.iX * 4;
+    const TInt bytes = aRect.Width() * 4;
+    for (TInt y = aRect.iTl.iY; y < aRect.iBr.iY; ++y) {
+        const TInt row = y * iStride + offset;
+        Mem::Copy(iChunk.Base() + iOffsets[aBuffer] + row, iShadow + row, bytes);
     }
 }
 
@@ -273,17 +290,20 @@ TInt CScreenPlaySurface::BeginFrame(const TSize& aSize, const TRect& aInvalidate
         if (!iFree[buffer])
             continue;
         iPainting = buffer;
+        // iShadow already holds the latest frame: only new damage is
+        // painted, then the slot's accumulated damage is copied out.
         iPaintingDamage = iDamage[buffer];
+        iPaintRect = iPendingDamage;
         // Snapshot before paint so recursive invalidations survive submission.
         iDamage[buffer] = TRect();
         iPendingDamage = TRect();
-        FillPaintBackground(buffer, iPaintingDamage);
+        FillPaintBackground(iPaintRect);
         if (!++iSerial)
             ++iSerial;
         aFrame.iBuffer = buffer;
-        aFrame.iPixels = iChunk.Base() + iOffsets[buffer];
+        aFrame.iPixels = iShadow;
         aFrame.iStride = iStride;
-        aFrame.iDirty = iPaintingDamage;
+        aFrame.iDirty = iPaintRect;
         aFrame.iSerial = iSerial;
         return KErrNone;
     }
@@ -295,17 +315,18 @@ TBool CScreenPlaySurface::MatchesFrame(const TFrame& aFrame) const
 {
     return iPainting >= 0 && iPainting < 2 && !iSurface.IsNull()
         && aFrame.iBuffer == iPainting && aFrame.iSerial == iSerial
-        && aFrame.iPixels == iChunk.Base() + iOffsets[iPainting]
-        && aFrame.iStride == iStride && aFrame.iDirty == iPaintingDamage;
+        && aFrame.iPixels == iShadow
+        && aFrame.iStride == iStride && aFrame.iDirty == iPaintRect;
 }
 
 void CScreenPlaySurface::AbortFrame(const TFrame& aFrame)
 {
     if (!MatchesFrame(aFrame))
         return;
+    // iPaintRect lies within iPaintingDamage.
     AddDamage(iPaintingDamage);
     iPainting = -1;
-    iPaintingDamage = TRect();
+    iPaintingDamage = iPaintRect = TRect();
 }
 
 TInt CScreenPlaySurface::Attach()
@@ -333,7 +354,8 @@ TInt CScreenPlaySurface::SubmitFrame(const TFrame& aFrame, TUint32* aMarks)
     if (!MatchesFrame(aFrame))
         return Fail(KErrArgument);
     const TInt buffer = iPainting;
-    FlattenPaintedPixels(buffer, iPaintingDamage);
+    FlattenPaintedPixels(iPaintRect);
+    CopyToSurface(buffer, iPaintingDamage);
     if (aMarks)
         aMarks[0] = User::FastCounter();
     TInt error = iManager.SynchronizeCache(iSurface, buffer,
@@ -359,7 +381,7 @@ TInt CScreenPlaySurface::SubmitFrame(const TFrame& aFrame, TUint32* aMarks)
         return Fail(error);
     }
     iPainting = -1;
-    iPaintingDamage = TRect();
+    iPaintingDamage = iPaintRect = TRect();
     iHaveFrame = ETrue;
     return KErrNone;
 }
@@ -416,12 +438,14 @@ void CScreenPlaySurface::ReleaseSurface()
         CancelNotifications();
         iChunk.Close();
     }
+    User::Free(iShadow);
+    iShadow = nullptr;
     iSurface = TSurfaceId::CreateNullId();
     iRegistered = EFalse;
     iHaveFrame = EFalse;
     iWaiting = EFalse;
     iPainting = -1;
-    iPaintingDamage = iPendingDamage = TRect();
+    iPaintingDamage = iPaintRect = iPendingDamage = TRect();
     iDamage[0] = iDamage[1] = TRect();
     iOffsets[0] = iOffsets[1] = 0;
     iSize = TSize();

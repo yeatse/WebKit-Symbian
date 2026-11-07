@@ -22,6 +22,7 @@ void Paint(const CScreenPlaySurface::TFrame&f,TUint32 color){
   for(TInt x=f.iDirty.iTl.iX;x<f.iDirty.iBr.iX;++x)row[x]=color;}
 }
 TUint32 Pixel(const CScreenPlaySurface::TFrame&f,TInt x=0,TInt y=0){return reinterpret_cast<TUint32*>(f.iPixels+y*f.iStride)[x];}
+TUint32 SurfacePixel(const CScreenPlaySurface::TFrame&f,TInt buffer,TInt x=0,TInt y=0){auto&r=fake::resources.begin()->second;TUint32 v;std::memcpy(&v,r.bytes->data()+r.offsets[buffer]+y*f.iStride+x*4,4);return v;}
 std::size_t Event(const char*name){auto it=std::find(fake::events.begin(),fake::events.end(),name);CHECK(it!=fake::events.end());return it-fake::events.begin();}
 void Case(const char*name,std::function<void()>body){
  try{body();CHECK(fake::resources.empty());CHECK(fake::pending.empty());++cases;std::cout<<"PASS "<<name<<"\n";}
@@ -30,13 +31,14 @@ void Case(const char*name,std::function<void()>body){
 }
 
 int main(){try{
- Case("direct-mapped-padded-frame",[]{Harness h;auto f=h.Begin();CHECK(f.iBuffer==0);CHECK(f.iStride>8*4);CHECK(f.iDirty==TRect(TSize(8,6)));CHECK(Pixel(f)==0xffffffffu);Paint(f,0xff102030u);h.Submit(f);CHECK(Pixel(f)==0xff102030u);CHECK(fake::submit_count==1);CHECK(Event("notify")<Event("submit"));CHECK(Event("sync")<Event("submit"));
-  auto&r=fake::resources.begin()->second;CHECK(f.iPixels==r.bytes->data()+r.offsets[0]);CHECK((*r.bytes)[0]==0x5a);CHECK((*r.bytes)[r.offsets[0]+8*4]==0xff);});
+ Case("cached-frame-copied-to-padded-surface",[]{Harness h;auto f=h.Begin();CHECK(f.iBuffer==0);CHECK(f.iStride>8*4);CHECK(f.iDirty==TRect(TSize(8,6)));CHECK(Pixel(f)==0xffffffffu);Paint(f,0xff102030u);h.Submit(f);CHECK(Pixel(f)==0xff102030u);CHECK(fake::submit_count==1);CHECK(Event("notify")<Event("submit"));CHECK(Event("sync")<Event("submit"));
+  auto&r=fake::resources.begin()->second;CHECK(f.iPixels!=r.bytes->data()+r.offsets[0]);CHECK(SurfacePixel(f,0)==0xff102030u);CHECK(SurfacePixel(f,0,7,5)==0xff102030u);CHECK((*r.bytes)[0]==0x5a);CHECK((*r.bytes)[r.offsets[0]+8*4]==0xff);});
  Case("no-damage-does-not-flip",[]{Harness h;auto f=h.Begin();h.Submit(f);CScreenPlaySurface::TFrame idle;CHECK(h.presenter->BeginFrame(TSize(8,6),TRect(),idle)==KErrAlreadyExists);CHECK(idle.iBuffer==-1);CHECK(fake::submit_count==1);});
  Case("two-slots-defer-and-reuse-damage",[]{Harness h;auto a=h.Begin();Paint(a,0xff111111);h.Submit(a);
-  TRect changedA(4,2,7,5),changedB(0,0,2,1);auto b=h.Begin(changedA);CHECK(b.iBuffer==1);CHECK(b.iDirty==TRect(TSize(8,6)));Paint(b,0xff222222);h.Submit(b);
+  TRect changedA(4,2,7,5),changedB(0,0,2,1);auto b=h.Begin(changedA);CHECK(b.iBuffer==1);CHECK(b.iDirty==changedA);CHECK(Pixel(b,0,0)==0xff111111);Paint(b,0xff222222);h.Submit(b);CHECK(SurfacePixel(b,1,0,0)==0xff111111);CHECK(SurfacePixel(b,1,4,2)==0xff222222);
   CScreenPlaySurface::TFrame busy;CHECK(h.presenter->BeginFrame(TSize(8,6),changedB,busy)==KErrInUse);CHECK(busy.iBuffer==-1);CHECK(h.observer.callbacks==0);fake::Complete(a.iBuffer);CActiveScheduler::RunCompleted();CHECK(h.observer.callbacks==1);
-  auto c=h.Begin(TRect());TRect expected=changedA;expected.BoundingRect(changedB);CHECK(c.iBuffer==a.iBuffer);CHECK(c.iDirty==expected);CHECK(Pixel(c,7,5)==0xff111111);CHECK(Pixel(c,0,0)==0xffffffff);Paint(c,0xff333333);h.Submit(c);
+  auto c=h.Begin(TRect());CHECK(c.iBuffer==a.iBuffer);CHECK(c.iDirty==changedB);CHECK(Pixel(c,7,5)==0xff111111);CHECK(Pixel(c,4,2)==0xff222222);CHECK(Pixel(c,0,0)==0xffffffff);Paint(c,0xff333333);h.Submit(c);
+  CHECK(SurfacePixel(c,0,0,0)==0xff333333);CHECK(SurfacePixel(c,0,4,2)==0xff222222);CHECK(SurfacePixel(c,0,7,5)==0xff111111);
   CHECK(h.presenter->BeginFrame(TSize(8,6),TRect(),busy)==KErrAlreadyExists);});
  Case("abort-restores-damage-and-rejects-stale-abort",[]{Harness h;auto first=h.Begin();auto wrong=first;++wrong.iSerial;h.presenter->AbortFrame(wrong);CScreenPlaySurface::TFrame busy;CHECK(h.presenter->BeginFrame(TSize(8,6),TRect(),busy)==KErrInUse);
   h.presenter->AbortFrame(first);auto again=h.Begin(TRect());CHECK(again.iDirty==TRect(TSize(8,6)));CHECK(again.iSerial!=first.iSerial);Paint(again,0xff334455);h.Submit(again);});

@@ -170,7 +170,7 @@ private:
     mutable TUint32 iLastFrameCounter { 0 };
     mutable WebKitSymbian::FrameStats iScreenPlayStats { "screenplay", { "begin", "paint", "submit", nullptr }, 3 };
     // ScreenPlay's submit stage, step by step.
-    mutable WebKitSymbian::FrameStats iScreenPlaySubmitStats { "screenplay-submit", { "flatten", "sync", "attach", "update" }, 4 };
+    mutable WebKitSymbian::FrameStats iScreenPlaySubmitStats { "screenplay-submit", { "copy", "sync", "attach", "update" }, 4 };
     mutable WebKitSymbian::FrameStats iBitmapStats { "bitmap", { "paint", "blit", nullptr, nullptr }, 2 };
     TInt iUiResourceOffset { -1 };
     mutable TRect iDirty;
