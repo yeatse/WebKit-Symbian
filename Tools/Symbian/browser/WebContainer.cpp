@@ -295,6 +295,10 @@ void CWebContainer::Draw(const TRect& aRect) const
         }
         if (iScreenPlay) {
             CScreenPlaySurface::TFrame frame;
+            // Lay out first so that the damage layout raises is painted in
+            // this frame rather than the next.
+            const TUint32 layoutStart = FrameCounter();
+            iWebView->updateLayout();
             TUint32 marks[4] { FrameCounter() };
             TInt error = iScreenPlay->BeginFrame(Size(), iDirty, frame);
             bool currentFrame = error == KErrAlreadyExists;
@@ -305,17 +309,21 @@ void CWebContainer::Draw(const TRect& aRect) const
                 // Keep invalidations raised during painting for the next frame.
                 iDirty.Clear();
                 marks[1] = FrameCounter();
+                TInt pixels = 0;
                 for (TInt i = 0; i < frame.iRegion.Count(); ++i) {
                     const TRect& rect = frame.iRegion[i];
                     iWebView->paint(frame.iPixels, frame.iStride,
                         { rect.iTl.iX, rect.iTl.iY, rect.Width(), rect.Height() });
+                    pixels += rect.Width() * rect.Height();
                 }
                 marks[2] = FrameCounter();
                 TUint32 submitMarks[5] { marks[2] };
                 error = iScreenPlay->SubmitFrame(frame, iFrameStats ? submitMarks + 1 : nullptr);
                 marks[3] = submitMarks[4] = FrameCounter();
-                if (error == KErrNone)
+                if (error == KErrNone) {
                     RecordFrame(iScreenPlayStats, marks, 3, &iScreenPlaySubmitStats, submitMarks);
+                    RecordPaint(layoutStart, marks[0], marks[1], marks[2], frame.iRegion.Count(), pixels);
+                }
             }
             if (error == KErrNone || currentFrame) {
                 // Discard retained bitmap drawing so the background surface is
@@ -1085,6 +1093,7 @@ void CWebContainer::RecordFrame(WebKitSymbian::FrameStats& aStats, const TUint32
         durations[i] = milliseconds(aMarks[i], aMarks[i + 1]);
     double since = iLastFrameCounter ? milliseconds(iLastFrameCounter, aMarks[aStages]) : 0;
     iLastFrameCounter = aMarks[aStages];
+    iLastFrameInterval = since;
     if (aStats.add(durations, since)) {
         char summary[256];
         aStats.format(summary, sizeof(summary));
@@ -1099,6 +1108,24 @@ void CWebContainer::RecordFrame(WebKitSymbian::FrameStats& aStats, const TUint32
             aDetail->format(summary, sizeof(summary));
             BrowserLog("%s", summary);
         }
+    }
+}
+
+void CWebContainer::RecordPaint(TUint32 aLayoutStart, TUint32 aLaidOut, TUint32 aPaintStart,
+    TUint32 aPainted, TInt aRects, TInt aPixels) const
+{
+    if (!iFrameStats)
+        return;
+    auto milliseconds = [this](TUint32 aFrom, TUint32 aTo) {
+        TUint32 ticks = iFastCounterCountsUp ? aTo - aFrom : aFrom - aTo;
+        return ticks * 1000.0 / iFastCounterHz;
+    };
+    const double values[WebKitSymbian::FrameStats::maximumStages] {
+        milliseconds(aLayoutStart, aLaidOut), milliseconds(aPaintStart, aPainted), double(aRects), aPixels / 1000.0 };
+    if (iScreenPlayPaintStats.add(values, iLastFrameInterval)) {
+        char summary[256];
+        iScreenPlayPaintStats.format(summary, sizeof(summary));
+        BrowserLog("%s", summary);
     }
 }
 

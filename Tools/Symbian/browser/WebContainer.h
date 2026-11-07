@@ -148,6 +148,8 @@ private:
     // its 5 counter marks.
     void RecordFrame(WebKitSymbian::FrameStats&, const TUint32* aMarks, TInt aStages,
         WebKitSymbian::FrameStats* aDetail = nullptr, const TUint32* aDetailMarks = nullptr) const;
+    void RecordPaint(TUint32 aLayoutStart, TUint32 aLaidOut, TUint32 aPaintStart,
+        TUint32 aPainted, TInt aRects, TInt aPixels) const;
 #if SYMBIAN_BROWSER_MEDIA
     RWindow& VideoWindow() override { return Window(); }
     TInt PrepareNativeVideoWindow() override;
@@ -173,6 +175,10 @@ private:
     mutable WebKitSymbian::FrameStats iScreenPlayStats { "screenplay", { "begin", "paint", "submit", nullptr }, 3 };
     // ScreenPlay's submit stage, step by step.
     mutable WebKitSymbian::FrameStats iScreenPlaySubmitStats { "screenplay-submit", { "copy", "sync", "attach", "update" }, 4 };
+    // Layout before a ScreenPlay frame, then its paint stage: the damage
+    // rectangles drawn, how many and their kilopixels.
+    mutable WebKitSymbian::FrameStats iScreenPlayPaintStats { "screenplay-paint", { "layout", "draw", "rects", "kpx", nullptr }, 4 };
+    mutable double iLastFrameInterval { 0 };
     mutable WebKitSymbian::FrameStats iBitmapStats { "bitmap", { "paint", "blit", nullptr, nullptr }, 2 };
     TInt iUiResourceOffset { -1 };
     mutable TDamageRegion iDirty;

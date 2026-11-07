@@ -187,6 +187,9 @@ public:
     // Paints area into a 32-bit buffer of premultiplied ARGB words
     // (0xAARRGGBB) that covers the whole view.
     virtual void paint(uint8_t* pixels, int stride, const Rect& area) = 0;
+    // Brings style and layout up to date; paint() does this itself, so
+    // calling it first only separates the cost.
+    virtual void updateLayout() { }
 
     // url is UTF-8; text without a scheme is treated as http://.
     virtual void load(const char* url) = 0;

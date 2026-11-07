@@ -792,6 +792,12 @@ void WebViewImpl::paint(uint8_t* pixels, int stride, const Rect& area)
 #endif
 }
 
+void WebViewImpl::updateLayout()
+{
+    if (LocalFrameView* view = m_page->localMainFrame()->view())
+        view->updateLayoutAndStyleIfNeededRecursive();
+}
+
 void WebViewImpl::load(const char* url)
 {
     String string = String::fromUTF8(url).trim(isASCIIWhitespace);

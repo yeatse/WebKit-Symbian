@@ -102,6 +102,7 @@ private:
     void renderCompositedFrame() final;
     void setSize(int width, int height) final;
     void paint(uint8_t* pixels, int stride, const Rect&) final;
+    void updateLayout() final;
     void load(const char* url) final;
     void reload() final;
     void stop() final;
