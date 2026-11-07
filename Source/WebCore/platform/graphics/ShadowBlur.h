@@ -90,6 +90,8 @@ public:
     };
     std::optional<AlphaLayer> beginAlphaLayer(const AffineTransform&, const IntRect& clipBounds, const FloatRect& layerArea);
     void blurAlphaLayer(std::span<uint8_t>, const IntSize&, int stride);
+    // How far the blur reaches past the shadowed shape, in layer pixels.
+    IntSize blurredEdgeSize() const;
 
     void clear();
 
@@ -131,7 +133,6 @@ private:
     void drawLayerPiecesAndFillCenter(ImageBuffer& layerImage, const FloatRect& shadowBounds, const CornerRadii&, const IntSize& roundedRadius, const IntSize& templateSize, const DrawImageCallback&, const FillRectCallback&);
     void drawLayerPieces(ImageBuffer& layerImage, const FloatRect& shadowBounds, const CornerRadii&, const IntSize& roundedRadius, const IntSize& templateSize, const DrawImageCallback&);
 
-    IntSize blurredEdgeSize() const;
 
     ShadowType m_type { NoShadow };
 

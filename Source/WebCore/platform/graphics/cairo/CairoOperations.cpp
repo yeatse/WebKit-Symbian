@@ -51,6 +51,10 @@
 #include <algorithm>
 #include <cairo.h>
 #include <numbers>
+#if OS(SYMBIAN)
+#include <unordered_map>
+#include <wtf/NeverDestroyed.h>
+#endif
 
 namespace WebCore {
 namespace Cairo {
@@ -326,6 +330,159 @@ static void drawGlyphsToContext(cairo_t* context, cairo_scaled_font_t* scaledFon
     }
 }
 
+#if OS(SYMBIAN)
+// Blurred masks of single glyphs, reused for every run of the same font and
+// shadow. Blurring is linear, so a run's shadow is the sum of its glyphs'
+// blurred masks: a page of shadowed text then costs a saturating add per
+// glyph instead of drawing and blurring each run again on every repaint.
+// Cairo 1.16 places image glyphs at whole pixels, so one mask per glyph
+// matches what drawing the run would give.
+namespace {
+
+struct GlyphShadowKey {
+    cairo_scaled_font_t* font;
+    unsigned long glyph;
+    float blur;
+    double syntheticBoldOffset;
+    FontSmoothingMode fontSmoothingMode;
+
+    bool operator==(const GlyphShadowKey&) const = default;
+};
+
+struct GlyphShadowKeyHash {
+    size_t operator()(const GlyphShadowKey& key) const
+    {
+        size_t hash = std::hash<const void*>()(key.font);
+        hash = hash * 31 + std::hash<unsigned long>()(key.glyph);
+        hash = hash * 31 + std::hash<float>()(key.blur);
+        hash = hash * 31 + std::hash<double>()(key.syntheticBoldOffset);
+        return hash * 31 + static_cast<size_t>(key.fontSmoothingMode);
+    }
+};
+
+struct GlyphShadowMask {
+    // Keeps the key's font pointer from being reused by another font.
+    RefPtr<cairo_scaled_font_t> font;
+    RefPtr<cairo_surface_t> mask;
+    IntPoint origin; // Of the mask, from the glyph's pixel position.
+};
+
+class GlyphShadowCache {
+public:
+    static GlyphShadowCache& singleton()
+    {
+        static NeverDestroyed<GlyphShadowCache> cache;
+        return cache;
+    }
+
+    const GlyphShadowMask* mask(ShadowBlur& shadow, const GlyphShadowKey& key, FontSmoothingMode fontSmoothingMode)
+    {
+        auto it = m_masks.find(key);
+        if (it != m_masks.end())
+            return &it->second;
+
+        cairo_glyph_t glyph { key.glyph, 0, 0 };
+        cairo_text_extents_t extents;
+        cairo_scaled_font_glyph_extents(key.font, &glyph, 1, &extents);
+        // Room for the whole blur kernel on each side, and a pixel for
+        // antialiasing past the extents.
+        IntSize edge = shadow.blurredEdgeSize();
+        int padX = 2 * edge.width() + 2;
+        int padY = 2 * edge.height() + 2;
+        int left = static_cast<int>(std::floor(extents.x_bearing)) - padX;
+        int top = static_cast<int>(std::floor(extents.y_bearing)) - padY;
+        int right = static_cast<int>(std::ceil(extents.x_bearing + extents.width + std::max(0.0, key.syntheticBoldOffset))) + padX;
+        int bottom = static_cast<int>(std::ceil(extents.y_bearing + extents.height)) + padY;
+        IntSize size(right - left, bottom - top);
+        if (size.width() <= 0 || size.height() <= 0 || size.width() > maxMaskSide || size.height() > maxMaskSide)
+            return nullptr;
+
+        auto surface = adoptRef(cairo_image_surface_create(CAIRO_FORMAT_A8, size.width(), size.height()));
+        if (cairo_surface_status(surface.get()) != CAIRO_STATUS_SUCCESS)
+            return nullptr;
+        {
+            auto context = adoptRef(cairo_create(surface.get()));
+            cairo_translate(context.get(), -left, -top);
+            Vector<cairo_glyph_t> glyphs { glyph };
+            drawGlyphsToContext(context.get(), key.font, key.syntheticBoldOffset, glyphs, fontSmoothingMode);
+        }
+        cairo_surface_flush(surface.get());
+        int stride = cairo_image_surface_get_stride(surface.get());
+        shadow.blurAlphaLayer(unsafeMakeSpan(cairo_image_surface_get_data(surface.get()), static_cast<size_t>(stride) * size.height()), size, stride);
+        cairo_surface_mark_dirty(surface.get());
+
+        size_t bytes = static_cast<size_t>(stride) * size.height();
+        if (m_bytes + bytes > maxBytes) {
+            m_masks.clear();
+            m_bytes = 0;
+        }
+        m_bytes += bytes;
+        auto result = m_masks.emplace(key, GlyphShadowMask { key.font, WTF::move(surface), IntPoint(left, top) });
+        return &result.first->second;
+    }
+
+private:
+    static constexpr int maxMaskSide = 256;
+    static constexpr size_t maxBytes = 1024 * 1024;
+    std::unordered_map<GlyphShadowKey, GlyphShadowMask, GlyphShadowKeyHash> m_masks;
+    size_t m_bytes { 0 };
+};
+
+// Adds src into dst with saturation, clipped to dst.
+static void addAlphaMask(cairo_surface_t* dst, cairo_surface_t* src, IntPoint position)
+{
+    int dstWidth = cairo_image_surface_get_width(dst);
+    int dstHeight = cairo_image_surface_get_height(dst);
+    int dstStride = cairo_image_surface_get_stride(dst);
+    int srcWidth = cairo_image_surface_get_width(src);
+    int srcHeight = cairo_image_surface_get_height(src);
+    int srcStride = cairo_image_surface_get_stride(src);
+    int x0 = std::max(0, -position.x());
+    int y0 = std::max(0, -position.y());
+    int x1 = std::min(srcWidth, dstWidth - position.x());
+    int y1 = std::min(srcHeight, dstHeight - position.y());
+    if (x0 >= x1 || y0 >= y1)
+        return;
+    WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
+    const uint8_t* srcRow = cairo_image_surface_get_data(src) + y0 * srcStride;
+    uint8_t* dstRow = cairo_image_surface_get_data(dst) + (position.y() + y0) * dstStride + position.x();
+    for (int y = y0; y < y1; ++y, srcRow += srcStride, dstRow += dstStride) {
+        for (int x = x0; x < x1; ++x) {
+            unsigned sum = dstRow[x] + srcRow[x];
+            dstRow[x] = sum > 255 ? 255 : sum;
+        }
+    }
+    WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
+}
+
+} // namespace
+
+// Fills the run's shadow mask from cached glyph masks. Returns false where
+// a glyph has no mask, leaving the mask for drawing the run instead.
+static bool addCachedGlyphShadows(cairo_surface_t* mask, ShadowBlur& shadow, const ShadowState& shadowState, const FloatSize& contextTranslation, cairo_scaled_font_t* scaledFont, double syntheticBoldOffset, const Vector<cairo_glyph_t>& glyphs, FontSmoothingMode fontSmoothingMode)
+{
+    auto& cache = GlyphShadowCache::singleton();
+    cairo_surface_flush(mask);
+    for (auto& glyph : glyphs) {
+        GlyphShadowKey key { scaledFont, glyph.index, shadowState.blur, syntheticBoldOffset, fontSmoothingMode };
+        // Added right away: a later miss may clear the cache.
+        auto* glyphMask = cache.mask(shadow, key, fontSmoothingMode);
+        if (!glyphMask) {
+            WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
+            memset(cairo_image_surface_get_data(mask), 0, static_cast<size_t>(cairo_image_surface_get_stride(mask)) * cairo_image_surface_get_height(mask));
+            WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
+            cairo_surface_mark_dirty(mask);
+            return false;
+        }
+        // Where cairo puts the glyph: its position rounded to a pixel.
+        IntPoint position(static_cast<int>(std::lround(glyph.x + contextTranslation.width())), static_cast<int>(std::lround(glyph.y + contextTranslation.height())));
+        addAlphaMask(mask, glyphMask->mask.get(), position + toIntSize(glyphMask->origin));
+    }
+    cairo_surface_mark_dirty(mask);
+    return true;
+}
+#endif
+
 static void drawGlyphsShadow(GraphicsContextCairo& platformContext, const ShadowState& shadowState, TextDrawingModeFlags textDrawingMode, const GraphicsDropShadow& dropShadow, const FloatPoint& point, cairo_scaled_font_t* scaledFont, double syntheticBoldOffset, const Vector<cairo_glyph_t>& glyphs, FontSmoothingMode fontSmoothingMode)
 {
     ShadowBlur shadow({ shadowState.blur, shadowState.blur }, shadowState.offset, shadowState.color, shadowState.ignoreTransforms);
@@ -356,15 +513,28 @@ static void drawGlyphsShadow(GraphicsContextCairo& platformContext, const Shadow
         auto mask = adoptRef(cairo_image_surface_create(CAIRO_FORMAT_A8, layer->size.width(), layer->size.height()));
         if (cairo_surface_status(mask.get()) != CAIRO_STATUS_SUCCESS)
             return;
+#if OS(SYMBIAN)
+        // Cached masks are in user space: only for a CTM that keeps pixels
+        // as they are, so the blur radius is not scaled either.
+        AffineTransform ctm = State::getCTM(platformContext);
+        bool cached = ctm.a() == 1 && ctm.d() == 1 && !ctm.b() && !ctm.c()
+            && addCachedGlyphShadows(mask.get(), shadow, shadowState, layer->contextTranslation, scaledFont, syntheticBoldOffset, glyphs, fontSmoothingMode);
+        if (!cached)
+#endif
         {
             auto maskContext = adoptRef(cairo_create(mask.get()));
             cairo_translate(maskContext.get(), layer->contextTranslation.width(), layer->contextTranslation.height());
             drawGlyphsToContext(maskContext.get(), scaledFont, syntheticBoldOffset, glyphs, fontSmoothingMode);
         }
-        cairo_surface_flush(mask.get());
-        int stride = cairo_image_surface_get_stride(mask.get());
-        shadow.blurAlphaLayer(unsafeMakeSpan(cairo_image_surface_get_data(mask.get()), static_cast<size_t>(stride) * layer->size.height()), layer->size, stride);
-        cairo_surface_mark_dirty(mask.get());
+#if OS(SYMBIAN)
+        if (!cached)
+#endif
+        {
+            cairo_surface_flush(mask.get());
+            int stride = cairo_image_surface_get_stride(mask.get());
+            shadow.blurAlphaLayer(unsafeMakeSpan(cairo_image_surface_get_data(mask.get()), static_cast<size_t>(stride) * layer->size.height()), layer->size, stride);
+            cairo_surface_mark_dirty(mask.get());
+        }
 
         cairo_t* context = platformContext.cr();
         cairo_save(context);
@@ -960,6 +1130,127 @@ static IntRect calculateSubsurfaceRect(FloatRect& dest, FloatRect& src, const In
     return { xExpandedLocation, yExpandedLocation, xExpandedSize, yExpandedSize };
 }
 
+#if OS(SYMBIAN)
+// Decoded images scaled once to the size they are drawn at, so repainting
+// them is a copy rather than a bilinear filter of every pixel again: pixman
+// has ARMv6 code for the copy and none for the filter. Only decoded images
+// carry a unique ID, and their pixels do not change once drawn complete; a
+// partly decoded image is given a new surface, and so a new ID, as it fills.
+namespace {
+
+struct ScaledImageKey {
+    uintptr_t imageID;
+    int width;
+    int height;
+
+    bool operator==(const ScaledImageKey&) const = default;
+};
+
+struct ScaledImageKeyHash {
+    size_t operator()(const ScaledImageKey& key) const
+    {
+        return (std::hash<uintptr_t>()(key.imageID) * 31 + key.width) * 31 + key.height;
+    }
+};
+
+class ScaledImageCache {
+public:
+    static ScaledImageCache& singleton()
+    {
+        static NeverDestroyed<ScaledImageCache> cache;
+        return cache;
+    }
+
+    cairo_surface_t* scaledImage(cairo_surface_t* surface, uintptr_t imageID, const IntSize& sourceSize, const IntSize& size)
+    {
+        ScaledImageKey key { imageID, size.width(), size.height() };
+        auto it = m_images.find(key);
+        if (it != m_images.end()) {
+            it->second.lastUse = ++m_useCount;
+            return it->second.image.get();
+        }
+
+        size_t bytes = static_cast<size_t>(size.width()) * size.height() * 4;
+        if (bytes > maxBytes / 4)
+            return nullptr;
+        auto image = adoptRef(cairo_image_surface_create(cairo_surface_get_content(surface) == CAIRO_CONTENT_COLOR ? CAIRO_FORMAT_RGB24 : CAIRO_FORMAT_ARGB32, size.width(), size.height()));
+        if (cairo_surface_status(image.get()) != CAIRO_STATUS_SUCCESS)
+            return nullptr;
+        {
+            // As drawSurface draws it at a whole-pixel position.
+            auto pattern = adoptRef(cairo_pattern_create_for_surface(surface));
+            cairo_pattern_set_filter(pattern.get(), CAIRO_FILTER_BILINEAR);
+            cairo_pattern_set_extend(pattern.get(), CAIRO_EXTEND_PAD);
+            cairo_matrix_t matrix = { static_cast<double>(sourceSize.width()) / size.width(), 0, 0, static_cast<double>(sourceSize.height()) / size.height(), 0, 0 };
+            cairo_pattern_set_matrix(pattern.get(), &matrix);
+            auto context = adoptRef(cairo_create(image.get()));
+            cairo_set_operator(context.get(), CAIRO_OPERATOR_SOURCE);
+            cairo_set_source(context.get(), pattern.get());
+            cairo_paint(context.get());
+        }
+
+        while (m_bytes + bytes > maxBytes && !m_images.empty()) {
+            auto oldest = m_images.begin();
+            for (auto entry = m_images.begin(); entry != m_images.end(); ++entry) {
+                if (entry->second.lastUse < oldest->second.lastUse)
+                    oldest = entry;
+            }
+            m_bytes -= oldest->second.bytes;
+            m_images.erase(oldest);
+        }
+        m_bytes += bytes;
+        auto result = m_images.emplace(key, Entry { WTF::move(image), bytes, ++m_useCount });
+        return result.first->second.image.get();
+    }
+
+private:
+    static constexpr size_t maxBytes = 4 * 1024 * 1024;
+    struct Entry {
+        RefPtr<cairo_surface_t> image;
+        size_t bytes;
+        uint64_t lastUse;
+    };
+    std::unordered_map<ScaledImageKey, Entry, ScaledImageKeyHash> m_images;
+    size_t m_bytes { 0 };
+    uint64_t m_useCount { 0 };
+};
+
+static bool isWholePixel(double value)
+{
+    return std::abs(value - std::round(value)) < 1.0 / 64;
+}
+
+} // namespace
+
+// Draws a whole decoded image scaled with bilinear filtering from a cached
+// copy at its drawn size. Only where the copy gives the same pixels: no
+// transform but a translation, and the image's edges on whole pixels.
+static bool drawScaledImageFromCache(GraphicsContextCairo& platformContext, cairo_surface_t* surface, const FloatRect& destRect, const FloatRect& srcRect, const IntSize& surfaceSize, float globalAlpha)
+{
+    uintptr_t imageID = getSurfaceUniqueID(surface);
+    if (!imageID || srcRect != FloatRect(FloatPoint(), surfaceSize) || destRect.size() == srcRect.size())
+        return false;
+    AffineTransform ctm = State::getCTM(platformContext);
+    if (ctm.a() != 1 || ctm.d() != 1 || ctm.b() || ctm.c())
+        return false;
+    if (!isWholePixel(destRect.x() + ctm.e()) || !isWholePixel(destRect.y() + ctm.f()) || !isWholePixel(destRect.width()) || !isWholePixel(destRect.height()))
+        return false;
+    IntSize size(static_cast<int>(std::round(destRect.width())), static_cast<int>(std::round(destRect.height())));
+    if (size.isEmpty())
+        return false;
+    auto* image = ScaledImageCache::singleton().scaledImage(surface, imageID, surfaceSize, size);
+    if (!image)
+        return false;
+    auto pattern = adoptRef(cairo_pattern_create_for_surface(image));
+    cairo_pattern_set_filter(pattern.get(), CAIRO_FILTER_FAST);
+    auto* cr = platformContext.cr();
+    cairo_save(cr);
+    drawPatternToCairoContext(cr, pattern.get(), FloatRect(std::round(destRect.x() + ctm.e()) - ctm.e(), std::round(destRect.y() + ctm.f()) - ctm.f(), size.width(), size.height()), globalAlpha);
+    cairo_restore(cr);
+    return true;
+}
+#endif
+
 void drawSurface(GraphicsContextCairo& platformContext, cairo_surface_t* surface, const FloatRect& originalDestRect, const FloatRect& originalSrcRect, InterpolationQuality imageInterpolationQuality, float globalAlpha, const ShadowState& shadowState, OrientationSizing orientationSizing)
 {
     // Avoid invalid cairo matrix with small values.
@@ -985,6 +1276,12 @@ void drawSurface(GraphicsContextCairo& platformContext, cairo_surface_t* surface
     if (surfaceSize.isEmpty())
         return;
     bool didUseWidthAsHeight = orientationSizing == OrientationSizing::WidthAsHeight;
+#if OS(SYMBIAN)
+    if (!didUseWidthAsHeight && imageInterpolationQuality != InterpolationQuality::DoNotInterpolate && imageInterpolationQuality != InterpolationQuality::High
+        && ShadowBlur({ shadowState.blur, shadowState.blur }, shadowState.offset, shadowState.color, shadowState.ignoreTransforms).type() == ShadowBlur::NoShadow
+        && drawScaledImageFromCache(platformContext, surface, destRect, srcRect, surfaceSize, globalAlpha))
+        return;
+#endif
     if (didUseWidthAsHeight)
         surfaceSize =  surfaceSize.transposedSize();
     bool differentSize = srcRect.size() != surfaceSize;
