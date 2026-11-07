@@ -273,11 +273,14 @@ bool SymbianCompositor::render()
         WTFLogAlways("Symbian compositor: native EGL/GLES2 presented %dx%d", m_view.size().width(), m_view.size().height());
         m_logNextPresentation = false;
     }
+    bool settling = TextureMapperTiledBackingStore::takeCoverageSettling();
     if (root.layer().descendantsOrSelfHaveRunningAnimations())
         m_flushTimer.startOneShot(16_ms);
     else if (morePending) {
-        // Paint the next tiles ahead after pending input and timers.
-        m_flushTimer.startOneShot(0_s);
+        // Paint the next tiles ahead after pending input and timers, or once
+        // a page that keeps repainting much of the screen pauses: tiles
+        // painted ahead meanwhile would be damaged again.
+        m_flushTimer.startOneShot(settling ? 100_ms : 0_s);
     }
     return true;
 }

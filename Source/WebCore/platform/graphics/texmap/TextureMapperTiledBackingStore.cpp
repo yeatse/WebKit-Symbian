@@ -23,15 +23,17 @@
 
 #include "BitmapTexture.h"
 #include "BitmapTexturePool.h"
+#include "GraphicsContext.h"
+#include "GraphicsLayer.h"
 #include "ImageBuffer.h"
+#include "NativeImage.h"
 #include "ImageObserver.h"
 #include "TextureMapper.h"
 
 namespace WebCore {
 
-class GraphicsLayer;
-
 static size_t s_coverageBytes;
+static bool s_coverageSettling;
 static constexpr int coverageTileSize = 256;
 // Margin tiles painted per update, so a frame that scrolls far does not wait
 // for a whole new screen of them.
@@ -50,6 +52,11 @@ TextureMapperTiledBackingStore::~TextureMapperTiledBackingStore()
 size_t TextureMapperTiledBackingStore::coverageBytes()
 {
     return s_coverageBytes;
+}
+
+bool TextureMapperTiledBackingStore::takeCoverageSettling()
+{
+    return std::exchange(s_coverageSettling, false);
 }
 
 void TextureMapperTiledBackingStore::updateContentsFromImageIfNeeded(TextureMapper& textureMapper)
@@ -224,20 +231,72 @@ void TextureMapperTiledBackingStore::removeCoverageTile(size_t index)
     m_coverageTiles.removeAt(index);
 }
 
-bool TextureMapperTiledBackingStore::paintCoverageTile(CoverageTile& coverageTile, GraphicsLayer* sourceLayer)
+bool TextureMapperTiledBackingStore::paintCoverageTiles(const Vector<CoveragePaint>& paints, GraphicsLayer* sourceLayer)
 {
-    IntRect tileRect = enclosingIntRect(coverageTile.tile.rect());
-    if (!coverageTile.tile.texture()) {
-        auto texture = BitmapTexturePool::singleton().acquireTexture(tileRect.size(), { BitmapTexture::Flags::SupportsAlpha });
-        coverageTile.tile.setTexture(texture.ptr());
-        size_t bytes = coverageTextureBytes(tileRect.size());
-        m_coverageBytes += bytes;
-        s_coverageBytes += bytes;
+    // Paint the union of the rects once and upload each tile's part, rather
+    // than painting the layer once per tile: every tile a text line crosses
+    // would shape and draw it again.
+    if (paints.isEmpty())
+        return true;
+    IntRect area;
+    uint64_t paintArea = 0;
+    for (auto& entry : paints) {
+        area.unite(entry.rect);
+        paintArea += entry.rect.area().value();
     }
-    if (!coverageTile.tile.updateContents(sourceLayer, tileRect, m_contentsScale))
+    if (paints.size() > 1 && area.area().value() > 2 * paintArea) {
+        // Damage far apart (a caret and a clock): paint each part alone.
+        for (auto& entry : paints) {
+            if (!paintCoverageTiles({ entry }, sourceLayer))
+                return false;
+        }
+        return true;
+    }
+    for (auto& entry : paints) {
+        auto& coverageTile = m_coverageTiles[entry.index];
+        if (!coverageTile.tile.texture()) {
+            IntSize size = enclosingIntRect(coverageTile.tile.rect()).size();
+            auto texture = BitmapTexturePool::singleton().acquireTexture(size, { BitmapTexture::Flags::SupportsAlpha });
+            coverageTile.tile.setTexture(texture.ptr());
+            size_t bytes = coverageTextureBytes(size);
+            m_coverageBytes += bytes;
+            s_coverageBytes += bytes;
+        }
+    }
+
+    auto imageBuffer = ImageBuffer::create(area.size(), RenderingMode::Unaccelerated, RenderingPurpose::Unspecified, 1, DestinationColorSpace::SRGB(), PixelFormat::BGRA8);
+    if (!imageBuffer)
         return false;
-    coverageTile.valid = true;
-    return true;
+    GraphicsContext& context = imageBuffer->context();
+    context.setTextDrawingMode(TextDrawingMode::Fill);
+    IntRect sourceRect(area);
+    sourceRect.scale(1 / m_contentsScale);
+    context.applyDeviceScaleFactor(m_contentsScale);
+    context.translate(-sourceRect.x(), -sourceRect.y());
+
+    auto paint = [&] {
+        sourceLayer->paintGraphicsLayerContents(context, sourceRect);
+    };
+    auto upload = [&] {
+        auto image = ImageBuffer::sinkIntoNativeImage(WTF::move(imageBuffer));
+        if (!image)
+            return false;
+        for (auto& entry : paints) {
+            auto& coverageTile = m_coverageTiles[entry.index];
+            IntRect tileRect = enclosingIntRect(coverageTile.tile.rect());
+            IntRect target = entry.rect;
+            target.move(-tileRect.x(), -tileRect.y());
+            coverageTile.tile.texture()->updateContents(image.get(), target, IntPoint(entry.rect.x() - area.x(), entry.rect.y() - area.y()));
+            coverageTile.valid = true;
+        }
+        return true;
+    };
+#if OS(SYMBIAN)
+    return m_coverageTiles[paints[0].index].tile.texture()->resourceState()->paintAndUpload(paint, upload);
+#else
+    paint();
+    return upload();
+#endif
 }
 
 static int coverageDistance(const IntRect& tileRect, const IntRect& visibleRect)
@@ -283,7 +342,9 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper&, 
 
     // On-screen tiles take their damage now; the others are painted again
     // whole when they are next needed.
-    for (auto& coverageTile : m_coverageTiles) {
+    Vector<CoveragePaint> paints;
+    for (size_t index = 0; index < m_coverageTiles.size(); ++index) {
+        auto& coverageTile = m_coverageTiles[index];
         IntRect tileRect = enclosingIntRect(coverageTile.tile.rect());
         if (!coverageTile.valid || !tileRect.intersects(dirtyRect))
             continue;
@@ -291,8 +352,7 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper&, 
             coverageTile.valid = false;
             continue;
         }
-        if (!coverageTile.tile.updateContents(sourceLayer, dirtyRect, m_contentsScale))
-            return false;
+        paints.append({ index, intersection(tileRect, dirtyRect) });
     }
 
     if (!cover.isEmpty()) {
@@ -316,12 +376,16 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper&, 
         }
     }
 
-    for (auto& coverageTile : m_coverageTiles) {
-        if (!coverageTile.valid && enclosingIntRect(coverageTile.tile.rect()).intersects(visible)) {
-            if (!paintCoverageTile(coverageTile, sourceLayer))
-                return false;
-        }
+    for (size_t i = 0; i < m_coverageTiles.size(); ++i) {
+        IntRect tileRect = enclosingIntRect(m_coverageTiles[i].tile.rect());
+        if (!m_coverageTiles[i].valid && tileRect.intersects(visible))
+            paints.append({ i, tileRect });
     }
+    uint64_t paintedArea = 0;
+    for (auto& entry : paints)
+        paintedArea += entry.rect.area().value();
+    if (!paintCoverageTiles(paints, sourceLayer))
+        return false;
     static bool loggedOverBudget;
     if (s_coverageBytes > coverageBudgetBytes && !loggedOverBudget) {
         loggedOverBudget = true;
@@ -346,6 +410,14 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper&, 
         }
         if (best == notFound)
             return true;
+        // While a large part of the screen keeps changing (an animation, a
+        // page repainting itself), tiles painted ahead would only be damaged
+        // again: paint them once it settles.
+        if (!painted && paintedArea * 4 > visible.area().value()) {
+            morePending = true;
+            s_coverageSettling = true;
+            return true;
+        }
         if (painted == coveragePrefetchPerUpdate) {
             morePending = true;
             return true;
@@ -370,7 +442,7 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper&, 
             if (farthest < best)
                 --best;
         }
-        if (!paintCoverageTile(m_coverageTiles[best], sourceLayer))
+        if (!paintCoverageTiles({ { best, enclosingIntRect(m_coverageTiles[best].tile.rect()) } }, sourceLayer))
             return false;
     }
 }

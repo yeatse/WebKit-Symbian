@@ -55,6 +55,10 @@ public:
     bool updateContentsWithCoverage(TextureMapper&, GraphicsLayer*, const FloatSize&, const IntRect& dirtyRect, const IntRect& visibleRect, bool& morePending);
     static constexpr size_t coverageBudgetBytes = 32 * 1024 * 1024;
     WEBCORE_EXPORT static size_t coverageBytes();
+    // Whether an update since the last call put off painting ahead because
+    // much of the screen was repainted: the caller should wait for that to
+    // settle before asking for the margin again.
+    WEBCORE_EXPORT static bool takeCoverageSettling();
 
     ~TextureMapperTiledBackingStore();
 
@@ -67,7 +71,11 @@ private:
     };
     void clearCoverageTiles();
     void removeCoverageTile(size_t index);
-    bool paintCoverageTile(CoverageTile&, GraphicsLayer*);
+    struct CoveragePaint {
+        size_t index;
+        IntRect rect;
+    };
+    bool paintCoverageTiles(const Vector<CoveragePaint>&, GraphicsLayer*);
     Vector<CoverageTile> m_coverageTiles;
     size_t m_coverageBytes { 0 };
     bool m_coverageMode { false };
