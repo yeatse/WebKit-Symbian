@@ -3682,7 +3682,9 @@ bool RenderLayerBacking::paintsIntoWindow() const
         return false;
 
     if (m_owningLayer.isRenderViewLayer()) {
-#if PLATFORM(IOS_FAMILY) || USE(COORDINATED_GRAPHICS)
+#if PLATFORM(IOS_FAMILY) || USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)
+        // Symbian forces compositing to scroll the main frame with GPU tiles:
+        // the document is painted into the view's layer, not the window.
         if (compositor().inForcedCompositingMode())
             return false;
 #endif
