@@ -34,6 +34,7 @@
 #include "TextureMapperFlags.h"
 #include "TextureMapperShaderProgram.h"
 #include <wtf/HashMap.h>
+#include <wtf/NeverDestroyed.h>
 #include <wtf/RefCounted.h>
 #include <wtf/RefPtr.h>
 
@@ -301,14 +302,38 @@ void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRec
 
     // Texture upload requires subimage buffer if driver doesn't support subimage and we don't have full image upload.
     bool supportsUnpackSubimage = GLContext::current()->glExtensions().EXT_unpack_subimage;
+#if OS(SYMBIAN)
+    // Whole rows starting lower in the source upload in place.
+    if (!supportsUnpackSubimage && !adjustedSourceOffset.x() && bytesPerLine == static_cast<int>(targetRect.width() * bytesPerPixel)) {
+        WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
+        data += adjustedSourceOffset.y() * bytesPerLine;
+        WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
+        adjustedSourceOffset = IntPoint();
+    }
+#endif
     bool requireSubImageBuffer = !supportsUnpackSubimage
         && !(bytesPerLine == static_cast<int>(targetRect.width() * bytesPerPixel) && adjustedSourceOffset == IntPoint::zero());
 
     // prepare temporaryData if necessary
     if (requireSubImageBuffer) {
         WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN // GLib/Win port
-        temporaryData.resize(targetRect.width() * targetRect.height() * bytesPerPixel);
-        auto dst = temporaryData.mutableSpan().data();
+        size_t subImageSize = targetRect.width() * targetRect.height() * bytesPerPixel;
+        uint8_t* dst;
+#if OS(SYMBIAN)
+        // Every byte is copied over below: reuse one buffer for tile-sized
+        // uploads rather than allocate and clear one per tile per frame.
+        static constexpr size_t reusedSubImageSize = 256 * 256 * bytesPerPixel;
+        static NeverDestroyed<std::unique_ptr<uint8_t[]>> subImageBuffer;
+        if (subImageSize <= reusedSubImageSize) {
+            if (!subImageBuffer.get())
+                subImageBuffer.get() = std::unique_ptr<uint8_t[]>(new uint8_t[reusedSubImageSize]);
+            dst = subImageBuffer.get().get();
+        } else
+#endif
+        {
+            temporaryData.resize(subImageSize);
+            dst = temporaryData.mutableSpan().data();
+        }
         data = dst;
         auto bits = static_cast<const uint8_t*>(srcData);
         auto src = bits + sourceOffset.y() * bytesPerLine + sourceOffset.x() * bytesPerPixel;
