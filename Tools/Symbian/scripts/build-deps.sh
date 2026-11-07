@@ -112,9 +112,15 @@ cmake_build() {  # cmake_build DIR [CMAKE OPTIONS...]
 
 build_pixman() {
   fetch https://cairographics.org/releases/pixman-0.40.0.tar.gz pixman-0.40.0
-  # Plain C: the ARMv6 SIMD paths are GNU as syntax. No __thread: Symbian
-  # has no ELF TLS, so pixman keeps its per-thread cache in a pthread key.
-  ac_cv_tls=none autotools pixman-0.40.0 pixman --disable-arm-simd --disable-arm-neon --disable-arm-iwmmxt \
+  # The ARMv6 SIMD paths (ARM11 has no NEON), with assembly that Clang
+  # takes: see the patch. No __thread: Symbian has no ELF TLS, so pixman
+  # keeps its per-thread cache in a pthread key.
+  local patch
+  for patch in "$REPO"/patches/pixman-0.40.0/*.patch; do
+    patch -d "$src/pixman-0.40.0" -p1 -N -s -r - --dry-run -R < "$patch" > /dev/null 2>&1 \
+      || patch -d "$src/pixman-0.40.0" -p1 -N -s < "$patch"
+  done
+  ac_cv_tls=none autotools pixman-0.40.0 pixman --enable-arm-simd --disable-arm-neon --disable-arm-iwmmxt \
     --disable-gtk --disable-libpng --disable-openmp
 }
 
