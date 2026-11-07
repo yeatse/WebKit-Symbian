@@ -241,10 +241,10 @@ void CWebContainer::SizeChanged()
         return;
     iDirty.Reset(TRect(Size()));
 #if SYMBIAN_BROWSER_SCREENPLAY
-    // The split view input relays the view out at the same size several
-    // times; recreating and attaching a surface cost ~25 ms each on the
-    // Nokia 808. Keep the presenter unless the size changed.
-    if (iScreenPlay && iScreenPlay->SurfaceSize() != Size())
+    // The split view input relays the view out several times and makes it
+    // shorter; recreating and attaching a surface costs 30-80 ms each on the
+    // Nokia 808. Keep the presenter while its surface still fits.
+    if (iScreenPlay && !iScreenPlay->Fits(Size()))
         DetachScreenPlay();
 #endif
     if (!iWebView)

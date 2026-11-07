@@ -185,7 +185,7 @@ TInt CScreenPlaySurface::CreateSurface(const TSize& aSize)
     if (error != KErrNone)
         return error;
     iRegistered = ETrue;
-    iSize = aSize;
+    iSize = iView = aSize;
     iStride = info().iStride;
     iFree[0] = iFree[1] = ETrue;
     iDamage[0] = iDamage[1] = TRect(aSize);
@@ -252,7 +252,7 @@ void CScreenPlaySurface::CopyToSurface(TInt aBuffer, const TRect& aRect)
 void CScreenPlaySurface::AddDamage(const TRect& aDamage)
 {
     TRect rect(aDamage);
-    rect.Intersection(TRect(iSize));
+    rect.Intersection(TRect(iView));
     Accumulate(iDamage[0], rect);
     Accumulate(iDamage[1], rect);
     iPendingDamage.Add(rect);
@@ -293,7 +293,7 @@ TInt CScreenPlaySurface::BeginFrame(const TSize& aSize, const TDamageRegion& aIn
         return iLastError;
     if (iPainting >= 0)
         return KErrInUse;
-    if (iSurface.IsNull() || iSize != aSize) {
+    if (!Fits(aSize)) {
         ReleaseSurface();
         if (iLastError != KErrNone)
             return iLastError;
@@ -302,6 +302,10 @@ TInt CScreenPlaySurface::BeginFrame(const TSize& aSize, const TDamageRegion& aIn
             ReleaseSurface();
             return Fail(error);
         }
+    } else if (iView != aSize) {
+        // Rows that were hidden may show now; the engine relays out anyway.
+        iView = aSize;
+        AddDamage(TRect(iView));
     }
     for (TInt i = 0; i < aInvalidated.Count(); ++i)
         AddDamage(aInvalidated[i]);
@@ -309,7 +313,7 @@ TInt CScreenPlaySurface::BeginFrame(const TSize& aSize, const TDamageRegion& aIn
         TInt error = CheckBackground();
         if (error == KErrNotFound) {
             iHaveFrame = EFalse;
-            AddDamage(TRect(iSize));
+            AddDamage(TRect(iView));
         } else if (error != KErrNone)
             return Fail(error);
     }
@@ -363,9 +367,9 @@ void CScreenPlaySurface::AbortFrame(const TFrame& aFrame)
 
 TBool CScreenPlaySurface::ScrollFrame(const TSize& aSize, const TRect& aArea, const TPoint& aDelta)
 {
-    if (iStopping || iLastError != KErrNone || iPainting >= 0 || !iShadow || iSize != aSize)
+    if (iStopping || iLastError != KErrNone || iPainting >= 0 || !iShadow || iView != aSize)
         return EFalse;
-    const TRect area = Intersect(aArea, TRect(iSize));
+    const TRect area = Intersect(aArea, TRect(iView));
     if (area.IsEmpty() || Abs(aDelta.iX) >= area.Width() || Abs(aDelta.iY) >= area.Height())
         return EFalse;
     // Blit within the cached frame; the surface slots are copied from it
@@ -511,7 +515,7 @@ void CScreenPlaySurface::ReleaseSurface()
     iPendingDamage.Clear();
     iDamage[0] = iDamage[1] = TRect();
     iOffsets[0] = iOffsets[1] = 0;
-    iSize = TSize();
+    iSize = iView = TSize();
     iStride = 0;
 }
 

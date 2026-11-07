@@ -55,8 +55,14 @@ public:
     TBool ScrollFrame(const TSize&, const TRect& aArea, const TPoint& aDelta);
     void Detach();
     TInt LastError() const { return iLastError; }
-    // The current surface's size; empty without one.
-    TSize SurfaceSize() const { return iSize; }
+    // Whether a view of aSize is presented without a new surface: the split
+    // view input only makes the view shorter, and creating and attaching a
+    // surface costs 30-80 ms on the Nokia 808.
+    TBool Fits(const TSize& aSize) const
+    {
+        return !iSurface.IsNull() && aSize.iWidth == iSize.iWidth
+            && aSize.iHeight > 0 && aSize.iHeight <= iSize.iHeight;
+    }
 
 private:
     class CAvailable;
@@ -90,6 +96,8 @@ private:
     TInt iOffsets[2] { 0, 0 };
     TBool iFree[2] { ETrue, ETrue };
     TSize iSize;
+    // The presented view: the surface's top rows. The window clips the rest.
+    TSize iView;
     TInt iStride { 0 };
     TInt iPainting { -1 };
     TRect iPaintingDamage;

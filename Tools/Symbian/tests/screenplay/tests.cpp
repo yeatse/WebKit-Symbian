@@ -63,6 +63,11 @@ int main(){try{
   CHECK(b.iRegion.Count()==2);CHECK(b.iDirty==TRect(0,0,100,100));CHECK(Pixel(b,50,1)==0xffffffffu);CHECK(Pixel(b,50,95)==0xffffffffu);CHECK(Pixel(b,50,50)==0xff111111u);
   for(TInt i=0;i<b.iRegion.Count();++i)for(TInt y=b.iRegion[i].iTl.iY;y<b.iRegion[i].iBr.iY;++y)for(TInt x=b.iRegion[i].iTl.iX;x<b.iRegion[i].iBr.iX;++x)reinterpret_cast<TUint32*>(b.iPixels+y*b.iStride)[x]=0xff222222u;
   h.Submit(b);CHECK(SurfacePixel(b,1,50,50)==0xff111111u);CHECK(SurfacePixel(b,1,50,0)==0xff222222u);CHECK(SurfacePixel(b,1,50,99)==0xff222222u);});
+ Case("shorter-view-reuses-surface",[]{Harness h;auto a=h.Begin();Paint(a,0xff111111u);h.Submit(a);fake::Complete(a.iBuffer);CActiveScheduler::RunCompleted();
+  CHECK(h.presenter->Fits(TSize(8,4)));CHECK(!h.presenter->Fits(TSize(8,7)));CHECK(!h.presenter->Fits(TSize(7,4)));CHECK(!h.presenter->Fits(TSize(8,0)));
+  auto b=h.Begin(TRect(),TSize(8,4));CHECK(fake::create_count==1);CHECK(b.iDirty==TRect(TSize(8,4)));Paint(b,0xff222222u);h.Submit(b);CHECK(SurfacePixel(b,b.iBuffer,0,3)==0xff222222u);
+  CHECK(!h.presenter->ScrollFrame(TSize(8,6),TRect(TSize(8,4)),TPoint(0,-1)));CHECK(h.presenter->ScrollFrame(TSize(8,4),TRect(TSize(8,6)),TPoint(0,-1)));
+  fake::Complete(b.iBuffer);CActiveScheduler::RunCompleted();auto c=h.Begin(TRect(),TSize(8,6));CHECK(fake::create_count==1);CHECK(c.iDirty==TRect(TSize(8,6)));h.Submit(c);});
  Case("explicit-alpha-flattened-over-white",[]{Harness h;auto f=h.Begin();Paint(f,0);auto*row=reinterpret_cast<TUint32*>(f.iPixels);row[1]=0x80402010u;row[2]=0xff102030;row[3]=0x00808080u;h.Submit(f);
   CHECK(Pixel(f,0)==0xffffffff);CHECK(Pixel(f,1)==0xffbf9f8f);CHECK(Pixel(f,2)==0xff102030);CHECK(Pixel(f,3)==0xffffffff);});
  Case("background-removal-repaints-and-reattaches",[]{Harness h;auto a=h.Begin();h.Submit(a);h.window.current=TSurfaceId();auto b=h.Begin(TRect());CHECK(b.iDirty==TRect(TSize(8,6)));h.Submit(b);CHECK(!h.window.current.IsNull());});
