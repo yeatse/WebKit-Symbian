@@ -340,15 +340,30 @@ static void drawGlyphsShadow(GraphicsContextCairo& platformContext, const Shadow
     cairo_scaled_font_glyph_extents(scaledFont, glyphs.span().data(), glyphs.size(), &extents);
     FloatRect fontExtentsRect(point.x() + extents.x_bearing, point.y() + extents.y_bearing, extents.width, extents.height);
 
-    shadow.drawShadowLayer(State::getCTM(platformContext), State::getClipBounds(platformContext), fontExtentsRect,
-        [scaledFont, syntheticBoldOffset, &glyphs, fontSmoothingMode](GraphicsContext& shadowContext)
+    // Paint the glyphs as coverage into an 8-bit mask, blur it there and
+    // composite it in the shadow color: a quarter of the memory of a color
+    // layer, and no conversions or tinting pass.
+    if (auto layer = shadow.beginAlphaLayer(State::getCTM(platformContext), State::getClipBounds(platformContext), fontExtentsRect)) {
+        auto mask = adoptRef(cairo_image_surface_create(CAIRO_FORMAT_A8, layer->size.width(), layer->size.height()));
+        if (cairo_surface_status(mask.get()) != CAIRO_STATUS_SUCCESS)
+            return;
         {
-            drawGlyphsToContext(shadowContext.platformContext()->cr(), scaledFont, syntheticBoldOffset, glyphs, fontSmoothingMode);
-        },
-        [&platformContext, &shadowState](ImageBuffer& layerImage, const FloatPoint& layerOrigin, const FloatSize& layerSize)
-        {
-            drawShadowLayerBuffer(platformContext, layerImage, layerOrigin, layerSize, shadowState);
-        });
+            auto maskContext = adoptRef(cairo_create(mask.get()));
+            cairo_translate(maskContext.get(), layer->contextTranslation.width(), layer->contextTranslation.height());
+            drawGlyphsToContext(maskContext.get(), scaledFont, syntheticBoldOffset, glyphs, fontSmoothingMode);
+        }
+        cairo_surface_flush(mask.get());
+        int stride = cairo_image_surface_get_stride(mask.get());
+        shadow.blurAlphaLayer(unsafeMakeSpan(cairo_image_surface_get_data(mask.get()), static_cast<size_t>(stride) * layer->size.height()), layer->size, stride);
+        cairo_surface_mark_dirty(mask.get());
+
+        cairo_t* context = platformContext.cr();
+        cairo_save(context);
+        setSourceRGBAFromColor(context, shadowState.color.colorWithAlphaMultipliedBy(shadowState.globalAlpha));
+        cairo_set_operator(context, toCairoOperator(shadowState.globalCompositeOperator));
+        cairo_mask_surface(context, mask.get(), layer->origin.x(), layer->origin.y());
+        cairo_restore(context);
+    }
 }
 
 static bool cairoSurfaceHasAlpha(cairo_surface_t* surface)

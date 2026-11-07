@@ -32,6 +32,7 @@
 #include "FloatRect.h"
 #include "FloatRoundedRect.h"
 #include "GraphicsStyle.h"
+#include "IntRect.h"
 #include <wtf/Function.h>
 #include <wtf/Noncopyable.h>
 
@@ -76,6 +77,19 @@ public:
     void drawShadowLayer(const AffineTransform&, const IntRect& clipBounds, const FloatRect& layerArea, const DrawShadowCallback&, const DrawBufferCallback&);
 
     void blurLayerImage(std::span<uint8_t>, const IntSize&, int stride);
+
+    // A shadow painted as 8-bit coverage, for callers that can paint into
+    // and composite alpha masks: no color buffer to clear, convert and tint.
+    // The caller paints into a size-sized mask translated by
+    // contextTranslation, blurs it with blurAlphaLayer, and composites it at
+    // origin in the shadow color.
+    struct AlphaLayer {
+        IntPoint origin;
+        IntSize size;
+        FloatSize contextTranslation;
+    };
+    std::optional<AlphaLayer> beginAlphaLayer(const AffineTransform&, const IntRect& clipBounds, const FloatRect& layerArea);
+    void blurAlphaLayer(std::span<uint8_t>, const IntSize&, int stride);
 
     void clear();
 
