@@ -3,6 +3,7 @@
 // whatever field has the focus in the page, so AVKON input methods (the touch
 // keyboard, handwriting, predictive and Chinese input) edit web text inline.
 #pragma once
+#include "DamageRegion.h"
 #include "NativeHeapDelete.h"
 #include "TouchTracker.h"
 #if SYMBIAN_BROWSER_SCREENPLAY
@@ -174,7 +175,7 @@ private:
     mutable WebKitSymbian::FrameStats iScreenPlaySubmitStats { "screenplay-submit", { "copy", "sync", "attach", "update" }, 4 };
     mutable WebKitSymbian::FrameStats iBitmapStats { "bitmap", { "paint", "blit", nullptr, nullptr }, 2 };
     TInt iUiResourceOffset { -1 };
-    mutable TRect iDirty;
+    mutable TDamageRegion iDirty;
 #if SYMBIAN_BROWSER_MEDIA
     bool iNativeVideoWindowPrepared { false };
     TInt iNativeVideoWindowError { KErrNotReady };

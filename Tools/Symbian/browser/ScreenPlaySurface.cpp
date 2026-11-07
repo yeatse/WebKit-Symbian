@@ -189,23 +189,29 @@ TInt CScreenPlaySurface::CreateSurface(const TSize& aSize)
     iStride = info().iStride;
     iFree[0] = iFree[1] = ETrue;
     iDamage[0] = iDamage[1] = TRect(aSize);
-    iPendingDamage = TRect(aSize);
+    iPendingDamage.Reset(TRect(aSize));
     return KErrNone;
 }
 
-void CScreenPlaySurface::FillPaintBackground(const TRect& aRect)
+void CScreenPlaySurface::FillPaintBackground(const TDamageRegion& aRegion)
 {
     // The engine paints into iShadow over the same opaque white page base
     // used by the native compositor.
-    for (TInt y = aRect.iTl.iY; y < aRect.iBr.iY; ++y) {
-        TUint32* row = reinterpret_cast<TUint32*>(iShadow + y * iStride);
-        for (TInt x = aRect.iTl.iX; x < aRect.iBr.iX; ++x)
-            row[x] = 0xffffffffu;
+    for (TInt i = 0; i < aRegion.Count(); ++i) {
+        const TRect& rect = aRegion[i];
+        for (TInt y = rect.iTl.iY; y < rect.iBr.iY; ++y) {
+            TUint32* row = reinterpret_cast<TUint32*>(iShadow + y * iStride);
+            for (TInt x = rect.iTl.iX; x < rect.iBr.iX; ++x)
+                row[x] = 0xffffffffu;
+        }
     }
 }
 
-void CScreenPlaySurface::FlattenPaintedPixels(const TRect& aRect)
+void CScreenPlaySurface::FlattenPaintedPixels(const TDamageRegion& aRegion)
 {
+    for (TInt i = 0; i < aRegion.Count(); ++i) {
+        const TRect& aRect = aRegion[i];
+
     // SetBackgroundSurface(config) requires an opaque surface. The engine
     // paints premultiplied ARGB; flatten any explicit transparent operations
     // over white.
@@ -224,6 +230,7 @@ void CScreenPlaySurface::FlattenPaintedPixels(const TRect& aRect)
             if (blue > 255u) blue = 255u;
             row[x] = 0xff000000u | (red << 16) | (green << 8) | blue;
         }
+    }
     }
 }
 
@@ -248,7 +255,7 @@ void CScreenPlaySurface::AddDamage(const TRect& aDamage)
     rect.Intersection(TRect(iSize));
     Accumulate(iDamage[0], rect);
     Accumulate(iDamage[1], rect);
-    Accumulate(iPendingDamage, rect);
+    iPendingDamage.Add(rect);
 }
 
 TInt CScreenPlaySurface::CheckBackground() const
@@ -271,6 +278,14 @@ TInt CScreenPlaySurface::CheckBackground() const
 TInt CScreenPlaySurface::BeginFrame(const TSize& aSize, const TRect& aInvalidated,
     TFrame& aFrame)
 {
+    TDamageRegion invalidated;
+    invalidated.Add(aInvalidated);
+    return BeginFrame(aSize, invalidated, aFrame);
+}
+
+TInt CScreenPlaySurface::BeginFrame(const TSize& aSize, const TDamageRegion& aInvalidated,
+    TFrame& aFrame)
+{
     aFrame = TFrame();
     if (iStopping)
         return KErrNotReady;
@@ -288,7 +303,8 @@ TInt CScreenPlaySurface::BeginFrame(const TSize& aSize, const TRect& aInvalidate
             return Fail(error);
         }
     }
-    AddDamage(aInvalidated);
+    for (TInt i = 0; i < aInvalidated.Count(); ++i)
+        AddDamage(aInvalidated[i]);
     if (iHaveFrame) {
         TInt error = CheckBackground();
         if (error == KErrNotFound) {
@@ -306,17 +322,19 @@ TInt CScreenPlaySurface::BeginFrame(const TSize& aSize, const TRect& aInvalidate
         // iShadow already holds the latest frame: only new damage is
         // painted, then the slot's accumulated damage is copied out.
         iPaintingDamage = iDamage[buffer];
-        iPaintRect = iPendingDamage;
+        iPaintRegion = iPendingDamage;
+        iPaintRect = iPaintRegion.Bounds();
         // Snapshot before paint so recursive invalidations survive submission.
         iDamage[buffer] = TRect();
-        iPendingDamage = TRect();
-        FillPaintBackground(iPaintRect);
+        iPendingDamage.Clear();
+        FillPaintBackground(iPaintRegion);
         if (!++iSerial)
             ++iSerial;
         aFrame.iBuffer = buffer;
         aFrame.iPixels = iShadow;
         aFrame.iStride = iStride;
         aFrame.iDirty = iPaintRect;
+        aFrame.iRegion = iPaintRegion;
         aFrame.iSerial = iSerial;
         return KErrNone;
     }
@@ -340,13 +358,7 @@ void CScreenPlaySurface::AbortFrame(const TFrame& aFrame)
     AddDamage(iPaintingDamage);
     iPainting = -1;
     iPaintingDamage = iPaintRect = TRect();
-}
-
-void CScreenPlaySurface::ScrollDamage(TRect& aDamage, const TRect& aArea, const TPoint& aDelta)
-{
-    TRect inside = Intersect(aDamage, aArea);
-    if (!inside.IsEmpty())
-        Accumulate(aDamage, Intersect(Shifted(inside, aDelta), aArea));
+    iPaintRegion.Clear();
 }
 
 TBool CScreenPlaySurface::ScrollFrame(const TSize& aSize, const TRect& aArea, const TPoint& aDelta)
@@ -368,7 +380,7 @@ TBool CScreenPlaySurface::ScrollFrame(const TSize& aSize, const TRect& aArea, co
             + (target.iTl.iX - aDelta.iX) * 4;
         Mem::Move(destination, source, bytes);
     }
-    ScrollDamage(iPendingDamage, area, aDelta);
+    iPendingDamage.Scroll(area, aDelta);
     Accumulate(iDamage[0], area);
     Accumulate(iDamage[1], area);
     iScrolled = ETrue;
@@ -400,7 +412,7 @@ TInt CScreenPlaySurface::SubmitFrame(const TFrame& aFrame, TUint32* aMarks)
     if (!MatchesFrame(aFrame))
         return Fail(KErrArgument);
     const TInt buffer = iPainting;
-    FlattenPaintedPixels(iPaintRect);
+    FlattenPaintedPixels(iPaintRegion);
     CopyToSurface(buffer, iPaintingDamage);
     if (aMarks)
         aMarks[0] = User::FastCounter();
@@ -428,6 +440,7 @@ TInt CScreenPlaySurface::SubmitFrame(const TFrame& aFrame, TUint32* aMarks)
     }
     iPainting = -1;
     iPaintingDamage = iPaintRect = TRect();
+    iPaintRegion.Clear();
     iHaveFrame = ETrue;
     iScrolled = EFalse;
     return KErrNone;
@@ -493,7 +506,9 @@ void CScreenPlaySurface::ReleaseSurface()
     iScrolled = EFalse;
     iWaiting = EFalse;
     iPainting = -1;
-    iPaintingDamage = iPaintRect = iPendingDamage = TRect();
+    iPaintingDamage = iPaintRect = TRect();
+    iPaintRegion.Clear();
+    iPendingDamage.Clear();
     iDamage[0] = iDamage[1] = TRect();
     iOffsets[0] = iOffsets[1] = 0;
     iSize = TSize();

@@ -232,14 +232,14 @@ void CWebContainer::EnsureBitmapL()
     User::LeaveIfError(bitmap->Create(Size(), EColor16MAP));
     CleanupStack::Pop(bitmap);
     iBitmap = bitmap;
-    iDirty = TRect(Size());
+    iDirty.Reset(TRect(Size()));
 }
 
 void CWebContainer::SizeChanged()
 {
     if (iClosing)
         return;
-    iDirty = TRect(Size());
+    iDirty.Reset(TRect(Size()));
 #if SYMBIAN_BROWSER_SCREENPLAY
     // The split view input relays the view out at the same size several
     // times; recreating and attaching a surface cost ~25 ms each on the
@@ -268,7 +268,7 @@ void CWebContainer::Draw(const TRect& aRect) const
         if (iWebView->usesAcceleratedCompositing())
             return;
         // A failed EGL frame disables compositing and repaints the full bitmap.
-        iDirty = TRect(Size());
+        iDirty.Reset(TRect(Size()));
     }
     CWindowGc& gc = SystemGc();
 #if SYMBIAN_BROWSER_SCREENPLAY
@@ -303,11 +303,13 @@ void CWebContainer::Draw(const TRect& aRect) const
             if (error == KErrNone) {
                 // Cairo paints directly into this available surface buffer.
                 // Keep invalidations raised during painting for the next frame.
-                iDirty = TRect();
-                WebKitSymbian::Rect dirty { frame.iDirty.iTl.iX, frame.iDirty.iTl.iY,
-                    frame.iDirty.Width(), frame.iDirty.Height() };
+                iDirty.Clear();
                 marks[1] = FrameCounter();
-                iWebView->paint(frame.iPixels, frame.iStride, dirty);
+                for (TInt i = 0; i < frame.iRegion.Count(); ++i) {
+                    const TRect& rect = frame.iRegion[i];
+                    iWebView->paint(frame.iPixels, frame.iStride,
+                        { rect.iTl.iX, rect.iTl.iY, rect.Width(), rect.Height() });
+                }
                 marks[2] = FrameCounter();
                 TUint32 submitMarks[5] { marks[2] };
                 error = iScreenPlay->SubmitFrame(frame, iFrameStats ? submitMarks + 1 : nullptr);
@@ -338,7 +340,7 @@ void CWebContainer::Draw(const TRect& aRect) const
             BrowserLog("ScreenPlay: frame failed (%d), using bitmap", error);
             iScreenPlayFailed = true;
             DetachScreenPlay();
-            iDirty = TRect(Size());
+            iDirty.Reset(TRect(Size()));
         }
     }
 #endif
@@ -354,12 +356,15 @@ void CWebContainer::Draw(const TRect& aRect) const
         marks[0] = FrameCounter();
         // The engine paints into the bitmap's pixels directly; EColor16MAP
         // is the premultiplied 0xAARRGGBB layout it expects.
-        WebKitSymbian::Rect dirty { iDirty.iTl.iX, iDirty.iTl.iY, iDirty.Width(), iDirty.Height() };
-        iDirty = TRect();
+        const TDamageRegion dirty = iDirty;
+        iDirty.Clear();
         iBitmap->BeginDataAccess();
         uint8_t* pixels = reinterpret_cast<uint8_t*>(iBitmap->DataAddress());
         int stride = CFbsBitmap::ScanLineLength(iBitmap->SizeInPixels().iWidth, EColor16MAP);
-        iWebView->paint(pixels, stride, dirty);
+        for (TInt i = 0; i < dirty.Count(); ++i) {
+            const TRect& rect = dirty[i];
+            iWebView->paint(pixels, stride, { rect.iTl.iX, rect.iTl.iY, rect.Width(), rect.Height() });
+        }
         iBitmap->EndDataAccess();
         marks[1] = FrameCounter();
     }
@@ -390,7 +395,7 @@ void CWebContainer::DetachScreenPlay() const
     delete iScreenPlay;
     iScreenPlay = nullptr;
     iScreenPlayPresented = false;
-    iDirty = TRect(Size());
+    iDirty.Reset(TRect(Size()));
 }
 #endif
 
@@ -416,7 +421,7 @@ TInt CWebContainer::PrepareNativeVideoWindow()
         Window().SetBackgroundColor(TRgb(0, 0, 0, 0));
     else
         BrowserLog("video: alpha window unavailable (%d)", iNativeVideoWindowError);
-    iDirty = TRect(Size());
+    iDirty.Reset(TRect(Size()));
     DrawDeferred();
     return iNativeVideoWindowError;
 }
@@ -635,10 +640,7 @@ void CWebContainer::didInvalidate(const WebKitSymbian::Rect& aRect)
     rect.Intersection(TRect(Size()));
     if (rect.IsEmpty())
         return;
-    if (iDirty.IsEmpty())
-        iDirty = rect;
-    else
-        iDirty.BoundingRect(rect);
+    iDirty.Add(rect);
     Window().Invalidate(TRect(rect.iTl + Rect().iTl, rect.Size()));
 }
 
@@ -652,7 +654,7 @@ bool CWebContainer::didScroll(const WebKitSymbian::Rect& aArea, int aDx, int aDy
     if (!iScreenPlay->ScrollFrame(Size(), area, delta))
         return false;
     // Pixels invalidated but not yet painted moved too.
-    CScreenPlaySurface::ScrollDamage(iDirty, area, delta);
+    iDirty.Scroll(area, delta);
     return true;
 #else
     (void)aArea;

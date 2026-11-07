@@ -14,9 +14,9 @@ def main():
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     source, here = args.source_dir.resolve(), Path(__file__).resolve().parent
-    inputs = [source / "ScreenPlaySurface.h", source / "ScreenPlaySurface.cpp"]
+    inputs = [source / "ScreenPlaySurface.h", source / "ScreenPlaySurface.cpp", source / "DamageRegion.h"]
     if not all(path.is_file() for path in inputs):
-        parser.error("provide the production ScreenPlaySurface.h/.cpp directory")
+        parser.error("provide the production ScreenPlaySurface.h/.cpp and DamageRegion.h directory")
     compiler = shutil.which("g++")
     if not compiler:
         parser.error("g++ is required")

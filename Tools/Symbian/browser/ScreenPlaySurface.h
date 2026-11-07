@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "DamageRegion.h"
 #include "NativeHeapDelete.h"
 #include <e32base.h>
 #include <graphics/surface.h>
@@ -27,7 +28,8 @@ public:
     struct TFrame {
         TUint8* iPixels { nullptr };
         TInt iStride { 0 };
-        TRect iDirty;
+        TRect iDirty; // Bounds of iRegion.
+        TDamageRegion iRegion; // Paint each of these.
         TInt iBuffer { -1 };
         TUint iSerial { 0 };
     };
@@ -35,11 +37,12 @@ public:
     static CScreenPlaySurface* NewL(RWsSession&, RWindow&, TInt aScreen,
         MScreenPlaySurfaceObserver&, const char** aFailedStep = nullptr);
     ~CScreenPlaySurface();
-    // None: synchronously paint frame.iDirty, then SubmitFrame.
+    // None: synchronously paint frame.iRegion, then SubmitFrame.
     // AlreadyExists: current frame valid, no new pixels needed.
     // InUse: both slots in flight; retain invalidation and await Ready.
     // Other errors: detach and fully repaint through the bitmap fallback.
     // Positive dimensions required. All methods are nonleaving after NewL.
+    TInt BeginFrame(const TSize&, const TDamageRegion& aInvalidated, TFrame&);
     TInt BeginFrame(const TSize&, const TRect& aInvalidated, TFrame&);
     // aMarks (when given) receives the fast counter after copying the frame
     // into the surface, cache synchronization and attaching, before the
@@ -50,8 +53,6 @@ public:
     // moved with them: only the exposed parts need painting. On EFalse
     // (no frame to move) repaint the whole area.
     TBool ScrollFrame(const TSize&, const TRect& aArea, const TPoint& aDelta);
-    // Moves the unpainted parts of aDamage inside aArea along with a scroll.
-    static void ScrollDamage(TRect& aDamage, const TRect& aArea, const TPoint& aDelta);
     void Detach();
     TInt LastError() const { return iLastError; }
     // The current surface's size; empty without one.
@@ -64,8 +65,8 @@ private:
     TInt CreateSurface(const TSize&);
     TInt CheckBackground() const;
     TInt Attach();
-    void FillPaintBackground(const TRect&);
-    void FlattenPaintedPixels(const TRect&);
+    void FillPaintBackground(const TDamageRegion&);
+    void FlattenPaintedPixels(const TDamageRegion&);
     void CopyToSurface(TInt, const TRect&);
     void AddDamage(const TRect&);
     TBool MatchesFrame(const TFrame&) const;
@@ -92,10 +93,11 @@ private:
     TInt iStride { 0 };
     TInt iPainting { -1 };
     TRect iPaintingDamage;
-    TRect iPaintRect;
+    TDamageRegion iPaintRegion;
+    TRect iPaintRect; // Bounds of iPaintRegion.
     // Cached copy of the latest frame (iStride * iSize.iHeight bytes).
     TUint8* iShadow { nullptr };
-    TRect iPendingDamage;
+    TDamageRegion iPendingDamage;
     TUint iSerial { 0 };
     TInt iLastError { KErrNone };
     TBool iManagerOpen { EFalse };
