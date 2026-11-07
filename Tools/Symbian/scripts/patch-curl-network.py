@@ -73,24 +73,6 @@ def patch(source):
 
   error = getaddrinfo(nodename, servname, hints, &aihead);''')
 
-    # The actual Belle Open C hostname path fails the native address contract.
-    # Compile our bounded native-record bridge into curl itself, including SDK links.
-    replace_once(source / "CMakeLists.txt", "project(CURL C)",
-                 "project(CURL C)\nif(SYMBIAN)\n  enable_language(CXX)\nendif()")
-    replace_once(source / "lib/CMakeLists.txt", "include(${CMAKE_CURRENT_BINARY_DIR}/Makefile.inc.cmake)",
-                 "include(${CMAKE_CURRENT_BINARY_DIR}/Makefile.inc.cmake)\nif(SYMBIAN)\n  list(APPEND CSOURCES \"${CMAKE_CURRENT_SOURCE_DIR}/symbian/curl-symbian-resolver.c\" \"${CMAKE_CURRENT_SOURCE_DIR}/symbian/curl-symbian-resolver.cpp\")\nendif()")
-    replace_once(source / "lib/CMakeLists.txt", "target_link_libraries(${LIB_NAME} PRIVATE ${CURL_LIBS})",
-                 "target_link_libraries(${LIB_NAME} PRIVATE ${CURL_LIBS})\nif(SYMBIAN)\n  target_compile_definitions(${LIB_NAME} PRIVATE CURL_SYMBIAN_NATIVE_RESOLVER=1)\n  target_include_directories(${LIB_NAME} PRIVATE \"${CMAKE_CURRENT_SOURCE_DIR}/symbian\")\n  set_property(TARGET ${LIB_NAME} PROPERTY CXX_STANDARD 17)\n  target_include_directories(${LIB_NAME} SYSTEM PRIVATE \"${SYMBIAN_SDK_PREFIX}/include/platform\" \"${SYMBIAN_SDK_PREFIX}/include/abseil\")\n  set_source_files_properties(symbian/curl-symbian-resolver.cpp PROPERTIES COMPILE_OPTIONS \"-fno-exceptions;-fno-rtti\")\nendif()")
-    # curl assigns COMPILE_DEFINITIONS again after target_link_libraries.
-    # Keep the selector in that final property rather than an overwritten append.
-    replace_once(source / "lib/CMakeLists.txt",
-                 "  COMPILE_DEFINITIONS BUILDING_LIBCURL",
-                 '  COMPILE_DEFINITIONS "BUILDING_LIBCURL;$<$<BOOL:${SYMBIAN}>:CURL_SYMBIAN_NATIVE_RESOLVER=1>"')
-    replace_once(resolver, '#include "curl_addrinfo.h"',
-                 '#include "curl_addrinfo.h"\n#ifdef CURL_SYMBIAN_NATIVE_RESOLVER\n#include "curl-symbian-resolver.h"\n#endif')
-    replace_once(resolver, "  *result = NULL; /* assume failure */",
-                 "  *result = NULL; /* assume failure */\n#ifdef CURL_SYMBIAN_NATIVE_RESOLVER\n  /* Some firmware's native host resolver fails every lookup (the Nokia 808)\n     while Open C's resolves: fall back to getaddrinfo below. */\n  error = Curl_symbian_getaddrinfo(nodename, servname, hints, result);\n  if(error != EAI_SYSTEM)\n    return error;\n#endif")
-
     h2 = source / "lib/http2.c"
     replace_once(h2,
                  "#define HTTP2_HUGE_WINDOW_SIZE (32 * 1024 * 1024) /* 32 MB */",

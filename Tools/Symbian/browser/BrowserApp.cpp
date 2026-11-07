@@ -26,28 +26,6 @@
 #include <eikenv.h>
 #include <gulcolor.h>
 
-// curl's native host resolver (Tools/Symbian/shims/curl-symbian-resolver.cpp).
-extern "C" void symbian_curl_resolver_stats(unsigned*, unsigned*, int*);
-
-// Logs, from the UI thread, how curl's native resolver has fared since the
-// last change: its own thread's stderr may not reach the log.
-static void LogNativeResolverStats()
-{
-    static unsigned loggedResolved, loggedFailed;
-    unsigned resolved, failed;
-    int lastError;
-    symbian_curl_resolver_stats(&resolved, &failed, &lastError);
-    if (resolved == loggedResolved && failed == loggedFailed)
-        return;
-    loggedResolved = resolved;
-    loggedFailed = failed;
-    if (failed)
-        BrowserLog("network: native resolver %u resolved, %u failed (last error %d, then Open C)",
-            resolved, failed, lastError);
-    else
-        BrowserLog("network: native resolver %u resolved", resolved);
-}
-
 using namespace WebKitSymbian;
 
 namespace {
@@ -649,7 +627,6 @@ CBrowserAppUi::~CBrowserAppUi()
     User::Free(iTitle);
     delete iNetwork;
     delete iHeartbeat;
-    LogNativeResolverStats();
     BrowserLog("WebKit Browser exiting");
 }
 
@@ -1011,7 +988,6 @@ void CBrowserAppUi::WebProgressChanged(TBool aLoading, TInt aPercent)
         return;
     iLoading = aLoading;
     iProgress = aPercent;
-    LogNativeResolverStats();
     if (!iDownloading)
         iUrlBar->SetProgress(aLoading, aPercent);
 }

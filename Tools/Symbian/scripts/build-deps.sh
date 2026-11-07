@@ -309,8 +309,6 @@ build_nghttp2() {
 build_curl() {
   [ -f "$P/lib/libnghttp2.a" ] || build_nghttp2
   fetch https://curl.se/download/curl-7.88.1.tar.xz curl-7.88.1
-  mkdir -p "$src/curl-7.88.1/lib/symbian"
-  cp "$REPO"/shims/curl-symbian-resolver.{h,c,cpp} "$src/curl-7.88.1/lib/symbian/"
   python3 "$REPO/scripts/patch-curl-network.py" "$src/curl-7.88.1"
   local tls=$sdk_lib/mbedtls
   # The CA bundle is read by shims/mbedtls-fs.c, the SDK's mbedTLS having no
@@ -358,23 +356,19 @@ build_curl() {
     -DMBEDTLS_INCLUDE_DIRS="$tls/include" -DMBEDTLS_LIBRARY="$tls/lib/libmbedtls.a" \
     -DMBEDX509_LIBRARY="$tls/lib/libmbedx509.a" -DMBEDCRYPTO_LIBRARY="$tls/lib/libmbedcrypto.a" \
     -DZLIB_INCLUDE_DIR="$sdk_portable/zlib" -DZLIB_LIBRARY="$sdk_lib/libsymbian_portable_zlib.a"
-  # Verify the selected resolver in actual code, not only archive membership.
-  python3 - "$SDK/bin/llvm-nm" "$src/curl-7.88.1/build-symbian/lib/CMakeFiles/libcurl.dir/curl_addrinfo.c.o" "$P/lib/libcurl.a" <<'PYVERIFY'
+  # Host names resolve through Open C's getaddrinfo: the Nokia 808's native
+  # RHostResolver fails every lookup (-5120), attached to the browser's
+  # connection or not. Verify that in the actual code.
+  python3 - "$SDK/bin/llvm-nm" "$src/curl-7.88.1/build-symbian/lib/CMakeFiles/libcurl.dir/curl_addrinfo.c.o" <<'PYVERIFY'
 import subprocess, sys
-nm, resolver, archive = sys.argv[1:]
-def rows(path):
-    return [line.split() for line in subprocess.check_output([nm, path], text=True).splitlines()]
-object_rows = rows(resolver)
-undefined = {r[-1] for r in object_rows if len(r) >= 2 and r[-2] == 'U'}
-assert 'Curl_symbian_getaddrinfo' in undefined, 'native resolver selector missing from curl_addrinfo.o'
-# Open C's getaddrinfo stays as the fallback for a failing native resolver.
-assert {'getaddrinfo', 'freeaddrinfo'} <= undefined, 'Open C fallback resolver missing from curl_addrinfo.o'
-archive_rows = rows(archive)
-for symbol in ('Curl_symbian_getaddrinfo', 'symbian_curl_resolve_records'):
-    assert sum(len(r) >= 3 and r[-2] in ('T', 't') and r[-1] == symbol for r in archive_rows) == 1, 'native bridge definition missing/duplicated: ' + symbol
-print('Actual curl native resolver selector and archive definitions verified')
+nm, resolver = sys.argv[1:]
+rows = [line.split() for line in subprocess.check_output([nm, resolver], text=True).splitlines()]
+undefined = {r[-1] for r in rows if len(r) >= 2 and r[-2] == 'U'}
+assert {'getaddrinfo', 'freeaddrinfo'} <= undefined, 'Open C resolver missing from curl_addrinfo.o'
+assert 'Curl_symbian_getaddrinfo' not in undefined, 'stale native resolver selector in curl_addrinfo.o'
+print('curl resolves host names through Open C')
 PYVERIFY
-  printf '6\n' > "$P/lib/curl-symbian-network-version"
+  printf '7\n' > "$P/lib/curl-symbian-network-version"
 }
 
 # One library per process, so set -e applies inside build_NAME (it does not in
