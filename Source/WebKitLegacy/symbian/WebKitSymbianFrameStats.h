@@ -15,7 +15,7 @@ bool frameStatsEnabled();
 // supply their own clocks. Durations are milliseconds.
 class FrameStats {
 public:
-    static constexpr int maximumStages = 4;
+    static constexpr int maximumStages = 5;
 
     FrameStats(const char* presentation, const char* const (&stages)[maximumStages], int stageCount)
         : m_presentation(presentation)

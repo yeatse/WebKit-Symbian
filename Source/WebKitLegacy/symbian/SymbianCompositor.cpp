@@ -35,7 +35,7 @@ SymbianCompositor::SymbianCompositor(WebViewImpl& view, void* window)
     : m_view(view)
     , m_nativeWindow(window)
     , m_flushTimer([this] { m_view.requestCompositedDisplay(); })
-    , m_stats("egl", { "update", "backing", "draw", "swap" }, 4)
+    , m_stats("egl", { "render", "flush", "backing", "draw", "swap" }, 5)
 {
 }
 
@@ -192,6 +192,9 @@ bool SymbianCompositor::render()
     const bool timing = frameStatsEnabled();
     MonotonicTime start = timing ? MonotonicTime::now() : MonotonicTime();
     m_view.page().isolatedUpdateRendering();
+    // Rendering runs animation frame callbacks (canvas and WebGL drawing),
+    // style and layout; flushing prepares layers, canvases included.
+    MonotonicTime rendered = timing ? MonotonicTime::now() : MonotonicTime();
     if (!m_context->makeContextCurrent()) {
         WTFLogAlways("Symbian compositor: EGL make-current failed: %s", GLContext::lastErrorString());
         return false;
@@ -244,8 +247,8 @@ bool SymbianCompositor::render()
         MonotonicTime swapped = MonotonicTime::now();
         double since = m_lastFrame ? (swapped - m_lastFrame).milliseconds() : 0;
         m_lastFrame = swapped;
-        const double durations[FrameStats::maximumStages] { (updated - start).milliseconds(),
-            (backed - updated).milliseconds(), (drawn - backed).milliseconds(), (swapped - drawn).milliseconds() };
+        const double durations[FrameStats::maximumStages] { (rendered - start).milliseconds(),
+            (updated - rendered).milliseconds(), (backed - updated).milliseconds(), (drawn - backed).milliseconds(), (swapped - drawn).milliseconds() };
         if (m_stats.add(durations, since)) {
             char summary[256];
             m_stats.format(summary, sizeof(summary));
