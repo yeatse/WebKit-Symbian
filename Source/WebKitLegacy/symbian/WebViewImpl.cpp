@@ -607,9 +607,11 @@ void WebViewImpl::scroll(const IntSize& delta, const IntRect& rectToScroll, cons
     if (usesAcceleratedCompositing() || std::abs(delta.width()) >= area.width()
         || std::abs(delta.height()) >= area.height()
         || !m_client.didScroll({ area.x(), area.y(), area.width(), area.height() }, delta.width(), delta.height())) {
+        noteScrollPath(ScrollPath::Declined);
         invalidate(area);
         return;
     }
+    noteScrollPath(ScrollPath::Blit);
     // The client moved the pixels that stay visible; paint what scrolled in.
     IntRect kept = area;
     kept.move(delta);
@@ -622,6 +624,21 @@ void WebViewImpl::scroll(const IntSize& delta, const IntRect& rectToScroll, cons
         invalidate({ area.x(), kept.y(), kept.x() - area.x(), kept.height() });
     if (kept.maxX() < area.maxX())
         invalidate({ kept.maxX(), kept.y(), area.maxX() - kept.maxX(), kept.height() });
+}
+
+void WebViewImpl::noteScrollPath(ScrollPath path)
+{
+    if (!frameStatsEnabled())
+        return;
+    unsigned count = ++m_scrollPaths[static_cast<int>(path)];
+    if (count != 1 && count % 100)
+        return;
+    auto* view = m_page->localMainFrame() ? m_page->localMainFrame()->view() : nullptr;
+    WTFLogAlways("scroll: blit=%u declined=%u slow=%u (canBlit=%d slowObjects=%d fixed=%d transparent=%d compositing=%d)",
+        m_scrollPaths[0], m_scrollPaths[1], m_scrollPaths[2],
+        view && view->canBlitOnScroll(), view && view->hasSlowRepaintObjects(),
+        view && view->hasViewportConstrainedObjects(), view && view->isTransparent(),
+        usesAcceleratedCompositing());
 }
 
 void WebViewImpl::focusedElementChanged()

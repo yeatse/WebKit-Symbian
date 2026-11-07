@@ -71,6 +71,10 @@ public:
     // From the WebCore clients.
     void invalidate(const WebCore::IntRect&);
     void scroll(const WebCore::IntSize& delta, const WebCore::IntRect& rectToScroll, const WebCore::IntRect& clipRect);
+    // How scrolls reach the client: blitted, repainted after the fast path
+    // (declined) or through WebCore's slow path. Logged for frame-stats.
+    enum class ScrollPath { Blit, Declined, Slow };
+    void noteScrollPath(ScrollPath);
     void focusedElementChanged();
     void selectionChanged();
     bool handleEditingKeyboardEvent(WebCore::KeyboardEvent&);
@@ -171,6 +175,7 @@ private:
     // Legacy mouse-only fallback when no native digitizer is available.
     bool m_pointerDown { false };
     bool m_pointerScrolling { false };
+    unsigned m_scrollPaths[3] { };
     WebCore::IntPoint m_pointerStart;
     WebCore::IntPoint m_pointerLast;
     bool m_lastTapWasOnFocusedEditableElement { false };

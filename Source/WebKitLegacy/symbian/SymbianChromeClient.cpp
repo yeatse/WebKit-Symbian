@@ -233,6 +233,7 @@ void SymbianChromeClient::invalidateContentsAndRootView(const IntRect& rect)
 
 void SymbianChromeClient::invalidateContentsForSlowScroll(const IntRect& rect)
 {
+    m_view.noteScrollPath(WebViewImpl::ScrollPath::Slow);
     m_view.invalidate(rect);
 }
 
