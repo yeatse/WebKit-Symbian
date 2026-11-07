@@ -73,6 +73,10 @@ class WebViewClient {
 public:
     // The area needs painting; call WebView::paint() for it soon.
     virtual void didInvalidate(const Rect&) = 0;
+    // The engine scrolled the area's pixels by (dx, dy). Return true when the
+    // client moved its own copy of them; only the exposed parts are then
+    // invalidated. False invalidates the whole area.
+    virtual bool didScroll(const Rect& /* area */, int /* dx */, int /* dy */) { return false; }
     virtual void didChangeTitle(Text) { }
     virtual void didChangeURL(Text) { }
     // Progress is from 0 to 1.

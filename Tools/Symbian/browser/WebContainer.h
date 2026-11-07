@@ -85,6 +85,7 @@ private:
 
     // WebKitSymbian::WebViewClient
     void didInvalidate(const WebKitSymbian::Rect&);
+    bool didScroll(const WebKitSymbian::Rect&, int, int);
     void didChangeTitle(WebKitSymbian::Text);
     void didChangeURL(WebKitSymbian::Text);
     void didChangeProgress(bool isLoading, double progress);

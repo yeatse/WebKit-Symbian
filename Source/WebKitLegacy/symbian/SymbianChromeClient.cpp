@@ -236,10 +236,9 @@ void SymbianChromeClient::invalidateContentsForSlowScroll(const IntRect& rect)
     m_view.invalidate(rect);
 }
 
-void SymbianChromeClient::scroll(const IntSize&, const IntRect& scrollViewRect, const IntRect&)
+void SymbianChromeClient::scroll(const IntSize& delta, const IntRect& scrollViewRect, const IntRect& clipRect)
 {
-    // No blitting: the whole scrolled area is painted again.
-    m_view.invalidate(scrollViewRect);
+    m_view.scroll(delta, scrollViewRect, clipRect);
 }
 
 void SymbianChromeClient::showShareSheet(ShareDataWithParsedURL&&, CompletionHandler<void(bool)>&& completionHandler)

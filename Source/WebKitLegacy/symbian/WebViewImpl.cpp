@@ -599,6 +599,31 @@ void WebViewImpl::invalidate(const IntRect& rect)
     m_client.didInvalidate({ visible.x(), visible.y(), visible.width(), visible.height() });
 }
 
+void WebViewImpl::scroll(const IntSize& delta, const IntRect& rectToScroll, const IntRect& clipRect)
+{
+    IntRect area = intersection(intersection(rectToScroll, clipRect), IntRect(IntPoint(), m_size));
+    if (area.isEmpty())
+        return;
+    if (usesAcceleratedCompositing() || std::abs(delta.width()) >= area.width()
+        || std::abs(delta.height()) >= area.height()
+        || !m_client.didScroll({ area.x(), area.y(), area.width(), area.height() }, delta.width(), delta.height())) {
+        invalidate(area);
+        return;
+    }
+    // The client moved the pixels that stay visible; paint what scrolled in.
+    IntRect kept = area;
+    kept.move(delta);
+    kept.intersect(area);
+    if (kept.y() > area.y())
+        invalidate({ area.x(), area.y(), area.width(), kept.y() - area.y() });
+    if (kept.maxY() < area.maxY())
+        invalidate({ area.x(), kept.maxY(), area.width(), area.maxY() - kept.maxY() });
+    if (kept.x() > area.x())
+        invalidate({ area.x(), kept.y(), kept.x() - area.x(), kept.height() });
+    if (kept.maxX() < area.maxX())
+        invalidate({ kept.maxX(), kept.y(), area.maxX() - kept.maxX(), kept.height() });
+}
+
 void WebViewImpl::focusedElementChanged()
 {
     m_client.didChangeEditingState();

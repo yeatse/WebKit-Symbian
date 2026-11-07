@@ -6,6 +6,19 @@
 #include <pixelformats.h>
 
 namespace {
+TRect Intersect(const TRect& aFirst, const TRect& aSecond)
+{
+    TRect result(Max(aFirst.iTl.iX, aSecond.iTl.iX), Max(aFirst.iTl.iY, aSecond.iTl.iY),
+        Min(aFirst.iBr.iX, aSecond.iBr.iX), Min(aFirst.iBr.iY, aSecond.iBr.iY));
+    return result.IsEmpty() ? TRect() : result;
+}
+
+TRect Shifted(const TRect& aRect, const TPoint& aDelta)
+{
+    return TRect(aRect.iTl.iX + aDelta.iX, aRect.iTl.iY + aDelta.iY,
+        aRect.iBr.iX + aDelta.iX, aRect.iBr.iY + aDelta.iY);
+}
+
 void Accumulate(TRect& aDestination, const TRect& aRect)
 {
     if (aRect.IsEmpty())
@@ -284,7 +297,7 @@ TInt CScreenPlaySurface::BeginFrame(const TSize& aSize, const TRect& aInvalidate
         } else if (error != KErrNone)
             return Fail(error);
     }
-    if (iHaveFrame && iPendingDamage.IsEmpty())
+    if (iHaveFrame && iPendingDamage.IsEmpty() && !iScrolled)
         return KErrAlreadyExists;
     for (TInt buffer = 0; buffer < 2; ++buffer) {
         if (!iFree[buffer])
@@ -327,6 +340,39 @@ void CScreenPlaySurface::AbortFrame(const TFrame& aFrame)
     AddDamage(iPaintingDamage);
     iPainting = -1;
     iPaintingDamage = iPaintRect = TRect();
+}
+
+void CScreenPlaySurface::ScrollDamage(TRect& aDamage, const TRect& aArea, const TPoint& aDelta)
+{
+    TRect inside = Intersect(aDamage, aArea);
+    if (!inside.IsEmpty())
+        Accumulate(aDamage, Intersect(Shifted(inside, aDelta), aArea));
+}
+
+TBool CScreenPlaySurface::ScrollFrame(const TSize& aSize, const TRect& aArea, const TPoint& aDelta)
+{
+    if (iStopping || iLastError != KErrNone || iPainting >= 0 || !iShadow || iSize != aSize)
+        return EFalse;
+    const TRect area = Intersect(aArea, TRect(iSize));
+    if (area.IsEmpty() || Abs(aDelta.iX) >= area.Width() || Abs(aDelta.iY) >= area.Height())
+        return EFalse;
+    // Blit within the cached frame; the surface slots are copied from it
+    // as damage, which never reads surface memory.
+    const TRect target = Intersect(Shifted(area, aDelta), area);
+    const TInt bytes = target.Width() * 4;
+    const TInt step = aDelta.iY > 0 ? -1 : 1;
+    const TInt first = aDelta.iY > 0 ? target.iBr.iY - 1 : target.iTl.iY;
+    for (TInt row = 0, y = first; row < target.Height(); ++row, y += step) {
+        TUint8* destination = iShadow + y * iStride + target.iTl.iX * 4;
+        const TUint8* source = iShadow + (y - aDelta.iY) * iStride
+            + (target.iTl.iX - aDelta.iX) * 4;
+        Mem::Move(destination, source, bytes);
+    }
+    ScrollDamage(iPendingDamage, area, aDelta);
+    Accumulate(iDamage[0], area);
+    Accumulate(iDamage[1], area);
+    iScrolled = ETrue;
+    return ETrue;
 }
 
 TInt CScreenPlaySurface::Attach()
@@ -383,6 +429,7 @@ TInt CScreenPlaySurface::SubmitFrame(const TFrame& aFrame, TUint32* aMarks)
     iPainting = -1;
     iPaintingDamage = iPaintRect = TRect();
     iHaveFrame = ETrue;
+    iScrolled = EFalse;
     return KErrNone;
 }
 
@@ -443,6 +490,7 @@ void CScreenPlaySurface::ReleaseSurface()
     iSurface = TSurfaceId::CreateNullId();
     iRegistered = EFalse;
     iHaveFrame = EFalse;
+    iScrolled = EFalse;
     iWaiting = EFalse;
     iPainting = -1;
     iPaintingDamage = iPaintRect = iPendingDamage = TRect();

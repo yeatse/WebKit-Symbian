@@ -17,7 +17,7 @@ constexpr TInt KErrNone=0,KErrNotFound=-1,KErrGeneral=-2,KErrCancel=-3,KErrNoMem
  KErrCorrupt=-20,KErrAccessDenied=-21,KErrOverflow=-22,KErrNotVisible=-1000;
 constexpr TInt KRequestPending=-1000000,KMaxTInt=0x7fffffff;
 enum TLeave{ELeave};
-template<class T>T Min(T a,T b){return std::min(a,b);}template<class T>T Max(T a,T b){return std::max(a,b);}
+template<class T>T Min(T a,T b){return std::min(a,b);}template<class T>T Max(T a,T b){return std::max(a,b);}template<class T>T Abs(T a){return a<0?-a:a;}
 struct TPoint{TInt iX=0,iY=0;TPoint()=default;TPoint(TInt x,TInt y):iX(x),iY(y){}bool operator==(const TPoint&)const=default;};
 struct TSize{TInt iWidth=0,iHeight=0;TSize()=default;TSize(TInt w,TInt h):iWidth(w),iHeight(h){}bool operator==(const TSize&)const=default;};
 struct TRect{
@@ -93,5 +93,5 @@ struct RSurfaceUpdateSession{TRequestStatus*staged=nullptr;bool connected=false;
  TInt Connect(TInt=6);void Close();TInt Handle()const{return connected?1:0;}
  void NotifyWhenAvailable(TRequestStatus&);TInt SubmitUpdate(TInt,const TSurfaceId&,TInt,const TRegion* =nullptr);
  void CancelAllUpdateNotifications();};
-namespace Mem{inline void FillZ(void*p,std::size_t n){std::memset(p,0,n);}inline void Copy(void*p,const void*q,std::size_t n){std::memcpy(p,q,n);}}
+namespace Mem{inline void FillZ(void*p,std::size_t n){std::memset(p,0,n);}inline void Copy(void*p,const void*q,std::size_t n){std::memcpy(p,q,n);}inline void Move(void*p,const void*q,std::size_t n){std::memmove(p,q,n);}}
 namespace Mem{inline void Fill(void*p,std::size_t n,TInt value){std::memset(p,value,n);}}

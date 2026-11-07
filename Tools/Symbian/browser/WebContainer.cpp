@@ -638,6 +638,26 @@ void CWebContainer::didInvalidate(const WebKitSymbian::Rect& aRect)
     Window().Invalidate(TRect(rect.iTl + Rect().iTl, rect.Size()));
 }
 
+bool CWebContainer::didScroll(const WebKitSymbian::Rect& aArea, int aDx, int aDy)
+{
+#if SYMBIAN_BROWSER_SCREENPLAY
+    if (iClosing || !iScreenPlay)
+        return false;
+    TRect area(TPoint(aArea.x, aArea.y), TSize(aArea.width, aArea.height));
+    TPoint delta(aDx, aDy);
+    if (!iScreenPlay->ScrollFrame(Size(), area, delta))
+        return false;
+    // Pixels invalidated but not yet painted moved too.
+    CScreenPlaySurface::ScrollDamage(iDirty, area, delta);
+    return true;
+#else
+    (void)aArea;
+    (void)aDx;
+    (void)aDy;
+    return false;
+#endif
+}
+
 void CWebContainer::didChangeTitle(Text aTitle)
 {
     if (iClosing)

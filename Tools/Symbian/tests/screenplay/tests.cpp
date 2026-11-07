@@ -42,6 +42,15 @@ int main(){try{
   CHECK(h.presenter->BeginFrame(TSize(8,6),TRect(),busy)==KErrAlreadyExists);});
  Case("abort-restores-damage-and-rejects-stale-abort",[]{Harness h;auto first=h.Begin();auto wrong=first;++wrong.iSerial;h.presenter->AbortFrame(wrong);CScreenPlaySurface::TFrame busy;CHECK(h.presenter->BeginFrame(TSize(8,6),TRect(),busy)==KErrInUse);
   h.presenter->AbortFrame(first);auto again=h.Begin(TRect());CHECK(again.iDirty==TRect(TSize(8,6)));CHECK(again.iSerial!=first.iSerial);Paint(again,0xff334455);h.Submit(again);});
+ Case("scroll-moves-frame-and-paints-exposed-rows",[]{Harness h;auto a=h.Begin();for(TInt y=0;y<6;++y)for(TInt x=0;x<8;++x)reinterpret_cast<TUint32*>(a.iPixels+y*a.iStride)[x]=0xff000000u|(y<<8)|x;h.Submit(a);
+  CHECK(!h.presenter->ScrollFrame(TSize(8,6),TRect(TSize(8,6)),TPoint(0,-6)));CHECK(!h.presenter->ScrollFrame(TSize(5,6),TRect(TSize(8,6)),TPoint(0,-2)));
+  TRect dirty(0,0,1,1);CHECK(h.presenter->ScrollFrame(TSize(8,6),TRect(TSize(8,6)),TPoint(0,-2)));CScreenPlaySurface::ScrollDamage(dirty,TRect(TSize(8,6)),TPoint(0,-2));CHECK(dirty==TRect(0,0,1,1));
+  TRect pending(1,3,2,4);CScreenPlaySurface::ScrollDamage(pending,TRect(TSize(8,6)),TPoint(0,-2));CHECK(pending==TRect(1,1,2,4));
+  auto b=h.Begin(TRect(0,4,8,6));CHECK(b.iBuffer==1);CHECK(b.iDirty==TRect(0,4,8,6));CHECK(Pixel(b,3,0)==0xff000203u);CHECK(Pixel(b,7,3)==0xff000507u);Paint(b,0xff222222);h.Submit(b);
+  CHECK(SurfacePixel(b,1,3,0)==0xff000203u);CHECK(SurfacePixel(b,1,7,3)==0xff000507u);CHECK(SurfacePixel(b,1,0,5)==0xff222222u);
+  fake::Complete(a.iBuffer);CActiveScheduler::RunCompleted();CHECK(h.presenter->ScrollFrame(TSize(8,6),TRect(2,0,8,6),TPoint(3,1)));
+  auto c=h.Begin(TRect());CHECK(c.iBuffer==0);CHECK(c.iDirty.IsEmpty());CHECK(Pixel(c,5,1)==0xff000202u);CHECK(Pixel(c,7,5)==0xff222222u);CHECK(Pixel(c,1,1)==0xff000301u);h.Submit(c);
+  CHECK(SurfacePixel(c,0,5,1)==0xff000202u);CHECK(SurfacePixel(c,0,1,1)==0xff000301u);});
  Case("explicit-alpha-flattened-over-white",[]{Harness h;auto f=h.Begin();Paint(f,0);auto*row=reinterpret_cast<TUint32*>(f.iPixels);row[1]=0x80402010u;row[2]=0xff102030;row[3]=0x00808080u;h.Submit(f);
   CHECK(Pixel(f,0)==0xffffffff);CHECK(Pixel(f,1)==0xffbf9f8f);CHECK(Pixel(f,2)==0xff102030);CHECK(Pixel(f,3)==0xffffffff);});
  Case("background-removal-repaints-and-reattaches",[]{Harness h;auto a=h.Begin();h.Submit(a);h.window.current=TSurfaceId();auto b=h.Begin(TRect());CHECK(b.iDirty==TRect(TSize(8,6)));h.Submit(b);CHECK(!h.window.current.IsNull());});

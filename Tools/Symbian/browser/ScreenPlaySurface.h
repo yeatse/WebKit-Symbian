@@ -46,6 +46,12 @@ public:
     // update is submitted.
     TInt SubmitFrame(const TFrame&, TUint32* aMarks = nullptr);
     void AbortFrame(const TFrame&);
+    // The engine scrolled aArea's pixels by aDelta. On ETrue the latest frame
+    // moved with them: only the exposed parts need painting. On EFalse
+    // (no frame to move) repaint the whole area.
+    TBool ScrollFrame(const TSize&, const TRect& aArea, const TPoint& aDelta);
+    // Moves the unpainted parts of aDamage inside aArea along with a scroll.
+    static void ScrollDamage(TRect& aDamage, const TRect& aArea, const TPoint& aDelta);
     void Detach();
     TInt LastError() const { return iLastError; }
 
@@ -94,6 +100,8 @@ private:
     TBool iUpdatesOpen { EFalse };
     TBool iRegistered { EFalse };
     TBool iHaveFrame { EFalse };
+    // The cached frame scrolled since the last submitted frame.
+    TBool iScrolled { EFalse };
     TBool iWaiting { EFalse };
     TBool iStopping { EFalse };
     TBool iCancelling { EFalse };

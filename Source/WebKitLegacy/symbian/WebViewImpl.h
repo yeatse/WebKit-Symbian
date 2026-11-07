@@ -70,6 +70,7 @@ public:
 
     // From the WebCore clients.
     void invalidate(const WebCore::IntRect&);
+    void scroll(const WebCore::IntSize& delta, const WebCore::IntRect& rectToScroll, const WebCore::IntRect& clipRect);
     void focusedElementChanged();
     void selectionChanged();
     bool handleEditingKeyboardEvent(WebCore::KeyboardEvent&);
