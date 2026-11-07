@@ -91,9 +91,12 @@ so emulator timings do not predict device performance.
 
 - [x] P0: Frame timing in the browser log. `frame-stats` (a launch option or
   `C:\Data\WebKit\frame-stats`) logs average/maximum milliseconds per stage
-  about once a second: EGL `update`, `backing` (painting and texture upload),
-  `draw` and `swap`; ScreenPlay `begin`, `paint` and `submit`; bitmap `paint`
-  and `blit`.
+  about once a second: EGL `render` (animation frame callbacks, style and
+  layout), `flush` (layer preparation), `backing` (painting and texture
+  upload), `draw` and `swap` (`render` and `flush` were one `update` stage
+  until 5a1f5d56843); ScreenPlay `begin`, `paint` and `submit`, with
+  `screenplay-submit` splitting the submit into `copy`, `sync`, `attach` and
+  `update`; bitmap `paint` and `blit`.
 - [x] P0: Fixed scrolling, image, animation and WebGL pages, measured with
   `frame-stats` on the 808 for ScreenPlay, EGL and bitmap presentation.
   The pages and a log summarizer are in `tests/benchmarks` and installed at
@@ -111,11 +114,17 @@ so emulator timings do not predict device performance.
   ScreenPlay's submit costs about 26 ms on every frame, whatever was
   painted; scaled images (images) and 2D canvas drawing (canvas, presented
   through EGL) are the slow paints; WebGL spends 40 ms per frame in update.
-- [ ] P0: The device's EGL and GLES2 extensions (EGLImage, preserved swap and
-  partial update), before work that depends on them. The compositor logs the
-  versions, both extension lists and the window surface's swap behavior once;
-  EKA2L1 reports destroyed swaps and no EGLImage, which says nothing about the
-  808.
+
+  Third run (6d2b9309271): bilinear image scaling and painting ScreenPlay
+  frames in cached memory (reading surface memory costs ~130 ns per pixel,
+  so flattening in place took 25 ms) gave scroll 25.9 fps (submit 11.3 ms,
+  of which copying into the surface 9.5), images 15.0 (paint 44.5),
+  animation 22.6 and composited 29.7; canvas 7.5 and webgl 17.7 unchanged.
+- [x] P0: The device's EGL and GLES2 extensions (EGLImage, preserved swap and
+  partial update), before work that depends on them. The 808 (VideoCore IV,
+  EGL 1.4, GLES 2.0) has EGL_KHR_image_base, EGL_KHR_gl_texture_2D_image,
+  EGL_KHR_lock_surface2 and GL_OES_EGL_image, but destroyed swaps and no
+  partial update or buffer age extension.
 - [x] P0: ScreenPlay for 2D pages and EGL composition on demand. The default
   `auto` build creates the compositor when WebCore attaches composited layers,
   after ScreenPlay detaches, and returns to ScreenPlay two seconds after the
