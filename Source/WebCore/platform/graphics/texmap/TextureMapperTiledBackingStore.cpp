@@ -33,7 +33,6 @@
 namespace WebCore {
 
 static size_t s_coverageBytes;
-static bool s_coverageSettling;
 static constexpr int coverageTileSize = 256;
 // Margin tiles painted per update, so a frame that scrolls far does not wait
 // for a whole new screen of them.
@@ -52,11 +51,6 @@ TextureMapperTiledBackingStore::~TextureMapperTiledBackingStore()
 size_t TextureMapperTiledBackingStore::coverageBytes()
 {
     return s_coverageBytes;
-}
-
-bool TextureMapperTiledBackingStore::takeCoverageSettling()
-{
-    return std::exchange(s_coverageSettling, false);
 }
 
 void TextureMapperTiledBackingStore::updateContentsFromImageIfNeeded(TextureMapper& textureMapper)
@@ -410,12 +404,11 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper&, 
         }
         if (best == notFound)
             return true;
-        // While a large part of the screen keeps changing (an animation, a
-        // page repainting itself), tiles painted ahead would only be damaged
-        // again: paint them once it settles.
+        // An update that repainted much of the screen leaves the tiles ahead
+        // to the next one, which runs after pending timers: a page repainting
+        // itself every frame damages them again first.
         if (!painted && paintedArea * 4 > visible.area().value()) {
             morePending = true;
-            s_coverageSettling = true;
             return true;
         }
         if (painted == coveragePrefetchPerUpdate) {
