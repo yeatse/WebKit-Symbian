@@ -37,6 +37,7 @@ TInt gCounterFrequency = 1000;
 TUint32 gDeadline;
 const TInt kRunSeconds = 180;
 const TInt kDecodeTimeoutMicroseconds = 15000000;
+TThreadId gMainThread;
 
 double Milliseconds(TUint32 start, TUint32 end) { return (end - start) * 1000.0 / gCounterFrequency; }
 bool PastDeadline() { return static_cast<TInt32>(User::NTickCount() - gDeadline) > 0; }
@@ -254,13 +255,13 @@ struct IclResult {
 
 // Decodes into an EColor16MU bitmap of the frame size divided by
 // |reduction|, the way an ICL client would.
-IclResult DecodeIcl(RFs& fs, const Jpeg& jpeg, TUid decoder, int reduction)
+IclResult DecodeIcl(RFs& fs, const Jpeg& jpeg, TUid decoder, int reduction, CImageDecoder::TOptions options = CImageDecoder::EOptionNone)
 {
     IclResult result;
     TPtrC8 source(jpeg.data, jpeg.size);
     TUint32 start = User::FastCounter();
     CImageDecoder* image = nullptr;
-    TRAP(result.error, image = CImageDecoder::DataNewL(fs, source, CImageDecoder::EOptionNone, KNullUid, KNullUid, decoder));
+    TRAP(result.error, image = CImageDecoder::DataNewL(fs, source, options, KNullUid, KNullUid, decoder));
     TUint32 created = User::FastCounter();
     result.createMilliseconds = Milliseconds(start, created);
     if (result.error)
@@ -276,31 +277,43 @@ IclResult DecodeIcl(RFs& fs, const Jpeg& jpeg, TUid decoder, int reduction)
         delete image;
         return result;
     }
-    CActiveSchedulerWait wait;
+    // CBase objects belong on the heap: CBase's operator new zero-fills them
+    // and their constructors may not. A CActiveSchedulerWait on the stack can
+    // look started already, and Start() panics with E32USER-CBase 91.
+    CActiveSchedulerWait* wait = new CActiveSchedulerWait;
+    CDecodeWaiter* waiter = wait ? new CDecodeWaiter(*wait) : nullptr;
     CTimeout* timeout = nullptr;
-    TRAP(result.error, timeout = CTimeout::NewL(wait));
+    if (waiter) {
+        TRAP(result.error, timeout = CTimeout::NewL(*wait));
+    } else
+        result.error = KErrNoMemory;
     if (result.error) {
+        delete waiter;
+        delete wait;
         delete bitmap;
         delete image;
         return result;
     }
-    CDecodeWaiter waiter(wait);
     start = User::FastCounter();
-    image->Convert(&waiter.Status(), *bitmap);
-    waiter.Start();
+    image->Convert(&waiter->Status(), *bitmap);
+    waiter->Start();
     timeout->After(kDecodeTimeoutMicroseconds);
-    wait.Start();
+    wait->Start();
     result.convertMilliseconds = Milliseconds(start, User::FastCounter());
     if (timeout->iFired) {
         // Cancelling a stuck plug-in could block too: stop the whole probe.
+        if (RThread().Id() != gMainThread)
+            User::Exit(KErrTimedOut); // only this worker thread
         Log("  ICL decode of %s still running after %d s: stopping the probe\n", jpeg.name, kDecodeTimeoutMicroseconds / 1000000);
         fclose(gLog);
         User::Exit(KErrTimedOut);
     } else {
         timeout->Cancel();
-        result.error = waiter.Status().Int();
+        result.error = waiter->Status().Int();
     }
     delete timeout;
+    delete waiter;
+    delete wait;
     delete bitmap;
     delete image;
     return result;
@@ -496,6 +509,107 @@ int LoadUserJpegs(RFs& fs, Jpeg* jpegs, int maxCount)
     return count;
 }
 
+
+// WebKit decodes images on worker threads. Repeat the ICL decode on worker
+// threads, one at a time or at once behind one mutex, and report how each
+// thread ended.
+struct WorkerJob {
+    const Jpeg* jpeg;
+    RMutex* mutex;
+    CImageDecoder::TOptions options;
+    TInt error;
+    int done;
+};
+
+TInt WorkerMain(TAny* argument)
+{
+    WorkerJob& job = *static_cast<WorkerJob*>(argument);
+    CTrapCleanup* cleanup = CTrapCleanup::New();
+    CActiveScheduler* scheduler = new CActiveScheduler;
+    CActiveScheduler::Install(scheduler);
+    RFs fs;
+    job.error = fs.Connect();
+    TInt fbs = job.error ? job.error : RFbsSession::Connect();
+    if (!job.error)
+        job.error = fbs;
+    for (int i = 0; i < 10 && !job.error && !PastDeadline(); ++i) {
+        if (job.mutex)
+            job.mutex->Wait();
+        job.error = DecodeIcl(fs, *job.jpeg, KNullUid, 1, job.options).error;
+        if (job.mutex)
+            job.mutex->Signal();
+        if (!job.error)
+            ++job.done;
+    }
+    if (!fbs)
+        RFbsSession::Disconnect();
+    fs.Close();
+    CActiveScheduler::Install(nullptr);
+    delete scheduler;
+    delete cleanup;
+    return 0;
+}
+
+void RunWorkers(const Jpeg& jpeg, int count, bool together, bool serialized, CImageDecoder::TOptions options = CImageDecoder::EOptionNone)
+{
+    static int serial;
+    const int kMaxWorkers = 3;
+    RThread threads[kMaxWorkers];
+    TRequestStatus status[kMaxWorkers];
+    WorkerJob jobs[kMaxWorkers];
+    RMutex mutex;
+    if (serialized && mutex.CreateLocal() != KErrNone)
+        serialized = false;
+    Log("\nICL on %d worker thread(s), %s%s, options 0x%x, %s:\n", count, together ? "at once" : "one at a time",
+        serialized ? " behind one mutex" : "", options, jpeg.name);
+    bool started[kMaxWorkers] = { };
+    for (int i = 0; i < count; ++i) {
+        jobs[i] = { &jpeg, serialized ? &mutex : nullptr, options, KErrNone, 0 };
+        TBuf<16> name;
+        name.Format(_L("iclworker%d"), ++serial);
+        TInt error = threads[i].Create(name, WorkerMain, 0x10000, nullptr, &jobs[i]);
+        if (error) {
+            Log("  thread %d: create failed %d\n", i, error);
+            continue;
+        }
+        started[i] = true;
+        threads[i].Logon(status[i]);
+        threads[i].Resume();
+        if (!together) {
+            // Waits for this thread before starting the next; at most 40 s.
+            for (int t = 0; t < 400 && status[i] == KRequestPending; ++t)
+                User::After(100000);
+        }
+    }
+    for (int t = 0; t < 400; ++t) {
+        bool running = false;
+        for (int i = 0; i < count; ++i)
+            running |= started[i] && status[i] == KRequestPending;
+        if (!running)
+            break;
+        User::After(100000);
+    }
+    for (int i = 0; i < count; ++i) {
+        if (!started[i])
+            continue;
+        if (status[i] == KRequestPending) {
+            Log("  thread %d: still running after 40 s, killed (%d decodes)\n", i, jobs[i].done);
+            threads[i].LogonCancel(status[i]);
+            threads[i].Kill(KErrTimedOut);
+            User::WaitForRequest(status[i]);
+        } else {
+            TExitCategoryName category = threads[i].ExitCategory();
+            TBuf8<32> category8;
+            category8.Copy(category.Left(31));
+            Log("  thread %d: %d decodes, error %d, exit type %d %s %d\n", i, jobs[i].done, jobs[i].error,
+                threads[i].ExitType(), reinterpret_cast<const char*>(category8.PtrZ()), threads[i].ExitReason());
+        }
+        threads[i].Close();
+    }
+    if (serialized)
+        mutex.Close();
+}
+
 void RunL()
 {
     RFs fs;
@@ -521,6 +635,14 @@ void RunL()
                 Log("encoding %dx%d failed\n", size[0], size[1]);
         }
     }
+    // WebKit decodes on worker threads.
+    for (int i = 0; i < count && !PastDeadline(); ++i) {
+        if (jpegs[i].width == 640 && !jpegs[i].progressive) {
+            RunWorkers(jpegs[i], 1, false, false);
+            RunWorkers(jpegs[i], 2, true, true);
+            break;
+        }
+    }
     for (int i = 0; i < count && !PastDeadline(); ++i)
         TimeJpeg(fs, jpegs[i]);
     for (int i = 0; i < count; ++i)
@@ -541,6 +663,7 @@ int main()
     TInt tickPeriod = 1000;
     HAL::Get(HALData::ENanoTickPeriod, tickPeriod);
     gDeadline = User::NTickCount() + kRunSeconds * (1000000 / (tickPeriod > 0 ? tickPeriod : 1000));
+    gMainThread = RThread().Id();
     Log("jpegprobe start, fast counter %d Hz\n", gCounterFrequency);
 
     CTrapCleanup* cleanup = CTrapCleanup::New();
