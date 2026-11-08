@@ -20,7 +20,7 @@ STATS = re.compile(r'frame-stats: (\S+) frames=(\d+) window=(\d+)ms((?: [\w-]+=[
 STAGE = re.compile(r'([\w-]+)=([\d.]+)/([\d.]+)')
 FIELD = re.compile(r'(\w+)=([\d.]+)')
 TILES = re.compile(r'egl-tiles: (\d+) KB')
-DRAW = re.compile(r'egl-draw: per frame (.*)')
+DRAW = re.compile(r'egl-(draw|surfaces): per frame (.*)')
 DRAW_FIELD = re.compile(r'([a-z-]+)=([\d.]+)')
 DECODE = re.compile(r'image-decode: (\S+) window=\d+ms n=(\d+) partial=(\d+) kpx=(\d+) ms=([\d.]+) '
                     r'max=([\d.]+)@(\d+x\d+) large=(\d+)/([\d.]+)ms')
@@ -62,7 +62,10 @@ def parse(lines):
         if draw:
             entry = group(current or '(no benchmark)')
             most = entry['draw'] or {}
-            for key, value in DRAW_FIELD.findall(draw.group(1)):
+            # The surfaces line counts layers drawn through a surface, by reason.
+            prefix = 'surface-' if draw.group(1) == 'surfaces' else ''
+            for key, value in DRAW_FIELD.findall(draw.group(2)):
+                key = prefix + key
                 most[key] = max(most.get(key, 0.0), float(value))
             entry['draw'] = most
             continue

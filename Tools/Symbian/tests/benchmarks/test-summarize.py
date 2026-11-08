@@ -25,6 +25,8 @@ LOG = """\
 10:00:10.000 frame-stats: egl frames=25 window=1000ms update=1.00/2.00 backing=10.00/20.00 draw=3.00/4.00 swap=6.00/9.00
 10:00:10.000 egl-tiles: 4096 KB of 32768 KB
 10:00:10.200 egl-tiles: 6144 KB of 32768 KB
+10:00:10.210 egl-draw: per frame quads=30.0 kpx=480 surfaces=9.0 rounded-clips=0.0 stencil-clips=1.0
+10:00:10.220 egl-surfaces: per frame opacity=2.0 filter-mask=1.0 flatten=0.0 backdrop=0.0 filter-passes=2.0 kpx=150
 10:00:10.300 image-decode: jpg-baseline window=1200ms n=3 partial=1 kpx=900 ms=60.0 max=40.0@800x600 large=1/40.0ms
 10:00:10.300 image-decode: png window=1200ms n=2 partial=0 kpx=20 ms=4.0 max=3.0@100x100 large=0/0.0ms
 10:00:10.400 image-decode: jpg-baseline window=1100ms n=1 partial=0 kpx=100 ms=10.0 max=10.0@400x250 large=0/0.0ms
@@ -66,6 +68,9 @@ def main():
     assert composited['egl']['frames'] == 25 and composited['egl']['windows'] == 1
     close(composited['egl']['frame_ms'], 20.0)
     assert groups['composited']['tiles_kb'] == 6144 and groups['scroll']['tiles_kb'] is None
+    draw = groups['composited']['draw']
+    assert draw['kpx'] == 480 and draw['surfaces'] == 9 and draw['stencil-clips'] == 1, draw
+    assert draw['surface-opacity'] == 2 and draw['surface-filter-mask'] == 1 and draw['surface-kpx'] == 150, draw
     # A single screenplay line is the dropped first one: nothing presented.
     assert composited['screenplay']['windows'] == 0
 

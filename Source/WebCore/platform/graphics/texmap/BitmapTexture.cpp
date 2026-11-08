@@ -33,6 +33,7 @@
 #include "TextureMapper.h"
 #include "TextureMapperFlags.h"
 #include "TextureMapperShaderProgram.h"
+#include <cstdio>
 #include <wtf/HashMap.h>
 #include <wtf/NeverDestroyed.h>
 #include <wtf/RefCounted.h>
@@ -140,6 +141,9 @@ void BitmapTexture::allocateTexture()
 {
     createTexture();
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_size.width(), m_size.height(), 0, textureFormat, s_pixelDataType, nullptr);
+#if OS(SYMBIAN)
+    TextureMapper::checkGLError("allocating a texture", m_size);
+#endif
 }
 
 size_t BitmapTexture::sizeInBytes() const
@@ -269,6 +273,9 @@ void BitmapTexture::reset(const IntSize& size, OptionSet<Flags> flags)
 
     glBindTexture(GL_TEXTURE_2D, m_id);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_size.width(), m_size.height(), 0, textureFormat, s_pixelDataType, nullptr);
+#if OS(SYMBIAN)
+    TextureMapper::checkGLError("allocating a texture", m_size);
+#endif
     glBindTexture(GL_TEXTURE_2D, boundTexture);
 }
 
@@ -359,6 +366,13 @@ void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRec
     }
 
     glTexSubImage2D(GL_TEXTURE_2D, 0, targetRect.x(), targetRect.y(), targetRect.width(), targetRect.height(), textureFormat, s_pixelDataType, data);
+#if OS(SYMBIAN)
+    if (TextureMapper::checkingGLErrors()) {
+        char step[64];
+        snprintf(step, sizeof(step), "uploading %dx%d at %d,%d into a texture", targetRect.width(), targetRect.height(), targetRect.x(), targetRect.y());
+        TextureMapper::checkGLError(step, m_size);
+    }
+#endif
 
     if (supportsUnpackSubimage) {
         glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -450,6 +464,9 @@ void BitmapTexture::initializeStencil()
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_stencilBufferObject);
     glClearStencil(0);
     glClear(GL_STENCIL_BUFFER_BIT);
+#if OS(SYMBIAN)
+    TextureMapper::checkGLError("adding a stencil buffer to a surface", m_size);
+#endif
 }
 
 void BitmapTexture::initializeDepthBuffer()
@@ -462,6 +479,9 @@ void BitmapTexture::initializeDepthBuffer()
     glRenderbufferStorage(GL_RENDERBUFFER, depthBufferFormat(), m_size.width(), m_size.height());
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthBufferObject);
+#if OS(SYMBIAN)
+    TextureMapper::checkGLError("adding a depth buffer to a surface", m_size);
+#endif
 }
 
 void BitmapTexture::clearIfNeeded()

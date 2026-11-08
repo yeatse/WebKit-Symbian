@@ -75,8 +75,23 @@ public:
         unsigned surfaces { 0 };
         unsigned roundedClips { 0 };
         unsigned stencilClips { 0 };
+        // Why layers painted through a surface of their own, and its pixels.
+        unsigned opacitySurfaces { 0 };
+        unsigned filterMaskSurfaces { 0 };
+        unsigned flattenSurfaces { 0 };
+        unsigned backdropSurfaces { 0 };
+        unsigned filterPasses { 0 };
+        uint64_t surfacePixels { 0 };
     };
     WEBCORE_EXPORT static DrawStats& drawStats();
+
+    // With checks on, each GL step of drawing and uploading reads the GL
+    // error, and the first failing step is kept for the compositor to log.
+    WEBCORE_EXPORT static void setCheckGLErrors(bool);
+    WEBCORE_EXPORT static bool checkingGLErrors();
+    WEBCORE_EXPORT static void checkGLError(const char* step, const IntSize&);
+    // The first failing step since the last call, or null; clears it.
+    WEBCORE_EXPORT static const char* takeGLErrorStep();
 #endif
 
     TextureMapper();

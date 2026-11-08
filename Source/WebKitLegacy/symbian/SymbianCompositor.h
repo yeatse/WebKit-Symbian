@@ -51,9 +51,15 @@ private:
     WebCore::Timer m_flushTimer;
     bool m_rendering { false };
     bool m_logNextPresentation { true };
-    // Set after a GL error: each stage then checks for errors, to name the
-    // one that fails if it happens again.
+    bool glStageFailed(const char* stage);
+    bool retryAfterGLError();
+    void setCheckGLStages(bool);
+
+    // Set after a GL error: each stage and each GL step of drawing then
+    // checks for errors, to name the one that fails if it happens again.
     bool m_checkGLStages { false };
+    unsigned m_cleanCheckedFrames { 0 };
+    unsigned m_glFailures { 0 };
     unsigned m_drawStatsFrames { 0 };
     FrameStats m_stats;
     MonotonicTime m_lastFrame;

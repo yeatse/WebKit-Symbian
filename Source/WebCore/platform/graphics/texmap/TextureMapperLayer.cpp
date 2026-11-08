@@ -935,10 +935,21 @@ void TextureMapperLayer::computeOverlapRegions(ComputeOverlapRegionData& data, c
     if (!m_state.visible || !m_state.contentsVisible)
         return;
 
+#if OS(SYMBIAN)
+    // A layer that only clips its children (overflow: hidden with nothing
+    // painted of its own) paints nothing where they do not. Counting its
+    // whole rect made every child overlap it, so a translucent card with a
+    // single child went through a surface. Its children are counted
+    // instead, unclipped, which covers at least what they paint.
+    bool onlyClipsChildren = data.mode == ComputeOverlapRegionMode::Intersection && m_state.masksToBounds
+        && !m_backingStore && !m_state.maskLayer && !hasFilters() && !hasBackdrop() && !isFlattened() && !m_state.replicaLayer;
+#else
+    constexpr bool onlyClipsChildren = false;
+#endif
     FloatRect localBoundingRect;
     if (isFlattened() && !m_isBackdrop)
         localBoundingRect = m_flattenedLayer->layerRect();
-    else if (m_backingStore || m_state.masksToBounds || m_state.maskLayer || hasFilters() || hasBackdrop())
+    else if (m_backingStore || (m_state.masksToBounds && !onlyClipsChildren) || m_state.maskLayer || hasFilters() || hasBackdrop())
         localBoundingRect = layerRect();
     else if (m_contentsLayer || m_state.solidColor.isVisible())
         localBoundingRect = m_state.contentsRect;
@@ -970,7 +981,7 @@ void TextureMapperLayer::computeOverlapRegions(ComputeOverlapRegionData& data, c
         computeOverlapRegions(data, newReplicaTransform, false);
     }
 
-    if (!m_state.masksToBounds && data.mode != ComputeOverlapRegionMode::Mask && !isFlattened()) {
+    if ((!m_state.masksToBounds || onlyClipsChildren) && data.mode != ComputeOverlapRegionMode::Mask && !isFlattened()) {
         for (auto* child : m_children)
             child->computeOverlapRegions(data, accumulatedReplicaTransform);
     }
@@ -1111,6 +1122,10 @@ static void commitSurface(TextureMapperPaintOptions& options, BitmapTexture& sur
 
 void TextureMapperLayer::paintWithIntermediateSurface(TextureMapperPaintOptions& options, const IntRect& rect)
 {
+#if OS(SYMBIAN)
+    ++TextureMapper::drawStats().opacitySurfaces;
+    TextureMapper::drawStats().surfacePixels += static_cast<uint64_t>(rect.width()) * rect.height();
+#endif
     auto surface = BitmapTexturePool::singleton().acquireTexture(rect.size(), { BitmapTexture::Flags::SupportsAlpha });
     {
         SetForScope scopedSurface(options.surface, surface.ptr());
@@ -1127,6 +1142,13 @@ void TextureMapperLayer::paintWithIntermediateSurface(TextureMapperPaintOptions&
 
 void TextureMapperLayer::paintSelfAndChildrenWithIntermediateSurface(TextureMapperPaintOptions& options, const IntRect& rect)
 {
+#if OS(SYMBIAN)
+    if (m_isBackdrop)
+        ++TextureMapper::drawStats().backdropSurfaces;
+    else
+        ++TextureMapper::drawStats().filterMaskSurfaces;
+    TextureMapper::drawStats().surfacePixels += static_cast<uint64_t>(rect.width()) * rect.height();
+#endif
     auto surface = BitmapTexturePool::singleton().acquireTexture(rect.size(), { BitmapTexture::Flags::SupportsAlpha });
     {
         SetForScope scopedSurface(options.surface, surface.ptr());
@@ -1196,6 +1218,10 @@ void TextureMapperLayer::paintFlattened(TextureMapperPaintOptions& options)
         SetForScope scopedCombinedTransform(m_layerTransforms.combined, TransformationMatrix());
         SetForScope scopedBackdropLayer(m_state.backdropLayer, nullptr);
 
+#if OS(SYMBIAN)
+        ++TextureMapper::drawStats().flattenSurfaces;
+        TextureMapper::drawStats().surfacePixels += static_cast<uint64_t>(m_flattenedLayer->layerRect().width() * m_flattenedLayer->layerRect().height());
+#endif
         m_flattenedLayer->update(options, [&](TextureMapperPaintOptions& options) {
             paintIntoSurface(options);
         });
@@ -1512,6 +1538,12 @@ bool TextureMapperLayer::syncAnimations(MonotonicTime time)
 #endif
     m_currentOpacity = applicationResults.opacity.value_or(m_state.opacity);
     m_currentFilters = applicationResults.filters.value_or(m_state.filters);
+#if OS(SYMBIAN)
+    // Filters that change nothing, such as brightness(1) or an animation at
+    // its end, would still paint the layer through a surface each frame.
+    if (!m_currentFilters.isEmpty() && std::ranges::all_of(m_currentFilters, [](auto& filter) { return filter->isIdentity(); }))
+        m_currentFilters = { };
+#endif
 
 #if USE(COORDINATED_GRAPHICS)
     // Calculate localTransform 50ms in the future.

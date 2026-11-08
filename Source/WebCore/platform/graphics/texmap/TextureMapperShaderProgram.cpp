@@ -23,6 +23,7 @@
 #include "TextureMapperShaderProgram.h"
 #if OS(SYMBIAN)
 #include "GLContext.h"
+#include <wtf/text/CString.h>
 #endif
 
 #if USE(TEXTURE_MAPPER)
@@ -681,10 +682,16 @@ Ref<TextureMapperShaderProgram> TextureMapperShaderProgram::create(TextureMapper
     // Append the PQ tone mapping function.
     fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateToneMapPq));
 
+#if OS(SYMBIAN)
+    auto program = adoptRef(*new TextureMapperShaderProgram(vertexShaderBuilder.toString(), fragmentShaderBuilder.toString()));
+    program->m_options = options;
+    return program;
+#else
     return adoptRef(*new TextureMapperShaderProgram(vertexShaderBuilder.toString(), fragmentShaderBuilder.toString()));
+#endif
 }
 
-#if !LOG_DISABLED
+#if !LOG_DISABLED || OS(SYMBIAN)
 static CString getShaderLog(GLuint shader)
 {
     GLint logLength = 0;
@@ -745,12 +752,31 @@ TextureMapperShaderProgram::TextureMapperShaderProgram(const String& vertex, con
     glAttachShader(m_id, m_fragmentShader);
     glLinkProgram(m_id);
 
+#if OS(SYMBIAN)
+    GLint vertexCompiled = 0;
+    GLint fragmentCompiled = 0;
+    GLint linked = 0;
+    glGetShaderiv(m_vertexShader, GL_COMPILE_STATUS, &vertexCompiled);
+    glGetShaderiv(m_fragmentShader, GL_COMPILE_STATUS, &fragmentCompiled);
+    glGetProgramiv(m_id, GL_LINK_STATUS, &linked);
+    if (!vertexCompiled || !fragmentCompiled || !linked) {
+        m_valid = false;
+        WTFLogAlways("Symbian compositor: shader failed: vertex compiled=%d fragment compiled=%d linked=%d", vertexCompiled, fragmentCompiled, linked);
+        if (!vertexCompiled)
+            WTFLogAlways("Symbian compositor: vertex shader log: %.300s", getShaderLog(m_vertexShader).data());
+        if (!fragmentCompiled)
+            WTFLogAlways("Symbian compositor: fragment shader log: %.300s", getShaderLog(m_fragmentShader).data());
+        if (vertexCompiled && fragmentCompiled)
+            WTFLogAlways("Symbian compositor: program log: %.300s", getProgramLog(m_id).data());
+    }
+#else
     if (!compositingLogEnabled() || glGetError() == GL_NO_ERROR)
         return;
 
     LOG(Compositing, "Vertex shader log: %s\n", getShaderLog(m_vertexShader).data());
     LOG(Compositing, "Fragment shader log: %s\n", getShaderLog(m_fragmentShader).data());
     LOG(Compositing, "Program log: %s\n", getProgramLog(m_id).data());
+#endif
 }
 
 TextureMapperShaderProgram::~TextureMapperShaderProgram()

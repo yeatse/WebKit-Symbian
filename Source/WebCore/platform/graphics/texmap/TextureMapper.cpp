@@ -36,6 +36,7 @@
 #include "Image.h"
 #include "TextureMapperFlags.h"
 #include "TextureMapperShaderProgram.h"
+#include <cstdio>
 #include <wtf/HashMap.h>
 #include <wtf/MathExtras.h>
 #include <wtf/NeverDestroyed.h>
@@ -190,7 +191,31 @@ Ref<TextureMapperShaderProgram> TextureMapperGLData::getShaderProgram(TextureMap
 {
     ASSERT(!options.isEmpty());
     auto addResult = m_sharedGLData->m_programs.ensure(options.toRaw(), [options] {
+#if OS(SYMBIAN)
+        // A program the GPU rejects would raise GL errors on every use and
+        // send the page to software painting. Draw without its effects
+        // (antialiasing, clips, filters) instead.
+        auto program = TextureMapperShaderProgram::create(options);
+        if (program->isValid())
+            return program;
+        const TextureMapperShaderProgram::Options sources {
+            TextureMapperShaderProgram::TextureRGB, TextureMapperShaderProgram::SolidColor, TextureMapperShaderProgram::Opacity,
+            TextureMapperShaderProgram::TextureYUV, TextureMapperShaderProgram::TextureNV12, TextureMapperShaderProgram::TextureNV21,
+            TextureMapperShaderProgram::TexturePackedYUV, TextureMapperShaderProgram::TextureExternalOES,
+            TextureMapperShaderProgram::TextureYUVA, TextureMapperShaderProgram::TextureCopy, TextureMapperShaderProgram::Premultiply };
+        auto reduced = options & sources;
+        if (reduced.isEmpty())
+            reduced = TextureMapperShaderProgram::SolidColor;
+        WTFLogAlways("Symbian compositor: shader options 0x%x failed, using 0x%x", options.toRaw(), reduced.toRaw());
+        if (reduced != options) {
+            auto fallback = TextureMapperShaderProgram::create(reduced);
+            if (fallback->isValid())
+                return fallback;
+        }
+        return program;
+#else
         return TextureMapperShaderProgram::create(options);
+#endif
     });
     return *addResult.iterator->value;
 }
@@ -899,6 +924,39 @@ TextureMapper::DrawStats& TextureMapper::drawStats()
     static DrawStats stats;
     return stats;
 }
+
+static bool s_checkGLErrors;
+static char s_glErrorStep[128];
+
+void TextureMapper::setCheckGLErrors(bool check)
+{
+    s_checkGLErrors = check;
+}
+
+bool TextureMapper::checkingGLErrors()
+{
+    return s_checkGLErrors;
+}
+
+void TextureMapper::checkGLError(const char* step, const IntSize& size)
+{
+    if (!s_checkGLErrors)
+        return;
+    GLenum error = glGetError();
+    if (error == GL_NO_ERROR || s_glErrorStep[0])
+        return;
+    snprintf(s_glErrorStep, sizeof(s_glErrorStep), "0x%x after %s %dx%d", error, step, size.width(), size.height());
+}
+
+const char* TextureMapper::takeGLErrorStep()
+{
+    static char step[sizeof(s_glErrorStep)];
+    if (!s_glErrorStep[0])
+        return nullptr;
+    memcpy(step, s_glErrorStep, sizeof(step));
+    s_glErrorStep[0] = 0;
+    return step;
+}
 #endif
 
 void TextureMapper::draw(const FloatRect& rect, const TransformationMatrix& modelViewMatrix, TextureMapperShaderProgram& program, GLenum drawingMode, OptionSet<TextureMapperFlags> flags)
@@ -939,6 +997,13 @@ void TextureMapper::draw(const FloatRect& rect, const TransformationMatrix& mode
     glDisableVertexAttribArray(program.vertexLocation());
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+#if OS(SYMBIAN)
+    if (checkingGLErrors()) {
+        char step[48];
+        snprintf(step, sizeof(step), "drawing with shader 0x%x", program.options().toRaw());
+        checkGLError(step, enclosingIntRect(rect).size());
+    }
+#endif
 }
 
 void TextureMapper::drawTexturedQuadWithProgram(TextureMapperShaderProgram& program, const Vector<std::pair<GLuint, GLuint> >& texturesAndSamplers, OptionSet<TextureMapperFlags> flags, const FloatRect& rect, const TransformationMatrix& modelViewMatrix, float opacity)
@@ -1312,6 +1377,9 @@ RefPtr<BitmapTexture> TextureMapper::applyFilters(RefPtr<BitmapTexture>& sourceT
 
 RefPtr<BitmapTexture> TextureMapper::applyFilter(RefPtr<BitmapTexture>& sourceTexture, const Ref<const FilterOperation>& filter, bool defersLastPass)
 {
+#if OS(SYMBIAN)
+    ++drawStats().filterPasses;
+#endif
     switch (filter->type()) {
     case FilterOperation::Type::Grayscale:
     case FilterOperation::Type::Sepia:
@@ -1372,6 +1440,7 @@ void TextureMapper::bindSurface(BitmapTexture *surface)
     surface->bindAsSurface();
 #if OS(SYMBIAN)
     ++drawStats().surfaces;
+    checkGLError("binding a surface", surface->size());
 #endif
     data().currentSurface = surface;
     updateProjectionMatrix();
@@ -1490,6 +1559,9 @@ void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const
     // Increase stencilIndex and apply stencil testing.
     clipStack().setStencilIndex(stencilIndex * 2);
     clipStack().applyIfNeeded();
+#if OS(SYMBIAN)
+    checkGLError("a stencil clip", clipBounds().size());
+#endif
 }
 
 void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const ClipPath& clipPath)
@@ -1554,6 +1626,9 @@ void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const
     // Increase stencilIndex and apply stencil testing.
     clipStack().setStencilIndex(stencilIndex * 2);
     clipStack().applyIfNeeded();
+#if OS(SYMBIAN)
+    checkGLError("a stencil clip", clipBounds().size());
+#endif
 }
 
 void TextureMapper::beginClipWithoutApplying(const TransformationMatrix& modelViewMatrix, const FloatRect& targetRect)

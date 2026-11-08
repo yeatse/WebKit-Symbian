@@ -7,6 +7,7 @@
 #include "WebViewImpl.h"
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
+#include <cstdio>
 #include <WebCore/DocumentView.h>
 #include <WebCore/BitmapTexturePool.h>
 #include <WebCore/GLContext.h>
@@ -191,6 +192,59 @@ bool SymbianCompositor::resize()
     return true;
 }
 
+// Reads every pending GL error flag. A driver may keep several, and one left
+// behind would be blamed on a later step.
+static GLenum takeGLErrors(char* codes, size_t size)
+{
+    GLenum first = GL_NO_ERROR;
+    size_t used = 0;
+    codes[0] = 0;
+    for (int i = 0; i < 8; ++i) {
+        GLenum error = glGetError();
+        if (error == GL_NO_ERROR)
+            break;
+        if (first == GL_NO_ERROR)
+            first = error;
+        if (used + 8 < size)
+            used += snprintf(codes + used, size - used, "%s0x%x", used ? " " : "", error);
+    }
+    return first;
+}
+
+void SymbianCompositor::setCheckGLStages(bool check)
+{
+    m_checkGLStages = check;
+    m_cleanCheckedFrames = 0;
+    TextureMapper::setCheckGLErrors(check);
+}
+
+bool SymbianCompositor::glStageFailed(const char* stage)
+{
+    char codes[48];
+    GLenum error = takeGLErrors(codes, sizeof(codes));
+    const char* step = TextureMapper::takeGLErrorStep();
+    if (error == GL_NO_ERROR && !step)
+        return false;
+    if (step)
+        WTFLogAlways("Symbian compositor: GL error %s while %s%s%s", step, stage, error != GL_NO_ERROR ? ", then " : "", codes);
+    else
+        WTFLogAlways("Symbian compositor: GL error %s while %s", codes, stage);
+    return true;
+}
+
+// A checked frame failed: drop it and draw again, up to a few times, before
+// leaving the page to software painting.
+bool SymbianCompositor::retryAfterGLError()
+{
+    constexpr unsigned maximumFailures = 3;
+    if (++m_glFailures >= maximumFailures) {
+        WTFLogAlways("Symbian compositor: %u frames failed in GL, using software painting", m_glFailures);
+        return false;
+    }
+    m_flushTimer.startOneShot(0_s);
+    return true;
+}
+
 bool SymbianCompositor::render()
 {
     if (m_rendering || m_view.size().isEmpty())
@@ -207,6 +261,12 @@ bool SymbianCompositor::render()
         WTFLogAlways("Symbian compositor: EGL make-current failed: %s", GLContext::lastErrorString());
         return false;
     }
+    if (m_checkGLStages) {
+        char codes[48];
+        if (takeGLErrors(codes, sizeof(codes)) != GL_NO_ERROR)
+            WTFLogAlways("Symbian compositor: GL error %s left from before the frame", codes);
+        TextureMapper::takeGLErrorStep();
+    }
     auto* frameView = m_view.page().localMainFrame()->view();
     if (!frameView)
         return true;
@@ -221,12 +281,8 @@ bool SymbianCompositor::render()
     // texture allocation/upload, not just before the final draw.
     if (!m_context->makeContextCurrent())
         return false;
-    if (m_checkGLStages) {
-        if (auto error = glGetError(); error != GL_NO_ERROR) {
-            WTFLogAlways("Symbian compositor: GL error 0x%x while flushing layers, using software painting", error);
-            return false;
-        }
-    }
+    if (m_checkGLStages && glStageFailed("flushing layers"))
+        return retryAfterGLError();
     MonotonicTime updated = timing ? MonotonicTime::now() : MonotonicTime();
     auto& root = downcast<GraphicsLayerTextureMapper>(*m_root);
     // Tiles cover only what is on screen and a margin around it, which needs
@@ -241,12 +297,8 @@ bool SymbianCompositor::render()
     // A canvas preparation can use an ANGLE context during layer flushing.
     if (!m_context->makeContextCurrent())
         return false;
-    if (m_checkGLStages) {
-        if (auto error = glGetError(); error != GL_NO_ERROR) {
-            WTFLogAlways("Symbian compositor: GL error 0x%x while painting or uploading tiles, using software painting", error);
-            return false;
-        }
-    }
+    if (m_checkGLStages && glStageFailed("painting or uploading tiles"))
+        return retryAfterGLError();
     MonotonicTime backed = timing ? MonotonicTime::now() : MonotonicTime();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, m_view.size().width(), m_view.size().height());
@@ -257,18 +309,26 @@ bool SymbianCompositor::render()
     m_textureMapper->beginPainting();
     root.layer().paint(*m_textureMapper);
     m_textureMapper->endPainting();
-    auto error = glGetError();
-    if (error != GL_NO_ERROR) {
-        if (!m_checkGLStages) {
+    if (!m_checkGLStages) {
+        char codes[48];
+        if (takeGLErrors(codes, sizeof(codes)) != GL_NO_ERROR) {
             // The error may have come from any stage of the frame. Drop the
             // frame and draw again checking each, so a repeat names it.
-            WTFLogAlways("Symbian compositor: GL error 0x%x in a frame, drawing again with checks", error);
-            m_checkGLStages = true;
+            WTFLogAlways("Symbian compositor: GL error %s in a frame, drawing again with checks", codes);
+            setCheckGLStages(true);
             m_flushTimer.startOneShot(0_s);
             return true;
         }
-        WTFLogAlways("Symbian compositor: GLES draw failed (0x%x), using software painting", error);
-        return false;
+    } else {
+        if (glStageFailed("drawing layers"))
+            return retryAfterGLError();
+        // Checks cost a GL query per step: stop after a run of clean frames.
+        constexpr unsigned cleanFramesToStopChecking = 60;
+        if (++m_cleanCheckedFrames >= cleanFramesToStopChecking) {
+            WTFLogAlways("Symbian compositor: %u clean frames, GL checks off", m_cleanCheckedFrames);
+            setCheckGLStages(false);
+            m_glFailures = 0;
+        }
     }
     MonotonicTime drawn = timing ? MonotonicTime::now() : MonotonicTime();
     if (!m_context->swapBuffersChecked()) {
@@ -292,6 +352,11 @@ bool SymbianCompositor::render()
             double frames = std::max(1u, m_drawStatsFrames);
             WTFLogAlways("egl-draw: per frame quads=%.1f kpx=%.0f surfaces=%.1f rounded-clips=%.1f stencil-clips=%.1f",
                 draw.draws / frames, draw.pixels / frames / 1000, draw.surfaces / frames, draw.roundedClips / frames, draw.stencilClips / frames);
+            // Surfaces counts binds; these count each layer painted through a
+            // surface of its own, by reason.
+            WTFLogAlways("egl-surfaces: per frame opacity=%.1f filter-mask=%.1f flatten=%.1f backdrop=%.1f filter-passes=%.1f kpx=%.0f",
+                draw.opacitySurfaces / frames, draw.filterMaskSurfaces / frames, draw.flattenSurfaces / frames,
+                draw.backdropSurfaces / frames, draw.filterPasses / frames, draw.surfacePixels / frames / 1000);
             draw = { };
             m_drawStatsFrames = 0;
         }
