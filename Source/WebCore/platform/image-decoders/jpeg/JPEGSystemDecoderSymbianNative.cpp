@@ -14,8 +14,6 @@
 namespace WebCore::SymbianJPEG {
 namespace {
 
-_LIT8(KJPEGMimeType, "image/jpeg");
-
 // Completes a nested scheduler loop when ICL completes the conversion.
 class ConversionWaiter final : public CActive {
 public:
@@ -67,9 +65,11 @@ void destroySession(Session* session)
 
 void decodeL(Session& session, const TDesC8& source, const TSize& size)
 {
-    // Exif data is not needed: WebKit reads the orientation itself.
-    CImageDecoder* decoder = CImageDecoder::DataNewL(session.fs, source, KJPEGMimeType,
-        static_cast<CImageDecoder::TOptions>(CImageDecoder::EOptionNoDither | CImageDecoder::EOptionIgnoreExifMetaData));
+    // Open it as the JPEG probe does, which decoded on the 808. With
+    // EOptionIgnoreExifMetaData the 808's JPEG plug-in leaves with
+    // KErrNotSupported and iclextjpegapi.dll then panics the thread
+    // (E32USER-CBase 91) instead of returning the error.
+    CImageDecoder* decoder = CImageDecoder::DataNewL(session.fs, source, CImageDecoder::EOptionNone);
     CleanupStack::PushL(decoder);
     if (decoder->FrameCount() < 1 || decoder->FrameInfo(0).iOverallSizeInPixels != size)
         User::Leave(KErrCorrupt);
