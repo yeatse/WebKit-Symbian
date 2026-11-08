@@ -615,11 +615,14 @@ public:
         request->pixels = pixels.data();
         m_request = request.ptr();
         m_condition.notifyAll();
-        deadline = MonotonicTime::now() + 10_s;
+        // Until ICL has decoded once, wait less: a decoder that never answers
+        // (as in EKA2L1) would otherwise stall the first JPEG for 10 s.
+        Seconds timeout = m_decodedOnce ? 10_s : 3_s;
+        deadline = MonotonicTime::now() + timeout;
         while (!request->done) {
             if (!m_condition.waitUntil(m_lock, deadline)) {
                 // The thread keeps the request and never writes the pixels.
-                WTFLogAlways("image-decode: ICL took over 10 s on %dx%d, using libjpeg", size.width(), size.height());
+                WTFLogAlways("image-decode: ICL took over %.0f s on %dx%d, using libjpeg", timeout.seconds(), size.width(), size.height());
                 request->abandoned = true;
                 m_state = State::Unavailable;
                 return false;
@@ -629,6 +632,8 @@ public:
             m_loggedError = true;
             WTFLogAlways("image-decode: ICL failed with %d on %dx%d, using libjpeg for it", request->error, size.width(), size.height());
         }
+        if (!request->error)
+            m_decodedOnce = true;
         return !request->error;
     }
 
@@ -695,6 +700,7 @@ private:
     State m_state WTF_GUARDED_BY_LOCK(m_lock) { State::Stopped };
     RefPtr<Request> m_request WTF_GUARDED_BY_LOCK(m_lock);
     bool m_loggedError WTF_GUARDED_BY_LOCK(m_lock) { false };
+    bool m_decodedOnce WTF_GUARDED_BY_LOCK(m_lock) { false };
 };
 
 // The bitmap ICL decodes into lives in the font and bitmap server's shared
