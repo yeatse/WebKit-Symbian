@@ -24,6 +24,10 @@
 #if OS(SYMBIAN)
 #include "GLContext.h"
 #include <wtf/text/CString.h>
+#if OS(SYMBIAN)
+#include <cstdlib>
+#include <cstring>
+#endif
 #endif
 
 #if USE(TEXTURE_MAPPER)
@@ -167,10 +171,21 @@ static const char* vertexTemplateCommon =
 // rectangle so we need 30 components to receive the 10 rectangles.
 //
 // Keep this is sync with the values defined in ClipStack.h
+#if OS(SYMBIAN)
+// The Nokia 808's VideoCore IV linker rejects the clip loop with "Indexing with an
+// integral constant expression greater than declared size", as if the unrolled
+// loop ran once more than its bound. One spare rectangle in each array keeps that
+// index in range; the spare entries are never uploaded or read at run time.
+#define ROUNDED_RECT_CONSTANTS                       \
+    GLSL_DIRECTIVE(define ROUNDED_RECT_MAX_RECTS 10) \
+    GLSL_DIRECTIVE(define ROUNDED_RECT_ARRAY_SIZE 33) \
+    GLSL_DIRECTIVE(define ROUNDED_RECT_INVERSE_TRANSFORM_ARRAY_SIZE 11)
+#else
 #define ROUNDED_RECT_CONSTANTS                       \
     GLSL_DIRECTIVE(define ROUNDED_RECT_MAX_RECTS 10) \
     GLSL_DIRECTIVE(define ROUNDED_RECT_ARRAY_SIZE 30) \
     GLSL_DIRECTIVE(define ROUNDED_RECT_INVERSE_TRANSFORM_ARRAY_SIZE 10)
+#endif
 
 // Common header for all versions. We define the matrices variables here to keep the precision
 // directives scope: the first one applies to the matrices variables and the next one to the
@@ -766,8 +781,27 @@ TextureMapperShaderProgram::TextureMapperShaderProgram(const String& vertex, con
             WTFLogAlways("Symbian compositor: vertex shader log: %.300s", getShaderLog(m_vertexShader).data());
         if (!fragmentCompiled)
             WTFLogAlways("Symbian compositor: fragment shader log: %.300s", getShaderLog(m_fragmentShader).data());
-        if (vertexCompiled && fragmentCompiled)
-            WTFLogAlways("Symbian compositor: program log: %.300s", getProgramLog(m_id).data());
+        if (vertexCompiled && fragmentCompiled) {
+            // Drivers that compile at link time report source errors here.
+            CString log = getProgramLog(m_id);
+            const char* text = log.data();
+            size_t length = log.length();
+            for (size_t offset = 0; offset < length && offset < 1200; offset += 240)
+                WTFLogAlways("Symbian compositor: program log: %.240s", text + offset);
+            // Show the source lines the log names, from either shader.
+            unsigned shown = 0;
+            for (const char* cursor = text; (cursor = strstr(cursor, "line ")) && shown < 3; ++shown) {
+                cursor += 5;
+                int line = atoi(cursor);
+                if (line <= 0)
+                    continue;
+                for (auto* source : { &fragment, &vertex }) {
+                    auto lines = source->split('\n');
+                    if (static_cast<size_t>(line) <= lines.size())
+                        WTFLogAlways("Symbian compositor: %s line %d: %.200s", source == &fragment ? "fragment" : "vertex", line, lines[line - 1].utf8().data());
+                }
+            }
+        }
     }
 #else
     if (!compositingLogEnabled() || glGetError() == GL_NO_ERROR)
