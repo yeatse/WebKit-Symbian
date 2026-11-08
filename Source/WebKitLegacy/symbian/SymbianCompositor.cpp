@@ -221,6 +221,12 @@ bool SymbianCompositor::render()
     // texture allocation/upload, not just before the final draw.
     if (!m_context->makeContextCurrent())
         return false;
+    if (m_checkGLStages) {
+        if (auto error = glGetError(); error != GL_NO_ERROR) {
+            WTFLogAlways("Symbian compositor: GL error 0x%x while flushing layers, using software painting", error);
+            return false;
+        }
+    }
     MonotonicTime updated = timing ? MonotonicTime::now() : MonotonicTime();
     auto& root = downcast<GraphicsLayerTextureMapper>(*m_root);
     // Tiles cover only what is on screen and a margin around it, which needs
@@ -235,6 +241,12 @@ bool SymbianCompositor::render()
     // A canvas preparation can use an ANGLE context during layer flushing.
     if (!m_context->makeContextCurrent())
         return false;
+    if (m_checkGLStages) {
+        if (auto error = glGetError(); error != GL_NO_ERROR) {
+            WTFLogAlways("Symbian compositor: GL error 0x%x while painting or uploading tiles, using software painting", error);
+            return false;
+        }
+    }
     MonotonicTime backed = timing ? MonotonicTime::now() : MonotonicTime();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, m_view.size().width(), m_view.size().height());
@@ -247,6 +259,14 @@ bool SymbianCompositor::render()
     m_textureMapper->endPainting();
     auto error = glGetError();
     if (error != GL_NO_ERROR) {
+        if (!m_checkGLStages) {
+            // The error may have come from any stage of the frame. Drop the
+            // frame and draw again checking each, so a repeat names it.
+            WTFLogAlways("Symbian compositor: GL error 0x%x in a frame, drawing again with checks", error);
+            m_checkGLStages = true;
+            m_flushTimer.startOneShot(0_s);
+            return true;
+        }
         WTFLogAlways("Symbian compositor: GLES draw failed (0x%x), using software painting", error);
         return false;
     }
