@@ -27,6 +27,8 @@ list(APPEND WebCore_SYSTEM_INCLUDE_DIRECTORIES
 list(APPEND WebCore_PRIVATE_INCLUDE_DIRECTORIES
     "${WEBCORE_DIR}/platform/graphics/egl")
 list(APPEND WebCore_PRIVATE_FRAMEWORK_HEADERS
+    platform/image-decoders/ScalableImageDecoder.h
+    platform/image-decoders/ScalableImageDecoderFrame.h
     platform/symbian/PlatformDisplaySymbian.h
 )
 list(APPEND WebCore_LIBRARIES

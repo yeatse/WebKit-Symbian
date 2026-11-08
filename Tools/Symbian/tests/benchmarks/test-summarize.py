@@ -25,6 +25,9 @@ LOG = """\
 10:00:10.000 frame-stats: egl frames=25 window=1000ms update=1.00/2.00 backing=10.00/20.00 draw=3.00/4.00 swap=6.00/9.00
 10:00:10.000 egl-tiles: 4096 KB of 32768 KB
 10:00:10.200 egl-tiles: 6144 KB of 32768 KB
+10:00:10.300 image-decode: jpg-baseline window=1200ms n=3 partial=1 kpx=900 ms=60.0 max=40.0@800x600 large=1/40.0ms
+10:00:10.300 image-decode: png window=1200ms n=2 partial=0 kpx=20 ms=4.0 max=3.0@100x100 large=0/0.0ms
+10:00:10.400 image-decode: jpg-baseline window=1100ms n=1 partial=0 kpx=100 ms=10.0 max=10.0@400x250 large=0/0.0ms
 10:00:10.500 frame-stats: screenplay frames=2 window=1500ms begin=1.00/1.00 paint=5.00/5.00 submit=1.00/1.00
 10:00:11.000 console: file:///C:/Data/WebKit/bench/bench.js:65: bench: end composited frames=30 ms=3000 fps=10.0 long=4 worst=90
 """
@@ -37,6 +40,14 @@ def close(a, b):
 def main():
     groups = summarize.report(summarize.parse(io.StringIO(LOG)))
     assert list(groups) == ['scroll', 'webgl', 'composited'], list(groups)
+    decode = groups['composited']['decode']
+    assert list(decode) == ['jpg-baseline', 'png'], list(decode)
+    jpeg = decode['jpg-baseline']
+    assert (jpeg['n'], jpeg['partial'], jpeg['kpx'], jpeg['large']) == (4, 1, 1000, 1), jpeg
+    close(jpeg['ms'], 70.0)
+    close(jpeg['max'], 40.0)
+    assert jpeg['max_size'] == '800x600'
+    assert groups['scroll']['decode'] == {}
 
     scroll = groups['scroll']['presentations']['screenplay']
     # The first window (previous page's tail and idle time) is dropped.

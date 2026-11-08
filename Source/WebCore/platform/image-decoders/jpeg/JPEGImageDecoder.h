@@ -70,8 +70,16 @@ namespace WebCore {
 #if USE(LCMS)
         void setICCProfile(RefPtr<SharedBuffer>&&);
 #endif
+#if OS(SYMBIAN)
+        void setProgressive(bool progressive) { m_progressive = progressive; }
+#endif
 
     private:
+#if OS(SYMBIAN)
+        // Progressive JPEGs counted apart: hardware decoders take baseline only.
+        String decodeStatsName() const override { return m_progressive ? "jpg-progressive"_s : "jpg-baseline"_s; }
+        bool m_progressive { false };
+#endif
         JPEGImageDecoder(AlphaOption, GammaAndColorProfileOption);
         void tryDecodeSize(bool allDataReceived) override { decode(true, allDataReceived); }
 

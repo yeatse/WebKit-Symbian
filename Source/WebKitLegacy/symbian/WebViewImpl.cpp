@@ -62,6 +62,7 @@
 #include <WebCore/UserGestureIndicator.h>
 #include <WebCore/EmptyClients.h>
 #include <WebCore/GraphicsContextCairo.h>
+#include <WebCore/ScalableImageDecoder.h>
 #include <WebCore/FrameTreeSyncData.h>
 #include <WebCore/EventNames.h>
 #include <WebCore/EventHandler.h>
@@ -300,6 +301,7 @@ bool frameStatsEnabled() { return s_frameStatsEnabled; }
 void WebView::setFrameStatsEnabled(bool enabled)
 {
     s_frameStatsEnabled = enabled;
+    WebCore::ScalableImageDecoder::setDecodeStatsEnabled(enabled);
 }
 
 static bool s_tiledCompositingEnabled = true;

@@ -176,7 +176,17 @@ public:
     // and returns true. Otherwise returns false.
     std::optional<IntPoint> hotSpot() const override { return std::nullopt; }
 
+#if OS(SYMBIAN)
+    // Times each frame decode and logs a summary per format about once a
+    // second of decoding, for frame-stats.
+    WEBCORE_EXPORT static void setDecodeStatsEnabled(bool);
+#endif
+
 protected:
+#if OS(SYMBIAN)
+    // The format as decode statistics name it.
+    virtual String decodeStatsName() const { return filenameExtension(); }
+#endif
     RefPtr<const SharedBuffer> m_data;
     Vector<ScalableImageDecoderFrame, 1> m_frameBufferCache WTF_GUARDED_BY_LOCK(m_lock);
     mutable Lock m_lock;

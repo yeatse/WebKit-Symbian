@@ -391,6 +391,9 @@ public:
             // Don't allocate a giant and superfluous memory buffer when the
             // image is a sequential JPEG.
             m_info.buffered_image = jpeg_has_multiple_scans(&m_info);
+#if OS(SYMBIAN)
+            m_decoder->setProgressive(m_info.progressive_mode);
+#endif
 
             // Used to set up image size so arrays can be allocated.
             jpeg_calc_output_dimensions(&m_info);

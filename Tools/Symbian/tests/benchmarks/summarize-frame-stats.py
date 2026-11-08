@@ -22,6 +22,8 @@ FIELD = re.compile(r'(\w+)=([\d.]+)')
 TILES = re.compile(r'egl-tiles: (\d+) KB')
 DRAW = re.compile(r'egl-draw: per frame (.*)')
 DRAW_FIELD = re.compile(r'([a-z-]+)=([\d.]+)')
+DECODE = re.compile(r'image-decode: (\S+) window=\d+ms n=(\d+) partial=(\d+) kpx=(\d+) ms=([\d.]+) '
+                    r'max=([\d.]+)@(\d+x\d+) large=(\d+)/([\d.]+)ms')
 SLOW_MS = 1000 / 30
 
 
@@ -35,7 +37,7 @@ def parse(lines):
     current = None
 
     def group(name):
-        return groups.setdefault(name, {'presentations': {}, 'page': None, 'skipped': None, 'tiles_kb': None, 'draw': None, 'seen': set()})
+        return groups.setdefault(name, {'presentations': {}, 'page': None, 'skipped': None, 'tiles_kb': None, 'draw': None, 'decode': {}, 'seen': set()})
 
     for line in lines:
         marker = MARKER.search(line)
@@ -63,6 +65,21 @@ def parse(lines):
             for key, value in DRAW_FIELD.findall(draw.group(1)):
                 most[key] = max(most.get(key, 0.0), float(value))
             entry['draw'] = most
+            continue
+        decode = DECODE.search(line)
+        if decode:
+            entry = group(current or '(no benchmark)')
+            name, n, partial, kpx, ms, most, size, large, large_ms = decode.groups()
+            sums = entry['decode'].setdefault(name, {'n': 0, 'partial': 0, 'kpx': 0, 'ms': 0.0, 'max': 0.0,
+                                                      'max_size': '', 'large': 0, 'large_ms': 0.0})
+            sums['n'] += int(n)
+            sums['partial'] += int(partial)
+            sums['kpx'] += int(kpx)
+            sums['ms'] += float(ms)
+            sums['large'] += int(large)
+            sums['large_ms'] += float(large_ms)
+            if float(most) > sums['max']:
+                sums['max'], sums['max_size'] = float(most), size
             continue
         stats = STATS.search(line)
         if not stats:
@@ -110,7 +127,7 @@ def report(groups):
                 'slow_windows': summary['slow_windows'],
             }
         result[name] = {'presentations': presentations, 'page': entry['page'], 'skipped': entry['skipped'],
-                        'tiles_kb': entry['tiles_kb'], 'draw': entry['draw']}
+                        'tiles_kb': entry['tiles_kb'], 'draw': entry['draw'], 'decode': entry['decode']}
     return result
 
 
@@ -139,6 +156,12 @@ def print_report(result, out):
         if entry.get('draw'):
             print('  GPU draw per frame, most in a window: ' + ' '.join(
                 '%s=%g' % (key, value) for key, value in entry['draw'].items()), file=out)
+        for format_name, sums in entry.get('decode', {}).items():
+            print('  decode %-15s %4d images %6d kpx %7.1f ms (%.1f ms/Mpx)  max %.1f ms @%s  '
+                  'large %d/%.1f ms  partial %d' % (
+                      format_name, sums['n'], sums['kpx'], sums['ms'],
+                      sums['ms'] * 1000 / sums['kpx'] if sums['kpx'] else 0.0,
+                      sums['max'], sums['max_size'], sums['large'], sums['large_ms'], sums['partial']), file=out)
         if not entry['skipped'] and not any(s['windows'] for s in entry['presentations'].values()):
             print('  no frames presented', file=out)
 
