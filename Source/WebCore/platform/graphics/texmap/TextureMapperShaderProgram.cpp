@@ -171,21 +171,10 @@ static const char* vertexTemplateCommon =
 // rectangle so we need 30 components to receive the 10 rectangles.
 //
 // Keep this is sync with the values defined in ClipStack.h
-#if OS(SYMBIAN)
-// The Nokia 808's VideoCore IV linker rejects the clip loop with "Indexing with an
-// integral constant expression greater than declared size", as if the unrolled
-// loop ran once more than its bound. One spare rectangle in each array keeps that
-// index in range; the spare entries are never uploaded or read at run time.
-#define ROUNDED_RECT_CONSTANTS                       \
-    GLSL_DIRECTIVE(define ROUNDED_RECT_MAX_RECTS 10) \
-    GLSL_DIRECTIVE(define ROUNDED_RECT_ARRAY_SIZE 33) \
-    GLSL_DIRECTIVE(define ROUNDED_RECT_INVERSE_TRANSFORM_ARRAY_SIZE 11)
-#else
 #define ROUNDED_RECT_CONSTANTS                       \
     GLSL_DIRECTIVE(define ROUNDED_RECT_MAX_RECTS 10) \
     GLSL_DIRECTIVE(define ROUNDED_RECT_ARRAY_SIZE 30) \
     GLSL_DIRECTIVE(define ROUNDED_RECT_INVERSE_TRANSFORM_ARRAY_SIZE 10)
-#endif
 
 // Common header for all versions. We define the matrices variables here to keep the precision
 // directives scope: the first one applies to the matrices variables and the next one to the
@@ -541,6 +530,52 @@ static const char* fragmentTemplateCommon =
             return 1.0;
         }
 
+    );
+
+#if OS(SYMBIAN)
+// The Nokia 808's VideoCore IV linker rejects the clip loop below ("Indexing with an
+// integral constant expression greater than declared size") even with padded arrays.
+// The same clip, unrolled by hand with literal indices, which every GLSL ES 1.0
+// compiler accepts. Keep the count in sync with ROUNDED_RECT_MAX_RECTS.
+static const char* fragmentTemplateRoundedRectClip =
+    STRINGIFY(
+        void clipToRoundedRect(inout vec4 color, highp mat4 inverseTransform, highp vec4 rect, highp vec4 topRadii, highp vec4 bottomRadii)
+        {
+            highp vec4 fragCoord = inverseTransform * v_nonProjectedPosition;
+            highp vec4 bounds = vec4(rect.xy, rect.xy + rect.zw);
+            float coverage = roundedRectCoverage(fragCoord.xy, bounds, topRadii.xy, topRadii.zw, bottomRadii.xy, bottomRadii.zw);
+            if (coverage == 0.0)
+                discard;
+            color *= coverage;
+        }
+
+        void applyRoundedRectClip(inout vec4 color)
+        {
+            if (u_roundedRectNumber > 0)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[0], u_roundedRect[0], u_roundedRect[1], u_roundedRect[2]);
+            if (u_roundedRectNumber > 1)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[1], u_roundedRect[3], u_roundedRect[4], u_roundedRect[5]);
+            if (u_roundedRectNumber > 2)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[2], u_roundedRect[6], u_roundedRect[7], u_roundedRect[8]);
+            if (u_roundedRectNumber > 3)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[3], u_roundedRect[9], u_roundedRect[10], u_roundedRect[11]);
+            if (u_roundedRectNumber > 4)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[4], u_roundedRect[12], u_roundedRect[13], u_roundedRect[14]);
+            if (u_roundedRectNumber > 5)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[5], u_roundedRect[15], u_roundedRect[16], u_roundedRect[17]);
+            if (u_roundedRectNumber > 6)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[6], u_roundedRect[18], u_roundedRect[19], u_roundedRect[20]);
+            if (u_roundedRectNumber > 7)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[7], u_roundedRect[21], u_roundedRect[22], u_roundedRect[23]);
+            if (u_roundedRectNumber > 8)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[8], u_roundedRect[24], u_roundedRect[25], u_roundedRect[26]);
+            if (u_roundedRectNumber > 9)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[9], u_roundedRect[27], u_roundedRect[28], u_roundedRect[29]);
+        }
+    );
+#else
+static const char* fragmentTemplateRoundedRectClip =
+    STRINGIFY(
         void applyRoundedRectClip(inout vec4 color)
         {
             // This works by checking whether the fragment position, once the transform is applied,
@@ -589,6 +624,11 @@ static const char* fragmentTemplateCommon =
                 color *= coverage;
             }
         }
+    );
+#endif
+
+static const char* fragmentTemplateMain =
+    STRINGIFY(
 
         void main(void)
         {
@@ -693,6 +733,8 @@ Ref<TextureMapperShaderProgram> TextureMapperShaderProgram::create(TextureMapper
 
     // Append the common code.
     fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateCommon));
+    fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateRoundedRectClip));
+    fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateMain));
 
     // Append the PQ tone mapping function.
     fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateToneMapPq));
