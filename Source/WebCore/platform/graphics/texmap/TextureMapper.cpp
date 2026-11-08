@@ -893,8 +893,26 @@ void TextureMapper::drawUnitRect(TextureMapperShaderProgram& program, GLenum dra
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+#if OS(SYMBIAN)
+TextureMapper::DrawStats& TextureMapper::drawStats()
+{
+    static DrawStats stats;
+    return stats;
+}
+#endif
+
 void TextureMapper::draw(const FloatRect& rect, const TransformationMatrix& modelViewMatrix, TextureMapperShaderProgram& program, GLenum drawingMode, OptionSet<TextureMapperFlags> flags)
 {
+#if OS(SYMBIAN)
+    {
+        auto& stats = drawStats();
+        ++stats.draws;
+        WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
+        FloatRect covered = intersection(modelViewMatrix.mapQuad(rect).boundingBox(), FloatRect(0, 0, data().viewport[2], data().viewport[3]));
+        WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
+        stats.pixels += static_cast<uint64_t>(covered.width() * covered.height());
+    }
+#endif
     TransformationMatrix matrix(modelViewMatrix);
     matrix.multiply(TransformationMatrix::rectToRect(FloatRect(0, 0, 1, 1), rect));
 
@@ -1352,6 +1370,9 @@ void TextureMapper::bindSurface(BitmapTexture *surface)
     }
 
     surface->bindAsSurface();
+#if OS(SYMBIAN)
+    ++drawStats().surfaces;
+#endif
     data().currentSurface = surface;
     updateProjectionMatrix();
 }
@@ -1401,6 +1422,9 @@ bool TextureMapper::beginRoundedRectClip(const TransformationMatrix& modelViewMa
     FloatQuad quad = modelViewMatrix.projectQuad(targetRect.rect());
     IntRect rect = quad.enclosingBoundingBox();
 
+#if OS(SYMBIAN)
+    ++drawStats().roundedClips;
+#endif
     clipStack().addRoundedRect(targetRect, modelViewMatrix.inverse().value());
     clipStack().intersect(rect);
     clipStack().applyIfNeeded();
@@ -1417,6 +1441,9 @@ void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const
     if (beginScissorClip(modelViewMatrix, targetRect.rect()))
         return;
 
+#if OS(SYMBIAN)
+    ++drawStats().stencilClips;
+#endif
     data().initializeStencil();
 
     Ref<TextureMapperShaderProgram> program = data().getShaderProgram(TextureMapperShaderProgram::SolidColor);
@@ -1468,6 +1495,9 @@ void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const
 void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const ClipPath& clipPath)
 {
     clipStack().push();
+#if OS(SYMBIAN)
+    ++drawStats().stencilClips;
+#endif
     data().initializeStencil();
 
     Ref<TextureMapperShaderProgram> program = data().getShaderProgram(TextureMapperShaderProgram::SolidColor);

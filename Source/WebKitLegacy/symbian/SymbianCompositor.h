@@ -54,6 +54,7 @@ private:
     // Set after a GL error: each stage then checks for errors, to name the
     // one that fails if it happens again.
     bool m_checkGLStages { false };
+    unsigned m_drawStatsFrames { 0 };
     FrameStats m_stats;
     MonotonicTime m_lastFrame;
 };

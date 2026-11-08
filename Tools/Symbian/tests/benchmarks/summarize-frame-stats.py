@@ -20,6 +20,8 @@ STATS = re.compile(r'frame-stats: (\S+) frames=(\d+) window=(\d+)ms((?: [\w-]+=[
 STAGE = re.compile(r'([\w-]+)=([\d.]+)/([\d.]+)')
 FIELD = re.compile(r'(\w+)=([\d.]+)')
 TILES = re.compile(r'egl-tiles: (\d+) KB')
+DRAW = re.compile(r'egl-draw: per frame (.*)')
+DRAW_FIELD = re.compile(r'([a-z-]+)=([\d.]+)')
 SLOW_MS = 1000 / 30
 
 
@@ -33,7 +35,7 @@ def parse(lines):
     current = None
 
     def group(name):
-        return groups.setdefault(name, {'presentations': {}, 'page': None, 'skipped': None, 'tiles_kb': None, 'seen': set()})
+        return groups.setdefault(name, {'presentations': {}, 'page': None, 'skipped': None, 'tiles_kb': None, 'draw': None, 'seen': set()})
 
     for line in lines:
         marker = MARKER.search(line)
@@ -53,6 +55,14 @@ def parse(lines):
         if tiles:
             entry = group(current or '(no benchmark)')
             entry['tiles_kb'] = max(entry['tiles_kb'] or 0, int(tiles.group(1)))
+            continue
+        draw = DRAW.search(line)
+        if draw:
+            entry = group(current or '(no benchmark)')
+            most = entry['draw'] or {}
+            for key, value in DRAW_FIELD.findall(draw.group(1)):
+                most[key] = max(most.get(key, 0.0), float(value))
+            entry['draw'] = most
             continue
         stats = STATS.search(line)
         if not stats:
@@ -100,7 +110,7 @@ def report(groups):
                 'slow_windows': summary['slow_windows'],
             }
         result[name] = {'presentations': presentations, 'page': entry['page'], 'skipped': entry['skipped'],
-                        'tiles_kb': entry['tiles_kb']}
+                        'tiles_kb': entry['tiles_kb'], 'draw': entry['draw']}
     return result
 
 
@@ -126,6 +136,9 @@ def print_report(result, out):
                 summary['slow_windows'], summary['windows'], stages), file=out)
         if entry.get('tiles_kb') is not None:
             print('  GPU tiles: up to %d KB' % entry['tiles_kb'], file=out)
+        if entry.get('draw'):
+            print('  GPU draw per frame, most in a window: ' + ' '.join(
+                '%s=%g' % (key, value) for key, value in entry['draw'].items()), file=out)
         if not entry['skipped'] and not any(s['windows'] for s in entry['presentations'].values()):
             print('  no frames presented', file=out)
 

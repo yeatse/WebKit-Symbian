@@ -65,6 +65,20 @@ public:
 
     WEBCORE_EXPORT static std::unique_ptr<TextureMapper> create();
 
+#if OS(SYMBIAN)
+    // What drawing a frame costs the GPU, for frame-stats: quads drawn, the
+    // pixels they cover (bounding boxes, overdraw included), intermediate
+    // surfaces bound, and clips done in the shader or the stencil buffer.
+    struct DrawStats {
+        unsigned draws { 0 };
+        uint64_t pixels { 0 };
+        unsigned surfaces { 0 };
+        unsigned roundedClips { 0 };
+        unsigned stencilClips { 0 };
+    };
+    WEBCORE_EXPORT static DrawStats& drawStats();
+#endif
+
     TextureMapper();
     WEBCORE_EXPORT ~TextureMapper();
 

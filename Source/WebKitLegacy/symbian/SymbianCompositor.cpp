@@ -276,6 +276,7 @@ bool SymbianCompositor::render()
         return false;
     }
     if (timing) {
+        ++m_drawStatsFrames;
         MonotonicTime swapped = MonotonicTime::now();
         double since = m_lastFrame ? (swapped - m_lastFrame).milliseconds() : 0;
         m_lastFrame = swapped;
@@ -287,6 +288,12 @@ bool SymbianCompositor::render()
             WTFLogAlways("%s", summary);
             WTFLogAlways("egl-tiles: %zu KB of %zu KB", TextureMapperTiledBackingStore::coverageBytes() / 1024,
                 TextureMapperTiledBackingStore::coverageBudgetBytes / 1024);
+            auto& draw = TextureMapper::drawStats();
+            double frames = std::max(1u, m_drawStatsFrames);
+            WTFLogAlways("egl-draw: per frame quads=%.1f kpx=%.0f surfaces=%.1f rounded-clips=%.1f stencil-clips=%.1f",
+                draw.draws / frames, draw.pixels / frames / 1000, draw.surfaces / frames, draw.roundedClips / frames, draw.stencilClips / frames);
+            draw = { };
+            m_drawStatsFrames = 0;
         }
     }
     if (m_logNextPresentation) {
