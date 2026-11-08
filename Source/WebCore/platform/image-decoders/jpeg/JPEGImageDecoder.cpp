@@ -616,8 +616,10 @@ public:
         m_request = request.ptr();
         m_condition.notifyAll();
         // Until ICL has decoded once, wait less: a decoder that never answers
-        // (as in EKA2L1) would otherwise stall the first JPEG for 10 s.
-        Seconds timeout = m_decodedOnce ? 10_s : 3_s;
+        // would otherwise stall the first JPEG for 10 s. Not much less: this
+        // thread runs below the UI thread, which takes all the time while a
+        // page loads, and the first decode in EKA2L1 took 3.8 s that way.
+        Seconds timeout = m_decodedOnce ? 10_s : 6_s;
         deadline = MonotonicTime::now() + timeout;
         while (!request->done) {
             if (!m_condition.waitUntil(m_lock, deadline)) {
