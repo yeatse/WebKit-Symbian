@@ -117,8 +117,12 @@ GraphicsContextGLANGLE::~GraphicsContextGLANGLE()
     for (auto* sync : m_eglSyncs.values())
         EGL_DestroySync(m_displayObj, sync);
     if (m_contextObj) {
-        if (EGL_GetCurrentContext() == m_contextObj)
+        if (EGL_GetCurrentContext() == m_contextObj) {
             EGL_MakeCurrent(m_displayObj, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+            // No context is current now, whichever wrapper the cache names.
+            if (auto* current = GLContextWrapper::currentContext())
+                current->didUnmakeContextCurrent();
+        }
         EGL_DestroyContext(m_displayObj, m_contextObj);
     }
     if (m_surfaceObj)
@@ -253,8 +257,8 @@ void GraphicsContextGLANGLE::platformReleaseThreadResources()
 {
     // The common release path unbinds ANGLE. Invalidate the wrapper cache too,
     // so a later call cannot incorrectly skip EGL_MakeCurrent.
-    auto* current = GLContextWrapper::currentContext();
-    if (current && current->type() == GLContextWrapper::Type::Angle)
+    // The release unbinds whatever EGL context was current, native ones included.
+    if (auto* current = GLContextWrapper::currentContext())
         current->didUnmakeContextCurrent();
 }
 

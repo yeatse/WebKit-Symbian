@@ -425,9 +425,16 @@ bool GLContext::makeContextCurrent()
 {
     if (isCurrent()) {
 #if OS(SYMBIAN)
-        m_resourceState->flush();
-#endif
+        // WebGL contexts call EGL directly and can unbind this context without
+        // updating the cached current wrapper, so trust EGL, not the cache.
+        if (eglGetCurrentContext() == m_context) {
+            m_resourceState->flush();
+            return true;
+        }
+        didUnmakeContextCurrent();
+#else
         return true;
+#endif
     }
 
     // ANGLE doesn't know anything about non-ANGLE contexts, and does
