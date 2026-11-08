@@ -17,6 +17,10 @@ namespace {
 // Completes a nested scheduler loop when ICL completes the conversion.
 class ConversionWaiter final : public CActive {
 public:
+    // CBase's new takes User's heap; free it there, not with the C++ runtime.
+    static void operator delete(TAny* pointer) noexcept { User::Free(pointer); }
+    static void operator delete(TAny* pointer, TLeave) noexcept { User::Free(pointer); }
+
     explicit ConversionWaiter(CActiveSchedulerWait& wait)
         : CActive(EPriorityStandard)
         , m_wait(wait)
@@ -65,10 +69,7 @@ void destroySession(Session* session)
 
 void decodeL(Session& session, const TDesC8& source, const TSize& size)
 {
-    // Open it as the JPEG probe does, which decoded on the 808. With
-    // EOptionIgnoreExifMetaData the 808's JPEG plug-in leaves with
-    // KErrNotSupported and iclextjpegapi.dll then panics the thread
-    // (E32USER-CBase 91) instead of returning the error.
+    // Open it as the JPEG probe does, which decoded on the 808 and in EKA2L1.
     CImageDecoder* decoder = CImageDecoder::DataNewL(session.fs, source, CImageDecoder::EOptionNone);
     CleanupStack::PushL(decoder);
     if (decoder->FrameCount() < 1 || decoder->FrameInfo(0).iOverallSizeInPixels != size)
@@ -78,12 +79,21 @@ void decodeL(Session& session, const TDesC8& source, const TSize& size)
     CleanupStack::PushL(bitmap);
     User::LeaveIfError(bitmap->Create(size, EColor16MU));
 
-    CActiveSchedulerWait wait;
-    ConversionWaiter waiter(wait);
-    decoder->Convert(&waiter.status(), *bitmap);
-    waiter.start();
-    wait.Start();
-    User::LeaveIfError(waiter.status().Int());
+    // CBase objects belong on the heap: CBase's operator new zero-fills them
+    // and their constructors may not. On the stack this wait could look
+    // started already, and Start() panicked the thread (E32USER-CBase 91),
+    // which left every ICL decode waiting until the caller gave up.
+    CActiveSchedulerWait* wait = new (ELeave) CActiveSchedulerWait;
+    CleanupStack::PushL(wait);
+    ConversionWaiter* waiter = new (ELeave) ConversionWaiter(*wait);
+    CleanupStack::PushL(waiter);
+    decoder->Convert(&waiter->status(), *bitmap);
+    waiter->start();
+    wait->Start();
+    TInt error = waiter->status().Int();
+    CleanupStack::PopAndDestroy(waiter);
+    CleanupStack::PopAndDestroy(wait);
+    User::LeaveIfError(error);
 
     CleanupStack::Pop(bitmap);
     CleanupStack::PopAndDestroy(decoder);
