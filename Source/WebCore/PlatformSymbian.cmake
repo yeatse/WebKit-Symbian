@@ -85,6 +85,17 @@ set_source_files_properties(platform/symbian/NetworkStateNotifierSymbianNative.c
     COMPILE_DEFINITIONS "__SUPPORT_CPP_EXCEPTIONS__;__LEAVE_EQUALS_THROW__")
 list(APPEND WebCore_LIBRARIES "${SYMBIAN_SDK_PREFIX}/proxies/connmon/connmon.dso")
 
+# The phone's ICL JPEG decoder, on its own thread with its own scheduler.
+list(APPEND WebCore_SOURCES platform/image-decoders/jpeg/JPEGSystemDecoderSymbianNative.cpp)
+set_source_files_properties(platform/image-decoders/jpeg/JPEGSystemDecoderSymbianNative.cpp PROPERTIES
+    INCLUDE_DIRECTORIES "${SYMBIAN_SDK_PREFIX}/include/native"
+    COMPILE_OPTIONS "-fexceptions;-fno-rtti"
+    COMPILE_DEFINITIONS "__SUPPORT_CPP_EXCEPTIONS__;__LEAVE_EQUALS_THROW__")
+list(APPEND WebCore_LIBRARIES
+    "${SYMBIAN_SDK_PREFIX}/proxies/imageconversion/imageconversion.dso"
+    "${SYMBIAN_SDK_PREFIX}/proxies/fbscli/fbscli.dso"
+    "${SYMBIAN_SDK_PREFIX}/proxies/efsrv/efsrv.dso")
+
 # A real packed real-FFT backend; the complete audio destination is separate.
 if (ENABLE_WEB_AUDIO)
     list(APPEND WebCore_SOURCES platform/audio/symbian/FFTFrameSymbian.cpp)

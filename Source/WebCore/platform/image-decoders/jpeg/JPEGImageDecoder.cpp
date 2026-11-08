@@ -43,6 +43,14 @@
 #include <wtf/TZoneMallocInlines.h>
 #include <wtf/StdLibExtras.h>
 #include <wtf/text/ParsingUtilities.h>
+#if OS(SYMBIAN)
+#include "JPEGSystemDecoderSymbianNative.h"
+#include <wtf/Condition.h>
+#include <wtf/Lock.h>
+#include <wtf/NeverDestroyed.h>
+#include <wtf/ThreadSafeRefCounted.h>
+#include <wtf/Threading.h>
+#endif
 
 #if USE(LCMS)
 #include "LCMSUniquePtr.h"
@@ -511,6 +519,15 @@ public:
     }
 
     jpeg_decompress_struct* info() { return &m_info; }
+#if OS(SYMBIAN)
+    // The header is read and no pixels are out yet, in a colour space the
+    // phone's decoder turns into RGB as libjpeg would.
+    bool canUseSystemDecoder() const
+    {
+        return m_state == JPEG_START_DECOMPRESS
+            && (m_info.jpeg_color_space == JCS_YCbCr || m_info.jpeg_color_space == JCS_GRAYSCALE);
+    }
+#endif
     JSAMPARRAY samples() const { return m_samples; }
     JPEGImageDecoder* decoder() { return m_decoder; }
 
@@ -558,6 +575,164 @@ void term_source(j_decompress_ptr jd)
     decoder_source_mgr *src = (decoder_source_mgr *)jd->src;
     src->decoder->decoder()->jpegComplete();
 }
+
+#if OS(SYMBIAN)
+namespace {
+
+// The phone's ICL JPEG decoder decodes about three times faster than libjpeg
+// here. It needs an active scheduler and a font and bitmap server session, so
+// it runs on its own thread, and the decoding thread waits for it. A failure
+// to start or a decode that runs too long turns it off for the process.
+class SystemJPEGDecoder {
+public:
+    static SystemJPEGDecoder& singleton()
+    {
+        static NeverDestroyed<SystemJPEGDecoder> decoder;
+        return decoder;
+    }
+
+    bool decode(std::span<const uint8_t> data, const IntSize& size, std::span<uint32_t> pixels)
+    {
+        Locker callerLocker { m_callerLock };
+        Locker locker { m_lock };
+        if (m_state == State::Stopped) {
+            m_state = State::Starting;
+            Thread::create("ICL JPEG decoder"_s, [this] { run(); })->detach();
+        }
+        MonotonicTime deadline = MonotonicTime::now() + 5_s;
+        while (m_state == State::Starting) {
+            if (!m_condition.waitUntil(m_lock, deadline)) {
+                WTFLogAlways("image-decode: the ICL decoder did not start, using libjpeg");
+                m_state = State::Unavailable;
+            }
+        }
+        if (m_state != State::Ready)
+            return false;
+
+        auto request = adoptRef(*new Request);
+        request->data.append(data);
+        request->size = size;
+        request->pixels = pixels.data();
+        m_request = request.ptr();
+        m_condition.notifyAll();
+        deadline = MonotonicTime::now() + 10_s;
+        while (!request->done) {
+            if (!m_condition.waitUntil(m_lock, deadline)) {
+                // The thread keeps the request and never writes the pixels.
+                WTFLogAlways("image-decode: ICL took over 10 s on %dx%d, using libjpeg", size.width(), size.height());
+                request->abandoned = true;
+                m_state = State::Unavailable;
+                return false;
+            }
+        }
+        if (request->error && !m_loggedError) {
+            m_loggedError = true;
+            WTFLogAlways("image-decode: ICL failed with %d on %dx%d, using libjpeg for it", request->error, size.width(), size.height());
+        }
+        return !request->error;
+    }
+
+    bool available()
+    {
+        Locker locker { m_lock };
+        return m_state != State::Unavailable;
+    }
+
+private:
+    friend class NeverDestroyed<SystemJPEGDecoder>;
+    SystemJPEGDecoder() = default;
+
+    struct Request : ThreadSafeRefCounted<Request> {
+        Vector<uint8_t> data;
+        IntSize size;
+        uint32_t* pixels { nullptr };
+        int error { 0 };
+        bool done { false };
+        bool abandoned { false };
+    };
+
+    enum class State : uint8_t { Stopped, Starting, Ready, Unavailable };
+
+    void run()
+    {
+        int error = 0;
+        void* session = SymbianJPEG::createSession(error);
+        {
+            Locker locker { m_lock };
+            if (!session) {
+                WTFLogAlways("image-decode: ICL session failed with %d, using libjpeg", error);
+                m_state = State::Unavailable;
+            } else if (m_state == State::Starting)
+                m_state = State::Ready;
+            m_condition.notifyAll();
+            if (!session)
+                return;
+        }
+        while (true) {
+            RefPtr<Request> request;
+            {
+                Locker locker { m_lock };
+                while (!m_request)
+                    m_condition.wait(m_lock);
+                request = WTF::move(m_request);
+            }
+            int result = SymbianJPEG::decode(session, request->data.span().data(), request->data.size(),
+                request->size.width(), request->size.height());
+            Locker locker { m_lock };
+            if (!result && !request->abandoned)
+                SymbianJPEG::copyPixels(session, request->pixels, request->size.width());
+            else
+                SymbianJPEG::discardBitmap(session);
+            request->error = result;
+            request->done = true;
+            m_condition.notifyAll();
+        }
+    }
+
+    Lock m_callerLock;
+    Lock m_lock;
+    Condition m_condition;
+    State m_state WTF_GUARDED_BY_LOCK(m_lock) { State::Stopped };
+    RefPtr<Request> m_request WTF_GUARDED_BY_LOCK(m_lock);
+    bool m_loggedError WTF_GUARDED_BY_LOCK(m_lock) { false };
+};
+
+// The bitmap ICL decodes into lives in the font and bitmap server's shared
+// heap: keep the largest images on libjpeg.
+constexpr unsigned systemDecoderMaxPixels = 2500000;
+
+}
+
+bool JPEGImageDecoder::decodeWithSystemDecoder()
+{
+    if (!m_reader || !m_reader->canUseSystemDecoder() || m_frameBufferCache.isEmpty() || !m_data)
+        return false;
+#if USE(LCMS)
+    if (m_iccTransform)
+        return false;
+#endif
+    IntSize imageSize = size();
+    if (imageSize.isEmpty() || static_cast<uint64_t>(imageSize.width()) * imageSize.height() > systemDecoderMaxPixels)
+        return false;
+    auto& decoder = SystemJPEGDecoder::singleton();
+    if (!decoder.available())
+        return false;
+
+    auto& buffer = m_frameBufferCache[0];
+    if (!buffer.isInvalid())
+        return false;
+    if (!buffer.initialize(imageSize, m_premultiplyAlpha))
+        return false;
+    if (!decoder.decode(m_data->span(), imageSize, buffer.backingStore()->pixelsStartingAt(0, 0))) {
+        buffer.clear();
+        return false;
+    }
+    m_decodedBySystem = true;
+    jpegComplete();
+    clear();
+    return true;
+}
+#endif
 
 JPEGImageDecoder::JPEGImageDecoder(AlphaOption alphaOption, GammaAndColorProfileOption gammaAndColorProfileOption)
     : ScalableImageDecoder(alphaOption, gammaAndColorProfileOption)
@@ -725,6 +900,11 @@ void JPEGImageDecoder::decode(bool onlySize, bool allDataReceived)
         clear();
         m_reader = makeUnique<JPEGImageReader>(this);
     }
+
+#if OS(SYMBIAN)
+    if (!onlySize && allDataReceived && decodeWithSystemDecoder())
+        return;
+#endif
 
     // If we couldn't decode the image but we've received all the data, decoding
     // has failed.
