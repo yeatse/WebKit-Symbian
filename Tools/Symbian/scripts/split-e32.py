@@ -357,7 +357,9 @@ class Splitter:
         self.plt = elf.by_name.get(".plt")
         self.rodata = elf.section(".rodata")
         self.extab = elf.by_name.get(".ARM.extab")
-        self.exidx = elf.section(".ARM.exidx")
+        # A program built without C++ exceptions (jsc) has no unwind index;
+        # its DLLs still get the two CANTUNWIND entries of their own.
+        self.exidx = elf.by_name.get(".ARM.exidx") or {"addr": None, "size": 0}
         self.got = elf.by_name.get(".got")
         self.image_lo = e32.code_base
         self.image_hi = e32.code_base + e32.code_size
@@ -426,7 +428,7 @@ class Splitter:
     def load_exidx(self):
         lo = self.exidx["addr"]
         self.exidx_entries = []
-        for place in range(lo, lo + self.exidx["size"], 8):
+        for place in range(lo or 0, (lo or 0) + self.exidx["size"], 8):
             function = prel31(self.word(place), place)
             self.exidx_entries.append((function, place, self.word(place + 4)))
         self.exidx_functions = [f for f, _, _ in self.exidx_entries]
@@ -468,11 +470,13 @@ class Splitter:
 
     # -- cuts --
     def cut_candidates(self):
-        exidx = set(self.exidx_functions)
+        # Without an unwind index any function start will do.
+        exidx = set(self.exidx_functions) if self.exidx_functions else None
         candidates = []
         previous_end = 0
         for start, end in self.functions:
-            if start >= previous_end and start % 4 == 0 and start in exidx and self.code_kind(start) in "at":
+            if (start >= previous_end and start % 4 == 0 and (exidx is None or start in exidx)
+                    and self.code_kind(start) in "at"):
                 candidates.append(start)
             previous_end = max(previous_end, end)
         return candidates
