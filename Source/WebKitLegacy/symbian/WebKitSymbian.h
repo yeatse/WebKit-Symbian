@@ -186,6 +186,8 @@ public:
     // page then keeps EGL while a video plays, leaving transparent holes
     // over it, instead of going to software painting.
     static void setCompositedVideoEnabled(bool);
+    // Web Audio output, 0..1 of the device volume (default 1).
+    static void setWebAudioVolume(double);
 
     static WebView* create(WebViewClient&, int width, int height);
     virtual ~WebView() = default;

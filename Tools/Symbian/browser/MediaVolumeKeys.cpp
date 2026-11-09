@@ -120,6 +120,9 @@ CMediaVolumeKeys* CMediaVolumeKeys::NewL()
 
 void CMediaVolumeKeys::ConstructL()
 {
+    // Reads the saved level, which also sets Web Audio's volume before any
+    // page can start an AudioContext.
+    const TInt level = MediaVolumeLevel();
     iBar = new (ELeave) CMediaVolumeBar;
     iBar->ConstructL();
     iRepeat = CPeriodic::NewL(CActive::EPriorityStandard);
@@ -135,7 +138,7 @@ void CMediaVolumeKeys::ConstructL()
         iTarget = nullptr;
         return;
     }
-    BrowserLog("media: volume keys on, level %d of %d", MediaVolumeLevel(), KMediaVolumeSteps);
+    BrowserLog("media: volume keys on, level %d of %d", level, KMediaVolumeSteps);
 }
 
 CMediaVolumeKeys::~CMediaVolumeKeys()

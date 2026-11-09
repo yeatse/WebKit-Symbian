@@ -22,8 +22,8 @@ protected:
 WebKitSymbian::MediaPlayer* CreateMediaPlayer(void* aWindow, WebKitSymbian::MediaPlayerClient& aClient, bool aHasVideo);
 
 // The browser's media volume, which the volume keys set: every player plays
-// at the page's volume scaled by it, from 0 (silent) to KMediaVolumeSteps
-// (the device's full volume). It is kept in C:\Data\WebKit\media-volume.
+// at the page's volume scaled by it, and Web Audio at it, from 0 (silent) to
+// KMediaVolumeSteps (the device's full volume). It is kept in C:\Data\WebKit\media-volume.
 const TInt KMediaVolumeSteps = 10;
 TInt MediaVolumeLevel();
 // Sets the level, clamped to 0..KMediaVolumeSteps, for the players playing

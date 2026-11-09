@@ -36,5 +36,8 @@ void run(void*);
 void submit(void*, Operation, uint32_t serial);
 void destroy(void*);
 unsigned queuedFrames(void*);
+// 0..1 of the device maximum (the default 1), for all streams, open or not.
+// Any thread; an open stream takes it within a poll.
+void setOutputVolume(double);
 
 } // namespace WebCore::SymbianAudio

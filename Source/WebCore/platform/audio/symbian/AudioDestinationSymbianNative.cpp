@@ -18,6 +18,9 @@ constexpr TInt pollMicroseconds = 5000;
 constexpr unsigned openTimeoutPolls = 1000;
 constexpr unsigned stalledTimeoutPolls = 1000;
 
+// Output volume in thousandths of the device maximum, for every session.
+uint32_t outputVolumePermille = 1000;
+
 struct Control {
     unsigned channels;
     Callbacks callbacks;
@@ -132,6 +135,7 @@ private:
     void begin();
     void suspend();
     void closeStream();
+    void applyVolume();
     void pump();
     void clock();
     void failed(TInt);
@@ -141,6 +145,8 @@ private:
     Command* m_command { nullptr };
     Timer* m_timer { nullptr };
     CMdaAudioOutputStream* m_stream { nullptr };
+    // The outputVolumePermille last given to m_stream, or none.
+    uint32_t m_appliedVolume { UINT32_MAX };
     TMdaAudioDataSettings m_settings;
     Slot m_slots[slotCount];
     alignas(8) float m_left[renderQuantum];
@@ -344,7 +350,8 @@ void Session::MaoscOpenComplete(TInt error)
     // Continuous queued output works without KeepOpenAtEnd; an adaptation
     // may reject it. Unexpected playback completion remains a real error.
     m_stream->KeepOpenAtEnd();
-    m_stream->SetVolume(m_stream->MaxVolume());
+    m_appliedVolume = UINT32_MAX;
+    applyVolume();
     m_opening = false;
     m_clock.reset(static_cast<uint32_t>(m_stream->GetBytes()));
     m_running = true;
@@ -410,11 +417,21 @@ void Session::MarncResourceAvailable(TUid event, const TDesC8&)
     m_control.callbacks.event(m_control.context, Event::ResourceAvailable, m_interruptionSerial, KErrNone);
 }
 
+void Session::applyVolume()
+{
+    uint32_t volume = __atomic_load_n(&outputVolumePermille, __ATOMIC_RELAXED);
+    if (volume == m_appliedVolume)
+        return;
+    m_appliedVolume = volume;
+    m_stream->SetVolume(static_cast<TInt>((static_cast<int64_t>(m_stream->MaxVolume()) * volume + 500) / 1000));
+}
+
 void Session::pump()
 {
     if (!m_running || m_pumping)
         return;
     m_pumping = true;
+    applyVolume();
     clock();
     for (unsigned attempt = 0; attempt < slotCount; ++attempt) {
         auto& slot = m_slots[m_nextSlot];
@@ -536,6 +553,12 @@ void submit(void* opaque, Operation operation, uint32_t serial)
     uint32_t word = ((serial & 0x3fffffff) << 2) | static_cast<uint32_t>(operation);
     __atomic_store_n(&control.requested, word, __ATOMIC_RELEASE);
     signal(control);
+}
+
+void setOutputVolume(double volume)
+{
+    volume = volume < 0 ? 0 : volume > 1 ? 1 : volume;
+    __atomic_store_n(&outputVolumePermille, static_cast<uint32_t>(volume * 1000 + 0.5), __ATOMIC_RELAXED);
 }
 
 unsigned queuedFrames(void* opaque)

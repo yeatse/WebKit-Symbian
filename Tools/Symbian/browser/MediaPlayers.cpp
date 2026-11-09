@@ -462,8 +462,10 @@ MediaPlayer* CreateMediaPlayer(void* aWindow, MediaPlayerClient& aClient, bool a
 
 TInt MediaVolumeLevel()
 {
-    if (gMediaVolumeLevel < 0)
+    if (gMediaVolumeLevel < 0) {
         gMediaVolumeLevel = ReadMediaVolumeLevel();
+        WebView::setWebAudioVolume(double(gMediaVolumeLevel) / KMediaVolumeSteps);
+    }
     return gMediaVolumeLevel;
 }
 
@@ -473,6 +475,7 @@ TInt SetMediaVolumeLevel(TInt aLevel)
     if (aLevel != MediaVolumeLevel()) {
         gMediaVolumeLevel = aLevel;
         WriteMediaVolumeLevel(aLevel);
+        WebView::setWebAudioVolume(double(aLevel) / KMediaVolumeSteps);
         TMediaVolumeListener::ApplyToAll();
     }
     return aLevel;

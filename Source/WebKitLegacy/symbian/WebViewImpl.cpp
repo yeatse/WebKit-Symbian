@@ -218,6 +218,13 @@ String WebDatabaseProvider::indexedDatabaseDirectoryPath()
     return FileSystem::pathByAppendingComponent(WebKitSymbian::dataDirectory(), "IndexedDB"_s);
 }
 
+#if ENABLE(WEB_AUDIO)
+// From WebCore's private AudioDestinationSymbianNative.h.
+namespace WebCore::SymbianAudio {
+void setOutputVolume(double);
+}
+#endif
+
 namespace WebKitSymbian {
 
 UTF16Text::UTF16Text(const String& string)
@@ -312,6 +319,15 @@ void WebView::setCompositedVideoEnabled(bool enabled)
     MediaPlayerPrivateSymbian::setCompositedVideoEnabled(enabled);
 #else
     UNUSED_PARAM(enabled);
+#endif
+}
+
+void WebView::setWebAudioVolume(double volume)
+{
+#if ENABLE(WEB_AUDIO)
+    WebCore::SymbianAudio::setOutputVolume(volume);
+#else
+    UNUSED_PARAM(volume);
 #endif
 }
 
