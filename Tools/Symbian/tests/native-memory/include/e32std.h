@@ -14,6 +14,7 @@ using TUint8 = unsigned char;
 constexpr TInt KErrNone = 0;
 constexpr TInt EOwnerProcess = 0;
 constexpr TInt EPriorityLess = 0;
+constexpr TInt EPriorityNormal = 1;
 
 namespace FakeKernel {
 constexpr size_t pageSize = 4096;
