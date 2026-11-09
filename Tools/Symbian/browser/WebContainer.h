@@ -151,7 +151,7 @@ private:
     void RecordPaint(TUint32 aLayoutStart, TUint32 aLaidOut, TUint32 aPaintStart,
         TUint32 aPainted, TInt aRects, TInt aPixels) const;
 #if SYMBIAN_BROWSER_MEDIA
-    RWindowBase& VideoWindow() override;
+    RWindow& VideoWindow() override;
     TInt PrepareNativeVideoWindow() override;
     void CreateVideoWindow();
     void setVideoUnderlayVisible(bool) override;
@@ -190,8 +190,9 @@ private:
     // Native video plays in this window, just under the page's, so that a
     // composited page keeps its EGL surface on its own window and lets the
     // video show through transparent holes.
-    RBlankWindow iVideoWindow;
-    bool iHasVideoWindow { false };
+    // MMF takes an RWindow, whose redraws CONE sends to the control that
+    // owns it: a control of its own that only fills it.
+    CCoeControl* iVideoUnderlay { nullptr };
 #endif
 #if SYMBIAN_BROWSER_SCREENPLAY
     mutable CScreenPlaySurface* iScreenPlay { nullptr };
