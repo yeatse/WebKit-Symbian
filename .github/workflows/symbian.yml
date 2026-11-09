@@ -367,7 +367,9 @@ jobs:
         if: always()
         with:
           name: elf
-          path: WebKitBuild/Symbian/build/browser/browser.elf
+          path: |
+            WebKitBuild/Symbian/build/browser/browser.elf
+            WebKitBuild/Symbian/build/e32/jsc.elf
           retention-days: 30
           if-no-files-found: warn
       - name: Package download summary

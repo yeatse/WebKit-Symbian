@@ -7,7 +7,8 @@ pages. Requires Python 3 and Bash.
 python3 Tools/Symbian/tests/sis-package/run.py
 ```
 
-The test checks the WebKit package name and UID, all 13 installation paths and
-their payload bytes. Executables and registration resources use the selected
-drive; shared data installs on C:. Use `--icu-data static` to check a build with
+The test checks the WebKit package name and UID, every installation path and
+its payload bytes. The split executables with their DLLs, resources, ICU data,
+CA certificates and fonts.conf use the selected drive; test scripts and pages
+install on C:. Use `--icu-data static` to check a build with
 ICU data linked into its executables.

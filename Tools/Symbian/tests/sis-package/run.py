@@ -21,13 +21,16 @@ def payload(entries, kind):
 
 def check(work, icu_data):
     generated = {
-        r"c:\sys\bin\jsc.exe": ("build/e32/e32/jsc.exe", b"JSC executable fixture\n"),
-        r"c:\sys\bin\browser.exe": ("build/browser/e32/browser.exe", b"Browser executable fixture\n"),
-        r"c:\private\10003a3f\import\apps\browser_reg.rsc": ("build/browser/e32/browser_reg.rsc", b"Browser registration\n"),
-        r"c:\resource\apps\browser_loc.rsc": ("build/browser/e32/browser_loc.rsc", b"Browser caption\n"),
-        r"c:\resource\apps\browser_ui.rsc": ("build/browser/e32/browser_ui.rsc", b"Browser commands\n"),
-        r"c:\resource\icu\icudt70l.dat": ("icu/install/share/icu/icudt70l.dat", b"ICU data fixture\n"),
-        r"c:\resource\webkit\cacert.pem": ("downloads/cacert-2026-09-25.pem", b"CA fixture\n"),
+        r"!:\sys\bin\jsc.exe": ("build/e32/split/jsc.exe", b"JSC executable fixture\n"),
+        r"!:\sys\bin\symjsc0.dll": ("build/e32/split/symjsc0.dll", b"JSC DLL fixture\n"),
+        r"!:\sys\bin\browser.exe": ("build/browser/split/browser.exe", b"Browser executable fixture\n"),
+        r"!:\sys\bin\symwebkit0.dll": ("build/browser/split/symwebkit0.dll", b"Browser DLL 0 fixture\n"),
+        r"!:\sys\bin\symwebkit1.dll": ("build/browser/split/symwebkit1.dll", b"Browser DLL 1 fixture\n"),
+        r"!:\private\10003a3f\import\apps\browser_reg.rsc": ("build/browser/e32/browser_reg.rsc", b"Browser registration\n"),
+        r"!:\resource\apps\browser_loc.rsc": ("build/browser/e32/browser_loc.rsc", b"Browser caption\n"),
+        r"!:\resource\apps\browser_ui.rsc": ("build/browser/e32/browser_ui.rsc", b"Browser commands\n"),
+        r"!:\resource\icu\icudt70l.dat": ("icu/install/share/icu/icudt70l.dat", b"ICU data fixture\n"),
+        r"!:\resource\webkit\cacert.pem": ("downloads/cacert-2026-09-25.pem", b"CA fixture\n"),
     }
     expected = {}
     for target, (relative, data) in generated.items():
@@ -40,9 +43,9 @@ def check(work, icu_data):
     expected[r"c:\data\webkit\test.html"] = (SYMBIAN / "browser/test.html").read_bytes()
     for page in sorted((SYMBIAN / "tests/benchmarks").glob("*.html")) + sorted((SYMBIAN / "tests/benchmarks").glob("*.js")):
         expected["c:\\data\\webkit\\bench\\" + page.name] = page.read_bytes()
-    expected[r"c:\resource\fontconfig\fonts.conf"] = (SYMBIAN / "resources/fonts.conf").read_bytes()
+    expected[r"!:\resource\fontconfig\fonts.conf"] = (SYMBIAN / "resources/fonts.conf").read_bytes()
     if icu_data == "static":
-        del expected[r"c:\resource\icu\icudt70l.dat"]
+        del expected[r"!:\resource\icu\icudt70l.dat"]
 
     environment = os.environ.copy()
     for name in ("E32_BUILD", "BROWSER_BUILD", "ICU_DIR", "SIS_CERTIFICATE", "SIS_KEY"):

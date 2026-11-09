@@ -33,4 +33,11 @@ fpu_flags=()
 if [ -z "${STUB:-}" ]; then fpu_flags=(--fpu=vfpv2); fi
 python3 "$REPO/scripts/e32-header.py" "$build/e32/browser.exe" \
   "${BROWSER_HEAP_MIN:-0x100000}" "${BROWSER_HEAP_MAX:-0x8000000}" "${BROWSER_STACK:-0x100000}" "${fpu_flags[@]}"
+# A phone loads at most about 12 MiB of code per image from E:, so the
+# packaged browser is split into a small browser.exe and DLLs under it.
+if [ -z "${STUB:-}" ]; then
+  rm -rf "$build/split"
+  python3 "$REPO/scripts/split-e32.py" --elf "$build/browser.elf" --e32 "$build/e32/browser.exe" \
+    --output-dir "$build/split" --prefix symwebkit --uid-base 0xE1A5C020
+fi
 ls -l "$build/e32/"

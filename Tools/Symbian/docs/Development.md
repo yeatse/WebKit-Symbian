@@ -53,12 +53,14 @@ SIS_VERSION=0.3.0 Tools/Symbian/scripts/package-sis.sh
 | --- | --- | --- |
 | `SYMBIAN_JSC_MODE` | `dfg` | JavaScript execution mode: `dfg`, `baseline`, `llint` or `cloop`. Use a separate work directory for each mode. |
 | `BROWSER_PRESENTATION` | `auto` | Present pages through ScreenPlay and switch to EGL composition while a page has composited layers (CSS 3D, animations, WebGL), returning to ScreenPlay two seconds after they are removed. Bitmap presentation is the fallback. `screenplay` never uses EGL; `bitmap` selects bitmap presentation. |
-| `ICU_DATA` | `file` | Load ICU data from `C:/resource/icu`. `static` embeds it in the executable. |
+| `ICU_DATA` | `file` | Load ICU data from `resource/icu` on the drive the executable runs from (`C:/resource/icu` otherwise). `static` embeds it in the executable. |
 | `ICU_LOCALES` | Selected common locales | Space-separated locale list, or `all`. |
 | `OPTIMIZE` | `-Os` | Target compiler optimization flags. |
 | `JOBS` | Host CPU count | Parallel build jobs. |
 
-The package is written to `$SYMBIAN_WEBKIT_WORK/sis/symbian-webkit.sis`. The browser, JavaScriptCore shell and application resources use the installer-selected drive. Shared ICU data, example scripts, certificate and font configuration files are installed on C:.
+The package is written to `$SYMBIAN_WEBKIT_WORK/sis/symbian-webkit.sis`. The browser, the JavaScriptCore shell, their resources, ICU data, the CA certificates and the font configuration go on the drive picked at install time, which can be E:. Only the example scripts and test pages are installed on C:.
+
+E: is not demand paged: the loader reads an image whole and refuses one with more than about 12 MiB of code with `KErrNoMemory`. So `scripts/split-e32.py` cuts `browser.exe` and `jsc.exe` into a small executable plus DLLs of at most 8 MiB of code each (`symwebkit0.dll`…, `symjsc0.dll`…), keeping every function at its linked address within its DLL and routing calls between DLLs through import stubs. The unsplit images stay in `e32/` for the emulator scripts.
 
 To sign the package, provide a PEM certificate and private key:
 

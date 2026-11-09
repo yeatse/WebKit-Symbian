@@ -12,3 +12,7 @@ require_sdk
 python3 "$REPO/scripts/e32-header.py" "$E32_BUILD/e32/jsc.exe" \
   "${JSC_HEAP_MIN:-0x100000}" "${JSC_HEAP_MAX:-0x8000000}" "${JSC_STACK:-0x100000}" --fpu=vfpv2
 python3 "$REPO/scripts/e32info.py" "$E32_BUILD/e32/jsc.exe"
+# Split like the browser (see build-browser.sh), so that jsc installs on E:.
+rm -rf "$E32_BUILD/split"
+python3 "$REPO/scripts/split-e32.py" --elf "$E32_BUILD/jsc.elf" --e32 "$E32_BUILD/e32/jsc.exe" \
+  --output-dir "$E32_BUILD/split" --prefix symjsc --uid-base 0xE1A5C040

@@ -86,5 +86,12 @@ size_t commandLine(char*, size_t capacity);
 // SDK hardware entropy; failure clears the complete output.
 bool randomBytes(unsigned char*, size_t);
 
+// The package can be installed on any drive, and its data files then sit on
+// the drive the executable runs from. Where that is not C: and they are
+// there, sets ICU_DATA, CURL_CA_BUNDLE and FONTCONFIG_FILE (unless already
+// set) so that they win over the C: paths built into ICU, curl and
+// fontconfig.
+void useResourcesBesideExecutable();
+
 } // namespace SymbianSystem
 } // namespace WTF

@@ -497,6 +497,10 @@ void initialize()
 {
     static std::once_flag onceKey;
     std::call_once(onceKey, [] {
+#if OS(SYMBIAN)
+        // Before anything can load ICU data.
+        SymbianSystem::useResourcesBesideExecutable();
+#endif
 #if ENABLE(CONJECTURE_ASSERT)
         wtfConjectureAssertIsEnabled = !!getenv("ENABLE_WEBKIT_CONJECTURE_ASSERT");
 #endif
