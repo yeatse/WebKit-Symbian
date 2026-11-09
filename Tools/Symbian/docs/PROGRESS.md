@@ -87,62 +87,93 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 ## Symbian^3 graphics and media performance
 
 Measure each step on a Nokia 808 PureView: EKA2L1 maps GLES2 onto the host GPU,
-so emulator timings do not predict device performance.
+so emulator timings do not predict device performance. Turn on `frame-stats`
+(`C:\Data\WebKit\frame-stats`), run `file:///C:/Data/WebKit/bench/index.html`
+"Run all" with the screen kept on and nothing running in the background, and
+summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
 
-- [x] P0: Frame timing in the browser log. `frame-stats` (a launch option or
-  `C:\Data\WebKit\frame-stats`) logs average/maximum milliseconds per stage
-  about once a second: EGL `render` (animation frame callbacks, style and
-  layout), `flush` (layer preparation), `backing` (painting and texture
-  upload), `draw` and `swap` (`render` and `flush` were one `update` stage
-  until 5a1f5d56843); ScreenPlay `begin`, `paint` and `submit`, with
-  `screenplay-submit` splitting the submit into `copy`, `sync`, `attach` and
-  `update`; bitmap `paint` and `blit`.
-- [x] P0: Fixed scrolling, image, animation and WebGL pages, measured with
-  `frame-stats` on the 808 for ScreenPlay, EGL and bitmap presentation.
-  The pages and a log summarizer are in `tests/benchmarks` and installed at
-  `C:\Data\WebKit\bench`. First 808 run (fps, then ms per frame by stage):
+### Done
 
-  | Page | Path | fps | Stages (average ms) |
-  | --- | --- | --- | --- |
-  | scroll | ScreenPlay | 17.9 | begin 1.5, paint 17.5, submit 26.7 |
-  | images | ScreenPlay | 5.9 | begin 1.5, paint 130.9, submit 25.3 |
-  | animation | ScreenPlay | 17.2 | begin 1.3, paint 14.3, submit 25.5 |
-  | composited | EGL | 26.6 | update 1.2, backing 0.2, draw 6.1, swap 3.9 |
-  | canvas | EGL | 7.6 | update 104.9, backing 20.2, draw 3.6, swap 0.7 |
-  | webgl | EGL | 17.8 | update 40.0, backing 0.2, draw 10.5, swap 0.9 |
+- [x] Frame timing: EGL `render`, `flush`, `backing`, `draw`, `swap`;
+  ScreenPlay `begin`, `paint`, `submit` (`copy`, `sync`, `attach`, `update`);
+  `screenplay-paint`, `egl-draw`, `egl-surfaces`, `egl-backing` and
+  `image-decode` lines.
+- [x] Benchmark pages: scroll, images, animation, composited, canvas, webgl,
+  and paint (ten full-repaint cases plus `paint-images`).
+- [x] GPU tiles for every page (default): the page is composited into
+  full-width, 256-pixel-high tiles held in textures, capped at 32 MB
+  (`no-gpu-tiles` falls back to ScreenPlay). Tiles are prefetched one screen
+  ahead, at most two per frame across all layers, and skipped after a slow
+  visible repaint. The damage in one update is painted once and uploaded
+  straight from the paint buffer (the 808 has no `EXT_unpack_subimage`).
+- [x] ScreenPlay fallback: cached shadow frame buffer (surface memory reads
+  cost ~130 ns per pixel), scroll blits, up to four damage rectangles, and the
+  surface kept when the on-screen keyboard shrinks the view.
+- [x] Painting: bilinear image scaling, pixman ARMv6 SIMD, an A8 text-shadow
+  path with a per-glyph blurred shadow cache, the box-shadow template cache
+  with nearest-neighbour edge stretching, and a 4 MB cache of decoded images
+  scaled to their drawn size.
+- [x] JPEG through the ICL decoder on its own thread for complete YCbCr or
+  grey images up to 2.5 Mpx; libjpeg otherwise. The 808 has only the Nokia
+  software plug-in 0x101FF555, but it decodes 2.5-3.4x faster than our
+  libjpeg in the probe.
+- [x] Compositor robustness: shader link failures fall back to simpler
+  variants, the rounded-clip loop is unrolled for VideoCore IV, GL errors are
+  traced per step, and only three failed frames in a row fall back to software.
+- [x] Fewer intermediate surfaces: inert filters are dropped, `overflow:hidden`
+  containers that paint nothing do not force overlap, and `inset()`,
+  `circle()`, `ellipse()` and box clip-paths use the rounded-clip shader.
+- [x] Video under the page: MMF plays in a window below the browser window and
+  the composited page punches a transparent hole, so EGL composition keeps
+  running during playback (`no-composited-video` restores the old path).
+- [x] Volume keys for media and Web Audio, ten steps, default 4.
 
-  ScreenPlay's submit costs about 26 ms on every frame, whatever was
-  painted; scaled images (images) and 2D canvas drawing (canvas, presented
-  through EGL) are the slow paints; WebGL spends 40 ms per frame in update.
+Latest 808 numbers (CI #87 and #100):
 
-  Third run (6d2b9309271): bilinear image scaling and painting ScreenPlay
-  frames in cached memory (reading surface memory costs ~130 ns per pixel,
-  so flattening in place took 25 ms) gave scroll 25.9 fps (submit 11.3 ms,
-  of which copying into the surface 9.5), images 15.0 (paint 44.5),
-  animation 22.6 and composited 29.7; canvas 7.5 and webgl 17.7 unchanged.
-- [x] P0: The device's EGL and GLES2 extensions (EGLImage, preserved swap and
-  partial update), before work that depends on them. The 808 (VideoCore IV,
-  EGL 1.4, GLES 2.0) has EGL_KHR_image_base, EGL_KHR_gl_texture_2D_image,
-  EGL_KHR_lock_surface2 and GL_OES_EGL_image, but destroyed swaps and no
-  partial update or buffer age extension.
-- [x] P0: ScreenPlay for 2D pages and EGL composition on demand. The default
-  `auto` build creates the compositor when WebCore attaches composited layers,
-  after ScreenPlay detaches, and returns to ScreenPlay two seconds after the
-  layers are removed. Verified in EKA2L1 by the compositing, WebGL and
-  ScreenPlay suites: ScreenPlay, then EGL (started in about 16 ms), then
-  ScreenPlay again on the same window.
-- [ ] P1: Partial texture uploads and a tiled root layer, preserved swaps with
-  scissored composition, and a tile margin beyond the viewport for scrolling.
-- [ ] P1: Hardware JPEG decoding through ICL `CImageDecoder`, scaled to the
-  displayed size.
-- [ ] P1: Video surfaces that follow layer scrolling and transforms; EGLImage
-  import of MMF surfaces for Canvas 2D and WebGL video frames.
+| Case | fps | Note |
+| --- | --- | --- |
+| scroll | 55 | GPU tiles; ScreenPlay was 26 |
+| images | 60 | ScreenPlay was 26 |
+| animation | 24 | relayout every frame |
+| composited | 33 | |
+| canvas | 7.5 | ~105 ms of Cairo drawing per frame |
+| webgl | 17.5 | ~39 ms of JS and GL calls per frame |
+| paint-text / text-shadow / shadow / rounded | 21 / 15 / 15 / 15 | full repaint |
+| paint-images | 27 | |
+| YouTube results and watch page | ~5 | render and backing spikes, below |
+
+### Open, by priority
+
+- [ ] P0: YouTube main-thread spikes. In the #100 log `render` (script, style
+  and layout) reaches 0.5-5.5 s and `backing` 100-370 ms, mostly in the
+  RenderView tile and positioned DIVs; split `render` into script, style and
+  layout and find what YouTube runs per frame.
+- [ ] P0: ICL decode latency under load. ICL images took 2.6 s/Mpx wall-clock
+  (one 480x360 image 1.06 s) because the decoder thread runs below the UI
+  thread; raise its priority while the UI thread waits, or decode on idle.
+- [ ] P0: Verify the composited video on the 808 for longer playback (the #100
+  log showed the hole for two seconds only) and the exit path fix.
+- [ ] P1: Canvas 2D (~105 ms per frame in Cairo) and WebGL (~39 ms per frame):
+  profile which calls dominate before choosing a fix.
+- [ ] P1: Remaining intermediate surfaces on YouTube (up to 33 binds per
+  frame: about 6 filter-mask surfaces and a backdrop); the clip-path shader
+  path did not apply there (`shape-clips=0`).
 - [ ] P1: HTTP disk cache, the largest remaining load-time cost.
+- [ ] P1: Video frames as GL textures (EGL_NOK_image_endpoint2) for video in
+  opacity, rounded or transformed layers, Canvas 2D and WebGL; advertise
+  H.264 main profile if the 808 decoder accepts it.
 - [ ] P2: Media Source Extensions over DevVideo or OpenMAX IL, after
   confirming that third-party applications can use them on the device.
 - [ ] P2: A3F DevSound output for lower Web Audio latency.
 - [ ] Before WebKit 2.54: compare Cairo, Skia CPU (ARM11 has no NEON) and Skia
-  GPU on the P0 pages; 2.54 removes Cairo.
+  GPU on the benchmark pages; 2.54 removes Cairo.
 
-OpenVG has no WebKit backend, OpenWF-C is a device-manufacturer interface and the
-808 has one core, so these are not planned.
+The 808 has OpenVG and `EGL_KHR_vg_parent_image`, but WebKit has no OpenVG
+backend and 2.54 drops Cairo, so an OpenVG painter is not planned. OpenWF-C is
+a device-manufacturer interface and the 808 has one core.
+
+## Deferred
+
+- [ ] Split browser.exe into DLLs so the package can install on E:. The split
+  images panicked USER 224 on Belle FP1 and the work was reverted; the SIS
+  installs on C: until this is picked up again.
