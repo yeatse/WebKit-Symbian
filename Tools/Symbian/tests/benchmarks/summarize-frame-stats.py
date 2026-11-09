@@ -24,7 +24,13 @@ DRAW = re.compile(r'egl-(draw|surfaces): per frame (.*)')
 DRAW_FIELD = re.compile(r'([a-z-]+)=([\d.]+)')
 DECODE = re.compile(r'image-decode: (\S+) window=\d+ms n=(\d+) partial=(\d+) kpx=(\d+) ms=([\d.]+) '
                     r'max=([\d.]+)@(\d+x\d+) large=(\d+)/([\d.]+)ms')
+MAIN = re.compile(r'main-thread: window=(\d+)ms busy=(\d+)ms tasks=(\d+) long=(\d+) longest=(\d+)ms (.*)')
+LONG_TASK = re.compile(r'long-task: (\d+)ms ((?:[a-z]+=\d+ ?)*)(?:top-script=(\d+)ms (\S+) ?(.*))?')
+RENDER = re.compile(r'egl-render: per frame (.*)')
+RENDER_WORST = re.compile(r'egl-render-worst: (\d+)ms (.*)')
 SLOW_MS = 1000 / 30
+# Long tasks kept per group, slowest first.
+LONG_TASKS_KEPT = 5
 
 
 def new_presentation():
@@ -37,7 +43,8 @@ def parse(lines):
     current = None
 
     def group(name):
-        return groups.setdefault(name, {'presentations': {}, 'page': None, 'skipped': None, 'tiles_kb': None, 'draw': None, 'decode': {}, 'seen': set()})
+        return groups.setdefault(name, {'presentations': {}, 'page': None, 'skipped': None, 'tiles_kb': None, 'draw': None, 'decode': {},
+                                        'main': None, 'long_tasks': [], 'render': None, 'seen': set()})
 
     for line in lines:
         marker = MARKER.search(line)
@@ -68,6 +75,47 @@ def parse(lines):
                 key = prefix + key
                 most[key] = max(most.get(key, 0.0), float(value))
             entry['draw'] = most
+            continue
+        main_thread = MAIN.search(line)
+        if main_thread:
+            entry = group(current or '(no benchmark)')
+            window, busy, tasks, long_tasks, longest, rest = main_thread.groups()
+            sums = entry['main'] or {'window': 0.0, 'busy': 0.0, 'tasks': 0, 'long': 0, 'longest': 0.0, 'kinds': {}}
+            sums['window'] += float(window)
+            sums['busy'] += float(busy)
+            sums['tasks'] += int(tasks)
+            sums['long'] += int(long_tasks)
+            sums['longest'] = max(sums['longest'], float(longest))
+            for key, value in DRAW_FIELD.findall(rest):
+                sums['kinds'][key] = sums['kinds'].get(key, 0.0) + float(value)
+            entry['main'] = sums
+            continue
+        long_task = LONG_TASK.search(line)
+        if long_task:
+            entry = group(current or '(no benchmark)')
+            duration, kinds, script_ms, label, detail = long_task.groups()
+            task = {'ms': float(duration), 'kinds': {k: float(v) for k, v in DRAW_FIELD.findall(kinds)}}
+            if script_ms:
+                task['script'] = {'ms': float(script_ms), 'label': label, 'detail': (detail or '').strip()}
+            entry['long_tasks'] = sorted(entry['long_tasks'] + [task], key=lambda t: -t['ms'])[:LONG_TASKS_KEPT]
+            continue
+        render = RENDER.search(line)
+        if render:
+            entry = group(current or '(no benchmark)')
+            sums = entry['render'] or {'lines': 0, 'sum': {}, 'worst_ms': 0.0, 'worst': {}}
+            sums['lines'] += 1
+            for key, value in DRAW_FIELD.findall(render.group(1)):
+                sums['sum'][key] = sums['sum'].get(key, 0.0) + float(value)
+            entry['render'] = sums
+            continue
+        worst = RENDER_WORST.search(line)
+        if worst:
+            entry = group(current or '(no benchmark)')
+            sums = entry['render'] or {'lines': 0, 'sum': {}, 'worst_ms': 0.0, 'worst': {}}
+            if float(worst.group(1)) > sums['worst_ms']:
+                sums['worst_ms'] = float(worst.group(1))
+                sums['worst'] = {k: float(v) for k, v in DRAW_FIELD.findall(worst.group(2))}
+            entry['render'] = sums
             continue
         decode = DECODE.search(line)
         if decode:
@@ -129,8 +177,17 @@ def report(groups):
                 'windows': summary['lines'],
                 'slow_windows': summary['slow_windows'],
             }
+        render = entry['render']
+        if render:
+            lines = max(1, render['lines'])
+            render = {'avg': {key: value / lines for key, value in render['sum'].items()},
+                      'worst_ms': render['worst_ms'], 'worst': render['worst']}
+        main_thread = entry['main']
+        if main_thread:
+            main_thread = dict(main_thread, busy_share=main_thread['busy'] / main_thread['window'] if main_thread['window'] else 0.0)
         result[name] = {'presentations': presentations, 'page': entry['page'], 'skipped': entry['skipped'],
-                        'tiles_kb': entry['tiles_kb'], 'draw': entry['draw'], 'decode': entry['decode']}
+                        'tiles_kb': entry['tiles_kb'], 'draw': entry['draw'], 'decode': entry['decode'],
+                        'main': main_thread, 'long_tasks': entry['long_tasks'], 'render': render}
     return result
 
 
@@ -165,6 +222,21 @@ def print_report(result, out):
                       format_name, sums['n'], sums['kpx'], sums['ms'],
                       sums['ms'] * 1000 / sums['kpx'] if sums['kpx'] else 0.0,
                       sums['max'], sums['max_size'], sums['large'], sums['large_ms'], sums['partial']), file=out)
+        main_thread = entry.get('main')
+        if main_thread:
+            print('  main thread: busy %.0f%% of %.1f s, %d tasks, %d over 100 ms, longest %.0f ms  [%s]' % (
+                main_thread['busy_share'] * 100, main_thread['window'] / 1000, main_thread['tasks'], main_thread['long'],
+                main_thread['longest'], ' '.join('%s=%.0f' % item for item in main_thread['kinds'].items() if item[1])), file=out)
+        render = entry.get('render')
+        if render:
+            print('  render stage per frame: ' + ' '.join('%s=%.1f' % item for item in render['avg'].items() if item[1]), file=out)
+            if render['worst_ms']:
+                print('  worst render stage: %.0f ms  [%s]' % (render['worst_ms'], ' '.join(
+                    '%s=%.0f' % item for item in render['worst'].items() if item[1])), file=out)
+        for task in entry.get('long_tasks', []):
+            script = task.get('script')
+            print('  long task %5.0f ms  [%s]%s' % (task['ms'], ' '.join('%s=%.0f' % item for item in task['kinds'].items() if item[1]),
+                  '  script %.0f ms %s %s' % (script['ms'], script['label'], script['detail']) if script else ''), file=out)
         if not entry['skipped'] and not any(s['windows'] for s in entry['presentations'].values()):
             print('  no frames presented', file=out)
 

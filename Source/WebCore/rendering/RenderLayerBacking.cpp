@@ -126,6 +126,10 @@
 #include "ModelContext.h"
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(RenderLayerBacking);
@@ -4207,6 +4211,9 @@ void RenderLayerBacking::paintDebugOverlays(const GraphicsLayer* graphicsLayer, 
 // Up-call from compositing layer drawing callback.
 void RenderLayerBacking::paintContents(const GraphicsLayer& graphicsLayer, GraphicsContext& context, const FloatRect& clip, OptionSet<GraphicsLayerPaintBehavior> layerPaintBehavior)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Paint);
+#endif
 #ifndef NDEBUG
     renderer().page().setIsPainting(true);
 #endif

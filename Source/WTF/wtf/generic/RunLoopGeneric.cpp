@@ -32,6 +32,10 @@
 #include <wtf/ProcessID.h>
 #include <wtf/TZoneMallocInlines.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WTF {
 
 static constexpr bool report = false;
@@ -219,7 +223,12 @@ void RunLoop::runImpl(RunMode runMode)
         // Dispatch scheduled timers.
         while (!firedTimers.isEmpty()) {
             auto task = firedTimers.takeFirst();
-            task->fired();
+            {
+#if OS(SYMBIAN)
+                MainThreadProfile::Scope profiled(MainThreadProfile::Category::Other);
+#endif
+                task->fired();
+            }
 
             Locker locker { m_loopLock };
             // It is possible the task is already scheduled while executing fired().

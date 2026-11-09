@@ -119,6 +119,7 @@
 #include <wtf/MemoryPressureHandler.h>
 #include <wtf/RunLoop.h>
 #include <wtf/symbian/MemoryPressureHandlerSymbian.h>
+#include <wtf/symbian/MainThreadProfile.h>
 #include <wtf/text/StringBuilder.h>
 
 namespace WebKitSymbian {
@@ -309,6 +310,7 @@ void WebView::setFrameStatsEnabled(bool enabled)
 {
     s_frameStatsEnabled = enabled;
     WebCore::ScalableImageDecoder::setDecodeStatsEnabled(enabled);
+    WTF::MainThreadProfile::setEnabled(enabled);
 }
 
 static bool s_tiledCompositingEnabled = true;

@@ -24,6 +24,7 @@
 #include <WebCore/TextureMapperLayer.h>
 #include <WebCore/TextureMapperTiledBackingStore.h>
 #include <wtf/SetForScope.h>
+#include <wtf/symbian/MainThreadProfile.h>
 
 namespace WebKitSymbian {
 using namespace WebCore;
@@ -255,8 +256,27 @@ bool SymbianCompositor::render()
     SetForScope rendering(m_rendering, true);
     m_flushTimer.stop();
     const bool timing = frameStatsEnabled();
+    // Work in the frame outside every finer scope is the compositor's own.
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Frame);
+    auto beforeRendering = WTF::MainThreadProfile::totals();
     MonotonicTime start = timing ? MonotonicTime::now() : MonotonicTime();
     m_view.page().isolatedUpdateRendering();
+    if (timing && profileScope.active()) {
+        // Split the render stage by kind, to find what runs in each frame.
+        auto afterRendering = WTF::MainThreadProfile::totals();
+        double frameRender = 0;
+        double split[WTF::MainThreadProfile::categoryCount];
+        for (unsigned i = 0; i < WTF::MainThreadProfile::categoryCount; ++i) {
+            split[i] = afterRendering.milliseconds[i] - beforeRendering.milliseconds[i];
+            m_renderSplit[i] += split[i];
+            frameRender += split[i];
+        }
+        ++m_renderSplitFrames;
+        if (frameRender > m_worstRender) {
+            m_worstRender = frameRender;
+            std::copy(std::begin(split), std::end(split), m_worstRenderSplit);
+        }
+    }
     // Rendering runs animation frame callbacks (canvas and WebGL drawing),
     // style and layout; flushing prepares layers, canvases included.
     MonotonicTime rendered = timing ? MonotonicTime::now() : MonotonicTime();
@@ -381,6 +401,7 @@ bool SymbianCompositor::render()
                 draw.backdropSurfaces / frames, draw.filterPasses / frames, draw.surfacePixels / frames / 1000);
             draw = { };
             m_drawStatsFrames = 0;
+            logRenderSplit();
         }
     }
     if (m_logNextPresentation) {
@@ -394,6 +415,33 @@ bool SymbianCompositor::render()
         m_flushTimer.startOneShot(0_s);
     }
     return true;
+}
+
+static_assert(WTF::MainThreadProfile::categoryCount == 9, "SymbianCompositor.h sizes the render split");
+
+void SymbianCompositor::logRenderSplit()
+{
+    if (!m_renderSplitFrames)
+        return;
+    static constexpr const char* names[WTF::MainThreadProfile::categoryCount] = { "other", "script", "style", "layout", "parse", "paint", "decode", "gc", "frame" };
+    char average[200];
+    char worst[200];
+    size_t averageUsed = 0;
+    size_t worstUsed = 0;
+    for (unsigned i = 0; i < WTF::MainThreadProfile::categoryCount; ++i) {
+        int written = snprintf(average + averageUsed, sizeof(average) - averageUsed, "%s%s=%.1f", i ? " " : "", names[i], m_renderSplit[i] / m_renderSplitFrames);
+        if (written > 0)
+            averageUsed = std::min(sizeof(average) - 1, averageUsed + written);
+        written = snprintf(worst + worstUsed, sizeof(worst) - worstUsed, "%s%s=%.0f", i ? " " : "", names[i], m_worstRenderSplit[i]);
+        if (written > 0)
+            worstUsed = std::min(sizeof(worst) - 1, worstUsed + written);
+    }
+    // The render stage only: rAF callbacks, style, layout and what they call.
+    WTFLogAlways("egl-render: per frame %s", average);
+    WTFLogAlways("egl-render-worst: %.0fms %s", m_worstRender, worst);
+    std::fill(std::begin(m_renderSplit), std::end(m_renderSplit), 0);
+    m_renderSplitFrames = 0;
+    m_worstRender = 0;
 }
 
 void SymbianCompositor::paintContents(const GraphicsLayer&, GraphicsContext& context, const FloatRect& rect, OptionSet<GraphicsLayerPaintBehavior>)

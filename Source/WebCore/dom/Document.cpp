@@ -460,6 +460,10 @@
 #define DOCUMENT_RELEASE_LOG(channel, fmt, ...) RELEASE_LOG(channel, "%p - [pageID=%" PRIu64 ", frameID=%" PRIu64 ", isMainFrame=%d] Document::" fmt, this, pageID() ? pageID()->toUInt64() : 0, frameID() ? frameID()->toUInt64() : 0, this->isTopDocument(), ##__VA_ARGS__)
 #define DOCUMENT_RELEASE_LOG_ERROR(channel, fmt, ...) RELEASE_LOG_ERROR(channel, "%p - [pageID=%" PRIu64 ", frameID=%" PRIu64 ", isMainFrame=%d] Document::" fmt, this, pageID() ? pageID()->toUInt64() : 0, frameID() ? frameID()->toUInt64() : 0, this->isTopDocument(), ##__VA_ARGS__)
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(Document);
@@ -2852,6 +2856,9 @@ void Document::updateRenderTree(std::unique_ptr<Style::Update> styleUpdate)
 
 void Document::resolveStyle(ResolveStyleType type)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Style);
+#endif
     ScriptDisallowedScope::InMainThread scriptDisallowedScope;
 
     ASSERT(!view() || !view()->isPainting());

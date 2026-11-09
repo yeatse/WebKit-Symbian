@@ -43,6 +43,11 @@ void closeThread(int handle);
 // thread is never starved by work in the background.
 void lowerCurrentThreadPriority();
 
+// Runs the calling thread at the UI thread's priority again. EKA2 shares
+// time among threads of equal priority, so work the UI thread waits for
+// (image decoding) still runs while the UI thread is busy.
+void raiseCurrentThreadPriorityToNormal();
+
 // RThread::Suspend / RThread::Resume.
 void suspendThread(int handle);
 void resumeThread(int handle);

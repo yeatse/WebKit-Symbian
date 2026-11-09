@@ -55,6 +55,10 @@
 #include <wtf/cocoa/RuntimeApplicationChecksCocoa.h>
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 using namespace HTMLNames;
@@ -308,6 +312,9 @@ bool HTMLDocumentParser::pumpTokenizerLoop(SynchronousMode mode, bool parsingFra
 
 void HTMLDocumentParser::pumpTokenizer(SynchronousMode mode)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Parse);
+#endif
     ASSERT(!isStopped());
     ASSERT(!isScheduledForResume());
 

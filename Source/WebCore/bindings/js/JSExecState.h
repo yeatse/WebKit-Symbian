@@ -36,6 +36,10 @@
 #include <wtf/ForbidHeapAllocation.h>
 #include <wtf/MainThread.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 class ScriptExecutionContext;
@@ -70,6 +74,9 @@ public:
         JSC::JSValue returnValue;
         {
             JSExecState currentState(lexicalGlobalObject);
+#if OS(SYMBIAN)
+            currentState.m_profile.setDetail(source.provider()->sourceURL());
+#endif
             returnValue = JSC::evaluate(lexicalGlobalObject, source, thisValue, returnedException);
         }
         scope.assertNoExceptionExceptTermination();
@@ -102,6 +109,9 @@ public:
         JSC::JSValue returnValue;
         {
             JSExecState currentState(lexicalGlobalObject);
+#if OS(SYMBIAN)
+            currentState.m_profile.setDetail(source.provider()->sourceURL());
+#endif
             returnValue = JSC::profiledEvaluate(lexicalGlobalObject, reason, source, thisValue, returnedException);
         }
         scope.assertNoExceptionExceptTermination();
@@ -151,7 +161,12 @@ public:
 
 private:
     explicit JSExecState(JSC::JSGlobalObject* lexicalGlobalObject)
+#if OS(SYMBIAN)
+        : m_profile(WTF::MainThreadProfile::Category::Script, currentState() ? "nested" : nullptr)
+        , m_previousState(currentState())
+#else
         : m_previousState(currentState())
+#endif
         , m_lock(lexicalGlobalObject)
     {
         setCurrentState(lexicalGlobalObject);
@@ -180,6 +195,10 @@ private:
         threadGlobalDataSingleton().setCurrentState(lexicalGlobalObject);
     }
 
+#if OS(SYMBIAN)
+    // First, so that it closes last: leaving script runs microtasks.
+    WTF::MainThreadProfile::Scope m_profile;
+#endif
     JSC::JSGlobalObject* const m_previousState;
     JSC::JSLockHolder m_lock;
 

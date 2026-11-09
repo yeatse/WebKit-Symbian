@@ -58,6 +58,10 @@
 #include <wtf/TZoneMallocInlines.h>
 #include <wtf/text/TextStream.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(LocalFrameViewLayoutContext);
@@ -165,6 +169,9 @@ UpdateScrollInfoAfterLayoutTransaction& LocalFrameViewLayoutContext::updateScrol
 
 void LocalFrameViewLayoutContext::layout(bool canDeferUpdateLayerPositions)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Layout);
+#endif
     LOG_WITH_STREAM(Layout, stream << "LocalFrameView " << &view() << " LocalFrameViewLayoutContext::layout() with size " << view().layoutSize());
 
     Ref protectedView(view());

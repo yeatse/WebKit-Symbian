@@ -50,6 +50,10 @@
 #include "DOMTimerHoldingTank.h"
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 static constexpr Seconds minIntervalForNonUserObservableChangeTimers { 1_s }; // Empirically determined to maximize battery life.
@@ -303,6 +307,9 @@ void DOMTimer::scriptDidInteractWithPlugin()
 
 void DOMTimer::fired()
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::ScriptLabel profileLabel("timer");
+#endif
     // Retain this - if the timer is cancelled while this function is on the stack (implicitly and always
     // for one-shot timers, or if removeById is called on itself from within an interval timer fire) then
     // wait unit the end of this function to delete DOMTimer.

@@ -32,6 +32,10 @@
 #include <wtf/text/StringBuilder.h>
 #include <wtf/threads/BinarySemaphore.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WTF {
 
 SUPPRESS_UNCOUNTED_LOCAL static RunLoop* s_mainRunLoop;
@@ -142,6 +146,9 @@ void RunLoop::performWork()
         }
 
         auto function = m_currentIteration.takeFirst();
+#if OS(SYMBIAN)
+        MainThreadProfile::Scope task(MainThreadProfile::Category::Other);
+#endif
         function();
     }
 

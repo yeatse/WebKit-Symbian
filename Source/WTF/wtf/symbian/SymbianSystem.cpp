@@ -51,6 +51,11 @@ void lowerCurrentThreadPriority()
     RThread().SetPriority(EPriorityLess);
 }
 
+void raiseCurrentThreadPriorityToNormal()
+{
+    RThread().SetPriority(EPriorityNormal);
+}
+
 static RThread threadFromHandle(int handle)
 {
     RThread thread;

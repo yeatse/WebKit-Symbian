@@ -39,6 +39,10 @@
 #include <wtf/SetForScope.h>
 #include <wtf/TZoneMallocInlines.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(MicrotaskQueue);
@@ -109,6 +113,9 @@ void MicrotaskQueue::runJSMicrotask(JSC::JSGlobalObject* globalObject, JSC::VM& 
 
 void MicrotaskQueue::performMicrotaskCheckpoint()
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::ScriptLabel profileLabel("microtask");
+#endif
     if (m_performingMicrotaskCheckpoint)
         return;
 

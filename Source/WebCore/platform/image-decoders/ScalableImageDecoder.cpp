@@ -62,6 +62,10 @@
 WTF_WEAK_LINK_FORCE_IMPORT(JxlSignatureCheck);
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(ScalableImageDecoder);
@@ -304,10 +308,23 @@ static void recordDecode(const String& name, const IntSize& size, double millise
     }
     stats.clear();
 }
+bool ScalableImageDecoder::decodeStatsEnabled()
+{
+    return s_decodeStatsEnabled.load(std::memory_order_relaxed);
+}
+
+void ScalableImageDecoder::recordDecodeStats(const String& name, const IntSize& size, double milliseconds, bool complete)
+{
+    if (decodeStatsEnabled())
+        recordDecode(name, size, milliseconds, complete);
+}
 #endif
 
 PlatformImagePtr ScalableImageDecoder::createFrameImageAtIndex(size_t index, SubsamplingLevel, const DecodingOptions&)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Decode);
+#endif
     Locker locker { m_lock };
     // Zero-height images can cause problems for some ports. If we have an empty image dimension, just bail.
     if (size().isEmpty())

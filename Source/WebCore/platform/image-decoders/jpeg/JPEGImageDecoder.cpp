@@ -50,6 +50,7 @@
 #include <wtf/NeverDestroyed.h>
 #include <wtf/ThreadSafeRefCounted.h>
 #include <wtf/Threading.h>
+#include <wtf/symbian/SymbianSystem.h>
 #endif
 
 #if USE(LCMS)
@@ -616,9 +617,9 @@ public:
         m_request = request.ptr();
         m_condition.notifyAll();
         // Until ICL has decoded once, wait less: a decoder that never answers
-        // would otherwise stall the first JPEG for 10 s. Not much less: this
-        // thread runs below the UI thread, which takes all the time while a
-        // page loads, and the first decode in EKA2L1 took 3.8 s that way.
+        // would otherwise stall the first JPEG for 10 s. Not much less: the
+        // first decode in EKA2L1 took 3.8 s while the thread ran below the
+        // UI thread, and ICL's own server may still be busy starting.
         Seconds timeout = m_decodedOnce ? 10_s : 6_s;
         deadline = MonotonicTime::now() + timeout;
         while (!request->done) {
@@ -662,6 +663,9 @@ private:
 
     void run()
     {
+        // The UI thread waits for each decode: share its priority, or a busy
+        // page leaves the decoder no time (2.6 s per megapixel on a Nokia 808).
+        WTF::SymbianSystem::raiseCurrentThreadPriorityToNormal();
         int error = 0;
         void* session = SymbianJPEG::createSession(error);
         {
@@ -683,6 +687,8 @@ private:
                     m_condition.wait(m_lock);
                 request = WTF::move(m_request);
             }
+            bool timing = ScalableImageDecoder::decodeStatsEnabled();
+            MonotonicTime start = timing ? MonotonicTime::now() : MonotonicTime();
             int result = SymbianJPEG::decode(session, request->data.span().data(), request->data.size(),
                 request->size.width(), request->size.height());
             Locker locker { m_lock };
@@ -690,6 +696,10 @@ private:
                 SymbianJPEG::copyPixels(session, request->pixels, request->size.width());
             else
                 SymbianJPEG::discardBitmap(session);
+            // ICL's own time, without the wait for this thread: the jpg-icl
+            // entry is the whole decode as the caller saw it.
+            if (timing)
+                ScalableImageDecoder::recordDecodeStats("jpg-icl-thread"_s, request->size, (MonotonicTime::now() - start).milliseconds(), !result);
             request->error = result;
             request->done = true;
             m_condition.notifyAll();

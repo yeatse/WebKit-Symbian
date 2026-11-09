@@ -12,6 +12,7 @@ list(APPEND WTF_SOURCES
     symbian/CPUTimeSymbian.cpp
     symbian/FileSystemSymbian.cpp
     symbian/FileSystemSymbianNative.cpp
+    symbian/MainThreadProfile.cpp
     symbian/LibcxxSupport.cpp
     symbian/MemoryPressureHandlerSymbian.cpp
     symbian/MemoryPressureMonitorSymbianNative.cpp
@@ -27,6 +28,7 @@ list(APPEND WTF_SOURCES
 
 list(APPEND WTF_PUBLIC_HEADERS
     symbian/SymbianSystem.h
+    symbian/MainThreadProfile.h
     symbian/MemoryPressureHandlerSymbian.h
 )
 

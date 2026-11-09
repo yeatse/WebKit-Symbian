@@ -63,6 +63,13 @@ private:
     unsigned m_drawStatsFrames { 0 };
     FrameStats m_stats;
     MonotonicTime m_lastFrame;
+
+    // The render stage's main-thread time by kind, summed since the last log.
+    void logRenderSplit();
+    double m_renderSplit[9] { };
+    double m_worstRenderSplit[9] { };
+    double m_worstRender { 0 };
+    unsigned m_renderSplitFrames { 0 };
 };
 }
 #endif

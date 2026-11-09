@@ -180,6 +180,9 @@ public:
     // Times each frame decode and logs a summary per format about once a
     // second of decoding, for frame-stats.
     WEBCORE_EXPORT static void setDecodeStatsEnabled(bool);
+    static bool decodeStatsEnabled();
+    // Adds a decode timed elsewhere, such as on the system decoder's thread.
+    static void recordDecodeStats(const String& name, const IntSize&, double milliseconds, bool complete);
 #endif
 
 protected:
