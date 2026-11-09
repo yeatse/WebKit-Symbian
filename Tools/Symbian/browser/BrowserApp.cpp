@@ -9,6 +9,9 @@
 #include "PageList.h"
 #include "RunLoopDriver.h"
 #include "WebContainer.h"
+#if SYMBIAN_BROWSER_MEDIA
+#include "MediaVolumeKeys.h"
+#endif
 #include "browser_ui.rsg"
 
 #include <aknapp.h>
@@ -335,6 +338,9 @@ private:
     CUrlBar* iUrlBar { nullptr };
     CWebContainer* iWebContainer { nullptr };
     CUrlSuggestions* iSuggestions { nullptr };
+#if SYMBIAN_BROWSER_MEDIA
+    CMediaVolumeKeys* iVolumeKeys { nullptr };
+#endif
     CPageList* iHistory { nullptr };
     CPageList* iBookmarks { nullptr };
     // The page shown, for the history and the bookmarks.
@@ -575,6 +581,10 @@ void CBrowserAppUi::ConstructL()
     // Over the page: a window made later is in front.
     iSuggestions = new (ELeave) CUrlSuggestions(*this);
     iSuggestions->ConstructL();
+#if SYMBIAN_BROWSER_MEDIA
+    // Its bar is in front of the suggestions.
+    iVolumeKeys = CMediaVolumeKeys::NewL();
+#endif
     LayoutControls();
     // RemoveFromStack tolerates a failed insertion. Mark before AddToStackL,
     // since the insertion's focus notification can itself leave.
@@ -609,6 +619,9 @@ CBrowserAppUi::~CBrowserAppUi()
 {
     BrowserLog("exit diagnostic: appui destructor begin");
     BeginTeardown();
+#if SYMBIAN_BROWSER_MEDIA
+    delete iVolumeKeys;
+#endif
     BrowserLog("exit diagnostic: delete suggestions");
     delete iSuggestions;
     BrowserLog("exit diagnostic: delete web container");

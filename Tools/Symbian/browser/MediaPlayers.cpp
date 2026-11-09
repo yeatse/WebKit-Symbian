@@ -15,6 +15,81 @@ namespace {
 
 const TReal KMicrosecondsPerSecond = 1000000;
 
+// Loud enough to hear, quiet enough not to startle on the device's speaker.
+const TInt KDefaultMediaVolumeLevel = 4;
+_LIT(KMediaVolumeFile, "C:\\Data\\WebKit\\media-volume");
+TInt gMediaVolumeLevel = -1; // Not read yet.
+
+TInt ReadMediaVolumeLevel()
+{
+    TInt level = KDefaultMediaVolumeLevel;
+    RFile file;
+    if (file.Open(CCoeEnv::Static()->FsSession(), KMediaVolumeFile, EFileRead | EFileShareReadersOrWriters) == KErrNone) {
+        TBuf8<8> text;
+        TInt stored;
+        if (file.Read(text) == KErrNone && TLex8(text).Val(stored) == KErrNone && stored >= 0 && stored <= KMediaVolumeSteps)
+            level = stored;
+        file.Close();
+    }
+    return level;
+}
+
+void WriteMediaVolumeLevel(TInt aLevel)
+{
+    RFile file;
+    if (file.Replace(CCoeEnv::Static()->FsSession(), KMediaVolumeFile, EFileWrite) != KErrNone)
+        return;
+    TBuf8<8> text;
+    text.Num(aLevel);
+    file.Write(text);
+    file.Close();
+}
+
+// A player, which applies the browser's media volume again when it changes.
+// Players are made, used and deleted on the UI thread.
+class TMediaVolumeListener {
+public:
+    virtual void ApplyMediaVolume() = 0;
+
+    static void ApplyToAll()
+    {
+        for (TMediaVolumeListener* listener = sFirst; listener; listener = listener->iNext)
+            listener->ApplyMediaVolume();
+    }
+
+protected:
+    TMediaVolumeListener()
+        : iNext(sFirst)
+    {
+        if (iNext)
+            iNext->iPrevious = this;
+        sFirst = this;
+    }
+
+    ~TMediaVolumeListener()
+    {
+        if (iPrevious)
+            iPrevious->iNext = iNext;
+        else
+            sFirst = iNext;
+        if (iNext)
+            iNext->iPrevious = iPrevious;
+    }
+
+    // The page's volume, 0 to 1, scaled by the browser's, in 0..aMaxVolume.
+    static TInt DeviceVolume(double aVolume, TInt aMaxVolume)
+    {
+        return static_cast<TInt>(aVolume * MediaVolumeLevel() * aMaxVolume / KMediaVolumeSteps + 0.5);
+    }
+
+private:
+    static TMediaVolumeListener* sFirst;
+    TMediaVolumeListener* iPrevious { nullptr };
+    TMediaVolumeListener* iNext;
+};
+
+TMediaVolumeListener* TMediaVolumeListener::sFirst = nullptr;
+
 // The engine's UTF-8 path, "C:/Data/x.mp3", as a file name.
 TFileName FileNameL(const char* aPath)
 {
@@ -115,7 +190,7 @@ private:
 // These adapters use ordinary C++ ownership from WebCore. Do not inherit
 // CBase's User::AllocZ operator new while their virtual delete uses the
 // browser's portable allocator. The native utility objects keep their own ABI.
-class CAudioPlayer final : public MediaPlayer, public MMdaAudioPlayerCallback {
+class CAudioPlayer final : public MediaPlayer, public MMdaAudioPlayerCallback, private TMediaVolumeListener {
 public:
     explicit CAudioPlayer(MediaPlayerClient& aClient)
         : iClient(aClient)
@@ -173,8 +248,10 @@ public:
     {
         if (!std::isfinite(aVolume) || aVolume < 0 || aVolume > 1) return KErrArgument;
         iVolume = aVolume;
-        return iOpened ? iUtility->SetVolume(static_cast<TInt>(aVolume * iUtility->MaxVolume() + 0.5)) : KErrNone;
+        return iOpened ? iUtility->SetVolume(DeviceVolume(aVolume, iUtility->MaxVolume())) : KErrNone;
     }
+
+    void ApplyMediaVolume() final { setVolume(iVolume); }
 
     // MMdaAudioPlayerCallback
     void MapcInitComplete(TInt aError, const TTimeIntervalMicroSeconds& aDuration) final
@@ -194,7 +271,7 @@ private:
     double iVolume { 1 };
 };
 
-class CVideoPlayer final : public MediaPlayer, public MVideoPlayerUtilityObserver {
+class CVideoPlayer final : public MediaPlayer, public MVideoPlayerUtilityObserver, private TMediaVolumeListener {
 public:
     CVideoPlayer(MediaPlayerClient& aClient, MNativeVideoWindow& aWindow)
         : iClient(aClient)
@@ -277,9 +354,11 @@ public:
         if (!std::isfinite(aVolume) || aVolume < 0 || aVolume > 1) return KErrArgument;
         iVolume = aVolume;
         if (!iPrepared || !iHasAudio) return KErrNone;
-        TRAPD(error, iUtility->SetVolumeL(static_cast<TInt>(aVolume * iUtility->MaxVolume() + 0.5)));
+        TRAPD(error, iUtility->SetVolumeL(DeviceVolume(aVolume, iUtility->MaxVolume())));
         return error;
     }
+
+    void ApplyMediaVolume() final { setVolume(iVolume); }
 
     int setVideoRect(const Rect& aRect, const Rect& aClip) final
     {
@@ -379,4 +458,22 @@ MediaPlayer* CreateMediaPlayer(void* aWindow, MediaPlayerClient& aClient, bool a
     if (aHasVideo)
         return new CVideoPlayer(aClient, *static_cast<MNativeVideoWindow*>(aWindow));
     return new CAudioPlayer(aClient);
+}
+
+TInt MediaVolumeLevel()
+{
+    if (gMediaVolumeLevel < 0)
+        gMediaVolumeLevel = ReadMediaVolumeLevel();
+    return gMediaVolumeLevel;
+}
+
+TInt SetMediaVolumeLevel(TInt aLevel)
+{
+    aLevel = Max(0, Min(aLevel, KMediaVolumeSteps));
+    if (aLevel != MediaVolumeLevel()) {
+        gMediaVolumeLevel = aLevel;
+        WriteMediaVolumeLevel(aLevel);
+        TMediaVolumeListener::ApplyToAll();
+    }
+    return aLevel;
 }

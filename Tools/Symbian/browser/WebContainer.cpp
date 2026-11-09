@@ -431,6 +431,7 @@ namespace {
 // A top-level window under the page's, filled black where no video is.
 class CVideoUnderlay final : public CCoeControl {
 public:
+    SYMBIAN_BROWSER_NATIVE_DELETE
     void ConstructL(RWindow& aPageWindow, const TRect& aRect)
     {
         CreateWindowL();
