@@ -58,7 +58,7 @@ SIS_VERSION=0.3.0 Tools/Symbian/scripts/package-sis.sh
 | `OPTIMIZE` | `-Os` | Target compiler optimization flags. |
 | `JOBS` | Host CPU count | Parallel build jobs. |
 
-The package is written to `$SYMBIAN_WEBKIT_WORK/sis/symbian-webkit.sis`. The browser, JavaScriptCore shell and application resources use the installer-selected drive. Shared ICU data, example scripts, certificate and font configuration files are installed on C:.
+The package is written to `$SYMBIAN_WEBKIT_WORK/sis/symbian-webkit.sis`. Everything installs on C:, because the browser image is too large to load from E:. The JavaScriptCore shell `$SYMBIAN_WEBKIT_WORK/build/e32/e32/jsc.exe` is not in the package; CI publishes it as the separate `jsc` artifact.
 
 To sign the package, provide a PEM certificate and private key:
 

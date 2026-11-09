@@ -37,7 +37,8 @@ into the profile. Set `EKA2L1_DEVICE` when selecting a device other than RM-707.
 
 ## JavaScript
 
-Run the packaged language and internationalization cases with the JSC driver:
+Run the language and internationalization cases with the JSC driver, which copies
+`jsc.exe` and `Tools/Symbian/tests/*.js` into the emulator:
 
 ```sh
 Tools/Symbian/eka2l1/run.sh C:/Data/basic.js C:/Data/es2020.js \

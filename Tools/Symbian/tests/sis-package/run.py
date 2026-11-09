@@ -21,7 +21,6 @@ def payload(entries, kind):
 
 def check(work, icu_data):
     generated = {
-        r"c:\sys\bin\jsc.exe": ("build/e32/e32/jsc.exe", b"JSC executable fixture\n"),
         r"c:\sys\bin\browser.exe": ("build/browser/e32/browser.exe", b"Browser executable fixture\n"),
         r"c:\private\10003a3f\import\apps\browser_reg.rsc": ("build/browser/e32/browser_reg.rsc", b"Browser registration\n"),
         r"c:\resource\apps\browser_loc.rsc": ("build/browser/e32/browser_loc.rsc", b"Browser caption\n"),
@@ -35,8 +34,6 @@ def check(work, icu_data):
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_bytes(data)
         expected[target] = data
-    for name in ("basic.js", "es2020.js", "intl.js", "resizable-arraybuffer.js"):
-        expected["c:\\data\\" + name] = (SYMBIAN / "tests" / name).read_bytes()
     expected[r"c:\data\webkit\test.html"] = (SYMBIAN / "browser/test.html").read_bytes()
     for page in sorted((SYMBIAN / "tests/benchmarks").glob("*.html")) + sorted((SYMBIAN / "tests/benchmarks").glob("*.js")):
         expected["c:\\data\\webkit\\bench\\" + page.name] = page.read_bytes()

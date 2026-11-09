@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Package WebKit Browser, JavaScriptCore and ICU as symbian-webkit.sis.
+# Package WebKit Browser and ICU as symbian-webkit.sis. jsc.exe is not in the
+# package: it is published on its own (the CI's jsc artifact).
 # SIS_CERTIFICATE and SIS_KEY select a PEM certificate and RSA signing key.
 . "$(dirname "$0")/common.sh"
 out=$WORK/sis
 mkdir -p "$out"
 version=${SIS_VERSION:-0.3.0}
 icu=$ICU_DIR/install/share/icu/icudt70l.dat
-jsc=$E32_BUILD/e32/jsc.exe
 browser=$BROWSER_BUILD/e32
 # Mozilla's trusted roots, as curl's maintainers extract them.
 cacert=$WORK/downloads/cacert-2026-09-25.pem
@@ -46,11 +46,6 @@ python3 "$REPO/scripts/make-sis.py" \
   --uid 0xE1A5C012 --name "WebKit for Symbian" --vendor symbian-webkit \
   --version "$version" --output "$out/symbian-webkit.sis" \
   "${platforms[@]}" "${sign[@]}" "${files[@]}" \
-  --file "$jsc=c:\\sys\\bin\\jsc.exe" \
-  --file "$REPO/tests/es2020.js=c:\\data\\es2020.js" \
-  --file "$REPO/tests/intl.js=c:\\data\\intl.js" \
-  --file "$REPO/tests/basic.js=c:\\data\\basic.js" \
-  --file "$REPO/tests/resizable-arraybuffer.js=c:\\data\\resizable-arraybuffer.js" \
   --file "$browser/browser.exe=c:\\sys\\bin\\browser.exe" \
   --file "$browser/browser_reg.rsc=c:\\private\\10003a3f\\import\\apps\\browser_reg.rsc" \
   --file "$browser/browser_loc.rsc=c:\\resource\\apps\\browser_loc.rsc" \

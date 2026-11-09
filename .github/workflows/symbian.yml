@@ -362,6 +362,14 @@ jobs:
             WebKitBuild/Symbian/sis/SHA256SUMS
           compression-level: 0
           if-no-files-found: error
+      # jsc.exe ships on its own; the SIS does not contain it.
+      - name: Upload jsc.exe
+        id: jsc
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsc
+          path: WebKitBuild/Symbian/build/e32/e32/jsc.exe
+          if-no-files-found: error
       # Keep an ELF even when E32 conversion or packaging fails.
       - uses: actions/upload-artifact@v4
         if: always()
@@ -373,6 +381,7 @@ jobs:
       - name: Package download summary
         env:
           SIS_ARTIFACT_URL: ${{ steps.sis.outputs.artifact-url }}
+          JSC_ARTIFACT_URL: ${{ steps.jsc.outputs.artifact-url }}
         run: |
           {
             printf '### WebKit 2.52.6 for Symbian\n\n'
@@ -380,6 +389,7 @@ jobs:
             printf 'Branch: `%s` · Commit: `%s`\n\n' "$GITHUB_REF_NAME" "$GITHUB_SHA"
             printf 'JavaScript: ARM LLInt + Baseline JIT + DFG (ARMv6, VFPv2, softfp).\n\n'
             printf 'Install `symbian-webkit.sis` and launch WebKit Browser from the applications menu.\n\n'
+            printf '[Download jsc.exe](%s) (not in the SIS)\n\n' "$JSC_ARTIFACT_URL"
             printf '```text\n'
             cat "$SYMBIAN_WEBKIT_WORK/sis/SHA256SUMS"
             printf '```\n'
@@ -413,4 +423,5 @@ jobs:
         run: |
           gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1 \
             || gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes
-          gh release upload "$GITHUB_REF_NAME" "$SYMBIAN_WEBKIT_WORK/sis/symbian-webkit.sis" --clobber
+          gh release upload "$GITHUB_REF_NAME" "$SYMBIAN_WEBKIT_WORK/sis/symbian-webkit.sis" \
+            "$SYMBIAN_WEBKIT_WORK/build/e32/e32/jsc.exe" --clobber

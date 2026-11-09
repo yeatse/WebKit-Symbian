@@ -15,7 +15,7 @@ A native web browser for Nokia Symbian^3, Anna and Belle phones, including the N
 - **Tagged builds:** choose a version from [Releases](https://github.com/yeatse/WebKit-Symbian/releases).
 - **Latest build:** sign in to GitHub, open the latest successful [Symbian build for this branch](https://github.com/yeatse/WebKit-Symbian/actions/workflows/symbian.yml?query=branch%3A2.52.6-symbian), and download the **sis** artifact.
 
-Extract the download, install `symbian-webkit.sis` and launch WebKit Browser from the applications menu. The package includes the browser, JavaScript command-line shell, language data and example scripts.
+Extract the download, install `symbian-webkit.sis` and launch WebKit Browser from the applications menu. The package includes the browser and language data; the JavaScript command-line shell (`jsc.exe`) is a separate download.
 
 Sign an unsigned package with a certificate accepted by your phone, or use a phone configured for unsigned applications.
 
