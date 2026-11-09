@@ -790,9 +790,11 @@ class Splitter:
             return ("piece", first, first.base + address - self.image_lo)
         if address == self.image_hi:  # __ro_end
             return ("piece", first, first.code_end)
-        if address == self.exidx["addr"]:
+        exidx = self.exidx["addr"]
+        if exidx is not None and address == exidx:
             return ("piece", first, first.exidx)
-        if address == self.exidx["addr"] + self.exidx["size"] and symbol in (None, b"__exidx_end"):
+        if exidx is not None and address == exidx + self.exidx["size"] \
+                and symbol in (None, b"__exidx_end"):
             return ("piece", first, first.exidx_end)
         if self.text_lo <= address < self.text_hi:
             return ("piece", self.piece_of(address), address)
