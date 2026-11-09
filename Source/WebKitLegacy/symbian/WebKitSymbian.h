@@ -120,6 +120,10 @@ public:
     // A <select> was tapped: show the items and return the chosen index, or
     // -1 if the choice was cancelled.
     virtual int runSelectPopup(const Text* /* items */, int /* count */, int /* selectedIndex */) { return -1; }
+    // With composited video, called before a composited frame is presented
+    // when its transparent video holes appear or are all gone: the window
+    // must then let what is under it show through its surface's alpha.
+    virtual void setVideoUnderlayVisible(bool) { }
 
 protected:
     ~WebViewClient() = default;
@@ -177,6 +181,11 @@ public:
     // embedding presents ordinary pages and EGL is used only for pages with
     // composited layers. Takes effect at the next setNativeWindow().
     static void setTiledCompositingEnabled(bool);
+    // The embedding shows native video in a window of its own under the
+    // view's window (the media player factory's video window). A composited
+    // page then keeps EGL while a video plays, leaving transparent holes
+    // over it, instead of going to software painting.
+    static void setCompositedVideoEnabled(bool);
 
     static WebView* create(WebViewClient&, int width, int height);
     virtual ~WebView() = default;

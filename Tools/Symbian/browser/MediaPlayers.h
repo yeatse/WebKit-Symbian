@@ -5,13 +5,14 @@
 #include <WebKitSymbian.h>
 #include <e32std.h>
 
-class RWindow;
+class RWindowBase;
 
 class MNativeVideoWindow {
 public:
-    virtual RWindow& VideoWindow() = 0;
-    // Called before MMF can attach a background surface. The embedding first
-    // retires its page surface, then enables the native video's alpha window.
+    virtual RWindowBase& VideoWindow() = 0;
+    // Called before MMF can attach a background surface. Unless the video
+    // window is under a composited page, the embedding first retires its page
+    // surface, then makes the page window transparent where it has alpha.
     virtual TInt PrepareNativeVideoWindow() = 0;
 protected:
     ~MNativeVideoWindow() = default;

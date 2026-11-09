@@ -360,7 +360,7 @@ private:
 
     MediaPlayerClient& iClient;
     MNativeVideoWindow& iNativeVideoWindow;
-    RWindow& iWindow;
+    RWindowBase& iWindow;
     TMediaFile iFile;
     CVideoPlayerUtility2* iUtility { nullptr };
     TRect iRect;

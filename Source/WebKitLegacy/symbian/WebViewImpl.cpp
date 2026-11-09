@@ -306,6 +306,15 @@ void WebView::setFrameStatsEnabled(bool enabled)
 
 static bool s_tiledCompositingEnabled = true;
 
+void WebView::setCompositedVideoEnabled(bool enabled)
+{
+#if ENABLE(VIDEO)
+    MediaPlayerPrivateSymbian::setCompositedVideoEnabled(enabled);
+#else
+    UNUSED_PARAM(enabled);
+#endif
+}
+
 void WebView::setTiledCompositingEnabled(bool enabled)
 {
     s_tiledCompositingEnabled = enabled;
@@ -438,6 +447,9 @@ bool WebViewImpl::setNativeWindow(void* window)
         // scroll instead of being painted again into the document's tiles.
         m_page->settings().setAcceleratedCompositingForFixedPositionEnabled(s_tiledCompositingEnabled);
         m_page->settings().setAcceleratedCompositingEnabled(true);
+#if ENABLE(VIDEO)
+        MediaPlayerPrivateSymbian::setCompositingActive(true);
+#endif
         invalidate(IntRect(IntPoint(), m_size));
         return true;
     }
@@ -480,6 +492,10 @@ void WebViewImpl::disableCompositing()
     m_nativeWindow = nullptr;
     m_compositorIdleTimer.stop();
     m_compositorIdle = false;
+#if ENABLE(VIDEO)
+    MediaPlayerPrivateSymbian::setCompositingActive(false);
+#endif
+    setVideoUnderlayVisible(false);
     if (!m_page->settings().acceleratedCompositingEnabled() && !m_compositor)
         return;
     if (m_compositor)
@@ -505,9 +521,10 @@ void WebViewImpl::renderCompositedFrame()
     if (!usesAcceleratedCompositing())
         return;
 #if ENABLE(VIDEO)
-    // MMF Utility2 video uses a native window below the page. Until EGL
-    // transparency is verified on that device, use the proven ARGB path.
-    if (MediaPlayerPrivateSymbian::requiresNativeVideoWindow()) {
+    // Without a video window of the embedding's own under the page, MMF
+    // takes the page window's background surface, which EGL uses: paint the
+    // page in software, with holes for the video.
+    if (!MediaPlayerPrivateSymbian::compositedVideoEnabled() && MediaPlayerPrivateSymbian::requiresNativeVideoWindow()) {
         WTFLogAlways("Symbian compositor: native video window requires software painting");
         disableCompositing();
         return;
@@ -523,6 +540,7 @@ void WebViewImpl::renderCompositedFrame()
     } else if (!m_compositorIdleTimer.isActive()) {
         WTFLogAlways("Symbian compositor: no composited layers, EGL composition ended");
         m_compositorIdle = false;
+        setVideoUnderlayVisible(false);
         m_compositor->prepareForDestruction();
         m_compositor = nullptr;
         // The embedding presents the whole view itself again.
@@ -580,6 +598,15 @@ void WebViewImpl::attachViewOverlayGraphicsLayer(GraphicsLayer* layer)
 #else
     UNUSED_PARAM(layer);
 #endif
+}
+
+void WebViewImpl::setVideoUnderlayVisible(bool visible)
+{
+    if (m_videoUnderlayVisible == visible)
+        return;
+    m_videoUnderlayVisible = visible;
+    WTFLogAlways("video: holes in composited frames %s", visible ? "shown" : "gone");
+    m_client.setVideoUnderlayVisible(visible);
 }
 
 void WebViewImpl::requestCompositedDisplay()

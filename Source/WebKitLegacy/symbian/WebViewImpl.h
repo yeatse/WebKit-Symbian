@@ -87,6 +87,7 @@ public:
     void attachViewOverlayGraphicsLayer(WebCore::GraphicsLayer*);
     void scheduleRenderingUpdate();
     void requestCompositedDisplay();
+    void setVideoUnderlayVisible(bool);
     bool usesAcceleratedCompositing() const final;
     bool allowsAcceleratedCompositing() const;
     bool requiresNativeVideoWindow() const final;
@@ -156,6 +157,7 @@ private:
     RefPtr<WebCore::GraphicsLayer> m_overlayLayer;
     WebCore::Timer m_compositorIdleTimer;
     bool m_compositorIdle { false };
+    bool m_videoUnderlayVisible { false };
 #endif
 
     // Pages lay out at the width their viewport asks for, 980 pixels for

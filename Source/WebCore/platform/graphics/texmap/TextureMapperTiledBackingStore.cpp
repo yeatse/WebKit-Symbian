@@ -29,6 +29,8 @@
 #include "NativeImage.h"
 #include "ImageObserver.h"
 #include "TextureMapper.h"
+#include <wtf/MonotonicTime.h>
+#include <wtf/NeverDestroyed.h>
 
 namespace WebCore {
 
@@ -38,9 +40,36 @@ static constexpr int coverageTileSize = 256;
 // covers whole tile rows, which upload straight from the painted buffer.
 // Without EXT_unpack_subimage a part of a row is copied out first.
 static constexpr int coverageMaxTileWidth = 1024;
-// Margin tiles painted per update, so a frame that scrolls far does not wait
-// for a whole new screen of them.
-static constexpr unsigned coveragePrefetchPerUpdate = 2;
+// Margin tiles painted per frame across all layers, so a frame that scrolls
+// far does not wait for a whole new screen of them. Each tile is a Cairo
+// paint of up to 1024x256 pixels and its upload, tens of milliseconds on
+// ARM11, so a frame with many layers must not paint two for each.
+static constexpr unsigned coveragePrefetchPerFrame = 2;
+// A frame whose on-screen tiles took this long already misses its vsync:
+// margins wait for the next one.
+static constexpr Seconds coveragePrefetchSkipAfter = 16_ms;
+static unsigned s_prefetchLeft = coveragePrefetchPerFrame;
+static Seconds s_frameVisibleTime;
+static bool s_frameSkippedPrefetch;
+// Frames in a row that skipped margins: a page that repaints slowly every
+// frame still gets them, after a short wait.
+static unsigned s_skippedFrameRun;
+static constexpr unsigned coveragePrefetchMaxSkippedFrames = 2;
+
+TextureMapperTiledBackingStore::CoverageStats& TextureMapperTiledBackingStore::coverageStats()
+{
+    static NeverDestroyed<CoverageStats> stats;
+    return stats;
+}
+
+void TextureMapperTiledBackingStore::beginCoverageFrame()
+{
+    ++coverageStats().frames;
+    s_prefetchLeft = coveragePrefetchPerFrame;
+    s_skippedFrameRun = s_frameSkippedPrefetch ? s_skippedFrameRun + 1 : 0;
+    s_frameVisibleTime = { };
+    s_frameSkippedPrefetch = false;
+}
 
 static size_t coverageTextureBytes(const IntSize& size)
 {
@@ -385,10 +414,30 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper& t
             paints.append({ i, tileRect });
     }
     uint64_t paintedArea = 0;
-    for (auto& entry : paints)
-        paintedArea += entry.rect.area().value();
-    if (!paintCoverageTiles(paints, sourceLayer))
-        return false;
+    auto& stats = coverageStats();
+    for (auto& entry : paints) {
+        uint64_t area = entry.rect.area().value();
+        paintedArea += area;
+        if (entry.rect == enclosingIntRect(m_coverageTiles[entry.index].tile.rect()) && !m_coverageTiles[entry.index].valid) {
+            ++stats.newTiles;
+            stats.newPixels += area;
+        } else {
+            ++stats.damagedTiles;
+            stats.damagedPixels += area;
+        }
+    }
+    if (!paints.isEmpty()) {
+        MonotonicTime start = MonotonicTime::now();
+        if (!paintCoverageTiles(paints, sourceLayer))
+            return false;
+        Seconds took = MonotonicTime::now() - start;
+        s_frameVisibleTime += took;
+        stats.visibleMs += took.milliseconds();
+        if (took.milliseconds() > stats.worstMs) {
+            stats.worstMs = took.milliseconds();
+            stats.worstLayer = sourceLayer->name();
+        }
+    }
     static bool loggedOverBudget;
     if (s_coverageBytes > coverageBudgetBytes && !loggedOverBudget) {
         loggedOverBudget = true;
@@ -420,7 +469,14 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper& t
             morePending = true;
             return true;
         }
-        if (painted == coveragePrefetchPerUpdate) {
+        // The allowance is for the whole frame; a slow frame leaves the rest
+        // to the next one.
+        bool slowFrame = s_frameVisibleTime > coveragePrefetchSkipAfter && s_skippedFrameRun < coveragePrefetchMaxSkippedFrames;
+        if (!s_prefetchLeft || slowFrame) {
+            if (s_prefetchLeft && !s_frameSkippedPrefetch) {
+                s_frameSkippedPrefetch = true;
+                ++stats.prefetchSkipped;
+            }
             morePending = true;
             return true;
         }
@@ -444,8 +500,14 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper& t
             if (farthest < best)
                 --best;
         }
-        if (!paintCoverageTiles({ { best, enclosingIntRect(m_coverageTiles[best].tile.rect()) } }, sourceLayer))
+        IntRect bestRect = enclosingIntRect(m_coverageTiles[best].tile.rect());
+        MonotonicTime start = MonotonicTime::now();
+        if (!paintCoverageTiles({ { best, bestRect } }, sourceLayer))
             return false;
+        --s_prefetchLeft;
+        ++stats.prefetchTiles;
+        stats.prefetchPixels += bestRect.area().value();
+        stats.prefetchMs += (MonotonicTime::now() - start).milliseconds();
     }
 }
 

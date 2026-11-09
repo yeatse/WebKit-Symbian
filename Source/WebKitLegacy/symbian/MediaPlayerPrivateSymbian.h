@@ -37,6 +37,8 @@ class PlatformMediaResource;
 
 namespace WebKitSymbian {
 
+class VideoHoleLayer;
+
 // <audio> and <video> on the application's MediaPlayer: the media is
 // downloaded to a file through WebCore's loader, and opened while it
 // downloads. Video plays under the page, which leaves its box transparent.
@@ -55,6 +57,22 @@ public:
     static void willPaint();
     static void didPaint(const WebCore::IntRect&);
     static bool requiresNativeVideoWindow();
+
+    // With EGL compositing, a video is a composited layer that leaves a
+    // transparent hole in the frame, over the native video window that the
+    // embedding keeps under its page window. Enabled when the embedding
+    // provides that window; active while the page is composited with EGL.
+    static void setCompositedVideoEnabled(bool);
+    static bool compositedVideoEnabled();
+    static void setCompositingActive(bool);
+    // Around drawing each composited frame. didComposite moves the native
+    // video to the holes drawn, hides the videos that drew none, and returns
+    // whether any hole is on screen.
+    static void willComposite();
+    static bool didComposite(const WebCore::IntRect& viewBounds);
+    void didPaintHole(const WebCore::IntRect&);
+    bool showsHole() const;
+    void holeChanged();
 
     explicit MediaPlayerPrivateSymbian(WebCore::MediaPlayer&);
     ~MediaPlayerPrivateSymbian();
@@ -106,6 +124,8 @@ private:
     WebCore::MediaPlayer::MovieLoadType movieLoadType() const final { return WebCore::MediaPlayer::MovieLoadType::Download; }
 
     void paint(WebCore::GraphicsContext&, const WebCore::FloatRect&) final;
+    bool supportsAcceleratedRendering() const final;
+    PlatformLayer* platformLayer() const final;
     // The MMF surface is window content, not a CPU-readable frame. Canvas
     // painting must not reposition the native video window or punch a hole.
     void paintCurrentFrameInContext(WebCore::GraphicsContext&, const WebCore::FloatRect&) final { }
@@ -188,6 +208,11 @@ private:
     WebCore::IntRect m_videoRect;
     WebCore::IntRect m_videoClip;
     bool m_paintedVideo { false };
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    mutable std::unique_ptr<VideoHoleLayer> m_holeLayer;
+    // The hole drawn in the current composited frame, in view pixels.
+    std::optional<WebCore::IntRect> m_compositedHole;
+#endif
 };
 
 } // namespace WebKitSymbian

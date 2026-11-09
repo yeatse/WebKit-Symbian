@@ -651,7 +651,33 @@ void TextureMapperLayer::paintBackdrop(TextureMapperPaintOptions& options)
     options.textureMapper.endClip();
 }
 
+TransformationMatrix TextureMapperLayer::shapeClipTransform(const TextureMapperPaintOptions& options) const
+{
+    TransformationMatrix clipTransform;
+    clipTransform.translate(options.offset.width(), options.offset.height());
+    clipTransform.multiply(options.transform);
+    clipTransform.multiply(m_layerTransforms.combined);
+    return clipTransform;
+}
+
 void TextureMapperLayer::paintSelfAndChildren(TextureMapperPaintOptions& options)
+{
+    // A clip-path applies after filters: a filtered layer is clipped when its
+    // surface is drawn, except a flattened one, whose surface is its texture.
+    if (!m_state.shapeClip || (hasFilters() && !isFlattened())) {
+        paintSelfAndChildrenWithoutShapeClip(options);
+        return;
+    }
+#if OS(SYMBIAN)
+    ++TextureMapper::drawStats().shapeClips;
+#endif
+    options.textureMapper.beginClip(shapeClipTransform(options), *m_state.shapeClip);
+    if (!options.textureMapper.clipBounds().isEmpty())
+        paintSelfAndChildrenWithoutShapeClip(options);
+    options.textureMapper.endClip();
+}
+
+void TextureMapperLayer::paintSelfAndChildrenWithoutShapeClip(TextureMapperPaintOptions& options)
 {
     if (m_state.backdropLayer && m_state.backdropLayer == options.backdropLayer)
         return;
@@ -1159,6 +1185,16 @@ void TextureMapperLayer::paintSelfAndChildrenWithIntermediateSurface(TextureMapp
         surface = Ref { *options.surface };
     }
 
+    if (m_state.shapeClip && hasFilters()) {
+#if OS(SYMBIAN)
+        ++TextureMapper::drawStats().shapeClips;
+#endif
+        options.textureMapper.bindSurface(options.surface.get());
+        options.textureMapper.beginClip(shapeClipTransform(options), *m_state.shapeClip);
+        commitSurface(options, surface.get(), rect, options.opacity);
+        options.textureMapper.endClip();
+        return;
+    }
     commitSurface(options, surface.get(), rect, options.opacity);
 }
 
@@ -1331,6 +1367,11 @@ void TextureMapperLayer::setMaskLayer(TextureMapperLayer* maskLayer)
         m_state.maskLayer = *maskLayer;
     } else
         m_state.maskLayer = nullptr;
+}
+
+void TextureMapperLayer::setShapeClip(const std::optional<FloatRoundedRect>& shapeClip)
+{
+    m_state.shapeClip = shapeClip;
 }
 
 void TextureMapperLayer::setReplicaLayer(TextureMapperLayer* replicaLayer)

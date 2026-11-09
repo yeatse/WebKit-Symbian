@@ -1874,6 +1874,11 @@ void RenderLayerBacking::updateMaskingLayerGeometry()
             if (!pathOffset.isZero())
                 clipPath.translate(-pathOffset);
             
+#if OS(SYMBIAN) && USE(TEXTURE_MAPPER)
+            // A size change can turn a rounded rect into another path.
+            if (!GraphicsLayer::shapePathAsRoundedRect(clipPath))
+                m_owningLayer.setNeedsCompositingConfigurationUpdate();
+#endif
             m_maskLayer->setShapeLayerPath(clipPath);
             m_maskLayer->setShapeLayerWindRule(windRule);
         }
@@ -2775,7 +2780,7 @@ bool RenderLayerBacking::updateMaskingLayer(bool hasMask, bool hasClipPath)
         
         if (hasClipPath) {
             // If we have a mask, we need to paint the combined clip-path and mask into the mask layer.
-            if (hasMask || WTF::holdsAlternative<Style::ReferencePath>(renderer().style().clipPath()) || !GraphicsLayer::supportsLayerType(GraphicsLayer::Type::Shape))
+            if (hasMask || !m_owningLayer.clipPathCanUseShapeLayer())
                 maskPhases.add(GraphicsLayerPaintingPhase::ClipPath);
         }
 

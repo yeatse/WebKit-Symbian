@@ -48,6 +48,7 @@ public:
 
     void setMaskLayer(RefPtr<GraphicsLayer>&&) override;
     void setReplicatedByLayer(RefPtr<GraphicsLayer>&&) override;
+    void setShapeLayerPath(const Path&) override;
     void setPosition(const FloatPoint&) override;
     void setAnchorPoint(const FloatPoint3D&) override;
     void setSize(const FloatSize&) override;
@@ -173,6 +174,8 @@ private:
     int m_changeMask;
     bool m_needsDisplay;
     bool m_backingStoreUsesCoverage { false };
+    // For a Shape mask layer: the clip its masked layer applies instead.
+    std::optional<FloatRoundedRect> m_shapeClip;
     Color m_solidColor;
 
     Color m_debugBorderColor;

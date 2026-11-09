@@ -520,6 +520,10 @@ public:
     WEBCORE_EXPORT void addRepaintRect(const FloatRect&);
 
     static bool supportsLayerType(Type);
+    // A shape path that is a rect, a rounded rect or an ellipse, as a rounded
+    // rect: TextureMapper clips to those in its shader, so a Shape mask layer
+    // with one needs no mask texture or surface.
+    WEBCORE_EXPORT static std::optional<FloatRoundedRect> shapePathAsRoundedRect(const Path&);
     static bool supportsContentsTiling();
 
     WEBCORE_EXPORT void updateDebugIndicators();

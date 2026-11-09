@@ -5,6 +5,9 @@
 
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
 #include "WebViewImpl.h"
+#if ENABLE(VIDEO)
+#include "MediaPlayerPrivateSymbian.h"
+#endif
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
 #include <cstdio>
@@ -289,6 +292,7 @@ bool SymbianCompositor::render()
     // this frame's layer transforms (scroll positions included).
     root.layer().prepareForPainting(*m_textureMapper);
     bool morePending = false;
+    TextureMapperTiledBackingStore::beginCoverageFrame();
     // Backing includes Cairo painting of dirty layer tiles and their upload.
     if (!root.updateBackingStoreIncludingSubLayers(*m_textureMapper, FloatRect(FloatPoint(), m_root->size()), morePending)) {
         WTFLogAlways("Symbian compositor: backing upload failed, using software painting");
@@ -306,9 +310,17 @@ bool SymbianCompositor::render()
     // prevents stale edge pixels after a resize or transparent page paint.
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
+#if ENABLE(VIDEO)
+    MediaPlayerPrivateSymbian::willComposite();
+#endif
     m_textureMapper->beginPainting();
     root.layer().paint(*m_textureMapper);
     m_textureMapper->endPainting();
+#if ENABLE(VIDEO)
+    // Before the swap, so the window lets the video through when the
+    // frame with its hole is presented.
+    m_view.setVideoUnderlayVisible(MediaPlayerPrivateSymbian::didComposite(IntRect(IntPoint(), m_view.size())));
+#endif
     if (!m_checkGLStages) {
         char codes[48];
         if (takeGLErrors(codes, sizeof(codes)) != GL_NO_ERROR) {
@@ -348,10 +360,20 @@ bool SymbianCompositor::render()
             WTFLogAlways("%s", summary);
             WTFLogAlways("egl-tiles: %zu KB of %zu KB", TextureMapperTiledBackingStore::coverageBytes() / 1024,
                 TextureMapperTiledBackingStore::coverageBudgetBytes / 1024);
+            auto& backing = TextureMapperTiledBackingStore::coverageStats();
+            double backingFrames = std::max(1u, backing.frames);
+            // New tiles came into view; damaged ones were repainted in part.
+            WTFLogAlways("egl-backing: per frame new=%.1f/%.0fkpx damaged=%.1f/%.0fkpx visible-ms=%.1f prefetch=%.1f/%.0fkpx/%.1fms skipped=%u worst=%.0fms '%s'",
+                backing.newTiles / backingFrames, backing.newPixels / backingFrames / 1000,
+                backing.damagedTiles / backingFrames, backing.damagedPixels / backingFrames / 1000, backing.visibleMs / backingFrames,
+                backing.prefetchTiles / backingFrames, backing.prefetchPixels / backingFrames / 1000, backing.prefetchMs / backingFrames,
+                backing.prefetchSkipped, backing.worstMs, backing.worstLayer.utf8().data());
+            backing = { };
             auto& draw = TextureMapper::drawStats();
             double frames = std::max(1u, m_drawStatsFrames);
-            WTFLogAlways("egl-draw: per frame quads=%.1f kpx=%.0f surfaces=%.1f rounded-clips=%.1f stencil-clips=%.1f",
-                draw.draws / frames, draw.pixels / frames / 1000, draw.surfaces / frames, draw.roundedClips / frames, draw.stencilClips / frames);
+            WTFLogAlways("egl-draw: per frame quads=%.1f kpx=%.0f surfaces=%.1f rounded-clips=%.1f stencil-clips=%.1f shape-clips=%.1f",
+                draw.draws / frames, draw.pixels / frames / 1000, draw.surfaces / frames, draw.roundedClips / frames, draw.stencilClips / frames,
+                draw.shapeClips / frames);
             // Surfaces counts binds; these count each layer painted through a
             // surface of its own, by reason.
             WTFLogAlways("egl-surfaces: per frame opacity=%.1f filter-mask=%.1f flatten=%.1f backdrop=%.1f filter-passes=%.1f kpx=%.0f",

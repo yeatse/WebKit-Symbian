@@ -36,10 +36,75 @@
 #include <wtf/HashSet.h>
 #include <wtf/NeverDestroyed.h>
 #include <wtf/RunLoop.h>
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+#include <WebCore/TextureMapper.h>
+#include <WebCore/TextureMapperPlatformLayer.h>
+#endif
 
 namespace WebKitSymbian {
 
 using namespace WebCore;
+
+static bool s_compositedVideoEnabled;
+static bool s_compositingActive;
+
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+// The contents of a video's composited layer: transparent pixels written
+// over everything drawn below, so the native video under the window shows
+// there, and layers drawn above still cover it.
+class VideoHoleLayer final : public TextureMapperPlatformLayer {
+    WTF_DEPRECATED_MAKE_FAST_ALLOCATED(VideoHoleLayer);
+public:
+    explicit VideoHoleLayer(MediaPlayerPrivateSymbian& player)
+        : m_player(player)
+    {
+    }
+
+    void paintToTextureMapper(TextureMapper& textureMapper, const FloatRect& rect, const TransformationMatrix& matrix, float) final
+    {
+        if (!m_player || !m_player->showsHole())
+            return;
+        // In an intermediate surface (an ancestor with opacity, a filter or a
+        // mask), the hole would be drawn over by that surface's own blending,
+        // and the surface's coordinates aren't the view's.
+        if (textureMapper.currentSurface()) {
+            if (!m_loggedSurface) {
+                m_loggedSurface = true;
+                WTFLogAlways("video: composited inside an intermediate surface, not shown");
+            }
+            return;
+        }
+        textureMapper.drawSolidColor(rect, matrix, Color::transparentBlack, false);
+        m_player->didPaintHole(enclosingIntRect(matrix.mapRect(rect)));
+    }
+
+    void setNeedsDisplay()
+    {
+        if (auto* client = this->client())
+            client->setPlatformLayerNeedsDisplay();
+    }
+
+    // The player is going. Its graphics layer drops this layer at the next
+    // flush, but the layer tree may still point at it until then.
+    void retire()
+    {
+        m_player = nullptr;
+        if (auto* client = this->client())
+            client->platformLayerWillBeDestroyed();
+    }
+
+private:
+    WeakPtr<MediaPlayerPrivateSymbian> m_player;
+    bool m_loggedSurface { false };
+};
+
+// Hole layers of players that are gone, deleted once a flush has passed.
+static Vector<std::unique_ptr<VideoHoleLayer>>& retiredHoleLayers()
+{
+    static NeverDestroyed<Vector<std::unique_ptr<VideoHoleLayer>>> layers;
+    return layers;
+}
+#endif
 
 static WebView::MediaPlayerFactory s_factory;
 static void* s_factoryContext;
@@ -235,6 +300,12 @@ MediaPlayerPrivateSymbian::~MediaPlayerPrivateSymbian()
 {
     players().remove(this);
     cancelLoad();
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (m_holeLayer) {
+        m_holeLayer->retire();
+        retiredHoleLayers().append(WTF::move(m_holeLayer));
+    }
+#endif
 }
 
 void MediaPlayerPrivateSymbian::load(const String& url)
@@ -444,6 +515,7 @@ void MediaPlayerPrivateSymbian::cancelLoad()
     // This closes the file before it goes.
     m_backend = nullptr;
     m_backendClient = nullptr;
+    holeChanged();
     if (m_isDownload)
         FileSystem::deleteFile(m_path);
     m_path = String();
@@ -545,6 +617,7 @@ void MediaPlayerPrivateSymbian::mediaPlayerOpened(int error, double duration, in
             if (!player.isCurrentLoad(generation))
                 return;
         }
+        player.holeChanged();
         if (!wasOpened)
             corePlayer->characteristicChanged();
         if (!player.isCurrentLoad(generation))
@@ -789,9 +862,18 @@ bool MediaPlayerPrivateSymbian::handleNativeError(int error)
     return false;
 }
 
+void MediaPlayerPrivateSymbian::holeChanged()
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (m_holeLayer)
+        m_holeLayer->setNeedsDisplay();
+#endif
+}
+
 void MediaPlayerPrivateSymbian::setPageIsVisible(bool visible)
 {
     m_pageVisible = visible;
+    holeChanged();
     if (!visible)
         setVideoRect({ });
     if (RefPtr player = m_player.get())
@@ -823,10 +905,107 @@ void MediaPlayerPrivateSymbian::willPaint()
 bool MediaPlayerPrivateSymbian::requiresNativeVideoWindow()
 {
     for (auto* player : players()) {
-        if (player->m_backend && player->m_opened && player->m_pageVisible && player->hasVideo())
+        if (player->showsHole())
             return true;
     }
     return false;
+}
+
+bool MediaPlayerPrivateSymbian::showsHole() const
+{
+    return m_backend && m_opened && m_pageVisible && hasVideo();
+}
+
+void MediaPlayerPrivateSymbian::setCompositedVideoEnabled(bool enabled)
+{
+    s_compositedVideoEnabled = enabled;
+}
+
+bool MediaPlayerPrivateSymbian::compositedVideoEnabled()
+{
+    return s_compositedVideoEnabled;
+}
+
+void MediaPlayerPrivateSymbian::setCompositingActive(bool active)
+{
+    if (s_compositingActive == active)
+        return;
+    bool wasAccelerated = s_compositedVideoEnabled && s_compositingActive;
+    s_compositingActive = active;
+    if (wasAccelerated == (s_compositedVideoEnabled && s_compositingActive))
+        return;
+    // Videos change between a composited layer and painting a hole.
+    for (auto* player : players()) {
+        player->setVideoRect({ });
+        if (RefPtr webCorePlayer = player->m_player.get())
+            webCorePlayer->renderingModeChanged();
+    }
+}
+
+bool MediaPlayerPrivateSymbian::supportsAcceleratedRendering() const
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    return s_compositedVideoEnabled && s_compositingActive;
+#else
+    return false;
+#endif
+}
+
+PlatformLayer* MediaPlayerPrivateSymbian::platformLayer() const
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    if (!supportsAcceleratedRendering())
+        return nullptr;
+    if (!m_holeLayer)
+        m_holeLayer = makeUnique<VideoHoleLayer>(const_cast<MediaPlayerPrivateSymbian&>(*this));
+    return m_holeLayer.get();
+#else
+    return nullptr;
+#endif
+}
+
+void MediaPlayerPrivateSymbian::willComposite()
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    // Layers were flushed for this frame: none points at a retired one.
+    retiredHoleLayers().clear();
+    for (auto* player : players())
+        player->m_compositedHole = std::nullopt;
+#endif
+}
+
+void MediaPlayerPrivateSymbian::didPaintHole(const IntRect& rect)
+{
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    // A video drawn twice (a reflection) keeps its first place.
+    if (!m_compositedHole)
+        m_compositedHole = rect;
+#else
+    UNUSED_PARAM(rect);
+#endif
+}
+
+bool MediaPlayerPrivateSymbian::didComposite(const IntRect& viewBounds)
+{
+    bool anyHole = false;
+#if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
+    for (auto* player : players()) {
+        if (!player->supportsAcceleratedRendering())
+            continue;
+        IntRect clip = player->m_compositedHole ? intersection(*player->m_compositedHole, viewBounds) : IntRect();
+        if (clip.isEmpty()) {
+            player->setVideoRect({ });
+            continue;
+        }
+        anyHole = true;
+        // Only the hole is transparent, so content over the video covers it
+        // without clipping the native video to it.
+        player->setVideoRect(*player->m_compositedHole, clip);
+    }
+#else
+    UNUSED_PARAM(viewBounds);
+#endif
+    return anyHole;
 }
 
 void MediaPlayerPrivateSymbian::didPaint(const IntRect& area)
@@ -834,6 +1013,8 @@ void MediaPlayerPrivateSymbian::didPaint(const IntRect& area)
     // A video in the repainted area that didn't paint is no longer there:
     // scrolled away, hidden or removed.
     for (auto* player : players()) {
+        if (player->supportsAcceleratedRendering())
+            continue;
         if (!player->m_paintedVideo && player->m_videoRect.intersects(area))
             player->setVideoRect({ });
     }

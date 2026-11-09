@@ -27,6 +27,7 @@
 #include "TextureMapperTile.h"
 #include <wtf/RefCounted.h>
 #include <wtf/RefPtr.h>
+#include <wtf/text/WTFString.h>
 
 namespace WebCore {
 
@@ -56,6 +57,26 @@ public:
     bool updateContentsWithCoverage(TextureMapper&, GraphicsLayer*, const FloatSize&, const IntRect& dirtyRect, const IntRect& visibleRect, bool& morePending);
     static constexpr size_t coverageBudgetBytes = 32 * 1024 * 1024;
     WEBCORE_EXPORT static size_t coverageBytes();
+
+    // Painting done by coverage stores, summed until reset. The margin tile
+    // allowance is shared by all stores and given back by beginCoverageFrame,
+    // so a frame with many layers does not paint margins for each.
+    struct CoverageStats {
+        unsigned frames { 0 };
+        unsigned newTiles { 0 }; // On screen, painted whole.
+        unsigned damagedTiles { 0 }; // On screen, part repainted.
+        unsigned prefetchTiles { 0 };
+        unsigned prefetchSkipped { 0 }; // Frames that left margins for later.
+        uint64_t newPixels { 0 };
+        uint64_t damagedPixels { 0 };
+        uint64_t prefetchPixels { 0 };
+        double visibleMs { 0 };
+        double prefetchMs { 0 };
+        double worstMs { 0 };
+        String worstLayer;
+    };
+    WEBCORE_EXPORT static CoverageStats& coverageStats();
+    WEBCORE_EXPORT static void beginCoverageFrame();
 
     ~TextureMapperTiledBackingStore();
 

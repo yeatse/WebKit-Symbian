@@ -177,6 +177,7 @@ void CWebContainer::ConstructL(const TRect& aRect)
     // EGL consumes an RWindow pointer, not the window server's handle.
     iCoeEnv->WsSession().Finish();
 #if SYMBIAN_BROWSER_MEDIA
+    CreateVideoWindow();
     WebView::setMediaPlayerFactory(CreateMediaPlayer, static_cast<MNativeVideoWindow*>(this));
 #endif
 #if SYMBIAN_BROWSER_COMPOSITING && SYMBIAN_BROWSER_TRY_EGL
@@ -202,6 +203,12 @@ CWebContainer::~CWebContainer()
         iAuthenticationUI->Release();
 #if SYMBIAN_BROWSER_MEDIA
     WebView::setMediaPlayerFactory(nullptr, nullptr);
+    // After the players, which display in it.
+    if (iHasVideoWindow) {
+        WebView::setCompositedVideoEnabled(false);
+        iVideoWindow.Close();
+        iHasVideoWindow = false;
+    }
 #endif
     delete iBitmap;
     delete iEditorState;
@@ -254,6 +261,10 @@ void CWebContainer::SizeChanged()
     // Nokia 808. Keep the presenter while its surface still fits.
     if (iScreenPlay && !iScreenPlay->Fits(Size()))
         DetachScreenPlay();
+#endif
+#if SYMBIAN_BROWSER_MEDIA
+    if (iHasVideoWindow)
+        iVideoWindow.SetExtent(Window().Position(), Size());
 #endif
     if (!iWebView)
         return;
@@ -416,8 +427,58 @@ void CWebContainer::DetachScreenPlay() const
 #endif
 
 #if SYMBIAN_BROWSER_MEDIA
+void CWebContainer::CreateVideoWindow()
+{
+    // C:\Data\WebKit\no-composited-video keeps video in the page window,
+    // which then goes to software painting while a video is shown.
+    TEntry entry;
+    if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\no-composited-video"), entry) == KErrNone) {
+        BrowserLog("video: composited video off (no-composited-video)");
+        return;
+    }
+    iVideoWindow = RBlankWindow(iCoeEnv->WsSession());
+    // Events for it, which the page window above should take, would come here.
+    TInt error = iVideoWindow.Construct(iCoeEnv->RootWin(), reinterpret_cast<TUint32>(this));
+    if (error != KErrNone) {
+        BrowserLog("video: video window unavailable (%d)", error);
+        return;
+    }
+    iVideoWindow.SetColor(KRgbBlack);
+    iVideoWindow.SetExtent(Window().Position(), Size());
+    // Just behind the page window: a new window is in front of its siblings.
+    iVideoWindow.SetOrdinalPosition(Window().OrdinalPosition());
+    // Shown with the first video; until then nothing would see it.
+    iVideoWindow.SetVisible(EFalse);
+    iVideoWindow.Activate();
+    iHasVideoWindow = true;
+    WebView::setCompositedVideoEnabled(true);
+}
+
+RWindowBase& CWebContainer::VideoWindow()
+{
+    if (iHasVideoWindow)
+        return iVideoWindow;
+    return Window();
+}
+
+void CWebContainer::setVideoUnderlayVisible(bool aVisible)
+{
+    if (!iHasVideoWindow)
+        return;
+    // The EGL surface's alpha then reaches the composition, and the video
+    // window under it shows through the holes.
+    Window().SetSurfaceTransparency(aVisible);
+    BrowserLog("video: page surface %s", aVisible ? "transparent" : "opaque");
+}
+
 TInt CWebContainer::PrepareNativeVideoWindow()
 {
+    if (iHasVideoWindow) {
+        iVideoWindow.SetVisible(ETrue);
+        // A composited page draws holes for the video in its EGL frames.
+        if (iWebView && iWebView->usesAcceleratedCompositing())
+            return KErrNone;
+    }
     if (iNativeVideoWindowPrepared)
         return iNativeVideoWindowError;
     iNativeVideoWindowPrepared = true;

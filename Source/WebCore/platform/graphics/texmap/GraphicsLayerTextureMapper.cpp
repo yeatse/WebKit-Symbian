@@ -160,6 +160,22 @@ void GraphicsLayerTextureMapper::setMaskLayer(RefPtr<GraphicsLayer>&& value)
 }
 
 
+void GraphicsLayerTextureMapper::setShapeLayerPath(const Path& path)
+{
+    GraphicsLayer::setShapeLayerPath(path);
+    // Only rounded rects are made Shape layers here; any other path clips
+    // to its bounds until the masked layer is configured again.
+    auto shapeClip = shapePathAsRoundedRect(path);
+    if (!shapeClip && !path.isEmpty())
+        shapeClip = FloatRoundedRect(path.fastBoundingRect());
+    if (shapeClip == m_shapeClip)
+        return;
+    m_shapeClip = shapeClip;
+    // The parent of a mask layer is the layer it masks.
+    if (auto* masked = downcast<GraphicsLayerTextureMapper>(parent()); masked && masked->maskLayer() == this)
+        masked->notifyChange(MaskLayerChange);
+}
+
 void GraphicsLayerTextureMapper::setReplicatedByLayer(RefPtr<GraphicsLayer>&& value)
 {
     if (value == replicaLayer())
@@ -443,7 +459,15 @@ void GraphicsLayerTextureMapper::commitLayerChanges()
 
     if (m_changeMask & MaskLayerChange) {
         auto* layer = downcast<GraphicsLayerTextureMapper>(maskLayer());
-        m_layer.setMaskLayer(layer ? &layer->layer() : nullptr);
+        if (layer && layer->type() == Type::Shape) {
+            // A clip of the layer and its descendants, not a mask texture.
+            // An empty path clips everything.
+            m_layer.setMaskLayer(nullptr);
+            m_layer.setShapeClip(layer->m_shapeClip.value_or(FloatRoundedRect()));
+        } else {
+            m_layer.setMaskLayer(layer ? &layer->layer() : nullptr);
+            m_layer.setShapeClip(std::nullopt);
+        }
     }
 
     if (m_changeMask & ReplicaLayerChange) {

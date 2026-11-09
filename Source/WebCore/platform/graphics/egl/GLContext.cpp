@@ -76,6 +76,24 @@ const char* GLContext::lastErrorString()
     return errorString(eglGetError());
 }
 
+#if OS(SYMBIAN)
+// Composition reads the surface as premultiplied, as GL draws it, when the
+// window lets its alpha through (video under a composited page).
+static EGLSurface createSymbianWindowSurface(EGLDisplay display, EGLConfig config, GLNativeWindowType window)
+{
+    static const EGLint premultiplied[] = { EGL_VG_ALPHA_FORMAT, EGL_VG_ALPHA_FORMAT_PRE, EGL_NONE };
+    static bool premultipliedFailed;
+    if (!premultipliedFailed) {
+        EGLSurface surface = eglCreateWindowSurface(display, config, (EGLNativeWindowType) window, premultiplied);
+        if (surface != EGL_NO_SURFACE)
+            return surface;
+        premultipliedFailed = true;
+        WTFLogAlways("Symbian compositor: no premultiplied window surface (%s)", GLContext::lastErrorString());
+    }
+    return eglCreateWindowSurface(display, config, (EGLNativeWindowType) window, nullptr);
+}
+#endif
+
 IGNORE_CLANG_WARNINGS_BEGIN("unsafe-buffer-usage-in-libc-call")
 bool GLContext::getEGLConfig(EGLDisplay display, EGLConfig* config, int surfaceType)
 {
@@ -171,7 +189,11 @@ std::unique_ptr<GLContext> GLContext::createWindowContext(GLDisplay& display, Ta
         // EGLNativeWindowType changes depending on the EGL implementation, reinterpret_cast
         // would work for pointers, and static_cast for numeric types only; so use a plain
         // C cast expression which works in all possible cases.
+#if OS(SYMBIAN)
+        surface = createSymbianWindowSurface(eglDisplay, config, window);
+#else
         surface = eglCreateWindowSurface(eglDisplay, config, (EGLNativeWindowType) window, nullptr);
+#endif
     }
 
     if (surface == EGL_NO_SURFACE) {
@@ -513,7 +535,7 @@ bool GLContext::resizeWindowSurface(GLNativeWindowType window)
             return false;
         m_surface = EGL_NO_SURFACE;
     }
-    m_surface = eglCreateWindowSurface(display->eglDisplay(), m_config, window, nullptr);
+    m_surface = createSymbianWindowSurface(display->eglDisplay(), m_config, window);
     return m_surface != EGL_NO_SURFACE && makeContextCurrent();
 }
 #endif

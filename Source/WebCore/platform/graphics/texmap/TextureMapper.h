@@ -75,6 +75,8 @@ public:
         unsigned surfaces { 0 };
         unsigned roundedClips { 0 };
         unsigned stencilClips { 0 };
+        // clip-paths drawn as clips rather than through a mask surface.
+        unsigned shapeClips { 0 };
         // Why layers painted through a surface of their own, and its pixels.
         unsigned opacitySurfaces { 0 };
         unsigned filterMaskSurfaces { 0 };
