@@ -344,10 +344,11 @@ class Piece:
 
 
 class Splitter:
-    def __init__(self, elf, e32, *, max_code, prefix, uid_base, log):
+    def __init__(self, elf, e32, *, max_code, prefix, uid_base, log, reserve=0x30000):
         self.elf = elf
         self.e32 = e32
         self.max_code = max_code
+        self.reserve = reserve
         self.prefix = prefix
         self.uid_base = uid_base
         self.log = log
@@ -611,7 +612,7 @@ class Splitter:
 
     def overhead(self, text):
         # Unwind index (~1.8% of code), exception table copy, stubs, header bits.
-        return int(text * 0.025) + (self.extab["size"] if self.extab else 0) + 0x30000
+        return int(text * 0.025) + (self.extab["size"] if self.extab else 0) + self.reserve
 
     # -- placement --
     def piece_of(self, address):
@@ -1114,11 +1115,14 @@ def main():
     parser.add_argument("--uid-base", required=True, type=lambda v: int(v, 0), help="UID3 of the first DLL")
     parser.add_argument("--max-code", type=lambda v: int(v, 0), default=0x800000,
                         help="most code bytes in one DLL (default 8 MiB)")
+    parser.add_argument("--reserve", type=lambda v: int(v, 0), default=0x30000,
+                        help="room kept in each DLL for stubs and the header (default 192 KiB)")
     args = parser.parse_args()
     log = lambda message: print(message, file=sys.stderr)
     try:
         splitter = Splitter(Elf(args.elf.read_bytes()), E32(args.e32.read_bytes()),
-                            max_code=args.max_code, prefix=args.prefix, uid_base=args.uid_base, log=log)
+                            max_code=args.max_code, prefix=args.prefix, uid_base=args.uid_base, log=log,
+                            reserve=args.reserve)
         (exe, patches), dlls = splitter.run()
     except SplitError as error:
         sys.exit(f"split-e32: {error}")
