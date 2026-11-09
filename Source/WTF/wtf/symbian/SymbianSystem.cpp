@@ -384,7 +384,9 @@ void useResourcesBesideExecutable()
     const TFileName executable = RProcess().FileName();
     if (executable.Length() < 2 || executable[1] != ':')
         return;
-    const char drive = static_cast<char>(TChar(executable[0]).GetUpperCase());
+    char drive = static_cast<char>(executable[0]);
+    if (drive >= 'a' && drive <= 'z')
+        drive -= 'a' - 'A';
     if (drive == 'C' || drive < 'A' || drive > 'Z')
         return;
 
