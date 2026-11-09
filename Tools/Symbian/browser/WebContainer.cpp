@@ -447,12 +447,10 @@ public:
     }
 
 private:
-    void Draw(const TRect& aRect) const override
-    {
-        CWindowGc& gc = SystemGc();
-        gc.SetBrushColor(KRgbBlack);
-        gc.Clear(aRect);
-    }
+    // Draws nothing: what a window draws goes over its background surface,
+    // so painting here would hide the video. The window's black background
+    // colour is all that shows where the video does not cover it.
+    void Draw(const TRect&) const override { }
 };
 }
 
