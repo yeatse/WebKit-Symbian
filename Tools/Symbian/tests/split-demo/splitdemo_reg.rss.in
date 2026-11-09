@@ -1,9 +1,0 @@
-CHARACTER_SET UTF8
-#include <AppInfo.rh>
-UID2 KUidAppRegistrationResourceFile
-UID3 @DEMO_UID3@
-RESOURCE APP_REGISTRATION_INFO
-{
-  app_file = "@DEMO_NAME@";
-  localisable_resource_file = "\\resource\\apps\\@DEMO_NAME@_loc";
-}

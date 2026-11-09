@@ -112,15 +112,6 @@ public:
     static HBufC* New(TInt) { return nullptr; }
     TPtr16 Des() { return { }; }
 };
-class TFileName {
-public:
-    TInt Length() const { return 0; }
-    uint16_t operator[](TInt) const { return 0; }
-};
-class RProcess {
-public:
-    TFileName FileName() const { return { }; }
-};
 struct TThreadStackInfo { uintptr_t iBase; uintptr_t iLimit; };
 class TTimeIntervalMicroSeconds {
 public:

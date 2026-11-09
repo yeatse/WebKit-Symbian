@@ -379,36 +379,5 @@ bool randomBytes(unsigned char* buffer, size_t length)
     return true;
 }
 
-void useResourcesBesideExecutable()
-{
-    const TFileName executable = RProcess().FileName();
-    if (executable.Length() < 2 || executable[1] != ':')
-        return;
-    char drive = static_cast<char>(executable[0]);
-    if (drive >= 'a' && drive <= 'z')
-        drive -= 'a' - 'A';
-    if (drive == 'C' || drive < 'A' || drive > 'Z')
-        return;
-
-    static const struct {
-        const char* variable;
-        const char* path; // Without the drive.
-        const char* check; // A file that must exist; null to check path itself.
-    } resources[] = {
-        { "ICU_DATA", ":/resource/icu", ":/resource/icu/icudt70l.dat" },
-        { "CURL_CA_BUNDLE", ":/resource/webkit/cacert.pem", nullptr },
-        { "FONTCONFIG_FILE", ":/resource/fontconfig/fonts.conf", nullptr },
-    };
-    for (const auto& resource : resources) {
-        if (getenv(resource.variable))
-            continue;
-        char path[64], check[64];
-        snprintf(path, sizeof path, "%c%s", drive, resource.path);
-        snprintf(check, sizeof check, "%c%s", drive, resource.check ? resource.check : resource.path);
-        if (!access(check, R_OK))
-            setenv(resource.variable, path, 0);
-    }
-}
-
 } // namespace SymbianSystem
 } // namespace WTF
