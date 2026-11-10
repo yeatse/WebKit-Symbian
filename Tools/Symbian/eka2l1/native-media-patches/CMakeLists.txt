@@ -64,6 +64,10 @@ function(add_native_media_patch target component uid)
         "$<$<COMPILE_LANGUAGE:CXX>:SHELL:-include ${CMAKE_CURRENT_SOURCE_DIR}/native-patch-compat.h>")
     target_link_libraries(${target} PRIVATE
         Symbian::EUser Symbian::FileServer Symbian::MediaClient)
+    if(component STREQUAL "mediaclientaudio")
+        target_link_libraries(${target} PRIVATE
+            "${SYMBIAN_SDK_PREFIX}/proxies/mmfcontrollerframework/mmfcontrollerframework.dso")
+    endif()
     if(component STREQUAL "mediaclientvideo")
         target_link_libraries(${target} PRIVATE Symbian::WindowServer Symbian::Gdi)
     endif()

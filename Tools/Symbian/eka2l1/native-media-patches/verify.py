@@ -9,6 +9,7 @@ import struct
 from pathlib import Path
 
 ALLOWED_DLLS = {
+    "mmfcontrollerframework.dll",
     "euser.dll",
     "efsrv.dll",
     "ws32.dll",
