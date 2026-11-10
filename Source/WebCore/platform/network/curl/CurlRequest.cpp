@@ -42,6 +42,10 @@
 #include <wtf/TZoneMallocInlines.h>
 #include <wtf/text/MakeString.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(CurlRequest);
@@ -217,6 +221,12 @@ void CurlRequest::callClient(Function<void(CurlRequest&, CurlRequestClient&)>&& 
 void CurlRequest::runOnMainThread(Function<void()>&& task)
 {
 #if OS(SYMBIAN)
+    if (WTF::MainThreadProfile::enabled()) {
+        task = [task = WTF::move(task)]() mutable {
+            WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Network);
+            task();
+        };
+    }
     if (m_messageQueue) {
         m_messageQueue->append(makeUnique<Function<void()>>(WTF::move(task)));
         return;

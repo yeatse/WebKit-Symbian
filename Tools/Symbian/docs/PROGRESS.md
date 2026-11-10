@@ -159,13 +159,19 @@ Latest 808 numbers (CI #87 and #100):
 
 ### Open, by priority
 
-- [ ] P0: YouTube script time. In the #110 log script is 53% of the main
-  thread's busy time (136 s of 257 s) and style, layout and GC under 7%
-  together: timers 41 s in 142 long tasks, the first run of the main script
-  22 s. JIT compiler threads run below the UI thread, so a busy page may keep
-  its code in the interpreter: collect a log with the script split and `jit`
-  lines, then one with `C:\Data\WebKit\jit-priority` (compiler threads at
-  UI priority), and compare.
+- [ ] P0: Main thread taken by unlabelled work before a YouTube video
+  starts: in the #111 logs "other" is all of the main thread for 40-90 s, in
+  30-50 tasks a second of about 25 ms, with one frame in five seconds. The
+  profile now splits it into `net`, `media` (writing the download to its
+  file) and `timers`: collect a log and move the culprit off the thread.
+- [ ] P0: YouTube script time: 81 s running, 9 s parsing, 5 s generating
+  bytecode in the #111 logs, so a bytecode cache would save little. JIT plans
+  wait 2.5 s on average for a compiler thread (21 s at most);
+  `C:\Data\WebKit\jit-priority` ends the wait but the compiler then takes
+  the main thread's time, with no clear gain. Next: `bench/jsbench.html` with
+  `js-llint`, `js-baseline` and neither, to see what each tier is worth on
+  the 808, and whether holding timers during input (now the default,
+  `no-timer-deferral` turns it off) makes scrolling smoother.
 - [ ] P0: YouTube compositor time, 32% of busy time (draw 21.8 ms and backing
   12.9 ms a frame). Check draw without backdrop filters, then the remaining
   filter and mask surfaces.

@@ -32,6 +32,10 @@ enum class Category : uint8_t {
     ScriptParse,
     Bytecode, // Generating bytecode from the syntax tree.
     JIT, // Compiling on the main thread.
+    // Work that is not script, formerly all "other":
+    Network, // Handling responses and data from the network thread.
+    Media, // The media player: writing downloaded media to its file.
+    Timers, // Engine timers that none of the kinds above account for.
     Count
 };
 

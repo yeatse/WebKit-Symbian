@@ -305,6 +305,49 @@ void DOMTimer::scriptDidInteractWithPlugin()
     DOMTimerFireState::current->setScriptMadeUserObservableChanges();
 }
 
+#if OS(SYMBIAN)
+static bool s_deferredDuringInteraction = true;
+static MonotonicTime s_lastInteraction;
+static MonotonicTime s_interactionStart;
+static unsigned s_deferredFires;
+static MonotonicTime s_deferredLogged;
+
+static constexpr Seconds interactionQuietTime { 150_ms };
+static constexpr Seconds maximumDeferral { 3_s };
+static constexpr Seconds deferredRetryInterval { 50_ms };
+
+void DOMTimer::setDeferredDuringInteraction(bool deferred)
+{
+    s_deferredDuringInteraction = deferred;
+}
+
+void DOMTimer::noteUserInteraction()
+{
+    if (!isMainThread())
+        return;
+    MonotonicTime now = MonotonicTime::now();
+    if (!s_lastInteraction || now - s_lastInteraction > interactionQuietTime)
+        s_interactionStart = now;
+    s_lastInteraction = now;
+}
+
+static bool shouldDeferTimerForInteraction()
+{
+    if (!s_deferredDuringInteraction || !s_lastInteraction || !isMainThread())
+        return false;
+    MonotonicTime now = MonotonicTime::now();
+    if (now - s_lastInteraction > interactionQuietTime || now - s_interactionStart > maximumDeferral)
+        return false;
+    ++s_deferredFires;
+    if (WTF::MainThreadProfile::enabled() && now - s_deferredLogged > 1_s) {
+        WTFLogAlways("timers: %u fires deferred during input", s_deferredFires);
+        s_deferredFires = 0;
+        s_deferredLogged = now;
+    }
+    return true;
+}
+#endif
+
 void DOMTimer::fired()
 {
 #if OS(SYMBIAN)
@@ -317,6 +360,19 @@ void DOMTimer::fired()
 
     ASSERT(scriptExecutionContext());
     Ref context = *scriptExecutionContext();
+
+#if OS(SYMBIAN)
+    if (shouldDeferTimerForInteraction()) {
+        // A repeating timer skips this turn; a one-shot timer tries again.
+        if (m_oneShot) {
+            m_timer = context->checkedEventLoop()->scheduleTask(deferredRetryInterval, TaskSource::Timer, [weakThis = WeakPtr { *this }] {
+                if (RefPtr protectedThis = weakThis.get())
+                    protectedThis->fired();
+            });
+        }
+        return;
+    }
+#endif
 
 #if PLATFORM(IOS_FAMILY)
     if (RefPtr document = dynamicDowncast<Document>(context); document && m_oneShot) {

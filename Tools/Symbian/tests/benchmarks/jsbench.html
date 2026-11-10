@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JavaScript speed</title>
+<style>
+body { margin:0; padding:8px; font:15px/1.4 sans-serif; }
+table { border-collapse:collapse; font:13px/18px monospace; }
+td, th { padding:2px 8px; text-align:right; border-bottom:1px solid #ccc; }
+td:first-child, th:first-child { text-align:left; }
+#done { display:none; padding:8px; background:#dfd; }
+</style>
+<h1>JavaScript speed</h1>
+<p>Six kinds of work, three rounds each, in milliseconds. It stops by itself.
+Compare runs with C:\Data\WebKit\js-llint (interpreter only), js-baseline
+(no DFG) and neither (all tiers); restart the browser after each change.</p>
+<p id="done">Finished. Copy C:\Data\WebKit\log.txt.</p>
+<table id="results"><tr><th>work</th><th>1</th><th>2</th><th>3</th></tr></table>
+<script src="jsbench.js"></script>

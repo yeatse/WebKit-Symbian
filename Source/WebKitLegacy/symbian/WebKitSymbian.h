@@ -189,6 +189,9 @@ public:
     // Draw backdrop-filter (off by default: it costs about 10 ms a frame on a
     // Nokia 808; without it the element shows the page under it unfiltered).
     static void setBackdropFiltersEnabled(bool);
+    // Hold page timers while the user touches or scrolls (default), so
+    // their scripts do not run between the frames of a scroll.
+    static void setTimersDeferredDuringInput(bool);
     // Run JIT compiler threads at the UI thread's priority instead of below
     // it (off by default). Set before the first page loads.
     static void setCompilerThreadsShareUIPriority(bool);

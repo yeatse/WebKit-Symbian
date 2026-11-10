@@ -421,8 +421,8 @@ void SymbianCompositor::logRenderSplit()
 {
     if (!m_renderSplitFrames)
         return;
-    char average[280];
-    char worst[280];
+    char average[360];
+    char worst[360];
     size_t averageUsed = 0;
     size_t worstUsed = 0;
     for (unsigned i = 0; i < WTF::MainThreadProfile::categoryCount; ++i) {

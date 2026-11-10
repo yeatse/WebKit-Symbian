@@ -554,9 +554,23 @@ void CBrowserAppUi::ConstructL()
         setenv("CURL_LOG_FILE", "C:/Data/WebKit/curl.txt", 1);
     }
     setClipboardClient(&NativeClipboard());
+    // To compare the JavaScript tiers (bench/jsbench.html): js-llint runs
+    // the interpreter only, js-baseline leaves out the DFG compiler. JSC
+    // reads these when it starts.
+    TEntry tierEntry;
+    const char* tierNote = nullptr;
+    if (iEikonEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\js-llint"), tierEntry) == KErrNone) {
+        setenv("JSC_useJIT", "false", 1);
+        tierNote = "jit: off, interpreter only (js-llint)";
+    } else if (iEikonEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\js-baseline"), tierEntry) == KErrNone) {
+        setenv("JSC_useDFGJIT", "false", 1);
+        tierNote = "jit: baseline only, no DFG (js-baseline)";
+    }
     WebView::initializeProcess(KDataDirectory);
     BrowserLogOpen(KDataDirectory);
     BrowserLog("WebKit Browser starting");
+    if (tierNote)
+        BrowserLog("%s", tierNote);
     if (curlTrace) {
         StartHeartbeatL();
         BrowserThreadWatchStart();

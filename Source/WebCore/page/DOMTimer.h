@@ -70,6 +70,14 @@ public:
 
     static void scriptDidInteractWithPlugin();
 
+#if OS(SYMBIAN)
+    // While the user touches or scrolls the page, timers wait: a page's
+    // timers otherwise run long scripts between the frames of a scroll.
+    // They run again 150 ms after the last input, or after 3 s of it.
+    WEBCORE_EXPORT static void noteUserInteraction();
+    WEBCORE_EXPORT static void setDeferredDuringInteraction(bool);
+#endif
+
     EventLoopTimerHandle timer() const { return m_timer; }
     bool hasReachedMaxNestingLevel() const { return m_hasReachedMaxNestingLevel; }
 
