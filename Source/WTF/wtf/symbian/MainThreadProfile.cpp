@@ -7,6 +7,7 @@
 #include <wtf/symbian/MainThreadProfile.h>
 
 #include <wtf/DataLog.h>
+#include <wtf/Lock.h>
 #include <wtf/MonotonicTime.h>
 #include <wtf/text/CString.h>
 
@@ -16,7 +17,7 @@ bool s_enabled;
 
 namespace {
 
-constexpr const char* categoryNames[categoryCount] = { "other", "script", "style", "layout", "parse", "paint", "decode", "gc", "frame" };
+constexpr const char* categoryNames[categoryCount] = { "other", "script", "style", "layout", "parse", "paint", "decode", "gc", "frame", "jsparse", "bytecode", "jit" };
 
 // A task this long or longer is logged on its own.
 constexpr double longTaskMilliseconds = 100;
@@ -70,6 +71,34 @@ void charge(State& profile, MonotonicTime now)
     profile.mark = now;
 }
 
+struct CompileStats {
+    unsigned count { 0 };
+    unsigned onMainThread { 0 };
+    double wait { 0 };
+    double maximumWait { 0 };
+    double compile { 0 };
+};
+
+Lock s_compileLock;
+CompileStats s_compileStats[2] WTF_GUARDED_BY_LOCK(s_compileLock);
+
+void logCompileStats()
+{
+    CompileStats stats[2];
+    {
+        Locker locker { s_compileLock };
+        std::copy(std::begin(s_compileStats), std::end(s_compileStats), stats);
+        s_compileStats[0] = { };
+        s_compileStats[1] = { };
+    }
+    if (!stats[0].count && !stats[1].count)
+        return;
+    // wait: total and longest time plans spent queued before compiling.
+    WTFLogAlways("jit: baseline n=%u main=%u wait=%.0f/%.0fms compile=%.0fms dfg n=%u main=%u wait=%.0f/%.0fms compile=%.0fms",
+        stats[0].count, stats[0].onMainThread, stats[0].wait, stats[0].maximumWait, stats[0].compile,
+        stats[1].count, stats[1].onMainThread, stats[1].wait, stats[1].maximumWait, stats[1].compile);
+}
+
 void formatBreakdown(char* buffer, size_t size, const double* totals, const double* since)
 {
     size_t used = 0;
@@ -90,7 +119,7 @@ void endTask(State& profile, MonotonicTime now)
         profile.windowLongest = duration;
     if (duration >= longTaskMilliseconds) {
         ++profile.windowLongTasks;
-        char breakdown[200];
+        char breakdown[280];
         formatBreakdown(breakdown, sizeof(breakdown), profile.totals, profile.taskStartTotals);
         if (profile.topScriptLabel) {
             CString detail = profile.topScriptDetail.utf8();
@@ -110,10 +139,11 @@ void endTask(State& profile, MonotonicTime now)
     double busy = 0;
     for (unsigned i = 0; i < categoryCount; ++i)
         busy += profile.totals[i] - profile.windowStartTotals[i];
-    char breakdown[200];
+    char breakdown[280];
     formatBreakdown(breakdown, sizeof(breakdown), profile.totals, profile.windowStartTotals);
     WTFLogAlways("main-thread: window=%.0fms busy=%.0fms tasks=%u long=%u longest=%.0fms %s", window, busy,
         profile.windowTasks, profile.windowLongTasks, profile.windowLongest, breakdown);
+    logCompileStats();
     profile.windowStart = now;
     std::copy(std::begin(profile.totals), std::end(profile.totals), profile.windowStartTotals);
     profile.windowTasks = 0;
@@ -138,6 +168,25 @@ void setEnabled(bool enabled)
     profile.windowLongTasks = 0;
     profile.windowLongest = 0;
     s_enabled = enabled;
+}
+
+const char* categoryName(unsigned category)
+{
+    return category < categoryCount ? categoryNames[category] : "";
+}
+
+void recordCompile(CompileTier tier, double waitMilliseconds, double compileMilliseconds, bool onMainThread)
+{
+    if (!enabled())
+        return;
+    Locker locker { s_compileLock };
+    auto& stats = s_compileStats[static_cast<unsigned>(tier)];
+    ++stats.count;
+    if (onMainThread)
+        ++stats.onMainThread;
+    stats.wait += waitMilliseconds;
+    stats.maximumWait = std::max(stats.maximumWait, waitMilliseconds);
+    stats.compile += compileMilliseconds;
 }
 
 Totals totals()

@@ -33,6 +33,10 @@
 #include "VM.h"
 #include <wtf/TZoneMallocInlines.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
 namespace JSC {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(JITWorklistThread);
@@ -165,6 +169,10 @@ auto JITWorklistThread::work() -> WorkResult
 void JITWorklistThread::threadDidStart()
 {
     dataLogLnIf(Options::verboseCompilationQueue(), m_worklist, ": Thread started");
+#if OS(SYMBIAN)
+    if (WTF::SymbianSystem::compilerThreadsShareUIPriority())
+        WTF::SymbianSystem::raiseCurrentThreadPriorityToNormal();
+#endif
 
 }
 

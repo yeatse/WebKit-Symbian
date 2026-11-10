@@ -64,6 +64,11 @@ public:
     WEBCORE_EXPORT void setShapeClip(const std::optional<FloatRoundedRect>&);
     WEBCORE_EXPORT void setReplicaLayer(TextureMapperLayer*);
     WEBCORE_EXPORT void setBackdropLayer(TextureMapperLayer*);
+#if OS(SYMBIAN)
+    // Off by default: a backdrop filter draws everything under the layer a
+    // second time into a surface, about 10 ms a frame on a Nokia 808.
+    WEBCORE_EXPORT static void setBackdropFiltersEnabled(bool);
+#endif
     WEBCORE_EXPORT void setBackdropFiltersRect(const FloatRoundedRect&);
     WEBCORE_EXPORT void setPosition(const FloatPoint&);
     WEBCORE_EXPORT void setBoundsOrigin(const FloatPoint&);

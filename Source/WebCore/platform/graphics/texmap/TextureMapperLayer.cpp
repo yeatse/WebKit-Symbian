@@ -1384,8 +1384,22 @@ void TextureMapperLayer::setReplicaLayer(TextureMapperLayer* replicaLayer)
         m_state.replicaLayer = nullptr;
 }
 
+#if OS(SYMBIAN)
+static bool s_backdropFiltersEnabled;
+
+void TextureMapperLayer::setBackdropFiltersEnabled(bool enabled)
+{
+    s_backdropFiltersEnabled = enabled;
+}
+#endif
+
 void TextureMapperLayer::setBackdropLayer(TextureMapperLayer* backdropLayer)
 {
+#if OS(SYMBIAN)
+    // Without the backdrop the layer shows what is under it unfiltered.
+    if (!s_backdropFiltersEnabled)
+        backdropLayer = nullptr;
+#endif
     if (backdropLayer) {
         backdropLayer->m_isBackdrop = true;
         backdropLayer->m_effectTarget = *this;

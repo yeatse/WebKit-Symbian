@@ -102,7 +102,16 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   second by kind: script, style, layout, parse, paint, decode, gc, frame,
   other), `long-task` (each task of 100 ms or more, with its slowest script:
   eval URL, event type, timer, rAF or microtask) and `egl-render` /
-  `egl-render-worst` (the `render` stage split by kind).
+  `egl-render-worst` (the `render` stage split by kind). Script is split
+  further into `jsparse`, `bytecode` and `jit` (compiling on the main
+  thread); `jit` lines count baseline and DFG compilations with how long
+  plans waited for a compiler thread.
+- [x] ICL decode latency: the ICL thread and the image decoding queues run at
+  the UI thread's priority. On the 808 the whole decode fell from 2565 to
+  326 ms/Mpx (251 in ICL, the rest waiting).
+- [x] `backdrop-filter` is not drawn (`C:\Data\WebKit\backdrop-filters`
+  turns it on): it drew everything under the element twice, about 10 ms a
+  frame on YouTube.
 - [x] Benchmark pages: scroll, images, animation, composited, canvas, webgl,
   and paint (ten full-repaint cases plus `paint-images`).
 - [x] GPU tiles for every page (default): the page is composited into
@@ -118,6 +127,7 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   path with a per-glyph blurred shadow cache, the box-shadow template cache
   with nearest-neighbour edge stretching, and a 4 MB cache of decoded images
   scaled to their drawn size.
+- [x] Composited video verified on the 808: 87 s of playback in the #110 log.
 - [x] JPEG through the ICL decoder on its own thread for complete YCbCr or
   grey images up to 2.5 Mpx; libjpeg otherwise. The 808 has only the Nokia
   software plug-in 0x101FF555, but it decodes 2.5-3.4x faster than our
@@ -149,18 +159,16 @@ Latest 808 numbers (CI #87 and #100):
 
 ### Open, by priority
 
-- [ ] P0: YouTube main-thread spikes. In the #100 log `render` (script, style
-  and layout) reaches 0.5-5.5 s and `backing` 100-370 ms, mostly in the
-  RenderView tile and positioned DIVs. The main-thread profile now splits
-  `render` and names long tasks: collect a YouTube log on the 808 and find
-  what runs per frame.
-- [ ] P0: ICL decode latency under load. ICL images took 2.6 s/Mpx wall-clock
-  (one 480x360 image 1.06 s) because the decoder thread ran below the UI
-  thread. The ICL thread and the image decoding queues now run at the UI
-  thread's priority; `jpg-icl-thread` times ICL alone, so `jpg-icl` minus it
-  is the wait. Verify on the 808.
-- [ ] P0: Verify the composited video on the 808 for longer playback (the #100
-  log showed the hole for two seconds only) and the exit path fix.
+- [ ] P0: YouTube script time. In the #110 log script is 53% of the main
+  thread's busy time (136 s of 257 s) and style, layout and GC under 7%
+  together: timers 41 s in 142 long tasks, the first run of the main script
+  22 s. JIT compiler threads run below the UI thread, so a busy page may keep
+  its code in the interpreter: collect a log with the script split and `jit`
+  lines, then one with `C:\Data\WebKit\jit-priority` (compiler threads at
+  UI priority), and compare.
+- [ ] P0: YouTube compositor time, 32% of busy time (draw 21.8 ms and backing
+  12.9 ms a frame). Check draw without backdrop filters, then the remaining
+  filter and mask surfaces.
 - [ ] P1: Canvas 2D (~105 ms per frame in Cairo) and WebGL (~39 ms per frame):
   profile which calls dominate before choosing a fix.
 - [ ] P1: Remaining intermediate surfaces on YouTube (up to 33 binds per

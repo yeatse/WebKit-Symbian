@@ -45,6 +45,10 @@
 
 WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace JSC {
 
 class FunctionMetadataNode;
@@ -2229,6 +2233,9 @@ std::unique_ptr<ParsedNode> parse(
     bool isInsideOrdinaryFunction = false)
 {
     ASSERT(!source.provider()->source().isNull());
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::ScriptParse);
+#endif
 
     MonotonicTime before;
     if (Options::reportParseTimes()) [[unlikely]]
@@ -2274,6 +2281,9 @@ std::unique_ptr<ParsedNode> parseRootNode(
 {
     static_assert(std::is_same_v<ParsedNode, ProgramNode> || std::is_same_v<ParsedNode, ModuleProgramNode>);
     ASSERT(!source.provider()->source().isNull());
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::ScriptParse);
+#endif
 
     MonotonicTime before;
     if (Options::reportParseTimes()) [[unlikely]]
@@ -2311,6 +2321,9 @@ std::unique_ptr<ParsedNode> parseRootNode(
 inline std::unique_ptr<ProgramNode> parseFunctionForFunctionConstructor(VM& vm, const SourceCode& source, LexicallyScopedFeatures lexicallyScopedFeatures, ParserError& error, JSTextPosition* positionBeforeLastNewline, std::optional<int> functionConstructorParametersEndPosition)
 {
     ASSERT(!source.provider()->source().isNull());
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::ScriptParse);
+#endif
 
     MonotonicTime before;
     if (Options::reportParseTimes()) [[unlikely]]

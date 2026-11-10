@@ -28,6 +28,8 @@ MAIN = re.compile(r'main-thread: window=(\d+)ms busy=(\d+)ms tasks=(\d+) long=(\
 LONG_TASK = re.compile(r'long-task: (\d+)ms ((?:[a-z]+=\d+ ?)*)(?:top-script=(\d+)ms (\S+) ?(.*))?')
 RENDER = re.compile(r'egl-render: per frame (.*)')
 RENDER_WORST = re.compile(r'egl-render-worst: (\d+)ms (.*)')
+JIT = re.compile(r'jit: baseline n=(\d+) main=(\d+) wait=(\d+)/(\d+)ms compile=(\d+)ms '
+                 r'dfg n=(\d+) main=(\d+) wait=(\d+)/(\d+)ms compile=(\d+)ms')
 SLOW_MS = 1000 / 30
 # Long tasks kept per group, slowest first.
 LONG_TASKS_KEPT = 5
@@ -44,7 +46,7 @@ def parse(lines):
 
     def group(name):
         return groups.setdefault(name, {'presentations': {}, 'page': None, 'skipped': None, 'tiles_kb': None, 'draw': None, 'decode': {},
-                                        'main': None, 'long_tasks': [], 'render': None, 'seen': set()})
+                                        'main': None, 'long_tasks': [], 'render': None, 'jit': None, 'seen': set()})
 
     for line in lines:
         marker = MARKER.search(line)
@@ -89,6 +91,21 @@ def parse(lines):
             for key, value in DRAW_FIELD.findall(rest):
                 sums['kinds'][key] = sums['kinds'].get(key, 0.0) + float(value)
             entry['main'] = sums
+            continue
+        jit = JIT.search(line)
+        if jit:
+            entry = group(current or '(no benchmark)')
+            values = [float(value) for value in jit.groups()]
+            sums = entry['jit'] or {tier: {'n': 0, 'main': 0, 'wait': 0.0, 'max_wait': 0.0, 'compile': 0.0}
+                                    for tier in ('baseline', 'dfg')}
+            for tier, (n, main, wait, max_wait, compile_ms) in zip(('baseline', 'dfg'), (values[:5], values[5:])):
+                tier_sums = sums[tier]
+                tier_sums['n'] += int(n)
+                tier_sums['main'] += int(main)
+                tier_sums['wait'] += wait
+                tier_sums['max_wait'] = max(tier_sums['max_wait'], max_wait)
+                tier_sums['compile'] += compile_ms
+            entry['jit'] = sums
             continue
         long_task = LONG_TASK.search(line)
         if long_task:
@@ -187,7 +204,7 @@ def report(groups):
             main_thread = dict(main_thread, busy_share=main_thread['busy'] / main_thread['window'] if main_thread['window'] else 0.0)
         result[name] = {'presentations': presentations, 'page': entry['page'], 'skipped': entry['skipped'],
                         'tiles_kb': entry['tiles_kb'], 'draw': entry['draw'], 'decode': entry['decode'],
-                        'main': main_thread, 'long_tasks': entry['long_tasks'], 'render': render}
+                        'main': main_thread, 'long_tasks': entry['long_tasks'], 'render': render, 'jit': entry['jit']}
     return result
 
 
@@ -227,6 +244,10 @@ def print_report(result, out):
             print('  main thread: busy %.0f%% of %.1f s, %d tasks, %d over 100 ms, longest %.0f ms  [%s]' % (
                 main_thread['busy_share'] * 100, main_thread['window'] / 1000, main_thread['tasks'], main_thread['long'],
                 main_thread['longest'], ' '.join('%s=%.0f' % item for item in main_thread['kinds'].items() if item[1])), file=out)
+        for tier, sums in (entry.get('jit') or {}).items():
+            if sums['n']:
+                print('  jit %-8s %5d compiled (%d on the main thread)  waited %.0f ms each, longest %.0f ms  compiling %.0f ms' % (
+                    tier, sums['n'], sums['main'], sums['wait'] / sums['n'], sums['max_wait'], sums['compile']), file=out)
         render = entry.get('render')
         if render:
             print('  render stage per frame: ' + ' '.join('%s=%.1f' % item for item in render['avg'].items() if item[1]), file=out)

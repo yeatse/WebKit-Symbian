@@ -186,6 +186,12 @@ public:
     // page then keeps EGL while a video plays, leaving transparent holes
     // over it, instead of going to software painting.
     static void setCompositedVideoEnabled(bool);
+    // Draw backdrop-filter (off by default: it costs about 10 ms a frame on a
+    // Nokia 808; without it the element shows the page under it unfiltered).
+    static void setBackdropFiltersEnabled(bool);
+    // Run JIT compiler threads at the UI thread's priority instead of below
+    // it (off by default). Set before the first page loads.
+    static void setCompilerThreadsShareUIPriority(bool);
     // Web Audio output, 0..1 of the device volume (default 1).
     static void setWebAudioVolume(double);
 

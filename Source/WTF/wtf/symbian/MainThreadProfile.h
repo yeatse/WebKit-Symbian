@@ -28,6 +28,10 @@ enum class Category : uint8_t {
     Decode,
     GC,
     Frame, // The compositor's own work in a frame: layer flush, tiles, GL.
+    // Script work that is not running the page's code:
+    ScriptParse,
+    Bytecode, // Generating bytecode from the syntax tree.
+    JIT, // Compiling on the main thread.
     Count
 };
 
@@ -36,6 +40,13 @@ constexpr unsigned categoryCount = static_cast<unsigned>(Category::Count);
 WTF_EXPORT_PRIVATE extern bool s_enabled;
 inline bool enabled() { return s_enabled; }
 WTF_EXPORT_PRIVATE void setEnabled(bool);
+WTF_EXPORT_PRIVATE const char* categoryName(unsigned);
+
+// A JIT compilation, from any thread: how long the plan waited for a
+// compiler thread and how long compiling took. Compiler threads run below
+// the main thread, so a busy page can leave its code in the interpreter.
+enum class CompileTier : uint8_t { Baseline, DFG };
+WTF_EXPORT_PRIVATE void recordCompile(CompileTier, double waitMilliseconds, double compileMilliseconds, bool onMainThread);
 
 // Milliseconds charged to each category since the profile was enabled,
 // open scopes included up to now.

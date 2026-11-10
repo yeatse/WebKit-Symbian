@@ -56,6 +56,18 @@ void raiseCurrentThreadPriorityToNormal()
     RThread().SetPriority(EPriorityNormal);
 }
 
+static bool s_compilerThreadsShareUIPriority;
+
+void setCompilerThreadsShareUIPriority(bool share)
+{
+    s_compilerThreadsShareUIPriority = share;
+}
+
+bool compilerThreadsShareUIPriority()
+{
+    return s_compilerThreadsShareUIPriority;
+}
+
 static RThread threadFromHandle(int handle)
 {
     RThread thread;

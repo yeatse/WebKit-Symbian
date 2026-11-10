@@ -48,6 +48,12 @@ void lowerCurrentThreadPriority();
 // (image decoding) still runs while the UI thread is busy.
 void raiseCurrentThreadPriorityToNormal();
 
+// Whether JIT compiler threads run at the UI thread's priority instead of
+// below it. Below, a busy page gives them no time and its code stays in the
+// interpreter; at the same priority, compiling takes time from the page.
+void setCompilerThreadsShareUIPriority(bool);
+bool compilerThreadsShareUIPriority();
+
 // RThread::Suspend / RThread::Resume.
 void suspendThread(int handle);
 void resumeThread(int handle);

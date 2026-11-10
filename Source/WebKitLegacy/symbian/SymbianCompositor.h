@@ -10,6 +10,7 @@
 #include <memory>
 #include <wtf/MonotonicTime.h>
 #include <wtf/RefPtr.h>
+#include <wtf/symbian/MainThreadProfile.h>
 
 namespace WebCore {
 class GLContext;
@@ -66,8 +67,8 @@ private:
 
     // The render stage's main-thread time by kind, summed since the last log.
     void logRenderSplit();
-    double m_renderSplit[9] { };
-    double m_worstRenderSplit[9] { };
+    double m_renderSplit[WTF::MainThreadProfile::categoryCount] { };
+    double m_worstRenderSplit[WTF::MainThreadProfile::categoryCount] { };
     double m_worstRender { 0 };
     unsigned m_renderSplitFrames { 0 };
 };

@@ -39,6 +39,8 @@ LOG = """\
 10:00:10.470 egl-render-worst: 900ms other=0 script=850 style=40 layout=10 parse=0 paint=0 decode=0 gc=0 frame=0
 10:00:10.480 egl-render: per frame other=1.5 script=10.0 style=4.0 layout=2.0 parse=0.0 paint=0.0 decode=0.0 gc=3.0 frame=0.0
 10:00:10.490 egl-render-worst: 200ms other=0 script=150 style=40 layout=10 parse=0 paint=0 decode=0 gc=0 frame=0
+10:00:10.495 jit: baseline n=10 main=0 wait=5000/900ms compile=200ms dfg n=2 main=0 wait=3000/2000ms compile=400ms
+10:00:10.496 jit: baseline n=30 main=1 wait=3000/1200ms compile=300ms dfg n=0 main=0 wait=0/0ms compile=0ms
 10:00:10.500 frame-stats: screenplay frames=2 window=1500ms begin=1.00/1.00 paint=5.00/5.00 submit=1.00/1.00
 10:00:11.000 console: file:///C:/Data/WebKit/bench/bench.js:65: bench: end composited frames=30 ms=3000 fps=10.0 long=4 worst=90
 """
@@ -74,6 +76,10 @@ def main():
     close(render['avg']['gc'], 2.0)
     assert render['worst_ms'] == 900 and render['worst']['script'] == 850, render
     assert groups['scroll']['render'] is None and groups['scroll']['long_tasks'] == []
+    jit = groups['composited']['jit']
+    assert (jit['baseline']['n'], jit['baseline']['main'], jit['baseline']['max_wait']) == (40, 1, 1200.0), jit
+    close(jit['baseline']['wait'], 8000.0)
+    assert (jit['dfg']['n'], jit['dfg']['compile']) == (2, 400.0) and groups['scroll']['jit'] is None, jit
 
     scroll = groups['scroll']['presentations']['screenplay']
     # The first window (previous page's tail and idle time) is dropped.
@@ -105,6 +111,7 @@ def main():
     assert 'GPU tiles: up to 6144 KB' in text, text
     assert 'main thread: busy 70% of 2.0 s, 70 tasks, 3 over 100 ms, longest 450 ms' in text, text
     assert 'long task   450 ms  [other=10 script=400 style=30 layout=10]  script 420 ms event click' in text, text
+    assert 'jit baseline    40 compiled (1 on the main thread)  waited 200 ms each, longest 1200 ms  compiling 500 ms' in text, text
     assert 'worst render stage: 900 ms  [script=850 style=40 layout=10]' in text, text
 
     # Without markers, the whole log is one group and nothing is dropped.

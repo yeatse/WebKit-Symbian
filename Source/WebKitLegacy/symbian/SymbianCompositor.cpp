@@ -417,22 +417,19 @@ bool SymbianCompositor::render()
     return true;
 }
 
-static_assert(WTF::MainThreadProfile::categoryCount == 9, "SymbianCompositor.h sizes the render split");
-
 void SymbianCompositor::logRenderSplit()
 {
     if (!m_renderSplitFrames)
         return;
-    static constexpr const char* names[WTF::MainThreadProfile::categoryCount] = { "other", "script", "style", "layout", "parse", "paint", "decode", "gc", "frame" };
-    char average[200];
-    char worst[200];
+    char average[280];
+    char worst[280];
     size_t averageUsed = 0;
     size_t worstUsed = 0;
     for (unsigned i = 0; i < WTF::MainThreadProfile::categoryCount; ++i) {
-        int written = snprintf(average + averageUsed, sizeof(average) - averageUsed, "%s%s=%.1f", i ? " " : "", names[i], m_renderSplit[i] / m_renderSplitFrames);
+        int written = snprintf(average + averageUsed, sizeof(average) - averageUsed, "%s%s=%.1f", i ? " " : "", WTF::MainThreadProfile::categoryName(i), m_renderSplit[i] / m_renderSplitFrames);
         if (written > 0)
             averageUsed = std::min(sizeof(average) - 1, averageUsed + written);
-        written = snprintf(worst + worstUsed, sizeof(worst) - worstUsed, "%s%s=%.0f", i ? " " : "", names[i], m_worstRenderSplit[i]);
+        written = snprintf(worst + worstUsed, sizeof(worst) - worstUsed, "%s%s=%.0f", i ? " " : "", WTF::MainThreadProfile::categoryName(i), m_worstRenderSplit[i]);
         if (written > 0)
             worstUsed = std::min(sizeof(worst) - 1, worstUsed + written);
     }

@@ -108,6 +108,7 @@
 #include <WebCore/SocketProvider.h>
 #include <WebCore/SubstituteData.h>
 #include <WebCore/TextIterator.h>
+#include <WebCore/TextureMapperLayer.h>
 #include <WebCore/UserContentController.h>
 #include <WebCore/VisitedLinkStore.h>
 #include <WebCore/WindowsKeyboardCodes.h>
@@ -120,6 +121,7 @@
 #include <wtf/RunLoop.h>
 #include <wtf/symbian/MemoryPressureHandlerSymbian.h>
 #include <wtf/symbian/MainThreadProfile.h>
+#include <wtf/symbian/SymbianSystem.h>
 #include <wtf/text/StringBuilder.h>
 
 namespace WebKitSymbian {
@@ -336,6 +338,16 @@ void WebView::setWebAudioVolume(double volume)
 void WebView::setTiledCompositingEnabled(bool enabled)
 {
     s_tiledCompositingEnabled = enabled;
+}
+
+void WebView::setBackdropFiltersEnabled(bool enabled)
+{
+    WebCore::TextureMapperLayer::setBackdropFiltersEnabled(enabled);
+}
+
+void WebView::setCompilerThreadsShareUIPriority(bool share)
+{
+    WTF::SymbianSystem::setCompilerThreadsShareUIPriority(share);
 }
 
 void WebView::setMediaPlayerFactory(MediaPlayerFactory factory, void* context)
