@@ -21,3 +21,7 @@ git -C EKA2L1/src/external/dynarmic apply "$PWD/Tools/Symbian/eka2l1/patches/dyn
 Then build the emulator with its CMake instructions. See
 [Development](../../docs/Development.md) for the browser build and
 [Testing](../../docs/TESTING.md) for emulator setup and test commands.
+
+Install libcurl 7.85 or later before configuring the emulator for native HTTP
+and HTTPS media playback. Build and install the
+[native MMF DLLs](../native-media-patches/README.md) with the Symbian SDK.
