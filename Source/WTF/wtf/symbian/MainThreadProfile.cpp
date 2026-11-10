@@ -17,7 +17,7 @@ bool s_enabled;
 
 namespace {
 
-constexpr const char* categoryNames[categoryCount] = { "other", "script", "style", "layout", "parse", "paint", "decode", "gc", "frame", "jsparse", "bytecode", "jit" };
+constexpr const char* categoryNames[categoryCount] = { "other", "script", "style", "layout", "parse", "paint", "decode", "gc", "frame", "jsparse", "bytecode", "jit", "net", "media", "timers" };
 
 // A task this long or longer is logged on its own.
 constexpr double longTaskMilliseconds = 100;
@@ -119,7 +119,7 @@ void endTask(State& profile, MonotonicTime now)
         profile.windowLongest = duration;
     if (duration >= longTaskMilliseconds) {
         ++profile.windowLongTasks;
-        char breakdown[280];
+        char breakdown[360];
         formatBreakdown(breakdown, sizeof(breakdown), profile.totals, profile.taskStartTotals);
         if (profile.topScriptLabel) {
             CString detail = profile.topScriptDetail.utf8();
@@ -139,7 +139,7 @@ void endTask(State& profile, MonotonicTime now)
     double busy = 0;
     for (unsigned i = 0; i < categoryCount; ++i)
         busy += profile.totals[i] - profile.windowStartTotals[i];
-    char breakdown[280];
+    char breakdown[360];
     formatBreakdown(breakdown, sizeof(breakdown), profile.totals, profile.windowStartTotals);
     WTFLogAlways("main-thread: window=%.0fms busy=%.0fms tasks=%u long=%u longest=%.0fms %s", window, busy,
         profile.windowTasks, profile.windowLongTasks, profile.windowLongest, breakdown);

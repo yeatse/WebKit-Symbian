@@ -53,6 +53,7 @@
 #include <WebCore/CookieJarDB.h>
 #include <WebCore/DocumentLoader.h>
 #include <WebCore/DocumentPage.h>
+#include <WebCore/DOMTimer.h>
 #include <WebCore/DocumentView.h>
 #include <WebCore/NodeDocument.h>
 #include <WebCore/LocalFrameInlines.h>
@@ -347,6 +348,11 @@ void WebView::setTiledCompositingEnabled(bool enabled)
 void WebView::setBackdropFiltersEnabled(bool enabled)
 {
     WebCore::TextureMapperLayer::setBackdropFiltersEnabled(enabled);
+}
+
+void WebView::setTimersDeferredDuringInput(bool deferred)
+{
+    WebCore::DOMTimer::setDeferredDuringInteraction(deferred);
 }
 
 void WebView::setCompilerThreadsShareUIPriority(bool share)
@@ -1063,6 +1069,7 @@ void WebViewImpl::cancelTouches()
 
 bool WebViewImpl::handleTouch(const TouchPoint* points, unsigned count, unsigned modifiers)
 {
+    DOMTimer::noteUserInteraction();
 #if ENABLE(TOUCH_EVENTS)
     if (!m_touchCapacity || !points || !count || count > m_touchCapacity)
         return false;
@@ -1274,6 +1281,7 @@ RefPtr<Element> WebViewImpl::click(const IntPoint& point, unsigned touchIdentifi
 
 void WebViewImpl::scrollAt(const IntPoint& point, const IntSize& delta)
 {
+    DOMTimer::noteUserInteraction();
     PlatformKeyboardEvent::setCurrentModifierState({ });
     // A wheel event scrolls whatever is under the finger, overflow areas
     // included; the content follows the finger.
@@ -1284,6 +1292,7 @@ void WebViewImpl::scrollAt(const IntPoint& point, const IntSize& delta)
 
 void WebViewImpl::scrollBy(int dx, int dy)
 {
+    DOMTimer::noteUserInteraction();
     if (LocalFrameView* view = m_page->localMainFrame()->view())
         view->scrollBy(IntSize(dx, dy));
 }

@@ -196,6 +196,7 @@ void WebView::runPendingWork() { }
 void WebView::setFrameStatsEnabled(bool) { }
 void WebView::setTiledCompositingEnabled(bool) { }
 void WebView::setBackdropFiltersEnabled(bool) { }
+void WebView::setTimersDeferredDuringInput(bool) { }
 void WebView::setCompilerThreadsShareUIPriority(bool) { }
 void WebView::setWebAudioVolume(double) { }
 

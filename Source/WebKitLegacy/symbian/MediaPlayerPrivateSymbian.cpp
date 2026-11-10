@@ -31,6 +31,7 @@
 #include <WebCore/ResourceRequest.h>
 #include <WebCore/ResourceResponse.h>
 #include <WebCore/SharedBuffer.h>
+#include <wtf/symbian/MainThreadProfile.h>
 #include <wtf/StdLibExtras.h>
 #include <limits>
 #include <wtf/HashSet.h>
@@ -419,6 +420,7 @@ void MediaPlayerPrivateSymbian::didReceiveResponse(long long expectedContentLeng
 
 void MediaPlayerPrivateSymbian::didReceiveData(std::span<const uint8_t> data)
 {
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Media);
     if (!m_backend || data.size() > std::numeric_limits<unsigned>::max()
         || m_backend->appendToFile(reinterpret_cast<const char*>(data.data()), data.size())) {
         didFailLoading();

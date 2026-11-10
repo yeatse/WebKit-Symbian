@@ -40,6 +40,10 @@
 #include "WebCoreThread.h"
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(ThreadTimers);
@@ -130,6 +134,9 @@ void ThreadTimers::sharedTimerFiredInternal()
         // Once the timer has been fired, it may be deleted, so do nothing else with it after this point.
         {
             TraceScope timerFiredScope { TimerFiredStart, TimerFiredEnd };
+#if OS(SYMBIAN)
+            WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Timers);
+#endif
             item->timer().fired();
         }
 

@@ -191,8 +191,12 @@ void CWebContainer::ConstructL(const TRect& aRect)
     }
     iWebView->setNativeWindow(&Window());
 #endif
-    // For comparison: JIT compiler threads at the UI thread's priority.
     TEntry jitEntry;
+    if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\no-timer-deferral"), jitEntry) == KErrNone) {
+        WebView::setTimersDeferredDuringInput(false);
+        BrowserLog("timers: not deferred during input (no-timer-deferral)");
+    }
+    // For comparison: JIT compiler threads at the UI thread's priority.
     if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\jit-priority"), jitEntry) == KErrNone) {
         WebView::setCompilerThreadsShareUIPriority(true);
         BrowserLog("jit: compiler threads at UI priority (jit-priority)");
