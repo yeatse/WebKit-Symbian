@@ -90,3 +90,5 @@ Pass a URL as the second argument to open another page. Runs and screenshots are
 ## GitHub Actions
 
 The [Symbian workflow](../../../.github/workflows/symbian.yml) builds source pushes to `*-symbian` branches and uploads `symbian-webkit.sis` as the `sis` artifact. Tags named `symbian-v<version>` publish a release. Repository secrets `SIS_CERTIFICATE` and `SIS_KEY` supply the PEM signing certificate and private key.
+
+See [ARM11 JavaScript performance](JavaScriptPerformance.md) for execution workloads and optimization coverage.

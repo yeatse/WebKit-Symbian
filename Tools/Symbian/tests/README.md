@@ -13,6 +13,7 @@ Module guides contain the focused commands and expected behavior.
 | --- | --- |
 | Installation | [WebKit package](sis-package/README.md) |
 | JavaScript and DOM | [ARM11 DOM](arm11-dom.md) |
+| JavaScript performance | [ARM11 workloads and tier checks](../docs/JavaScriptPerformance.md) |
 | Graphics | [Browser graphics](browser-graphics-runner.md), [Skia raster](skia-probe/README.md), [Ganesh GLES2](ganesh-probe/README.md), [frame-rate benchmarks](benchmarks/README.md) |
 | Skia composition and damage | [Browser layer flow](skia-compositing.html), [native GPU compositor](skia-compositor-probe/README.md) |
 | ScreenPlay | [Presenter](screenplay/README.md), [Surface Update](screenplay-update/README.md) |

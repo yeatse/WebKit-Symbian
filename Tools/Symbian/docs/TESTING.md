@@ -48,6 +48,9 @@ Tools/Symbian/eka2l1/run.sh C:/Data/basic.js C:/Data/es2020.js \
 Each script prints its PASS line; the driver also checks successful process
 completion and saves logs under `$SYMBIAN_WEBKIT_WORK/runs`.
 
+See [ARM11 JavaScript performance](JavaScriptPerformance.md) for native RegExp
+and remainder workloads, tier evidence and baseline/candidate comparisons.
+
 ## Browser graphics
 
 The [Skia raster probe](../tests/skia-probe/README.md) checks native BGRA drawing, clipping, alpha blending and paths.

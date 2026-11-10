@@ -84,7 +84,15 @@ private:
 
     void fixupArithDivInt32(Node* node, Edge& leftChild, Edge& rightChild)
     {
-        if (optimizeForX86() || optimizeForARM64() || optimizeForARMv7IDIVSupported()) {
+        bool canUseInt32 = optimizeForX86() || optimizeForARM64() || optimizeForARMv7IDIVSupported();
+#if CPU(ARM_TRADITIONAL) && !CPU(ARMV5_OR_LOWER)
+        // The power-of-two modulo lowering uses shifts and a mask, without integer division.
+        if (node->op() == ArithMod && rightChild->isInt32Constant()) {
+            int32_t divisor = rightChild->asInt32();
+            canUseInt32 |= divisor > 1 && hasOneBitSet(divisor);
+        }
+#endif
+        if (canUseInt32) {
             fixIntOrBooleanEdge(leftChild);
             fixIntOrBooleanEdge(rightChild);
             // We need to be careful about skipping overflow check because div / mod can generate non integer values

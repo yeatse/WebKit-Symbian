@@ -572,6 +572,9 @@ static void overrideDefaults()
 #if ENABLE(DFG_JIT)
     Options::useDFGJIT() = true;
 #endif
+#if ENABLE(YARR_JIT)
+    Options::useRegExpJIT() = true;
+#endif
     Options::forceICFailure() = false;
 #endif
 

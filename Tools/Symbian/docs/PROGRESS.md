@@ -14,6 +14,8 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 
 - [x] ARM LLInt, Baseline JIT and DFG with on-stack replacement.
 - [x] Concurrent DFG compilation.
+- [x] ARM RegExp JIT for Latin1 and UTF-16 subjects.
+- [x] DFG integer remainder by constant powers of two.
 - [x] ICU 70.1 and JavaScript internationalization.
 - [x] Typed arrays, resizable buffers and garbage collection.
 - [x] Dedicated Web Workers.
@@ -97,6 +99,8 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 - [x] Main-thread script, layout, paint and JIT compilation profiling.
 - [x] Dirty-region tracking, incremental texture uploads and scrolling optimizations.
 - [x] UI-priority image decoding and configurable JIT compiler priority.
+- [ ] Add generic 32-bit strict-equality fast paths.
+- [ ] Add guarded VFP `Math.trunc` fast paths.
 - [ ] Measure Skia Canvas 2D and text rendering on Belle devices.
 - [ ] Tune composited filter and mask surfaces.
 - [ ] Add video frames as EGL textures.
@@ -113,3 +117,5 @@ Use `C:/Data/WebKit/frame-stats` to enable frame timing, open
 - [ ] Split large executable images into native DLLs.
 
 See [Version comparison](VersionComparison.md) for the 2.52.6 and 2.54.2 adaptation differences.
+
+See [ARM11 JavaScript performance](JavaScriptPerformance.md) for workloads and measured results.

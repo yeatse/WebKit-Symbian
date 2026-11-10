@@ -51,6 +51,8 @@ by both branches; the separate WebKit `USE_MIMALLOC` option remains off.
   the current JavaScriptCore build.
 - libjpeg-turbo dependency builds, Skia raster probes and focused ARM11
   JavaScript regressions.
+- ARM RegExp JIT with Latin1/UTF-16 matching and DFG int32 remainder for
+  positive constant powers of two.
 - Current native MMF audio linking through the SDK controller framework.
 - Ganesh page and Canvas rasterization with native texture sharing, context
   synchronization and shared-resource cleanup. The GPU resource cache is
@@ -89,6 +91,8 @@ the platform integration is still required.
 | Ganesh GLES2 rasterization | Active | Native GLES2 contexts, BGRA surfaces and shared page-tile textures |
 | Canvas picture recording and state replay | Active | Ganesh-backed Canvas 2D recording, playback and GPU image copies |
 | Quick DFG tier-up | Active | Shared compilation thresholds and profile coverage policy apply to ARM11 |
+| ARM RegExp JIT | Active | Native Latin1/UTF-16 matching and supported-pattern interpreter fallback |
+| Integer remainder by constant powers of two | Active | ARMv6 shifts and masks in DFG |
 | ARM11 JavaScript optimization | Partial | Baseline/DFG, OSR and concurrent compilation; architecture-specific 64-bit fast paths use generic ARM32 paths |
 | Dirty-region painting and texture uploads | Active | Viewport tile cache, incremental uploads and ScreenPlay updates |
 | Skia damage-aware composition | Active | Dirty regions repaint a retained GPU target; EGL presents the resulting frame |
@@ -127,3 +131,5 @@ single-process Symbian painting loop automatically.
 See the [Symbian configuration](../../../Source/cmake/OptionsSymbian.cmake),
 [shared feature preferences](../../../Source/WTF/Scripts/Preferences/UnifiedWebPreferences.yaml)
 and [project progress](PROGRESS.md) for the active settings and remaining work.
+
+See [ARM11 JavaScript performance](JavaScriptPerformance.md) for measurements and next targets.

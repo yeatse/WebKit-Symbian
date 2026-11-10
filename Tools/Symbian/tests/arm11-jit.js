@@ -121,6 +121,29 @@
     check(numberKernel("3", "4") === 41, "math IC int/double/string transition");
     finish("number-guards", 1610612737.75);
 
+    function powerOfTwoModuloKernel(value) {
+        const answer = [value % 2, value % 256, value % 1073741824];
+        if ($vm.dfgTrue()) seen["power-of-two-modulo"] = true;
+        return answer;
+    }
+    // Signed odd inputs exercise all three integer paths without -0 exits.
+    warmed("power-of-two-modulo", powerOfTwoModuloKernel,
+        i => [(i & 1 ? -1 : 1) * ((i & 511) * 2 + 1)]);
+    const negativeRemainders = powerOfTwoModuloKernel(-257);
+    check(negativeRemainders[0] === -1 && negativeRemainders[1] === -1
+        && negativeRemainders[2] === -257, "signed power-of-two modulo");
+    const boundaryRemainders = powerOfTwoModuloKernel(2147483647);
+    check(boundaryRemainders[0] === 1 && boundaryRemainders[1] === 255
+        && boundaryRemainders[2] === 1073741823, "int32 boundary power-of-two modulo");
+    check(powerOfTwoModuloKernel(-2147483648).every(value => Object.is(value, -0)),
+        "negative multiples preserve negative zero after optimized modulo");
+    check(powerOfTwoModuloKernel(-0).every(value => Object.is(value, -0)),
+        "negative-zero input survives modulo speculation");
+    const fractionalRemainders = powerOfTwoModuloKernel(2.5);
+    check(fractionalRemainders[0] === 0.5 && fractionalRemainders[1] === 2.5
+        && fractionalRemainders[2] === 2.5, "double fallback after integer modulo warmup");
+    finish("power-of-two-modulo", boundaryRemainders[2] + fractionalRemainders[0]);
+
     function bitwiseKernel(value, shift) {
         const answer = [value >> 0, value >>> 0, value >> shift, value >>> shift,
             value << shift, (value >>> 0) + 0.5];
