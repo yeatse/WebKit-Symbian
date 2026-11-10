@@ -203,20 +203,33 @@ PlatformMediaSession::InterruptionType PlatformMediaSession::interruptionType() 
 
 void PlatformMediaSession::beginInterruption(InterruptionType type)
 {
+    beginInterruption(type, 0);
+}
+
+uint64_t PlatformMediaSession::beginOwnedInterruption(InterruptionType type)
+{
+    auto token = ++m_nextOwnedInterruptionToken;
+    RELEASE_ASSERT(token);
+    beginInterruption(type, token);
+    return token;
+}
+
+void PlatformMediaSession::beginInterruption(InterruptionType type, uint64_t ownerToken)
+{
     ASSERT(type != InterruptionType::NoInterruption);
 
     ALWAYS_LOG(LOGIDENTIFIER, "state = ", m_state, ", interruption count = ", m_interruptionStack.size(), ", type = ", type);
 
     if (activeInterruptionCount()) {
-        m_interruptionStack.append({ type, true });
+        m_interruptionStack.append({ type, true, { ownerToken } });
         return;
     }
     if (protect(client())->shouldOverrideBackgroundPlaybackRestriction(type)) {
         ALWAYS_LOG(LOGIDENTIFIER, "returning early because client says to override interruption");
-        m_interruptionStack.append({ type, true });
+        m_interruptionStack.append({ type, true, { ownerToken } });
         return;
     }
-    m_interruptionStack.append({ type, false });
+    m_interruptionStack.append({ type, false, { ownerToken } });
 
     m_stateToRestore = state();
     m_notifyingClient = true;
@@ -226,6 +239,36 @@ void PlatformMediaSession::beginInterruption(InterruptionType type)
 }
 
 void PlatformMediaSession::endInterruption(OptionSet<EndInterruptionFlags> flags)
+{
+    // Legacy callers own the newest non-token entry, not a later device
+    // interruption that happens to have the same type. Defer under any cover.
+    for (size_t i = m_interruptionStack.size(); i; --i) {
+        if (m_interruptionStack[i - 1].ownership.requestLegacyEnd(flags.toRaw())) {
+            drainOwnedInterruptionEnds();
+            return;
+        }
+    }
+}
+
+void PlatformMediaSession::endOwnedInterruption(uint64_t token, OptionSet<EndInterruptionFlags> flags)
+{
+    for (auto& interruption : m_interruptionStack) {
+        if (interruption.ownership.requestEnd(token, flags.toRaw())) {
+            drainOwnedInterruptionEnds();
+            return;
+        }
+    }
+}
+
+void PlatformMediaSession::drainOwnedInterruptionEnds()
+{
+    while (!m_interruptionStack.isEmpty() && m_interruptionStack.last().ownership.endPending) {
+        auto flags = OptionSet<EndInterruptionFlags>::fromRaw(m_interruptionStack.last().ownership.endFlags);
+        endTopInterruption(flags);
+    }
+}
+
+void PlatformMediaSession::endTopInterruption(OptionSet<EndInterruptionFlags> flags)
 {
     if (m_interruptionStack.isEmpty()) {
         ALWAYS_LOG(LOGIDENTIFIER, "!! ignoring spurious interruption end !!");

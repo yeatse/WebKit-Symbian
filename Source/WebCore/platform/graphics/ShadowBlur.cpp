@@ -36,6 +36,10 @@
 #include "ImageBuffer.h"
 #include "PixelBuffer.h"
 #include "Timer.h"
+#if USE(CAIRO)
+#include "GraphicsContextCairo.h"
+#include <cairo.h>
+#endif
 #include <numbers>
 #include <wtf/CheckedPtr.h>
 #include <wtf/Lock.h>
@@ -54,7 +58,7 @@ enum {
     RightLobe = 1
 };
 
-#if USE(CG)
+#if USE(CG) || OS(SYMBIAN)
 static inline int NODELETE roundUpToMultipleOf32(int d)
 {
     return (1 + (d >> 5)) << 5;
@@ -184,7 +188,9 @@ ScratchBuffer& ScratchBuffer::singleton()
     static NeverDestroyed<ScratchBuffer> scratchBuffer;
     return scratchBuffer;
 }
+#endif
 
+#if USE(CG)
 static float NODELETE radiusToLegacyRadius(float radius)
 {
     return radius > 8 ? 8 + 4 * sqrt((radius - 8) / 2) : radius;
@@ -386,6 +392,89 @@ void ShadowBlur::blurLayerImage(std::span<uint8_t> imageData, const IntSize& siz
         if (m_blurRadius.width() != m_blurRadius.height())
             calculateLobes(lobes, m_blurRadius.height(), m_shadowsIgnoreTransforms);
     }
+}
+
+// One box pass along a line: edges extend the first and last values, as in
+// blurLayerImage.
+static void boxBlurLine(std::span<const uint8_t> in, std::span<uint8_t> out, int dim, int side1, int side2)
+{
+    const int count = side1 + 1 + side2;
+    const int invCount = ((1 << blurSumShift) + count - 1) / count;
+    const int first = in[0];
+    const int last = in[dim - 1];
+    auto at = [&](int i) {
+        return i < 0 ? first : (i >= dim ? last : in[i]);
+    };
+    int sum = 0;
+    for (int k = -side1; k <= side2; ++k)
+        sum += at(k);
+    // Unclamped middle: i - side1 >= 0 and i + side2 + 1 < dim.
+    const int middleBegin = std::min(side1, dim);
+    const int middleEnd = std::max(middleBegin, dim - side2 - 1);
+    int i = 0;
+    for (; i < middleBegin; ++i) {
+        out[i] = (sum * invCount) >> blurSumShift;
+        sum += at(i + side2 + 1) - at(i - side1);
+    }
+    for (; i < middleEnd; ++i) {
+        out[i] = (sum * invCount) >> blurSumShift;
+        sum += in[i + side2 + 1] - in[i - side1];
+    }
+    for (; i < dim; ++i) {
+        out[i] = (sum * invCount) >> blurSumShift;
+        sum += at(i + side2 + 1) - at(i - side1);
+    }
+}
+
+void ShadowBlur::blurAlphaLayer(std::span<uint8_t> data, const IntSize& size, int rowStride)
+{
+    if (m_type != BlurShadow || size.isEmpty())
+        return;
+    const int width = size.width();
+    const int height = size.height();
+    RELEASE_ASSERT(rowStride >= width && data.size() >= static_cast<size_t>(rowStride) * (height - 1) + width);
+
+    Vector<uint8_t> lineA(std::max(width, height));
+    Vector<uint8_t> lineB(std::max(width, height));
+    std::array<std::array<int, 2>, 3> lobes;
+    // Three box passes approximate the Gaussian, as in blurLayerImage.
+    auto blurLine = [&](int dim) {
+        boxBlurLine(lineA.span(), lineB.mutableSpan(), dim, lobes[0][LeftLobe], lobes[0][RightLobe]);
+        boxBlurLine(lineB.span(), lineA.mutableSpan(), dim, lobes[1][LeftLobe], lobes[1][RightLobe]);
+        boxBlurLine(lineA.span(), lineB.mutableSpan(), dim, lobes[2][LeftLobe], lobes[2][RightLobe]);
+    };
+
+    if (m_blurRadius.width()) {
+        calculateLobes(lobes, m_blurRadius.width(), m_shadowsIgnoreTransforms);
+        for (int y = 0; y < height; ++y) {
+            auto row = data.subspan(static_cast<size_t>(y) * rowStride, width);
+            memcpySpan(lineA.mutableSpan().first(width), row);
+            blurLine(width);
+            memcpySpan(row, lineB.span().first(width));
+        }
+    }
+    if (m_blurRadius.height()) {
+        calculateLobes(lobes, m_blurRadius.height(), m_shadowsIgnoreTransforms);
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y)
+                lineA[y] = data[static_cast<size_t>(y) * rowStride + x];
+            blurLine(height);
+            for (int y = 0; y < height; ++y)
+                data[static_cast<size_t>(y) * rowStride + x] = lineB[y];
+        }
+    }
+}
+
+std::optional<ShadowBlur::AlphaLayer> ShadowBlur::beginAlphaLayer(const AffineTransform& transform, const IntRect& clipBounds, const FloatRect& layerArea)
+{
+    auto properties = calculateLayerBoundingRect(transform, layerArea, clipBounds);
+    if (!properties)
+        return std::nullopt;
+    adjustBlurRadius(transform);
+    IntSize size = expandedIntSize(properties->layerSize);
+    if (size.isEmpty())
+        return std::nullopt;
+    return AlphaLayer { roundedIntPoint(properties->layerOrigin), size, properties->layerContextTranslation };
 }
 
 void ShadowBlur::adjustBlurRadius(const AffineTransform& transform)
@@ -713,7 +802,9 @@ void ShadowBlur::drawRectShadowWithTiling(const AffineTransform& transform, cons
 {
     FloatRect templateShadow = FloatRect(edgeSize.width(), edgeSize.height(), templateSize.width() - 2 * edgeSize.width(), templateSize.height() - 2 * edgeSize.height());
 
-#if USE(CG)
+    // Symbian paints on one thread, like CG ports can share this buffer: a
+    // list of boxes with the same shadow then blurs its template only once.
+#if USE(CG) || OS(SYMBIAN)
     if (ScratchBuffer::lock().tryLock()) {
         Locker locker { AdoptLock, ScratchBuffer::lock() };
         auto layerImageBuffer = ScratchBuffer::singleton().getScratchBuffer(templateSize);
@@ -769,7 +860,7 @@ void ShadowBlur::drawInsetShadowWithTiling(const AffineTransform& transform, con
     FloatRect templateBounds(0, 0, templateSize.width(), templateSize.height());
     FloatRect templateHole = FloatRect(edgeSize.width(), edgeSize.height(), templateSize.width() - 2 * edgeSize.width(), templateSize.height() - 2 * edgeSize.height());
 
-#if USE(CG)
+#if USE(CG) || OS(SYMBIAN)
     if (ScratchBuffer::lock().tryLock()) {
         Locker locker { AdoptLock, ScratchBuffer::lock() };
         auto layerImageBuffer = ScratchBuffer::singleton().getScratchBuffer(templateSize);
@@ -909,6 +1000,28 @@ void ShadowBlur::blurShadowBuffer(ImageBuffer& layerImage, const IntSize& templa
 {
     if (m_type != BlurShadow)
         return;
+
+#if USE(CAIRO)
+    // Blur the alpha of the image surface in place. Only the alpha is used
+    // afterwards (the color comes from the shadow), so the round trip
+    // through an unpremultiplied copy, a division per pixel each way on
+    // CPUs without a divider, is not needed.
+    if (auto* platformContext = layerImage.context().platformContext()) {
+        cairo_surface_t* surface = cairo_get_target(platformContext->cr());
+        if (cairo_surface_get_type(surface) == CAIRO_SURFACE_TYPE_IMAGE && cairo_image_surface_get_format(surface) == CAIRO_FORMAT_ARGB32) {
+            int width = std::min(templateSize.width(), cairo_image_surface_get_width(surface));
+            int height = std::min(templateSize.height(), cairo_image_surface_get_height(surface));
+            if (width <= 0 || height <= 0)
+                return;
+            cairo_surface_flush(surface);
+            int stride = cairo_image_surface_get_stride(surface);
+            auto data = unsafeMakeSpan(cairo_image_surface_get_data(surface), static_cast<size_t>(stride) * height);
+            blurLayerImage(data, IntSize(width, height), stride);
+            cairo_surface_mark_dirty(surface);
+            return;
+        }
+    }
+#endif
 
     PixelBufferFormat format { AlphaPremultiplication::Unpremultiplied, PixelFormat::RGBA8, DestinationColorSpace::SRGB() };
     IntRect blurRect(IntPoint(), templateSize);

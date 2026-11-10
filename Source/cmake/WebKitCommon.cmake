@@ -78,6 +78,7 @@ if (NOT HAS_RUN_WEBKIT_COMMON)
         JSCOnly
         Mac
         PlayStation
+        Symbian
         WPE
         Win
     )
@@ -228,7 +229,10 @@ if (NOT HAS_RUN_WEBKIT_COMMON)
     set(WebKit_LIBRARY_TYPE SHARED)
     set(WebCoreTestSupport_LIBRARY_TYPE STATIC)
 
-    set(CMAKE_POSITION_INDEPENDENT_CODE True)
+    # Symbian loader relocations cannot represent a large ELF GOT.
+    if (NOT SYMBIAN)
+        set(CMAKE_POSITION_INDEPENDENT_CODE True)
+    endif ()
 
     # -----------------------------------------------------------------------------
     # Install JavaScript shell

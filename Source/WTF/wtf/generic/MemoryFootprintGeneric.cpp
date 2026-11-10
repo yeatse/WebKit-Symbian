@@ -24,7 +24,9 @@
  */
 
 #include "config.h"
+#if !OS(SYMBIAN)
 #include <bmalloc/bmalloc.h>
+#endif
 #include <wtf/AvailableMemory.h>
 #include <wtf/MemoryFootprint.h>
 #include <wtf/Platform.h>
@@ -33,8 +35,12 @@ namespace WTF {
 
 size_t memoryFootprint()
 {
+#if OS(SYMBIAN)
+    return 0;
+#else
     auto memoryUse = memoryStatus();
     return memoryUse.memoryFootprint;
+#endif
 }
 
 } // namespace WTF

@@ -73,6 +73,11 @@ private:
     // It will optionally give us local/live audio input in sourceBus (if it's not 0).
     void render(AudioBus& destinationBus, size_t numberOfFrames, const AudioIOPosition& outputPosition) final;
     void isPlayingDidChange() final;
+#if OS(SYMBIAN)
+    void audioDeviceInterrupted() final;
+    void audioDeviceMayResume() final;
+    void audioDeviceFailed() final;
+#endif
 
     void setIsSilent(bool);
     void updateIsEffectivelyPlayingAudio();

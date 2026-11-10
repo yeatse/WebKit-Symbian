@@ -704,6 +704,11 @@ if (MSVC)
     endif ()
 endif ()
 
+if (SYMBIAN)
+    set(bmalloc_SOURCES bmalloc/HeapKind.cpp)
+    set(bmalloc_C_SOURCES libpas/src/libpas/pas_process.c)
+endif ()
+
 WEBKIT_FRAMEWORK_DECLARE(bmalloc)
 WEBKIT_INCLUDE_CONFIG_FILES_IF_EXISTS()
 

@@ -49,7 +49,7 @@
 
 #if CPU(X86_64)
 #include <JavaScriptCore/X86_64Registers.h>
-#elif CPU(ARM_THUMB2)
+#elif (CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL))
 #include <JavaScriptCore/ARMv7Registers.h>
 #elif CPU(ARM64)
 #include <JavaScriptCore/ARM64Registers.h>

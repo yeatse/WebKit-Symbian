@@ -32,6 +32,10 @@
 #include <wtf/SystemTracing.h>
 #include <wtf/text/TextStream.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
 namespace WebCore {
 
 Ref<ImageFrameWorkQueue> ImageFrameWorkQueue::create(BitmapImageSource& source)
@@ -66,6 +70,12 @@ void ImageFrameWorkQueue::start()
     m_workQueue = WorkQueue::create("org.webkit.ImageDecoder"_s, WorkQueue::QOS::Default);
 
     protect(m_workQueue)->dispatch([protectedThis = Ref { *this }, protectedWorkQueue = Ref { *m_workQueue }, protectedSource = m_source.get(), protectedDecoder = Ref { *decoder }, protectedRequestQueue = Ref { requestQueue() }] () mutable {
+#if OS(SYMBIAN)
+        // Every WTF thread starts below the UI thread, which then leaves the
+        // decoder no time while a page loads or scrolls; images the page
+        // waits for should decode alongside it.
+        WTF::SymbianSystem::raiseCurrentThreadPriorityToNormal();
+#endif
         Request request;
         while (protectedRequestQueue->dequeue(request)) {
             TraceScope tracingScope(AsyncImageDecodeStart, AsyncImageDecodeEnd);

@@ -38,6 +38,10 @@
 #include <GLES2/gl2ext.h>
 #endif
 
+#if OS(SYMBIAN)
+#include "SymbianEGLBindings.h"
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(GLContext);
@@ -72,6 +76,24 @@ const char* GLContext::lastErrorString()
 {
     return errorString(eglGetError());
 }
+
+#if OS(SYMBIAN)
+// Composition reads the surface as premultiplied, as GL draws it, when the
+// window lets its alpha through (video under a composited page).
+static EGLSurface createSymbianWindowSurface(EGLDisplay display, EGLConfig config, GLNativeWindowType window)
+{
+    static const EGLint premultiplied[] = { EGL_VG_ALPHA_FORMAT, EGL_VG_ALPHA_FORMAT_PRE, EGL_NONE };
+    static bool premultipliedFailed;
+    if (!premultipliedFailed) {
+        EGLSurface surface = eglCreateWindowSurface(display, config, (EGLNativeWindowType) window, premultiplied);
+        if (surface != EGL_NO_SURFACE)
+            return surface;
+        premultipliedFailed = true;
+        WTFLogAlways("Symbian compositor: no premultiplied window surface (%s)", GLContext::lastErrorString());
+    }
+    return eglCreateWindowSurface(display, config, (EGLNativeWindowType) window, nullptr);
+}
+#endif
 
 IGNORE_CLANG_WARNINGS_BEGIN("unsafe-buffer-usage-in-libc-call")
 bool GLContext::getEGLConfig(EGLDisplay display, EGLConfig* config, int surfaceType)
@@ -168,7 +190,11 @@ std::unique_ptr<GLContext> GLContext::createWindowContext(GLDisplay& display, Ta
         // EGLNativeWindowType changes depending on the EGL implementation, reinterpret_cast
         // would work for pointers, and static_cast for numeric types only; so use a plain
         // C cast expression which works in all possible cases.
+#if OS(SYMBIAN)
+        surface = createSymbianWindowSurface(eglDisplay, config, window);
+#else
         surface = eglCreateWindowSurface(eglDisplay, config, (EGLNativeWindowType) window, nullptr);
+#endif
     }
 
     if (surface == EGL_NO_SURFACE) {
@@ -420,6 +446,21 @@ GLContext::GLContext(GLDisplay& display, EGLContext context, EGLSurface surface,
     , m_config(config)
 {
     RELEASE_ASSERT(context != EGL_NO_CONTEXT);
+#if OS(SYMBIAN)
+    m_resourceState = std::make_shared<SymbianGLResourceState>(this,
+        [](void* owner) { return current() == owner; },
+        [](void* owner) { return static_cast<GLContext*>(owner)->makeContextCurrent(); },
+        [](SymbianGLResourceState::Type type, unsigned object) {
+            switch (type) {
+            case SymbianGLResourceState::Type::Texture: glDeleteTextures(1, &object); break;
+            case SymbianGLResourceState::Type::Framebuffer: glDeleteFramebuffers(1, &object); break;
+            case SymbianGLResourceState::Type::Renderbuffer: glDeleteRenderbuffers(1, &object); break;
+            case SymbianGLResourceState::Type::Buffer: glDeleteBuffers(1, &object); break;
+            case SymbianGLResourceState::Type::Shader: glDeleteShader(object); break;
+            case SymbianGLResourceState::Type::Program: glDeleteProgram(object); break;
+            }
+        });
+#endif
 
 #if !RELEASE_LOG_DISABLED
     if (shouldEnableDebugLogging()) [[unlikely]] {
@@ -451,11 +492,19 @@ GLContext::GLContext(GLDisplay& display, EGLContext context, EGLSurface surface,
 
 GLContext::~GLContext()
 {
+#if OS(SYMBIAN)
+    abandonResources();
+#endif
     if (auto display = m_display.get()) {
         // Thread-local contexts are destroyed when their thread exits, which can happen _while_ the main thread terminates the display.
         display->runIfNotTerminated([&](EGLDisplay eglDisplay) {
             if (m_context) {
+#if OS(SYMBIAN)
+                if (isCurrent())
+                    unmakeContextCurrent();
+#else
                 eglMakeCurrent(eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+#endif
                 eglDestroyContext(eglDisplay, m_context);
             }
 
@@ -523,8 +572,19 @@ unsigned GLContext::glVersion() const
 
 bool GLContext::makeContextCurrent()
 {
-    if (isCurrent())
+    if (isCurrent()) {
+#if OS(SYMBIAN)
+        // WebGL contexts call EGL directly and can unbind this context without
+        // updating the cached current wrapper, so trust EGL, not the cache.
+        if (eglGetCurrentContext() == m_context) {
+            m_resourceState->flush();
+            return true;
+        }
+        didUnmakeContextCurrent();
+#else
         return true;
+#endif
+    }
 
     // ANGLE doesn't know anything about non-ANGLE contexts, and does
     // nothing in MakeCurrent if what it thinks is current hasn't changed.
@@ -532,18 +592,24 @@ bool GLContext::makeContextCurrent()
     // ANGLE context to ensure the next MakeCurrent does the right thing.
     auto* context = currentContext();
     bool isSwitchingFromANGLE = context && context->type() == GLContextWrapper::Type::Angle;
-    if (isSwitchingFromANGLE)
-        context->unmakeCurrentImpl();
+    if (isSwitchingFromANGLE) {
+        if (!context->unmakeCurrentImpl())
+            return false;
+        context->didUnmakeContextCurrent();
+    }
 
     auto display = m_display.get();
     if (display && eglMakeCurrent(display->eglDisplay(), m_surface, m_surface, m_context)) {
         didMakeContextCurrent();
+#if OS(SYMBIAN)
+        m_resourceState->flush();
+#endif
         return true;
     }
 
     // If we failed to make the native context current, restore the previous ANGLE one.
-    if (isSwitchingFromANGLE)
-        context->makeCurrentImpl();
+    if (isSwitchingFromANGLE && context->makeCurrentImpl())
+        context->didMakeContextCurrent();
 
     return false;
 }
@@ -578,6 +644,28 @@ void GLContext::swapBuffers()
     if (auto display = m_display.get())
         eglSwapBuffers(display->eglDisplay(), m_surface);
 }
+
+#if OS(SYMBIAN)
+bool GLContext::swapBuffersChecked()
+{
+    auto display = m_display.get();
+    return display && m_surface != EGL_NO_SURFACE && eglSwapBuffers(display->eglDisplay(), m_surface);
+}
+
+bool GLContext::resizeWindowSurface(GLNativeWindowType window)
+{
+    auto display = m_display.get();
+    if (!display || !window || !unmakeContextCurrent())
+        return false;
+    if (m_surface != EGL_NO_SURFACE) {
+        if (!eglDestroySurface(display->eglDisplay(), m_surface))
+            return false;
+        m_surface = EGL_NO_SURFACE;
+    }
+    m_surface = createSymbianWindowSurface(display->eglDisplay(), m_config, window);
+    return m_surface != EGL_NO_SURFACE && makeContextCurrent();
+}
+#endif
 
 GCGLContext GLContext::platformContext() const
 {

@@ -33,7 +33,9 @@
 #include "TextureMapper.h"
 #include "TextureMapperFlags.h"
 #include "TextureMapperShaderProgram.h"
+#include <cstdio>
 #include <wtf/HashMap.h>
+#include <wtf/NeverDestroyed.h>
 #include <wtf/RefCounted.h>
 #include <wtf/RefPtr.h>
 
@@ -105,6 +107,10 @@ BitmapTexture::BitmapTexture(const IntSize& size, OptionSet<Flags> flags)
 {
     determineRenderTargetAndBinding();
 
+#if OS(SYMBIAN)
+    RELEASE_ASSERT(GLContext::current());
+    m_resourceState = GLContext::current()->resourceState();
+#endif
     GLint boundTexture = 0;
     glGetIntegerv(m_binding, &boundTexture);
 
@@ -164,6 +170,10 @@ void BitmapTexture::allocateTexture()
     // EXT_texture_format_BGRA8888 mandates internalFormat == format.
     // https://registry.khronos.org/OpenGL/extensions/EXT/EXT_texture_format_BGRA8888.txt
     glTexImage2D(m_renderTarget, 0, textureFormat(), m_size.width(), m_size.height(), 0, textureFormat(), s_pixelDataType, nullptr);
+
+#if OS(SYMBIAN)
+    TextureMapper::checkGLError("allocating a texture", m_size);
+#endif
 }
 
 size_t BitmapTexture::sizeInBytes() const
@@ -221,6 +231,9 @@ BitmapTexture::BitmapTexture(EGLImage image, const IntSize& size, OptionSet<Flag
 void BitmapTexture::swapTexture(BitmapTexture& other)
 {
     RELEASE_ASSERT(m_size == other.m_size);
+#if OS(SYMBIAN)
+    RELEASE_ASSERT(m_resourceState == other.m_resourceState);
+#endif
     RELEASE_ASSERT(!m_flags.contains(Flags::DepthBuffer));
     RELEASE_ASSERT(!other.m_flags.contains(Flags::DepthBuffer));
 
@@ -301,6 +314,10 @@ void BitmapTexture::reset(const IntSize& size, OptionSet<Flags> flags)
     glBindTexture(m_renderTarget, m_id);
     glTexImage2D(m_renderTarget, 0, textureFormat(), m_size.width(), m_size.height(), 0, textureFormat(), s_pixelDataType, nullptr);
     glBindTexture(m_renderTarget, boundTexture);
+
+#if OS(SYMBIAN)
+    TextureMapper::checkGLError("allocating a texture", m_size);
+#endif
 }
 
 void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRect, const IntPoint& sourceOffset, int bytesPerLine, PixelFormat pixelFormat)
@@ -333,14 +350,38 @@ void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRec
 
     // Texture upload requires subimage buffer if driver doesn't support subimage and we don't have full image upload.
     bool supportsUnpackSubimage = GLContext::current()->glExtensions().EXT_unpack_subimage;
+#if OS(SYMBIAN)
+    // Whole rows starting lower in the source upload in place.
+    if (!supportsUnpackSubimage && !adjustedSourceOffset.x() && bytesPerLine == static_cast<int>(targetRect.width() * bytesPerPixel)) {
+        WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
+        data += adjustedSourceOffset.y() * bytesPerLine;
+        WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
+        adjustedSourceOffset = IntPoint();
+    }
+#endif
     bool requireSubImageBuffer = !supportsUnpackSubimage
         && !(bytesPerLine == static_cast<int>(targetRect.width() * bytesPerPixel) && adjustedSourceOffset == IntPoint::zero());
 
     // prepare temporaryData if necessary
     if (requireSubImageBuffer) {
         WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN // GLib/Win port
-        temporaryData.resize(targetRect.width() * targetRect.height() * bytesPerPixel);
-        auto dst = temporaryData.mutableSpan().data();
+        size_t subImageSize = targetRect.width() * targetRect.height() * bytesPerPixel;
+        uint8_t* dst;
+#if OS(SYMBIAN)
+        // Every byte is copied over below: reuse one buffer for tile-sized
+        // uploads rather than allocate and clear one per tile per frame.
+        static constexpr size_t reusedSubImageSize = 256 * 256 * bytesPerPixel;
+        static NeverDestroyed<std::unique_ptr<uint8_t[]>> subImageBuffer;
+        if (subImageSize <= reusedSubImageSize) {
+            if (!subImageBuffer.get())
+                subImageBuffer.get() = std::unique_ptr<uint8_t[]>(new uint8_t[reusedSubImageSize]);
+            dst = subImageBuffer.get().get();
+        } else
+#endif
+        {
+            temporaryData.resize(subImageSize);
+            dst = temporaryData.mutableSpan().data();
+        }
         data = dst;
         auto bits = static_cast<const uint8_t*>(srcData);
         auto src = bits + sourceOffset.y() * bytesPerLine + sourceOffset.x() * bytesPerPixel;
@@ -369,6 +410,14 @@ void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRec
     }
 
     glTexSubImage2D(m_renderTarget, 0, targetRect.x(), targetRect.y(), targetRect.width(), targetRect.height(), textureFormat(), s_pixelDataType, data);
+
+#if OS(SYMBIAN)
+    if (TextureMapper::checkingGLErrors()) {
+        char step[64];
+        snprintf(step, sizeof(step), "uploading %dx%d at %d,%d into a texture", targetRect.width(), targetRect.height(), targetRect.x(), targetRect.y());
+        TextureMapper::checkGLError(step, m_size);
+    }
+#endif
 
     if (supportsUnpackSubimage) {
         glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -402,13 +451,13 @@ void BitmapTexture::updateContents(NativeImage* frameImage, const IntRect& targe
 #endif
 }
 
-void BitmapTexture::updateContents(GraphicsLayer* sourceLayer, const IntRect& targetRect, const IntPoint& offset, float scale)
+bool BitmapTexture::updateContents(GraphicsLayer* sourceLayer, const IntRect& targetRect, const IntPoint& offset, float scale)
 {
     // Making an unconditionally unaccelerated buffer here is OK because this code
     // isn't used by any platforms that respect the accelerated bit.
     auto imageBuffer = ImageBuffer::create(targetRect.size(), RenderingMode::Unaccelerated, RenderingPurpose::Unspecified, 1, DestinationColorSpace::SRGB(), PixelFormat::BGRA8);
     if (!imageBuffer)
-        return;
+        return false;
 
     GraphicsContext& context = imageBuffer->context();
     context.setTextDrawingMode(TextDrawingMode::Fill);
@@ -419,13 +468,22 @@ void BitmapTexture::updateContents(GraphicsLayer* sourceLayer, const IntRect& ta
     context.applyDeviceScaleFactor(scale);
     context.translate(-sourceRect.x(), -sourceRect.y());
 
-    sourceLayer->paintGraphicsLayerContents(context, sourceRect);
-
-    auto image = ImageBuffer::sinkIntoNativeImage(WTF::move(imageBuffer));
-    if (!image)
-        return;
-
-    updateContents(image.get(), targetRect, IntPoint());
+    auto paint = [&] {
+        sourceLayer->paintGraphicsLayerContents(context, sourceRect);
+    };
+    auto upload = [&] {
+        auto image = ImageBuffer::sinkIntoNativeImage(WTF::move(imageBuffer));
+        if (!image)
+            return false;
+        updateContents(image.get(), targetRect, IntPoint());
+        return true;
+    };
+#if OS(SYMBIAN)
+    return m_resourceState->paintAndUpload(paint, upload);
+#else
+    paint();
+    return upload();
+#endif
 }
 
 void BitmapTexture::initializeStencil()
@@ -453,6 +511,9 @@ void BitmapTexture::initializeStencil()
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_stencilBufferObject);
     glClearStencil(0);
     glClear(GL_STENCIL_BUFFER_BIT);
+#if OS(SYMBIAN)
+    TextureMapper::checkGLError("adding a stencil buffer to a surface", m_size);
+#endif
 }
 
 void BitmapTexture::initializeDepthBuffer()
@@ -465,6 +526,9 @@ void BitmapTexture::initializeDepthBuffer()
     glRenderbufferStorage(GL_RENDERBUFFER, depthBufferFormat(), m_size.width(), m_size.height());
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthBufferObject);
+#if OS(SYMBIAN)
+    TextureMapper::checkGLError("adding a depth buffer to a surface", m_size);
+#endif
 }
 
 void BitmapTexture::clearIfNeeded()
@@ -509,6 +573,12 @@ void BitmapTexture::bindAsSurface()
 
 BitmapTexture::~BitmapTexture()
 {
+#if OS(SYMBIAN)
+    m_resourceState->release(SymbianGLResourceState::Type::Texture, m_id);
+    m_resourceState->release(SymbianGLResourceState::Type::Framebuffer, m_fbo);
+    m_resourceState->release(SymbianGLResourceState::Type::Renderbuffer, m_depthBufferObject);
+    m_resourceState->release(SymbianGLResourceState::Type::Renderbuffer, m_stencilBufferObject);
+#else
     glDeleteTextures(1, &m_id);
 
     if (m_fbo)
@@ -519,6 +589,7 @@ BitmapTexture::~BitmapTexture()
 
     if (m_stencilBufferObject)
         glDeleteRenderbuffers(1, &m_stencilBufferObject);
+#endif
 }
 
 void BitmapTexture::copyFromExternalTexture(GLuint sourceTextureID, const IntRect& targetRect, const IntSize& sourceOffset)

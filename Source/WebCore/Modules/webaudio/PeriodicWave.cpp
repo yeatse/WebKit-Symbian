@@ -38,6 +38,7 @@
 #include "FFTFrame.h"
 #include "VectorMath.h"
 #include <algorithm>
+#include <cmath>
 #include <numbers>
 #include <wtf/StdLibExtras.h>
 
@@ -129,7 +130,7 @@ Ref<PeriodicWave> PeriodicWave::createTriangle(float sampleRate)
 
 PeriodicWave::PeriodicWave(float sampleRate)
     : m_sampleRate(sampleRate)
-    , m_numberOfRanges(0.5 + NumberOfOctaveBands * log2f(periodicWaveSize()))
+    , m_numberOfRanges(0.5 + NumberOfOctaveBands * std::log2(static_cast<float>(periodicWaveSize())))
 {
     float nyquist = 0.5 * m_sampleRate;
     m_lowestFundamentalFrequency = nyquist / maxNumberOfPartials();
@@ -143,7 +144,7 @@ void PeriodicWave::waveDataForFundamentalFrequency(float fundamentalFrequency, s
 
     // Calculate the pitch range.
     float ratio = fundamentalFrequency > 0 ? fundamentalFrequency / m_lowestFundamentalFrequency : 0.5;
-    float centsAboveLowestFrequency = log2f(ratio) * 1200;
+    float centsAboveLowestFrequency = std::log2(ratio) * 1200;
 
     // Add one to round-up to the next range just in time to truncate partials before aliasing occurs.
     float pitchRange = 1 + centsAboveLowestFrequency / CentsPerRange;

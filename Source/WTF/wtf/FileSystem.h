@@ -132,6 +132,11 @@ WTF_EXPORT_PRIVATE bool markPurgeable(const String&);
 
 WTF_EXPORT_PRIVATE Vector<String> listDirectory(const String& path); // Returns file names, not full paths.
 WTF_EXPORT_PRIVATE void traverseDirectory(const String& path, NOESCAPE const Function<void(const String& fileName, FileType)>&);
+#if OS(SYMBIAN)
+// Distinguish empty/missing storage from an I/O error when enforcing quotas.
+WTF_EXPORT_PRIVATE std::optional<Vector<String>> tryListDirectory(const String& path);
+WTF_EXPORT_PRIVATE std::optional<uint64_t> directorySizeIfExists(const String& path);
+#endif
 
 WTF_EXPORT_PRIVATE CString fileSystemRepresentation(const String&);
 #if !PLATFORM(WIN)

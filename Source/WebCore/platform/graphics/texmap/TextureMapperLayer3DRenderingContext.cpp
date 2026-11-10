@@ -35,6 +35,7 @@
 #include "TextureMapperGPUBuffer.h"
 #include "TextureMapperLayer.h"
 #include <numeric>
+#include <vector>
 #include <wtf/TZoneMallocInlines.h>
 
 namespace WebCore {

@@ -1,0 +1,146 @@
+{
+  "format": 1,
+  "sdk_version": "0.3.0",
+  "target_arch": "armv6",
+  "budget_bytes": 67108864,
+  "platform": {
+    "repository": "https://github.com/hpnkv/symbian-platform",
+    "revision": "b105f752f84d1b5640052f64c4a703017810d7b8",
+    "files": {
+      "cpp/symbian/runtime/mimalloc_port.h": "d4eddb3b599528e435e9abed17f5ff2cfdb5ca1666bd00b65b13dc5760ec6af0",
+      "cpp/symbian/runtime/mimalloc_prim.c": "370cf3dc59bf727eeb469dcdd648dc7104f135453c2633020b2d29eb125a45c2"
+    }
+  },
+  "mimalloc": {
+    "repository": "https://github.com/microsoft/mimalloc",
+    "revision": "d4881d338125e1cb7c47ba4cfb398d6f7c0c8d45",
+    "sources": [
+      {
+        "path": "src/alloc.c",
+        "object": "alloc.c.obj",
+        "sha256": "e074a8a622f6317d42eb43e48db8cde3345696c96d6749523ef4fd58aeb55bb7"
+      },
+      {
+        "path": "src/alloc-aligned.c",
+        "object": "alloc-aligned.c.obj",
+        "sha256": "8390ff8d0e6c2954db1d95bfc1a4388b302605a1c5102c0495e5163838186e7f"
+      },
+      {
+        "path": "src/alloc-posix.c",
+        "object": "alloc-posix.c.obj",
+        "sha256": "a6dcdef4694964c972e6cf37f197f93c95f321566a3b5ccc1761129257255e93"
+      },
+      {
+        "path": "src/arena.c",
+        "object": "arena.c.obj",
+        "sha256": "27fce7003a5108fb9d0c61e92e0cd7870f687f7e3cf12ad19c7fb3954b2a0bc2"
+      },
+      {
+        "path": "src/bitmap.c",
+        "object": "bitmap.c.obj",
+        "sha256": "b33f7b220358667fb0eddcd6569ec7b79f7ef61daf08448c8448c8d1a8741b09"
+      },
+      {
+        "path": "src/heap.c",
+        "object": "heap.c.obj",
+        "sha256": "a33d339568e5a7d16d6bae5650a79b1aef649e9b4ad0261be982580c2971eb64"
+      },
+      {
+        "path": "src/init.c",
+        "object": "init.c.obj",
+        "sha256": "1452ca684eca6d959eec9eae91750162f7738055f995bd4863f79b87aab88a8c"
+      },
+      {
+        "path": "src/libc.c",
+        "object": "libc.c.obj",
+        "sha256": "b774d5750409006b690ab6262f037d78362ca978729314493636b358249e7fbd"
+      },
+      {
+        "path": "src/options.c",
+        "object": "options.c.obj",
+        "sha256": "5bfe80a0c473371d299840e8ed20831601d4998e4164e2e0bf71303697395824"
+      },
+      {
+        "path": "src/os.c",
+        "object": "os.c.obj",
+        "sha256": "06b2d6d8a4cf3bfcc1822bb09aeaa4e7b741e7a5241f70b4f693b8038f455b00"
+      },
+      {
+        "path": "src/page.c",
+        "object": "page.c.obj",
+        "sha256": "ad0df1217e96669ef63539c345ea7dc4d637c3269be2d4de36ac3a5a42fb0c12"
+      },
+      {
+        "path": "src/page-map.c",
+        "object": "page-map.c.obj",
+        "sha256": "ff3509ae3d4185e9cb2a95e1f35daba3329e998bac917ac7938f1bf06dba0f78"
+      },
+      {
+        "path": "src/prim/prim-tls.c",
+        "object": "prim-tls.c.obj",
+        "sha256": "884443f66808143d645dc6254c38e27f91b540a667ea23fe0ba1ef1caaf2b114"
+      },
+      {
+        "path": "src/random.c",
+        "object": "random.c.obj",
+        "sha256": "2bd12844f9de0392fdb00ea70f5ad15649ffd8e49f9a4d2388e15d6469a7b703"
+      },
+      {
+        "path": "src/sample-guarded.c",
+        "object": "sample-guarded.c.obj",
+        "sha256": "4edc7700c2dd911cd03919d1098e973d887900ab08a5f41fd9648a79517fca57"
+      },
+      {
+        "path": "src/sample-profile.c",
+        "object": "sample-profile.c.obj",
+        "sha256": "3df74fee931244a302293f7d215dc87e3b5c120ab7df207edd92d0ff19eb3729"
+      },
+      {
+        "path": "src/stats.c",
+        "object": "stats.c.obj",
+        "sha256": "d78e0467008946b40d5356315a9ba76e04354ead65b1aafabbb7bd091c3826a6"
+      },
+      {
+        "path": "src/subproc.c",
+        "object": "subproc.c.obj",
+        "sha256": "41c147e8eb6e960687b79a201dd4498fb80f58923a0a4d73e04e80ef315b8eb6"
+      },
+      {
+        "path": "src/theap.c",
+        "object": "theap.c.obj",
+        "sha256": "91271bc76502c743d109f32201c02271f63a9f6ec51ef207f8b533f6de39df27"
+      },
+      {
+        "path": "src/threadlocal.c",
+        "object": "threadlocal.c.obj",
+        "sha256": "01dbaacd5ac6685dc59c40d82a3f8932e5290d4d05f9a441424e4ea53e1ba973"
+      }
+    ],
+    "headers": {
+      "mimalloc/atomic.h": "7be611200328a99b052eda81abb8ad78b7e03446a0f6d302c1eb31cc9f096398",
+      "mimalloc/bits.h": "1ecfb1bd1a7b6f73c335d21f3411c9ce0de3cbf6710e2d209e6cb6df2baf1ed3",
+      "mimalloc/internal.h": "26c10f7b990c51629618c74c64e3263a1fe00da787c2e72c56a79f87393f602c",
+      "mimalloc/prim-tls.h": "a701ed0c182b4d0039bf683b4ac197011b8b794971a616c76ca64f036bc30d8b",
+      "mimalloc/prim.h": "1987e8e2eedc07bb181bf2a11a27bec80a5309c32cfa66a56900fb4cbb64b172",
+      "mimalloc/track.h": "31d94e981640bc4c340f21887610a9cd7242af4c5adc578f722ad03cb852db2e",
+      "mimalloc/types.h": "01abbaf1cc5572675b97f4115f205335e319b93249ee5163fb3bf2ad0fbbceae",
+      "mimalloc-new-delete.h": "0a9c7e6daea2814876eab49697922f98b630c27ab9b089fbe4bd74f6e56edd68",
+      "mimalloc-override.h": "21fcf61c4443341ac6bf6ea528af31dc7267e8e3456fc64bfd07704503032175",
+      "mimalloc-profile.h": "c0aabbf2fbe54ce55e7dee23cb1891c2d65e0e1f5b18d9fe1a4e733c0c91d996",
+      "mimalloc-stats.h": "57aaf0b0db23521a32b0c6d7e0969e37ce69466fcfb0cb9b2d0114c2b56be182",
+      "mimalloc.h": "8ec1bff9902bab6682e3ecbf7613ccc915e082ca743fdd0c396d3954323fe8bf"
+    }
+  },
+  "base_archive": {
+    "path": "lib/armv6/libsymbian_guest_runtime.a",
+    "sha256": "a3311f88e8fb328e0db5fdadffa3734cf9bd4c171ed9b3a4bf057eca2c83612c"
+  },
+  "native_page_bridge": {
+    "object": "sdk_mimalloc_pages.cc.obj",
+    "sha256": "531bd4d94d8b3d1167e42c108539de4a1a7e62d2b4c6f78fc45534ef265be6c7"
+  },
+  "patch": "0001-mimalloc-32bit-pagemap.patch",
+  "patch_sha256": "4eb39685e754af0c40baccd492eaecce2aec3e80627c418c24754be1b677d4ce",
+  "output_archive_sha256": "726c69c4798dab91f6e6957ef340107754bde4901127732571338afbe2007e26",
+  "patched_port_sha256": "741cdeef92f9bc0c4877ec1153926317e7a2a101c95b7205165e8c875fa5cf23"
+}

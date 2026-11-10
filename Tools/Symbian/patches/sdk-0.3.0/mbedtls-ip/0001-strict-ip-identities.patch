@@ -1,0 +1,232 @@
+--- a/library/x509_crt.c
++++ b/library/x509_crt.c
+@@ -2524,6 +2524,8 @@
+     }
+ }
+ 
++#include "symbian_x509_ip.h"
++
+ /*
+  * Check for CN match
+  */
+@@ -2574,6 +2576,23 @@
+     const mbedtls_x509_name *name;
+     const mbedtls_x509_sequence *cur;
+     size_t cn_len = strlen(cn);
++    unsigned char ip[16];
++    const size_t ip_len = symbian_x509_parse_ip(cn, ip);
++
++    /* Numeric reference identities match only binary iPAddress SAN entries.
++     * A textual dNSName or legacy CN must not impersonate an IP address. */
++    if (ip_len != 0) {
++        if (crt->ext_types & MBEDTLS_X509_EXT_SUBJECT_ALT_NAME) {
++            for (cur = &crt->subject_alt_names; cur != NULL; cur = cur->next) {
++                if (cur->buf.tag == (MBEDTLS_ASN1_CONTEXT_SPECIFIC | MBEDTLS_X509_SAN_IP_ADDRESS)
++                    && cur->buf.len == ip_len && memcmp(cur->buf.p, ip, ip_len) == 0) {
++                    return;
++                }
++            }
++        }
++        *flags |= MBEDTLS_X509_BADCERT_CN_MISMATCH;
++        return;
++    }
+ 
+     if (crt->ext_types & MBEDTLS_X509_EXT_SUBJECT_ALT_NAME) {
+         for (cur = &crt->subject_alt_names; cur != NULL; cur = cur->next) {
+--- a/library/ssl_client.c
++++ b/library/ssl_client.c
+@@ -25,6 +25,7 @@
+ #if defined(MBEDTLS_SSL_PROTO_TLS1_3) || defined(MBEDTLS_SSL_PROTO_TLS1_2)
+ 
+ #include <string.h>
++#include "symbian_x509_ip.h"
+ 
+ #include "mbedtls/debug.h"
+ #include "mbedtls/error.h"
+@@ -47,7 +48,10 @@
+ 
+     *olen = 0;
+ 
+-    if (ssl->hostname == NULL) {
++    unsigned char ip[16];
++    /* RFC 6066 forbids literal IPv4/IPv6 addresses in HostName SNI. Keep
++     * ssl->hostname intact: certificate identity verification still needs it. */
++    if (ssl->hostname == NULL || symbian_x509_parse_ip(ssl->hostname, ip) != 0) {
+         return 0;
+     }
+ 
+--- /dev/null
++++ b/library/symbian_x509_ip.h
+@@ -0,0 +1,172 @@
++/*
++ * Copyright The Mbed TLS Contributors.
++ * SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
++ *
++ * Portable IPv4/IPv6 parsing from Mbed TLS 3.6.7 x509_crt.c,
++ * revision 068ff080b369adfac81509f9b57b2afabaf82dc5.
++ * Shared internally by the 3.4.1 certificate matcher and SNI writer.
++ * Bounds allow seven explicit groups before one compressed zero and six
++ * before a dotted IPv4 tail. A delimiter after eight groups is rejected.
++ */
++#ifndef SYMBIAN_MBEDTLS_IP_PARSE_H
++#define SYMBIAN_MBEDTLS_IP_PARSE_H
++#include "common.h"
++#include <stddef.h>
++#include <stdint.h>
++#include <string.h>
++
++/* Definition located further below to possibly reduce compiler inlining */
++static int x509_inet_pton_ipv4(const char *src, void *dst);
++
++#define li_cton(c, n) \
++    (((n) = (c) - '0') <= 9 || (((n) = ((c)&0xdf) - 'A') <= 5 ? ((n) += 10) : 0))
++
++static int x509_inet_pton_ipv6(const char *src, void *dst)
++{
++    const unsigned char *p = (const unsigned char *) src;
++    int nonzero_groups = 0, num_digits, zero_group_start = -1;
++    uint16_t addr[8];
++    do {
++        /* note: allows excess leading 0's, e.g. 1:0002:3:... */
++        uint16_t group = num_digits = 0;
++        for (uint8_t digit; num_digits < 4; num_digits++) {
++            if (li_cton(*p, digit) == 0) {
++                break;
++            }
++            group = (group << 4) | digit;
++            p++;
++        }
++        if (num_digits != 0) {
++            MBEDTLS_PUT_UINT16_BE(group, addr, nonzero_groups);
++            nonzero_groups++;
++            if (*p == '\0') {
++                break;
++            } else if (*p == '.') {
++                /* Don't accept IPv4 too early or late:
++                 * - The first 6 nonzero groups must be 16 bit pieces of address delimited by ':'
++                 * - This might be fully or partially represented with compressed syntax (a zero
++                 *   group "::")
++                 */
++                if ((nonzero_groups < 6 && zero_group_start == -1) ||
++                    nonzero_groups > 7) {
++                    break;
++                }
++
++                /* Walk back to prior ':', then parse as IPv4-mapped.
++                 * At this point nonzero_groups == 6 or zero_group_start >= 0. Either way we have a
++                 * ':' before the current position and still inside the buffer. Thus it is safe to
++                 * search back for that ':' without any further checks.
++                 */
++                do {
++                    p--;
++                } while (*p != ':');
++
++                p++;
++                nonzero_groups--;
++                if (x509_inet_pton_ipv4((const char *) p,
++                                        addr + nonzero_groups) != 0) {
++                    break;
++                }
++
++                nonzero_groups += 2;
++                p = (const unsigned char *) "";
++                break;
++            } else if (*p != ':') {
++                return -1;
++            }
++        } else {
++            /* Don't accept a second zero group or an invalid delimiter */
++            if (zero_group_start != -1 || *p != ':') {
++                return -1;
++            }
++            zero_group_start = nonzero_groups;
++
++            /* Accept a zero group at start, but it has to be a double colon */
++            if (zero_group_start == 0 && *++p != ':') {
++                return -1;
++            }
++
++            if (p[1] == '\0') {
++                ++p;
++                break;
++            }
++        }
++        /* A full eight-group address must have ended above, not at a colon. */
++        if (nonzero_groups == 8) {
++            return -1;
++        }
++        ++p;
++    } while (nonzero_groups < 8);
++
++    if (*p != '\0') {
++        return -1;
++    }
++
++    if (zero_group_start != -1) {
++        if (nonzero_groups > 7) {
++            return -1;
++        }
++        int zero_groups = 8 - nonzero_groups;
++        int groups_after_zero = nonzero_groups - zero_group_start;
++
++        /* Move the non-zero part to after the zeroes */
++        if (groups_after_zero) {
++            memmove(addr + zero_group_start + zero_groups,
++                    addr + zero_group_start,
++                    groups_after_zero * sizeof(*addr));
++        }
++        memset(addr + zero_group_start, 0, zero_groups * sizeof(*addr));
++    } else {
++        if (nonzero_groups != 8) {
++            return -1;
++        }
++    }
++    memcpy(dst, addr, sizeof(addr));
++    return 0;
++}
++
++static int x509_inet_pton_ipv4(const char *src, void *dst)
++{
++    const unsigned char *p = (const unsigned char *) src;
++    uint8_t *res = (uint8_t *) dst;
++    uint8_t digit, num_digits = 0;
++    uint8_t num_octets = 0;
++    uint16_t octet;
++
++    do {
++        octet = num_digits = 0;
++        do {
++            digit = *p - '0';
++            if (digit > 9) {
++                break;
++            }
++
++            /* Don't allow leading zeroes. These might mean octal format,
++             * which this implementation does not support. */
++            if (octet == 0 && num_digits > 0) {
++                return -1;
++            }
++
++            octet = octet * 10 + digit;
++            num_digits++;
++            p++;
++        } while (num_digits < 3);
++
++        if (octet >= 256 || num_digits > 3 || num_digits == 0) {
++            return -1;
++        }
++        *res++ = (uint8_t) octet;
++        num_octets++;
++    } while (num_octets < 4 && *p++ == '.');
++    return num_octets == 4 && *p == '\0' ? 0 : -1;
++}
++
++#undef li_cton
++
++static size_t symbian_x509_parse_ip(const char *name, void *destination)
++{
++    return strchr(name, ':') == NULL
++        ? (x509_inet_pton_ipv4(name, destination) == 0 ? 4 : 0)
++        : (x509_inet_pton_ipv6(name, destination) == 0 ? 16 : 0);
++}
++#endif

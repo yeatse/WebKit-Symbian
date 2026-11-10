@@ -12,6 +12,7 @@
 #    pragma allow_unsafe_buffers
 #endif
 
+#include "common/tls_symbian.h"
 #include "libANGLE/Context.inl.h"
 
 #include <stdarg.h>
@@ -623,7 +624,17 @@ class ScopedPLSFramebufferFetchDrawBuffersDisable
 };
 }  // anonymous namespace
 
-#if defined(ANGLE_PLATFORM_APPLE)
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+struct CurrentValidContextTag;
+Context *GetCurrentValidContextTLS()
+{
+    return angle::SymbianThreadLocal<CurrentValidContextTag, Context *>();
+}
+void SetCurrentValidContextTLS(Context *context)
+{
+    angle::SymbianThreadLocal<CurrentValidContextTag, Context *>() = context;
+}
+#elif defined(ANGLE_PLATFORM_APPLE)
 // TODO(http://anglebug.com/42264979): Due to a bug in Apple's dyld loader, `thread_local` will
 // cause excessive memory use. Temporarily avoid it by using pthread's thread local storage instead.
 static angle::TLSIndex GetCurrentValidContextTLSIndex()
@@ -673,7 +684,7 @@ extern void SetCurrentValidContext(Context *context)
     }
 #endif
 
-#if defined(ANGLE_PLATFORM_APPLE) || defined(ANGLE_USE_STATIC_THREAD_LOCAL_VARIABLES)
+#if defined(ANGLE_PLATFORM_APPLE) || defined(ANGLE_PLATFORM_SYMBIAN) || defined(ANGLE_USE_STATIC_THREAD_LOCAL_VARIABLES)
     SetCurrentValidContextTLS(context);
 #else
     gCurrentValidContext = context;

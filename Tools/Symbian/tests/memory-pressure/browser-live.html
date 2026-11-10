@@ -1,0 +1,9 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Native memory pressure: live JavaScript</title>
+<style>body{font:16px sans-serif;background:#fff;color:#111}canvas{border:1px solid #111}pre{white-space:pre-wrap}</style>
+<h1>Live objects during native memory pressure</h1>
+<p>This page retains a large object graph and checks it after real native notifications. It does not request GC.</p>
+<canvas width="32" height="32"></canvas><pre id="status">Allocating…</pre>
+<script src="browser-live.js"></script>

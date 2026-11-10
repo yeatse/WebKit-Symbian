@@ -104,15 +104,25 @@ void SynchronousLoaderClient::didFail(ResourceHandle* handle, const ResourceErro
 }
 
 #if USE(SOUP) || USE(CURL)
-void SynchronousLoaderClient::didReceiveAuthenticationChallenge(ResourceHandle*, const AuthenticationChallenge&)
+void SynchronousLoaderClient::didReceiveAuthenticationChallenge(ResourceHandle* handle, const AuthenticationChallenge& challenge)
 {
+#if OS(SYMBIAN)
+    handle->receivedRequestToContinueWithoutCredential(challenge);
+#else
+    UNUSED_PARAM(handle);
+    UNUSED_PARAM(challenge);
     ASSERT_NOT_REACHED();
+#endif
 }
 
 ResourceError SynchronousLoaderClient::platformBadResponseError()
 {
+#if OS(SYMBIAN)
+    return { "WebKitErrorDomain"_s, 101, { }, "Synchronous redirect is not allowed"_s };
+#else
     ASSERT_NOT_REACHED();
     return { };
+#endif
 }
 #endif
 

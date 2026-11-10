@@ -11,6 +11,9 @@
 
 #if defined(_WIN32)
 #    define ANGLE_PLATFORM_WINDOWS 1
+#elif defined(__SYMBIAN32__)
+#    define ANGLE_PLATFORM_SYMBIAN 1
+#    define ANGLE_PLATFORM_POSIX 1
 #elif defined(__Fuchsia__)
 #    define ANGLE_PLATFORM_FUCHSIA 1
 #    define ANGLE_PLATFORM_POSIX 1

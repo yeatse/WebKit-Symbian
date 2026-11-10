@@ -1,0 +1,401 @@
+diff --git a/cpp/symbian/e32/imports.cc b/cpp/symbian/e32/imports.cc
+--- a/cpp/symbian/e32/imports.cc
++++ b/cpp/symbian/e32/imports.cc
+@@ -515,6 +515,7 @@
+     const uint8_t info = static_cast<uint8_t>(elf[p + 12]);
+     const bool function = (info == 0x12 || info == 0x22);
+     const bool weak_object = info == 0x21;
++    const bool strong_object = info == 0x11;
+     const uint32_t address =
+         Read32(elf, p + 4) & (function ? ~uint32_t{1} : ~uint32_t{0});
+     // LLD may retain an unused proxy symbol in dynsym after section GC.
+@@ -523,12 +524,19 @@
+     if (index == 0 && size == 0) {
+       continue;
+     }
+-    if (index == 0 || index >= sections.size() || (!function && !weak_object) ||
+-        elf[p + 13] != 0 || Read16(elf, versions.offset + symbol * 2) != 1 ||
+-        size == 0 || (sections[index].flags & 2) == 0 ||
+-        address < sections[index].address ||
++    if (index == 0 || index >= sections.size() ||
++        (!function && !weak_object && !strong_object) || elf[p + 13] != 0 ||
++        Read16(elf, versions.offset + symbol * 2) != 1 || size == 0 ||
++        (sections[index].flags & 2) == 0 || address < sections[index].address ||
+         !Within(sections[index].size, address - sections[index].address,
+                 size) ||
++        // A DLL's own C++ vtables/typeinfo are strong objects in dynsym.
++        // Accept only aligned, file-backed read-only storage in the code
++        // mapping; this does not permit undefined or writable data symbols.
++        (strong_object &&
++         (sections[index].type != 1 || (sections[index].flags & ~0x30U) != 2 ||
++          address % 4 || address < code.address ||
++          !Within(code.size, address - code.address, size))) ||
+         (function &&
+          ((sections[index].flags & 6) != 6 || address < code.address ||
+           !Within(code.size, address - code.address, size)))) {
+@@ -536,10 +544,10 @@
+       if (!name.ok()) {
+         return name.status();
+       }
+-      return absl::UnimplementedError(absl::StrCat(
+-          "Unreferenced dynamic symbol is not a defined local function or weak "
+-          "object: ",
+-          *name));
++      return absl::UnimplementedError(
++          absl::StrCat("Unreferenced dynamic symbol is not a bounded local "
++                       "function/object: ",
++                       *name));
+     }
+   }
+   if (blocks.size() != needed_count) {
+diff --git a/cpp/symbian/e32/exports.cc b/cpp/symbian/e32/exports.cc
+--- a/cpp/symbian/e32/exports.cc
++++ b/cpp/symbian/e32/exports.cc
+@@ -33,13 +33,10 @@
+   for (size_t i = 0; i < exports.size(); ++i) {
+     exports[i] = {static_cast<uint32_t>(i + 1), absent, true};
+   }
+-  std::map<std::string, uint32_t> wanted;
++  std::map<std::string, sdk::Export> wanted;
+   for (const auto& item : *table) {
+-    if (item.data) {
+-      return absl::UnimplementedError("DLL data exports unsupported");
+-    }
+     if (!item.absent) {
+-      wanted.emplace(item.symbol, item.ordinal);
++      wanted.emplace(item.symbol, item);
+     }
+   }
+   const Section* absl_nullable symbols = nullptr;
+@@ -71,27 +68,34 @@
+     }
+     const uint16_t index = Read16(elf, p + 14);
+     const uint32_t address = Read32(elf, p + 4);
+-    const uint32_t normalized = address & ~uint32_t{1};
++    const bool object = (info & 15) == 1;
++    const bool function = (info & 15) == 2;
++    const uint32_t normalized = function ? address & ~uint32_t{1} : address;
+     const uint32_t size = Read32(elf, p + 8);
+-    if ((info & 15) != 2 || elf[p + 13] != 0 || index == 0 ||
+-        index >= sections.size() || (sections[index].flags & 6) != 6 ||
++    if ((!function && !object) || object != match->second.data ||
++        elf[p + 13] != 0 || index == 0 || index >= sections.size() ||
++        (function && (sections[index].flags & 6) != 6) ||
++        (object && (sections[index].type != 1 ||
++                    (sections[index].flags & ~0x30U) != 2)) ||
+         normalized < code.address || normalized < sections[index].address ||
+         size == 0 || !Within(code.size, normalized - code.address, size) ||
+         !Within(sections[index].size, normalized - sections[index].address,
+                 size) ||
+-        normalized % ((address & 1) ? 2 : 4) || address == absent) {
++        normalized % ((function && (address & 1)) ? 2 : 4) ||
++        address == absent) {
+       return absl::UnimplementedError(
+-          "DLL export must be a defined visible function");
+-    }
+-    ExportSlot& slot = exports[match->second - 1];
++          "DLL export must be a defined visible function or read-only object "
++          "matching its frozen definition");
++    }
++    ExportSlot& slot = exports[match->second.ordinal - 1];
+     if (!slot.absent) {
+       return absl::DataLossError("Duplicate DLL export symbol");
+     }
+     slot.address = address;
+     slot.absent = false;
+   }
+-  for (const auto& [name, ordinal] : wanted) {
+-    if (exports[ordinal - 1].absent) {
++  for (const auto& [name, item] : wanted) {
++    if (exports[item.ordinal - 1].absent) {
+       return absl::NotFoundError(
+           absl::StrCat("DLL export definition missing: ", name));
+     }
+diff --git a/cpp/tests/CMakeLists.txt b/cpp/tests/CMakeLists.txt
+--- a/cpp/tests/CMakeLists.txt
++++ b/cpp/tests/CMakeLists.txt
+@@ -5,7 +5,8 @@
+ add_test(NAME symbian_analysis_test COMMAND symbian_analysis_test)
+ set_tests_properties(symbian_analysis_test PROPERTIES TIMEOUT 15)
+ 
+-add_executable(symbian_e32_test e32_test.cc arm_attributes_test.cc)
++add_executable(symbian_e32_test e32_test.cc arm_attributes_test.cc
++               e32_object_exports_test.cc)
+ target_link_libraries(symbian_e32_test PRIVATE symbian::e32 GTest::gtest_main)
+ symbian_native_library(symbian_e32_test)
+ add_test(NAME symbian_e32_test COMMAND symbian_e32_test)
+diff --git a/cpp/tests/e32_object_exports_test.cc b/cpp/tests/e32_object_exports_test.cc
+new file mode 100644
+--- /dev/null
++++ b/cpp/tests/e32_object_exports_test.cc
+@@ -0,0 +1,133 @@
++#include <string>
++#include <string_view>
++#include <utility>
++#include <vector>
++
++#include <gtest/gtest.h>
++
++#include "e32_fixture.h"
++#include "symbian/analysis/bytes.h"
++#include "symbian/e32/e32.h"
++
++namespace symbian::e32 {
++namespace {
++using analysis::internal::Put16;
++using analysis::internal::Put32;
++using analysis::internal::Read32;
++
++// A real bounded ELF fixture, retaining the original function/relocation and
++// adding a separate read-only vtable object at the end of its code mapping.
++std::string ObjectExecutable() {
++  std::string elf = testing::Executable();
++  const std::string old_sections = elf.substr(116, 200);
++  const std::string old_symbols = elf.substr(316, 32);
++  const uint32_t strings = static_cast<uint32_t>(elf.size());
++  elf.append("\0_ZTV7Fixture\0", 14);
++  while (elf.size() % 4) {
++    elf.push_back('\0');
++  }
++  const uint32_t symbols = static_cast<uint32_t>(elf.size());
++  elf += old_symbols;
++  elf.append(16, '\0');
++  Put32(elf, symbols + 32, 1);
++  Put32(elf, symbols + 36, 0x801c);
++  Put32(elf, symbols + 40, 4);
++  elf[symbols + 44] = 0x11;  // GLOBAL OBJECT.
++  Put16(elf, symbols + 46, 5);
++  const uint32_t sections = static_cast<uint32_t>(elf.size());
++  elf += old_sections;
++  elf.append(40, '\0');
++  Put32(elf, 32, sections);
++  Put16(elf, 48, 6);
++  Put32(elf, sections + 40 + 20, 28);  // .text excludes the object.
++  Put32(elf, sections + 80 + 16, symbols);
++  Put32(elf, sections + 80 + 20, 48);
++  Put32(elf, sections + 160 + 16, strings);
++  Put32(elf, sections + 160 + 20, 14);
++  Put32(elf, sections + 200 + 4, 1);  // SHT_PROGBITS.
++  // LLD's .rodata may combine SHF_MERGE/SHF_STRINGS with vtable storage.
++  Put32(elf, sections + 200 + 8, 0x32);
++  Put32(elf, sections + 200 + 12, 0x801c);
++  Put32(elf, sections + 200 + 16, 112);
++  Put32(elf, sections + 200 + 20, 4);
++  Put32(elf, sections + 200 + 32, 4);
++  return elf;
++}
++
++constexpr std::string_view kDefinition = "EXPORTS\n_ZTV7Fixture @ 7 NONAME\n";
++
++TEST(E32ObjectExportsTest, PreservesFrozenObjectOrdinalAndRelocation) {
++  const auto elf = ObjectExecutable();
++  ASSERT_TRUE(ConvertPicExecutable(elf, 0xe0000808).ok());
++  for (const std::string& suffix : {" NONAME\n", " NONAME DATA 4\n"}) {
++    const auto image = ConvertDll(
++        elf, std::string("EXPORTS\n_ZTV7Fixture @ 7") + suffix, {}, 0xee000003);
++    ASSERT_TRUE(image.ok()) << image.status();
++    const auto info = InspectImage(*image);
++    ASSERT_TRUE(info.ok()) << info.status();
++    ASSERT_EQ(info->exports.size(), 7);
++    EXPECT_EQ(info->exports.back().address, 0x801c);
++    EXPECT_FALSE(info->exports.back().absent);
++    for (size_t ordinal = 0; ordinal < 6; ++ordinal) {
++      EXPECT_TRUE(info->exports[ordinal].absent);
++    }
++    ASSERT_EQ(info->code_relocations.size(), 7);
++    EXPECT_EQ(info->code_relocations.back(), 60);
++  }
++}
++
++TEST(E32ObjectExportsTest, RejectsMalformedObjectBoundsAlignmentAndVisibility) {
++  const auto original = ObjectExecutable();
++  ASSERT_TRUE(ConvertDll(original, kDefinition, {}, 0xee000003).ok());
++  const uint32_t section = Read32(original, 32);
++  const uint32_t symbol = Read32(original, section + 80 + 16) + 32;
++  for (const auto& [offset, value] :
++       std::vector<std::pair<uint32_t, uint32_t>>{{symbol + 4, 0x801b},
++                                                  {symbol + 4, 0x801e},
++                                                  {symbol + 4, 0x8020},
++                                                  {symbol + 8, 0},
++                                                  {symbol + 8, 8},
++                                                  {symbol + 8, 0xffffffff}}) {
++    auto elf = original;
++    Put32(elf, offset, value);
++    EXPECT_FALSE(ConvertDll(elf, kDefinition, {}, 0xee000003).ok())
++        << offset << " " << value;
++  }
++  for (const auto& [offset, value] :
++       std::vector<std::pair<uint32_t, uint8_t>>{{symbol + 12, 0x10},
++                                                 {symbol + 12, 0x12},
++                                                 {symbol + 12, 0x16},
++                                                 {symbol + 13, 2},
++                                                 {symbol + 14, 0},
++                                                 {symbol + 14, 99}}) {
++    auto elf = original;
++    elf[offset] = static_cast<char>(value);
++    EXPECT_FALSE(ConvertDll(elf, kDefinition, {}, 0xee000003).ok())
++        << offset << " " << unsigned(value);
++  }
++}
++
++TEST(E32ObjectExportsTest, RejectsWritableExecutableAndNobitsObjects) {
++  const auto original = ObjectExecutable();
++  const uint32_t section = Read32(original, 32) + 200;
++  for (const auto& [offset, value] : std::vector<std::pair<uint32_t, uint32_t>>{
++           {section + 8, 3}, {section + 8, 6}, {section + 4, 8}}) {
++    auto elf = original;
++    Put32(elf, offset, value);
++    EXPECT_FALSE(ConvertDll(elf, kDefinition, {}, 0xee000003).ok());
++  }
++}
++
++TEST(E32ObjectExportsTest, RejectsDuplicateMissingAndInvalidFrozenOrdinals) {
++  const auto elf = ObjectExecutable();
++  for (const std::string& definition :
++       {"EXPORTS\n_ZTV7Fixture @ 0 NONAME\n",
++        "EXPORTS\n_ZTV7Fixture @ 65536 NONAME\n",
++        "EXPORTS\n_ZTV7Fixture @ 7 NONAME\n_ZTI7Fixture @ 7 NONAME\n",
++        "EXPORTS\n_ZTV7Missing @ 7 NONAME\n"}) {
++    EXPECT_FALSE(ConvertDll(elf, definition, {}, 0xee000003).ok());
++  }
++}
++
++}  // namespace
++}  // namespace symbian::e32
+diff --git a/cpp/tests/check_e32_object_elf.py b/cpp/tests/check_e32_object_elf.py
+new file mode 100644
+--- /dev/null
++++ b/cpp/tests/check_e32_object_elf.py
+@@ -0,0 +1,132 @@
++#!/usr/bin/env python3
++"""Exercise a real SDK-linked DLL and corrupt its exported object's metadata.
++
++Pass --converter, --input ELF, --definition DEF, --uid3, --symbol, and each
++--import-proxy. The positive image must convert before any negative is tested.
++Inputs are read-only; all converted/mutated files live in a temporary directory.
++"""
++
++import argparse
++import json
++import struct
++import subprocess
++import tempfile
++from pathlib import Path
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    for name in ("converter", "input", "definition", "uid3", "symbol"):
++        parser.add_argument("--" + name, required=True)
++    parser.add_argument("--import-proxy", action="append", default=[])
++    args = parser.parse_args()
++    original = Path(args.input).read_bytes()
++    assert (
++        original[:7] == b"\x7fELF\x01\x01\x01"
++    ), "Requires ELF32 little endian"
++
++    def u16(offset):
++        return struct.unpack_from("<H", original, offset)[0]
++
++    def u32(offset):
++        return struct.unpack_from("<I", original, offset)[0]
++
++    sections = [u32(32) + i * u16(46) for i in range(u16(48))]
++    symbols = {}
++    for kind, label in ((11, "dynamic"), (2, "static")):
++        table = next(s for s in sections if u32(s + 4) == kind)
++        assert u32(table + 36) == 16
++        strings = sections[u32(table + 24)]
++        for index in range(1, u32(table + 20) // 16):
++            offset = u32(table + 16) + index * 16
++            name = u32(strings + 16) + u32(offset)
++            name = original[name : original.index(b"\0", name)].decode()
++            if name == args.symbol:
++                assert original[offset + 12] == 0x11, "Requires strong OBJECT"
++                symbols[label] = (offset, table, index)
++                break
++    assert len(symbols) == 2, "Object must occur in dynsym and symtab"
++
++    command = [
++        args.converter,
++        "convert-dll",
++        "--definition",
++        args.definition,
++        "--uid3",
++        args.uid3,
++    ]
++    for proxy in args.import_proxy:
++        command += ["--import-proxy", proxy]
++    results = []
++    with tempfile.TemporaryDirectory(prefix="e32-object-") as directory:
++        work = Path(directory)
++
++        def convert(name, content, positive=False):
++            source, output = work / (name + ".elf"), work / (name + ".dll")
++            source.write_bytes(content)
++            result = subprocess.run(
++                command + ["--input", str(source), "--output", str(output)],
++                capture_output=True,
++                text=True,
++                timeout=30,
++            )
++            if positive:
++                assert result.returncode == 0, result.stderr
++                assert output.stat().st_size > 156
++            else:
++                assert result.returncode > 0, (name, result.stderr)
++                assert not output.exists(), name
++            results.append(
++                {
++                    "case": name,
++                    "passed": True,
++                    "diagnostic": result.stderr.splitlines()[:1],
++                }
++            )
++
++        convert("unmodified", original, positive=True)
++        for label, (symbol, _table, _index) in symbols.items():
++            for name, relative, format_, value in (
++                ("zero-size", 8, "I", 0),
++                ("out-of-bounds", 8, "I", 0xFFFFFFFF),
++                ("misaligned", 4, "I", u32(symbol + 4) + 1),
++                ("undefined", 14, "H", 0),
++                ("invalid-section", 14, "H", 0xFFFF),
++                ("notype", 12, "B", 0x10),
++                ("tls-type", 12, "B", 0x16),
++                ("hidden", 13, "B", 2),
++            ):
++                mutated = bytearray(original)
++                struct.pack_into(
++                    "<" + format_, mutated, symbol + relative, value
++                )
++                convert(label + "-" + name, mutated)
++        symbol, table, index = symbols["dynamic"]
++        section = sections[u16(symbol + 14)]
++        for name, flags in (
++            ("writable", u32(section + 8) | 1),
++            ("executable", u32(section + 8) | 4),
++            ("tls-section", u32(section + 8) | 0x400),
++        ):
++            mutated = bytearray(original)
++            struct.pack_into("<I", mutated, section + 8, flags)
++            convert(name, mutated)
++        version = next(s for s in sections if u32(s + 4) == 0x6FFFFFFF)
++        mutated = bytearray(original)
++        struct.pack_into("<H", mutated, u32(version + 16) + index * 2, 2)
++        convert("import-version-on-local-object", mutated)
++    print(
++        json.dumps(
++            {
++                "input": args.input,
++                "symbol": args.symbol,
++                "passed": len(results),
++                "cases": results,
++            },
++            indent=2,
++        )
++    )
++
++
++if __name__ == "__main__":
++    main()

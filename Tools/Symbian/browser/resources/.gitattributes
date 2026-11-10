@@ -1,0 +1,2 @@
+# Keep the copied official resource structures byte-for-byte, including indentation.
+BrowserQuery.rh -text -whitespace

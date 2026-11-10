@@ -20,7 +20,6 @@ namespace rx
 {
 
 class FunctionsEGL;
-class FunctionsEGLDL;
 class RendererEGL;
 
 // The native EGL function table is loaded during DisplayEGL::initialize() and is immutable
@@ -34,7 +33,7 @@ class ThreadSafeDisplayEGL : public ThreadSafeDisplayGL
     EGLSyncImpl *createSync() override;
 
   protected:
-    FunctionsEGLDL *mEGL = nullptr;
+    FunctionsEGL *mEGL = nullptr;
 };
 
 class DisplayEGL : public DisplayGL, public ThreadSafeDisplayEGL

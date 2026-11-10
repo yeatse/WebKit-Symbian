@@ -2406,6 +2406,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     platform/audio/AudioDestinationResampler.h
     platform/audio/AudioHardwareListener.h
     platform/audio/AudioIOCallback.h
+    platform/audio/AudioInterruptionOwnership.h
     platform/audio/AudioSession.h
     platform/audio/AudioSourceProvider.h
     platform/audio/AudioSourceProviderClient.h
@@ -2747,6 +2748,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
 
     platform/graphics/egl/GLContext.h
     platform/graphics/egl/GLContextWrapper.h
+    platform/graphics/egl/SymbianGLResourceState.h
     platform/graphics/egl/GLDisplay.h
     platform/graphics/egl/GLFence.h
 

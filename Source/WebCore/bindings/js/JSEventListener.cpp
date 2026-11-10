@@ -48,6 +48,10 @@
 #include <wtf/Ref.h>
 #include <wtf/Scope.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 using namespace JSC;
 
@@ -136,6 +140,9 @@ static void handleBeforeUnloadEventReturnValue(BeforeUnloadEvent& event, const S
 
 void JSEventListener::handleEvent(ScriptExecutionContext& scriptExecutionContext, Event& event)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::ScriptLabel profileLabel("event", event.type());
+#endif
     if (scriptExecutionContext.isJSExecutionForbidden())
         return;
 

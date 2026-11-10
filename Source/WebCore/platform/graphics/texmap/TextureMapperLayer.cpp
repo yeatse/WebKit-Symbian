@@ -24,6 +24,7 @@
 #include "BitmapTexturePool.h"
 #include "ClipPath.h"
 #include "FloatQuad.h"
+#include "FilterOperation.h"
 #include "Region.h"
 #include "TextureMapper.h"
 #include "TextureMapperLayer3DRenderingContext.h"
@@ -41,6 +42,37 @@ namespace WebCore {
 WTF_MAKE_TZONE_ALLOCATED_IMPL(TextureMapperLayer);
 
 static constexpr auto s_opacityVisibilityThreshold = 0.01;
+
+#if OS(SYMBIAN)
+static bool filterIsIdentity(const FilterOperation& filter)
+{
+    switch (filter.type()) {
+    case FilterOperation::Type::Grayscale:
+    case FilterOperation::Type::Sepia:
+    case FilterOperation::Type::HueRotate:
+        return downcast<BasicColorMatrixFilterOperation>(filter).amount() == 0;
+    case FilterOperation::Type::Saturate:
+        return downcast<BasicColorMatrixFilterOperation>(filter).amount() == 1;
+    case FilterOperation::Type::Invert:
+        return downcast<BasicComponentTransferFilterOperation>(filter).amount() == 0;
+    case FilterOperation::Type::Opacity:
+    case FilterOperation::Type::Brightness:
+    case FilterOperation::Type::Contrast:
+        return downcast<BasicComponentTransferFilterOperation>(filter).amount() == 1;
+    case FilterOperation::Type::Blur:
+        return downcast<BlurFilterOperation>(filter).stdDeviation() <= 0;
+    case FilterOperation::Type::DropShadow:
+        return !downcast<DropShadowFilterOperation>(filter).color().isVisible();
+    case FilterOperation::Type::Passthrough:
+    case FilterOperation::Type::None:
+        return true;
+    case FilterOperation::Type::Default:
+        return false;
+    }
+    RELEASE_ASSERT_NOT_REACHED();
+}
+#endif
+
 
 class TextureMapperPaintOptions {
 public:
@@ -651,7 +683,33 @@ void TextureMapperLayer::paintBackdrop(TextureMapperPaintOptions& options)
     options.textureMapper.endClip();
 }
 
+TransformationMatrix TextureMapperLayer::shapeClipTransform(const TextureMapperPaintOptions& options) const
+{
+    TransformationMatrix clipTransform;
+    clipTransform.translate(options.offset.width(), options.offset.height());
+    clipTransform.multiply(options.transform);
+    clipTransform.multiply(m_layerTransforms.combined);
+    return clipTransform;
+}
+
 void TextureMapperLayer::paintSelfAndChildren(TextureMapperPaintOptions& options)
+{
+    // A clip-path applies after filters: a filtered layer is clipped when its
+    // surface is drawn, except a flattened one, whose surface is its texture.
+    if (!m_state.shapeClip || (hasFilters() && !isFlattened())) {
+        paintSelfAndChildrenWithoutShapeClip(options);
+        return;
+    }
+#if OS(SYMBIAN)
+    ++TextureMapper::drawStats().shapeClips;
+#endif
+    options.textureMapper.beginClip(shapeClipTransform(options), *m_state.shapeClip);
+    if (!options.textureMapper.clipBounds().isEmpty())
+        paintSelfAndChildrenWithoutShapeClip(options);
+    options.textureMapper.endClip();
+}
+
+void TextureMapperLayer::paintSelfAndChildrenWithoutShapeClip(TextureMapperPaintOptions& options)
 {
     if (m_state.backdropLayer && m_state.backdropLayer == options.backdropLayer)
         return;
@@ -935,10 +993,21 @@ void TextureMapperLayer::computeOverlapRegions(ComputeOverlapRegionData& data, c
     if (!m_state.visible || !m_state.contentsVisible)
         return;
 
+#if OS(SYMBIAN)
+    // A layer that only clips its children (overflow: hidden with nothing
+    // painted of its own) paints nothing where they do not. Counting its
+    // whole rect made every child overlap it, so a translucent card with a
+    // single child went through a surface. Its children are counted
+    // instead, unclipped, which covers at least what they paint.
+    bool onlyClipsChildren = data.mode == ComputeOverlapRegionMode::Intersection && m_state.masksToBounds
+        && !m_backingStore && !m_state.maskLayer && !hasFilters() && !hasBackdrop() && !isFlattened() && !m_state.replicaLayer;
+#else
+    constexpr bool onlyClipsChildren = false;
+#endif
     FloatRect localBoundingRect;
     if (isFlattened() && !m_isBackdrop)
         localBoundingRect = m_flattenedLayer->layerRect();
-    else if (m_backingStore || m_state.masksToBounds || m_state.maskLayer || hasFilters() || hasBackdrop())
+    else if (m_backingStore || (m_state.masksToBounds && !onlyClipsChildren) || m_state.maskLayer || hasFilters() || hasBackdrop())
         localBoundingRect = layerRect();
     else if (m_contentsLayer || m_state.solidColor.isVisible())
         localBoundingRect = m_state.contentsRect;
@@ -970,7 +1039,7 @@ void TextureMapperLayer::computeOverlapRegions(ComputeOverlapRegionData& data, c
         computeOverlapRegions(data, newReplicaTransform, false);
     }
 
-    if (!m_state.masksToBounds && data.mode != ComputeOverlapRegionMode::Mask && !isFlattened()) {
+    if ((!m_state.masksToBounds || onlyClipsChildren) && data.mode != ComputeOverlapRegionMode::Mask && !isFlattened()) {
         for (auto* child : m_children)
             child->computeOverlapRegions(data, accumulatedReplicaTransform);
     }
@@ -1111,6 +1180,10 @@ static void commitSurface(TextureMapperPaintOptions& options, BitmapTexture& sur
 
 void TextureMapperLayer::paintWithIntermediateSurface(TextureMapperPaintOptions& options, const IntRect& rect)
 {
+#if OS(SYMBIAN)
+    ++TextureMapper::drawStats().opacitySurfaces;
+    TextureMapper::drawStats().surfacePixels += static_cast<uint64_t>(rect.width()) * rect.height();
+#endif
     auto surface = BitmapTexturePool::singleton().acquireTexture(rect.size(), { BitmapTexture::Flags::SupportsAlpha });
     {
         SetForScope scopedSurface(options.surface, surface.ptr());
@@ -1127,6 +1200,13 @@ void TextureMapperLayer::paintWithIntermediateSurface(TextureMapperPaintOptions&
 
 void TextureMapperLayer::paintSelfAndChildrenWithIntermediateSurface(TextureMapperPaintOptions& options, const IntRect& rect)
 {
+#if OS(SYMBIAN)
+    if (m_isBackdrop)
+        ++TextureMapper::drawStats().backdropSurfaces;
+    else
+        ++TextureMapper::drawStats().filterMaskSurfaces;
+    TextureMapper::drawStats().surfacePixels += static_cast<uint64_t>(rect.width()) * rect.height();
+#endif
     auto surface = BitmapTexturePool::singleton().acquireTexture(rect.size(), { BitmapTexture::Flags::SupportsAlpha });
     {
         SetForScope scopedSurface(options.surface, surface.ptr());
@@ -1137,6 +1217,16 @@ void TextureMapperLayer::paintSelfAndChildrenWithIntermediateSurface(TextureMapp
         surface = Ref { *options.surface };
     }
 
+    if (m_state.shapeClip && hasFilters()) {
+#if OS(SYMBIAN)
+        ++TextureMapper::drawStats().shapeClips;
+#endif
+        options.textureMapper.bindSurface(options.surface.get());
+        options.textureMapper.beginClip(shapeClipTransform(options), *m_state.shapeClip);
+        commitSurface(options, surface.get(), rect, options.opacity);
+        options.textureMapper.endClip();
+        return;
+    }
     commitSurface(options, surface.get(), rect, options.opacity);
 }
 
@@ -1196,6 +1286,10 @@ void TextureMapperLayer::paintFlattened(TextureMapperPaintOptions& options)
         SetForScope scopedCombinedTransform(m_layerTransforms.combined, TransformationMatrix());
         SetForScope scopedBackdropLayer(m_state.backdropLayer, nullptr);
 
+#if OS(SYMBIAN)
+        ++TextureMapper::drawStats().flattenSurfaces;
+        TextureMapper::drawStats().surfacePixels += static_cast<uint64_t>(m_flattenedLayer->layerRect().width() * m_flattenedLayer->layerRect().height());
+#endif
         m_flattenedLayer->update(options, [&](TextureMapperPaintOptions& options) {
             paintIntoSurface(options);
         });
@@ -1307,6 +1401,11 @@ void TextureMapperLayer::setMaskLayer(TextureMapperLayer* maskLayer)
         m_state.maskLayer = nullptr;
 }
 
+void TextureMapperLayer::setShapeClip(const std::optional<FloatRoundedRect>& shapeClip)
+{
+    m_state.shapeClip = shapeClip;
+}
+
 void TextureMapperLayer::setReplicaLayer(TextureMapperLayer* replicaLayer)
 {
     if (replicaLayer) {
@@ -1317,8 +1416,22 @@ void TextureMapperLayer::setReplicaLayer(TextureMapperLayer* replicaLayer)
         m_state.replicaLayer = nullptr;
 }
 
+#if OS(SYMBIAN)
+static bool s_backdropFiltersEnabled;
+
+void TextureMapperLayer::setBackdropFiltersEnabled(bool enabled)
+{
+    s_backdropFiltersEnabled = enabled;
+}
+#endif
+
 void TextureMapperLayer::setBackdropLayer(TextureMapperLayer* backdropLayer)
 {
+#if OS(SYMBIAN)
+    // Without the backdrop the layer shows what is under it unfiltered.
+    if (!s_backdropFiltersEnabled)
+        backdropLayer = nullptr;
+#endif
     if (backdropLayer) {
         backdropLayer->m_isBackdrop = true;
         backdropLayer->m_effectTarget = *this;
@@ -1557,6 +1670,12 @@ bool TextureMapperLayer::syncAnimations(MonotonicTime time)
 #endif
     m_currentOpacity = applicationResults.opacity.value_or(m_state.opacity);
     m_currentFilters = applicationResults.filters.value_or(m_state.filters);
+#if OS(SYMBIAN)
+    // Filters that change nothing, such as brightness(1) or an animation at
+    // its end, would still paint the layer through a surface each frame.
+    if (!m_currentFilters.isEmpty() && std::ranges::all_of(m_currentFilters, [](auto& filter) { return filterIsIdentity(filter.get()); }))
+        m_currentFilters = { };
+#endif
 
 #if USE(COORDINATED_GRAPHICS)
     // Calculate localTransform 50ms in the future.

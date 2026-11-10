@@ -1329,8 +1329,24 @@ void InlineCacheCompiler::emitExplicitExceptionHandler()
 
 ScratchRegisterAllocator InlineCacheCompiler::makeDefaultScratchAllocator(GPRReg extraToLock)
 {
-    ScratchRegisterAllocator allocator(m_propertyCache.usedRegisters().toRegisterSet());
-    allocator.lock(m_propertyCache.baseRegs());
+    auto usedRegisters = m_propertyCache.usedRegisters().toRegisterSet();
+#if USE(JSVALUE32_64)
+    bool canReuseBaseTag = useHandlerIC()
+        && (m_propertyCache.accessType == AccessType::PutByValStrict
+            || m_propertyCache.accessType == AccessType::PutByValSloppy
+            || m_propertyCache.accessType == AccessType::PutByValDirectStrict
+            || m_propertyCache.accessType == AccessType::PutByValDirectSloppy);
+    // PutByVal dispatch checks the cell tag, so its register can be spilled for indexed stores.
+    if (canReuseBaseTag)
+        usedRegisters.add(m_propertyCache.baseRegs().tagGPR(), IgnoreVectors);
+#endif
+    ScratchRegisterAllocator allocator(usedRegisters);
+#if USE(JSVALUE32_64)
+    if (canReuseBaseTag)
+        allocator.lock(m_propertyCache.baseRegs().payloadGPR());
+    else
+#endif
+        allocator.lock(m_propertyCache.baseRegs());
     allocator.lock(m_propertyCache.valueRegs());
     allocator.lock(m_propertyCache.m_extraGPR);
     allocator.lock(m_propertyCache.m_extra2GPR);
@@ -1392,7 +1408,7 @@ void InlineCacheCompiler::emitDataICPrepareForCall(CCallHelpers& jit)
 #elif CPU(ARM64)
     static_assert(!maxFrameExtentForSlowPathCall);
     jit.pushPair(CCallHelpers::framePointerRegister, CCallHelpers::linkRegister);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
     static_assert(maxFrameExtentForSlowPathCall);
     jit.pushPair(CCallHelpers::framePointerRegister, CCallHelpers::linkRegister);
     jit.subPtr(CCallHelpers::TrustedImm32(maxFrameExtentForSlowPathCall), CCallHelpers::stackPointerRegister);
@@ -1656,8 +1672,8 @@ static MacroAssemblerCodeRef<JITThunkPtrTag> putByValSlowPathCodeGenerator(VM& v
     jit.setupArguments<SlowOperatoin>(baseJSR, propertyJSR, valueJSR, propertyCacheGPR, profileGPR);
     jit.call(CCallHelpers::Address(propertyCacheGPR, HandlerPropertyInlineCache::offsetOfSlowOperation()), OperationPtrTag);
     InlineCacheCompiler::emitDataICRestoreAfterCall(jit);
-#if CPU(ARM_THUMB2)
-    // ARMv7 clobbers metadataTable register. Thus we need to restore them back here.
+#if CPU(ARM)
+    // ARM32 call setup clobbers the metadataTable register.
     JIT::emitMaterializeMetadataAndConstantPoolRegisters(jit);
 #endif
 
@@ -2042,11 +2058,19 @@ void InlineCacheCompiler::generateWithGuard(unsigned index, AccessCase& accessCa
         auto isInt32 = jit.branch32(CCallHelpers::Equal, scratchGPR, CCallHelpers::TrustedImm32(IsArray | Int32Shape));
         auto isContiguous = jit.branch32(CCallHelpers::Equal, scratchGPR, CCallHelpers::TrustedImm32(IsArray | ContiguousShape));
         fallThrough.append(jit.branch32(CCallHelpers::NotEqual, scratchGPR, CCallHelpers::TrustedImm32(IsArray | DoubleShape)));
+#if USE(JSVALUE64)
         jit.move(CCallHelpers::TrustedImm64(std::bit_cast<int64_t>(PNaN)), scratchGPR);
+#else
+        jit.move(CCallHelpers::TrustedImm32(PNaNAsBits >> 32), scratchGPR);
+#endif
         auto holeReady = jit.jump();
         isInt32.link(&jit);
         isContiguous.link(&jit);
+#if USE(JSVALUE64)
         jit.move(CCallHelpers::TrustedImm64(JSValue::encode(JSValue())), scratchGPR);
+#else
+        jit.move(CCallHelpers::TrustedImm32(JSValue::EmptyValueTag), scratchGPR);
+#endif
         holeReady.link(&jit);
 
         m_failAndIgnore.append(jit.branchIfNotInt32(valueRegs));
@@ -2065,7 +2089,11 @@ void InlineCacheCompiler::generateWithGuard(unsigned index, AccessCase& accessCa
         auto loopStart = jit.label();
         auto loopDone = jit.branch32(CCallHelpers::BelowOrEqual, scratch3GPR, valueRegs.payloadGPR());
         jit.sub32(CCallHelpers::TrustedImm32(1), scratch3GPR);
+#if USE(JSVALUE64)
         jit.store64(scratchGPR, CCallHelpers::BaseIndex(scratch2GPR, scratch3GPR, CCallHelpers::TimesEight));
+#else
+        jit.storeAndFence32(scratchGPR, CCallHelpers::TrustedImm32(0), CCallHelpers::BaseIndex(scratch2GPR, scratch3GPR, CCallHelpers::TimesEight));
+#endif
         jit.jump().linkTo(loopStart, &jit);
         loopDone.link(&jit);
 
@@ -2468,7 +2496,7 @@ void InlineCacheCompiler::generateWithGuard(unsigned index, AccessCase& accessCa
         fallThrough.append(jit.branchIfNotTrue(m_propertyCache.propertyGPR()));
 #else
         fallThrough.append(jit.branch32(CCallHelpers::NotEqual, m_propertyCache.propertyTagGPR(), CCallHelpers::TrustedImm32(JSValue::BooleanTag)));
-        fallThrough.append(jit.branchTest32(CCallHelpers::Zero, m_propertyCache.propertyPayloadGPR(), CCallHelpers::TrustedImm32(1)));
+        fallThrough.append(jit.branchTest32(CCallHelpers::Zero, m_propertyCache.propertyGPR(), CCallHelpers::TrustedImm32(1)));
 #endif
         emitDefaultGuard();
         break;
@@ -2482,7 +2510,7 @@ void InlineCacheCompiler::generateWithGuard(unsigned index, AccessCase& accessCa
         fallThrough.append(jit.branchIfNotFalse(m_propertyCache.propertyGPR()));
 #else
         fallThrough.append(jit.branch32(CCallHelpers::NotEqual, m_propertyCache.propertyTagGPR(), CCallHelpers::TrustedImm32(JSValue::BooleanTag)));
-        fallThrough.append(jit.branchTest32(CCallHelpers::NonZero, m_propertyCache.propertyPayloadGPR(), CCallHelpers::TrustedImm32(1)));
+        fallThrough.append(jit.branchTest32(CCallHelpers::NonZero, m_propertyCache.propertyGPR(), CCallHelpers::TrustedImm32(1)));
 #endif
         emitDefaultGuard();
         break;
@@ -3520,6 +3548,7 @@ void InlineCacheCompiler::generateAccessCase(unsigned index, AccessCase& accessC
     case AccessCase::Setter:
     case AccessCase::LoadMegamorphicGetter:
     case AccessCase::IntrinsicGetter: {
+#if USE(JSVALUE64)
         if (accessCase.m_type == AccessCase::LoadMegamorphicGetter) {
             // Resolve the GetterSetter cell from the getter cache into scratchGPR, then fall through
             // to the shared getter-call sequence. A cache miss repatches to the generic slow path.
@@ -3547,7 +3576,9 @@ void InlineCacheCompiler::generateAccessCase(unsigned index, AccessCase& accessC
                 ok.link(&jit);
             } else
                 m_failAndRepatch.append(slowCases);
-        } else {
+        } else
+#endif
+        {
             Structure* currStructure = accessCase.structure();
             if (auto* object = accessCase.tryGetAlternateBase())
                 currStructure = object->structure();
@@ -3677,6 +3708,9 @@ void InlineCacheCompiler::generateAccessCase(unsigned index, AccessCase& accessC
                 jit.move(scratchGPR, BaselineJITRegisters::Call::calleeJSR.payloadGPR());
                 jit.addPtr(CCallHelpers::TrustedImm32(InlineCacheHandlerWithJSCall::offsetOfCallLinkInfo() + sizeof(DataOnlyCallLinkInfo) * index), GPRInfo::handlerGPR, BaselineJITRegisters::Call::callLinkInfoGPR);
             }
+#if USE(JSVALUE32_64)
+            jit.move(CCallHelpers::TrustedImm32(JSValue::CellTag), BaselineJITRegisters::Call::calleeJSR.tagGPR());
+#endif
             // FIXME: Maybe this can tail call on ARM64
             CallLinkInfo::emitDataICFastPath(jit);
         } else {
@@ -4422,6 +4456,10 @@ void InlineCacheCompiler::emitProxyObjectAccess(unsigned index, AccessCase& acce
             jit.addPtr(CCallHelpers::TrustedImm32(InlineCacheHandlerWithJSCall::offsetOfCallLinkInfo() + sizeof(DataOnlyCallLinkInfo) * index), GPRInfo::handlerGPR, BaselineJITRegisters::Call::callLinkInfoGPR);
         }
 
+#if USE(JSVALUE32_64)
+        jit.move(CCallHelpers::TrustedImm32(JSValue::CellTag), BaselineJITRegisters::Call::calleeJSR.tagGPR());
+#endif
+
         // FIXME: Maybe this can tail call on ARM64
         CallLinkInfo::emitDataICFastPath(jit);
     } else {
@@ -4430,8 +4468,8 @@ void InlineCacheCompiler::emitProxyObjectAccess(unsigned index, AccessCase& acce
         // We *always* know that the proxy function, if non-null, is a cell.
         jit.move(CCallHelpers::TrustedImm32(JSValue::CellTag), BaselineJITRegisters::Call::calleeJSR.tagGPR());
 #endif
-#if CPU(ARM_THUMB2)
-        // ARMv7 clobbers metadataTable register. Thus we need to restore them back here.
+#if CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
+        // The ARM32 call setup clobbers the metadataTable register.
         JIT::emitMaterializeMetadataAndConstantPoolRegisters(jit);
 #endif
         m_callLinkInfos[index] = makeUnique<OptimizingCallLinkInfo>(m_propertyCache.codeOrigin, nullptr);
@@ -7346,6 +7384,8 @@ MacroAssemblerCodeRef<JITThunkPtrTag> setPrivateBrandHandler(VM&)
     return FINALIZE_THUNK(patchBuffer, JITThunkPtrTag, "SetPrivateBrand handler"_s, "SetPrivateBrand handler");
 }
 
+#endif
+
 AccessGenerationResult InlineCacheCompiler::compileHandler(const GCSafeConcurrentJSLocker&, Vector<AccessCase*, 16>&& poly, CodeBlock* codeBlock, AccessCase& accessCase)
 {
     SuperSamplerScope superSamplerScope(false);
@@ -7450,6 +7490,7 @@ AccessGenerationResult InlineCacheCompiler::compileOneAccessCaseHandler(const Ve
     // At this point we're convinced that 'cases' contains cases that we want to JIT now and we won't change that set anymore.
 
     std::optional<SharedJITStubSet::StatelessCacheKey> statelessType;
+#if CPU(ADDRESS64)
     if (isStateless(accessCase.m_type)) {
         statelessType = std::tuple { SharedJITStubSet::propertyCacheKey(m_propertyCache), accessCase.m_type };
         if (auto stub = vm.m_sharedJITStubs->getStatelessStub(statelessType.value())) {
@@ -8183,6 +8224,8 @@ AccessGenerationResult InlineCacheCompiler::compileOneAccessCaseHandler(const Ve
             }
         }
 
+#endif
+
         SharedJITStubSet::Searcher searcher {
             SharedJITStubSet::propertyCacheKey(m_propertyCache),
             Ref { accessCase }
@@ -8194,7 +8237,9 @@ AccessGenerationResult InlineCacheCompiler::compileOneAccessCaseHandler(const Ve
             }
             vm.m_sharedJITStubs->remove(stub.get());
         }
+#if CPU(ADDRESS64)
     }
+#endif
 
     auto allocator = makeDefaultScratchAllocator();
     m_allocator = &allocator;
@@ -8313,6 +8358,8 @@ AccessGenerationResult InlineCacheCompiler::compileOneAccessCaseHandler(const Ve
     return finishCodeGeneration(WTF::move(stub), JSC::doesJSCalls(accessCase.m_type));
 }
 
+#if CPU(ADDRESS64)
+
 MacroAssemblerCodeRef<JITStubRoutinePtrTag> InlineCacheCompiler::compileGetByDOMJITHandler(CodeBlock* codeBlock, const DOMJIT::GetterSetter* domJIT, std::optional<bool> isSymbol)
 {
     VM& vm = codeBlock->vm();
@@ -8375,13 +8422,16 @@ MacroAssemblerCodeRef<JITStubRoutinePtrTag> InlineCacheCompiler::compileGetByDOM
     return code;
 }
 
-#else
+#endif
+
+#if !CPU(ADDRESS64)
 MacroAssemblerCodeRef<JITThunkPtrTag> getByIdLoadOwnPropertyHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> getByIdLoadPrototypePropertyHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> getByIdMissHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> getByIdCustomAccessorHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> getByIdCustomValueHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> getByIdGetterHandler(VM&) { return { }; }
+MacroAssemblerCodeRef<JITThunkPtrTag> getByIdMegamorphicGetterHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> getByIdProxyObjectLoadHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> getByIdModuleNamespaceLoadHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> putByIdReplaceHandler(VM&) { return { }; }
@@ -8474,7 +8524,6 @@ MacroAssemblerCodeRef<JITThunkPtrTag> deleteByValWithSymbolDeleteNonConfigurable
 MacroAssemblerCodeRef<JITThunkPtrTag> deleteByValWithSymbolDeleteMissHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> checkPrivateBrandHandler(VM&) { return { }; }
 MacroAssemblerCodeRef<JITThunkPtrTag> setPrivateBrandHandler(VM&) { return { }; }
-AccessGenerationResult InlineCacheCompiler::compileHandler(const GCSafeConcurrentJSLocker&, Vector<AccessCase*, 16>&&, CodeBlock*, AccessCase&) { return { }; }
 #endif
 
 PolymorphicAccess::PolymorphicAccess() = default;

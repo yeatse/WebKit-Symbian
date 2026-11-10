@@ -33,6 +33,9 @@
 #include "IntSize.h"
 #include "PixelFormat.h"
 #include "TextureMapperGLHeaders.h"
+#if OS(SYMBIAN)
+#include "SymbianGLResourceState.h"
+#endif
 #include <wtf/OptionSet.h>
 #include <wtf/RefCounted.h>
 #include <wtf/RefPtr.h>
@@ -98,9 +101,12 @@ public:
     void initializeStencil();
     void initializeDepthBuffer();
     uint32_t id() const { return m_id; }
+#if OS(SYMBIAN)
+    const std::shared_ptr<SymbianGLResourceState>& resourceState() const { return m_resourceState; }
+#endif
 
     void updateContents(NativeImage*, const IntRect&, const IntPoint& offset);
-    void updateContents(GraphicsLayer*, const IntRect& target, const IntPoint& offset, float scale = 1);
+    bool updateContents(GraphicsLayer*, const IntRect& target, const IntPoint& offset, float scale = 1);
     void updateContents(const void* srcData, const IntRect& targetRect, const IntPoint& sourceOffset, int bytesPerLine, PixelFormat);
 
     void swapTexture(BitmapTexture&);
@@ -147,6 +153,9 @@ private:
 
     OptionSet<Flags> m_flags;
     IntSize m_size;
+#if OS(SYMBIAN)
+    std::shared_ptr<SymbianGLResourceState> m_resourceState;
+#endif
     GLuint m_id { 0 };
     GLenum m_renderTarget { GL_TEXTURE_2D };
     GLenum m_binding { GL_TEXTURE_BINDING_2D };

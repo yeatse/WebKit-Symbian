@@ -275,8 +275,8 @@ public:
     static void NODELETE emitDataICEpilogue(CCallHelpers&);
     static void emitDataICPrepareForCall(CCallHelpers&);
     static void emitDataICRestoreAfterCall(CCallHelpers&);
-    static CCallHelpers::Jump emitDataICCheckStructure(CCallHelpers&, GPRReg baseGPR, GPRReg scratchGPR);
-    static CCallHelpers::JumpList emitDataICCheckUid(CCallHelpers&, bool isSymbol, JSValueRegs, GPRReg scratchGPR);
+    static MacroAssembler::Jump emitDataICCheckStructure(CCallHelpers&, GPRReg baseGPR, GPRReg scratchGPR);
+    static MacroAssembler::JumpList emitDataICCheckUid(CCallHelpers&, bool isSymbol, JSValueRegs, GPRReg scratchGPR);
     static void emitDataICJumpNextHandler(CCallHelpers&);
 
     bool NODELETE useHandlerIC() const;
@@ -433,7 +433,7 @@ static constexpr size_t prologueSizeInBytesDataIC = 1;
 static constexpr size_t prologueSizeInBytesDataIC = 4;
 #elif CPU(ARM64)
 static constexpr size_t prologueSizeInBytesDataIC = 0;
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
 static constexpr size_t prologueSizeInBytesDataIC = 0;
 #elif CPU(RISCV64)
 static constexpr size_t prologueSizeInBytesDataIC = 0;

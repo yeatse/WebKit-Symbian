@@ -11,8 +11,27 @@
 
 #define SkVLOG(...) // SkDEBUGF(__VA_ARGS__)
 
+#if defined(__SYMBIAN32__)
+#include <pthread.h>
+#endif
+
 namespace SkSL {
 
+#if defined(__SYMBIAN32__)
+static pthread_key_t sMemPoolKey;
+static pthread_once_t sMemPoolOnce = PTHREAD_ONCE_INIT;
+static void initialize_memory_pool_key() {
+    pthread_key_create(&sMemPoolKey, nullptr);
+}
+static MemoryPool* get_thread_local_memory_pool() {
+    pthread_once(&sMemPoolOnce, initialize_memory_pool_key);
+    return static_cast<MemoryPool*>(pthread_getspecific(sMemPoolKey));
+}
+static void set_thread_local_memory_pool(MemoryPool* memPool) {
+    pthread_once(&sMemPoolOnce, initialize_memory_pool_key);
+    pthread_setspecific(sMemPoolKey, memPool);
+}
+#else
 static thread_local MemoryPool* sMemPool = nullptr;
 
 static MemoryPool* get_thread_local_memory_pool() {
@@ -22,6 +41,8 @@ static MemoryPool* get_thread_local_memory_pool() {
 static void set_thread_local_memory_pool(MemoryPool* memPool) {
     sMemPool = memPool;
 }
+
+#endif
 
 Pool::Pool() = default;
 

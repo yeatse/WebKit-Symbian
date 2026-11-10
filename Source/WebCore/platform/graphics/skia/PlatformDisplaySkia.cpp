@@ -53,6 +53,9 @@ WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 #include <wtf/NeverDestroyed.h>
 #include <wtf/RAMSize.h>
 #include <wtf/ThreadSafeWeakPtr.h>
+#if OS(SYMBIAN)
+#include <wtf/ThreadSpecific.h>
+#endif
 #include <wtf/text/StringToIntegerConversion.h>
 
 #if USE(LIBDRM)
@@ -92,8 +95,6 @@ static sk_sp<const GrGLInterface> skiaGLInterface()
 
     return grGLInterface.get();
 }
-
-static thread_local RefPtr<SkiaGLContext> s_skiaGLContext;
 
 #if USE(LIBDRM)
 static inline bool isNewIntelDevice()
@@ -346,8 +347,15 @@ private:
         // lookup which is a slow-path in certain tiled GPUs (such as Vivante/etnaviv). Since we
         // don't use any mipmapping, it's safe to disable that, and avoid performance hits.
         options.fSharpenMipmappedTextures = false;
-        thread_local std::unique_ptr<SkExecutor> s_executor = SkExecutor::MakeFIFOThreadPool(2);
-        options.fExecutor = s_executor.get();
+#if OS(SYMBIAN)
+        static NeverDestroyed<ThreadSpecific<std::unique_ptr<SkExecutor>>> threadExecutor;
+        auto& executor = *threadExecutor.get();
+        if (!executor)
+            executor = SkExecutor::MakeFIFOThreadPool(2);
+#else
+        thread_local std::unique_ptr<SkExecutor> executor = SkExecutor::MakeFIFOThreadPool(2);
+#endif
+        options.fExecutor = executor.get();
         if (auto bytes = glyphCacheTextureMaximumBytes())
             options.fGlyphCacheTextureMaximumBytes = *bytes;
 
@@ -367,14 +375,25 @@ private:
 };
 #endif
 
+static RefPtr<SkiaGLContext>& threadSkiaGLContext()
+{
+#if OS(SYMBIAN)
+    static NeverDestroyed<ThreadSpecific<RefPtr<SkiaGLContext>>> context;
+    return *context.get();
+#else
+    static thread_local RefPtr<SkiaGLContext> context;
+    return context;
+#endif
+}
+
 GLContext* PlatformDisplay::skiaGLContext()
 {
 #if PLATFORM(GTK) || PLATFORM(WPE) || (PLATFORM(PLAYSTATION) && !USE(COORDINATED_GRAPHICS))
-    if (!s_skiaGLContext) {
-        s_skiaGLContext = SkiaGLContext::create(*this);
-        m_skiaGLContexts.add(*s_skiaGLContext);
+    if (!threadSkiaGLContext()) {
+        threadSkiaGLContext() = SkiaGLContext::create(*this);
+        m_skiaGLContexts.add(*threadSkiaGLContext());
     }
-    return s_skiaGLContext->skiaGLContext();
+    return threadSkiaGLContext()->skiaGLContext();
 #else
     // The PlayStation OpenGL implementation does not dispatch to the context bound to
     // the current thread so Skia cannot use OpenGL with coordinated graphics.
@@ -401,36 +420,36 @@ void PlatformDisplay::setSkiaGLContextForCurrentThread(std::unique_ptr<GLContext
         clearSkiaGLContext();
         return;
     }
-    ASSERT(!s_skiaGLContext);
-    s_skiaGLContext = SkiaGLContext::create(WTF::move(glContext));
-    m_skiaGLContexts.add(*s_skiaGLContext);
+    ASSERT(!threadSkiaGLContext());
+    threadSkiaGLContext() = SkiaGLContext::create(WTF::move(glContext));
+    m_skiaGLContexts.add(*threadSkiaGLContext());
 }
 
 GrDirectContext* PlatformDisplay::skiaGrContext() const
 {
-    RELEASE_ASSERT(s_skiaGLContext);
-    return s_skiaGLContext->skiaGrContext();
+    RELEASE_ASSERT(threadSkiaGLContext());
+    return threadSkiaGLContext()->skiaGrContext();
 }
 
 unsigned PlatformDisplay::msaaSampleCount() const
 {
-    return s_skiaGLContext ? s_skiaGLContext->sampleCount() : 0;
+    return threadSkiaGLContext() ? threadSkiaGLContext()->sampleCount() : 0;
 }
 
 size_t PlatformDisplay::maxSkiaResourceCacheBytes() const
 {
-    return s_skiaGLContext ? s_skiaGLContext->maxResourceCacheBytes() : 0;
+    return threadSkiaGLContext() ? threadSkiaGLContext()->maxResourceCacheBytes() : 0;
 }
 
 void PlatformDisplay::skiaReleaseUnusedResources(WTF::Critical critical)
 {
-    if (s_skiaGLContext)
-        s_skiaGLContext->releaseUnusedResources(critical);
+    if (threadSkiaGLContext())
+        threadSkiaGLContext()->releaseUnusedResources(critical);
 }
 
 void PlatformDisplay::clearSkiaGLContext()
 {
-    s_skiaGLContext = nullptr;
+    threadSkiaGLContext() = nullptr;
 }
 
 } // namespace WebCore

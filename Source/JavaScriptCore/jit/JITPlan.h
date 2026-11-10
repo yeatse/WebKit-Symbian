@@ -136,6 +136,9 @@ protected:
     JITPlanStage m_stage { JITPlanStage::Preparing };
     JITCompilationMode m_mode;
     MonotonicTime m_timeBeforeFTL;
+#if OS(SYMBIAN)
+    MonotonicTime m_created;
+#endif
     VM* m_vm;
     CodeBlock* m_codeBlock;
     CheckedPtr<JITWorklistThread> m_thread;

@@ -82,6 +82,10 @@ public:
             state.slowPathJumps.append(jit.patchableJump());
             size_t inlineSize = jit.m_assembler.buffer().codeSize() - startSize;
             ASSERT_UNUSED(inlineSize, static_cast<ptrdiff_t>(inlineSize) <= MacroAssembler::patchableJumpSize());
+#if CPU(ARM_TRADITIONAL)
+            // A later replacement includes a literal target and its pool barrier.
+            jit.emitNops(MacroAssembler::patchableJumpSize() - inlineSize);
+#endif
             state.shouldSlowPathRepatch = true;
             state.fastPathEnd = jit.label();
             ASSERT(!m_generateFastPathOnRepatch); // We should have gathered some observed type info about the types before trying to regenerate again.
@@ -128,6 +132,10 @@ public:
         auto linkJumpToOutOfLineSnippet = [&] () {
             CCallHelpers jit(codeBlock);
             jit.jumpThunk(CodeLocationLabel<JITStubRoutinePtrTag>(m_code.code()));
+#if CPU(ARM_TRADITIONAL)
+            jit.label();
+            jit.m_assembler.buffer().flushConstantPool();
+#endif
             RELEASE_ASSERT(jit.m_assembler.buffer().codeSize() <= static_cast<size_t>(MacroAssembler::differenceBetweenCodePtr(m_inlineStart, m_inlineEnd)));
             LinkBuffer linkBuffer(jit, m_inlineStart, jit.m_assembler.buffer().codeSize(), LinkBuffer::Profile::InlineCache, JITCompilationMustSucceed);
             RELEASE_ASSERT(linkBuffer.isValid());

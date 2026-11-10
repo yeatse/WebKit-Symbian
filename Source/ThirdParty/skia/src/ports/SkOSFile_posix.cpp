@@ -117,6 +117,20 @@ void* sk_fmmap(FILE* f, size_t* size) {
 }
 
 size_t sk_qread(FILE* file, void* buffer, size_t count, size_t offset) {
+#if defined(__SYMBIAN32__)
+    flockfile(file);
+    off_t position = ftello(file);
+    size_t bytesRead = SIZE_MAX;
+    if (position >= 0 && fseeko(file, static_cast<off_t>(offset), SEEK_SET) == 0) {
+        bytesRead = fread(buffer, 1, count, file);
+        if (ferror(file))
+            bytesRead = SIZE_MAX;
+        if (fseeko(file, position, SEEK_SET) != 0)
+            bytesRead = SIZE_MAX;
+    }
+    funlockfile(file);
+    return bytesRead;
+#else
     int fd = sk_fileno(file);
     if (fd < 0) {
         return SIZE_MAX;
@@ -126,6 +140,7 @@ size_t sk_qread(FILE* file, void* buffer, size_t count, size_t offset) {
         return SIZE_MAX;
     }
     return bytesRead;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////

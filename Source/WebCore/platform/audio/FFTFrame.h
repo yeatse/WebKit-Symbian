@@ -46,6 +46,10 @@
 
 namespace WebCore {
 
+#if OS(SYMBIAN)
+class SymbianFFTPlan;
+#endif
+
 // Defines the interface for an "FFT frame", an object which is able to perform a forward
 // and reverse FFT, internally storing the resultant frequency-domain data.
 
@@ -113,6 +117,10 @@ private:
 
     AudioFloatArray m_realData;
     AudioFloatArray m_imagData;
+
+#if OS(SYMBIAN)
+    std::unique_ptr<SymbianFFTPlan> m_symbianPlan;
+#endif
 };
 
 } // namespace WebCore

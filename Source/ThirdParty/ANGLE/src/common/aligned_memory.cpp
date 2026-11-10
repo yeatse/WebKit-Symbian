@@ -16,6 +16,9 @@
 #else
 #    include <stdlib.h>
 #endif
+#if defined(ANGLE_PLATFORM_SYMBIAN)
+#    include <mimalloc.h>
+#endif
 
 namespace angle
 {
@@ -37,6 +40,8 @@ void *AlignedAlloc(size_t size, size_t alignment)
 // http://code.google.com/p/android/issues/detail?id=35391
 #elif defined(ANGLE_PLATFORM_ANDROID)
     ptr = memalign(alignment, size);
+#elif defined(ANGLE_PLATFORM_SYMBIAN)
+    ptr = mi_malloc_aligned(size, alignment);
 #else
     if (posix_memalign(&ptr, alignment, size))
         ptr = nullptr;
@@ -58,6 +63,8 @@ void AlignedFree(void *ptr)
 {
 #if defined(ANGLE_PLATFORM_WINDOWS)
     _aligned_free(ptr);
+#elif defined(ANGLE_PLATFORM_SYMBIAN)
+    mi_free(ptr);
 #else
     free(ptr);
 #endif

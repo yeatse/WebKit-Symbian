@@ -15,7 +15,7 @@
 
 #if defined(SK_BUILD_FOR_MAC) || defined(SK_BUILD_FOR_IOS)
 #include <malloc/malloc.h>
-#elif defined(SK_BUILD_FOR_ANDROID) || defined(SK_BUILD_FOR_UNIX)
+#elif (defined(SK_BUILD_FOR_ANDROID) || defined(SK_BUILD_FOR_UNIX)) && !defined(__SYMBIAN32__)
 #include <malloc.h>
 #elif defined(SK_BUILD_FOR_WIN)
 #include <malloc.h>
@@ -120,7 +120,9 @@ size_t sk_malloc_size(void* addr, size_t size) {
     size_t completeSize = size;
 
     // Use the OS specific calls to find the actual capacity.
-    #if defined(SK_BUILD_FOR_MAC) || defined(SK_BUILD_FOR_IOS)
+    #if defined(__SYMBIAN32__)
+        (void) addr;
+    #elif defined(SK_BUILD_FOR_MAC) || defined(SK_BUILD_FOR_IOS)
         // TODO: remove the max, when the chrome implementation of malloc_size doesn't return 0.
         completeSize = std::max(malloc_size(addr), size);
     #elif defined(SK_BUILD_FOR_ANDROID) && __ANDROID_API__ >= 17

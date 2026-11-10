@@ -486,6 +486,10 @@
 #define DOCUMENT_RELEASE_LOG(channel, fmt, ...) RELEASE_LOG(channel, "%p - [pageID=%" PRIu64 ", frameID=%" PRIu64 ", isMainFrame=%d] Document::" fmt, this, pageID() ? pageID()->toUInt64() : 0, frameID() ? frameID()->toUInt64() : 0, this->isTopDocument(), ##__VA_ARGS__)
 #define DOCUMENT_RELEASE_LOG_ERROR(channel, fmt, ...) RELEASE_LOG_ERROR(channel, "%p - [pageID=%" PRIu64 ", frameID=%" PRIu64 ", isMainFrame=%d] Document::" fmt, this, pageID() ? pageID()->toUInt64() : 0, frameID() ? frameID()->toUInt64() : 0, this->isTopDocument(), ##__VA_ARGS__)
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(Document);
@@ -2842,6 +2846,9 @@ void Document::updateRenderTree(std::unique_ptr<Style::Update> styleUpdate)
 
 void Document::resolveStyle(ResolveStyleType type)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Style);
+#endif
     ScriptDisallowedScope::InMainThread scriptDisallowedScope;
 
     ASSERT(!view() || !view()->isPainting());
@@ -12045,8 +12052,45 @@ bool Document::hasElementWithPendingUserAgentShadowTreeUpdate(Element& element) 
 
 bool Document::isSameSiteForCookies(const URL& url) const
 {
+#if OS(SYMBIAN)
+    // The curl cookie backend uses schemeful SameSite. FrameLoader's first-party
+    // URL for a top-level navigation is already the destination, so preserve
+    // the initiating document's scheme here, before that information is lost.
+    URL cookieURL = url;
+    if (cookieURL.protocolIs("ws"_s))
+        cookieURL.setProtocol("http"_s);
+    else if (cookieURL.protocolIs("wss"_s))
+        cookieURL.setProtocol("https"_s);
+    auto target = SecurityOrigin::create(cookieURL);
+    if (isTopDocument())
+        return securityOrigin().isSameSiteAs(target);
+
+    RefPtr localFrame = frame();
+    if (!localFrame)
+        return false;
+    RefPtr topFrame = dynamicDowncast<LocalFrame>(localFrame->tree().top());
+    RefPtr topDocument = topFrame ? topFrame->document() : nullptr;
+    if (!topDocument || !topDocument->securityOrigin().isSameSiteAs(target))
+        return false;
+    // siteForCookies() predates schemeful/ancestor-chain checks. In particular,
+    // an A -> B -> A grandchild must not become same-site merely by returning to
+    // the top document's host. Remote or opaque ancestors cannot establish it.
+    for (RefPtr currentFrame = localFrame; currentFrame; ) {
+        RefPtr currentDocument = currentFrame->document();
+        if (!currentDocument || !currentDocument->securityOrigin().isSameSiteAs(topDocument->securityOrigin()))
+            return false;
+        auto* parent = currentFrame->tree().parent();
+        if (!parent)
+            return true;
+        currentFrame = dynamicDowncast<LocalFrame>(parent);
+        if (!currentFrame)
+            return false;
+    }
+    return false;
+#else
     auto domain = isTopDocument() ? RegistrableDomain(securityOrigin().data()) : RegistrableDomain(siteForCookies());
     return domain.matches(url);
+#endif
 }
 
 void Document::notifyReportObservers(Ref<Report>&& reports)

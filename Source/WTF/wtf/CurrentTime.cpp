@@ -64,6 +64,12 @@
 #include <glib.h>
 #endif
 
+#if OS(SYMBIAN)
+// SDK native NTickCount/TickCount bridge. Do not use the Open C wall clock
+// for elapsed time: its firmware implementation may have coarse resolution.
+extern "C" int64_t SymbianRuntimeSteadyClockNanoseconds();
+#endif
+
 namespace WTF {
 
 #if OS(WINDOWS)
@@ -303,6 +309,8 @@ MonotonicTime MonotonicTime::now()
     return fromMachAbsoluteTime(mach_absolute_time());
 #elif OS(FUCHSIA)
     return fromRawSeconds(zx_clock_get_monotonic() / static_cast<double>(ZX_SEC(1)));
+#elif OS(SYMBIAN)
+    return fromRawSeconds(SymbianRuntimeSteadyClockNanoseconds() / 1.0e9);
 #elif OS(LINUX) || OS(FREEBSD) || OS(OPENBSD) || OS(NETBSD)
     struct timespec ts { };
     clock_gettime(CLOCK_MONOTONIC, &ts);

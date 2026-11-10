@@ -53,6 +53,12 @@ typedef EVP_PKEY* PlatformRSAKey;
 typedef WebCore::EvpPKeyPtr PlatformRSAKeyContainer;
 #endif
 
+#if USE(MBEDTLS)
+#include "crypto/mbedtls/MbedTLSRSAKey.h"
+using PlatformRSAKey = mbedtls_rsa_context*;
+using PlatformRSAKeyContainer = WebCore::MbedTLS::RSAKey;
+#endif
+
 namespace WebCore {
 
 class CryptoKeyRSAComponents;

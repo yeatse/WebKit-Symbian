@@ -54,12 +54,25 @@
 #if ENABLE(VIDEO) && USE(AVFOUNDATION)
 #include "GraphicsContextGLCVCocoa.h"
 #endif
+#if OS(SYMBIAN)
+#include "GLContext.h"
+#include <wtf/Scope.h>
+#endif
 
 // This one definition short-circuits the need for gl2ext.h, which
 // would need more work to be included from WebCore.
 #define GL_MAX_SAMPLES_EXT 0x8D57
 
 namespace WebCore {
+
+#if OS(SYMBIAN)
+// GLES2 does not require EXT/KHR_robustness, which the Readn base command
+// requires. ANGLE's robust ReadPixels entry still validates the explicit
+// destination size, packing, format and framebuffer before writing memory.
+static constexpr auto readPixelsRobustANGLE = GL_ReadPixelsRobustANGLE;
+#else
+static constexpr auto readPixelsRobustANGLE = GL_ReadnPixelsRobustANGLE;
+#endif
 
 // List of displays ever instantiated from EGL. When terminating all EGL resources, we need to
 // terminate all displays. However, we cannot ask EGL all the displays it has created.
@@ -232,7 +245,9 @@ bool GraphicsContextGLANGLE::initialize()
         GL_GenRenderbuffers(1, &m_multisampleColorBuffer);
         if (attributes.stencil || attributes.depth)
             GL_GenRenderbuffers(1, &m_multisampleDepthStencilBuffer);
-    } else if (attributes.preserveDrawingBuffer) {
+    }
+#if !OS(SYMBIAN)
+    else if (attributes.preserveDrawingBuffer) {
         // If necessary, create another texture to handle preserveDrawingBuffer:true without
         // antialiasing.
         GL_GenTextures(1, &m_preserveDrawingBufferTexture);
@@ -245,6 +260,7 @@ bool GraphicsContextGLANGLE::initialize()
         // Create an FBO with which to perform BlitFramebuffer from one texture to the other.
         GL_GenFramebuffers(1, &m_preserveDrawingBufferFBO);
     }
+#endif
 
     GL_ClearColor(0, 0, 0, 0);
 
@@ -369,7 +385,7 @@ RefPtr<PixelBuffer> GraphicsContextGLANGLE::readPixelsForPaintResults()
     ScopedReadBuffer scopedReadBuffer(GL_COLOR_ATTACHMENT0, m_isForWebGL2);
     setPackParameters(1, 0, false);
     updateErrors();
-    GL_ReadPixelsRobustANGLE(0, 0, pixelBuffer->size().width(), pixelBuffer->size().height(), GL_RGBA, GL_UNSIGNED_BYTE, pixelBuffer->bytes().size(), nullptr, nullptr, nullptr, pixelBuffer->bytes().data());
+    readPixelsRobustANGLE(0, 0, pixelBuffer->size().width(), pixelBuffer->size().height(), GL_RGBA, GL_UNSIGNED_BYTE, pixelBuffer->bytes().size(), nullptr, nullptr, nullptr, pixelBuffer->bytes().data());
     // The pixel buffer is uninitialized; never return it if the read was rejected for any reason.
     if (updateErrors())
         return nullptr;
@@ -407,11 +423,14 @@ void GraphicsContextGLANGLE::validateAttributes()
             attrs.antialias = false;
             setContextAttributes(attrs);
         }
-    } else if (attrs.preserveDrawingBuffer) {
+    }
+#if !OS(SYMBIAN)
+    else if (attrs.preserveDrawingBuffer) {
         // Needed for preserveDrawingBuffer:true support without antialiasing.
         bool supported = enableExtensionsImpl({ "GL_ANGLE_framebuffer_blit"_s });
         ASSERT_UNUSED(supported, supported);
     }
+#endif
 }
 
 bool GraphicsContextGLANGLE::reshapeFBOs(const IntSize& size)
@@ -802,7 +821,7 @@ void GraphicsContextGLANGLE::readPixelsBufferObject(IntRect rect, GCGLenum forma
     // ANGLE validates the read size against the PBO size.
     GLsizei bufferSize = std::numeric_limits<GLsizei>::max();
 
-    GL_ReadPixelsRobustANGLE(rect.x(), rect.y(), rect.width(), rect.height(), format, type, bufferSize, nullptr, nullptr, nullptr, reinterpret_cast<void*>(offset));
+    readPixelsRobustANGLE(rect.x(), rect.y(), rect.width(), rect.height(), format, type, bufferSize, nullptr, nullptr, nullptr, reinterpret_cast<void*>(offset));
 
     if (attrs.antialias && m_state.boundReadFBO == m_multisampleFBO)
         GL_BindFramebuffer(GraphicsContextGL::READ_FRAMEBUFFER, m_multisampleFBO);
@@ -823,7 +842,7 @@ std::optional<IntSize> GraphicsContextGLANGLE::readPixelsImpl(IntRect rect, GCGL
     updateErrors();
     GLsizei rows = 0;
     GLsizei columns = 0;
-    GL_ReadPixelsRobustANGLE(rect.x(), rect.y(), rect.width(), rect.height(), format, type, data.size(), nullptr, &rows, &columns, data.data());
+    readPixelsRobustANGLE(rect.x(), rect.y(), rect.width(), rect.height(), format, type, data.size(), nullptr, &rows, &columns, data.data());
     if (attrs.antialias && m_state.boundReadFBO == m_multisampleFBO)
         GL_BindFramebuffer(framebufferTarget, m_multisampleFBO);
 
@@ -3468,6 +3487,13 @@ void GraphicsContextGLANGLE::simulateEventForTesting(SimulatedEventForTesting ev
 
 RefPtr<NativeImage> GraphicsContextGLANGLE::copyNativeImageYFlipped(SurfaceBuffer source)
 {
+#if OS(SYMBIAN)
+    auto* previousNativeContext = GLContext::current();
+    auto restoreNativeContext = makeScopeExit([previousNativeContext] {
+        if (previousNativeContext)
+            previousNativeContext->makeContextCurrent();
+    });
+#endif
     if (!makeContextCurrent())
         return nullptr;
     if (getInternalFramebufferSize().isEmpty())
@@ -3506,6 +3532,15 @@ RefPtr<PixelBuffer> GraphicsContextGLANGLE::drawingBufferToPixelBuffer(FlipY fli
 
 RefPtr<PixelBuffer> GraphicsContextGLANGLE::readRenderingResultsForPainting()
 {
+#if OS(SYMBIAN)
+    // A TextureMapper backing-store paint can read a WebGL canvas and then
+    // immediately upload native GL textures. Restore its native context here.
+    auto* previousNativeContext = GLContext::current();
+    auto restoreNativeContext = makeScopeExit([previousNativeContext] {
+        if (previousNativeContext)
+            previousNativeContext->makeContextCurrent();
+    });
+#endif
     if (!makeContextCurrent())
         return nullptr;
     if (getInternalFramebufferSize().isEmpty())

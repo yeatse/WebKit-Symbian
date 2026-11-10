@@ -54,6 +54,13 @@ using PlatformECKeyContainer = WebCore::EvpPKeyPtr;
 }
 #endif
 
+#if USE(MBEDTLS)
+#include "crypto/mbedtls/MbedTLSECKey.h"
+namespace WebCore {
+using PlatformECKeyContainer = MbedTLS::ECKey;
+}
+#endif
+
 namespace WebCore {
 
 struct JsonWebKey;

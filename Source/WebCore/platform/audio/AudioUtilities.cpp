@@ -28,6 +28,9 @@
 
 #include "AudioUtilities.h"
 #include <random>
+#if OS(SYMBIAN)
+#include <wtf/CryptographicallyRandomNumber.h>
+#endif
 #include <wtf/HashFunctions.h>
 #include <wtf/MathExtras.h>
 #include <wtf/WeakRandomNumber.h>
@@ -80,8 +83,13 @@ size_t timeToSampleFrame(double time, double sampleRate, SampleFrameRounding rou
 
 void applyNoise(std::span<float> values, float standardDeviation)
 {
+#if OS(SYMBIAN)
+    // The SDK omits std::random_device; use WTF's existing OS-backed source.
+    std::mt19937 generator(cryptographicallyRandomNumber<unsigned>());
+#else
     std::random_device device;
     std::mt19937 generator(device());
+#endif
     std::normal_distribution<float> distribution(1, standardDeviation);
 
     constexpr auto maximumTableSize = 2048;

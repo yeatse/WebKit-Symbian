@@ -44,14 +44,25 @@
 #endif
 
 #include <curl/curl.h>
+#if USE(MBEDTLS)
+#include <psa/crypto.h>
+#endif
 
 namespace WebCore {
 
 // Values taken from http://www.browserscope.org/ following
 // the rule "Do What Every Other Modern Browser Is Doing".
+#if OS(SYMBIAN)
+// Keep idle TLS connections and HTTP/2 stream buffers within the phone budget.
+const long CurlDefaultMaxConnects { 8 };
+const long CurlDefaultMaxTotalConnections { 8 };
+const long CurlDefaultMaxHostConnections { 4 };
+const long CurlMaxConcurrentStreams { 8 };
+#else
 const long CurlDefaultMaxConnects { -1 }; // -1 : Does not set CURLMOPT_MAXCONNECTS
 const long CurlDefaultMaxTotalConnections { 17 };
 const long CurlDefaultMaxHostConnections { 6 };
+#endif
 
 // CurlGlobal --------------------------------------------
 // to make the initialization of libcurl happen before other initialization of CurlContext
@@ -60,6 +71,9 @@ class CurlGlobal {
 protected:
     CurlGlobal()
     {
+#if USE(MBEDTLS)
+        RELEASE_ASSERT(psa_crypto_init() == PSA_SUCCESS);
+#endif
         curl_global_init(CURL_GLOBAL_ALL);
     }
     
@@ -131,7 +145,7 @@ public:
     Seconds connectTimeout() const { return m_connectTimeout; }
     Seconds defaultTimeoutInterval() const { return m_defaultTimeoutInterval; }
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     FILE* getLogFile() const { return m_logFile; }
     bool isVerbose() const { return m_verbose; }
 #endif
@@ -155,7 +169,7 @@ private:
 
     String m_alternativeServicesStorageFile;
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     FILE* m_logFile { nullptr };
     bool m_verbose { false };
 #endif
@@ -315,7 +329,7 @@ public:
     CURLcode send(const uint8_t*, size_t, size_t&);
     CURLcode receive(uint8_t*, size_t, size_t&);
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     void enableVerboseIfUsed();
     void enableStdErrIfUsed();
 #endif
@@ -333,7 +347,9 @@ private:
     static CURLcode willSetupSslCtxCallback(CURL*, void* sslCtx, void* userData);
     CURLcode willSetupSslCtx(void* sslCtx);
 
+#if !USE(MBEDTLS)
     std::optional<SSL*> sslConnection() const;
+#endif
 
     CURL* m_handle { nullptr };
     char m_errorBuffer[CURL_ERROR_SIZE] { };

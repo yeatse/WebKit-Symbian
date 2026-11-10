@@ -27,6 +27,9 @@
 
 #include "config.h"
 #include "TextureMapperGPUBuffer.h"
+#if OS(SYMBIAN)
+#include "GLContext.h"
+#endif
 
 namespace WebCore {
 
@@ -35,6 +38,10 @@ TextureMapperGPUBuffer::TextureMapperGPUBuffer(size_t size, Type type, Usage usa
     , m_target((type == Type::Vertex) ? GL_ARRAY_BUFFER : GL_ELEMENT_ARRAY_BUFFER)
     , m_usage((usage == Usage::Dynamic) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW)
 {
+#if OS(SYMBIAN)
+    RELEASE_ASSERT(GLContext::current());
+    m_resourceState = GLContext::current()->resourceState();
+#endif
     if (!size)
         return;
 
@@ -51,10 +58,14 @@ TextureMapperGPUBuffer::TextureMapperGPUBuffer(size_t size, Type type, Usage usa
 
 TextureMapperGPUBuffer::~TextureMapperGPUBuffer()
 {
+#if OS(SYMBIAN)
+    m_resourceState->release(SymbianGLResourceState::Type::Buffer, m_id);
+#else
     if (m_id) {
         glDeleteBuffers(1, &m_id);
         m_id = 0;
     }
+#endif
 }
 
 bool TextureMapperGPUBuffer::updateData(const void* data, size_t offset, size_t size)

@@ -1,0 +1,220 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ARM11 DOM regression checks</title>
+<style>body{font:16px sans-serif;margin:16px;background:#fff;color:#111}button{padding:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere}.pass{color:#075b22}.fail{color:#9c1010}</style>
+<h1>DOM regression checks</h1>
+<p>Bounded getter, mutation and wrapper checks using ordinary web APIs. This page checks results; it does not identify the JavaScript execution tier or force garbage collection.</p>
+<button id="run">Run checks</button>
+<pre id="output"></pre>
+<script>
+(function () {
+    'use strict';
+    const tests = [], warmup = 12000;
+    const check = (condition, message) => { if (!condition) throw new Error(message); };
+    const test = (name, body) => tests.push({name, body});
+    const pause = () => new Promise(resolve => setTimeout(resolve, 0));
+    function repeat(count, body) { for (let i = 0; i < count; ++i) body(i); }
+    function nodeMatches(node, type, owner, parent, first, last, previous, next) {
+        return node.nodeType === type && node.ownerDocument === owner && node.parentNode === parent
+            && node.firstChild === first && node.lastChild === last
+            && node.previousSibling === previous && node.nextSibling === next;
+    }
+    function readType(node) { return node.nodeType; }
+    function readID(element) { return element.id; }
+    function readRoot(doc) { return doc.documentElement; }
+    function readEventType(event) { return event.type; }
+    function eventMatches(event, target, current, phase, prevented) {
+        return event.type === 'probe' && event.target === target && event.currentTarget === current
+            && event.eventPhase === phase && event.bubbles && event.cancelable
+            && event.defaultPrevented === prevented && event.isTrusted === false;
+    }
+
+    test('node-getters', () => {
+        const parent = document.createElement('div');
+        const first = document.createElement('span'), text = document.createTextNode('text');
+        const last = document.createComment('last');
+        parent.append(first, text, last);
+        repeat(warmup, () => {
+            check(nodeMatches(parent, 1, document, null, first, last, null, null), 'container getters');
+            check(nodeMatches(text, 3, document, parent, null, null, first, last), 'text getters');
+            check(nodeMatches(last, 8, document, parent, null, null, text, null), 'comment getters');
+        });
+    });
+
+    test('node-kinds-and-mutation', () => {
+        const parent = document.createElement('div'), element = document.createElement('b');
+        const text = document.createTextNode('text'), comment = document.createComment('comment');
+        const fragment = document.createDocumentFragment();
+        parent.appendChild(element);
+        repeat(warmup, () => check(readType(element) === 1, 'element warm-up'));
+        const kinds = [[element, 1], [text, 3], [comment, 8], [fragment, 11], [document, 9]];
+        repeat(2000, i => check(readType(kinds[i % kinds.length][0]) === kinds[i % kinds.length][1], 'receiver node type'));
+        repeat(1000, () => {
+            parent.replaceChild(text, element);
+            check(nodeMatches(text, 3, document, parent, null, null, null, null), 'replacement relationships');
+            check(element.parentNode === null && element.previousSibling === null && element.nextSibling === null, 'removed element links');
+            fragment.appendChild(text);
+            check(parent.firstChild === null && parent.lastChild === null && text.parentNode === fragment, 'move to fragment');
+            parent.appendChild(fragment);
+            check(fragment.firstChild === null && fragment.lastChild === null && text.parentNode === parent, 'fragment insertion');
+            parent.replaceChild(element, text);
+        });
+        element.appendChild(text);
+        const other = document.implementation.createHTMLDocument('adoption');
+        other.adoptNode(element);
+        check(nodeMatches(element, 1, other, null, text, text, null, null), 'adopted element owner');
+        check(nodeMatches(text, 3, other, element, null, null, null, null), 'adopted descendant owner');
+        check(parent.firstChild === null && parent.lastChild === null, 'adoption detaches old parent');
+    });
+
+    test('element-attributes-and-live-collection', () => {
+        const element = document.createElement('div');
+        function attributesMatch(expectedID, expectedValue, expectedAny) {
+            return element.tagName === 'DIV' && element.id === expectedID
+                && element.getAttribute('data-value') === expectedValue && element.hasAttributes() === expectedAny;
+        }
+        element.id = 'before'; element.setAttribute('data-value', 'one');
+        const attribute = element.getAttributeNode('data-value');
+        repeat(warmup, () => check(attributesMatch('before', 'one', true), 'attribute warm-up'));
+        element.id = 'after'; element.setAttribute('data-value', 'two');
+        check(attributesMatch('after', 'two', true) && attribute.value === 'two', 'attribute update');
+        element.removeAttribute('data-value'); element.removeAttribute('id');
+        check(attributesMatch('', null, false) && attribute.ownerElement === null, 'attribute removal');
+        element.setAttribute('data-value', 'three');
+        check(element.getAttributeNode('data-value') !== attribute && attributesMatch('', 'three', true), 'new attribute wrapper');
+        const collection = element.getElementsByTagName('span');
+        repeat(500, () => {
+            const child = document.createElement('span');
+            element.appendChild(child);
+            check(collection.length === 1 && collection[0] === child, 'live collection insertion');
+            child.remove();
+            check(collection.length === 0, 'live collection removal');
+        });
+    });
+
+    test('document-root', () => {
+        const other = document.implementation.createHTMLDocument('root');
+        const original = other.documentElement, replacement = other.createElement('html');
+        repeat(warmup, () => check(readRoot(other) === original && other.ownerDocument === null, 'document getter warm-up'));
+        repeat(250, () => {
+            other.replaceChild(replacement, original);
+            check(readRoot(other) === replacement && original.parentNode === null, 'document root replacement');
+            other.removeChild(replacement);
+            check(readRoot(other) === null, 'empty document root');
+            other.appendChild(original);
+            check(readRoot(other) === original && original.parentNode === other, 'document root restoration');
+        });
+        check(readRoot(document).tagName === 'HTML', 'separate document wrapper');
+    });
+
+    test('event-getters-and-dispatch', () => {
+        const event = new Event('probe', {bubbles: true, cancelable: true});
+        repeat(warmup, () => check(eventMatches(event, null, null, 0, false), 'event getter warm-up'));
+        const parent = document.createElement('div'), target = document.createElement('span');
+        parent.appendChild(target);
+        let targetCalls = 0, parentCalls = 0, listenerFailure = null;
+        // DOM dispatch reports listener exceptions instead of rethrowing them to dispatchEvent.
+        function listenerCheck(body) { try { body(); } catch (error) { listenerFailure = error; } }
+        target.addEventListener('probe', current => listenerCheck(() => {
+            repeat(8, () => check(eventMatches(current, target, target, 2, false), 'event at target'));
+            current.preventDefault(); ++targetCalls;
+        }));
+        parent.addEventListener('probe', current => listenerCheck(() => {
+            repeat(8, () => check(eventMatches(current, target, parent, 3, true), 'bubbling event'));
+            ++parentCalls;
+        }));
+        repeat(1000, () => {
+            const current = new Event('probe', {bubbles: true, cancelable: true});
+            check(target.dispatchEvent(current) === false, 'canceled dispatch result');
+            if (listenerFailure) throw listenerFailure;
+            check(eventMatches(current, target, null, 0, true), 'event after dispatch');
+        });
+        check(targetCalls === 1000 && parentCalls === 1000, 'listener counts');
+        event.initEvent('changed', false, false);
+        check(readEventType(event) === 'changed' && !event.bubbles && !event.cancelable, 'event reinitialization');
+        check(readEventType(new CustomEvent('custom', {detail: 17})) === 'custom', 'event subclass');
+    });
+
+    test('prototype-invalidation', () => {
+        const element = document.createElement('div'), event = new Event('original');
+        element.id = 'native';
+        const elementPrototype = Object.getPrototypeOf(element), eventPrototype = Object.getPrototypeOf(event);
+        repeat(warmup, () => check(readType(element) === 1 && readID(element) === 'native' && readEventType(event) === 'original', 'prototype warm-up'));
+        const customElement = Object.create(elementPrototype), customEvent = Object.create(eventPrototype);
+        try {
+            Object.setPrototypeOf(element, customElement); Object.setPrototypeOf(event, customEvent);
+            Object.defineProperty(customElement, 'nodeType', {configurable: true, get() { return 77; }});
+            Object.defineProperty(customElement, 'id', {configurable: true, get() { return 'shadow'; }});
+            Object.defineProperty(customEvent, 'type', {configurable: true, get() { return 'shadow-event'; }});
+            repeat(1000, () => check(readType(element) === 77 && readID(element) === 'shadow' && readEventType(event) === 'shadow-event', 'prototype getter override'));
+            check(Object.getOwnPropertyDescriptor(Node.prototype, 'nodeType').get.call(element) === 1, 'native getter retains node identity');
+            delete customElement.nodeType; delete customElement.id; delete customEvent.type;
+            element.setAttribute('id', 'updated');
+            repeat(1000, () => check(readType(element) === 1 && readID(element) === 'updated' && readEventType(event) === 'original', 'prototype getter removal'));
+        } finally {
+            Object.setPrototypeOf(element, elementPrototype); Object.setPrototypeOf(event, eventPrototype);
+        }
+    });
+
+    test('receiver-brand-checks', () => {
+        const element = document.createElement('div');
+        const nodeType = Object.getOwnPropertyDescriptor(Node.prototype, 'nodeType').get;
+        function nativeType(receiver) { return nodeType.call(receiver); }
+        repeat(warmup, () => check(nativeType(element) === 1, 'native receiver warm-up'));
+        const calls = [
+            () => nativeType({}),
+            () => Object.getOwnPropertyDescriptor(Node.prototype, 'ownerDocument').get.call(new Event('x')),
+            () => Object.getOwnPropertyDescriptor(Document.prototype, 'documentElement').get.call(element),
+            () => Object.getOwnPropertyDescriptor(Event.prototype, 'type').get.call(element),
+            () => Element.prototype.getAttribute.call(document.createTextNode('x'), 'id')
+        ];
+        for (const call of calls) {
+            let rejected = false;
+            try { call(); } catch (error) { check(error instanceof TypeError, 'wrong receiver error type'); rejected = true; }
+            check(rejected, 'invalid DOM receiver was accepted');
+        }
+        check(nativeType(element) === 1, 'valid receiver after rejection');
+    });
+
+    test('allocation-pressure-live-wrappers', async () => {
+        const parent = document.createElement('div'), text = document.createTextNode('kept');
+        const event = new Event('kept'), other = document.implementation.createHTMLDocument('kept');
+        const root = other.documentElement;
+        parent.appendChild(text);
+        for (let batch = 0; batch < 64; ++batch) {
+            const temporary = [];
+            for (let i = 0; i < 96; ++i) {
+                const node = document.createElement('span');
+                node.textContent = 'temporary-' + batch + '-' + i;
+                temporary.push({node, numbers: new Array(128).fill(i + batch)});
+            }
+            check(temporary[95].node.firstChild.nodeType === 3 && temporary[95].numbers[127] === 95 + batch, 'allocated values');
+            check(nodeMatches(text, 3, document, parent, null, null, null, null), 'live node wrapper');
+            check(parent.firstChild === text && parent.lastChild === text, 'live child identity');
+            check(readRoot(other) === root && root.ownerDocument === other && readEventType(event) === 'kept', 'live document/event wrappers');
+            if (!(batch % 8)) await pause();
+        }
+    });
+
+    async function run() {
+        const output = document.getElementById('output'), button = document.getElementById('run');
+        button.disabled = true; output.textContent = '';
+        let passed = 0, failed = 0;
+        const report = message => { output.textContent += message + '\n'; console.log('ARM11-DOM ' + message); };
+        window.testResult = {state: 'running', total: tests.length, passed, failed};
+        for (const entry of tests) {
+            await pause();
+            try { await entry.body(); ++passed; report('PASS ' + entry.name); }
+            catch (error) { ++failed; report('FAIL ' + entry.name + ': ' + error.name + ': ' + error.message); }
+        }
+        const status = failed ? 'FAIL' : 'PASS';
+        window.testResult = {state: 'done', total: tests.length, passed, failed};
+        document.title = 'ARM11 DOM ' + status + ' ' + passed + '/' + tests.length;
+        output.className = failed ? 'fail' : 'pass'; button.disabled = false;
+        report('DONE ' + status + ' ' + passed + '/' + tests.length + ' passed; ' + failed + ' failed');
+    }
+    document.getElementById('run').onclick = run;
+    if (new URLSearchParams(location.search).get('autorun') === '1') run();
+}());
+</script>

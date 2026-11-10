@@ -1,0 +1,34 @@
+--- a/bintools/rcomp/src/main.cpp
++++ b/bintools/rcomp/src/main.cpp
+@@ -405,9 +405,8 @@
+ 	pG->WarningMultiExplained = false;
+ 	pG->FileLineHandler.SetPath(BasePath);
+ 	
+-	#ifdef __TOOLS2__
+-	pG->FileLineHandler.SetBase(SourceFileName,0);
+-	#endif
++	// Inputs preprocessed with -P have no line directives, including on Linux.
++	pG->FileLineHandler.SetBase(SourceFileName.Length() ? SourceFileName : String("<stdin>"), 0);
+ 	
+ 	int ret=ParseSourceFile(pSourceFile, pParam);
+ 	fclose(pSourceFile);
+--- a/bintools/rcomp/src/RCOMP.YACC
++++ b/bintools/rcomp/src/RCOMP.YACC
+@@ -668,6 +668,7 @@
+ |	character_code_expression
+ |	L_LABEL 
+ 	    {
++		REGISTER_LINE; // Capture this identifier location before reading it.
+ 		const char * fileName = (*ErrorHandler::GetFileName()).GetBuffer();
+ 		int lineNumber = ErrorHandler::GetLineNumber();
+ 		QualifiedString * thisLabel = new QualifiedString($1, new String(fileName), lineNumber);
+--- a/bintools/rcomp/src/rcomp.cpp
++++ b/bintools/rcomp/src/rcomp.cpp
+@@ -2542,6 +2542,7 @@
+ /* Line 1455 of yacc.c  */
+ #line 670 "rcomp.yacc"
+     {
++		REGISTER_LINE; // Capture this identifier location before reading it.
+ 		const char * fileName = (*ErrorHandler::GetFileName()).GetBuffer();
+ 		int lineNumber = ErrorHandler::GetLineNumber();
+ 		QualifiedString * thisLabel = new QualifiedString((yyvsp[(1) - (1)].Value), new String(fileName), lineNumber);

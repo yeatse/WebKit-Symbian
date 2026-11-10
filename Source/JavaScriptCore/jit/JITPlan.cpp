@@ -42,6 +42,10 @@
 #include <wtf/SystemTracing.h>
 #include <wtf/text/MakeString.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace JSC {
 
 extern Seconds totalBaselineCompileTime;
@@ -57,6 +61,10 @@ JITPlan::JITPlan(JITCompilationMode mode, CodeBlock* codeBlock)
     , m_signpostMessage(signpostMessage())
 {
     m_vm->changeNumberOfActiveJITPlans(1);
+#if OS(SYMBIAN)
+    if (WTF::MainThreadProfile::enabled())
+        m_created = MonotonicTime::now();
+#endif
 }
 
 JITPlan::~JITPlan()
@@ -280,7 +288,20 @@ void JITPlan::compileInThread(JITWorklistThread* thread)
         dataLog("DFG(Plan) compiling ", *m_codeBlock, " with ", m_mode, ", instructions size = ", m_codeBlock->instructionsSize(), "\n");
 #endif // ENABLE(DFG_JIT)
 
+#if OS(SYMBIAN)
+    MonotonicTime profileStart = m_created ? MonotonicTime::now() : MonotonicTime();
+    CompilationPath path;
+    {
+        WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::JIT);
+        path = compileInThreadImpl();
+    }
+    if (profileStart) {
+        WTF::MainThreadProfile::recordCompile(mode() == JITCompilationMode::Baseline ? WTF::MainThreadProfile::CompileTier::Baseline : WTF::MainThreadProfile::CompileTier::DFG,
+            (profileStart - m_created).milliseconds(), (MonotonicTime::now() - profileStart).milliseconds(), !thread);
+    }
+#else
     CompilationPath path = compileInThreadImpl();
+#endif
     RELEASE_ASSERT((path == CancelPath) == (m_stage == JITPlanStage::Canceled));
 
     if (!computeCompileTimes) [[likely]]

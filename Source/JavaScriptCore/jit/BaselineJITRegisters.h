@@ -260,7 +260,12 @@ namespace PutByVal {
     static constexpr JSValueRegs propertyJSR { preferredArgumentJSR<SlowOperation, 1>() };
     static constexpr JSValueRegs valueJSR { preferredArgumentJSR<SlowOperation, 2>() };
     static constexpr GPRReg propertyCacheGPR { preferredArgumentGPR<SlowOperation, 3>() };
+#if USE(JSVALUE64)
     static constexpr GPRReg profileGPR { preferredArgumentGPR<SlowOperation, 4>() };
+#else
+    static constexpr GPRReg profileGPR { GPRInfo::metadataTableRegister };
+#endif
+    static_assert(profileGPR != GPRInfo::handlerGPR);
 #if USE(JSVALUE64)
     static constexpr auto scratchRegisters = allocatedScratchRegisters<GPRInfo, baseJSR, propertyJSR, valueJSR, propertyCacheGPR, profileGPR, GPRInfo::handlerGPR>;
     static constexpr GPRReg scratch1GPR { scratchRegisters[0] };

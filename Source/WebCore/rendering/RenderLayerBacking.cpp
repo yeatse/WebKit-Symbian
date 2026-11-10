@@ -138,6 +138,10 @@
 #include "ARKitBadgeSystemImage.h"
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(RenderLayerBacking);
@@ -1951,6 +1955,11 @@ void RenderLayerBacking::updateMaskingLayerGeometry()
             if (!pathOffset.isZero())
                 clipPath.translate(-pathOffset);
             
+#if OS(SYMBIAN) && USE(TEXTURE_MAPPER)
+            // A size change can turn a rounded rect into another path.
+            if (!GraphicsLayer::shapePathAsRoundedRect(clipPath))
+                m_owningLayer.setNeedsCompositingConfigurationUpdate();
+#endif
             m_maskLayer->setShapeLayerPath(clipPath);
             m_maskLayer->setShapeLayerWindRule(windRule);
         }
@@ -3043,6 +3052,9 @@ bool RenderLayerBacking::updateMaskingLayer(bool hasMask, bool hasClipPath)
             if (WTF::holdsAlternative<Style::ReferencePath>(renderer().style().clipPath()))
                 return true;
 
+#if OS(SYMBIAN) && USE(TEXTURE_MAPPER)
+            return !m_owningLayer.clipPathCanUseShapeLayer();
+#else
             if (!GraphicsLayer::supportsLayerType(GraphicsLayer::Type::Shape))
                 return true;
 
@@ -3053,6 +3065,7 @@ bool RenderLayerBacking::updateMaskingLayer(bool hasMask, bool hasClipPath)
 #endif
 
             return false;
+#endif
         };
         if (shouldAddClipPathPaintingPhase())
             maskPhases.add(GraphicsLayerPaintingPhase::ClipPath);
@@ -4002,7 +4015,9 @@ bool RenderLayerBacking::paintsIntoWindow() const
         return false;
 
     if (m_owningLayer.isRenderViewLayer()) {
-#if PLATFORM(IOS_FAMILY) || USE(COORDINATED_GRAPHICS)
+#if PLATFORM(IOS_FAMILY) || USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)
+        // Symbian forces compositing to scroll the main frame with GPU tiles:
+        // the document is painted into the view's layer, not the window.
         if (compositor().inForcedCompositingMode())
             return false;
 #endif
@@ -4535,6 +4550,9 @@ void RenderLayerBacking::paintDebugOverlays(const GraphicsLayer* graphicsLayer, 
 // Up-call from compositing layer drawing callback.
 void RenderLayerBacking::paintContents(const GraphicsLayer& graphicsLayer, GraphicsContext& context, const FloatRect& clip, OptionSet<GraphicsLayerPaintBehavior> layerPaintBehavior)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Paint);
+#endif
 #ifndef NDEBUG
     renderer().page().setIsPainting(true);
 #endif

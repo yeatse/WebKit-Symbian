@@ -42,6 +42,10 @@
 #include <EGL/eglext.h>
 #endif
 
+#if OS(SYMBIAN)
+#include "SymbianEGLBindings.h"
+#endif
+
 namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(PlatformDisplay);

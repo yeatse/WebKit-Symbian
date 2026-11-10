@@ -229,6 +229,9 @@ class GPU;
 class ChromeClient {
 public:
     virtual void chromeDestroyed() = 0;
+#if OS(SYMBIAN)
+    virtual unsigned maximumTouchPoints() const { return 0; }
+#endif
 
     virtual void setWindowRect(const FloatRect&) = 0;
     virtual FloatRect windowRect() const = 0;

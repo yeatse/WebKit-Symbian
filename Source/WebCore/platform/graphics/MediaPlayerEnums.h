@@ -91,6 +91,7 @@ enum class MediaPlayerMediaEngineIdentifier : uint8_t {
     GStreamer,
     GStreamerMSE,
     HolePunch,
+    Symbian,
     MediaFoundation,
     MockMSE,
     CocoaWebM,

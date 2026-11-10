@@ -1,0 +1,29 @@
+{
+  "sdk_version": "0.3.0",
+  "headers": [
+    {
+      "path": "include/native/videoplayer2.h",
+      "source": "mmlibs/mmfw/inc/videoplayer2.h",
+      "repository": "SymbianSource/oss.FCL.sf.os.mmaudio",
+      "revision": "a39c075cce88671b23d13598fda2f7cbf008f3bb",
+      "git_blob_sha1": "95f1d5d6428a73768ad44e7788c3837272dbff86",
+      "sha256": "537d2578b0a3f155c44c0d8403efcfdd0bcf26f758c033e69260167d0bdeabc2"
+    },
+    {
+      "path": "include/native/surfaceeventhandler.h",
+      "source": "mmlibs/mmfw/inc/surfaceeventhandler.h",
+      "repository": "SymbianSource/oss.FCL.sf.os.mmaudio",
+      "revision": "a39c075cce88671b23d13598fda2f7cbf008f3bb",
+      "git_blob_sha1": "4688f707a3aa32e29101f4e484789580d1953b56",
+      "sha256": "10e22e8bd35832308b6fee8a1800a4dbdd6f7345886b051756e40bc3ba03d78a"
+    },
+    {
+      "path": "include/native/graphics/surface.h",
+      "source": "graphicsutils/commongraphicsheaders/inc/surface.h",
+      "repository": "SymbianSource/oss.FCL.sf.os.graphics",
+      "revision": "ff133bc50e6158bfb08cc093b0f0055321dcde99",
+      "git_blob_sha1": "2e3dd16e9e317e988f5f876dc783833bd65040ca",
+      "sha256": "ccbd34d1a5b91ba2615336f054fbad9d978971259c521bfee6f3e7c594d07854"
+    }
+  ]
+}

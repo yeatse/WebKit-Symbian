@@ -59,8 +59,16 @@ public:
 
     WEBCORE_EXPORT void setChildren(const Vector<TextureMapperLayer*>&);
     WEBCORE_EXPORT void setMaskLayer(TextureMapperLayer*);
+    // A clip-path drawn as a clip of this layer and its descendants, after
+    // their filters, instead of a mask layer.
+    WEBCORE_EXPORT void setShapeClip(const std::optional<FloatRoundedRect>&);
     WEBCORE_EXPORT void setReplicaLayer(TextureMapperLayer*);
     WEBCORE_EXPORT void setBackdropLayer(TextureMapperLayer*);
+#if OS(SYMBIAN)
+    // Off by default: a backdrop filter draws everything under the layer a
+    // second time into a surface, about 10 ms a frame on a Nokia 808.
+    WEBCORE_EXPORT static void setBackdropFiltersEnabled(bool);
+#endif
     WEBCORE_EXPORT void setBackdropFiltersRect(const FloatRoundedRect&);
     WEBCORE_EXPORT void setPosition(const FloatPoint&);
     WEBCORE_EXPORT void setBoundsOrigin(const FloatPoint&);
@@ -182,6 +190,8 @@ private:
     void paintSelfChildrenFilterAndMask(TextureMapperPaintOptions&);
     void paintSelf(TextureMapperPaintOptions&);
     void paintSelfAndChildren(TextureMapperPaintOptions&);
+    void paintSelfAndChildrenWithoutShapeClip(TextureMapperPaintOptions&);
+    TransformationMatrix shapeClipTransform(const TextureMapperPaintOptions&) const;
     void paintSelfAndChildrenWithReplica(TextureMapperPaintOptions&);
     void paintBackdrop(TextureMapperPaintOptions&);
     void applyMask(TextureMapperPaintOptions&);
@@ -238,6 +248,7 @@ private:
         FloatSize contentsTilePhase;
         FloatRoundedRect contentsClippingRect;
         WeakPtr<TextureMapperLayer> maskLayer;
+        std::optional<FloatRoundedRect> shapeClip;
         WeakPtr<TextureMapperLayer> replicaLayer;
         WeakPtr<TextureMapperLayer> backdropLayer;
         FloatRoundedRect backdropFiltersRect;

@@ -25,6 +25,10 @@
 
 #pragma once
 
+#if OS(SYMBIAN)
+#include "SynchronousLoaderClient.h"
+#include "CurlDownloadBuffer.h"
+#endif
 #include "CurlFormDataStream.h"
 #include "CurlMultipartHandle.h"
 #include "CurlMultipartHandleClient.h"
@@ -67,6 +71,13 @@ public:
     void disableServerTrustEvaluation() { m_shouldDisableServerTrustEvaluation = true; }
     void enableLocalhostAlias() { m_localhostAlias = CurlHandle::LocalhostAlias::Enable; }
 
+#if OS(SYMBIAN)
+    void setMessageQueue(RefPtr<SynchronousLoaderMessageQueue>&& queue) { m_messageQueue = WTF::move(queue); }
+    void setDefersLoading(bool);
+    // Opt-in only, configured while the HTTP response is paused or before start.
+    // Zero preserves the normal resource-loading behavior.
+    void setDownloadBufferLimit(size_t limit) { RELEASE_ASSERT(m_downloadBuffer.setLimit(limit)); }
+#endif
     WEBCORE_EXPORT void resume();
     WEBCORE_EXPORT void cancel();
 
@@ -137,6 +148,14 @@ private:
     static int didReceiveDebugInfoCallback(CURL*, curl_infotype, char*, size_t, void*);
 
 
+#if OS(SYMBIAN)
+    RefPtr<SynchronousLoaderMessageQueue> m_messageQueue;
+    std::atomic<bool> m_defersLoading { false };
+    CurlDownloadBuffer m_downloadBuffer;
+    bool m_downloadDataPaused { false }; // Curl worker thread only.
+    void didConsumeDownloadData(size_t);
+    void resumeDownloadIfAllowed();
+#endif
     CurlRequestClient* m_client { };
     Lock m_statusMutex;
     bool m_cancelled { false };

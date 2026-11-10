@@ -42,6 +42,10 @@
 #include "UserGestureIndicator.h"
 #include <wtf/SystemTracing.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WebCore {
 
 ScriptedAnimationController::ScriptedAnimationController(Document& document)
@@ -142,6 +146,9 @@ void ScriptedAnimationController::cancelCallback(CallbackId callbackId)
 
 void ScriptedAnimationController::serviceRequestAnimationFrameCallbacks(ReducedResolutionSeconds timestamp)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::ScriptLabel profileLabel("raf");
+#endif
     if (!m_callbackDataList.size() || m_suspendCount)
         return;
 

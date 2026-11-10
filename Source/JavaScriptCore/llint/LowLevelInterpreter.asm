@@ -229,7 +229,7 @@ if X86_64 or ARM64 or ARM64E or RISCV64
     const CalleeSaveSpaceAsVirtualRegisters = 4
 elsif C_LOOP
     const CalleeSaveSpaceAsVirtualRegisters = 1
-elsif ARMv7
+elsif ARMv7 or ARM
     const CalleeSaveSpaceAsVirtualRegisters = 1
 else
     const CalleeSaveSpaceAsVirtualRegisters = 0
@@ -281,7 +281,7 @@ const VMSoftStackLimitOffset = VM::m_threadContext + VMThreadContext::m_traps + 
 
 # Registers
 
-if ARMv7
+if ARMv7 or ARM
     const a0 = t0
     const a1 = t1
     const a2 = t2
@@ -440,7 +440,7 @@ else
     if C_LOOP
         const PB = csr0
         const metadataTable = csr3
-    elsif ARMv7
+    elsif ARMv7 or ARM
         const metadataTable = csr0
         const PB = csr1
     else
@@ -833,10 +833,10 @@ end
 #     LLIntSlowPaths.cpp:
 #     extern "C" void cProbeCallbackFunction(uint64_t i) {}
 #
-if X86_64 or ARM64 or ARM64E or ARMv7
+if X86_64 or ARM64 or ARM64E or ARMv7 or ARM
     macro probe(action)
         # save all the registers that the LLInt may use.
-        if ARM64 or ARM64E or ARMv7
+        if ARM64 or ARM64E or ARMv7 or ARM
             push cfr, lr
         end
         push a0, a1
@@ -852,7 +852,7 @@ if X86_64 or ARM64 or ARM64E or ARMv7
             push csr4, csr5
             push csr6, csr7
             push csr8, csr9
-        elsif ARMv7
+        elsif ARMv7 or ARM
             push csr0, csr1
         end
 
@@ -865,7 +865,7 @@ if X86_64 or ARM64 or ARM64E or ARMv7
             pop csr5, csr4
             pop csr3, csr2
             pop csr1, csr0
-        elsif ARMv7
+        elsif ARMv7 or ARM
             pop csr1, csr0
         end
         pop ws1, ws0
@@ -875,7 +875,7 @@ if X86_64 or ARM64 or ARM64E or ARMv7
         pop t1, t0
         pop a3, a2
         pop a1, a0
-        if ARM64 or ARM64E or ARMv7
+        if ARM64 or ARM64E or ARMv7 or ARM
             pop lr, cfr
         end
     end
@@ -891,7 +891,7 @@ macro checkStackPointerAlignment(tempReg, location)
             # C_LOOP does not need the alignment, and can use a little perf
             # improvement from avoiding useless work.
         else
-            if ARMv7
+            if ARMv7 or ARM
                 # ARM can't do logical ops with the sp as a source
                 move sp, tempReg
                 andp StackAlignmentMask, tempReg
@@ -908,7 +908,7 @@ end
 
 if C_LOOP or ARM64 or ARM64E or X86_64 or RISCV64
     const CalleeSaveRegisterCount = 0
-elsif ARMv7
+elsif ARMv7 or ARM
     const CalleeSaveRegisterCount = 5 + 2 * 2 // 5 32-bit GPRs + 2 64-bit FPRs
 end
 
@@ -924,7 +924,7 @@ macro pushCalleeSaves()
     # i.e.: only those registers that are callee save in the C ABI, but are not
     # callee save in the JIT ABI.
     if C_LOOP or ARM64 or ARM64E or X86_64 or RISCV64
-    elsif ARMv7
+    elsif ARMv7 or ARM
         emit "vpush.64 {d14, d15}"
         emit "push {r4-r6, r8-r9}"
     end
@@ -932,14 +932,14 @@ end
 
 macro popCalleeSaves()
     if C_LOOP or ARM64 or ARM64E or X86_64 or RISCV64
-    elsif ARMv7
+    elsif ARMv7 or ARM
         emit "pop {r4-r6, r8-r9}"
         emit "vpop.64 {d14, d15}"
     end
 end
 
 macro preserveCallerPCAndCFR()
-    if C_LOOP or ARMv7
+    if C_LOOP or ARMv7 or ARM
         push lr
         push cfr
     elsif X86_64
@@ -954,7 +954,7 @@ end
 
 macro restoreCallerPCAndCFR()
     move cfr, sp
-    if C_LOOP or ARMv7
+    if C_LOOP or ARMv7 or ARM
         pop cfr
         pop lr
     elsif X86_64
@@ -968,6 +968,10 @@ macro preserveCalleeSavesUsedByLLInt()
     subp CalleeSaveSpaceStackAligned, sp
     if C_LOOP
         storep metadataTable, -PtrSize[cfr]
+    elsif ARM
+        # RegisterAtOffsetList sorts by physical register: r7, then r10.
+        storep metadataTable, -4[cfr]
+        storep PB, -8[cfr]
     elsif ARMv7
         storep PB, -4[cfr]
         storep metadataTable, -8[cfr]
@@ -990,6 +994,9 @@ end
 macro restoreCalleeSavesUsedByLLInt()
     if C_LOOP
         loadp -PtrSize[cfr], metadataTable
+    elsif ARM
+        loadp -4[cfr], metadataTable
+        loadp -8[cfr], PB
     elsif ARMv7
         loadp -4[cfr], PB
         loadp -8[cfr], metadataTable
@@ -1065,9 +1072,14 @@ macro copyCalleeSavesToBuffer(buffer)
         storeq csr2, 16[buffer]
         storeq csr3, 24[buffer]
         storeq csr4, 32[buffer]
-    elsif ARMv7
-        storep csr0, [buffer]
-        storep csr1, 4[buffer]
+    elsif ARMv7 or ARM
+        if ARM
+            storep csr1, [buffer]
+            storep csr0, 4[buffer]
+        else
+            storep csr0, [buffer]
+            storep csr1, 4[buffer]
+        end
         stored csfr0, 8[buffer]
         stored csfr1, 16[buffer]
         stored csfr2, 24[buffer]
@@ -1102,7 +1114,7 @@ macro copyCalleeSavesToBuffer(buffer)
 end
 
 macro copyCalleeSavesToEntryFrameCalleeSavesBuffer(entryFrame)
-    if ARM64 or ARM64E or X86_64 or ARMv7 or RISCV64
+    if ARM64 or ARM64E or X86_64 or ARMv7 or ARM or RISCV64
         vmEntryRecord(entryFrame, entryFrame)
         leap VMEntryRecord::calleeSaveRegistersBuffer[entryFrame], entryFrame
         copyCalleeSavesToBuffer(entryFrame)
@@ -1110,7 +1122,7 @@ macro copyCalleeSavesToEntryFrameCalleeSavesBuffer(entryFrame)
 end
 
 macro copyCalleeSavesToVMEntryFrameCalleeSavesBuffer(vm, temp)
-    if ARM64 or ARM64E or X86_64 or ARMv7 or RISCV64
+    if ARM64 or ARM64E or X86_64 or ARMv7 or ARM or RISCV64
         loadp VM::topEntryFrame[vm], temp
         copyCalleeSavesToEntryFrameCalleeSavesBuffer(temp)
     end
@@ -1133,9 +1145,14 @@ macro restoreCalleeSavesFromBuffer(buffer)
         loadq 16[buffer], csr2
         loadq 24[buffer], csr3
         loadq 32[buffer], csr4
-    elsif ARMv7
-        loadp [buffer], csr0
-        loadp 4[buffer], csr1
+    elsif ARMv7 or ARM
+        if ARM
+            loadp [buffer], csr1
+            loadp 4[buffer], csr0
+        else
+            loadp [buffer], csr0
+            loadp 4[buffer], csr1
+        end
         loadd 8[buffer], csfr0
         loadd 16[buffer], csfr1
         loadd 24[buffer], csfr2
@@ -1170,7 +1187,7 @@ macro restoreCalleeSavesFromBuffer(buffer)
 end
 
 macro restoreCalleeSavesFromVMEntryFrameCalleeSavesBuffer(vm, temp)
-    if ARM64 or ARM64E or X86_64 or ARMv7 or RISCV64
+    if ARM64 or ARM64E or X86_64 or ARMv7 or ARM or RISCV64
         loadp VM::topEntryFrame[vm], temp
         vmEntryRecord(temp, temp)
         leap VMEntryRecord::calleeSaveRegistersBuffer[temp], temp
@@ -1179,7 +1196,7 @@ macro restoreCalleeSavesFromVMEntryFrameCalleeSavesBuffer(vm, temp)
 end
 
 macro preserveReturnAddressAfterCall(destinationRegister)
-    if C_LOOP or ARMv7 or ARM64 or ARM64E or RISCV64
+    if C_LOOP or ARMv7 or ARM or ARM64 or ARM64E or RISCV64
         # In C_LOOP case, we're only preserving the bytecode vPC.
         move lr, destinationRegister
     elsif X86_64
@@ -1195,7 +1212,7 @@ macro functionPrologue()
         push cfr
     elsif ARM64 or ARM64E or RISCV64
         push cfr, lr
-    elsif C_LOOP or ARMv7 
+    elsif C_LOOP or ARMv7 or ARM
         push lr
         push cfr
     end
@@ -1207,7 +1224,7 @@ macro functionEpilogue()
         pop cfr
     elsif ARM64 or ARM64E or RISCV64
         pop lr, cfr
-    elsif C_LOOP or ARMv7
+    elsif C_LOOP or ARMv7 or ARM
         pop cfr
         pop lr
     end
@@ -1292,7 +1309,7 @@ macro callTargetFunction(opcodeName, size, opcodeStruct, dispatchAfterCall, valu
         size(callNarrow, callWide16, callWide32, macro (gen) gen() end)
     else
         call callee, callPtrTag
-        if ARMv7
+        if ARMv7 or ARM
             # It is required in ARMv7 because global label definitions
             # for those architectures generates a set of instructions
             # that can clobber LLInt execution, resulting in unexpected
@@ -1368,7 +1385,7 @@ macro prepareForTailCall(temp1, temp2, temp3, temp4, storeCodeBlock)
     addi StackAlignment - 1 + CallFrameHeaderSize, temp2
     andi ~StackAlignmentMask, temp2
 
-    if ARMv7 or ARM64 or ARM64E or C_LOOP or RISCV64
+    if ARMv7 or ARM or ARM64 or ARM64E or C_LOOP or RISCV64
         subi CallerFrameAndPCSize, temp2
         loadp CallerFrameAndPC::returnPC[cfr], lr
     else
@@ -1667,7 +1684,7 @@ macro prologue(osrSlowPath, traceSlowPath)
         elsif ARM64E
             # untagReturnAddress will be performed in Gate::entryOSREntry.
             pop lr, cfr
-        elsif ARMv7
+        elsif ARMv7 or ARM
             pop cfr
             pop lr
         else
@@ -2262,6 +2279,10 @@ else
     macro initPCRelative(kind, pcBase)
         if X86_64
         elsif ARM64 or ARM64E
+        elsif ARM
+        _%kind%_relativePCBase:
+            move pc, pcBase
+            subp 8, pcBase   # ARM-state PC reads the instruction address + 8.
         elsif ARMv7
         _%kind%_relativePCBase:
             move pc, pcBase
@@ -2278,7 +2299,7 @@ else
             leap [map, t4, PtrSize], t4
             tagCodePtr t3, BytecodePtrTag, AddressDiversified, t4
             storep t3, [t4]
-        elsif ARMv7
+        elsif ARMv7 or ARM
             mvlbl (label - _%kind%_relativePCBase), t4
             addp t4, t3, t4
             move index, t5
@@ -3020,11 +3041,11 @@ else
 end
 
 op(checkpoint_osr_exit_from_inlined_call_trampoline, macro ()
-    if (JSVALUE64 and not C_LOOP) or ARMv7
+    if (JSVALUE64 and not C_LOOP) or ARMv7 or ARM
         restoreStackPointerAfterCall()
 
         # Make sure we move r0 to a1 first since r0 might be the same as a0, for instance, on arm.
-        if ARMv7
+        if ARMv7 or ARM
             # Given _llint_slow_path_checkpoint_osr_exit_from_inlined_call has
             # parameters as CallFrame* and EncodedJSValue,
             # we need to store call result on a2, a3 and call frame on a0,
@@ -3061,7 +3082,7 @@ end)
 op(checkpoint_osr_exit_trampoline, macro ()
     # FIXME: We can probably dispatch to the checkpoint handler directly but this was easier 
     # and probably doesn't matter for performance.
-    if (JSVALUE64 and not C_LOOP) or ARMv7
+    if (JSVALUE64 and not C_LOOP) or ARMv7 or ARM
         restoreStackPointerAfterCall()
 
         move cfr, a0

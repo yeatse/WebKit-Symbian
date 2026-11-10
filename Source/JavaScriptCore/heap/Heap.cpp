@@ -123,6 +123,10 @@
 #include "JSCGLibWrapperObject.h"
 #endif
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace JSC {
 
 namespace HeapInternal {
@@ -1275,6 +1279,9 @@ void Heap::clearConcurrentRetainedDataIfPossible()
 
 void Heap::sweepSynchronously()
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::GC);
+#endif
     if (!Options::useGC()) [[unlikely]]
         return;
 
@@ -2064,6 +2071,9 @@ NEVER_INLINE void Heap::resumeTheMutator()
 
 void Heap::stopIfNecessarySlow()
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::GC);
+#endif
     if constexpr (validateDFGDoesGC)
         vm().verifyCanGC();
 
@@ -2399,6 +2409,9 @@ Heap::Ticket Heap::requestCollection(GCRequest request)
 
 void Heap::waitForCollection(Ticket ticket)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::GC);
+#endif
     waitForCollector(
         [&] (const AbstractLocker&) -> bool {
             return m_lastServedTicket >= ticket;

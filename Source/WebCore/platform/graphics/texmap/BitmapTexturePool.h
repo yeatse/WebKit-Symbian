@@ -51,6 +51,9 @@ class BitmapTexturePool final : public CanMakeThreadSafeCheckedPtr<BitmapTexture
 public:
     WEBCORE_EXPORT static BitmapTexturePool& singleton();
     ~BitmapTexturePool() = default;
+#if OS(SYMBIAN)
+    WEBCORE_EXPORT void releaseTexturesForContext(const std::shared_ptr<SymbianGLResourceState>&);
+#endif
 
     WEBCORE_EXPORT Ref<BitmapTexture> acquireTexture(const IntSize&, OptionSet<BitmapTexture::Flags>);
 #if USE(GBM)

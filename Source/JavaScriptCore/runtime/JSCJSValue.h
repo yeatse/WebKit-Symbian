@@ -27,6 +27,7 @@
 #include <JavaScriptCore/PureNaN.h>
 #include <atomic>
 #include <cmath>
+#include <wtf/Atomics.h>
 #include <wtf/Forward.h>
 #include <wtf/HashFunctions.h>
 #include <wtf/HashTraits.h>

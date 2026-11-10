@@ -26,6 +26,12 @@
 #include "NotImplemented.h"
 #include "SharedBuffer.h"
 #include <wtf/TZoneMallocInlines.h>
+#if OS(SYMBIAN)
+#include <atomic>
+#include <wtf/Lock.h>
+#include <wtf/MonotonicTime.h>
+#include <wtf/NeverDestroyed.h>
+#endif
 
 #if !PLATFORM(COCOA)
 #include "BMPImageDecoder.h"
@@ -54,6 +60,10 @@
 #include <wtf/darwin/WeakLinking.h>
 
 WTF_WEAK_LINK_FORCE_IMPORT(JxlSignatureCheck);
+#endif
+
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
 #endif
 
 namespace WebCore {
@@ -219,14 +229,117 @@ Seconds ScalableImageDecoder::frameDurationAtIndex(size_t index) const
     return duration;
 }
 
+#if OS(SYMBIAN)
+static std::atomic<bool> s_decodeStatsEnabled;
+
+void ScalableImageDecoder::setDecodeStatsEnabled(bool enabled)
+{
+    s_decodeStatsEnabled = enabled;
+}
+
+namespace {
+
+struct DecodeStats {
+    String name;
+    unsigned count { 0 };
+    unsigned partial { 0 };
+    uint64_t pixels { 0 };
+    double milliseconds { 0 };
+    double maxMilliseconds { 0 };
+    IntSize maxSize;
+    // Images of 200 thousand pixels or more, where a hardware decoder's
+    // fixed cost per image would pay off.
+    unsigned largeCount { 0 };
+    double largeMilliseconds { 0 };
+};
+
+}
+
+static Lock s_decodeStatsLock;
+static Vector<DecodeStats>& decodeStats() WTF_REQUIRES_LOCK(s_decodeStatsLock)
+{
+    static NeverDestroyed<Vector<DecodeStats>> stats;
+    return stats;
+}
+static MonotonicTime s_decodeStatsStart WTF_GUARDED_BY_LOCK(s_decodeStatsLock);
+
+// Decodes on any thread add to one summary, logged by the decode that
+// ends a second or more after the summary began.
+static void recordDecode(const String& name, const IntSize& size, double milliseconds, bool complete)
+{
+    Locker locker { s_decodeStatsLock };
+    auto& stats = decodeStats();
+    MonotonicTime now = MonotonicTime::now();
+    if (stats.isEmpty())
+        s_decodeStatsStart = now;
+    DecodeStats* entry = nullptr;
+    for (auto& candidate : stats) {
+        if (candidate.name == name) {
+            entry = &candidate;
+            break;
+        }
+    }
+    if (!entry) {
+        stats.append(DecodeStats { name });
+        entry = &stats.last();
+    }
+    uint64_t pixels = static_cast<uint64_t>(std::max(0, size.width())) * std::max(0, size.height());
+    ++entry->count;
+    if (!complete)
+        ++entry->partial;
+    entry->pixels += pixels;
+    entry->milliseconds += milliseconds;
+    if (milliseconds > entry->maxMilliseconds) {
+        entry->maxMilliseconds = milliseconds;
+        entry->maxSize = size;
+    }
+    if (pixels >= 200000) {
+        ++entry->largeCount;
+        entry->largeMilliseconds += milliseconds;
+    }
+
+    double window = (now - s_decodeStatsStart).milliseconds();
+    if (window < 1000)
+        return;
+    for (auto& item : stats) {
+        WTFLogAlways("image-decode: %s window=%.0fms n=%u partial=%u kpx=%.0f ms=%.1f max=%.1f@%dx%d large=%u/%.1fms",
+            item.name.utf8().data(), window, item.count, item.partial, item.pixels / 1000.0, item.milliseconds,
+            item.maxMilliseconds, item.maxSize.width(), item.maxSize.height(), item.largeCount, item.largeMilliseconds);
+    }
+    stats.clear();
+}
+bool ScalableImageDecoder::decodeStatsEnabled()
+{
+    return s_decodeStatsEnabled.load(std::memory_order_relaxed);
+}
+
+void ScalableImageDecoder::recordDecodeStats(const String& name, const IntSize& size, double milliseconds, bool complete)
+{
+    if (decodeStatsEnabled())
+        recordDecode(name, size, milliseconds, complete);
+}
+#endif
+
 PlatformImagePtr ScalableImageDecoder::createFrameImageAtIndex(size_t index, SubsamplingLevel, const DecodingOptions&)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Decode);
+#endif
     Locker locker { m_lock };
     // Zero-height images can cause problems for some ports. If we have an empty image dimension, just bail.
     if (size().isEmpty())
         return nullptr;
 
+#if OS(SYMBIAN)
+    // A frame decoded before is only handed out again: count decoding work only.
+    bool alreadyComplete = index < m_frameBufferCache.size() && m_frameBufferCache[index].isComplete();
+    MonotonicTime decodeStart = s_decodeStatsEnabled.load(std::memory_order_relaxed) && !alreadyComplete ? MonotonicTime::now() : MonotonicTime();
+#endif
     auto* buffer = frameBufferAtIndex(index);
+#if OS(SYMBIAN)
+    if (decodeStart && buffer)
+        recordDecode(decodeStatsName(), size(), (MonotonicTime::now() - decodeStart).milliseconds(), buffer->isComplete());
+#endif
     if (!buffer || buffer->isInvalid() || !buffer->hasBackingStore())
         return nullptr;
 

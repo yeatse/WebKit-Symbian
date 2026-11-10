@@ -68,6 +68,8 @@ public:
         MachSendRight;
 #elif OS(WINDOWS)
         Win32Handle;
+#elif OS(SYMBIAN)
+        uintptr_t;
 #endif
 
     // Note: this function should not be used to share writable arbitrary malloc memory to

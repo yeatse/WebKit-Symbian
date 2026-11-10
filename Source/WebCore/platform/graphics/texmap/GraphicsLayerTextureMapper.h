@@ -48,6 +48,7 @@ public:
 
     void setMaskLayer(RefPtr<GraphicsLayer>&&) override;
     void setReplicatedByLayer(RefPtr<GraphicsLayer>&&) override;
+    void setShapeLayerPath(const Path&) override;
     void setPosition(const FloatPoint&) override;
     void setAnchorPoint(const FloatPoint3D&) override;
     void setSize(const FloatSize&) override;
@@ -66,6 +67,7 @@ public:
     void setBackdropFiltersRect(const FloatRoundedRect&) override;
 
     void setNeedsDisplay() override;
+    void deviceOrPageScaleFactorChanged() override;
     void setNeedsDisplayInRect(const FloatRect&, ShouldClipToLayer = ShouldClipToLayer::Clip) override;
     void setContentsNeedsDisplay() override;
     void setContentsRect(const FloatRect&) override;
@@ -90,7 +92,13 @@ public:
     void flushCompositingState(const FloatRect&) override;
     void flushCompositingStateForThisLayerOnly() override;
 
-    WEBCORE_EXPORT void updateBackingStoreIncludingSubLayers(TextureMapper&);
+    WEBCORE_EXPORT bool updateBackingStoreIncludingSubLayers(TextureMapper&);
+    // With a viewport (in the root layer's coordinates), layers keep and paint
+    // tiles only around their visible part; see TextureMapperTiledBackingStore.
+    // The layer tree's transforms must be current (TextureMapperLayer::
+    // prepareForPainting). morePending asks for another update for tiles
+    // still to be painted ahead.
+    WEBCORE_EXPORT bool updateBackingStoreIncludingSubLayers(TextureMapper&, const FloatRect& viewport, bool& morePending);
 
     TextureMapperLayer& layer() { return m_layer; }
 
@@ -107,7 +115,8 @@ private:
 
     void commitLayerChanges();
     void updateDebugBorderAndRepaintCount();
-    void updateBackingStoreIfNeeded(TextureMapper&);
+    bool updateBackingStoreIfNeeded(TextureMapper&);
+    bool updateBackingStoreWithCoverage(TextureMapper&, const FloatRect& viewport, bool& morePending);
     void prepareBackingStoreIfNeeded();
     bool shouldHaveBackingStore() const;
 
@@ -164,6 +173,9 @@ private:
 
     int m_changeMask;
     bool m_needsDisplay;
+    bool m_backingStoreUsesCoverage { false };
+    // For a Shape mask layer: the clip its masked layer applies instead.
+    std::optional<FloatRoundedRect> m_shapeClip;
     Color m_solidColor;
 
     Color m_debugBorderColor;

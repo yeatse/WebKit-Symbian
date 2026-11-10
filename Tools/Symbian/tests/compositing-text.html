@@ -1,0 +1,55 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compositing text comparison</title>
+<style>
+body { margin: 12px; color: black; background: white; font: 15px sans-serif; }
+h1 { margin: 0 0 8px; font: 15px sans-serif; }
+.label { margin: 7px 0 1px; font: 11px sans-serif; }
+.box { width: 280px; height: 24px; overflow: hidden; background: yellow; }
+.text { display: block; }
+.promoted { transform: translateZ(0); }
+.scrolled .inner { padding-top: 80px; height: 140px; box-sizing: border-box; }
+.integer { line-height: 20px; }
+.stripes { width: 280px; height: 6px; margin-top: 8px;
+  background: repeating-linear-gradient(to right, black 0, black 1px, white 1px, white 2px); }
+#status { font: 11px sans-serif; }
+</style>
+<h1>Identical text, different layer paths</h1>
+<div class="label">1. Normal text, normal line height</div>
+<div class="box" id="plain"><span class="text">YELLOW SCROLLED TEXT</span></div>
+<div class="label">2. Promoted text, normal line height</div>
+<div class="box" id="promoted"><span class="text promoted">YELLOW SCROLLED TEXT</span></div>
+<div class="label">3. Scrolled text, no child transform</div>
+<div class="box scrolled" id="scrollPlain"><div class="inner"><span class="text">YELLOW SCROLLED TEXT</span></div></div>
+<div class="label">4. Scrolled promoted text, normal line height</div>
+<div class="box scrolled" id="scrollPromoted"><div class="inner"><span class="text promoted">YELLOW SCROLLED TEXT</span></div></div>
+<div class="label">5. Promoted text, integer line height 20px</div>
+<div class="box integer" id="integer"><span class="text promoted">YELLOW SCROLLED TEXT</span></div>
+<div class="label">6. Scrolled promoted text, integer line height 20px</div>
+<div class="box scrolled integer" id="scrollInteger"><div class="inner"><span class="text promoted">YELLOW SCROLLED TEXT</span></div></div>
+<div class="stripes"></div><div class="stripes promoted"></div>
+<p id="status">Waiting for stable layout.</p>
+<script>
+(function () {
+    'use strict';
+    var ids = ['plain', 'promoted', 'scrollPlain', 'scrollPromoted', 'integer', 'scrollInteger'];
+    ids.forEach(function (id) {
+        var box = document.getElementById(id);
+        if (box.classList.contains('scrolled')) box.scrollTop = 80;
+    });
+    setTimeout(function () {
+        console.log('TEXT COMPARISON devicePixelRatio=' + window.devicePixelRatio);
+        ids.forEach(function (id) {
+            var box = document.getElementById(id), text = box.querySelector('.text');
+            var rect = text.getBoundingClientRect(), style = getComputedStyle(text);
+            console.log('TEXT COMPARISON ' + id + ' ' + JSON.stringify({
+                x: rect.left, y: rect.top, width: rect.width, height: rect.height,
+                lineHeight: style.lineHeight, font: style.font, transform: style.transform, scrollTop: box.scrollTop
+            }));
+        });
+        document.getElementById('status').textContent = 'READY: compare all six text rows and the two 1px stripe rows.';
+        console.log('READY: compositing-text');
+    }, 1500);
+}());
+</script>

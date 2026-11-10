@@ -107,7 +107,7 @@ struct PasteboardWebContent {
     bool canSmartCopyOrDelete;
     String text;
     String markup;
-#elif USE(LIBWPE)
+#elif USE(LIBWPE) || OS(SYMBIAN)
     String text;
     String markup;
 #endif
@@ -220,6 +220,9 @@ public:
     static bool canExposeURLToDOMWhenPasteboardContainsFiles(const String&);
 
     virtual bool isStatic() const { return false; }
+#if OS(SYMBIAN)
+    bool writeSucceeded() const { return m_writeSucceeded; }
+#endif
 
     virtual WEBCORE_EXPORT bool hasData();
     virtual WEBCORE_EXPORT Vector<String> typesSafeForBindings(const String& origin);
@@ -367,6 +370,9 @@ private:
 #endif
 
     std::unique_ptr<PasteboardContext> m_context;
+#if OS(SYMBIAN)
+    bool m_writeSucceeded { false };
+#endif
 
 #if PLATFORM(GTK) || PLATFORM(WPE)
     std::optional<SelectionData> m_selectionData;

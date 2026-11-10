@@ -77,6 +77,13 @@ void GraphicsLayerTextureMapper::setNeedsDisplay()
     addRepaintRect(FloatRect(FloatPoint(), m_size));
 }
 
+void GraphicsLayerTextureMapper::deviceOrPageScaleFactorChanged()
+{
+    // The next upload must rebuild every tile at the new raster scale, even
+    // when the layer's CSS size and painted content have not changed.
+    setNeedsDisplay();
+}
+
 void GraphicsLayerTextureMapper::setContentsNeedsDisplay()
 {
     notifyChange(DisplayChange);
@@ -152,6 +159,22 @@ void GraphicsLayerTextureMapper::setMaskLayer(RefPtr<GraphicsLayer>&& value)
     rawLayer->setContentsVisible(contentsAreVisible());
 }
 
+
+void GraphicsLayerTextureMapper::setShapeLayerPath(const Path& path)
+{
+    GraphicsLayer::setShapeLayerPath(path);
+    // Only rounded rects are made Shape layers here; any other path clips
+    // to its bounds until the masked layer is configured again.
+    auto shapeClip = shapePathAsRoundedRect(path);
+    if (!shapeClip && !path.isEmpty())
+        shapeClip = FloatRoundedRect(path.fastBoundingRect());
+    if (shapeClip == m_shapeClip)
+        return;
+    m_shapeClip = shapeClip;
+    // The parent of a mask layer is the layer it masks.
+    if (auto* masked = downcast<GraphicsLayerTextureMapper>(parent()); masked && masked->maskLayer() == this)
+        masked->notifyChange(MaskLayerChange);
+}
 
 void GraphicsLayerTextureMapper::setReplicatedByLayer(RefPtr<GraphicsLayer>&& value)
 {
@@ -436,7 +459,15 @@ void GraphicsLayerTextureMapper::commitLayerChanges()
 
     if (m_changeMask & MaskLayerChange) {
         auto* layer = downcast<GraphicsLayerTextureMapper>(maskLayer());
-        m_layer.setMaskLayer(layer ? &layer->layer() : nullptr);
+        if (layer && layer->type() == Type::Shape) {
+            // A clip of the layer and its descendants, not a mask texture.
+            // An empty path clips everything.
+            m_layer.setMaskLayer(nullptr);
+            m_layer.setShapeClip(layer->m_shapeClip.value_or(FloatRoundedRect()));
+        } else {
+            m_layer.setMaskLayer(layer ? &layer->layer() : nullptr);
+            m_layer.setShapeClip(std::nullopt);
+        }
     }
 
     if (m_changeMask & ReplicaLayerChange) {
@@ -557,39 +588,102 @@ void GraphicsLayerTextureMapper::flushCompositingState(const FloatRect& rect)
         child->flushCompositingState(rect);
 }
 
-void GraphicsLayerTextureMapper::updateBackingStoreIncludingSubLayers(TextureMapper& textureMapper)
+bool GraphicsLayerTextureMapper::updateBackingStoreIncludingSubLayers(TextureMapper& textureMapper)
 {
-    updateBackingStoreIfNeeded(textureMapper);
-
-    if (maskLayer())
-        downcast<GraphicsLayerTextureMapper>(*maskLayer()).updateBackingStoreIfNeeded(textureMapper);
-    if (replicaLayer())
-        downcast<GraphicsLayerTextureMapper>(*replicaLayer()).updateBackingStoreIncludingSubLayers(textureMapper);
-    for (auto& child : children())
-        downcast<GraphicsLayerTextureMapper>(child.get()).updateBackingStoreIncludingSubLayers(textureMapper);
+    if (!updateBackingStoreIfNeeded(textureMapper))
+        return false;
+    if (maskLayer() && !downcast<GraphicsLayerTextureMapper>(*maskLayer()).updateBackingStoreIfNeeded(textureMapper))
+        return false;
+    if (replicaLayer() && !downcast<GraphicsLayerTextureMapper>(*replicaLayer()).updateBackingStoreIncludingSubLayers(textureMapper))
+        return false;
+    for (auto& child : children()) {
+        if (!downcast<GraphicsLayerTextureMapper>(child.get()).updateBackingStoreIncludingSubLayers(textureMapper))
+            return false;
+    }
+    return true;
 }
 
-void GraphicsLayerTextureMapper::updateBackingStoreIfNeeded(TextureMapper& textureMapper)
+bool GraphicsLayerTextureMapper::updateBackingStoreIncludingSubLayers(TextureMapper& textureMapper, const FloatRect& viewport, bool& morePending)
+{
+    // A reflection shows this layer and its descendants elsewhere: tile them
+    // whole. Masks are tiled whole too.
+    if (replicaLayer())
+        return updateBackingStoreIncludingSubLayers(textureMapper);
+    if (!updateBackingStoreWithCoverage(textureMapper, viewport, morePending))
+        return false;
+    if (maskLayer() && !downcast<GraphicsLayerTextureMapper>(*maskLayer()).updateBackingStoreIfNeeded(textureMapper))
+        return false;
+    for (auto& child : children()) {
+        if (!downcast<GraphicsLayerTextureMapper>(child.get()).updateBackingStoreIncludingSubLayers(textureMapper, viewport, morePending))
+            return false;
+    }
+    return true;
+}
+
+bool GraphicsLayerTextureMapper::updateBackingStoreWithCoverage(TextureMapper& textureMapper, const FloatRect& viewport, bool& morePending)
 {
     if (!shouldHaveBackingStore()) {
         ASSERT(!m_backingStore);
-        return;
+        return true;
     }
     ASSERT(m_backingStore);
+
+    FloatRect bounds(FloatPoint::zero(), m_size);
+    FloatRect visible;
+    const auto& transform = m_layer.toSurfaceTransform();
+    if (!transform.isAffine())
+        visible = bounds; // Perspective: no simple inverse mapping, keep it all.
+    else if (auto inverse = transform.inverse())
+        visible = intersection(inverse->mapRect(viewport), bounds);
+
+    IntRect dirtyRect;
+    if (m_needsDisplay)
+        dirtyRect = enclosingIntRect(bounds);
+    else
+        dirtyRect = intersection(enclosingIntRect(m_needsDisplayRect), enclosingIntRect(bounds));
+
+    float scale = pageScaleFactor() * deviceScaleFactor();
+    m_backingStore->updateContentsScale(scale);
+    dirtyRect.scale(scale);
+    visible.scale(scale);
+    if (!m_backingStore->updateContentsWithCoverage(textureMapper, this, m_size, dirtyRect, enclosingIntRect(visible), morePending))
+        return false;
+
+    m_backingStoreUsesCoverage = true;
+    m_needsDisplay = false;
+    m_needsDisplayRect = IntRect();
+    return true;
+}
+
+bool GraphicsLayerTextureMapper::updateBackingStoreIfNeeded(TextureMapper& textureMapper)
+{
+    if (!shouldHaveBackingStore()) {
+        ASSERT(!m_backingStore);
+        return true;
+    }
+    ASSERT(m_backingStore);
+
+    if (m_backingStoreUsesCoverage) {
+        // Coverage mode painted only part of the layer.
+        m_backingStoreUsesCoverage = false;
+        m_needsDisplay = true;
+    }
 
     IntRect dirtyRect = enclosingIntRect(FloatRect(FloatPoint::zero(), m_size));
     if (!m_needsDisplay)
         dirtyRect.intersect(enclosingIntRect(m_needsDisplayRect));
     if (dirtyRect.isEmpty())
-        return;
+        return true;
 
     m_backingStore->updateContentsScale(pageScaleFactor() * deviceScaleFactor());
 
     dirtyRect.scale(pageScaleFactor() * deviceScaleFactor());
-    m_backingStore->updateContents(textureMapper, this, m_size, dirtyRect);
+    if (!m_backingStore->updateContents(textureMapper, this, m_size, dirtyRect))
+        return false;
 
     m_needsDisplay = false;
     m_needsDisplayRect = IntRect();
+    return true;
 }
 
 bool GraphicsLayerTextureMapper::shouldHaveBackingStore() const

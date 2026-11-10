@@ -61,7 +61,7 @@ public:
     HashSet<String> allDomains();
     std::optional<Vector<Cookie>> searchCookies(const URL& firstParty, const URL& requestUrl, const std::optional<bool>& httpOnly, const std::optional<bool>& secure, const std::optional<bool>& session);
     Vector<Cookie> getAllCookies();
-    WEBCORE_EXPORT bool setCookie(const URL& firstParty, const URL&, const String& cookie, Source, std::optional<Seconds> cappedLifetime = std::nullopt);
+    WEBCORE_EXPORT bool setCookie(const URL& firstParty, const URL&, const String& cookie, Source, std::optional<Seconds> cappedLifetime = std::nullopt, const SameSiteInfo* = nullptr);
     bool setCookie(const Cookie&);
 
     bool deleteCookie(const String& url, const String& name);
@@ -91,7 +91,7 @@ private:
     bool checkDatabaseValidity();
     void deleteAllDatabaseFiles();
 
-    void verifySchemaVersion();
+    bool verifySchemaVersion();
     void deleteAllTables();
 
     void createPrepareStatement(ASCIILiteral);

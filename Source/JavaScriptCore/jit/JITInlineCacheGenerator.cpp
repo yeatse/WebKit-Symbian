@@ -119,14 +119,20 @@ void JITByIdGenerator::generateFastCommon(CCallHelpers& jit, size_t inlineICSize
 {
     ASSERT(is<RepatchingPropertyInlineCache>(*m_propertyCache));
     jit.padBeforePatch(); // On ARMv7, this ensures that the patchable jump does not make the inline code too large.
+#if CPU(ARM_TRADITIONAL)
+    // Repatching overwrites start through done, including anything emitted by
+    // the final label. Reserve its 4-byte instruction / 8-byte constant guard
+    // as well as the whole IC and jump literal before recording the start.
+    jit.m_assembler.ensureSpace(inlineICSize + sizeof(uint32_t), sizeof(uint32_t) + sizeof(uint64_t));
+#endif
     m_start = jit.label();
     size_t startSize = jit.m_assembler.buffer().codeSize();
     m_slowPathJump = jit.jump();
     size_t jumpSize = jit.m_assembler.buffer().codeSize() - startSize;
     size_t nopsToEmitInBytes = inlineICSize - jumpSize;
     jit.emitNops(nopsToEmitInBytes);
-    ASSERT(jit.m_assembler.buffer().codeSize() - startSize == inlineICSize);
     m_done = jit.label();
+    ASSERT(jit.m_assembler.buffer().codeSize() - startSize == inlineICSize);
 }
 
 void JITByIdGenerator::emitDataICSlowPath(CCallHelpers& jit, GPRReg propertyCacheGPR)

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmark: canvas 2D</title>
+<style>
+body { margin:0; }
+canvas { display:block; }
+</style>
+<canvas id="canvas" width="340" height="480"></canvas>
+<script src="bench.js"></script>
+<script>
+var context;
+bench('canvas', {
+    setup: function () {
+        context = document.getElementById('canvas').getContext('2d');
+        return context ? null : 'no canvas';
+    },
+    frame: function (elapsed) {
+        var t = elapsed / 1000;
+        context.fillStyle = '#fff';
+        context.fillRect(0, 0, 340, 480);
+        for (var i = 0; i < 150; ++i) {
+            var x = 170 + Math.sin(t + i * 0.13) * (40 + i), y = 240 + Math.cos(t * 1.3 + i * 0.17) * (30 + i * 1.2);
+            context.fillStyle = 'hsla(' + (i * 7 % 360) + ',70%,50%,.6)';
+            context.beginPath();
+            context.arc(x, y, 6 + i % 8, 0, Math.PI * 2);
+            context.fill();
+        }
+        context.fillStyle = '#000';
+        context.font = '16px sans-serif';
+        context.fillText('t = ' + t.toFixed(1) + ' s', 8, 20);
+    }
+});
+</script>

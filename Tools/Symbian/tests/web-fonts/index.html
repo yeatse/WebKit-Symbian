@@ -1,0 +1,67 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Web font decoder regression</title>
+<style>
+body { font: 14px sans-serif; background: white; color: black; margin: 12px; }
+@font-face { font-family: StaticWOFF2; src: url(Ahem.woff2) format("woff2"); }
+#sample { font: 20px StaticWOFF2, monospace; width: 220px; height: 25px; }
+canvas { display: block; border: 1px solid #888; }
+pre { white-space: pre-wrap; }
+</style>
+<h1>Static and malformed web fonts</h1>
+<div id="sample">XXXXXXXXXX</div>
+<canvas id="canvas" width="220" height="30"></canvas>
+<pre id="results"></pre>
+<script>
+(async function () {
+    'use strict';
+    var passed = 0, failed = 0, finished = false;
+    var results = document.getElementById('results');
+    function check(name, ok) {
+        if (finished) return;
+        if (ok) ++passed; else ++failed;
+        var line = 'WEBFONT ' + (ok ? 'PASS ' : 'FAIL ') + name;
+        results.textContent += line + '\n';
+        console.log(line);
+    }
+    function finish() {
+        if (finished) return;
+        finished = true;
+        var line = 'WEBFONT RESULT ' + passed + '/' + (passed + failed) + ' ' + (failed ? 'FAIL' : 'PASS');
+        results.textContent += line + '\n';
+        document.title = line;
+        console.log(line);
+        window.webFontTestResult = { passed: passed, failed: failed, total: passed + failed };
+    }
+    var timeout = setTimeout(function () { check('bounded completion', false); finish(); }, 15000);
+    try {
+        var loaded = await document.fonts.load('20px StaticWOFF2', 'XXXXXXXXXX');
+        check('CSS WOFF2 loaded', loaded.length === 1 && loaded[0].status === 'loaded');
+        var ctx = document.getElementById('canvas').getContext('2d');
+        ctx.font = '20px StaticWOFF2';
+        check('WOFF2 em-square metrics', Math.abs(ctx.measureText('XXXXXXXXXX').width - 200) < 0.01);
+        ctx.fillStyle = '#000';
+        ctx.fillText('XXXXXXXXXX', 0, 20);
+        var pixel = ctx.getImageData(10, 10, 1, 1).data;
+        check('WOFF2 glyph rasterized', pixel[0] === 0 && pixel[1] === 0 && pixel[2] === 0 && pixel[3] === 255);
+        var ttf = new FontFace('StaticTTF', 'url(Ahem.ttf)');
+        await ttf.load();
+        document.fonts.add(ttf);
+        ctx.font = '20px StaticTTF';
+        check('existing TTF metrics', ttf.status === 'loaded' && Math.abs(ctx.measureText('XXXXXXXXXX').width - 200) < 0.01);
+        for (var name of ['truncated.woff2', 'invalid-flavor.woff2']) {
+            var corrupt = new FontFace('Broken' + name.split('.')[0], 'url(' + name + ') format("woff2")');
+            var rejected = false;
+            try { await corrupt.load(); } catch (error) { rejected = corrupt.status === 'error'; }
+            check(name + ' rejected', rejected);
+        }
+        ctx.font = '20px StaticWOFF2';
+        check('valid font survives corrupt loads', Math.abs(ctx.measureText('XX').width - 40) < 0.01);
+    } catch (error) {
+        check('unexpected exception: ' + error, false);
+    }
+    clearTimeout(timeout);
+    finish();
+}());
+</script>

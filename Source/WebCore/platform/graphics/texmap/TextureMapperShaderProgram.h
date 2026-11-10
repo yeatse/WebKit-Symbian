@@ -23,6 +23,9 @@
 #if USE(TEXTURE_MAPPER)
 
 #include "TextureMapperGLHeaders.h"
+#if OS(SYMBIAN)
+#include "SymbianGLResourceState.h"
+#endif
 #include "TransformationMatrix.h"
 #include <wtf/HashMap.h>
 #include <wtf/NeverDestroyed.h>
@@ -125,6 +128,12 @@ public:
     virtual ~TextureMapperShaderProgram();
 
     GLuint programID() const { return m_id; }
+#if OS(SYMBIAN)
+    // False when a shader failed to compile or the program to link: using
+    // it raises GL errors that end the GPU path.
+    bool isValid() const { return m_valid; }
+    Options options() const { return m_options; }
+#endif
 
 
     TEXMAP_ATTRIBUTE_VARIABLES(TEXMAP_DECLARE_ATTRIBUTE)
@@ -136,6 +145,9 @@ public:
 private:
     TextureMapperShaderProgram(const String& vertexShaderSource, const String& fragmentShaderSource);
 
+#if OS(SYMBIAN)
+    std::shared_ptr<SymbianGLResourceState> m_resourceState;
+#endif
     GLuint m_vertexShader;
     GLuint m_fragmentShader;
 
@@ -143,6 +155,10 @@ private:
     GLuint getLocation(VariableID, ASCIILiteral, VariableType);
 
     GLuint m_id;
+#if OS(SYMBIAN)
+    bool m_valid { true };
+    Options m_options;
+#endif
     HashMap<VariableID, GLuint, IntHash<VariableID>, WTF::StrongEnumHashTraits<VariableID>> m_variables;
 };
 

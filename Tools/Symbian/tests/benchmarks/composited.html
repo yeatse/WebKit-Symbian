@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmark: composited animation</title>
+<style>
+body { margin:0; font:14px sans-serif; }
+#stage { position:relative; height:520px; overflow:hidden; }
+/* 3D transforms: composited layers, presented through EGL. */
+.card { position:absolute; left:10px; width:100px; height:60px; border-radius:8px;
+        will-change:transform; animation:slide 2s ease-in-out infinite alternate; }
+@keyframes slide { from { transform:translate3d(0,0,0) rotate(0deg); }
+                   to { transform:translate3d(220px,0,0) rotate(180deg); } }
+</style>
+<div id="stage"></div>
+<script src="bench.js"></script>
+<script>
+bench('composited', {
+    setup: function () {
+        var stage = document.getElementById('stage');
+        for (var i = 0; i < 8; ++i) {
+            var card = document.createElement('div');
+            card.className = 'card';
+            card.style.top = (i * 62 + 4) + 'px';
+            card.style.background = 'hsl(' + (i * 45) + ',70%,55%)';
+            card.style.animationDelay = (-i * 0.25) + 's';
+            stage.appendChild(card);
+        }
+        return null;
+    },
+    finish: function () {
+        // Stop the infinite animations with the measurement.
+        var cards = document.querySelectorAll('.card');
+        for (var i = 0; i < cards.length; ++i)
+            cards[i].style.animationPlayState = 'paused';
+    }
+});
+</script>

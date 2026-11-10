@@ -35,6 +35,7 @@
 #include "CurlStreamScheduler.h"
 #include "HTTPHeaderMap.h"
 #include <NetworkLoadMetrics.h>
+#include <algorithm>
 #include <mutex>
 #include <wtf/FileSystem.h>
 #include <wtf/MainThread.h>
@@ -123,6 +124,14 @@ CurlContext::CurlContext()
     if (auto value = envVar.readAs<signed>("WEBKIT_CURL_MAX_HOST_CONNECTIONS"))
         maxHostConnections = *value;
 
+#if OS(SYMBIAN)
+    // Environment overrides may lower these limits, but must not make the
+    // connection pool unlimited on a memory constrained device.
+    maxConnects = std::clamp(maxConnects, 1L, CurlDefaultMaxConnects);
+    maxTotalConnections = std::clamp(maxTotalConnections, 1L, CurlDefaultMaxTotalConnections);
+    maxHostConnections = std::clamp(maxHostConnections, 1L, CurlDefaultMaxHostConnections);
+#endif
+
     m_scheduler = makeUnique<CurlRequestScheduler>(maxConnects, maxTotalConnections, maxHostConnections);
 
     auto info = curl_version_info(CURLVERSION_NOW);
@@ -134,18 +143,25 @@ CurlContext::CurlContext()
     m_isHttp3Enabled = (info->features & CURL_VERSION_HTTP3) && m_isAltSvcEnabled;
 #endif
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     m_verbose = envVar.defined("DEBUG_CURL");
 
     auto logFile = envVar.read("CURL_LOG_FILE");
-    if (logFile)
+    if (logFile) {
         m_logFile = fopen(logFile, "a");
+#if OS(SYMBIAN)
+        // Keep explicitly enabled diagnostics when the process is terminated
+        // before this never-destroyed singleton can close its log stream.
+        if (m_logFile)
+            setvbuf(m_logFile, nullptr, _IONBF, 0);
+#endif
+    }
 #endif
 }
 
 CurlContext::~CurlContext()
 {
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     if (m_logFile)
         fclose(m_logFile);
 #endif
@@ -232,6 +248,10 @@ Lock* CurlShareHandle::mutexFor(curl_lock_data data)
 CurlMultiHandle::CurlMultiHandle()
 {
     m_multiHandle = curl_multi_init();
+#if OS(SYMBIAN)
+    curl_multi_setopt(m_multiHandle, CURLMOPT_PIPELINING, CURLPIPE_MULTIPLEX);
+    curl_multi_setopt(m_multiHandle, CURLMOPT_MAX_CONCURRENT_STREAMS, CurlMaxConcurrentStreams);
+#endif
 }
 
 CurlMultiHandle::~CurlMultiHandle()
@@ -308,7 +328,7 @@ CurlHandle::CurlHandle()
 
     enableProxyIfExists();
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
     enableVerboseIfUsed();
     enableStdErrIfUsed();
 #endif
@@ -328,10 +348,13 @@ const String CurlHandle::errorDescription(CURLcode errorCode)
 void CurlHandle::enableSSL()
 {
     auto& sslHandle = CurlContext::singleton().sslHandle();
+#if !OS(SYMBIAN)
     if (sslHandle.shouldIgnoreSSLErrors()) {
         setSslVerifyPeer(CurlHandle::VerifyPeer::Disable);
         setSslVerifyHost(CurlHandle::VerifyHost::LooseNameCheck);
-    } else {
+    } else
+#endif
+    {
         setSslVerifyPeer(CurlHandle::VerifyPeer::Enable);
         setSslVerifyHost(CurlHandle::VerifyHost::StrictNameCheck);
     }
@@ -355,8 +378,10 @@ void CurlHandle::enableSSL()
 
 void CurlHandle::disableServerTrustEvaluation()
 {
+#if !OS(SYMBIAN)
     setSslVerifyPeer(CurlHandle::VerifyPeer::Disable);
     setSslVerifyHost(CurlHandle::VerifyHost::LooseNameCheck);
+#endif
 }
 
 CURLcode CurlHandle::willSetupSslCtx(void* sslCtx)
@@ -503,7 +528,12 @@ void CurlHandle::enableHttp()
 
     if (m_url.protocolIs("https"_s) && (isHttp2Enabled || isHttp3Enabled)) {
         // The appropriate HTTP version is selected based on ALPN, Alt-Svc, etc.
+#if OS(SYMBIAN)
+        // Negotiate h2 only through TLS ALPN; servers without h2 retain 1.1.
+        curl_easy_setopt(m_handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2TLS);
+#else
         curl_easy_setopt(m_handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
+#endif
         curl_easy_setopt(m_handle, CURLOPT_PIPEWAIT, 1L);
 #if LIBCURL_VERSION_NUM <= 0x075500
         curl_easy_setopt(m_handle, CURLOPT_SSL_ENABLE_ALPN, 1L);
@@ -799,6 +829,7 @@ std::optional<long> CurlHandle::getSSLVerifyResult() const
     return verifyResult;
 }
 
+#if !USE(MBEDTLS)
 std::optional<SSL*> CurlHandle::sslConnection() const
 {
     curl_tlssessioninfo* info = nullptr;
@@ -812,6 +843,7 @@ std::optional<SSL*> CurlHandle::sslConnection() const
 
     return static_cast<SSL*>(info->internals);
 }
+#endif
 
 std::optional<NetworkLoadMetrics> CurlHandle::getNetworkLoadMetrics(MonotonicTime startTime)
 {
@@ -903,6 +935,7 @@ void CurlHandle::addExtraNetworkLoadMetrics(NetworkLoadMetrics& networkLoadMetri
         return;
 
     auto additionalMetrics = AdditionalNetworkLoadMetricsForWebInspector::create();
+#if !USE(MBEDTLS)
     if (!m_tlsConnectionInfo) {
         if (auto ssl = sslConnection()) {
             m_tlsConnectionInfo = makeUnique<TLSConnectionInfo>();
@@ -910,6 +943,7 @@ void CurlHandle::addExtraNetworkLoadMetrics(NetworkLoadMetrics& networkLoadMetri
             m_tlsConnectionInfo->cipher = OpenSSL::tlsCipherName(*ssl);
         }
     }
+#endif
 
     additionalMetrics->requestBodyBytesSent = requestBodySize;
     additionalMetrics->responseHeaderBytesReceived = responseHeaderSize;
@@ -937,6 +971,7 @@ std::optional<CertificateInfo> CurlHandle::certificateInfo() const
         }
     }
 
+#if !USE(MBEDTLS)
     // If you use an existing HTTP/2 connection, SSLVerifier does not exist.
     if (auto ssl = sslConnection()) {
         if (auto certificateInfo = OpenSSL::createCertificateInfo(getSSLVerifyResult(), *ssl)) {
@@ -944,11 +979,12 @@ std::optional<CertificateInfo> CurlHandle::certificateInfo() const
             return *m_certificateInfo;
         }
     }
+#endif
 
     return std::nullopt;
 }
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || OS(SYMBIAN)
 
 void CurlHandle::enableVerboseIfUsed()
 {

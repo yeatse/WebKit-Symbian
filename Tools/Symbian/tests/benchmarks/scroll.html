@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmark: scrolling text</title>
+<style>
+body { margin:0; padding:8px; font:15px/1.5 serif; }
+h2 { font:bold 18px sans-serif; margin:16px 0 4px; }
+.box { height:48px; margin:8px 0; border-radius:6px; }
+</style>
+<div id="content"></div>
+<script src="bench.js"></script>
+<script>
+var words = 'the quick brown fox jumps over a lazy dog while seven wizards box and quietly judge pale vexing fjords'.split(' ');
+var html = '';
+for (var i = 0; i < 80; ++i) {
+    var text = '';
+    for (var j = 0; j < 60; ++j)
+        text += words[(i * 7 + j * 3) % words.length] + ' ';
+    html += '<h2>Section ' + (i + 1) + '</h2><p>' + text + '</p>';
+    if (i % 4 === 0)
+        html += '<div class="box" style="background:hsl(' + (i * 37 % 360) + ',60%,70%)"></div>';
+}
+document.getElementById('content').innerHTML = html;
+bench('scroll', { frame: benchScroller(6) });
+</script>

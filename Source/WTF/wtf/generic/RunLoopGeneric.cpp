@@ -32,6 +32,10 @@
 #include <wtf/ProcessID.h>
 #include <wtf/TZoneMallocInlines.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace WTF {
 
 static constexpr bool report = false;
@@ -217,7 +221,12 @@ void RunLoop::runImpl(RunMode runMode)
         // Dispatch scheduled timers.
         while (!firedTimers.isEmpty()) {
             auto task = firedTimers.takeFirst();
-            task->fired();
+            {
+#if OS(SYMBIAN)
+                MainThreadProfile::Scope profiled(MainThreadProfile::Category::Other);
+#endif
+                task->fired();
+            }
 
             Locker locker { m_loopLock };
             // It is possible the task is already scheduled while executing fired().
@@ -239,7 +248,22 @@ void RunLoop::run()
 
 void RunLoop::setWakeUpCallback(WTF::Function<void()>&& function)
 {
-    RunLoop::currentSingleton().m_wakeUpCallback = WTF::move(function);
+    auto& runLoop = RunLoop::currentSingleton();
+#if OS(SYMBIAN)
+    // wakeUpWithLock can run on a worker thread. Clearing the native driver
+    // callback must wait until any invocation using its raw context finishes.
+    Locker locker { runLoop.m_loopLock };
+#endif
+    runLoop.m_wakeUpCallback = WTF::move(function);
+}
+
+MonotonicTime RunLoop::nextTimerFireTime()
+{
+    RunLoop& runLoop = RunLoop::currentSingleton();
+    Locker locker { runLoop.m_loopLock };
+    if (runLoop.m_schedules.isEmpty())
+        return MonotonicTime::infinity();
+    return runLoop.m_schedules.first()->scheduledTimePoint();
 }
 
 // RunLoop operations are thread-safe. These operations can be called from outside of the RunLoop's thread.

@@ -151,6 +151,12 @@ void InlineAccess::dumpCacheSizesAndCrash()
 
 ALWAYS_INLINE static bool linkCodeInline(const char* name, CCallHelpers& jit, RepatchingPropertyInlineCache& propertyCache)
 {
+#if CPU(ARM_TRADITIONAL)
+    // Inline caches fall through to the surrounding code. Include pending
+    // literals in the size check, and branch over them on the success path.
+    jit.label();
+    jit.m_assembler.buffer().flushConstantPool();
+#endif
     if (jit.m_assembler.buffer().codeSize() <= propertyCache.inlineCodeSize()) {
         bool needsBranchCompaction = true;
         LinkBuffer linkBuffer(jit, propertyCache.startLocation, propertyCache.inlineCodeSize(), LinkBuffer::Profile::InlineCache, JITCompilationMustSucceed, needsBranchCompaction);

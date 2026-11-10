@@ -785,7 +785,25 @@ bool RenderLayer::willCompositeClipPath() const
     if (renderer().hasMask())
         return false;
 
-    return GraphicsLayer::supportsLayerType(GraphicsLayer::Type::Shape);
+    return clipPathCanUseShapeLayer();
+}
+
+bool RenderLayer::clipPathCanUseShapeLayer() const
+{
+    if (WTF::holdsAlternative<Style::ReferencePath>(renderer().style().clipPath()))
+        return false;
+    if (GraphicsLayer::supportsLayerType(GraphicsLayer::Type::Shape))
+        return true;
+#if OS(SYMBIAN) && USE(TEXTURE_MAPPER)
+    // TextureMapper has no shape layers, but clips to a rounded rect in its
+    // shader: inset(), circle(), ellipse() and box clip-paths need no mask
+    // painted on the CPU and applied through an intermediate surface.
+    auto [path, windRule] = computeClipPath(LayoutSize(), boundingBox(this));
+    UNUSED_VARIABLE(windRule);
+    return !!GraphicsLayer::shapePathAsRoundedRect(path);
+#else
+    return false;
+#endif
 }
 
 void RenderLayer::dirtyNormalFlowList()

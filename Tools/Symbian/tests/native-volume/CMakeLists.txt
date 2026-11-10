@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.28)
+project(symbian_native_volume LANGUAGES CXX ASM)
+include(SymbianApp)
+get_filename_component(probe_checkout "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." ABSOLUTE)
+symbian_add_executable(native_volume probe.cpp bridge.cpp)
+target_compile_features(native_volume PRIVATE cxx_std_23)
+target_include_directories(native_volume PRIVATE "${probe_checkout}/Source/WTF/wtf/symbian")
+target_link_libraries(native_volume PRIVATE Symbian::EUser
+    "${SYMBIAN_SDK_PREFIX}/proxies/efsrv/efsrv.dso")
+symbian_publish_executable(native_volume UID3 0xe00008f7 CAPABILITIES 0)

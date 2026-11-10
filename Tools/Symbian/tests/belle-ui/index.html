@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Belle native UI regression</title>
+<style>
+body { font: 16px sans-serif; margin: 12px; background: white; color: black; }
+button { min-height: 56px; width: 100%; font-size: 17px; margin: 8px 0; }
+iframe { width: 100%; height: 90px; border: 1px solid black; }
+pre { white-space: pre-wrap; font: 12px monospace; }
+</style>
+<h2>Native dialogs</h2>
+<p id="instruction"></p>
+<button id="next"></button>
+<div id="frame"></div>
+<input id="single" type="file" accept=".txt,text/plain" hidden>
+<input id="multiple" type="file" multiple accept=".txt,text/plain" hidden>
+<pre id="result">RUNNING: belle-native-ui</pre>
+<script src="suite.js"></script>

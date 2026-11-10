@@ -288,6 +288,26 @@ void DefaultAudioDestinationNode::isPlayingDidChange()
     updateIsEffectivelyPlayingAudio();
 }
 
+#if OS(SYMBIAN)
+void DefaultAudioDestinationNode::audioDeviceInterrupted()
+{
+    Ref protectedContext { context() };
+    protectedContext->audioDeviceInterrupted();
+}
+
+void DefaultAudioDestinationNode::audioDeviceMayResume()
+{
+    Ref protectedContext { context() };
+    protectedContext->audioDeviceMayResume();
+}
+
+void DefaultAudioDestinationNode::audioDeviceFailed()
+{
+    Ref protectedContext { context() };
+    protectedContext->audioDeviceFailed();
+}
+#endif
+
 void DefaultAudioDestinationNode::updateIsEffectivelyPlayingAudio()
 {
     bool isEffectivelyPlayingAudio = m_destination && m_destination->isPlaying() && !m_isSilent;

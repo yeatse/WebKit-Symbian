@@ -124,6 +124,7 @@ public:
     void abortInProgressTransactionsBlockedOnSuspendedClients();
     WEBCORE_EXPORT bool tryClose();
 
+    std::optional<IDBQuotaUsage> quotaUsage();
     WEBCORE_EXPORT String filePath() const;
     WEBCORE_EXPORT std::optional<IDBDatabaseNameAndVersion> NODELETE nameAndVersion() const;
     WEBCORE_EXPORT bool hasDataInMemory() const;

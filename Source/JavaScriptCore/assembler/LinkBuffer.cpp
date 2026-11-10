@@ -478,7 +478,9 @@ void LinkBuffer::linkCode(MacroAssembler& macroAssembler, JITCompilationEffort e
 #if ENABLE(JIT)
 #if !ENABLE(BRANCH_COMPACTION)
 #if defined(ASSEMBLER_HAS_CONSTANT_POOL) && ASSEMBLER_HAS_CONSTANT_POOL
-    macroAssembler.m_assembler.buffer().flushConstantPool(false);
+    // Linked inline code can fall through to the following machine code.
+    // Keep literal data behind a branch even at the end of the buffer.
+    macroAssembler.m_assembler.buffer().flushConstantPool();
 #endif
     allocate(macroAssembler, effort);
     if (!m_didAllocate)
@@ -486,7 +488,9 @@ void LinkBuffer::linkCode(MacroAssembler& macroAssembler, JITCompilationEffort e
     ASSERT(m_code);
     AssemblerBuffer& buffer = macroAssembler.m_assembler.buffer();
     void* code = m_code.dataLocation();
-#if CPU(ARM64)
+#if CPU(ARM_TRADITIONAL)
+    macroAssembler.m_assembler.prepareExecutableCopy(code);
+#elif CPU(ARM64)
     RELEASE_ASSERT(roundUpToMultipleOf<Assembler::instructionSize>(code) == code);
 #endif
     performJITMemcpy<jitMemcpyRepatch>(code, buffer.data(), buffer.codeSize());

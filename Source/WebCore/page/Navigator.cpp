@@ -25,6 +25,7 @@
 
 #include "BadgeClient.h"
 #include "Chrome.h"
+#include "ChromeClient.h"
 #include "CookieJar.h"
 #include "DOMMimeType.h"
 #include "DOMMimeTypeArray.h"
@@ -455,6 +456,10 @@ void Navigator::clearAppBadge(ScriptExecutionContext& callingContext, Ref<Deferr
 
 int Navigator::maxTouchPoints() const
 {
+#if OS(SYMBIAN) && ENABLE(TOUCH_EVENTS)
+    if (RefPtr frame = this->frame(); frame && frame->page())
+        return frame->page()->chrome().client().maximumTouchPoints();
+#endif
 #if ENABLE(IOS_TOUCH_EVENTS) && !PLATFORM(MACCATALYST)
     RefPtr document = this->document();
     if (!document || !document->quirks().needsZeroMaxTouchPointsQuirk())

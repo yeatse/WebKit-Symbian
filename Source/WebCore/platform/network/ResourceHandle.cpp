@@ -114,6 +114,10 @@ RefPtr<ResourceHandle> ResourceHandle::create(NetworkingContext* context, const 
 void ResourceHandle::scheduleFailure(FailureType type)
 {
     d->m_scheduledFailureType = type;
+#if OS(SYMBIAN)
+    if (d->m_defersLoading)
+        return;
+#endif
     d->m_failureTimer.startOneShot(0_s);
 }
 
@@ -159,6 +163,9 @@ ResourceHandleClient* ResourceHandle::client() const
 void ResourceHandle::clearClient()
 {
     d->m_client = nullptr;
+#if OS(SYMBIAN)
+    clearAuthentication();
+#endif
 }
 
 void ResourceHandle::didReceiveResponse(ResourceResponse&& response, CompletionHandler<void()>&& completionHandler)
@@ -309,7 +316,7 @@ void ResourceHandle::setDefersLoading(bool defers)
     platformSetDefersLoading(defers);
 }
 
-#if USE(SOUP) || USE(CURL)
+#if USE(SOUP) || (USE(CURL) && !OS(SYMBIAN))
 ResourceHandleInternal::~ResourceHandleInternal() = default;
 
 ResourceHandle::~ResourceHandle()

@@ -32,6 +32,10 @@
 #include "MarkedBlockInlines.h"
 #include <wtf/SystemTracing.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace JSC {
 
 static constexpr Seconds sweepTimeSlice = 10_ms;
@@ -51,6 +55,9 @@ IncrementalSweeper::IncrementalSweeper(JSC::Heap* heap)
 
 void IncrementalSweeper::doWorkUntil(VM& vm, ApproximateTime deadline)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::GC);
+#endif
     if (!m_currentDirectory)
         m_currentDirectory = vm.heap.objectSpace().firstDirectory();
 
@@ -60,6 +67,9 @@ void IncrementalSweeper::doWorkUntil(VM& vm, ApproximateTime deadline)
 
 void IncrementalSweeper::doWork(VM& vm)
 {
+#if OS(SYMBIAN)
+    WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::GC);
+#endif
     if (m_lastOpportunisticTaskDidFinishSweeping) {
         m_lastOpportunisticTaskDidFinishSweeping = false;
         scheduleTimer();

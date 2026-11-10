@@ -119,6 +119,49 @@ void CurlRequest::resume()
         startWithJobManager();
 }
 
+#if OS(SYMBIAN)
+void CurlRequest::setDefersLoading(bool defers)
+{
+    ASSERT(isMainThread());
+    m_defersLoading = defers;
+    if (!m_didStartTransfer || !m_request.url().protocolIsInHTTPFamily())
+        return;
+    runOnWorkerThreadIfRequired([this, protectedThis = Ref { *this }] {
+        if (!m_curlHandle || isCompletedOrCancelled())
+            return;
+        if (m_defersLoading)
+            m_curlHandle->pause(CURLPAUSE_ALL);
+        else
+            resumeDownloadIfAllowed();
+    });
+}
+
+void CurlRequest::resumeDownloadIfAllowed()
+{
+    if (!m_curlHandle || isCompletedOrCancelled() || m_defersLoading || (m_didNotifyResponse && !m_didReturnFromNotify))
+        return;
+    if (m_downloadDataPaused) {
+        if (m_downloadBuffer.full())
+            return;
+        m_downloadDataPaused = false;
+    }
+    // curl_easy_pause may synchronously re-deliver a paused chunk. Only this
+    // worker thread touches m_downloadDataPaused; the receive callback reserves
+    // the whole chunk again before allocating or enqueuing it.
+    m_curlHandle->pause(CURLPAUSE_CONT);
+}
+
+void CurlRequest::didConsumeDownloadData(size_t size)
+{
+    ASSERT(isMainThread());
+    RELEASE_ASSERT(m_downloadBuffer.release(size));
+    runOnWorkerThreadIfRequired([this, protectedThis = Ref { *this }] {
+        if (m_downloadDataPaused)
+            resumeDownloadIfAllowed();
+    });
+}
+#endif
+
 void CurlRequest::startWithJobManager()
 {
     ASSERT(isMainThread());
@@ -173,6 +216,12 @@ void CurlRequest::callClient(Function<void(CurlRequest&, CurlRequestClient&)>&& 
 
 void CurlRequest::runOnMainThread(Function<void()>&& task)
 {
+#if OS(SYMBIAN)
+    if (m_messageQueue) {
+        m_messageQueue->append(makeUnique<Function<void()>>(WTF::move(task)));
+        return;
+    }
+#endif
     ensureOnMainThread(WTF::move(task));
 }
 
@@ -360,6 +409,11 @@ size_t CurlRequest::didReceiveData(std::span<const uint8_t> receivedData)
         return 0;
 #endif
 
+#if OS(SYMBIAN)
+    if (m_defersLoading && m_request.url().protocolIsInHTTPFamily())
+        return CURL_WRITEFUNC_PAUSE;
+#endif
+
     if (needToInvokeDidReceiveResponse()) {
         // Pause until completeDidReceiveResponse() is called.
         invokeDidReceiveResponse(m_response, [this] {
@@ -368,13 +422,32 @@ size_t CurlRequest::didReceiveData(std::span<const uint8_t> receivedData)
                     return;
 
                 // Unpause a connection
+#if OS(SYMBIAN)
+                resumeDownloadIfAllowed();
+#else
                 m_curlHandle->pause(CURLPAUSE_CONT);
+#endif
             });
         });
 
         return CURL_WRITEFUNC_PAUSE;
     }
 
+#if OS(SYMBIAN)
+    auto downloadLimit = m_downloadBuffer.limit();
+    if (downloadLimit && receivedData.size()) {
+        // file:// cannot pause, and multipart parsing has a separate callback
+        // queue. Neither is enabled by this HTTP(S)-only download interface.
+        if (!m_request.url().protocolIsInHTTPFamily() || m_multipartHandle || receivedData.size() > downloadLimit)
+            return 0;
+        auto reservation = m_downloadBuffer.reserve(receivedData.size());
+        if (reservation == CurlDownloadBuffer::Reservation::Paused) {
+            m_downloadDataPaused = true;
+            return CURL_WRITEFUNC_PAUSE;
+        }
+        RELEASE_ASSERT(reservation == CurlDownloadBuffer::Reservation::Accepted);
+    }
+#endif
     m_totalReceivedSize += receivedData.size();
 
     if (receivedData.size()) {
@@ -387,9 +460,33 @@ size_t CurlRequest::didReceiveData(std::span<const uint8_t> receivedData)
                 return 0;
 #endif
         } else {
+#if OS(SYMBIAN)
+            auto size = receivedData.size();
+            runOnMainThread([this, protectedThis = Ref { *this }, buffer = SharedBuffer::create(receivedData), size, downloadLimit]() mutable {
+                if (downloadLimit) {
+                    CompletionHandler<void()> consumed = [protectedThis = Ref { *this }, size] {
+                        protectedThis->didConsumeDownloadData(size);
+                    };
+                    if (m_client) {
+                        Ref protectedClient { *m_client };
+                        protectedClient->curlDidReceiveDownloadData(*this, WTF::move(buffer), WTF::move(consumed));
+                    } else {
+                        // The queued callback became stale before delivery.
+                        // Drop its buffer before returning the byte budget.
+                        RefPtr<SharedBuffer> discarded = WTF::move(buffer);
+                        discarded = nullptr;
+                        consumed();
+                    }
+                } else if (m_client) {
+                    Ref protectedClient { *m_client };
+                    protectedClient->curlDidReceiveData(*this, WTF::move(buffer));
+                }
+            });
+#else
             callClient([buffer = SharedBuffer::create(receivedData)](CurlRequest& request, CurlRequestClient& client) mutable {
                 client.curlDidReceiveData(request, WTF::move(buffer));
             });
+#endif
         }
     }
 
@@ -402,7 +499,7 @@ void CurlRequest::didReceiveHeaderFromMultipart(Vector<String>&& headers)
         return;
 
     CurlResponse response = m_response.isolatedCopy();
-    response.expectedContentLength = 0;
+    response.expectedContentLength = -1;
     response.headers.clear();
 
     for (auto& header : headers)
@@ -519,6 +616,16 @@ int CurlRequest::didReceiveDebugInfo(curl_infotype type, std::span<const char> d
 {
     if (!data.data())
         return 0;
+
+#if OS(SYMBIAN)
+    // Installing this callback replaces curl's default diagnostic output.
+    // Preserve connection/error messages only when explicitly requested;
+    // request/response headers and payloads stay out of the diagnostic file.
+    if (type == CURLINFO_TEXT && CurlContext::singleton().isVerbose()) {
+        if (auto* logFile = CurlContext::singleton().getLogFile())
+            fwrite(data.data(), 1, data.size(), logFile);
+    }
+#endif
 
     if (type == CURLINFO_HEADER_OUT) {
         String requestHeader(data);
@@ -652,6 +759,12 @@ NetworkLoadMetrics CurlRequest::networkLoadMetrics()
 
 std::optional<long long> CurlRequest::getContentLength()
 {
+    // Transfer coding frames the message independently of Content-Length.
+    // libcurl validates framing; do not advertise a conflicting fixed length.
+    for (const auto& header : m_response.headers) {
+        if (header.startsWithIgnoringASCIICase("transfer-encoding:"_s))
+            return std::nullopt;
+    }
     for (const auto& header : m_response.headers) {
         if (header.startsWithIgnoringASCIICase("content-length:"_s)) {
             if (auto splitPosition = header.find(':'); splitPosition != notFound) {

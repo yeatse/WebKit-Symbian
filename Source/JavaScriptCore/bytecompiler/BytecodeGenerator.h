@@ -59,6 +59,10 @@
 #include <wtf/TZoneMalloc.h>
 #include <wtf/Vector.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/MainThreadProfile.h>
+#endif
+
 namespace JSC {
 
     class JSCellButterfly;
@@ -397,6 +401,9 @@ namespace JSC {
         template<typename Node, typename UnlinkedCodeBlock>
         static ParserError generate(VM& vm, Node* node, const SourceCode& sourceCode, UnlinkedCodeBlock* unlinkedCodeBlock, OptionSet<CodeGenerationMode> codeGenerationMode, const RefPtr<TDZEnvironmentLink>& parentScopeTDZVariables, const FixedVector<Identifier>* generatorOrAsyncWrapperFunctionParameterNames, const PrivateNameEnvironment* privateNameEnvironment)
         {
+#if OS(SYMBIAN)
+            WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Bytecode);
+#endif
             MonotonicTime before;
             if (Options::reportBytecodeCompileTimes()) [[unlikely]]
                 before = MonotonicTime::now();

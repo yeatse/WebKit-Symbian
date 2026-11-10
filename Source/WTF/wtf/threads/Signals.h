@@ -31,7 +31,7 @@
 #include <wtf/Lock.h>
 #include <wtf/PlatformRegisters.h>
 
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
 
 #include <signal.h>
 #include <tuple>
@@ -45,7 +45,7 @@ namespace WTF {
 
 // Note that SIGUSR1 is used in Pthread-based ports except for Darwin to suspend and resume threads.
 enum class Signal {
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
     // Usr will always chain to any non-default handler install before us. Since there is no way to know
     // if a signal was intended exclusively for us.
     Usr,
@@ -123,7 +123,7 @@ struct SignalHandlers {
     std::array<uint8_t, numberOfSignals> numberOfHandlers;
     std::array<std::array<SignalHandlerMemory, maxNumberOfHandlers>, numberOfSignals> handlers;
 
-#if OS(UNIX)
+#if OS(UNIX) && !OS(SYMBIAN)
     std::array<struct sigaction, numberOfSignals> oldActions;
 #endif
 };

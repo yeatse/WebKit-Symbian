@@ -33,7 +33,10 @@ SK_API bool gSkUseThreadLocalStrikeCaches_IAcknowledgeThisIsIncrediblyExperiment
 #endif
 
 SkStrikeCache* SkStrikeCache::GlobalStrikeCache() {
-#if defined(SK_ENABLE_THREADLOCAL_STRIKECACHE)
+#if defined(__SYMBIAN32__)
+    static auto* cache = new SkStrikeCache;
+    return cache;
+#elif defined(SK_ENABLE_THREADLOCAL_STRIKECACHE)
     static thread_local auto* cache = new SkStrikeCache;
     return cache;
 #else

@@ -130,7 +130,7 @@ RegisterSet RegisterSet::macroClobberedGPRs()
 #elif CPU(ARM64) || CPU(RISCV64)
     result.add(MacroAssembler::dataTempRegister);
     result.add(MacroAssembler::memoryTempRegister);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     result.add(MacroAssembler::dataTempRegister);
     result.add(MacroAssembler::addressTempRegister);
 #endif
@@ -140,7 +140,7 @@ RegisterSet RegisterSet::macroClobberedGPRs()
 RegisterSet RegisterSet::macroClobberedFPRs()
 {
     RegisterSet result;
-#if CPU(X86_64) || CPU(ARM64) || CPU(ARM_THUMB2)
+#if CPU(X86_64) || CPU(ARM64) || CPU(ARM)
     result.add(MacroAssembler::fpTempRegister, IgnoreVectors);
 #elif CPU(RISCV64)
     result.add(MacroAssembler::fpTempRegister, IgnoreVectors);
@@ -195,7 +195,7 @@ RegisterSet RegisterSet::vmCalleeSaveRegisters()
     result.add(FPRInfo::fpRegCS5, Width64);
     result.add(FPRInfo::fpRegCS6, Width64);
     result.add(FPRInfo::fpRegCS7, Width64);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     result.add(GPRInfo::regCS0);
     result.add(GPRInfo::regCS1);
     result.add(FPRInfo::fpRegCS0, IgnoreVectors);
@@ -243,7 +243,7 @@ RegisterSet RegisterSet::llintBaselineCalleeSaveRegisters()
     result.add(GPRInfo::regCS2);
     result.add(GPRInfo::regCS3);
     result.add(GPRInfo::regCS4);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     result.add(GPRInfo::regCS0);
     result.add(GPRInfo::regCS1);
 #elif CPU(ARM64) || CPU(RISCV64)
@@ -272,7 +272,7 @@ RegisterSet RegisterSet::dfgCalleeSaveRegisters()
     result.add(GPRInfo::regCS2);
     result.add(GPRInfo::regCS3);
     result.add(GPRInfo::regCS4);
-#elif CPU(ARM_THUMB2)
+#elif CPU(ARM)
     result.add(GPRInfo::regCS0);
     result.add(GPRInfo::regCS1);
 #elif CPU(ARM64) || CPU(RISCV64)

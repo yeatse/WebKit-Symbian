@@ -58,6 +58,10 @@
 #include <tuple>
 #include <utility>
 
+#if defined(__SYMBIAN32__)
+#include <pthread.h>
+#endif
+
 struct GrShaderCaps;
 
 using MaskFormat = skgpu::MaskFormat;
@@ -67,27 +71,44 @@ namespace skgpu::ganesh {
 inline static constexpr int kVerticesPerGlyph = 4;
 inline static constexpr int kIndicesPerGlyph = 6;
 
-// If we have thread local, then cache memory for a single AtlasTextOp.
+#if defined(__SYMBIAN32__)
+static pthread_key_t gCacheKey;
+static pthread_once_t gCacheOnce = PTHREAD_ONCE_INIT;
+static void delete_cached_text_op(void* memory) { ::operator delete(memory); }
+static void initialize_text_op_cache() { pthread_key_create(&gCacheKey, delete_cached_text_op); }
+static void* get_cached_text_op() {
+    pthread_once(&gCacheOnce, initialize_text_op_cache);
+    return pthread_getspecific(gCacheKey);
+}
+static void set_cached_text_op(void* memory) {
+    pthread_once(&gCacheOnce, initialize_text_op_cache);
+    pthread_setspecific(gCacheKey, memory);
+}
+#else
 static thread_local void* gCache = nullptr;
-void* AtlasTextOp::operator new(size_t s) {
-    if (gCache != nullptr) {
-        return std::exchange(gCache, nullptr);
-    }
+static void* get_cached_text_op() { return gCache; }
+static void set_cached_text_op(void* memory) { gCache = memory; }
+#endif
 
+void* AtlasTextOp::operator new(size_t s) {
+    if (void* cached = get_cached_text_op()) {
+        set_cached_text_op(nullptr);
+        return cached;
+    }
     return ::operator new(s);
 }
 
 void AtlasTextOp::operator delete(void* bytes) noexcept {
-    if (gCache == nullptr) {
-        gCache = bytes;
+    if (!get_cached_text_op()) {
+        set_cached_text_op(bytes);
         return;
     }
     ::operator delete(bytes);
 }
 
 void AtlasTextOp::ClearCache() {
-    ::operator delete(gCache);
-    gCache = nullptr;
+    ::operator delete(get_cached_text_op());
+    set_cached_text_op(nullptr);
 }
 
 namespace {

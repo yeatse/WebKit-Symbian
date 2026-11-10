@@ -288,6 +288,11 @@ void AudioContext::resumeRendering(DOMPromiseDeferred<void>&& promise)
     }
 
     m_wasSuspendedByScript = false;
+#if OS(SYMBIAN)
+    // Explicit resume may retry a device without resource-notification support.
+    m_audioDeviceNeedsExplicitResume = false;
+    audioDeviceMayResume();
+#endif
 
     willBeginPlayback([weakThis = WeakPtr { *this }, promise = WTF::move(promise)](bool willBegin) mutable {
         RefPtr protectedThis = weakThis.get();
@@ -413,7 +418,11 @@ void AudioContext::mayResumePlayback(bool shouldResume)
     if (state() == State::Closed || !isInitialized() || state() == State::Running)
         return;
 
-    if (!shouldResume) {
+    if (!shouldResume
+#if OS(SYMBIAN)
+        || m_audioDeviceNeedsExplicitResume
+#endif
+    ) {
         setState(State::Suspended);
         return;
     }
@@ -494,6 +503,38 @@ void AudioContext::resume()
     m_mediaSession->endInterruption(PlatformMediaSession::EndInterruptionFlags::MayResumePlaying);
     protect(document())->updateIsPlayingMedia();
 }
+
+#if OS(SYMBIAN)
+void AudioContext::audioDeviceInterrupted()
+{
+    ASSERT(isMainThread());
+    if (isClosed() || m_audioDeviceInterruptionToken)
+        return;
+    m_audioDeviceNeedsExplicitResume = true;
+    m_audioDeviceInterruptionToken = m_mediaSession->beginOwnedInterruption(PlatformMediaSession::InterruptionType::SystemInterruption);
+}
+
+void AudioContext::audioDeviceMayResume()
+{
+    ASSERT(isMainThread());
+    if (isClosed() || !m_audioDeviceInterruptionToken)
+        return;
+    auto token = std::exchange(m_audioDeviceInterruptionToken, 0);
+    // Never auto-play on a resource callback. If another interruption covers
+    // ours, the token waits below it without ending that other interruption.
+    m_mediaSession->endOwnedInterruption(token, PlatformMediaSession::EndInterruptionFlags::NoFlags);
+}
+
+void AudioContext::audioDeviceFailed()
+{
+    ASSERT(isMainThread());
+    if (isClosed())
+        return;
+    m_audioDeviceNeedsExplicitResume = true;
+    m_mediaSession->clientWillPausePlayback();
+    suspendPlayback();
+}
+#endif
 
 void AudioContext::suspendPlayback()
 {

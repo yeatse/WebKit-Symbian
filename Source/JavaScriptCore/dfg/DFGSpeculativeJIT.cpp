@@ -7932,6 +7932,7 @@ void SpeculativeJIT::compileStringEquality(
 
     done.link(this);
 
+#if USE(JSVALUE64)
     Vector<SilentRegisterSavePlan> savePlans;
     silentSpillAllRegistersImpl(false, savePlans, leftTempGPR);
     Label doneOperationCall = label();
@@ -7949,6 +7950,11 @@ void SpeculativeJIT::compileStringEquality(
             exceptionCheck(*exceptionReg);
         jump().linkTo(doneOperationCall, this);
     });
+
+#else
+    addSlowPathGenerator(slowPathCall(slowCase, this, operationCompareStringEq, leftTempGPR,
+        LinkableConstant::globalObject(*this, node), leftGPR, rightGPR));
+#endif
 
     blessedBooleanResult(leftTempGPR, node);
 }
@@ -15772,6 +15778,7 @@ void SpeculativeJIT::compileNewButterflyWithSize(Node* node)
     storageResult(storageGPR, node);
 }
 
+#if USE(JSVALUE64)
 void SpeculativeJIT::compileGetCellButterflySlot(Node* node)
 {
     SpeculateCellOperand scratch(this, node->child1());
@@ -15877,6 +15884,8 @@ void SpeculativeJIT::compileArraySortCommit(Node* node)
     storePtr(storageGPR, &vm().m_cachedSortScratch);
     noResult(node);
 }
+
+#endif // USE(JSVALUE64)
 
 void SpeculativeJIT::compileNewArrayWithButterfly(Node* node)
 {

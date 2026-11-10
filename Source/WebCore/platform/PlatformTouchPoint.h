@@ -48,6 +48,9 @@ public:
     }
 
     unsigned id() const { return m_id; }
+#if OS(SYMBIAN)
+    bool isPrimary() const { return m_isPrimary; }
+#endif
     State state() const { return m_state; }
     DoublePoint screenPos() const { return m_screenPos; }
     DoublePoint pos() const { return m_pos; }
@@ -58,6 +61,9 @@ public:
 
 protected:
     unsigned m_id;
+#if OS(SYMBIAN)
+    bool m_isPrimary { false };
+#endif
     State m_state;
     DoublePoint m_screenPos;
     DoublePoint m_pos;

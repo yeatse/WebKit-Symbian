@@ -22,35 +22,50 @@
 
 #include "GLContext.h"
 #include "GraphicsContextGLTextureMapperANGLE.h"
+#if OS(SYMBIAN)
+#include <wtf/NeverDestroyed.h>
+#include <wtf/ThreadSpecific.h>
+#endif
 
 namespace WebCore {
 
-static thread_local constinit GLContextWrapper* s_currentContext = nullptr;
+static GLContextWrapper*& currentContextStorage()
+{
+#if OS(SYMBIAN)
+    // E32 has no ELF TLS block / __aeabi_read_tp. Preserve per-thread current
+    // context tracking through the same pthread-backed TLS used by WTF.
+    static NeverDestroyed<ThreadSpecific<GLContextWrapper*>> storage;
+    return *storage.get();
+#else
+    static thread_local constinit GLContextWrapper* context = nullptr;
+    return context;
+#endif
+}
 
 GLContextWrapper::~GLContextWrapper()
 {
-    if (s_currentContext == this)
-        s_currentContext = nullptr;
+    if (currentContextStorage() == this)
+        currentContextStorage() = nullptr;
 }
 
 bool GLContextWrapper::isCurrent() const
 {
-    return s_currentContext == this;
+    return currentContextStorage() == this;
 }
 
 GLContextWrapper* GLContextWrapper::currentContext()
 {
-    return s_currentContext;
+    return currentContextStorage();
 }
 
 void GLContextWrapper::didMakeContextCurrent()
 {
-    s_currentContext = this;
+    currentContextStorage() = this;
 }
 
 void GLContextWrapper::didUnmakeContextCurrent()
 {
-    s_currentContext = nullptr;
+    currentContextStorage() = nullptr;
 }
 
 } // namespace WebCore

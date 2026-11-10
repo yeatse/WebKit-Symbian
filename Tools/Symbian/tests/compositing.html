@@ -1,0 +1,86 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Symbian compositing regression</title>
+<style>
+body { margin: 12px; background: white; color: #111; font: 15px sans-serif; }
+#stage { position: relative; width: 280px; height: 160px; overflow: hidden; border: 2px solid black; }
+#blue, #red { position: absolute; top: 12px; left: 12px; width: 80px; height: 80px; }
+#blue { background: blue; }
+#red { background: red; transform: translate3d(40px,20px,0); opacity: .5; will-change: transform; }
+#clip { position: absolute; left: 170px; top: 12px; width: 60px; height: 60px; overflow: hidden; transform: translateZ(0); }
+#magenta { width: 100px; height: 100px; background: magenta; transform: translate(30px,30px); }
+#moving { position: absolute; left: 12px; top: 120px; width: 32px; height: 24px; background: green; will-change: transform; }
+#svg { position: absolute; left: 230px; top: 110px; width: 40px; height: 40px; }
+.animate { animation: slide 1200ms linear forwards; }
+@keyframes slide { from { transform: translateX(0); } to { transform: translateX(160px); } }
+#scroll { overflow: auto; width: 280px; height: 64px; margin-top: 8px; border: 2px solid black; }
+#scrollContent { height: 220px; padding-top: 80px; box-sizing: border-box; background: linear-gradient(white 0 80px, #ff0 80px 144px, white 144px); }
+#scrollText { transform: translateZ(0); }
+#result { white-space: pre-wrap; font: 12px monospace; }
+</style>
+<p id="plain">Noncomposited text above the layers.</p>
+<div id="stage"><div id="blue"></div><div id="red"></div><div id="clip"><div id="magenta"></div></div><div id="moving"></div><svg id="svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="cyan" stroke="black" stroke-width="2"/><text x="20" y="26" text-anchor="middle" font-size="18" fill="black">S</text></svg></div>
+<div id="scroll"><div id="scrollContent"><div id="scrollText">YELLOW SCROLLED TEXT</div></div></div>
+<p id="after">Noncomposited text below the layers.</p>
+<pre id="result">RUNNING: compositing-regression</pre>
+<script>
+(function () {
+    'use strict';
+    var passed = 0, failed = 0, finished = false, frames = 0;
+    var result = document.getElementById('result');
+    function log(s) { result.textContent += '\n' + s; console.log(s); }
+    function check(name, condition) {
+        if (condition) { ++passed; log('PASS: ' + name); }
+        else { ++failed; log('FAIL: ' + name); }
+    }
+    function near(a, b) { return Math.abs(a - b) < 1; }
+    function finish() {
+        if (finished) return;
+        finished = true;
+        clearTimeout(watchdog);
+        var marker = 'RESULT: compositing-regression passed=' + passed + ' failed=' + failed + ' frames=' + frames;
+        log(marker);
+        log((failed ? 'FAIL: ' : 'PASS: ') + 'compositing-regression');
+        document.title = (failed ? 'FAIL' : 'PASS') + ' compositing regression';
+    }
+    var watchdog = setTimeout(function () { check('bounded animation completed', false); finish(); }, 12000);
+    try {
+        var stage = document.getElementById('stage'), red = document.getElementById('red');
+        var blue = document.getElementById('blue'), clip = document.getElementById('clip');
+        var moving = document.getElementById('moving'), scroll = document.getElementById('scroll');
+        var sr = stage.getBoundingClientRect(), rr = red.getBoundingClientRect(), br = blue.getBoundingClientRect();
+        check('translated layer geometry', near(rr.left - br.left, 40) && near(rr.top - br.top, 20));
+        check('layer opacity', Math.abs(Number(getComputedStyle(red).opacity) - .5) < .01);
+        check('overlapping layer hit test', document.elementFromPoint(br.left + 60, br.top + 40) === red);
+        var cr = clip.getBoundingClientRect();
+        check('overflow clipping excludes transformed child', document.elementFromPoint(cr.right + 8, cr.top + 40) !== document.getElementById('magenta'));
+        red.style.transform = 'none'; red.style.willChange = 'auto';
+        rr = red.getBoundingClientRect();
+        check('remove compositing trigger', near(rr.left, br.left) && near(rr.top, br.top));
+        red.style.transform = 'translate3d(40px,20px,0)'; red.style.willChange = 'transform';
+        document.getElementById('plain').textContent = 'ROOT REPAINT: text above the layers.';
+        check('ordinary root content update', document.getElementById('plain').textContent.indexOf('ROOT REPAINT:') === 0);
+        scroll.scrollTop = 80;
+        check('overflow scroller position', scroll.scrollTop === 80);
+        stage.style.width = '260px';
+        check('layout resize retains layer geometry', near(stage.getBoundingClientRect().width, 264) && near(red.getBoundingClientRect().left - br.left, 40));
+        stage.style.width = '280px';
+        moving.className = 'animate';
+        var start = performance.now();
+        function tick(now) {
+            if (finished) return;
+            ++frames;
+            if (now - start < 1800 && frames < 180) { requestAnimationFrame(tick); return; }
+            var mr = moving.getBoundingClientRect();
+            check('animation reached final transform', near(mr.left - sr.left - 2 - 12, 160));
+            check('multiple animation frames delivered', frames >= 2);
+            finish();
+        }
+        requestAnimationFrame(tick);
+    } catch (e) {
+        check('unexpected exception: ' + e, false);
+        finish();
+    }
+}());
+</script>

@@ -603,7 +603,8 @@ protected:
         m_jit.storePair64(src1, src2, m_dstBufferGPR, TrustedImm32(offset));
     }
 
-    static constexpr bool hasPairOp = true;
+    // A32 uses the single-register path, as does Spooler above.
+    static constexpr bool hasPairOp = isARM_THUMB2() || isARM64();
 #else
     template<typename RegType> ALWAYS_INLINE void loadPair(int, RegType, RegType) { }
     template<typename RegType> ALWAYS_INLINE void storePair(RegType, RegType, int) { }

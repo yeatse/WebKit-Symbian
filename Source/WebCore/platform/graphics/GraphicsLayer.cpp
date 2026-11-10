@@ -539,6 +539,28 @@ Path GraphicsLayer::shapeLayerPath() const
 #endif
 }
 
+std::optional<FloatRoundedRect> GraphicsLayer::shapePathAsRoundedRect(const Path& path)
+{
+    auto* segment = path.singleSegmentIfExists();
+    if (!segment)
+        return std::nullopt;
+    return WTF::switchOn(segment->data(),
+        [](const PathRect& data) -> std::optional<FloatRoundedRect> {
+            return FloatRoundedRect(data.rect);
+        },
+        [](const PathRoundedRect& data) -> std::optional<FloatRoundedRect> {
+            return data.roundedRect;
+        },
+        [](const PathEllipseInRect& data) -> std::optional<FloatRoundedRect> {
+            // Corner radii of half the sides make the rounded rect an ellipse.
+            FloatSize radius(data.rect.width() / 2, data.rect.height() / 2);
+            return FloatRoundedRect(data.rect, radius, radius, radius, radius);
+        },
+        [](const auto&) -> std::optional<FloatRoundedRect> {
+            return std::nullopt;
+        });
+}
+
 void GraphicsLayer::setShapeLayerPath(const Path& path)
 {
 #if USE(CA) || USE(COORDINATED_GRAPHICS)

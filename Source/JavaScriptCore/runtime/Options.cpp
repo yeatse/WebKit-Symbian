@@ -565,6 +565,16 @@ static void disableAllSignalHandlerBasedOptions();
 
 static void overrideDefaults()
 {
+#if OS(SYMBIAN)
+#if ENABLE(JIT)
+    Options::useJIT() = true;
+#endif
+#if ENABLE(DFG_JIT)
+    Options::useDFGJIT() = true;
+#endif
+    Options::forceICFailure() = false;
+#endif
+
 #if OS(DARWIN)
     if (Options::machExceptionHandlerSandboxPolicy == Options::SandboxPolicy::Block)
         disableAllSignalHandlerBasedOptions();

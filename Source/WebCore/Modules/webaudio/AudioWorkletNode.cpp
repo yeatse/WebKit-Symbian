@@ -46,6 +46,8 @@
 #include "AudioWorkletProcessor.h"
 #include "BaseAudioContext.h"
 #include "ContextDestructionObserverInlines.h"
+#include "Document.h"
+#include "Settings.h"
 #include "ErrorEvent.h"
 #include "EventNames.h"
 #include "JSAudioWorkletNodeOptions.h"
@@ -64,6 +66,9 @@ WTF_MAKE_TZONE_ALLOCATED_IMPL(AudioWorkletNode);
 
 ExceptionOr<Ref<AudioWorkletNode>> AudioWorkletNode::create(JSC::JSGlobalObject& globalObject, BaseAudioContext& context, String&& name, AudioWorkletNodeOptions&& options)
 {
+    if (auto* document = context.document(); document && !document->settings().audioWorkletEnabled())
+        return Exception { ExceptionCode::NotSupportedError, "AudioWorklet is disabled for this page"_s };
+
     if (!options.numberOfInputs && !options.numberOfOutputs)
         return Exception { ExceptionCode::NotSupportedError, "Number of inputs and outputs cannot both be 0"_s };
 

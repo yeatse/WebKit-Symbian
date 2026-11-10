@@ -29,7 +29,7 @@
 [
     ActiveDOMObject,
     Conditional=WEB_AUDIO,
-    EnabledBySetting=WebAudioEnabled,
+    EnabledBySetting=WebAudioEnabled&AudioWorkletEnabled,
     Exposed=Window,
     SecureContext
 ] interface AudioWorkletNode : AudioNode {

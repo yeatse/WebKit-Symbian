@@ -41,6 +41,18 @@
 #include <wtf/text/AtomString.h>
 #include <wtf/threads/Signals.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
+#if HAVE(QOS_CLASSES)
+#include <bmalloc/bmalloc.h>
+#endif
+
+#if OS(LINUX)
+#include <wtf/linux/RealTimeThreads.h>
+#endif
+
 #if PLATFORM(COCOA)
 #include <wtf/cocoa/Entitlements.h>
 #include <wtf/darwin/LibraryPathDiagnostics.h>
@@ -103,6 +115,12 @@ static std::optional<size_t> NODELETE stackSize(ThreadType threadType)
 #if PLATFORM(PLAYSTATION)
     if (threadType == ThreadType::JavaScript)
         return 512 * KB;
+#elif OS(SYMBIAN)
+    // JSC reserves 128 KiB below its soft stack limit. Giving a JavaScript
+    // worker the ordinary 128 KiB stack leaves no room to execute even its
+    // first script. Keep the reserve intact and size only JS threads for it.
+    if (threadType == ThreadType::JavaScript)
+        return 512 * KB;
 #elif OS(DARWIN) && (ASAN_ENABLED || ASSERT_ENABLED)
     if (threadType == ThreadType::Compiler)
         return 1 * MB; // ASan / Debug build needs more stack space.
@@ -124,6 +142,8 @@ static std::optional<size_t> NODELETE stackSize(ThreadType threadType)
     // on libcs other than glibc and bionic (e.g. musl) we are either unsure how big
     // the default thread stack is, or we know it's too small - pick a robust default
     return 1 * MB;
+#elif OS(SYMBIAN)
+    return 128 * KB;
 #else
     // Use the platform's default stack size
     return std::nullopt;
@@ -206,6 +226,11 @@ const char* Thread::normalizeThreadName(const char* threadName)
 
 void Thread::initializeInThread()
 {
+#if OS(SYMBIAN)
+    if (!m_platformThread)
+        m_platformThread = SymbianSystem::openCurrentThread();
+    RELEASE_ASSERT(m_platformThread);
+#endif
     if (m_stack.isEmpty())
         m_stack = StackBounds::currentThreadStackBounds();
     m_savedLastStackTop = stack().origin();

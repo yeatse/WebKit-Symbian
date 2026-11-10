@@ -1505,6 +1505,7 @@ struct FmtMultiLineString
 
 std::ostream &operator<<(std::ostream &ostr, const FmtMultiLineString &fmt);
 
+#if ANGLE_CAPTURE_ENABLED
 struct SaveFileHelper
 {
   public:
@@ -1541,6 +1542,7 @@ struct SaveFileHelper
     std::ofstream mOfs;
     std::string mFilePath;
 };
+#endif  // ANGLE_CAPTURE_ENABLED
 
 constexpr size_t kFunctionSizeLimit = 5000;
 

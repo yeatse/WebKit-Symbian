@@ -1,0 +1,18 @@
+diff --git a/cpp/symbian/runtime/mimalloc_port.h b/cpp/symbian/runtime/mimalloc_port.h
+--- a/cpp/symbian/runtime/mimalloc_port.h
++++ b/cpp/symbian/runtime/mimalloc_port.h
+@@ -7,6 +7,14 @@
+ #include <e32def.h>
+ #include <stdint.h>
+ 
++// The aligned-metadata fast-free path reserves 32 MiB alignment slack on
++// 32-bit targets. Use upstream's page map so the fixed 64 MiB RChunk budget
++// remains available to objects. All mimalloc translation units must use the
++// same setting; this changes neither the native budget nor the public API.
++#if UINTPTR_MAX == UINT32_MAX
++#define MI_FREE_USE_PAGEMAP 1
++#endif
++
+ #define MI_TLS_MODEL_PTHREADS 1
+ // Cache only mimalloc's own default/cached theap keys. The native bridge
+ // mirrors every write to pthread TLS so a miss retains the original contract.

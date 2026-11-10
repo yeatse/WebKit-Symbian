@@ -28,6 +28,9 @@
 #include <WebCore/AuthenticationClient.h>
 #include <WebCore/ResourceLoaderOptions.h>
 #include <WebCore/StoredCredentialsPolicy.h>
+#if OS(SYMBIAN)
+#include <WebCore/CurlRequestClient.h>
+#endif
 #include <wtf/Box.h>
 #include <wtf/MonotonicTime.h>
 #include <wtf/Platform.h>
@@ -80,7 +83,11 @@ class FragmentedSharedBuffer;
 class SynchronousLoaderMessageQueue;
 class Timer;
 
-class ResourceHandle : public RefCounted<ResourceHandle>, public AuthenticationClient {
+class ResourceHandle : public RefCounted<ResourceHandle>, public AuthenticationClient
+#if OS(SYMBIAN)
+    , public CurlRequestClient
+#endif
+{
 public:
     WEBCORE_EXPORT static RefPtr<ResourceHandle> create(NetworkingContext*, const ResourceRequest&, ResourceHandleClient*, bool defersLoading, bool shouldContentSniff, ContentEncodingSniffingPolicy, RefPtr<SecurityOrigin>&& sourceOrigin, bool isMainFrameNavigation);
     WEBCORE_EXPORT static void loadResourceSynchronously(NetworkingContext*, const ResourceRequest&, StoredCredentialsPolicy, SecurityOrigin*, ResourceError&, ResourceResponse&, Vector<uint8_t>& data);
@@ -147,6 +154,10 @@ public:
     // The client may be 0, in which case no callbacks will be made.
     WEBCORE_EXPORT ResourceHandleClient* NODELETE client() const;
     WEBCORE_EXPORT void NODELETE clearClient();
+#if OS(SYMBIAN)
+    WEBCORE_EXPORT bool setClientForDownload(ResourceHandleClient&, size_t maximumPendingDataBytes);
+    WEBCORE_EXPORT void setDownloadBufferLimit(size_t);
+#endif
 
     WEBCORE_EXPORT void setDefersLoading(bool);
 
@@ -205,6 +216,21 @@ private:
     NSURLRequest *applySniffingPoliciesIfNeeded(NSURLRequest *, bool shouldContentSniff, ContentEncodingSniffingPolicy);
 #endif
 
+#if OS(SYMBIAN)
+    Ref<CurlRequest> createCurlRequest(ResourceRequest&&);
+    void dispatchCurlCallback(Function<void(ResourceHandle&)>&&);
+    void drainCurlCallbacks();
+    bool acceptsCurlCallback(const CurlRequest&) const;
+    void deliverCurlResponse();
+    void continueCurlRedirect(ResourceRequest&&, const URL&);
+    void handleDataURL();
+    void curlDidSendData(CurlRequest&, unsigned long long, unsigned long long) final;
+    void curlDidReceiveResponse(CurlRequest&, CurlResponse&&) final;
+    void curlDidReceiveData(CurlRequest&, Ref<SharedBuffer>&&) final;
+    void curlDidReceiveDownloadData(CurlRequest&, Ref<SharedBuffer>&&, CompletionHandler<void()>&&) final;
+    void curlDidComplete(CurlRequest&, NetworkLoadMetrics&&) final;
+    void curlDidFailWithError(CurlRequest&, ResourceError&&, CertificateInfo&&) final;
+#endif
     friend class ResourceHandleInternal;
     std::unique_ptr<ResourceHandleInternal> d;
 };

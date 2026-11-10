@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.28)
+project(symbian_idb_copy_probe LANGUAGES CXX ASM)
+include(SymbianApp)
+symbian_add_executable(idb_copy_probe probe.cpp)
+target_compile_features(idb_copy_probe PRIVATE cxx_std_17)
+target_compile_options(idb_copy_probe PRIVATE -marm)
+target_include_directories(idb_copy_probe PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+symbian_publish_executable(idb_copy_probe UID3 0xe0000904 CAPABILITIES 0)

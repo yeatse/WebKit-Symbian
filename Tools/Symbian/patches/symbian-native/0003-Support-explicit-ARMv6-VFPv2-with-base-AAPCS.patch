@@ -1,0 +1,172 @@
+diff --git a/cpp/symbian/e32/e32.cc b/cpp/symbian/e32/e32.cc
+--- a/cpp/symbian/e32/e32.cc
++++ b/cpp/symbian/e32/e32.cc
+@@ -35,6 +35,10 @@
+ 
+ constexpr uint32_t kHeaderSize = 156;
+ constexpr uint32_t kFlags = 0x12000028;  // V header, ELF imports, EABI, EKA2.
++// f32image.h KImageHWFloatMask/Shift and e32const.h EFpTypeVFPv2 (1).
++// These describe instructions used, independently of the procedure-call ABI.
++constexpr uint32_t kHardwareFloatMask = 0x00f00000;
++constexpr uint32_t kHardwareFloatVfpV2 = 0x00100000;
+ constexpr uint32_t kCrcInitializer = 0xc90fdaa2;
+ constexpr uint32_t kMaxImageSize = 0x0fffffff;
+ 
+@@ -562,15 +566,19 @@
+     Fixups* absl_nonnull pointers, DataLayout* absl_nullable data) {
+   if (header.type != 2 || header.machine != 40 || header.flags >> 24 != 5 ||
+       (header.flags & 0x400)) {
+-    return absl::UnimplementedError("Requires ARM EABI5 soft-float ET_EXEC");
+-  }
++    return absl::UnimplementedError("Requires ARM EABI5 base-AAPCS ET_EXEC");
++  }
++  const bool armv6_vfpv2 =
++      header.arm.cpu_arch == 6 && header.arm.fp_arch == 2;
+   if ((header.arm.cpu_arch && header.arm.cpu_arch != 3 &&
+        header.arm.cpu_arch != 6) ||
+-      header.arm.thumb_isa > 1 || header.arm.fp_arch || header.arm.simd_arch ||
++      header.arm.thumb_isa > 1 ||
++      (header.arm.fp_arch && !armv6_vfpv2) || header.arm.simd_arch ||
+       header.arm.vfp_args) {
+     return absl::UnimplementedError(
+-        "SDK supports ARMv5T/ARMv6, Thumb-1, soft-float only; rebuild with "
+-        "SYMBIAN_TARGET_ARCH=armv6 or armv5t and -mfloat-abi=soft");
++        "SDK supports ARMv5T/ARMv6 and Thumb-1 with base AAPCS; hardware "
++        "floating point requires explicit ARMv6/VFPv2 and -mfloat-abi=softfp; "
++        "hard-float PCS, NEON, VFPv3+ and ARMv7 are unsupported");
+   }
+   Segment code;
+   bool found = false;
+@@ -870,7 +878,8 @@
+   Put32(bytes, 16, 0x434f5045);  // EPOC
+   Put32(bytes, 24, 0x00010000);  // Module version 1.0.
+   bytes[33] = 1;                 // Converter version 0.1.0.
+-  Put32(bytes, 44, kFlags | (definition == nullptr ? 0 : 1));
++  Put32(bytes, 44, kFlags | (definition == nullptr ? 0 : 1) |
++                       (header->arm.fp_arch == 2 ? kHardwareFloatVfpV2 : 0));
+   Put32(bytes, 48, code_size);
+   Put32(bytes, 52, data.file.size);
+   Put32(bytes, 68, data.bss_size);
+@@ -1158,11 +1167,16 @@
+     return absl::DataLossError("Missing/truncated E32 V header");
+   }
+   const uint32_t flags = Read32(bytes, 44);
+-  const bool dll = flags == (kFlags | 1);
++  const uint32_t hardware_float = flags & kHardwareFloatMask;
++  const uint32_t profile_flags = flags & ~kHardwareFloatMask;
++  const bool dll = profile_flags == (kFlags | 1);
+   const uint32_t header_size = Read32(bytes, 100);
+   const uint16_t description_size = Read16(bytes, 152);
+   const uint8_t description_type = static_cast<uint8_t>(bytes[154]);
+-  if ((!dll && flags != kFlags) || Read32(bytes, 28) != 0 ||
++  if ((!dll && profile_flags != kFlags) ||
++      (hardware_float && hardware_float != kHardwareFloatVfpV2) ||
++      (hardware_float && Read16(bytes, 122) != 0x2002) ||
++      Read32(bytes, 28) != 0 ||
+       (Read16(bytes, 122) != 0x2001 && Read16(bytes, 122) != 0x2002) ||
+       description_type > 1 ||
+       (!dll && (description_size != 0 || description_type != 0))) {
+diff --git a/cpp/symbian/e32/e32.h b/cpp/symbian/e32/e32.h
+--- a/cpp/symbian/e32/e32.h
++++ b/cpp/symbian/e32/e32.h
+@@ -55,7 +55,11 @@
+   std::vector<uint32_t> data_data_relocations;
+ };
+ 
+-// Accepts ARM EABI5 ET_EXEC linked with --emit-relocs: one RX PT_LOAD,
++// Accepts ARM EABI5 base-AAPCS ET_EXEC linked with --emit-relocs. Hardware
++// floating point requires explicit ARMv6 + VFPv2 attributes and softfp PCS;
++// its E32 header declares VFPv2. Hard-float PCS, NEON, VFPv3+ and ARMv7
++// are rejected. Unspecified attributes do not establish hardware support.
++// The image contains one RX PT_LOAD,
+ // one optional bounded RW mapping with initialized data and zero-filled BSS,
+ // internal relative references and resolved ABS32 pointers into code/data,
+ // EKA2 ARM entry, no imports/exports/TLS. Bounded constructor arrays require
+diff --git a/cpp/tests/arm_attributes_test.cc b/cpp/tests/arm_attributes_test.cc
+--- a/cpp/tests/arm_attributes_test.cc
++++ b/cpp/tests/arm_attributes_test.cc
+@@ -200,7 +200,7 @@
+     EXPECT_EQ(info->architecture, cpu == 6 ? "armv6" : "armv5t");
+   }
+   for (const auto& [offset, value] : std::vector<std::pair<size_t, uint8_t>>{
+-           {17, 10}, {19, 2}, {21, 2}, {23, 1}}) {
++           {17, 10}, {19, 2}, {21, 3}, {23, 1}}) {
+     auto attributes = Attributes(6);
+     attributes[offset] = static_cast<char>(value);
+     const auto image = e32::ConvertPicExecutable(
+@@ -208,5 +208,75 @@
+     EXPECT_EQ(image.status().code(), absl::StatusCode::kUnimplemented);
+   }
+ }
++
++TEST(ArmAttributesTest, ConvertsExplicitArmv6Vfpv2WithBasePcsAndImageFlag) {
++  auto attributes = Attributes(6);
++  attributes[21] = 2;  // AEABI Tag_FP_arch: VFPv2, not VFP arguments.
++  const auto elf = WithAttributes(testing::Executable(), attributes);
++  const auto header = InspectElf32(elf);
++  ASSERT_TRUE(header.ok()) << header.status();
++  EXPECT_EQ(header->arm.fp_arch, 2);
++  EXPECT_EQ(header->arm.vfp_args, 0);
++  const auto image = e32::ConvertPicExecutable(elf, 0xe0000808);
++  ASSERT_TRUE(image.ok()) << image.status();
++  EXPECT_EQ(internal::Read32(*image, 44), 0x12100028);
++  EXPECT_EQ(image->substr(internal::Read32(*image, 100)),
++            testing::Executable().substr(84, 32));
++  const auto info = e32::InspectImage(*image);
++  ASSERT_TRUE(info.ok()) << info.status();
++  EXPECT_EQ(info->flags, 0x12100028);
++  EXPECT_EQ(info->architecture, "armv6");
++  EXPECT_FALSE(e32::ConvertEka1Executable(elf, 0xe0000808).ok());
++}
++
++TEST(ArmAttributesTest, RejectsVfpWithoutExplicitArmv6AndNonBasePcs) {
++  for (const auto& [offset, value] :
++       std::vector<std::pair<size_t, uint8_t>>{
++           {17, 0}, {17, 3}, {17, 10}, {19, 2}, {21, 1},
++           {21, 3}, {21, 4}, {21, 5}, {23, 1}, {23, 2}, {23, 3}}) {
++    auto attributes = Attributes(6);
++    attributes[21] = 2;
++    attributes[offset] = static_cast<char>(value);
++    const auto image = e32::ConvertPicExecutable(
++        WithAttributes(testing::Executable(), attributes), 0xe0000808);
++    EXPECT_EQ(image.status().code(), absl::StatusCode::kUnimplemented)
++        << offset << ": " << static_cast<unsigned>(value);
++  }
++  auto attributes = Attributes(6);
++  attributes[21] = 2;
++  for (uint32_t flags : {0x05000400U, 0x05000600U}) {
++    auto elf = WithAttributes(testing::Executable(), attributes);
++    // EF_ARM_ABI_FLOAT_HARD, including contradictory hard/soft flags.
++    Put32(elf, 36, flags);
++    EXPECT_EQ(e32::ConvertPicExecutable(elf, 0xe0000808).status().code(),
++              absl::StatusCode::kUnimplemented);
++  }
++  attributes.append("\x0c\x01", 2);  // Tag_Advanced_SIMD_arch: NEONv1.
++  Put32(attributes, 1, static_cast<uint32_t>(attributes.size() - 1));
++  Put32(attributes, 12, static_cast<uint32_t>(attributes.size() - 11));
++  EXPECT_EQ(e32::ConvertPicExecutable(
++                WithAttributes(testing::Executable(), attributes), 0xe0000808)
++                .status()
++                .code(),
++            absl::StatusCode::kUnimplemented);
++}
++
++TEST(ArmAttributesTest, RejectsUnsupportedE32FloatingPointProfiles) {
++  auto attributes = Attributes(6);
++  attributes[21] = 2;
++  const auto image = e32::ConvertPicExecutable(
++      WithAttributes(testing::Executable(), attributes), 0xe0000808);
++  ASSERT_TRUE(image.ok()) << image.status();
++  for (uint32_t float_flags : {0x00200000U, 0x00300000U, 0x00f00000U}) {
++    auto unsupported = *image;
++    Put32(unsupported, 44, 0x12000028 | float_flags);
++    EXPECT_EQ(e32::InspectImage(unsupported).status().code(),
++              absl::StatusCode::kUnimplemented);
++  }
++  auto mismatched = *image;
++  Put16(mismatched, 122, 0x2001);  // VFPv2 profile requires ARMv6 identity.
++  EXPECT_EQ(e32::InspectImage(mismatched).status().code(),
++            absl::StatusCode::kUnimplemented);
++}
+ }  // namespace
+ }  // namespace symbian::analysis

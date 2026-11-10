@@ -107,6 +107,14 @@ static void parseCookieAttributes(const String& attribute, bool& hasMaxAge, Cook
         result.httpOnly = true;
     else if (equalLettersIgnoringASCIICase(attributeName, "secure"_s))
         result.secure = true;
+    else if (equalLettersIgnoringASCIICase(attributeName, "samesite"_s)) {
+        if (equalLettersIgnoringASCIICase(attributeValue, "strict"_s))
+            result.sameSite = Cookie::SameSitePolicy::Strict;
+        else if (equalLettersIgnoringASCIICase(attributeValue, "none"_s))
+            result.sameSite = Cookie::SameSitePolicy::None;
+        else
+            result.sameSite = Cookie::SameSitePolicy::Lax;
+    }
     else if (equalLettersIgnoringASCIICase(attributeName, "domain"_s)) {
         if (attributeValue.isEmpty())
             return;
@@ -171,14 +179,19 @@ std::optional<Cookie> parseCookieHeader(const String& cookieLine)
     }
 
     Cookie cookie;
+    cookie.sameSite = Cookie::SameSitePolicy::Lax;
     cookie.name = cookieName.trim(deprecatedIsSpaceOrNewline);
     cookie.value = cookieValue.trim(deprecatedIsSpaceOrNewline);
 
     bool hasMaxAge = false;
     cookie.session = true;
 
-    for (auto attribute : cookieLine.splitAllowingEmptyEntries(';'))
-        parseCookieAttributes(attribute, hasMaxAge, cookie);
+    // The first name=value pair is the cookie, not an attribute. In particular,
+    // a cookie named "SameSite" must not choose its own SameSite policy.
+    if (separatorPosition != notFound) {
+        for (auto attribute : cookieLine.substring(separatorPosition + 1).splitAllowingEmptyEntries(';'))
+            parseCookieAttributes(attribute, hasMaxAge, cookie);
+    }
 
     return cookie;
 }

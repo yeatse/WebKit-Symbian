@@ -26,6 +26,7 @@
 #pragma once
 
 #include <WebCore/PlatformMediaSessionInterface.h>
+#include "AudioInterruptionOwnership.h"
 
 namespace WebCore {
 
@@ -52,6 +53,11 @@ public:
 
     void beginInterruption(InterruptionType) final;
     void endInterruption(OptionSet<EndInterruptionFlags>) final;
+
+    // These tokens identify one entry even among identical interruption types.
+    // An owned end waits below any later entry and never pops another owner.
+    uint64_t beginOwnedInterruption(InterruptionType);
+    void endOwnedInterruption(uint64_t, OptionSet<EndInterruptionFlags>);
 
     void clientWillBeginAutoplaying() override;
     void clientWillBeginPlayback(CompletionHandler<void(bool)>&&) override;
@@ -100,14 +106,19 @@ protected:
 private:
     bool processClientWillPausePlayback(DelayCallingUpdateNowPlaying);
     size_t NODELETE activeInterruptionCount() const;
+    void beginInterruption(InterruptionType, uint64_t ownerToken);
+    void endTopInterruption(OptionSet<EndInterruptionFlags>);
+    void drainOwnedInterruptionEnds();
 
     State m_state { State::Idle };
     State m_stateToRestore { State::Idle };
     struct Interruption {
         InterruptionType type { InterruptionType::NoInterruption };
         bool ignored { false };
+        AudioInterruptionOwnership ownership;
     };
     Vector<Interruption> m_interruptionStack;
+    uint64_t m_nextOwnedInterruptionToken { 0 };
     bool m_active { false };
     bool m_notifyingClient { false };
     bool m_isPlayingToWirelessPlaybackTarget { false };

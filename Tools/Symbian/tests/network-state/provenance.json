@@ -1,0 +1,49 @@
+{
+  "connmon": {
+    "repository": "SymbianSource/oss.FCL.sf.mw.ipconnmgmt",
+    "commit": "7c6f294faf11b41753e2402de392b6359acc8a2e",
+    "path_prefix": "connectionmonitoring/connmon/connectionmonitor",
+    "references": [
+      "inc/ConnMonDef.h",
+      "inc/ConnMonCli.h",
+      "src/RConnMon.cpp",
+      "src/ConnMonCli.cpp",
+      "src/ConnMonSess.cpp"
+    ],
+    "contract": "TEventInfo is six 32-bit fields. Create=1; delete=2 with authoritative flag in data3; status=8 with nifvar stage in data1. Async cancellation selectors 1..7 are request enums, not server IPC numbers."
+  },
+  "esock": {
+    "repository": "SymbianSource/oss.FCL.sf.os.commsfw",
+    "commit": "bc8ac1a6d5273cbfa7852bbb8ce27d6ddc076984",
+    "references": [
+      "datacommsserver/esockserver/csock/SOCKMES.H",
+      "datacommsserver/esockserver/csock/RConnection.cpp"
+    ],
+    "post_reform_opcodes": {
+      "Stop": 76,
+      "Attach": 82,
+      "Progress": 153,
+      "ProgressNotification": 154,
+      "CancelProgressNotification": 155,
+      "LastProgressError": 156,
+      "EnumerateConnections": 159,
+      "GetConnectionInfo": 160
+    }
+  },
+  "vendored_probe_headers": [
+    {
+      "name": "es_enum.h",
+      "path": "native/official/es_enum.h",
+      "url": "https://github.com/SymbianSource/oss.FCL.sf.os.commsfw/blob/bc8ac1a6d5273cbfa7852bbb8ce27d6ddc076984/datacommsserver/esockserver/inc/es_enum.h",
+      "git_blob_sha1": "1cab9b3a402443fe484728085b4bf27f79625a16",
+      "modified": false
+    },
+    {
+      "name": "es_enum.inl",
+      "path": "native/official/es_enum.inl",
+      "url": "https://github.com/SymbianSource/oss.FCL.sf.os.commsfw/blob/bc8ac1a6d5273cbfa7852bbb8ce27d6ddc076984/datacommsserver/esockserver/inc/es_enum.inl",
+      "git_blob_sha1": "9a4e20d7ee70efc06f45b6d30f6ec459578d6afb",
+      "modified": false
+    }
+  ]
+}

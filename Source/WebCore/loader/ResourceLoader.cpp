@@ -98,6 +98,22 @@ ResourceLoader::~ResourceLoader()
     ASSERT(m_reachedTerminalState);
 }
 
+#if OS(SYMBIAN)
+RefPtr<ResourceHandle> ResourceLoader::takeHandleForDownload(ResourceHandleClient& client, size_t maximumPendingDataBytes)
+{
+    ASSERT(isMainThread());
+    if (m_reachedTerminalState || !m_handle)
+        return nullptr;
+    // Response policy runs before any body callback. Stop receiving before
+    // changing the raw client, and remove the handle from this loader so its
+    // policy-change cleanup cannot cancel or clear the new download client.
+    m_handle->setDefersLoading(true);
+    if (!m_handle->setClientForDownload(client, maximumPendingDataBytes))
+        return nullptr;
+    return std::exchange(m_handle, nullptr);
+}
+#endif
+
 void ResourceLoader::finishNetworkLoad()
 {
     platformStrategies()->loaderStrategy()->remove(this);

@@ -1,0 +1,12 @@
+// AppArc registration, installed as \private\10003a3f\import\apps\browser_reg.rsc.
+// CEikApplication needs it: it asks AppArc for the application's information
+// at start and leaves if the UID is unknown.
+CHARACTER_SET UTF8
+#include <AppInfo.rh>
+UID2 KUidAppRegistrationResourceFile
+UID3 0xE1A5C002
+RESOURCE APP_REGISTRATION_INFO
+{
+  app_file = "browser";
+  localisable_resource_file = "\\resource\\apps\\browser_loc";
+}

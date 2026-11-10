@@ -34,6 +34,11 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
+#if OS(SYMBIAN)
+// Open C's netinet/in.h needs these first.
+#include <sys/types.h>
+#include <sys/socket.h>
+#endif
 #include <netinet/in.h>
 #endif
 

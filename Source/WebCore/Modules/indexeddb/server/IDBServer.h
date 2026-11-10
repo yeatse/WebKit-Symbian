@@ -98,6 +98,15 @@ public:
     std::unique_ptr<IDBBackingStore> createBackingStore(const IDBDatabaseIdentifier&) final;
     void requestSpace(const ClientOrigin&, uint64_t size, CompletionHandler<void(bool)>&&) final;
 
+#if OS(SYMBIAN)
+    void requestSpaceForOpen(const IDBDatabaseIdentifier&, uint64_t, CompletionHandler<void(bool)>&&) final;
+    void requestSpaceForTransaction(const IDBDatabaseIdentifier&, const IDBResourceIdentifier&, uint64_t, CompletionHandler<void(bool)>&&) final;
+    IDBError checkQuotaBeforeCommit(UniqueIDBDatabaseTransaction&, IDBBackingStore&) final;
+    IDBError didOpenBackingStore(const IDBDatabaseIdentifier&, IDBBackingStore&) final;
+    void didDeleteBackingStore(const IDBDatabaseIdentifier&) final;
+    void didFinishQuotaTransaction(UniqueIDBDatabaseTransaction&) final;
+#endif
+
     WEBCORE_EXPORT HashSet<SecurityOriginData> getOrigins() const;
     WEBCORE_EXPORT void closeAndDeleteDatabasesModifiedSince(WallTime);
     WEBCORE_EXPORT void closeAndDeleteDatabasesForOrigins(const Vector<SecurityOriginData>&);
@@ -124,6 +133,12 @@ private:
     String m_databaseDirectoryPath;
 
     SpaceRequester m_spaceRequester;
+
+#if OS(SYMBIAN)
+    void rescanQuotaAfterAdministrativeChange();
+    struct QuotaState;
+    std::unique_ptr<QuotaState> m_quota;
+#endif
 };
 
 } // namespace IDBServer

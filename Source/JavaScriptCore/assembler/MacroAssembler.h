@@ -38,6 +38,10 @@ WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
 #define TARGET_MACROASSEMBLER MacroAssemblerARMv7
 #include <JavaScriptCore/MacroAssemblerARMv7.h>
 
+#elif CPU(ARM_TRADITIONAL)
+#define TARGET_MACROASSEMBLER MacroAssemblerARM
+#include <JavaScriptCore/MacroAssemblerARM.h>
+
 #elif CPU(ARM64E)
 #define TARGET_MACROASSEMBLER MacroAssemblerARM64E
 #include <JavaScriptCore/MacroAssemblerARM64E.h>
@@ -137,7 +141,7 @@ public:
     using MacroAssemblerBase::and32;
     using MacroAssemblerBase::branchAdd32;
     using MacroAssemblerBase::branchMul32;
-#if CPU(ARM64) || CPU(ARM_THUMB2) || CPU(X86_64) || CPU(RISCV64)
+#if CPU(ARM64) || CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL) || CPU(X86_64) || CPU(RISCV64)
     using MacroAssemblerBase::branchPtr;
 #endif
 #if CPU(X86_64)
@@ -155,7 +159,7 @@ public:
     using MacroAssemblerBase::urshift32;
     using MacroAssemblerBase::xor32;
 
-#if CPU(ARM64) || CPU(X86_64) || CPU(RISCV64) || CPU(ARM_THUMB2)
+#if CPU(ARM64) || CPU(X86_64) || CPU(RISCV64) || CPU(ARM_THUMB2) || CPU(ARM_TRADITIONAL)
     using MacroAssemblerBase::convertInt32ToDouble;
 #endif
 #if CPU(ARM64) || CPU(X86_64) || CPU(RISCV64)
@@ -430,7 +434,7 @@ public:
         branchTestPtr(cond, reg).linkTo(target, this);
     }
 
-#if !CPU(ARM_THUMB2) && !CPU(ARM64)
+#if !CPU(ARM_THUMB2) && !CPU(ARM_TRADITIONAL) && !CPU(ARM64)
     PatchableJump patchableBranchPtr(RelationalCondition cond, Address left, TrustedImmPtr right = TrustedImmPtr(nullptr))
     {
         padBeforePatch();

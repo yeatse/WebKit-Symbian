@@ -1,0 +1,89 @@
+diff --git a/cpp/symbian/e32/e32.cc b/cpp/symbian/e32/e32.cc
+--- a/cpp/symbian/e32/e32.cc
++++ b/cpp/symbian/e32/e32.cc
+@@ -36,6 +36,7 @@
+ constexpr uint32_t kHeaderSize = 156;
+ constexpr uint32_t kOrdinaryDllUid2 = 0x1000008d;
+ constexpr uint32_t kEcomPluginUid2 = 0x10009d8d;
++constexpr uint32_t kMmfClientUid2 = 0x10003b19;
+ 
+ bool ValidUid3(uint32_t uid3, bool plugin) {
+   // Registered ECom plugins use their assigned UID3. The experimental process
+@@ -824,7 +825,7 @@
+     return absl::ResourceExhaustedError("ELF exceeds 256 MiB");
+   }
+   if (definition != nullptr && dll_uid2 != kOrdinaryDllUid2 &&
+-      dll_uid2 != kEcomPluginUid2) {
++      dll_uid2 != kEcomPluginUid2 && dll_uid2 != kMmfClientUid2) {
+     return absl::InvalidArgumentError("Unsupported E32 DLL UID2");
+   }
+   if (!ValidUid3(uid3, definition != nullptr && dll_uid2 == kEcomPluginUid2)) {
+@@ -1219,7 +1220,8 @@
+   }
+   if (Read32(bytes, 0) != (dll ? 0x10000079U : 0x1000007aU) ||
+       (dll ? (Read32(bytes, 4) != kOrdinaryDllUid2 &&
+-              Read32(bytes, 4) != kEcomPluginUid2)
++              Read32(bytes, 4) != kEcomPluginUid2 &&
++              Read32(bytes, 4) != kMmfClientUid2)
+            : Read32(bytes, 4) != 0) ||
+       Read32(bytes, 12) != UidChecksum(bytes) ||
+       Read32(bytes, 20) != HeaderCrc(bytes, header_size)) {
+diff --git a/cpp/symbian/e32/e32.h b/cpp/symbian/e32/e32.h
+--- a/cpp/symbian/e32/e32.h
++++ b/cpp/symbian/e32/e32.h
+@@ -107,8 +107,8 @@
+                                        uint32_t uid3,
+                                        uint32_t capabilities = 0);
+ 
+-// Explicit ECom plugin identity, for original native plugins such as FEP.
+-// UID2 must be the ordinary DLL UID 0x1000008d or ECom UID 0x10009d8d.
++// Explicit original DLL identity: ordinary 0x1000008d, ECom 0x10009d8d,
++// or MMF client 0x10003b19 (as declared by original MMF patch MMP files).
+ // Only the ECom profile accepts assigned nonzero UID3 values outside the
+ // experimental range. This is format support, not a capability grant.
+ // The original ConvertDll API and its output profile are unchanged.
+diff --git a/cpp/tests/e32_plugin_identity_test.cc b/cpp/tests/e32_plugin_identity_test.cc
+--- a/cpp/tests/e32_plugin_identity_test.cc
++++ b/cpp/tests/e32_plugin_identity_test.cc
+@@ -127,5 +127,41 @@
+   ASSERT_TRUE(info.ok()) << info.status();
+   EXPECT_EQ(info->capabilities, 1U << 13);
+ }
++TEST(E32MmfClientIdentityTest, PreservesDeclaredMmfClassAndNativeValidation) {
++  const auto image = ConvertDllWithUid2(ExportedExecutable(), kDefinition, {},
++                                        0xee000001, 0x10003b19);
++  ASSERT_TRUE(image.ok()) << image.status();
++  EXPECT_EQ(Read32(*image, 4), 0x10003b19U);
++  EXPECT_EQ(Read32(*image, 8), 0xee000001U);
++  EXPECT_EQ(Read32(*image, 136), 0U);
++  const auto info = InspectImage(*image);
++  ASSERT_TRUE(info.ok()) << info.status();
++  EXPECT_TRUE(info->dll);
++  EXPECT_EQ(info->uid3, 0xee000001U);
++  EXPECT_EQ(info->exports.size(), 1U);
++}
++
++TEST(E32MmfClientIdentityTest, DoesNotBroadenMmfUidOrProcessProfiles) {
++  for (uint32_t uid3 : {0U, 0xffffffffU, kFepUid3}) {
++    EXPECT_FALSE(ConvertDllWithUid2(ExportedExecutable(), kDefinition, {}, uid3,
++                                    0x10003b19).ok());
++  }
++  EXPECT_FALSE(ConvertPicExecutable(testing::Executable(), kFepUid3).ok());
++  const auto ordinary = ConvertDll(ExportedExecutable(), kDefinition, {},
++                                   0xee000001);
++  ASSERT_TRUE(ordinary.ok()) << ordinary.status();
++  EXPECT_EQ(Read32(*ordinary, 4), 0x1000008dU);
++}
++
++TEST(E32MmfClientIdentityTest, InspectorChecksMmfUidAndCapabilities) {
++  const auto image = ConvertDllWithUid2(ExportedExecutable(), kDefinition, {},
++                                        0xee000001, 0x10003b19);
++  ASSERT_TRUE(image.ok()) << image.status();
++  EXPECT_FALSE(InspectImage(WithIdentity(*image, 0, 0xee000001)).ok());
++  EXPECT_FALSE(InspectImage(WithIdentity(*image, 0x10003b19, kFepUid3)).ok());
++  EXPECT_FALSE(ConvertDllWithUid2(ExportedExecutable(), kDefinition, {},
++                                  0xee000001, 0x10003b19, 1).ok());
++}
++
+ }  // namespace
+ }  // namespace symbian::e32

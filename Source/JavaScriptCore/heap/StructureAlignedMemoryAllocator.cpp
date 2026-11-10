@@ -30,7 +30,6 @@
 #include "MarkedBlock.h"
 #include "Options.h"
 #include "StructureID.h"
-#include <bmalloc/bmalloc.h>
 #include <wtf/BitVector.h>
 #include <wtf/RAMSize.h>
 
@@ -38,6 +37,7 @@
 #include <wtf/cocoa/Entitlements.h>
 #endif
 #if CPU(ADDRESS64)
+#include <bmalloc/bmalloc.h>
 #include <wtf/NeverDestroyed.h>
 WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
 #if USE(LIBPAS)

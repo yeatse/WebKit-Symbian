@@ -20,17 +20,26 @@
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "config.h"
 #include <wtf/FastMalloc.h>
 
+#if !OS(SYMBIAN)
 #include <bmalloc/bmalloc.h>
+#endif
 #include <string.h>
 #include <wtf/Atomics.h>
 #include <wtf/CheckedArithmetic.h>
 #include <wtf/PageBlock.h>
+
+#if OS(SYMBIAN)
+#include <pthread.h>
+#include <wtf/NotFound.h>
+#include <wtf/symbian/MemoryDiagnostics.h>
+#include <wtf/symbian/SymbianSystem.h>
+#endif
 
 #if OS(WINDOWS)
 #include <windows.h>
@@ -135,6 +144,474 @@ void* fastCompactMemDup(const void* mem, size_t bytes)
 WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
 
 } // namespace WTF
+
+#if OS(SYMBIAN)
+
+#include <wtf/OSAllocator.h>
+
+namespace WTF {
+
+bool isFastMallocEnabled()
+{
+    return false;
+}
+
+size_t fastMallocGoodSize(size_t bytes)
+{
+#if OS(DARWIN)
+    return malloc_good_size(bytes);
+#else
+    return bytes;
+#endif
+}
+
+
+// Page-aligned GC blocks use disconnected native chunks so physical pages
+// can be committed and decommitted independently. Other aligned allocations
+// use the SDK's mimalloc heap.
+extern "C" void* mi_malloc_aligned(size_t, size_t);
+extern "C" void mi_free(void*);
+extern "C" bool mi_is_in_heap_region(const void*) noexcept;
+
+namespace {
+
+class AlignedPool {
+public:
+    static constexpr size_t pageSize = 4096;
+    constexpr AlignedPool() = default;
+
+    void* allocate(size_t alignment, size_t size)
+    {
+        if (alignment < pageSize || (alignment & (alignment - 1)) || !size || size > SIZE_MAX - (pageSize - 1))
+            return nullptr;
+        size_t pages = (size + pageSize - 1) / pageSize;
+        pthread_mutex_lock(&m_lock);
+        void* result = allocateLocked(pages, alignment / pageSize);
+        pthread_mutex_unlock(&m_lock);
+        return result;
+    }
+
+    bool free(void* pointer)
+    {
+        pthread_mutex_lock(&m_lock);
+        Region* previous = nullptr;
+        for (Region* region = &m_first; region; previous = region, region = region->next) {
+            uintptr_t offset = reinterpret_cast<uintptr_t>(pointer) - reinterpret_cast<uintptr_t>(region->base);
+            if (!region->base || offset >= region->pageCount * pageSize)
+                continue;
+            size_t index = offset / pageSize;
+            size_t pages = region->runPages[index];
+            RELEASE_ASSERT(pages && !(offset % pageSize));
+            if (previous && pages == region->usedPages) {
+                // Reclaim an empty additional reservation and its metadata.
+                // The first region stays reserved for future allocations.
+                previous->next = region->next;
+                SymbianSystem::release(region->base);
+                ::free(region);
+            } else {
+                RELEASE_ASSERT(SymbianSystem::decommit(pointer, pages * pageSize));
+                for (size_t page = index; page < index + pages; ++page)
+                    setUsed(*region, page, false);
+                region->runPages[index] = 0;
+                region->usedPages -= pages;
+                if (index < region->hint)
+                    region->hint = index;
+            }
+            pthread_mutex_unlock(&m_lock);
+            return true;
+        }
+        pthread_mutex_unlock(&m_lock);
+        return false;
+    }
+
+private:
+    static constexpr size_t maxPages = 64 * 1024 * 1024 / pageSize;
+    static constexpr size_t minimumRegionPages = maxPages / 8;
+    struct Region {
+        Region* next { nullptr };
+        uint8_t* base { nullptr };
+        size_t pageCount { 0 };
+        size_t usedPages { 0 };
+        size_t hint { 0 };
+        uint32_t used[maxPages / 32] { };
+        uint16_t runPages[maxPages] { };
+    };
+
+    bool reserveRegion(Region& region, size_t neededPages, size_t alignPages)
+    {
+        size_t minimum = neededPages > minimumRegionPages ? neededPages : minimumRegionPages;
+        size_t pages = m_preferredPages > minimum ? m_preferredPages : minimum;
+        for (;;) {
+            if (void* base = SymbianSystem::reserve(pages * pageSize, false, alignPages * pageSize)) {
+                region.base = static_cast<uint8_t*>(base);
+                region.pageCount = pages;
+                // Remember address-space pressure rather than retrying every
+                // rejected large reservation when another region is needed.
+                if (pages < m_preferredPages)
+                    m_preferredPages = pages;
+                return true;
+            }
+            if (pages == minimum)
+                break;
+            pages /= 2;
+            if (pages < minimum)
+                pages = minimum;
+        }
+        m_preferredPages = minimumRegionPages;
+        return false;
+    }
+
+    void* allocateLocked(size_t pages, size_t alignPages)
+    {
+        // The metadata describes at most 64 MiB per reservation. Growth adds
+        // regions, it does not make oversized individual requests valid.
+        if (pages > maxPages) {
+            reportFailure("aligned-size-limit", pages, alignPages);
+            return nullptr;
+        }
+        Region* last = &m_first;
+        for (Region* region = &m_first; region; last = region, region = region->next) {
+            if (!region->base)
+                continue;
+            size_t index = find(*region, pages, alignPages, region->hint);
+            if (index == notFound && region->hint)
+                index = find(*region, pages, alignPages, 0);
+            if (index != notFound)
+                return commitAllocation(*region, index, pages, alignPages);
+        }
+
+        Region* region = &m_first;
+        if (m_first.base) {
+            region = static_cast<Region*>(::calloc(1, sizeof(Region)));
+            if (!region) {
+                reportFailure("aligned-region-metadata", pages, alignPages);
+                return nullptr;
+            }
+        }
+        if (!reserveRegion(*region, pages, alignPages)) {
+            if (region != &m_first)
+                ::free(region);
+            reportFailure("aligned-reserve", pages, alignPages);
+            return nullptr;
+        }
+        // reserveRegion aligns the new region's base to this allocation.
+        void* result = commitAllocation(*region, 0, pages, alignPages);
+        if (!result) {
+            SymbianSystem::release(region->base);
+            if (region == &m_first) {
+                // First commitment failed before publishing any allocation or
+                // next region. Only reserveRegion changed these two fields.
+                // Do not assign a temporary Region: on ARM that puts its
+                // 34 KiB bitmap on every allocation's small pthread stack.
+                m_first.base = nullptr;
+                m_first.pageCount = 0;
+            } else
+                ::free(region);
+            return nullptr;
+        }
+        // Publish only after native reservation AND first commit succeed.
+        if (region != &m_first)
+            last->next = region;
+        return result;
+    }
+
+    void* commitAllocation(Region& region, size_t index, size_t pages, size_t alignPages)
+    {
+        void* result = region.base + index * pageSize;
+        if (!SymbianSystem::commit(result, pages * pageSize)) {
+            // A physical commitment failure must not allocate more regions.
+            reportFailure("aligned-commit", pages, alignPages);
+            return nullptr;
+        }
+        for (size_t page = index; page < index + pages; ++page)
+            setUsed(region, page, true);
+        region.runPages[index] = pages;
+        region.usedPages += pages;
+        region.hint = index + pages;
+        return result;
+    }
+
+    void reportFailure(const char* reason, size_t pages, size_t alignPages) const
+    {
+        size_t reserved = 0;
+        size_t used = 0;
+        size_t largestFree = 0;
+        for (const Region* region = &m_first; region; region = region->next) {
+            reserved += region->pageCount;
+            used += region->usedPages;
+            size_t freeRun = 0;
+            for (size_t index = 0; index < region->pageCount; ++index) {
+                if (isUsed(*region, index))
+                    freeRun = 0;
+                else {
+                    ++freeRun;
+                    if (freeRun > largestFree)
+                        largestFree = freeRun;
+                }
+            }
+        }
+        SymbianSystem::reportMemoryFailure(reason, pages * pageSize, alignPages * pageSize,
+            reserved * pageSize, used * pageSize, largestFree * pageSize);
+    }
+
+    static size_t find(const Region& region, size_t pages, size_t alignPages, size_t start)
+    {
+        size_t misalignment = (reinterpret_cast<uintptr_t>(region.base) / pageSize) % alignPages;
+        size_t index = start + (alignPages - (start + misalignment) % alignPages) % alignPages;
+        while (index + pages <= region.pageCount) {
+            size_t used = notFound;
+            for (size_t page = index; page < index + pages; ++page) {
+                if (isUsed(region, page)) {
+                    used = page;
+                    break;
+                }
+            }
+            if (used == notFound)
+                return index;
+            index = used + 1;
+            index += (alignPages - (index + misalignment) % alignPages) % alignPages;
+        }
+        return notFound;
+    }
+
+    static bool isUsed(const Region& region, size_t index) { return region.used[index / 32] & (1u << (index % 32)); }
+    static void setUsed(Region& region, size_t index, bool used)
+    {
+        if (used)
+            region.used[index / 32] |= 1u << (index % 32);
+        else
+            region.used[index / 32] &= ~(1u << (index % 32));
+    }
+
+    pthread_mutex_t m_lock = PTHREAD_MUTEX_INITIALIZER;
+    Region m_first;
+    size_t m_preferredPages { maxPages };
+};
+
+
+// Never destroyed: blocks are freed during and after static destruction.
+AlignedPool alignedPoolStorage;
+AlignedPool& alignedPool() { return alignedPoolStorage; }
+
+} // namespace
+
+void* fastAlignedMalloc(size_t alignment, size_t size)
+{
+    void* p = tryFastAlignedMalloc(alignment, size);
+    if (!p) [[unlikely]]
+        CRASH();
+    return p;
+}
+
+void* tryFastAlignedMalloc(size_t alignment, size_t size)
+{
+    FAIL_IF_EXCEEDS_LIMIT(size);
+    if (alignment >= AlignedPool::pageSize)
+        return alignedPool().allocate(alignment, size);
+    return mi_malloc_aligned(size, alignment);
+}
+
+
+
+TryMallocReturnValue tryFastMalloc(size_t n)
+{
+    FAIL_IF_EXCEEDS_LIMIT(n);
+    assertMallocRestrictionForCurrentThreadScope();
+    return malloc(n);
+}
+
+void* fastMalloc(size_t n)
+{
+    ASSERT_IS_WITHIN_LIMIT(n);
+    assertMallocRestrictionForCurrentThreadScope();
+    void* result = malloc(n);
+    if (!result)
+        CRASH();
+
+    return result;
+}
+
+void* fastZeroedMalloc(size_t n)
+{
+    void* result = fastMalloc(n);
+    memset(result, 0, n);
+    return result;
+}
+
+TryMallocReturnValue tryFastZeroedMalloc(size_t n)
+{
+    void* result;
+    if (!tryFastMalloc(n).getValue(result))
+        return nullptr;
+    memset(result, 0, n);
+    return result;
+}
+
+TryMallocReturnValue tryFastCalloc(size_t n_elements, size_t element_size)
+{
+    FAIL_IF_EXCEEDS_LIMIT(n_elements * element_size);
+    assertMallocRestrictionForCurrentThreadScope();
+    return calloc(n_elements, element_size);
+}
+
+void* fastCalloc(size_t n_elements, size_t element_size)
+{
+    ASSERT_IS_WITHIN_LIMIT(n_elements * element_size);
+    assertMallocRestrictionForCurrentThreadScope();
+    void* result = calloc(n_elements, element_size);
+    if (!result)
+        CRASH();
+
+    return result;
+}
+
+void fastFree(void* p)
+{
+    if (!p || alignedPool().free(p))
+        return;
+    if (mi_is_in_heap_region(p))
+        mi_free(p);
+    else
+        ::free(p);
+}
+
+void* fastRealloc(void* p, size_t n)
+{
+    ASSERT_IS_WITHIN_LIMIT(n);
+    assertMallocRestrictionForCurrentThreadScope();
+    void* result = realloc(p, n);
+    if (!result)
+        CRASH();
+    return result;
+}
+
+TryMallocReturnValue tryFastRealloc(void* p, size_t n)
+{
+    FAIL_IF_EXCEEDS_LIMIT(n);
+    assertMallocRestrictionForCurrentThreadScope();
+    return realloc(p, n);
+}
+
+void releaseFastMallocFreeMemory() { }
+void releaseFastMallocFreeMemoryForThisThread() { }
+
+FastMallocStatistics fastMallocStatistics()
+{
+    FastMallocStatistics statistics = { 0, 0, 0 };
+    return statistics;
+}
+
+size_t fastMallocSize(const void* p)
+{
+#if OS(DARWIN)
+    return malloc_size(p);
+#elif OS(WINDOWS)
+    return _msize(const_cast<void*>(p));
+#else
+    UNUSED_PARAM(p);
+    return 1;
+#endif
+}
+
+void fastCommitAlignedMemory(void* ptr, size_t size)
+{
+    OSAllocator::commit(ptr, size, true, false);
+}
+
+void fastDecommitAlignedMemory(void* ptr, size_t size)
+{
+    OSAllocator::decommit(ptr, size);
+}
+
+void fastEnableMiniMode(bool) { }
+
+void fastDisableScavenger() { }
+
+void fastMallocDumpMallocStats() { }
+
+void forceEnablePGM(uint16_t) { }
+
+void* fastCompactMalloc(size_t size) { return fastMalloc(size); }
+void* fastCompactZeroedMalloc(size_t size) { return fastZeroedMalloc(size); }
+void* fastCompactCalloc(size_t numElements, size_t elementSize) { return fastCalloc(numElements, elementSize); }
+void* fastCompactRealloc(void* ptr, size_t size) { return fastRealloc(ptr, size); }
+TryMallocReturnValue tryFastCompactMalloc(size_t size) { return tryFastMalloc(size); }
+TryMallocReturnValue tryFastCompactZeroedMalloc(size_t size) { return tryFastZeroedMalloc(size); }
+TryMallocReturnValue tryFastCompactCalloc(size_t numElements, size_t elementSize) { return tryFastCalloc(numElements, elementSize); }
+TryMallocReturnValue tryFastCompactRealloc(void* ptr, size_t size) { return tryFastRealloc(ptr, size); }
+void* fastCompactAlignedMalloc(size_t alignment, size_t size) { return fastAlignedMalloc(alignment, size); }
+void* tryFastCompactAlignedMalloc(size_t alignment, size_t size) { return tryFastAlignedMalloc(alignment, size); }
+
+} // namespace WTF
+
+namespace Gigacage {
+
+void* tryAlignedMalloc(Kind, size_t alignment, size_t size)
+{
+    return WTF::tryFastAlignedMalloc(alignment, size);
+}
+
+void* tryMalloc(Kind, size_t size)
+{
+    return WTF::FastMalloc::tryMalloc(size);
+}
+
+void* malloc(Kind, size_t size)
+{
+    return WTF::fastMalloc(size);
+}
+
+void* tryZeroedMalloc(Kind, size_t size)
+{
+    return WTF::FastMalloc::tryZeroedMalloc(size);
+}
+
+void* zeroedMalloc(Kind, size_t size)
+{
+    return WTF::fastZeroedMalloc(size);
+}
+
+void* tryRealloc(Kind, void* pointer, size_t size)
+{
+    return WTF::FastMalloc::tryRealloc(pointer, size);
+}
+
+void free(Kind, void* pointer)
+{
+    WTF::fastFree(pointer);
+}
+
+void* tryAllocateZeroedVirtualPages(Kind, size_t requestedSize)
+{
+    size_t size = WTF::roundUpToMultipleOf(WTF::pageSize(), requestedSize);
+    RELEASE_ASSERT(size >= requestedSize);
+    return WTF::OSAllocator::tryReserveAndCommit(size);
+}
+
+void freeVirtualPages(Kind, void* base, size_t size)
+{
+    WTF::OSAllocator::decommitAndRelease(base, size);
+}
+
+void* tryMallocArray(Kind kind, size_t numElements, size_t elementSize)
+{
+    WTF::CheckedSize checkedSize = elementSize;
+    checkedSize *= numElements;
+    if (checkedSize.hasOverflowed())
+        return nullptr;
+    return tryMalloc(kind, checkedSize);
+}
+
+void* mallocArray(Kind kind, size_t numElements, size_t elementSize)
+{
+    void* result = tryMallocArray(kind, numElements, elementSize);
+    RELEASE_ASSERT(result);
+    return result;
+}
+
+} // namespace Gigacage
+
+#else // OS(SYMBIAN)
 
 namespace WTF {
 
@@ -756,3 +1233,5 @@ void* mallocArray(Kind kind, size_t numElements, size_t elementSize)
 }
 
 } // namespace Gigacage
+
+#endif // OS(SYMBIAN)

@@ -138,6 +138,9 @@ public:
 
     const URL& url() const LIFETIME_BOUND { return m_request.url(); }
     ResourceHandle* handle() const { return m_handle.get(); }
+#if OS(SYMBIAN)
+    WEBCORE_EXPORT RefPtr<ResourceHandle> takeHandleForDownload(ResourceHandleClient&, size_t maximumPendingDataBytes);
+#endif
     bool shouldSendResourceLoadCallbacks() const { return m_options.sendLoadCallbacks == SendCallbackPolicy::SendCallbacks; }
     void setSendCallbackPolicy(SendCallbackPolicy sendLoadCallbacks) { m_options.sendLoadCallbacks = sendLoadCallbacks; }
     bool shouldSniffContent() const { return m_options.sniffContent == ContentSniffingPolicy::SniffContent; }

@@ -1,0 +1,29 @@
+From: Symbian WebKit port <fixture@example.invalid>
+Subject: [PATCH] Build complete upstream double complex compiler-rt helpers
+
+Use the SDK's pinned original LLVM sources for C99 complex multiplication and
+division. Keep their IEEE edge recovery/scaling and the platform base PCS;
+do not substitute scalar-only or fast-math arithmetic. All normal SDK runtime
+profiles inherit the common source list. Source licenses remain upstream.
+
+--- a/cpp/symbian/runtime/CMakeLists.txt
++++ b/cpp/symbian/runtime/CMakeLists.txt
+@@ -105,6 +105,7 @@
+   "${builtins}/muldi3.c" "${builtins}/ashldi3.c"
+   "${builtins}/lshrdi3.c"
+   "${builtins}/clzsi2.c"
++  "${builtins}/muldc3.c" "${builtins}/divdc3.c"
+   heap.cc sdk_heap.cc sdk_pages.cc sdk_clock.cc clock.cc sdk_timer.cc
+   ../api/time/sleep.cc sdk_property.cc atomic_bridge.cc math_c.cc
+   lifecycle.cc sdk_lifecycle.cc pure_virtual.cc
+@@ -119,6 +120,10 @@
+   "${SYMBIAN_LIBCXX_SOURCE}/src/future.cpp"
+   "${SYMBIAN_LIBCXX_SOURCE}/src/error_category.cpp"
+   "${SYMBIAN_LIBCXX_SOURCE}/src/system_error.cpp")
++# Preserve the compiler-rt complex arithmetic contract: no fused contraction.
++set_source_files_properties(
++  "${builtins}/muldc3.c" "${builtins}/divdc3.c"
++  PROPERTIES COMPILE_OPTIONS "-fno-fast-math;-ffp-contract=off")
+ if(SYMBIAN_RUNTIME_MIMALLOC)
+   set(SYMBIAN_MIMALLOC_ADDRESS_BUDGET_MIB 64 CACHE STRING
+       "Maximum mimalloc RChunk address reservation in MiB")

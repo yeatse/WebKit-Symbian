@@ -1,0 +1,43 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ICU IDNA regression</title>
+<style>body { font: 16px sans-serif; margin: 16px; } .pass { color: #075c16; } .fail { color: #a00; }</style>
+<h1>ICU IDNA regression</h1>
+<p>This page constructs URLs locally. It makes no network requests.</p>
+<pre id="results"></pre>
+<script>
+(function () {
+    var results = document.getElementById('results');
+    var passed = 0;
+    var failed = 0;
+    function check(name, test) {
+        var ok = false;
+        var detail = '';
+        try { ok = test() === true; } catch (error) { detail = ': ' + error; }
+        if (ok) ++passed; else ++failed;
+        var line = 'IDNA ' + (ok ? 'PASS ' : 'FAIL ') + name + detail;
+        results.appendChild(document.createTextNode(line + '\n'));
+        console.log(line);
+    }
+    function rejects(host) {
+        try { new URL('https://' + host + '/'); } catch (error) { return error instanceof TypeError; }
+        return false;
+    }
+    check('ASCII host', function () { return new URL('https://EXAMPLE.com/').hostname === 'example.com'; });
+    check('Latin international host', function () { return new URL('https://b\u00fccher.example/').hostname === 'xn--bcher-kva.example'; });
+    check('Chinese international host', function () { return new URL('https://\u4f8b\u5b50.\u6d4b\u8bd5/').hostname === 'xn--fsqu00a.xn--0zwm56d'; });
+    check('punycode host', function () { return new URL('https://xn--bcher-kva.example/').hostname === 'xn--bcher-kva.example'; });
+    check('nontransitional sharp s', function () { return new URL('https://fa\u00df.de/').hostname === 'xn--fa-hia.de'; });
+    check('width and case mapping', function () { return new URL('https://\uff25\uff38\uff21\uff2d\uff30\uff2c\uff25\uff0ecom/').hostname === 'example.com'; });
+    check('invalid ContextJ rejected', function () { return rejects('ab\u200dcd.example'); });
+    check('invalid bidi label rejected', function () { return rejects('\u05d0a.example'); });
+    check('invalid punycode rejected', function () { return rejects('xn--.example'); });
+    var summary = 'IDNA RESULT ' + passed + '/' + (passed + failed) + ' ' + (failed ? 'FAIL' : 'PASS');
+    results.className = failed ? 'fail' : 'pass';
+    results.appendChild(document.createTextNode(summary + '\n'));
+    console.log(summary);
+    document.title = summary;
+    window.idnaTestResult = { passed: passed, failed: failed, total: passed + failed };
+})();
+</script>

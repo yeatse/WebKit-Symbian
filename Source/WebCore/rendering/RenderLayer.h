@@ -260,6 +260,9 @@ public:
 #endif
 
     bool willCompositeClipPath() const;
+    // Whether a composited clip-path can be a Shape mask layer rather than a
+    // painted one.
+    bool clipPathCanUseShapeLayer() const;
 
     // Convert a point in absolute coords into layer coords, taking transforms into account
     LayoutPoint absoluteToContents(const LayoutPoint&) const;

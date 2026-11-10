@@ -25,6 +25,12 @@
 #include <memory>
 #include <utility>
 
+static int rescaleStepCount(float scale) {
+    int exponent;
+    float fraction = std::frexp(scale, &exponent);
+    return scale > 1.f ? exponent - (fraction == 0.5f) : exponent - 1;
+}
+
 void SkRescaleAndReadPixels(SkBitmap bmp,
                             const SkImageInfo& resultInfo,
                             const SkIRect& srcRect,
@@ -41,10 +47,8 @@ void SkRescaleAndReadPixels(SkBitmap bmp,
     int stepsX;
     int stepsY;
     if (rescaleMode != SkImage::RescaleMode::kNearest) {
-        stepsX = static_cast<int>((sx > 1.f) ? std::ceil(std::log2f(sx))
-                                             : std::floor(std::log2f(sx)));
-        stepsY = static_cast<int>((sy > 1.f) ? std::ceil(std::log2f(sy))
-                                             : std::floor(std::log2f(sy)));
+        stepsX = rescaleStepCount(sx);
+        stepsY = rescaleStepCount(sy);
     } else {
         stepsX = sx != 1.f;
         stepsY = sy != 1.f;

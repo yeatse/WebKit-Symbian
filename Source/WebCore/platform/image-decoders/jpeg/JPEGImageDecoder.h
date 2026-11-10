@@ -70,8 +70,25 @@ namespace WebCore {
 #if USE(LCMS)
         void setICCProfile(RefPtr<SharedBuffer>&&);
 #endif
+#if OS(SYMBIAN)
+        void setProgressive(bool progressive) { m_progressive = progressive; }
+#endif
 
     private:
+#if OS(SYMBIAN)
+        // Progressive JPEGs counted apart: hardware decoders take baseline only.
+        String decodeStatsName() const override
+        {
+            if (m_decodedBySystem)
+                return m_progressive ? "jpg-progressive-icl"_s : "jpg-baseline-icl"_s;
+            return m_progressive ? "jpg-progressive"_s : "jpg-baseline"_s;
+        }
+        // Decodes a complete image with the phone's ICL decoder. Returns
+        // false, with nothing changed, to leave the image to libjpeg.
+        bool decodeWithSystemDecoder();
+        bool m_progressive { false };
+        bool m_decodedBySystem { false };
+#endif
         JPEGImageDecoder(AlphaOption, GammaAndColorProfileOption);
         void tryDecodeSize(bool allDataReceived) override { decode(true, allDataReceived); }
 

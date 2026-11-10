@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmark: paint cost by content</title>
+<style>
+body { margin:0; padding:8px; font:15px/1.5 sans-serif; }
+#content { position:relative; }
+.serif p { font-family:serif; }
+.tile { display:inline-block; width:80px; height:40px; margin:4px; vertical-align:top; }
+.rounded .tile { border-radius:8px; border:1px solid #888; }
+.shadow .tile { box-shadow:0 2px 6px rgba(0,0,0,.4); }
+.opacity .tile { opacity:.5; }
+.text-shadow p { text-shadow:1px 1px 2px #888; }
+/* Drawn at another size than decoded, so each repaint scales them. */
+.images img { width:31%; height:auto; margin:1%; vertical-align:top; }
+#overlay { position:absolute; left:0; top:0; right:0; bottom:0; background:rgba(0,0,0,.3); }
+</style>
+<div id="content"></div>
+<script src="bench.js"></script>
+<script>
+// Every frame changes the root background, which repaints the whole view, so
+// each case's paint statistics are the cost of one kind of content.
+var words = 'the quick brown fox jumps over a lazy dog while seven wizards box and quietly judge pale vexing fjords'.split(' ');
+function paragraphs() {
+    var html = '';
+    for (var i = 0; i < 12; ++i) {
+        var text = '';
+        for (var j = 0; j < 40; ++j)
+            text += words[(i * 7 + j * 3) % words.length] + ' ';
+        html += '<p>' + text + '</p>';
+    }
+    return html;
+}
+function tiles(style) {
+    var html = '';
+    for (var i = 0; i < 40; ++i)
+        html += '<div class="tile" style="background:' + style(i) + '"></div>';
+    return html;
+}
+function solid(i) { return 'hsl(' + (i * 37 % 360) + ',60%,60%)'; }
+function gradient(i) { return 'linear-gradient(#fff,' + solid(i) + ')'; }
+var imageSources;
+function images() {
+    if (!imageSources) {
+        imageSources = [];
+        var canvas = document.createElement('canvas');
+        canvas.width = 200;
+        canvas.height = 150;
+        var context = canvas.getContext('2d');
+        if (!context)
+            return '';
+        for (var i = 0; i < 12; ++i) {
+            context.fillStyle = solid(i);
+            context.fillRect(0, 0, 200, 150);
+            context.fillStyle = 'rgba(255,255,255,.8)';
+            context.beginPath();
+            context.arc(40 + i % 5 * 30, 75, 30, 0, Math.PI * 2);
+            context.fill();
+            imageSources.push(canvas.toDataURL(i % 2 ? 'image/jpeg' : 'image/png'));
+        }
+    }
+    var html = '';
+    for (var j = 0; j < imageSources.length; ++j)
+        html += '<img src="' + imageSources[j] + '">';
+    return html;
+}
+function content(className, html) {
+    return function () {
+        var element = document.getElementById('content');
+        element.className = className;
+        element.innerHTML = html;
+    };
+}
+var flip = false;
+function repaint() {
+    flip = !flip;
+    document.body.style.backgroundColor = flip ? '#fefefe' : '#fff';
+}
+benchCases('paint', [
+    { name: 'blank', setup: content('', ''), frame: repaint },
+    { name: 'text', setup: content('', paragraphs()), frame: repaint },
+    { name: 'serif', setup: content('serif', paragraphs()), frame: repaint },
+    { name: 'text-shadow', setup: content('text-shadow', paragraphs()), frame: repaint },
+    { name: 'tiles', setup: content('', tiles(solid)), frame: repaint },
+    { name: 'rounded', setup: content('rounded', tiles(solid)), frame: repaint },
+    { name: 'shadow', setup: content('shadow', tiles(solid)), frame: repaint },
+    { name: 'gradient', setup: content('', tiles(gradient)), frame: repaint },
+    { name: 'opacity', setup: content('opacity', tiles(solid)), frame: repaint },
+    { name: 'images', setup: function () { content('images', images())(); }, frame: repaint },
+    { name: 'overlay', setup: content('', paragraphs() + '<div id="overlay"></div>'), frame: repaint }
+], 4000);
+</script>

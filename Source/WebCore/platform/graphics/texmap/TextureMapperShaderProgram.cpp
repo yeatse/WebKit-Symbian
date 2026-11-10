@@ -21,6 +21,14 @@
 
 #include "config.h"
 #include "TextureMapperShaderProgram.h"
+#if OS(SYMBIAN)
+#include "GLContext.h"
+#include <wtf/text/CString.h>
+#if OS(SYMBIAN)
+#include <cstdlib>
+#include <cstring>
+#endif
+#endif
 
 #if USE(TEXTURE_MAPPER)
 
@@ -600,6 +608,52 @@ static const char* fragmentTemplateCommon =
             return 1.0;
         }
 
+    );
+
+#if OS(SYMBIAN)
+// The Nokia 808's VideoCore IV linker rejects the clip loop below ("Indexing with an
+// integral constant expression greater than declared size") even with padded arrays.
+// The same clip, unrolled by hand with literal indices, which every GLSL ES 1.0
+// compiler accepts. Keep the count in sync with ROUNDED_RECT_MAX_RECTS.
+static const char* fragmentTemplateRoundedRectClip =
+    STRINGIFY(
+        void clipToRoundedRect(inout vec4 color, highp mat4 inverseTransform, highp vec4 rect, highp vec4 topRadii, highp vec4 bottomRadii)
+        {
+            highp vec4 fragCoord = inverseTransform * v_nonProjectedPosition;
+            highp vec4 bounds = vec4(rect.xy, rect.xy + rect.zw);
+            float coverage = roundedRectCoverage(fragCoord.xy, bounds, topRadii.xy, topRadii.zw, bottomRadii.xy, bottomRadii.zw);
+            if (coverage == 0.0)
+                discard;
+            color *= coverage;
+        }
+
+        void applyRoundedRectClip(inout vec4 color)
+        {
+            if (u_roundedRectNumber > 0)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[0], u_roundedRect[0], u_roundedRect[1], u_roundedRect[2]);
+            if (u_roundedRectNumber > 1)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[1], u_roundedRect[3], u_roundedRect[4], u_roundedRect[5]);
+            if (u_roundedRectNumber > 2)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[2], u_roundedRect[6], u_roundedRect[7], u_roundedRect[8]);
+            if (u_roundedRectNumber > 3)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[3], u_roundedRect[9], u_roundedRect[10], u_roundedRect[11]);
+            if (u_roundedRectNumber > 4)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[4], u_roundedRect[12], u_roundedRect[13], u_roundedRect[14]);
+            if (u_roundedRectNumber > 5)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[5], u_roundedRect[15], u_roundedRect[16], u_roundedRect[17]);
+            if (u_roundedRectNumber > 6)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[6], u_roundedRect[18], u_roundedRect[19], u_roundedRect[20]);
+            if (u_roundedRectNumber > 7)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[7], u_roundedRect[21], u_roundedRect[22], u_roundedRect[23]);
+            if (u_roundedRectNumber > 8)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[8], u_roundedRect[24], u_roundedRect[25], u_roundedRect[26]);
+            if (u_roundedRectNumber > 9)
+                clipToRoundedRect(color, u_roundedRectInverseTransformMatrix[9], u_roundedRect[27], u_roundedRect[28], u_roundedRect[29]);
+        }
+    );
+#else
+static const char* fragmentTemplateRoundedRectClip =
+    STRINGIFY(
         void applyRoundedRectClip(inout vec4 color)
         {
             // This works by checking whether the fragment position, once the transform is applied,
@@ -648,6 +702,11 @@ static const char* fragmentTemplateCommon =
                 color *= coverage;
             }
         }
+    );
+#endif
+
+static const char* fragmentTemplateMain =
+    STRINGIFY(
 
         void main(void)
         {
@@ -772,6 +831,8 @@ Ref<TextureMapperShaderProgram> TextureMapperShaderProgram::create(TextureMapper
 
     // Append the common code.
     fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateCommon));
+    fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateRoundedRectClip));
+    fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateMain));
 
     // Append the PQ tone mapping function.
     fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateToneMapPq));
@@ -781,10 +842,16 @@ Ref<TextureMapperShaderProgram> TextureMapperShaderProgram::create(TextureMapper
     else
         fragmentShaderBuilder.append(unsafeSpan(fragmentTemplateYUVToRGBNoop));
 
+#if OS(SYMBIAN)
+    auto program = adoptRef(*new TextureMapperShaderProgram(vertexShaderBuilder.toString(), fragmentShaderBuilder.toString()));
+    program->m_options = options;
+    return program;
+#else
     return adoptRef(*new TextureMapperShaderProgram(vertexShaderBuilder.toString(), fragmentShaderBuilder.toString()));
+#endif
 }
 
-#if !LOG_DISABLED
+#if !LOG_DISABLED || OS(SYMBIAN)
 static CString getShaderLog(GLuint shader)
 {
     GLint logLength = 0;
@@ -818,6 +885,10 @@ static CString getProgramLog(GLuint program)
 
 TextureMapperShaderProgram::TextureMapperShaderProgram(const String& vertex, const String& fragment)
 {
+#if OS(SYMBIAN)
+    RELEASE_ASSERT(GLContext::current());
+    m_resourceState = GLContext::current()->resourceState();
+#endif
     m_vertexShader = glCreateShader(GL_VERTEX_SHADER);
     {
         CString vertexCString = vertex.utf8();
@@ -841,16 +912,60 @@ TextureMapperShaderProgram::TextureMapperShaderProgram(const String& vertex, con
     glAttachShader(m_id, m_fragmentShader);
     glLinkProgram(m_id);
 
+#if OS(SYMBIAN)
+    GLint vertexCompiled = 0;
+    GLint fragmentCompiled = 0;
+    GLint linked = 0;
+    glGetShaderiv(m_vertexShader, GL_COMPILE_STATUS, &vertexCompiled);
+    glGetShaderiv(m_fragmentShader, GL_COMPILE_STATUS, &fragmentCompiled);
+    glGetProgramiv(m_id, GL_LINK_STATUS, &linked);
+    if (!vertexCompiled || !fragmentCompiled || !linked) {
+        m_valid = false;
+        WTFLogAlways("Symbian compositor: shader failed: vertex compiled=%d fragment compiled=%d linked=%d", vertexCompiled, fragmentCompiled, linked);
+        if (!vertexCompiled)
+            WTFLogAlways("Symbian compositor: vertex shader log: %.300s", getShaderLog(m_vertexShader).data());
+        if (!fragmentCompiled)
+            WTFLogAlways("Symbian compositor: fragment shader log: %.300s", getShaderLog(m_fragmentShader).data());
+        if (vertexCompiled && fragmentCompiled) {
+            // Drivers that compile at link time report source errors here.
+            CString log = getProgramLog(m_id);
+            const char* text = log.data();
+            size_t length = log.length();
+            for (size_t offset = 0; offset < length && offset < 1200; offset += 240)
+                WTFLogAlways("Symbian compositor: program log: %.240s", text + offset);
+            // Show the source lines the log names, from either shader.
+            unsigned shown = 0;
+            for (const char* cursor = text; (cursor = strstr(cursor, "line ")) && shown < 3; ++shown) {
+                cursor += 5;
+                int line = atoi(cursor);
+                if (line <= 0)
+                    continue;
+                for (auto* source : { &fragment, &vertex }) {
+                    auto lines = source->split('\n');
+                    if (static_cast<size_t>(line) <= lines.size())
+                        WTFLogAlways("Symbian compositor: %s line %d: %.200s", source == &fragment ? "fragment" : "vertex", line, lines[line - 1].utf8().data());
+                }
+            }
+        }
+    }
+#else
     if (!compositingLogEnabled() || glGetError() == GL_NO_ERROR)
         return;
 
     LOG(Compositing, "Vertex shader log: %s\n", getShaderLog(m_vertexShader).data());
     LOG(Compositing, "Fragment shader log: %s\n", getShaderLog(m_fragmentShader).data());
     LOG(Compositing, "Program log: %s\n", getProgramLog(m_id).data());
+#endif
 }
 
 TextureMapperShaderProgram::~TextureMapperShaderProgram()
 {
+#if OS(SYMBIAN)
+    // Deleting the program detaches its shaders. All names belong to this token.
+    m_resourceState->release(SymbianGLResourceState::Type::Program, m_id);
+    m_resourceState->release(SymbianGLResourceState::Type::Shader, m_vertexShader);
+    m_resourceState->release(SymbianGLResourceState::Type::Shader, m_fragmentShader);
+#else
     if (!m_id)
         return;
 
@@ -859,6 +974,7 @@ TextureMapperShaderProgram::~TextureMapperShaderProgram()
     glDetachShader(m_id, m_fragmentShader);
     glDeleteShader(m_fragmentShader);
     glDeleteProgram(m_id);
+#endif
 }
 
 void TextureMapperShaderProgram::setMatrix(GLuint location, const TransformationMatrix& matrix)

@@ -725,7 +725,7 @@
 #define ENABLE_JIT 1
 #endif
 
-#if USE(JSVALUE32_64)
+#if USE(JSVALUE32_64) && !(CPU(ARM_TRADITIONAL) && !CPU(ARMV5_OR_LOWER) && CPU(ARM_VFP) && (OS(SYMBIAN) || OS(LINUX)))
 #undef ENABLE_JIT
 #define ENABLE_JIT 0
 #endif
@@ -758,8 +758,10 @@
 #if USE(JSVALUE32_64)
 #undef ENABLE_FTL_JIT
 #define ENABLE_FTL_JIT 0
+#if !CPU(ARM_TRADITIONAL)
 #undef ENABLE_DFG_JIT
 #define ENABLE_DFG_JIT 0
+#endif
 #endif
 
 /* If possible, try to enable a disassembler. This is optional. We proceed in two
@@ -788,7 +790,7 @@
 #define ENABLE_DFG_JIT 1
 #endif
 
-#if CPU(ARM64) && (OS(DARWIN) || OS(LINUX) || OS(FREEBSD))
+#if (CPU(ARM64) || (CPU(ARM_TRADITIONAL) && !CPU(ARMV5_OR_LOWER) && CPU(ARM_VFP))) && (OS(DARWIN) || OS(LINUX) || OS(FREEBSD) || OS(SYMBIAN))
 #define ENABLE_DFG_JIT 1
 #endif
 

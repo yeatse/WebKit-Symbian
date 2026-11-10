@@ -26,6 +26,10 @@
 #include "config.h"
 #include <wtf/AvailableMemory.h>
 
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
+
 #include <array>
 #include <mutex>
 #include <wtf/PageBlock.h>
@@ -58,7 +62,9 @@
 
 namespace WTF {
 
+#if !OS(SYMBIAN)
 static constexpr size_t availableMemoryGuess = 512 * MB;
+#endif
 
 #if OS(DARWIN)
 static size_t memorySizeAccordingToKernel()
@@ -139,7 +145,9 @@ struct LinuxMemory {
 
 static size_t computeAvailableMemory()
 {
-#if OS(DARWIN)
+#if OS(SYMBIAN)
+    return SymbianSystem::ramSize();
+#elif OS(DARWIN)
     size_t sizeAccordingToKernel = memorySizeAccordingToKernel();
 #if PLATFORM(IOS_FAMILY)
     sizeAccordingToKernel = std::min(sizeAccordingToKernel, jetsamLimit());

@@ -47,9 +47,18 @@ public:
     WEBCORE_EXPORT AuthenticationChallenge(const CurlResponse&, unsigned, const ResourceResponse&);
     WEBCORE_EXPORT AuthenticationChallenge(const URL&, const CertificateInfo&, const ResourceError&);
 
+#if OS(SYMBIAN)
+    AuthenticationClient* authenticationClient() const { return m_authenticationClient.get(); }
+    void setAuthenticationClient(AuthenticationClient& client) { m_authenticationClient = &client; }
+    void nullify() { AuthenticationChallengeBase::nullify(); m_authenticationClient = nullptr; }
+#else
     AuthenticationClient* authenticationClient() const { return nullptr; }
+#endif
 
 private:
+#if OS(SYMBIAN)
+    RefPtr<AuthenticationClient> m_authenticationClient;
+#endif
     ProtectionSpace::ServerType protectionSpaceServerTypeFromURI(const URL&, bool isForProxy);
     ProtectionSpace protectionSpaceForPasswordBased(const CurlResponse&, const ResourceResponse&);
     ProtectionSpace protectionSpaceForServerTrust(const URL&, const CertificateInfo&);

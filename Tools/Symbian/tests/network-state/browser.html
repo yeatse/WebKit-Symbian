@@ -1,0 +1,88 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Native connection events</title>
+<style>body{font:14px sans-serif;background:white;color:black;margin:8px}h1{font-size:19px}pre{white-space:pre-wrap;font-size:12px}</style>
+<h1>Native connection events</h1>
+<div id="state"></div><pre id="output"></pre>
+<script>
+(async function () {
+    'use strict';
+    var run = new URL(location.href).searchParams.get('run') || '';
+    var checks = [], events = [], startup = [], finished = false, passed = 0, failed = 0;
+    var output = document.getElementById('output');
+    var start = performance.now();
+    function say(line) { output.textContent += line + '\n'; console.log(line); }
+    function marker(name) { console.log('NETWORKSTATE ' + name + ' ' + run); }
+    function check(name, good) {
+        checks.push({ name: name, passed: !!good });
+        if (good) ++passed; else ++failed;
+        say('NETWORKSTATE ' + (good ? 'PASS ' : 'FAIL ') + name);
+    }
+    function finish() {
+        if (finished) return;
+        finished = true;
+        clearTimeout(deadline);
+        var result = { run: run, passed: passed, failed: failed, total: checks.length,
+            checks: checks, events: events, startupEvents: startup };
+        window.networkStateResult = result;
+        document.title = 'Network state ' + passed + '/' + checks.length;
+        console.log('NETWORKSTATE DETAILS ' + JSON.stringify(result));
+        say('NETWORKSTATE RESULT ' + run + ' passed=' + passed + ' failed=' + failed);
+        marker('DONE');
+    }
+    function sleep(ms) { return new Promise(function (resolve) { setTimeout(resolve, ms); }); }
+    function observe(event) {
+        var entry = { type: event.type, online: navigator.onLine, trusted: event.isTrusted,
+            windowTarget: event.target === window, elapsed: performance.now() - start };
+        events.push(entry);
+        document.getElementById('state').textContent = 'navigator.onLine = ' + entry.online;
+        console.log('NETWORKSTATE EVENT ' + run + ' ' + JSON.stringify(entry));
+    }
+    window.addEventListener('online', observe);
+    window.addEventListener('offline', observe);
+    var deadline = setTimeout(function () { check('bounded completion', false); finish(); }, 90000);
+    async function nextEvent(number, type, online) {
+        var limit = performance.now() + 15000;
+        while (!finished && events.length < number && performance.now() < limit) await sleep(50);
+        if (finished) throw new Error('suite timed out');
+        if (events.length < number) throw new Error('missing ' + type + ' event ' + number);
+        var event = events[number - 1];
+        check('event ' + number + ' is ' + type, event.type === type);
+        check('event ' + number + ' navigator state', event.online === online && navigator.onLine === online);
+        check('event ' + number + ' trusted window dispatch', event.trusted === true && event.windowTarget === true);
+        // This exceeds WebCore's two-second debounce interval. Repeated
+        // snapshots must not synthesize extra events while the link is stable.
+        await sleep(3500);
+        if (finished) throw new Error('suite timed out');
+        check('event ' + number + ' stable without duplicates', events.length === number && navigator.onLine === online);
+    }
+    try {
+        if (!/^[A-Za-z0-9_-]{8,48}$/.test(run)) throw new Error('fresh run token required');
+        marker('BEGIN');
+        await sleep(4000);
+        // Keep startup observations in the report, but start the controlled
+        // transition sequence only after the asynchronous initial snapshot.
+        startup = events.slice();
+        events = [];
+        check('initial native interface online', navigator.onLine === true);
+        marker('READY');
+        await nextEvent(1, 'offline', false);
+        marker('OFFLINE1');
+        await nextEvent(2, 'online', true);
+        marker('ONLINE1');
+        // The controller performs a real normal Attach/Close here while its
+        // original connection remains owned. This must not emit an offline.
+        await sleep(4000);
+        check('normal attachment churn keeps online without events', events.length === 2 && navigator.onLine === true);
+        marker('STABLE1');
+        await nextEvent(3, 'offline', false);
+        marker('OFFLINE2');
+        await nextEvent(4, 'online', true);
+        check('exact ordered transition sequence', events.map(function (event) { return event.type; }).join(',') === 'offline,online,offline,online');
+    } catch (error) {
+        if (!finished) check('unexpected failure: ' + error, false);
+    }
+    finish();
+}());
+</script>

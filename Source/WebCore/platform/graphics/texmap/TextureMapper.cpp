@@ -36,6 +36,7 @@
 #include "Image.h"
 #include "TextureMapperFlags.h"
 #include "TextureMapperShaderProgram.h"
+#include <cstdio>
 #include <wtf/HashMap.h>
 #include <wtf/MathExtras.h>
 #include <wtf/NeverDestroyed.h>
@@ -124,20 +125,36 @@ private:
         int32_t m_maxTextureSize;
     };
 
+#if OS(SYMBIAN)
+    std::shared_ptr<SymbianGLResourceState> m_resourceState;
+#endif
     const Ref<SharedGLData> m_sharedGLData;
     HashMap<const void*, GLuint> m_vbos;
     HashMap<uint64_t, Vector<Ref<TextureMapperGPUBuffer>>> m_buffers;
 };
 
 TextureMapperGLData::TextureMapperGLData(void* platformContext)
+#if OS(SYMBIAN)
+    : m_resourceState(GLContext::current()->resourceState())
+    , m_sharedGLData(SharedGLData::currentSharedGLData(m_resourceState.get()))
+#else
     : m_sharedGLData(SharedGLData::currentSharedGLData(platformContext))
+#endif
 {
+#if OS(SYMBIAN)
+    UNUSED_PARAM(platformContext);
+#endif
 }
 
 TextureMapperGLData::~TextureMapperGLData()
 {
-    for (auto& entry : m_vbos)
+    for (auto& entry : m_vbos) {
+#if OS(SYMBIAN)
+        m_resourceState->release(SymbianGLResourceState::Type::Buffer, entry.value);
+#else
         glDeleteBuffers(1, &entry.value);
+#endif
+    }
 
     for (auto& entry : m_buffers)
         entry.value.clear();
@@ -174,7 +191,31 @@ Ref<TextureMapperShaderProgram> TextureMapperGLData::getShaderProgram(TextureMap
 {
     ASSERT(!options.isEmpty());
     auto addResult = m_sharedGLData->m_programs.ensure(options.toRaw(), [options] {
+#if OS(SYMBIAN)
+        // A program the GPU rejects would raise GL errors on every use and
+        // send the page to software painting. Draw without its effects
+        // (antialiasing, clips, filters) instead.
+        auto program = TextureMapperShaderProgram::create(options);
+        if (program->isValid())
+            return program;
+        const TextureMapperShaderProgram::Options sources {
+            TextureMapperShaderProgram::TextureRGB, TextureMapperShaderProgram::SolidColor, TextureMapperShaderProgram::Opacity,
+            TextureMapperShaderProgram::TextureYUV, TextureMapperShaderProgram::TextureNV12, TextureMapperShaderProgram::TextureNV21,
+            TextureMapperShaderProgram::TexturePackedYUV, TextureMapperShaderProgram::TextureExternalOES,
+            TextureMapperShaderProgram::TextureYUVA, TextureMapperShaderProgram::TextureCopy, TextureMapperShaderProgram::Premultiply };
+        auto reduced = options & sources;
+        if (reduced.isEmpty())
+            reduced = TextureMapperShaderProgram::SolidColor;
+        WTFLogAlways("Symbian compositor: shader options 0x%x failed, using 0x%x", options.toRaw(), reduced.toRaw());
+        if (reduced != options) {
+            auto fallback = TextureMapperShaderProgram::create(reduced);
+            if (fallback->isValid())
+                return fallback;
+        }
+        return program;
+#else
         return TextureMapperShaderProgram::create(options);
+#endif
     });
     return *addResult.iterator->value;
 }
@@ -877,8 +918,59 @@ void TextureMapper::drawUnitRect(TextureMapperShaderProgram& program, GLenum dra
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+#if OS(SYMBIAN)
+TextureMapper::DrawStats& TextureMapper::drawStats()
+{
+    static DrawStats stats;
+    return stats;
+}
+
+static bool s_checkGLErrors;
+static char s_glErrorStep[128];
+
+void TextureMapper::setCheckGLErrors(bool check)
+{
+    s_checkGLErrors = check;
+}
+
+bool TextureMapper::checkingGLErrors()
+{
+    return s_checkGLErrors;
+}
+
+void TextureMapper::checkGLError(const char* step, const IntSize& size)
+{
+    if (!s_checkGLErrors)
+        return;
+    GLenum error = glGetError();
+    if (error == GL_NO_ERROR || s_glErrorStep[0])
+        return;
+    snprintf(s_glErrorStep, sizeof(s_glErrorStep), "0x%x after %s %dx%d", error, step, size.width(), size.height());
+}
+
+const char* TextureMapper::takeGLErrorStep()
+{
+    static char step[sizeof(s_glErrorStep)];
+    if (!s_glErrorStep[0])
+        return nullptr;
+    memcpy(step, s_glErrorStep, sizeof(step));
+    s_glErrorStep[0] = 0;
+    return step;
+}
+#endif
+
 void TextureMapper::draw(const FloatRect& rect, const TransformationMatrix& modelViewMatrix, TextureMapperShaderProgram& program, GLenum drawingMode, OptionSet<TextureMapperFlags> flags)
 {
+#if OS(SYMBIAN)
+    {
+        auto& stats = drawStats();
+        ++stats.draws;
+        WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
+        FloatRect covered = intersection(modelViewMatrix.mapQuad(rect).boundingBox(), FloatRect(0, 0, data().viewport[2], data().viewport[3]));
+        WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
+        stats.pixels += static_cast<uint64_t>(covered.width() * covered.height());
+    }
+#endif
     TransformationMatrix matrix(modelViewMatrix);
     matrix.multiply(TransformationMatrix::rectToRect(FloatRect(0, 0, 1, 1), rect));
 
@@ -905,6 +997,13 @@ void TextureMapper::draw(const FloatRect& rect, const TransformationMatrix& mode
     glDisableVertexAttribArray(program.vertexLocation());
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+#if OS(SYMBIAN)
+    if (checkingGLErrors()) {
+        char step[48];
+        snprintf(step, sizeof(step), "drawing with shader 0x%x", program.options().toRaw());
+        checkGLError(step, enclosingIntRect(rect).size());
+    }
+#endif
 }
 
 void TextureMapper::drawTexturedQuadWithProgram(TextureMapperShaderProgram& program, const Vector<std::pair<GLuint, GLuint> >& texturesAndSamplers, OptionSet<TextureMapperFlags> flags, const FloatRect& rect, const TransformationMatrix& modelViewMatrix, float opacity)
@@ -1278,6 +1377,9 @@ RefPtr<BitmapTexture> TextureMapper::applyFilters(RefPtr<BitmapTexture>& sourceT
 
 RefPtr<BitmapTexture> TextureMapper::applyFilter(RefPtr<BitmapTexture>& sourceTexture, const Ref<const FilterOperation>& filter, bool defersLastPass)
 {
+#if OS(SYMBIAN)
+    ++drawStats().filterPasses;
+#endif
     switch (filter->type()) {
     case FilterOperation::Type::Grayscale:
     case FilterOperation::Type::Sepia:
@@ -1336,6 +1438,10 @@ void TextureMapper::bindSurface(BitmapTexture *surface)
     }
 
     surface->bindAsSurface();
+#if OS(SYMBIAN)
+    ++drawStats().surfaces;
+    checkGLError("binding a surface", surface->size());
+#endif
     data().currentSurface = surface;
     updateProjectionMatrix();
 }
@@ -1385,6 +1491,9 @@ bool TextureMapper::beginRoundedRectClip(const TransformationMatrix& modelViewMa
     FloatQuad quad = modelViewMatrix.projectQuad(targetRect.rect());
     IntRect rect = quad.enclosingBoundingBox();
 
+#if OS(SYMBIAN)
+    ++drawStats().roundedClips;
+#endif
     clipStack().addRoundedRect(targetRect, modelViewMatrix.inverse().value());
     clipStack().intersect(rect);
     clipStack().applyIfNeeded();
@@ -1401,6 +1510,9 @@ void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const
     if (beginScissorClip(modelViewMatrix, targetRect.rect()))
         return;
 
+#if OS(SYMBIAN)
+    ++drawStats().stencilClips;
+#endif
     data().initializeStencil();
 
     Ref<TextureMapperShaderProgram> program = data().getShaderProgram(TextureMapperShaderProgram::SolidColor);
@@ -1447,11 +1559,17 @@ void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const
     // Increase stencilIndex and apply stencil testing.
     clipStack().setStencilIndex(stencilIndex * 2);
     clipStack().applyIfNeeded();
+#if OS(SYMBIAN)
+    checkGLError("a stencil clip", clipBounds().size());
+#endif
 }
 
 void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const ClipPath& clipPath)
 {
     clipStack().push();
+#if OS(SYMBIAN)
+    ++drawStats().stencilClips;
+#endif
     data().initializeStencil();
 
     Ref<TextureMapperShaderProgram> program = data().getShaderProgram(TextureMapperShaderProgram::SolidColor);
@@ -1508,6 +1626,9 @@ void TextureMapper::beginClip(const TransformationMatrix& modelViewMatrix, const
     // Increase stencilIndex and apply stencil testing.
     clipStack().setStencilIndex(stencilIndex * 2);
     clipStack().applyIfNeeded();
+#if OS(SYMBIAN)
+    checkGLError("a stencil clip", clipBounds().size());
+#endif
 }
 
 void TextureMapper::beginClipWithoutApplying(const TransformationMatrix& modelViewMatrix, const FloatRect& targetRect)
