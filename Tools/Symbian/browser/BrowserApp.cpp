@@ -2,6 +2,7 @@
 // separately loaded browser_ui resources for queries and popup softkeys.
 
 #include "BrowserLog.h"
+#include "BrowserSettings.h"
 #include "ClipboardNative.h"
 #include "NativeDeclarations.h"
 #include "NativeHeapDelete.h"
@@ -23,6 +24,7 @@
 #include <bautils.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <avkon.hrh>
 #include <eikbtgpc.h>
 #include <eikedwin.h>
@@ -539,10 +541,11 @@ void CBrowserAppUi::ConstructL()
 {
     BaseConstructL(EAknEnableSkin | ENoAppResourceFile | EAknTouchCompatible | EAknSingleClickCompatible);
 
-    // curl's own trace goes to C:\Data\WebKit\curl.txt while
-    // C:\Data\WebKit\curl-verbose exists, or with curl-verbose on the command
-    // line. The engine reads the settings when it starts.
-    TBool curlTrace = BaflUtils::FileExists(iEikonEnv->FsSession(), _L("C:\\Data\\WebKit\\curl-verbose"));
+    // Switches come from C:\Data\WebKit\webkit.ini (BrowserSettings.h); the
+    // command line can also turn on curl-verbose and frame-stats. The engine
+    // reads curl's and JavaScriptCore's settings when it starts.
+    BrowserSettingsLoad(KDataDirectory);
+    TBool curlTrace = BrowserSetting("curl-verbose");
     HBufC* commandLine = HBufC::NewLC(User::CommandLineLength());
     TPtr commandLinePtr = commandLine->Des();
     User::CommandLine(commandLinePtr);
@@ -554,23 +557,16 @@ void CBrowserAppUi::ConstructL()
         setenv("CURL_LOG_FILE", "C:/Data/WebKit/curl.txt", 1);
     }
     setClipboardClient(&NativeClipboard());
-    // To compare the JavaScript tiers (bench/jsbench.html): js-llint runs
-    // the interpreter only, js-baseline leaves out the DFG compiler. JSC
-    // reads these when it starts.
-    TEntry tierEntry;
-    const char* tierNote = nullptr;
-    if (iEikonEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\js-llint"), tierEntry) == KErrNone) {
+    // js-tier, to compare the tiers with bench/jsbench.html.
+    const char* tier = BrowserSettingText("js-tier");
+    if (!strcmp(tier, "llint"))
         setenv("JSC_useJIT", "false", 1);
-        tierNote = "jit: off, interpreter only (js-llint)";
-    } else if (iEikonEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\js-baseline"), tierEntry) == KErrNone) {
+    else if (!strcmp(tier, "baseline"))
         setenv("JSC_useDFGJIT", "false", 1);
-        tierNote = "jit: baseline only, no DFG (js-baseline)";
-    }
     WebView::initializeProcess(KDataDirectory);
     BrowserLogOpen(KDataDirectory);
     BrowserLog("WebKit Browser starting");
-    if (tierNote)
-        BrowserLog("%s", tierNote);
+    BrowserSettingsDescribe([](const char* aLine) { BrowserLog("%s", aLine); });
     if (curlTrace) {
         StartHeartbeatL();
         BrowserThreadWatchStart();
@@ -612,8 +608,8 @@ void CBrowserAppUi::ConstructL()
 
     // The command line may name a URL to load at start, fep-selftest,
     // curl-verbose, frame-stats and the test-only media-autoplay. Options
-    // precede the URL. C:\Data\WebKit\frame-stats also enables frame-stats.
-    if (BaflUtils::FileExists(iEikonEnv->FsSession(), _L("C:\\Data\\WebKit\\frame-stats")))
+    // precede the URL.
+    if (BrowserSetting("frame-stats"))
         iWebContainer->EnableFrameStats();
     TLex lex(commandLinePtr);
     for (TPtrC token = lex.NextToken(); token.Length(); token.Set(lex.NextToken())) {

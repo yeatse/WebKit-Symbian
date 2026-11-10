@@ -36,6 +36,7 @@ set(shell_sources
   AuthenticationUI.cpp
   BrowserApp.cpp
   BrowserLog.cpp
+  BrowserSettings.cpp
   ClipboardNative.cpp
   DownloadFileNative.cpp
   DownloadUI.cpp

@@ -12,8 +12,9 @@ td:first-child, th:first-child { text-align:left; }
 </style>
 <h1>JavaScript speed</h1>
 <p>Six kinds of work, three rounds each, in milliseconds. It stops by itself.
-Compare runs with C:\Data\WebKit\js-llint (interpreter only), js-baseline
-(no DFG) and neither (all tiers); restart the browser after each change.</p>
+Compare runs with js-tier = llint (interpreter only), baseline (no DFG) and
+dfg (all tiers) in C:\Data\WebKit\webkit.ini; restart the browser after each
+change.</p>
 <p id="done">Finished. Copy C:\Data\WebKit\log.txt.</p>
 <table id="results"><tr><th>work</th><th>1</th><th>2</th><th>3</th></tr></table>
 <script src="jsbench.js"></script>
