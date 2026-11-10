@@ -25,7 +25,7 @@
 
 #pragma once
 
-#if USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#if (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)
 
 #include "SkiaDamageRegion.h"
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
@@ -131,4 +131,4 @@ private:
 
 } // namespace WebCore
 
-#endif // USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#endif // (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)

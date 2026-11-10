@@ -28,6 +28,7 @@
 #include <wtf/RefCounted.h>
 #include <wtf/RefPtr.h>
 #include <wtf/text/WTFString.h>
+#include <utility>
 
 namespace WebCore {
 
@@ -40,12 +41,17 @@ public:
     void paintToTextureMapper(TextureMapper&, const FloatRect&, const TransformationMatrix&, float) override;
     void drawBorder(TextureMapper&, const Color&, float borderWidth, const FloatRect&, const TransformationMatrix&) override;
     void drawRepaintCounter(TextureMapper&, int repaintCount, const Color&, const FloatRect&, const TransformationMatrix&) override;
+#if OS(SYMBIAN) && USE(SKIA)
+    bool updateSkiaBackingStore(SkiaBackingStore&, TextureMapper&) override;
+    Vector<IntRect> takeSkiaDamage() override { return std::exchange(m_skiaDamage, { }); }
+    sk_sp<SkImage> skiaImage() override;
+#endif
 
     void updateContentsScale(float);
     void updateContents(TextureMapper&, Image*, const FloatSize&, const IntRect&);
     bool updateContents(TextureMapper&, GraphicsLayer*, const FloatSize&, const IntRect&);
 
-    void setContentsToImage(Image* image) { m_image = image; }
+    void setContentsToImage(Image*);
 
     // Coverage mode keeps tiles only around the part of the layer that is on
     // screen (visibleRect, in contents-scaled layer coordinates), instead of
@@ -94,6 +100,12 @@ private:
         IntRect rect;
     };
     bool paintCoverageTiles(const Vector<CoveragePaint>&, GraphicsLayer*);
+#if OS(SYMBIAN) && USE(SKIA)
+    void addSkiaDamage(const IntRect&);
+    Vector<IntRect> m_skiaDamage;
+    FloatSize m_skiaTileGridSize;
+    sk_sp<SkImage> m_skiaContentsImage;
+#endif
     Vector<CoverageTile> m_coverageTiles;
     size_t m_coverageBytes { 0 };
     bool m_coverageMode { false };

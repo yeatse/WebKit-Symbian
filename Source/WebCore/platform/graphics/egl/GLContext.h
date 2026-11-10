@@ -124,7 +124,7 @@ public:
         ~ScopedGLContext();
     private:
         struct {
-            GLContext* glContext { nullptr };
+            GLContextWrapper* glContext { nullptr };
             EGLDisplay display { nullptr };
             EGLContext context { nullptr };
             EGLSurface readSurface { nullptr };
@@ -140,7 +140,7 @@ public:
         ~ScopedGLContextCurrent();
     private:
         struct {
-            GLContext* glContext { nullptr };
+            GLContextWrapper* glContext { nullptr };
             EGLDisplay display { nullptr };
             EGLContext context { nullptr };
             EGLSurface readSurface { nullptr };

@@ -62,6 +62,10 @@ public:
     void setBackfaceVisibility(bool) override;
     void setBackgroundColor(const Color&) override;
     void setOpacity(float) override;
+#if OS(SYMBIAN) && USE(SKIA)
+    void setBlendMode(BlendMode) override;
+    void setIsBackdropRoot(bool) override;
+#endif
     bool setFilters(const FilterOperations&) override;
     bool setBackdropFilters(const FilterOperations&) override;
     void setBackdropFiltersRect(const FloatRoundedRect&) override;

@@ -25,7 +25,7 @@
 
 #pragma once
 
-#if USE(COORDINATED_GRAPHICS)
+#if USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)
 #include "GLFence.h"
 #include "TextureMapperFlags.h"
 #include "TextureMapperPlatformLayer.h"

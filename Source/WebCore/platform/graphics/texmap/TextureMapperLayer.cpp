@@ -36,6 +36,11 @@
 #if USE(COORDINATED_GRAPHICS)
 #include "CoordinatedAnimatedBackingStoreClient.h"
 #endif
+#if OS(SYMBIAN) && USE(SKIA)
+#include "SkiaCompositingLayer.h"
+#include "SkiaBackingStore.h"
+#include <skia/core/SkPathBuilder.h>
+#endif
 
 namespace WebCore {
 
@@ -194,6 +199,98 @@ TextureMapperLayer::~TextureMapperLayer()
 
     removeFromParent();
 }
+
+#if OS(SYMBIAN) && USE(SKIA)
+SkiaCompositingLayer& TextureMapperLayer::skiaLayer()
+{
+    if (!m_skiaLayer) {
+        m_skiaLayer = SkiaCompositingLayer::create();
+        m_skiaLayer->setDamagePropagationEnabled(true);
+    }
+    return *m_skiaLayer;
+}
+
+void TextureMapperLayer::setSkiaNeedsDisplay(const FloatRect& rect)
+{
+    ensureDamageInLayerCoordinateSpace().add(enclosingIntRect(rect));
+}
+
+SkiaCompositingLayer& TextureMapperLayer::syncSkiaLayer(TextureMapper& mapper)
+{
+    auto& layer = skiaLayer();
+    layer.setSize(m_state.size);
+    layer.setPosition(m_state.pos);
+    layer.setAnchorPoint(m_state.anchorPoint);
+    layer.setBoundsOrigin(m_state.boundsOrigin);
+    layer.setTransform(m_state.transform);
+    layer.setChildrenTransform(m_state.childrenTransform);
+    layer.setPreserves3D(m_state.preserves3D);
+    layer.setBackfaceVisibility(m_state.backfaceVisibility);
+    layer.setContentsVisible(m_state.contentsVisible && m_state.visible);
+    layer.setContentsOpaque(m_state.contentsOpaque);
+    layer.setMasksToBounds(m_state.masksToBounds);
+    layer.setContentsRect(m_state.contentsRect);
+    layer.setContentsClippingRect(m_state.contentsClippingRect);
+    layer.setContentsRectClipsDescendants(m_state.contentsRectClipsDescendants);
+    layer.setOpacity(m_state.opacity);
+    layer.setBlendMode(m_skiaBlendMode);
+    layer.setIsBackdropRoot(m_skiaBackdropRoot);
+    layer.setAnimations(m_animations);
+    layer.setContentsTiling(m_state.contentsTileSize, m_state.contentsTilePhase);
+    layer.setNativeContentsLayer(m_contentsLayer);
+    if (m_skiaVisualDamage) {
+        layer.setFilters(m_state.filters);
+        layer.setBackdropFilters(m_state.backdropLayer ? m_state.backdropLayer->m_state.filters : FilterOperations { });
+        layer.setBackdropFiltersRect(m_state.backdropFiltersRect);
+        layer.setContentsSolidColor(m_state.solidColor);
+        layer.setNativeBackgroundColor(m_state.backgroundColor);
+        if (m_state.shapeClip) {
+            if (!m_skiaShapeMask) {
+                m_skiaShapeMask = SkiaCompositingLayer::create();
+                m_skiaShapeMask->setDamagePropagationEnabled(true);
+            }
+            m_skiaShapeMask->setSize(m_state.size);
+            m_skiaShapeMask->setAnchorPoint({ 0, 0, 0 });
+            m_skiaShapeMask->setClipPath(SkPathBuilder().addRRect(SkRRect(*m_state.shapeClip)).detach());
+            m_skiaShapeMask->invalidateNativeProperties();
+        } else
+            m_skiaShapeMask = nullptr;
+        std::optional<float> borderWidth = m_state.showDebugBorders ? std::optional(m_state.debugBorderWidth) : std::nullopt;
+        std::optional<unsigned> repaintCount = m_state.showRepaintCounter ? std::optional<unsigned>(m_state.repaintCount) : std::nullopt;
+        layer.setDebugIndicators(Color(m_state.debugBorderColor), borderWidth, repaintCount);
+        layer.invalidateNativeProperties();
+        m_skiaVisualDamage = false;
+    }
+    if (m_backingStore) {
+        if (m_backingStore->updateSkiaBackingStore(layer.nativeBackingStore(), mapper)) {
+            Damage damage(m_state.size);
+            for (const auto& rect : m_backingStore->takeSkiaDamage())
+                damage.add(rect);
+            if (!damage.isEmpty())
+                layer.addDamage(WTF::move(damage));
+        }
+    } else
+        layer.clearNativeBackingStore();
+    if (m_damageInLayerCoordinateSpace) {
+        layer.addDamage(WTF::move(*m_damageInLayerCoordinateSpace));
+        m_damageInLayerCoordinateSpace = std::nullopt;
+    }
+    RefPtr<SkiaCompositingLayer> mask = m_skiaShapeMask;
+    if (m_state.maskLayer)
+        mask = &m_state.maskLayer->syncSkiaLayer(mapper);
+    layer.setMask(WTF::move(mask));
+    RefPtr<SkiaCompositingLayer> replica;
+    if (m_state.replicaLayer)
+        replica = &m_state.replicaLayer->syncSkiaLayer(mapper);
+    layer.setReplica(WTF::move(replica));
+    Vector<Ref<SkiaCompositingLayer>> children;
+    children.reserveInitialCapacity(m_children.size());
+    for (auto* child : m_children)
+        children.append(child->syncSkiaLayer(mapper));
+    layer.setChildren(WTF::move(children));
+    return layer;
+}
+#endif
 
 void TextureMapperLayer::processDescendantLayersFlatteningRequirements()
 {
@@ -814,7 +911,7 @@ static void resolveOverlaps(const IntRect& newRegion, Region& overlapRegion, Reg
 }
 
 template<typename T>
-struct Point4D {
+struct TextureMapperPoint4D {
     T x;
     T y;
     T z;
@@ -822,19 +919,19 @@ struct Point4D {
 };
 
 template<typename T>
-Point4D<T> operator+(Point4D<T> s, Point4D<T> t)
+TextureMapperPoint4D<T> operator+(TextureMapperPoint4D<T> s, TextureMapperPoint4D<T> t)
 {
     return { s.x + t.x, s.y + t.y, s.z + t.z, s.w + t.w };
 }
 
 template<typename T>
-Point4D<T> operator-(Point4D<T> s, Point4D<T> t)
+TextureMapperPoint4D<T> operator-(TextureMapperPoint4D<T> s, TextureMapperPoint4D<T> t)
 {
     return { s.x - t.x, s.y - t.y, s.z - t.z, s.w - t.w };
 }
 
 template<typename T>
-Point4D<T> operator*(T s, Point4D<T> t)
+TextureMapperPoint4D<T> operator*(T s, TextureMapperPoint4D<T> t)
 {
     return { s * t.x, s * t.y, s * t.z, s * t.w };
 }
@@ -847,7 +944,7 @@ struct MinMax {
 
 IntRect transformedBoundingBox(const TransformationMatrix& transform, FloatRect rect, const IntRect& clip)
 {
-    using Point = Point4D<double>;
+    using Point = TextureMapperPoint4D<double>;
     auto mapPoint = [&](FloatPoint p) -> Point {
         double x = p.x();
         double y = p.y();
@@ -1417,7 +1514,11 @@ void TextureMapperLayer::setReplicaLayer(TextureMapperLayer* replicaLayer)
 }
 
 #if OS(SYMBIAN)
+#if USE(SKIA)
+static bool s_backdropFiltersEnabled = true;
+#else
 static bool s_backdropFiltersEnabled;
+#endif
 
 void TextureMapperLayer::setBackdropFiltersEnabled(bool enabled)
 {

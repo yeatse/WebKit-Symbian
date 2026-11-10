@@ -124,5 +124,47 @@ int main()
     replacement->state->release(State::Type::Texture, 12);
     assert(deletions.size() == 5 && deletions.back().context == replacement);
     replacement->~Context();
-    std::puts("PASS: restore failure suppresses upload; owner-only/deferred deletion; abandonment; thread release; context reuse; C++ lifetime");
+
+    // Composited page resources can outlive their window context while Ganesh
+    // and the EGL sharing root continue rendering.
+    {
+        Context root, raster;
+        raster.state->setSharingState(root.state);
+        std::shared_ptr<State> lateOwner;
+        currentContext = &angleContext;
+        {
+            Context compositor;
+            compositor.state->setSharingState(root.state);
+            lateOwner = compositor.state;
+            compositor.state->release(State::Type::Texture, 20);
+            compositor.state->release(State::Type::Renderbuffer, 21);
+            compositor.state->release(State::Type::Framebuffer, 25);
+        }
+        std::thread lateRelease([lateOwner] { lateOwner->release(State::Type::Buffer, 22); });
+        lateRelease.join();
+        lateOwner->release(State::Type::Shader, 23);
+        lateOwner->release(State::Type::Program, 24);
+        lateOwner->release(State::Type::Texture, 25);
+        lateOwner->release(State::Type::Framebuffer, 25);
+        root.state->release(State::Type::Framebuffer, 25);
+        root.state->release(State::Type::Texture, 26);
+        assert(deletions.size() == 5);
+        assert(!lateOwner->paintAndUpload([] { assert(false); }, [] { assert(false); return true; }));
+        assert(raster.state->paintAndUpload([] { }, [] { return true; }));
+        assert(deletions.size() == 12);
+        for (size_t i = 5; i < 12; ++i) {
+            assert(deletions[i].context == &raster);
+            assert(deletions[i].type != State::Type::Framebuffer);
+            assert(deletions[i].name == i + 15);
+        }
+        root.state->flush();
+        assert(deletions.size() == 12);
+        currentContext = &root;
+        root.state->flush();
+        assert(deletions.size() == 13);
+        assert(deletions.back().context == &root && deletions.back().type == State::Type::Framebuffer);
+        raster.state->flush();
+        assert(deletions.size() == 13);
+    }
+    std::puts("PASS: context restoration, deferred deletion, shared resource lifetime, framebuffer ownership, thread release and context reuse");
 }

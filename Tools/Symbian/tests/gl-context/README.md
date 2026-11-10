@@ -8,5 +8,6 @@ bash Tools/Symbian/tests/gl-context/run.sh
 ```
 
 The fixture checks context restoration, resource deletion and deferred cleanup.
-It exits successfully when each resource is released through its owning context
-and failed context restoration is propagated to its caller.
+Shared object deletions follow the EGL sharing group across compositor teardown;
+framebuffer deletion remains tied to its creating context. It also checks
+that failed context restoration is propagated to the caller.

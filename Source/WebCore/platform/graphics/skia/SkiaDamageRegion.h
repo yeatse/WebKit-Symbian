@@ -25,7 +25,7 @@
 
 #pragma once
 
-#if USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#if (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)
 
 #include "Damage.h"
 #include "IntRect.h"
@@ -213,4 +213,4 @@ inline void drawImageRectRestricted(SkCanvas& canvas, const SkiaDamageRegion* da
 
 } // namespace WebCore
 
-#endif // USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#endif // (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)

@@ -86,6 +86,9 @@ void GraphicsLayerTextureMapper::deviceOrPageScaleFactorChanged()
 
 void GraphicsLayerTextureMapper::setContentsNeedsDisplay()
 {
+#if OS(SYMBIAN) && USE(SKIA)
+    m_layer.setSkiaNeedsDisplay(contentsRect());
+#endif
     notifyChange(DisplayChange);
     addRepaintRect(contentsRect());
 }
@@ -450,6 +453,14 @@ void GraphicsLayerTextureMapper::commitLayerChanges()
     if (m_changeMask == NoChanges)
         return;
 
+#if OS(SYMBIAN) && USE(SKIA)
+    constexpr unsigned visualChanges = MaskLayerChange | ContentChange | ContentsRectChange | ContentsVisibleChange
+        | ContentsOpaqueChange | MasksToBoundsChange | Preserves3DChange | DrawsContentChange | OpacityChange | BackfaceVisibilityChange
+        | BackgroundColorChange | FilterChange | BackdropLayerChange | SolidColorChange | DebugVisualsChange | RepaintCountChange;
+    if (m_changeMask & visualChanges)
+        m_layer.setSkiaNeedsDisplay();
+#endif
+
     if (m_changeMask & ChildrenChange) {
         auto rawChildren = WTF::map(children(), [](auto& child) -> TextureMapperLayer* {
             return &downcast<GraphicsLayerTextureMapper>(child.get()).layer();
@@ -700,7 +711,11 @@ bool GraphicsLayerTextureMapper::addAnimation(const GraphicsLayerKeyframeValueLi
 {
     ASSERT(!keyframesName.isEmpty());
 
-    if (!anim || anim->isZeroDuration() || valueList.size() < 2 || (valueList.property() != AnimatedProperty::Transform && valueList.property() != AnimatedProperty::Opacity))
+    bool supportedProperty = valueList.property() == AnimatedProperty::Transform || valueList.property() == AnimatedProperty::Opacity;
+#if OS(SYMBIAN) && USE(SKIA)
+    supportedProperty |= valueList.property() == AnimatedProperty::Filter;
+#endif
+    if (!anim || anim->isZeroDuration() || valueList.size() < 2 || !supportedProperty)
         return false;
 
     if (valueList.property() == AnimatedProperty::Filter) {
@@ -728,12 +743,34 @@ bool GraphicsLayerTextureMapper::addAnimation(const GraphicsLayerKeyframeValueLi
 void GraphicsLayerTextureMapper::pauseAnimation(const String& animationName, double timeOffset)
 {
     m_animations.pause(animationName, Seconds(timeOffset));
+    notifyChange(AnimationChange);
 }
 
 void GraphicsLayerTextureMapper::removeAnimation(const String& animationName, std::optional<AnimatedProperty>)
 {
     m_animations.remove(animationName);
+    notifyChange(AnimationChange);
 }
+
+#if OS(SYMBIAN) && USE(SKIA)
+void GraphicsLayerTextureMapper::setBlendMode(BlendMode value)
+{
+    if (blendMode() == value)
+        return;
+    GraphicsLayer::setBlendMode(value);
+    m_layer.setSkiaBlendMode(value);
+    notifyChange(FilterChange);
+}
+
+void GraphicsLayerTextureMapper::setIsBackdropRoot(bool value)
+{
+    if (isBackdropRoot() == value)
+        return;
+    GraphicsLayer::setIsBackdropRoot(value);
+    m_layer.setSkiaBackdropRoot(value);
+    notifyChange(FilterChange);
+}
+#endif
 
 bool GraphicsLayerTextureMapper::setFilters(const FilterOperations& filters)
 {

@@ -71,6 +71,9 @@ BitmapTexturePool::BitmapTexturePool()
 
 Ref<BitmapTexture> BitmapTexturePool::acquireTexture(const IntSize& size, OptionSet<BitmapTexture::Flags> flags)
 {
+#if OS(SYMBIAN) && USE(SKIA)
+    flags = BitmapTexture::flagsForContext(flags);
+#endif
     ASSERT(GLContextWrapper::currentContext());
 #if OS(SYMBIAN)
     RELEASE_ASSERT(GLContext::current());

@@ -26,7 +26,7 @@
 #include "config.h"
 #include "SkiaCompositingLayerFilters.h"
 
-#if USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#if (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)
 #include "ColorMatrix.h"
 #include "FilterOperations.h"
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
@@ -102,4 +102,4 @@ sk_sp<SkImageFilter> create(const FilterOperations& filterOperations, SkTileMode
 } // namespace SkiaCompositingLayerFilters
 } // namespace WebCore
 
-#endif // USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#endif // (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)

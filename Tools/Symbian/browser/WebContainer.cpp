@@ -189,12 +189,6 @@ void CWebContainer::ConstructL(const TRect& aRect)
         WebView::setTiledCompositingEnabled(false);
         BrowserLog("compositing: GPU tiles off (no-gpu-tiles)");
     }
-    // backdrop-filter is not drawn unless C:\Data\WebKit\backdrop-filters
-    // exists: it costs about 10 ms a frame on a Nokia 808.
-    if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\backdrop-filters"), entry) == KErrNone) {
-        WebView::setBackdropFiltersEnabled(true);
-        BrowserLog("compositing: backdrop filters on (backdrop-filters)");
-    }
     iWebView->setNativeWindow(&Window());
 #endif
     // For comparison: JIT compiler threads at the UI thread's priority.

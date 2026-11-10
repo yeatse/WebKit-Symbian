@@ -25,10 +25,12 @@
 
 #pragma once
 
-#if USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#if (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)
 #include "BoxExtents.h"
 #include "Color.h"
+#if USE(COORDINATED_GRAPHICS)
 #include "CoordinatedBackingStoreProxy.h"
+#endif
 #include "Damage.h"
 #include "FloatPoint.h"
 #include "FloatPoint3D.h"
@@ -64,6 +66,7 @@ class CoordinatedImageBackingStore;
 class CoordinatedPlatformLayerBuffer;
 class FilterOperations;
 class SkiaBackingStore;
+class TextureMapperPlatformLayer;
 
 enum class FilterSurfaceAlignment : bool { LocalCoordinates, DevicePixels };
 enum class ShouldReuseFilteredBackdrop : bool { No, Yes };
@@ -95,6 +98,7 @@ public:
     void setAnimations(const TextureMapperAnimations& animations) { m_animations = animations; }
     void setContentsTiling(const FloatSize& size, const FloatSize& phase) { m_contentsTiling = { size, phase }; }
     void setClipPath(SkPath&& clipPath) { m_clipPath = WTF::move(clipPath); }
+    void setClipPath(std::optional<SkPath>&& clipPath) { m_clipPath = WTF::move(clipPath); }
     void setMask(RefPtr<SkiaCompositingLayer>&&);
     void setReplica(RefPtr<SkiaCompositingLayer>&&);
     void setFilters(const FilterOperations&);
@@ -108,11 +112,25 @@ public:
     void addDamage(Damage&&);
 #endif
 
+#if USE(COORDINATED_GRAPHICS)
     void setUseBackingStore(bool, CoordinatedAnimatedBackingStoreClient* = nullptr);
     void updateBackingStore(CoordinatedBackingStoreProxy::Update&&, float);
     bool hasPendingBackingStoreTileUpdates() const;
     void processPendingTileUpdates();
     void setImageBackingStore(CoordinatedImageBackingStore*);
+#endif
+#if OS(SYMBIAN)
+    SkiaBackingStore& nativeBackingStore();
+    void clearNativeBackingStore();
+    void setNativeContentsLayer(TextureMapperPlatformLayer*);
+    void setNativeBackgroundColor(const Color&);
+    void invalidateNativeProperties()
+    {
+        m_maskImage = nullptr;
+        damageWholeLayer();
+        groupPropertyChanged();
+    }
+#endif
     void setContentsBuffer(std::unique_ptr<CoordinatedPlatformLayerBuffer>&&);
     std::unique_ptr<CoordinatedPlatformLayerBuffer> takeContentsBuffer();
     CoordinatedPlatformLayerBuffer* contentsBuffer() const { return m_contentsBuffer.get(); }
@@ -138,8 +156,26 @@ private:
     bool isLeafOf3DRenderingContext() const { return !m_preserves3D && (m_parent && m_parent->m_preserves3D); }
     bool isReplica() const { return !!m_replicatedLayer; }
     // Contents are painted into m_contentsRect, which the layer bounds do not have to contain.
-    bool paintsContentsRect() const { return m_contentsBuffer || m_imageBackingStore || (m_contentsSolidColor.isValid() && m_contentsSolidColor.isVisible()); }
-    bool hasVisualContent() const { return m_backingStore || paintsContentsRect(); }
+    bool hasContentsImage() const
+    {
+        return m_contentsBuffer
+#if USE(COORDINATED_GRAPHICS)
+            || m_imageBackingStore
+#endif
+#if OS(SYMBIAN)
+            || m_nativeContentsLayer
+#endif
+            ;
+    }
+    bool paintsContentsRect() const { return hasContentsImage() || (m_contentsSolidColor.isValid() && m_contentsSolidColor.isVisible()); }
+    bool hasVisualContent() const
+    {
+        return m_backingStore || paintsContentsRect()
+#if OS(SYMBIAN)
+            || (m_nativeBackgroundColor.isValid() && m_nativeBackgroundColor.isVisible())
+#endif
+            ;
+    }
     bool hasVisiblePaintableContent() const { return !m_rect.isEmpty() && m_visible && m_contentsVisible && hasVisualContent(); }
 
     // A backdrop filter paints the layer without any content of its own, so it contributes damage too.
@@ -362,8 +398,14 @@ private:
     RefPtr<SkiaCompositingLayer> m_replica;
     WeakPtr<SkiaCompositingLayer> m_replicatedLayer;
     std::unique_ptr<SkiaBackingStore> m_backingStore;
+#if USE(COORDINATED_GRAPHICS)
     RefPtr<CoordinatedAnimatedBackingStoreClient> m_animatedBackingStoreClient;
     RefPtr<CoordinatedImageBackingStore> m_imageBackingStore;
+#endif
+#if OS(SYMBIAN)
+    TextureMapperPlatformLayer* m_nativeContentsLayer { nullptr };
+    Color m_nativeBackgroundColor;
+#endif
     std::unique_ptr<CoordinatedPlatformLayerBuffer> m_contentsBuffer;
     Color m_contentsSolidColor;
     std::optional<DebugBorder> m_debugBorder;
@@ -404,4 +446,4 @@ private:
 
 } // namespace WebCore
 
-#endif // USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#endif // (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)

@@ -55,8 +55,51 @@ WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 #include "GraphicsLayerContentsDisplayDelegateCoordinated.h"
 #include "TextureMapperFlags.h"
 #endif
+#if OS(SYMBIAN)
+#include "BitmapTexture.h"
+#include "PlatformLayerDisplayDelegate.h"
+#include "TextureMapper.h"
+#include "TextureMapperPlatformLayer.h"
+#endif
 
 namespace WebCore {
+
+#if OS(SYMBIAN)
+class SkiaCanvasLayer final : public TextureMapperPlatformLayer {
+    WTF_MAKE_TZONE_ALLOCATED_INLINE(SkiaCanvasLayer);
+public:
+    ~SkiaCanvasLayer()
+    {
+        if (client())
+            client()->platformLayerWillBeDestroyed();
+    }
+
+    void setImage(Ref<NativeImage>&& image)
+    {
+        m_image = WTF::move(image);
+        if (client())
+            client()->setPlatformLayerNeedsDisplay();
+    }
+
+    sk_sp<SkImage> skiaImage() final
+    {
+        return m_image ? m_image->platformImage() : nullptr;
+    }
+
+    void paintToTextureMapper(TextureMapper& mapper, const FloatRect& target, const TransformationMatrix& transform, float opacity) final
+    {
+        if (!m_image)
+            return;
+        auto size = m_image->size();
+        Ref texture = BitmapTexture::create(size, { BitmapTexture::Flags::SupportsAlpha });
+        texture->updateContents(m_image.get(), IntRect { { }, size }, { });
+        mapper.drawTexture(texture.get(), target, transform, opacity);
+    }
+
+private:
+    RefPtr<NativeImage> m_image;
+};
+#endif
 
 // A canvas proxy that delegates all drawing operations to a single target canvas,
 // which can be dynamically switched. This allows GraphicsContextSkia to hold a
@@ -114,13 +157,26 @@ std::unique_ptr<ImageBufferSkiaAcceleratedBackend> ImageBufferSkiaAcceleratedBac
 #endif
 
     auto* glContext = PlatformDisplay::sharedDisplay().skiaGLContext();
-    if (!glContext || !glContext->makeContextCurrent())
+    if (!glContext)
         return nullptr;
+#if OS(SYMBIAN)
+    GLContext::ScopedGLContextCurrent scopedCurrent(*glContext);
+    if (GLContext::current() != glContext)
+        return nullptr;
+#else
+    if (!glContext->makeContextCurrent())
+        return nullptr;
+#endif
 
     auto* grContext = PlatformDisplay::sharedDisplay().skiaGrContext();
     RELEASE_ASSERT(grContext);
 
-    auto imageInfo = SkImageInfo::Make(backendSize.width(), backendSize.height(), kRGBA_8888_SkColorType, kPremul_SkAlphaType, parameters.colorSpace.platformColorSpace());
+    auto colorType = kRGBA_8888_SkColorType;
+#if OS(SYMBIAN)
+    if (grContext->colorTypeSupportedAsSurface(kBGRA_8888_SkColorType))
+        colorType = kBGRA_8888_SkColorType;
+#endif
+    auto imageInfo = SkImageInfo::Make(backendSize.width(), backendSize.height(), colorType, kPremul_SkAlphaType, parameters.colorSpace.platformColorSpace());
     auto msaaSampleCount = PlatformDisplay::sharedDisplay().msaaSampleCount();
     uint32_t flags = 0;
     if (parameters.purpose == RenderingPurpose::Canvas && msaaSampleCount && shouldEnableDynamicMSAA()) {
@@ -132,6 +188,14 @@ std::unique_ptr<ImageBufferSkiaAcceleratedBackend> ImageBufferSkiaAcceleratedBac
     if (!surface || !surface->getCanvas())
         return nullptr;
 
+#if OS(SYMBIAN)
+    if (parameters.purpose == RenderingPurpose::Canvas) {
+        static std::once_flag logCanvasRaster;
+        std::call_once(logCanvasRaster, [] {
+            WTFLogAlways("Symbian Skia: Ganesh GLES2 Canvas 2D raster enabled");
+        });
+    }
+#endif
     return create(parameters, creationContext, WTF::move(surface));
 }
 
@@ -149,6 +213,11 @@ ImageBufferSkiaAcceleratedBackend::ImageBufferSkiaAcceleratedBackend(const Param
     // Use a content layer for canvas.
     if (parameters.purpose == RenderingPurpose::Canvas)
         m_layerContentsDisplayDelegate = GraphicsLayerContentsDisplayDelegateCoordinated::create();
+#elif OS(SYMBIAN)
+    if (parameters.purpose == RenderingPurpose::Canvas) {
+        m_canvasLayer = makeUnique<SkiaCanvasLayer>();
+        m_layerContentsDisplayDelegate = PlatformLayerDisplayDelegate::create(m_canvasLayer.get());
+    }
 #endif
 }
 
@@ -251,9 +320,18 @@ void ImageBufferSkiaAcceleratedBackend::flushContext()
 
 void ImageBufferSkiaAcceleratedBackend::prepareForDisplay()
 {
-#if USE(COORDINATED_GRAPHICS)
+#if USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)
     if (!m_layerContentsDisplayDelegate)
         return;
+
+#if OS(SYMBIAN)
+    auto* glContext = PlatformDisplay::sharedDisplay().skiaGLContext();
+    if (!glContext)
+        return;
+    GLContext::ScopedGLContextCurrent scopedCurrent(*glContext);
+    if (GLContext::current() != glContext)
+        return;
+#endif
 
     auto image = createNativeImageReference();
     if (!image)
@@ -268,12 +346,17 @@ void ImageBufferSkiaAcceleratedBackend::prepareForDisplay()
 
     ASSERT(grContext == PlatformDisplay::sharedDisplay().skiaGrContext());
 
+#if USE(COORDINATED_GRAPHICS)
     if (auto threadSafeGrContext = m_layerContentsDisplayDelegate->threadSafeGrContext())
         m_layerContentsDisplayDelegate->setDisplayBuffer(CoordinatedPlatformLayerBufferSkiaImage::create(image->platformImage(), threadSafeGrContext));
     else {
         m_layerContentsDisplayDelegate->setDisplayBuffer(CoordinatedPlatformLayerBufferNativeImage::create(image.releaseNonNull(),
             SkiaUtilities::flushAndSubmitSurfaceWithFence(grContext, m_surface.get())));
     }
+#else
+    grContext->flushAndSubmit(m_surface.get(), GrSyncCpu::kNo);
+    m_canvasLayer->setImage(image.releaseNonNull());
+#endif
 
     // Re-enable recording mode for subsequent drawing operations.
     // This allows batching to occur again after each prepareForDisplay() cycle.
@@ -301,6 +384,14 @@ RefPtr<NativeImage> ImageBufferSkiaAcceleratedBackend::copyNativeImage()
 
 RefPtr<NativeImage> ImageBufferSkiaAcceleratedBackend::createNativeImageReference()
 {
+#if OS(SYMBIAN)
+    auto* glContext = PlatformDisplay::sharedDisplay().skiaGLContext();
+    if (!glContext)
+        return nullptr;
+    GLContext::ScopedGLContextCurrent scopedCurrent(*glContext);
+    if (GLContext::current() != glContext)
+        return nullptr;
+#endif
     replayCanvasRecordingContextIfNeeded();
 
     auto* grContext = this->grContext();
@@ -419,7 +510,7 @@ void ImageBufferSkiaAcceleratedBackend::putPixelBuffer(const PixelBufferSourceVi
     m_surface->writePixels(convertedSrcPixmap, destinationRect.x(), destinationRect.y());
 }
 
-#if USE(COORDINATED_GRAPHICS)
+#if USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)
 RefPtr<GraphicsLayerContentsDisplayDelegate> ImageBufferSkiaAcceleratedBackend::layerContentsDisplayDelegate() const
 {
     return m_layerContentsDisplayDelegate;

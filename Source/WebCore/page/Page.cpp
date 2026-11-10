@@ -4909,7 +4909,10 @@ OptionSet<FilterRenderingMode> Page::preferredFilterRenderingModes(const Graphic
         modes.add(FilterRenderingMode::Accelerated);
 #endif
 
-#if USE(SKIA) && !PLATFORM(WIN) && !OS(SYMBIAN) && (!PLATFORM(WPE) || ENABLE(WPE_PLATFORM))
+#if USE(SKIA) && OS(SYMBIAN)
+    if (context.renderingMode() == RenderingMode::Accelerated)
+        modes.add(FilterRenderingMode::Accelerated);
+#elif USE(SKIA) && !PLATFORM(WIN) && (!PLATFORM(WPE) || ENABLE(WPE_PLATFORM))
     if (settings().hardwareAccelerationEnabled())
         modes.add(FilterRenderingMode::Accelerated);
 #endif

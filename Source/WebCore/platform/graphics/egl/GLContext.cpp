@@ -298,6 +298,10 @@ std::unique_ptr<GLContext> GLContext::create(GLDisplay& display, Target target, 
 
     EGLContext eglSharingContext = sharingGLContext ? sharingGLContext->m_context : EGL_NO_CONTEXT;
     auto context = window ? createWindowContext(display, target, window, eglSharingContext) : createOffscreenContext(display, target, eglSharingContext);
+#if OS(SYMBIAN)
+    if (context && sharingGLContext)
+        context->m_resourceState->setSharingState(sharingGLContext->resourceState());
+#endif
     if (!context)
         RELEASE_LOG_INFO(Compositing, "Could not create EGL context.");
     return context;
@@ -743,8 +747,13 @@ GLContext::ScopedGLContext::ScopedGLContext(std::unique_ptr<GLContext>&& context
     : m_context(WTF::move(context))
 {
     auto eglContext = eglGetCurrentContext();
+#if OS(SYMBIAN)
+    m_previous.glContext = GLContextWrapper::currentContext();
+#else
     m_previous.glContext = GLContext::current();
-    if (!m_previous.glContext || m_previous.glContext->platformContext() != eglContext) {
+#endif
+    auto* previousNativeContext = GLContext::current();
+    if (!m_previous.glContext || (previousNativeContext && previousNativeContext->platformContext() != eglContext)) {
         m_previous.context = eglContext;
         if (m_previous.context != EGL_NO_CONTEXT) {
             m_previous.display = eglGetCurrentDisplay();
@@ -759,18 +768,30 @@ GLContext::ScopedGLContext::~ScopedGLContext()
 {
     m_context = nullptr;
 
+#if OS(SYMBIAN)
+    if (m_previous.glContext && m_previous.glContext->type() == GLContextWrapper::Type::Angle) {
+        if (m_previous.glContext->makeCurrentImpl())
+            m_previous.glContext->didMakeContextCurrent();
+        return;
+    }
+#endif
     if (m_previous.context != EGL_NO_CONTEXT)
         eglMakeCurrent(m_previous.display, m_previous.drawSurface, m_previous.readSurface, m_previous.context);
     else if (m_previous.glContext)
-        m_previous.glContext->makeContextCurrent();
+        static_cast<GLContext*>(m_previous.glContext)->makeContextCurrent();
 }
 
 GLContext::ScopedGLContextCurrent::ScopedGLContextCurrent(GLContext& context)
     : m_context(context)
 {
     auto eglContext = eglGetCurrentContext();
+#if OS(SYMBIAN)
+    m_previous.glContext = GLContextWrapper::currentContext();
+#else
     m_previous.glContext = GLContext::current();
-    if (!m_previous.glContext || m_previous.glContext->platformContext() != eglContext) {
+#endif
+    auto* previousNativeContext = GLContext::current();
+    if (!m_previous.glContext || (previousNativeContext && previousNativeContext->platformContext() != eglContext)) {
         m_previous.context = eglContext;
         if (m_previous.context != EGL_NO_CONTEXT) {
             m_previous.display = eglGetCurrentDisplay();
@@ -783,8 +804,16 @@ GLContext::ScopedGLContextCurrent::ScopedGLContextCurrent(GLContext& context)
 
 GLContext::ScopedGLContextCurrent::~ScopedGLContextCurrent()
 {
+#if OS(SYMBIAN)
+    if (m_previous.glContext && m_previous.glContext->type() == GLContextWrapper::Type::Angle) {
+        m_context.unmakeContextCurrent();
+        if (m_previous.glContext->makeCurrentImpl())
+            m_previous.glContext->didMakeContextCurrent();
+        return;
+    }
+#endif
     if (m_previous.glContext && m_previous.context == EGL_NO_CONTEXT) {
-        m_previous.glContext->makeContextCurrent();
+        static_cast<GLContext*>(m_previous.glContext)->makeContextCurrent();
         return;
     }
 

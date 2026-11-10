@@ -72,6 +72,16 @@ public:
         mapper.drawTexture(texture->id(), { TextureMapperFlags::ShouldFlipTexture, TextureMapperFlags::ShouldBlend }, target, transform, opacity);
     }
 
+    sk_sp<SkImage> skiaImage() final
+    {
+        return m_image ? m_image->platformImage() : nullptr;
+    }
+
+    OptionSet<TextureMapperFlags> skiaFlags() const final
+    {
+        return { TextureMapperFlags::ShouldFlipTexture, TextureMapperFlags::ShouldBlend };
+    }
+
 private:
     RefPtr<NativeImage> m_image;
 };
@@ -132,8 +142,11 @@ GraphicsContextGLANGLE::~GraphicsContextGLANGLE()
 bool GraphicsContextGLANGLE::makeContextCurrent()
 {
     auto& context = static_cast<GraphicsContextGLSymbianANGLE&>(*this);
-    if (context.isCurrent())
-        return true;
+    if (context.isCurrent()) {
+        if (EGL_GetCurrentContext() == m_contextObj)
+            return true;
+        context.didUnmakeContextCurrent();
+    }
     if (!context.makeCurrentImpl())
         return false;
     context.didMakeContextCurrent();

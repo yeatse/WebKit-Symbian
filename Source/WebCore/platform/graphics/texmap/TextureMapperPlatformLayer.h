@@ -22,6 +22,10 @@
 #if USE(TEXTURE_MAPPER)
 
 #include "TransformationMatrix.h"
+#if OS(SYMBIAN) && USE(SKIA)
+#include "TextureMapperFlags.h"
+#include <skia/core/SkImage.h>
+#endif
 
 namespace WebCore {
 
@@ -40,6 +44,12 @@ public:
     virtual ~TextureMapperPlatformLayer() = default;
 
     virtual void paintToTextureMapper(TextureMapper&, const FloatRect&, const TransformationMatrix& modelViewMatrix = TransformationMatrix(), float opacity = 1.0) = 0;
+#if OS(SYMBIAN) && USE(SKIA)
+    virtual sk_sp<SkImage> skiaImage() { return nullptr; }
+    virtual OptionSet<TextureMapperFlags> skiaFlags() const { return TextureMapperFlags::ShouldBlend; }
+    virtual bool isSkiaHolePunch() const { return false; }
+    virtual void didPaintSkiaHole(const IntRect&) { }
+#endif
 
     WEBCORE_EXPORT virtual void drawBorder(TextureMapper&, const Color&, float borderWidth, const FloatRect&, const TransformationMatrix&);
 

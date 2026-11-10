@@ -25,11 +25,13 @@
 #if USE(TEXTURE_MAPPER)
 
 #include "GLContext.h"
+#include "GLFence.h"
 #include "GraphicsContext.h"
 #include "GraphicsLayer.h"
 #include "ImageBuffer.h"
 #include "NativeImage.h"
 #include "PlatformDisplay.h"
+#include "ProcessCapabilities.h"
 #include "TextureMapper.h"
 #include "TextureMapperFlags.h"
 #include "TextureMapperShaderProgram.h"
@@ -48,10 +50,12 @@
 
 #if USE(SKIA)
 #include "FontRenderOptions.h"
+#include "GraphicsContextSkia.h"
 #include "SkiaUtilities.h"
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN // GLib/Win port
 #include <skia/core/SkImage.h>
 #include <skia/core/SkPixmap.h>
+#include <skia/core/SkPicture.h>
 #include <skia/core/SkSurface.h>
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 #endif
@@ -73,6 +77,22 @@ static const GLenum s_pixelDataType = GL_UNSIGNED_BYTE;
 #endif
 
 namespace WebCore {
+
+#if OS(SYMBIAN) && USE(SKIA)
+OptionSet<BitmapTexture::Flags> BitmapTexture::flagsForContext(OptionSet<Flags> flags)
+{
+    if (!ProcessCapabilities::canUseAcceleratedBuffers() || flags.contains(Flags::ExternalOESRenderTarget) || flags.contains(Flags::UseBGRALayout))
+        return flags;
+    auto* display = PlatformDisplay::sharedDisplayIfExists();
+    if (!display || !GLContext::current())
+        return flags;
+    if (!GLContext::isExtensionSupported(reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS)), "GL_EXT_texture_format_BGRA8888"))
+        return flags;
+    if (display->skiaGLContext() && display->skiaGrContext()->colorTypeSupportedAsSurface(kBGRA_8888_SkColorType))
+        flags.add(Flags::UseBGRALayout);
+    return flags;
+}
+#endif
 
 void BitmapTexture::determineRenderTargetAndBinding()
 {
@@ -230,6 +250,9 @@ BitmapTexture::BitmapTexture(EGLImage image, const IntSize& size, OptionSet<Flag
 
 void BitmapTexture::swapTexture(BitmapTexture& other)
 {
+#if OS(SYMBIAN) && USE(SKIA)
+    std::swap(m_hasContents, other.m_hasContents);
+#endif
     RELEASE_ASSERT(m_size == other.m_size);
 #if OS(SYMBIAN)
     RELEASE_ASSERT(m_resourceState == other.m_resourceState);
@@ -254,6 +277,11 @@ void BitmapTexture::swapTexture(BitmapTexture& other)
 
 void BitmapTexture::reset(const IntSize& size, OptionSet<Flags> flags)
 {
+#if OS(SYMBIAN) && USE(SKIA)
+    flags = flagsForContext(flags);
+    m_hasContents = false;
+#endif
+    bool layoutChanged = m_flags.contains(Flags::UseBGRALayout) != flags.contains(Flags::UseBGRALayout);
 #if USE(GBM)
     // We don't support switching from dmabuf backing to regular textures -- there is no use-case for that scenario.
     RELEASE_ASSERT(m_flags.contains(Flags::BackedByDMABuf) == flags.contains(Flags::BackedByDMABuf));
@@ -284,7 +312,7 @@ void BitmapTexture::reset(const IntSize& size, OptionSet<Flags> flags)
         m_clipStack = { };
     }
 
-    if (m_size == size)
+    if (m_size == size && !layoutChanged)
         return;
     m_size = size;
 
@@ -322,6 +350,13 @@ void BitmapTexture::reset(const IntSize& size, OptionSet<Flags> flags)
 
 void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRect, const IntPoint& sourceOffset, int bytesPerLine, PixelFormat pixelFormat)
 {
+    bool swapRedAndBlue = false;
+#if OS(SYMBIAN) && USE(SKIA)
+    if (pixelFormat == PixelFormat::BGRA8 && !m_flags.contains(Flags::UseBGRALayout)) {
+        swapRedAndBlue = true;
+        pixelFormat = PixelFormat::RGBA8;
+    }
+#endif
     if (m_pixelFormat != pixelFormat) {
         // Only allow pixel format changes, if the whole texture content changes.
         ASSERT(targetRect.size() == m_size);
@@ -359,8 +394,8 @@ void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRec
         adjustedSourceOffset = IntPoint();
     }
 #endif
-    bool requireSubImageBuffer = !supportsUnpackSubimage
-        && !(bytesPerLine == static_cast<int>(targetRect.width() * bytesPerPixel) && adjustedSourceOffset == IntPoint::zero());
+    bool requireSubImageBuffer = swapRedAndBlue || (!supportsUnpackSubimage
+        && !(bytesPerLine == static_cast<int>(targetRect.width() * bytesPerPixel) && adjustedSourceOffset == IntPoint::zero()));
 
     // prepare temporaryData if necessary
     if (requireSubImageBuffer) {
@@ -387,7 +422,15 @@ void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRec
         auto src = bits + sourceOffset.y() * bytesPerLine + sourceOffset.x() * bytesPerPixel;
         const int targetBytesPerLine = targetRect.width() * bytesPerPixel;
         for (int y = 0; y < targetRect.height(); ++y) {
-            memcpy(dst, src, targetBytesPerLine);
+            if (swapRedAndBlue) {
+                for (int x = 0; x < targetBytesPerLine; x += bytesPerPixel) {
+                    dst[x] = src[x + 2];
+                    dst[x + 1] = src[x + 1];
+                    dst[x + 2] = src[x];
+                    dst[x + 3] = src[x + 3];
+                }
+            } else
+                memcpy(dst, src, targetBytesPerLine);
             src += bytesPerLine;
             dst += targetBytesPerLine;
         }
@@ -426,7 +469,96 @@ void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRec
     }
 
     glBindTexture(m_renderTarget, boundTexture);
+#if OS(SYMBIAN) && USE(SKIA)
+    m_hasContents = true;
+#endif
 }
+
+#if OS(SYMBIAN) && USE(SKIA)
+bool BitmapTexture::canRasterizeWithSkia(const IntRect& targetRect) const
+{
+    if (!ProcessCapabilities::canUseAcceleratedBuffers() || m_flags.contains(Flags::ExternalOESRenderTarget))
+        return false;
+    auto* display = PlatformDisplay::sharedDisplayIfExists();
+    if (!display || !display->skiaGLContext())
+        return false;
+    auto layout = m_flags.contains(Flags::UseBGRALayout) ? PixelFormat::BGRA8 : PixelFormat::RGBA8;
+    return !m_hasContents || m_pixelFormat == layout || targetRect == IntRect(IntPoint(), m_size);
+}
+
+bool BitmapTexture::paintWithSkia(const IntRect& targetRect, NOESCAPE const Function<void(GraphicsContext&)>& paint)
+{
+    if (!canRasterizeWithSkia(targetRect))
+        return false;
+
+    auto& display = PlatformDisplay::sharedDisplay();
+    auto* skiaContext = display.skiaGLContext();
+    auto* grContext = display.skiaGrContext();
+    std::unique_ptr<GLFence> fence;
+    bool painted = false;
+    return m_resourceState->paintAndUpload([&] {
+        // Shared-context writes must wait for the compositor's preceding reads.
+        auto& glDisplay = display.glDisplay();
+        auto readFence = GLFence::isSupported(glDisplay) ? GLFence::create(glDisplay) : nullptr;
+        if (readFence)
+            glFlush();
+        else
+            glFinish();
+        GLContext::ScopedGLContextCurrent current(*skiaContext);
+        if (!skiaContext->makeContextCurrent())
+            return;
+        if (readFence)
+            readFence->serverWait();
+        grContext->resetContext();
+        auto surface = createSkiaSurface(grContext, kTopLeft_GrSurfaceOrigin);
+        if (!surface)
+            return;
+        auto* canvas = surface->getCanvas();
+        if (!m_hasContents)
+            canvas->clear(SK_ColorTRANSPARENT);
+        {
+            SkAutoCanvasRestore restore(canvas, true);
+            GraphicsContextSkia context(*canvas, RenderingMode::Accelerated, RenderingPurpose::DOM);
+            context.clip(targetRect);
+            context.clearRect(targetRect);
+            paint(context);
+        }
+        if (!skiaContext->makeContextCurrent())
+            return;
+        fence = SkiaUtilities::flushAndSubmitSurfaceWithFence(grContext, surface.get());
+        painted = true;
+    }, [&] {
+        if (!painted)
+            return false;
+        if (fence)
+            fence->serverWait();
+
+        GLint boundTexture = 0;
+        glGetIntegerv(m_binding, &boundTexture);
+        glBindTexture(m_renderTarget, m_id);
+        auto filter = m_flags.contains(Flags::NearestFiltering) ? GL_NEAREST : GL_LINEAR;
+        glTexParameteri(m_renderTarget, GL_TEXTURE_MIN_FILTER, filter);
+        glTexParameteri(m_renderTarget, GL_TEXTURE_MAG_FILTER, filter);
+        glTexParameteri(m_renderTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(m_renderTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glBindTexture(m_renderTarget, boundTexture);
+
+        m_pixelFormat = m_flags.contains(Flags::UseBGRALayout) ? PixelFormat::BGRA8 : PixelFormat::RGBA8;
+        m_hasContents = true;
+        m_shouldClear = false;
+        m_clipStack.reset(IntRect(IntPoint(), m_size), ClipStack::YAxisMode::Default);
+        return true;
+    });
+}
+
+bool BitmapTexture::updateContents(SkPicture& picture, const IntRect& targetRect, const IntPoint& offset)
+{
+    return paintWithSkia(targetRect, [&](GraphicsContext& context) {
+        context.translate(targetRect.x() - offset.x(), targetRect.y() - offset.y());
+        context.platformContext()->drawPicture(&picture);
+    });
+}
+#endif
 
 void BitmapTexture::updateContents(NativeImage* frameImage, const IntRect& targetRect, const IntPoint& offset)
 {
@@ -444,6 +576,34 @@ void BitmapTexture::updateContents(NativeImage* frameImage, const IntRect& targe
     SkPixmap pixmap;
     if (surface->peekPixels(&pixmap))
         updateContents(pixmap.addr(), targetRect, offset, pixmap.rowBytes(), PixelFormat::BGRA8);
+#if OS(SYMBIAN)
+    else if (surface->isTextureBacked()) {
+        if (paintWithSkia(targetRect, [&](GraphicsContext& context) {
+            context.drawNativeImage(*frameImage, targetRect, FloatRect(offset, targetRect.size()), { });
+        }))
+            return;
+
+        auto* display = PlatformDisplay::sharedDisplayIfExists();
+        auto* skiaContext = display ? display->skiaGLContext() : nullptr;
+        if (!skiaContext)
+            return;
+        auto* grContext = display->skiaGrContext();
+        Vector<uint8_t> pixels(targetRect.area().value() * 4);
+        auto info = SkImageInfo::Make(targetRect.width(), targetRect.height(), kBGRA_8888_SkColorType, kPremul_SkAlphaType);
+        bool copied = false;
+        m_resourceState->paintAndUpload([&] {
+            GLContext::ScopedGLContextCurrent current(*skiaContext);
+            if (!skiaContext->makeContextCurrent())
+                return;
+            auto image = surface->isValid(grContext->asRecorder()) ? surface : SkiaUtilities::rewrapImageForContext(grContext, *surface);
+            copied = image && image->readPixels(grContext, info, pixels.mutableSpan().data(), targetRect.width() * 4, offset.x(), offset.y());
+        }, [&] {
+            if (copied)
+                updateContents(pixels.span().data(), targetRect, IntPoint(), targetRect.width() * 4, PixelFormat::BGRA8);
+            return copied;
+        });
+    }
+#endif
 #else
     UNUSED_PARAM(targetRect);
     UNUSED_PARAM(offset);
@@ -453,6 +613,23 @@ void BitmapTexture::updateContents(NativeImage* frameImage, const IntRect& targe
 
 bool BitmapTexture::updateContents(GraphicsLayer* sourceLayer, const IntRect& targetRect, const IntPoint& offset, float scale)
 {
+#if OS(SYMBIAN) && USE(SKIA)
+    if (paintWithSkia(targetRect, [&](GraphicsContext& context) {
+        context.setTextDrawingMode(TextDrawingMode::Fill);
+        IntRect sourceRect(offset, targetRect.size());
+        sourceRect.scale(1 / scale);
+        context.applyDeviceScaleFactor(scale);
+        context.translate(targetRect.x() / scale - sourceRect.x(), targetRect.y() / scale - sourceRect.y());
+        sourceLayer->paintGraphicsLayerContents(context, sourceRect);
+    })) {
+        static bool logged;
+        if (!logged) {
+            WTFLogAlways("Symbian Skia: Ganesh GLES2 layer rasterization");
+            logged = true;
+        }
+        return true;
+    }
+#endif
     // Making an unconditionally unaccelerated buffer here is OK because this code
     // isn't used by any platforms that respect the accelerated bit.
     auto imageBuffer = ImageBuffer::create(targetRect.size(), RenderingMode::Unaccelerated, RenderingPurpose::Unspecified, 1, DestinationColorSpace::SRGB(), PixelFormat::BGRA8);
@@ -568,6 +745,9 @@ void BitmapTexture::bindAsSurface()
     else
         glDisable(GL_DEPTH_TEST);
     clearIfNeeded();
+#if OS(SYMBIAN) && USE(SKIA)
+    m_hasContents = true;
+#endif
     m_clipStack.apply();
 }
 
@@ -597,11 +777,12 @@ void BitmapTexture::copyFromExternalTexture(GLuint sourceTextureID, const IntRec
     RELEASE_ASSERT(sourceOffset.width() + targetRect.width() <= m_size.width());
     RELEASE_ASSERT(sourceOffset.height() + targetRect.height() <= m_size.height());
 
-    if (m_pixelFormat != PixelFormat::RGBA8) {
+    auto pixelFormat = m_flags.contains(Flags::UseBGRALayout) ? PixelFormat::BGRA8 : PixelFormat::RGBA8;
+    if (m_pixelFormat != pixelFormat) {
         // Only allow pixel format changes, if the whole texture content changes.
         ASSERT(targetRect.size() == m_size);
         ASSERT(targetRect.location().isZero());
-        m_pixelFormat = PixelFormat::RGBA8;
+        m_pixelFormat = pixelFormat;
     }
 
     GLint boundFramebuffer = 0;
@@ -638,6 +819,9 @@ void BitmapTexture::copyFromExternalTexture(GLuint sourceTextureID, const IntRec
     glActiveTexture(boundActiveTexture);
     glBindTexture(m_renderTarget, boundTextureOnOriginalUnit);
     glDeleteFramebuffers(1, &copyFbo);
+#if OS(SYMBIAN) && USE(SKIA)
+    m_hasContents = true;
+#endif
 }
 
 OptionSet<TextureMapperFlags> BitmapTexture::colorConvertFlags() const

@@ -21,11 +21,18 @@
 
 #include "TextureMapperPlatformLayer.h"
 #include <wtf/RefPtr.h>
+#if OS(SYMBIAN) && USE(SKIA)
+#include "IntRect.h"
+#include <wtf/Vector.h>
+#endif
 
 namespace WebCore {
 
 class FloatRect;
 class TextureMapper;
+#if OS(SYMBIAN) && USE(SKIA)
+class SkiaBackingStore;
+#endif
 
 class TextureMapperBackingStore : public TextureMapperPlatformLayer {
 public:
@@ -33,6 +40,10 @@ public:
 
     void paintToTextureMapper(TextureMapper&, const FloatRect&, const TransformationMatrix&, float) override = 0;
     virtual void drawRepaintCounter(TextureMapper&, int, const Color&, const FloatRect&, const TransformationMatrix&) { }
+#if OS(SYMBIAN) && USE(SKIA)
+    virtual bool updateSkiaBackingStore(SkiaBackingStore&, TextureMapper&) { return false; }
+    virtual Vector<IntRect> takeSkiaDamage() { return { }; }
+#endif
 
 protected:
     WEBCORE_EXPORT static bool allTileEdgesExposed(const FloatRect& totalRect, const FloatRect& tileRect);

@@ -44,7 +44,7 @@ def stop(process):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--probe", choices=("skia", "egl", "angle", "mmf", "aligned-pressure", "native-volume", "native-clipboard"), required=True)
+    parser.add_argument("--probe", choices=("skia", "ganesh", "compositor", "egl", "angle", "mmf", "aligned-pressure", "native-volume", "native-clipboard"), required=True)
     parser.add_argument("--image", type=Path, required=True)
     parser.add_argument("--image-sha256", required=True)
     parser.add_argument("--emulator", type=Path, default=os.environ.get("EKA2L1"))
@@ -66,6 +66,8 @@ def main():
     arguments = args.arguments[1:] if args.arguments[:1] == ["--"] else args.arguments
     log_name, probe_name, exe_name = {
         "skia": ("skia-probe.log", "skia-probe", "skia_probe.exe"),
+        "ganesh": ("ganesh-probe.log", "ganesh-probe", "ganesh_probe.exe"),
+        "compositor": ("skia-compositor-probe.log", "skia-compositor-probe", "skia_compositor_probe.exe"),
         "egl": ("egl-probe.log", "egl-window-probe", "egl_probe.exe"),
         "angle": ("angle-probe.log", "angle-probe", "angle_probe.exe"),
         "mmf": ("mmf-probe.log", "native-mmf", "mmf_probe.exe"),

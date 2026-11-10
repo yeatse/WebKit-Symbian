@@ -13,21 +13,65 @@
 #include <cstdio>
 #include <WebCore/DocumentView.h>
 #include <WebCore/BitmapTexturePool.h>
+#include <WebCore/Damage.h>
+#include <WebCore/FontRenderOptions.h>
 #include <WebCore/GLContext.h>
+#include <WebCore/GLFence.h>
 #include <WebCore/GraphicsContext.h>
 #include <WebCore/GraphicsLayerTextureMapper.h>
 #include <WebCore/LocalFrameInlines.h>
 #include <WebCore/LocalFrameView.h>
 #include <WebCore/Page.h>
 #include <WebCore/PlatformDisplaySymbian.h>
+#include <WebCore/SkiaCompositingLayer.h>
+#include <WebCore/SkiaUtilities.h>
 #include <WebCore/TextureMapper.h>
 #include <WebCore/TextureMapperLayer.h>
 #include <WebCore/TextureMapperTiledBackingStore.h>
+WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
+#include <skia/core/SkColorSpace.h>
+#include <skia/core/SkRegion.h>
+#include <skia/core/SkSurface.h>
+#include <skia/gpu/ganesh/GrDirectContext.h>
+#include <skia/gpu/ganesh/SkSurfaceGanesh.h>
+#include <skia/gpu/ganesh/gl/GrGLBackendSurface.h>
+WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 #include <wtf/SetForScope.h>
+#include <wtf/TZoneMallocInlines.h>
 #include <wtf/symbian/MainThreadProfile.h>
 
 namespace WebKitSymbian {
 using namespace WebCore;
+
+struct SymbianCompositor::SkiaFrame {
+    WTF_MAKE_TZONE_ALLOCATED_INLINE(SkiaFrame);
+public:
+    sk_sp<SkSurface> surface;
+    GrBackendTexture texture;
+    std::unique_ptr<GLFence> producerFence;
+    std::unique_ptr<GLFence> consumerFence;
+    IntSize size;
+    GLuint program { 0 };
+    GLuint vertexBuffer { 0 };
+    GLint sampler { -1 };
+    GLuint textureID { 0 };
+};
+
+static GLuint compilePresentationShader(GLenum type, const char* source)
+{
+    GLuint shader = glCreateShader(type);
+    glShaderSource(shader, 1, &source, nullptr);
+    glCompileShader(shader);
+    GLint compiled = GL_FALSE;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+    if (compiled)
+        return shader;
+    char log[256] { };
+    glGetShaderInfoLog(shader, sizeof(log), nullptr, log);
+    WTFLogAlways("Symbian Skia compositor: presentation shader failed: %s", log);
+    glDeleteShader(shader);
+    return 0;
+}
 
 std::unique_ptr<SymbianCompositor> SymbianCompositor::create(WebViewImpl& view, void* window)
 {
@@ -41,7 +85,7 @@ SymbianCompositor::SymbianCompositor(WebViewImpl& view, void* window)
     : m_view(view)
     , m_nativeWindow(window)
     , m_flushTimer([this] { m_view.requestCompositedDisplay(); })
-    , m_stats("egl", { "render", "flush", "backing", "draw", "swap" }, 5)
+    , m_stats("egl", { "render", "flush", "backing", "compose", "swap" }, 5)
 {
 }
 
@@ -84,12 +128,14 @@ bool SymbianCompositor::initialize()
         PlatformDisplay::setSharedDisplay(WTF::move(display));
     }
     auto& display = PlatformDisplay::sharedDisplay();
-    m_context = GLContext::create(display.glDisplay(), GLContext::Target::Default, nullptr, m_nativeWindow);
+    m_context = GLContext::create(display, m_nativeWindow);
     if (!m_context || !m_context->makeContextCurrent()) {
         WTFLogAlways("Symbian compositor: EGL window context failed: %s", GLContext::lastErrorString());
         return false;
     }
     m_textureMapper = TextureMapper::create();
+    if (!initializeSkiaPresentation())
+        return false;
     m_root = GraphicsLayer::create(nullptr, *this);
     m_root->setDrawsContent(true);
     m_root->setContentsOpaque(true);
@@ -123,6 +169,212 @@ SymbianCompositor::~SymbianCompositor()
     m_textureMapper = nullptr;
     if (m_context)
         BitmapTexturePool::singleton().releaseTexturesForContext(m_context->resourceState());
+    releaseSkiaFrame();
+}
+
+bool SymbianCompositor::initializeSkiaPresentation()
+{
+    m_skiaFrame = makeUnique<SkiaFrame>();
+    constexpr auto* vertexSource =
+        "attribute vec2 a_position; attribute vec2 a_texCoord; varying vec2 v_texCoord;"
+        "void main() { gl_Position=vec4(a_position,0.0,1.0); v_texCoord=a_texCoord; }";
+    constexpr auto* fragmentSource =
+        "precision mediump float; varying vec2 v_texCoord; uniform sampler2D u_texture;"
+        "void main() { gl_FragColor=texture2D(u_texture,v_texCoord); }";
+    GLuint vertex = compilePresentationShader(GL_VERTEX_SHADER, vertexSource);
+    GLuint fragment = compilePresentationShader(GL_FRAGMENT_SHADER, fragmentSource);
+    if (!vertex || !fragment) {
+        if (vertex)
+            glDeleteShader(vertex);
+        if (fragment)
+            glDeleteShader(fragment);
+        return false;
+    }
+
+    auto& frame = *m_skiaFrame;
+    frame.program = glCreateProgram();
+    glAttachShader(frame.program, vertex);
+    glAttachShader(frame.program, fragment);
+    glBindAttribLocation(frame.program, 0, "a_position");
+    glBindAttribLocation(frame.program, 1, "a_texCoord");
+    glLinkProgram(frame.program);
+    glDeleteShader(vertex);
+    glDeleteShader(fragment);
+    GLint linked = GL_FALSE;
+    glGetProgramiv(frame.program, GL_LINK_STATUS, &linked);
+    if (!linked) {
+        char log[256] { };
+        glGetProgramInfoLog(frame.program, sizeof(log), nullptr, log);
+        WTFLogAlways("Symbian Skia compositor: presentation program failed: %s", log);
+        return false;
+    }
+    frame.sampler = glGetUniformLocation(frame.program, "u_texture");
+    if (frame.sampler < 0)
+        return false;
+
+    // Ganesh's top-left surfaces store their top row at texture v=0.
+    constexpr GLfloat vertices[] {
+        -1, 1, 0, 0,
+        -1, -1, 0, 1,
+        1, 1, 1, 0,
+        1, -1, 1, 1,
+    };
+    glGenBuffers(1, &frame.vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, frame.vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    return frame.vertexBuffer && glGetError() == GL_NO_ERROR;
+}
+
+void SymbianCompositor::releaseSkiaFrame()
+{
+    if (!m_skiaFrame)
+        return;
+    auto& frame = *m_skiaFrame;
+    if (auto* display = PlatformDisplay::sharedDisplayIfExists()) {
+        if (auto* context = display->skiaGLContext()) {
+            GLContext::ScopedGLContextCurrent current(*context);
+            if (GLContext::current() == context) {
+                if (frame.consumerFence)
+                    frame.consumerFence->serverWait();
+                frame.consumerFence = nullptr;
+                frame.producerFence = nullptr;
+                frame.texture = { };
+                frame.surface = nullptr;
+            }
+        }
+    }
+    if (m_context) {
+        auto& resources = m_context->resourceState();
+        resources->release(SymbianGLResourceState::Type::Program, frame.program);
+        resources->release(SymbianGLResourceState::Type::Buffer, frame.vertexBuffer);
+    }
+    m_skiaFrame = nullptr;
+}
+
+bool SymbianCompositor::composeSkiaFrame(SkiaCompositingLayer& scene, bool& hasRunningAnimations, bool& emptyDamage)
+{
+    auto& display = PlatformDisplay::sharedDisplay();
+    auto* context = display.skiaGLContext();
+    if (!context)
+        return false;
+    GLContext::ScopedGLContextCurrent current(*context);
+    if (GLContext::current() != context)
+        return false;
+    auto* grContext = display.skiaGrContext();
+    if (!grContext)
+        return false;
+    auto& frame = *m_skiaFrame;
+    if (frame.consumerFence)
+        frame.consumerFence->serverWait();
+    frame.consumerFence = nullptr;
+    frame.texture = { };
+    frame.textureID = 0;
+    grContext->resetContext();
+
+    if (!frame.surface || frame.size != m_view.size()) {
+        auto colorType = grContext->colorTypeSupportedAsSurface(kBGRA_8888_SkColorType) ? kBGRA_8888_SkColorType : kRGBA_8888_SkColorType;
+        auto info = SkImageInfo::Make(m_view.size().width(), m_view.size().height(), colorType, kPremul_SkAlphaType, SkColorSpace::MakeSRGB());
+        auto properties = FontRenderOptions::singleton().createSurfaceProps();
+        frame.surface = SkSurfaces::RenderTarget(grContext, skgpu::Budgeted::kYes, info, 0, kTopLeft_GrSurfaceOrigin, &properties);
+        if (!frame.surface)
+            return false;
+        frame.size = m_view.size();
+        m_forceFullDamage = true;
+    }
+
+    bool fullDamage = m_forceFullDamage;
+    std::optional<Damage> frameDamage(std::in_place, frame.size, fullDamage ? Damage::Mode::Full : Damage::Mode::Rectangles);
+    std::optional<Damage> priorTargetDamage;
+    if (!fullDamage)
+        priorTargetDamage.emplace(frame.size);
+    hasRunningAnimations = scene.paint(*frame.surface->getCanvas(), frameDamage, priorTargetDamage, SK_ColorWHITE);
+    emptyDamage = !fullDamage && frameDamage->isEmpty();
+
+    uint64_t pixels = 0;
+    SkRegion damageRegion;
+    for (const auto& rect : frameDamage->rectsForPainting())
+        damageRegion.op(SkIRect(rect), SkRegion::kUnion_Op);
+    for (SkRegion::Iterator rects(damageRegion); !rects.done(); rects.next())
+        pixels += static_cast<uint64_t>(rects.rect().width()) * rects.rect().height();
+    const uint64_t totalPixels = static_cast<uint64_t>(frame.size.width()) * frame.size.height();
+    fullDamage |= damageRegion.contains(SkIRect::MakeWH(frame.size.width(), frame.size.height()));
+    unsigned damageKind = emptyDamage ? 2 : fullDamage ? 0 : 1;
+    ++m_frameNumber;
+    if (damageKind == 0)
+        ++m_fullDamageFrames;
+    else if (damageKind == 1)
+        ++m_partialDamageFrames;
+    else
+        ++m_emptyDamageFrames;
+    m_damagedPixels += pixels;
+    if (m_frameNumber <= 12 || (frameStatsEnabled() && damageKind != m_lastDamageKind)) {
+        WTFLogAlways("Symbian Skia compositor: frame=%u damage=%s rects=%zu pixels=%llu total=%llu", m_frameNumber,
+            emptyDamage ? "empty" : fullDamage ? "full" : "partial", frameDamage->rectsForPainting().size(),
+            static_cast<unsigned long long>(pixels), static_cast<unsigned long long>(totalPixels));
+        m_lastDamageKind = damageKind;
+    }
+
+    if (emptyDamage && !m_needsPresentation)
+        return true;
+    frame.texture = SkSurfaces::GetBackendTexture(frame.surface.get(), SkSurfaces::BackendHandleAccess::kFlushRead);
+    if (!frame.texture.isValid())
+        return false;
+    GrGLTextureInfo texture;
+    if (!GrBackendTextures::GetGLTextureInfo(frame.texture, &texture))
+        return false;
+    frame.textureID = texture.fID;
+    frame.producerFence = SkiaUtilities::flushAndSubmitSurfaceWithFence(grContext, frame.surface.get());
+    m_forceFullDamage = false;
+    m_needsPresentation = true;
+    if (m_logSkiaInitialization) {
+        WTFLogAlways("Symbian Skia compositor: initialized");
+        m_logSkiaInitialization = false;
+    }
+    return true;
+}
+
+bool SymbianCompositor::presentSkiaFrame()
+{
+    if (!m_context->makeContextCurrent())
+        return false;
+    auto& frame = *m_skiaFrame;
+    if (frame.producerFence)
+        frame.producerFence->serverWait();
+    frame.producerFence = nullptr;
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, m_view.size().width(), m_view.size().height());
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_STENCIL_TEST);
+    glDisable(GL_SCISSOR_TEST);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_BLEND);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glUseProgram(frame.program);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frame.textureID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    GrBackendTextures::GLTextureParametersModified(&frame.texture);
+    glUniform1i(frame.sampler, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, frame.vertexBuffer);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), nullptr);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<const void*>(2 * sizeof(GLfloat)));
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glUseProgram(0);
+    frame.consumerFence = GLFence::create(PlatformDisplay::sharedDisplay().glDisplay());
+    glFlush();
+    if (!frame.consumerFence)
+        glFinish();
+    return true;
 }
 
 void SymbianCompositor::prepareForDestruction()
@@ -191,6 +443,8 @@ bool SymbianCompositor::resize()
     }
     m_root->setSize(m_view.size());
     m_root->setNeedsDisplay();
+    m_forceFullDamage = true;
+    m_needsPresentation = true;
     scheduleRenderingUpdate();
     m_logNextPresentation = true;
     return true;
@@ -240,6 +494,7 @@ bool SymbianCompositor::glStageFailed(const char* stage)
 // leaving the page to software painting.
 bool SymbianCompositor::retryAfterGLError()
 {
+    m_forceFullDamage = true;
     constexpr unsigned maximumFailures = 3;
     if (++m_glFailures >= maximumFailures) {
         WTFLogAlways("Symbian compositor: %u frames failed in GL, using software painting", m_glFailures);
@@ -324,23 +579,28 @@ bool SymbianCompositor::render()
     if (m_checkGLStages && glStageFailed("painting or uploading tiles"))
         return retryAfterGLError();
     MonotonicTime backed = timing ? MonotonicTime::now() : MonotonicTime();
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, m_view.size().width(), m_view.size().height());
-    // Root backing includes ordinary noncomposited content; clearing also
-    // prevents stale edge pixels after a resize or transparent page paint.
-    glClearColor(1, 1, 1, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    auto& scene = root.layer().syncSkiaLayer(*m_textureMapper);
 #if ENABLE(VIDEO)
     MediaPlayerPrivateSymbian::willComposite();
 #endif
-    m_textureMapper->beginPainting();
-    root.layer().paint(*m_textureMapper);
-    m_textureMapper->endPainting();
+    bool hasRunningAnimations = false;
+    bool emptyDamage = false;
+    if (!composeSkiaFrame(scene, hasRunningAnimations, emptyDamage)) {
+        WTFLogAlways("Symbian Skia compositor: frame composition failed");
+        return false;
+    }
 #if ENABLE(VIDEO)
-    // Before the swap, so the window lets the video through when the
-    // frame with its hole is presented.
     m_view.setVideoUnderlayVisible(MediaPlayerPrivateSymbian::didComposite(IntRect(IntPoint(), m_view.size())));
 #endif
+    if (emptyDamage && !m_needsPresentation) {
+        if (hasRunningAnimations)
+            m_flushTimer.startOneShot(16_ms);
+        else if (morePending)
+            m_flushTimer.startOneShot(0_s);
+        return true;
+    }
+    if (!presentSkiaFrame())
+        return false;
     if (!m_checkGLStages) {
         char codes[48];
         if (takeGLErrors(codes, sizeof(codes)) != GL_NO_ERROR) {
@@ -367,8 +627,8 @@ bool SymbianCompositor::render()
         WTFLogAlways("Symbian compositor: EGL swap failed: %s", GLContext::lastErrorString());
         return false;
     }
+    m_needsPresentation = false;
     if (timing) {
-        ++m_drawStatsFrames;
         MonotonicTime swapped = MonotonicTime::now();
         double since = m_lastFrame ? (swapped - m_lastFrame).milliseconds() : 0;
         m_lastFrame = swapped;
@@ -389,18 +649,12 @@ bool SymbianCompositor::render()
                 backing.prefetchTiles / backingFrames, backing.prefetchPixels / backingFrames / 1000, backing.prefetchMs / backingFrames,
                 backing.prefetchSkipped, backing.worstMs, backing.worstLayer.utf8().data());
             backing = { };
-            auto& draw = TextureMapper::drawStats();
-            double frames = std::max(1u, m_drawStatsFrames);
-            WTFLogAlways("egl-draw: per frame quads=%.1f kpx=%.0f surfaces=%.1f rounded-clips=%.1f stencil-clips=%.1f shape-clips=%.1f",
-                draw.draws / frames, draw.pixels / frames / 1000, draw.surfaces / frames, draw.roundedClips / frames, draw.stencilClips / frames,
-                draw.shapeClips / frames);
-            // Surfaces counts binds; these count each layer painted through a
-            // surface of its own, by reason.
-            WTFLogAlways("egl-surfaces: per frame opacity=%.1f filter-mask=%.1f flatten=%.1f backdrop=%.1f filter-passes=%.1f kpx=%.0f",
-                draw.opacitySurfaces / frames, draw.filterMaskSurfaces / frames, draw.flattenSurfaces / frames,
-                draw.backdropSurfaces / frames, draw.filterPasses / frames, draw.surfacePixels / frames / 1000);
-            draw = { };
-            m_drawStatsFrames = 0;
+            unsigned compositionFrames = m_fullDamageFrames + m_partialDamageFrames + m_emptyDamageFrames;
+            WTFLogAlways("skia-composition: frames=%u full=%u partial=%u skipped=%u damage-kpx=%.1f",
+                compositionFrames, m_fullDamageFrames, m_partialDamageFrames, m_emptyDamageFrames,
+                static_cast<double>(m_damagedPixels) / std::max(1u, compositionFrames) / 1000);
+            m_fullDamageFrames = m_partialDamageFrames = m_emptyDamageFrames = 0;
+            m_damagedPixels = 0;
             logRenderSplit();
         }
     }
@@ -408,7 +662,7 @@ bool SymbianCompositor::render()
         WTFLogAlways("Symbian compositor: native EGL/GLES2 presented %dx%d", m_view.size().width(), m_view.size().height());
         m_logNextPresentation = false;
     }
-    if (root.layer().descendantsOrSelfHaveRunningAnimations())
+    if (hasRunningAnimations)
         m_flushTimer.startOneShot(16_ms);
     else if (morePending) {
         // Paint the next tiles ahead after pending input and timers.

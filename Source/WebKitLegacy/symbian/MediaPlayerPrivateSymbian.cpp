@@ -78,6 +78,17 @@ public:
         m_player->didPaintHole(enclosingIntRect(matrix.mapRect(rect)));
     }
 
+    bool isSkiaHolePunch() const final
+    {
+        return m_player && m_player->showsHole();
+    }
+
+    void didPaintSkiaHole(const IntRect& rect) final
+    {
+        if (m_player)
+            m_player->didPaintHole(rect);
+    }
+
     void setNeedsDisplay()
     {
         if (auto* client = this->client())

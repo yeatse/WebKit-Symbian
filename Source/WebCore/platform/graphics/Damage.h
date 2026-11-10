@@ -25,7 +25,7 @@
 
 #pragma once
 
-#if USE(COORDINATED_GRAPHICS)
+#if USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)
 #include "FloatRect.h"
 #include "LayoutSize.h"
 #include "Region.h"

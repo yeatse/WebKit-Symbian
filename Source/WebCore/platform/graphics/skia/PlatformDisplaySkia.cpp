@@ -85,6 +85,9 @@ static const unsigned s_defaultSampleCount = 0;
 #if !(PLATFORM(PLAYSTATION) && USE(COORDINATED_GRAPHICS))
 static sk_sp<const GrGLInterface> skiaGLInterface()
 {
+#if OS(SYMBIAN)
+    return GrGLInterfaces::MakeEGL();
+#else
     static NeverDestroyed<sk_sp<const GrGLInterface>> grGLInterface {
 #if USE(LIBEPOXY)
         GrGLInterfaces::MakeEpoxyEGL()
@@ -94,6 +97,7 @@ static sk_sp<const GrGLInterface> skiaGLInterface()
     };
 
     return grGLInterface.get();
+#endif
 }
 
 #if USE(LIBDRM)
@@ -236,7 +240,11 @@ static constexpr size_t s_lowEndDeviceMemoryThresholdBytes = 2 * GB;
 static constexpr size_t s_highEndDeviceMemoryThresholdBytes = 4 * GB;
 
 static constexpr size_t s_lowEndDeviceGlyphCacheTextureMaximumBytes = 2 * MB;
+#if OS(SYMBIAN)
+static constexpr size_t s_lowEndMaxResourceCacheBytes = 8 * MB;
+#else
 static constexpr size_t s_lowEndMaxResourceCacheBytes = 48 * MB;
+#endif
 static constexpr size_t s_maxResourceCacheBytes = 80 * MB;
 
 static std::optional<size_t> glyphCacheTextureMaximumBytes()
@@ -281,8 +289,16 @@ public:
         // terminates the display. Once it is terminated, drop the Skia resources without calling into GL.
         RefPtr display = glContext->display();
         bool didRelease = display && display->runIfNotTerminated([&](EGLDisplay) {
+#if OS(SYMBIAN)
+            GLContext::ScopedGLContextCurrent scopedCurrent(*glContext);
+            if (GLContext::current() == glContext.get())
+                grContext->releaseResourcesAndAbandonContext();
+            else
+                grContext->abandonContext();
+#else
             glContext->makeContextCurrent();
             grContext->releaseResourcesAndAbandonContext();
+#endif
             grContext = nullptr;
         });
         if (!didRelease)
@@ -318,6 +334,10 @@ public:
             return;
 
         GLContext::ScopedGLContextCurrent scopedCurrent(*m_skiaGLContext);
+#if OS(SYMBIAN)
+        if (GLContext::current() != m_skiaGLContext.get())
+            return;
+#endif
         switch (critical) {
         case Critical::No:
             m_skiaGrContext->purgeUnlockedResources(GrPurgeResourceOptions::kScratchResourcesOnly);
@@ -336,8 +356,16 @@ private:
 
     explicit SkiaGLContext(std::unique_ptr<GLContext>&& glContext)
     {
+#if OS(SYMBIAN)
+        if (!glContext)
+            return;
+        GLContext::ScopedGLContextCurrent scopedCurrent(*glContext);
+        if (GLContext::current() != glContext.get())
+            return;
+#else
         if (!glContext || !glContext->makeContextCurrent())
             return;
+#endif
 
         // FIXME: Add shader cache.
         GrContextOptions options;
@@ -347,15 +375,10 @@ private:
         // lookup which is a slow-path in certain tiled GPUs (such as Vivante/etnaviv). Since we
         // don't use any mipmapping, it's safe to disable that, and avoid performance hits.
         options.fSharpenMipmappedTextures = false;
-#if OS(SYMBIAN)
-        static NeverDestroyed<ThreadSpecific<std::unique_ptr<SkExecutor>>> threadExecutor;
-        auto& executor = *threadExecutor.get();
-        if (!executor)
-            executor = SkExecutor::MakeFIFOThreadPool(2);
-#else
+#if !OS(SYMBIAN)
         thread_local std::unique_ptr<SkExecutor> executor = SkExecutor::MakeFIFOThreadPool(2);
-#endif
         options.fExecutor = executor.get();
+#endif
         if (auto bytes = glyphCacheTextureMaximumBytes())
             options.fGlyphCacheTextureMaximumBytes = *bytes;
 
@@ -388,9 +411,12 @@ static RefPtr<SkiaGLContext>& threadSkiaGLContext()
 
 GLContext* PlatformDisplay::skiaGLContext()
 {
-#if PLATFORM(GTK) || PLATFORM(WPE) || (PLATFORM(PLAYSTATION) && !USE(COORDINATED_GRAPHICS))
+#if PLATFORM(GTK) || PLATFORM(WPE) || OS(SYMBIAN) || (PLATFORM(PLAYSTATION) && !USE(COORDINATED_GRAPHICS))
     if (!threadSkiaGLContext()) {
-        threadSkiaGLContext() = SkiaGLContext::create(*this);
+        auto context = SkiaGLContext::create(*this);
+        if (!context->skiaGLContext())
+            return nullptr;
+        threadSkiaGLContext() = WTF::move(context);
         m_skiaGLContexts.add(*threadSkiaGLContext());
     }
     return threadSkiaGLContext()->skiaGLContext();
@@ -421,12 +447,19 @@ void PlatformDisplay::setSkiaGLContextForCurrentThread(std::unique_ptr<GLContext
         return;
     }
     ASSERT(!threadSkiaGLContext());
-    threadSkiaGLContext() = SkiaGLContext::create(WTF::move(glContext));
+    auto context = SkiaGLContext::create(WTF::move(glContext));
+    if (!context->skiaGLContext())
+        return;
+    threadSkiaGLContext() = WTF::move(context);
     m_skiaGLContexts.add(*threadSkiaGLContext());
 }
 
 GrDirectContext* PlatformDisplay::skiaGrContext() const
 {
+#if OS(SYMBIAN)
+    if (!threadSkiaGLContext())
+        return nullptr;
+#endif
     RELEASE_ASSERT(threadSkiaGLContext());
     return threadSkiaGLContext()->skiaGrContext();
 }

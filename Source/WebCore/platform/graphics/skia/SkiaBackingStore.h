@@ -25,11 +25,16 @@
 
 #pragma once
 
-#if USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#if (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)
+#if USE(COORDINATED_GRAPHICS)
 #include "CoordinatedBackingStoreProxy.h"
+#endif
 #include "FloatRect.h"
 #include "IntRect.h"
 #include "SkiaDamageRegion.h"
+#if OS(SYMBIAN)
+#include "SkiaNativeTile.h"
+#endif
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
 #include <skia/core/SkCanvas.h>
 #include <skia/core/SkSurface.h>
@@ -54,8 +59,14 @@ public:
     SkSamplingOptions samplingOptionsForMatrix(const SkMatrix&) const;
     bool requiresStrictSourceConstraint(SkSamplingOptions sampling) const { return sampling.filter == SkFilterMode::kLinear && m_hasPaddedTiles; }
 
+#if USE(COORDINATED_GRAPHICS)
     void update(const FloatSize&, float scale, CoordinatedBackingStoreProxy::Update&&);
+#endif
+#if OS(SYMBIAN)
+    void setNativeTiles(const FloatSize&, float scale, Vector<SkiaNativeTile>&&);
+#endif
     void processPendingTileUpdates();
+    static sk_sp<SkImage> imageForTexture(BitmapTexture&);
 
     void paintToCanvas(SkCanvas&, const SkPaint&, const SkiaDamageRegion* = nullptr);
     void appendImageSetEntries(SkCanvas&, const SkMatrix& ctm, size_t matrixIndex, float opacity, bool enableAntialias, Vector<SkCanvas::ImageSetEntry>& images, const SkiaDamageRegion* = nullptr) const;
@@ -67,18 +78,30 @@ private:
         WTF_MAKE_NONCOPYABLE(Tile);
     public:
         Tile() = default;
+#if USE(COORDINATED_GRAPHICS)
         explicit Tile(float scale)
             : m_scale(scale)
         {
         }
+#endif
+
+#if OS(SYMBIAN)
+        Tile(const FloatRect& rect, RefPtr<BitmapTexture>&& texture)
+            : m_rect(rect)
+            , m_texture(WTF::move(texture))
+        {
+        }
+#endif
 
         Tile(Tile&&) = default;
         Tile& operator=(Tile&&) = default;
 
         ~Tile() = default;
 
+#if USE(COORDINATED_GRAPHICS)
         void scheduleUpdate(const IntRect& dirtyRect, const IntRect& tileRect, CoordinatedTileBuffer&);
         void processPendingUpdateIfNeeded();
+#endif
 
         const FloatRect& rect() const LIFETIME_BOUND { return m_rect; }
         sk_sp<SkImage> image() const;
@@ -88,6 +111,7 @@ private:
         SkRect imageSourceRect() const;
 
     private:
+#if USE(COORDINATED_GRAPHICS)
         void ensureTexture(const IntSize&, CoordinatedTileBuffer&);
         void update(const IntRect& dirtyRect, const IntRect& tileRect, CoordinatedTileBuffer&);
 
@@ -96,10 +120,15 @@ private:
             IntRect dirtyRect;
             Ref<CoordinatedTileBuffer> buffer;
         };
+#endif
 
+#if USE(COORDINATED_GRAPHICS)
         float m_scale { 1. };
+#endif
         FloatRect m_rect;
+#if USE(COORDINATED_GRAPHICS)
         Vector<Update> m_pendingUpdates;
+#endif
         sk_sp<SkSurface> m_surface;
         RefPtr<BitmapTexture> m_texture;
         mutable sk_sp<SkImage> m_cachedImage;
@@ -114,4 +143,4 @@ private:
 
 } // namespace WebCore
 
-#endif // USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#endif // (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)

@@ -26,13 +26,16 @@
 #include "config.h"
 #include "SkiaCompositingLayer.h"
 
-#if USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#if (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)
 #include "BitmapTexture.h"
+#if USE(COORDINATED_GRAPHICS)
 #include "CoordinatedAnimatedBackingStoreClient.h"
 #include "CoordinatedImageBackingStore.h"
+#include "CoordinatedTileBuffer.h"
+#endif
 #include "CoordinatedPlatformLayerBuffer.h"
 #include "CoordinatedPlatformLayerBufferHolePunch.h"
-#include "CoordinatedTileBuffer.h"
+#include "TextureMapperPlatformLayer.h"
 #include "FilterOperations.h"
 #include "FontCache.h"
 #include "PlatformDisplay.h"
@@ -55,6 +58,7 @@ WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
 #include <skia/utils/SkNoDrawCanvas.h>
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 #include <wtf/Scope.h>
+#include <wtf/HashSet.h>
 #include <wtf/SetForScope.h>
 #include <wtf/TZoneMallocInlines.h>
 
@@ -63,6 +67,18 @@ namespace WebCore {
 WTF_MAKE_TZONE_ALLOCATED_IMPL(SkiaCompositingLayer);
 
 static constexpr float s_opacityVisibilityThreshold = 0.01;
+
+static SkColorType compositingSurfaceColorType(GrDirectContext* context)
+{
+#if OS(SYMBIAN)
+    if (context->colorTypeSupportedAsSurface(kBGRA_8888_SkColorType))
+        return kBGRA_8888_SkColorType;
+#else
+    UNUSED_PARAM(context);
+#endif
+    return kRGBA_8888_SkColorType;
+}
+
 
 Ref<SkiaCompositingLayer> SkiaCompositingLayer::create()
 {
@@ -74,9 +90,14 @@ SkiaCompositingLayer::~SkiaCompositingLayer() = default;
 void SkiaCompositingLayer::invalidate()
 {
     m_backingStore = nullptr;
+#if USE(COORDINATED_GRAPHICS)
     m_animatedBackingStoreClient = nullptr;
-    m_maskImage = nullptr;
     m_imageBackingStore = nullptr;
+#endif
+#if OS(SYMBIAN)
+    m_nativeContentsLayer = nullptr;
+#endif
+    m_maskImage = nullptr;
     m_contentsBuffer = nullptr;
 
     m_mask = nullptr;
@@ -124,6 +145,31 @@ void SkiaCompositingLayer::setChildren(Vector<Ref<SkiaCompositingLayer>>&& newCh
     if (m_children == newChildren)
         return;
 
+#if OS(SYMBIAN) && ENABLE(DAMAGE_TRACKING)
+    HashSet<SkiaCompositingLayer*> previousSet;
+    HashSet<SkiaCompositingLayer*> nextSet;
+    for (auto& child : m_children)
+        previousSet.add(child.ptr());
+    for (auto& child : newChildren)
+        nextSet.add(child.ptr());
+    Vector<SkiaCompositingLayer*> previousCommon;
+    Vector<SkiaCompositingLayer*> nextCommon;
+    for (auto& child : m_children) {
+        if (nextSet.contains(child.ptr()))
+            previousCommon.append(child.ptr());
+    }
+    for (auto& child : newChildren) {
+        if (previousSet.contains(child.ptr()))
+            nextCommon.append(child.ptr());
+    }
+    for (size_t index = 0; index < previousCommon.size(); ++index) {
+        if (previousCommon[index] != nextCommon[index]) {
+            previousCommon[index]->groupPropertyChanged();
+            nextCommon[index]->groupPropertyChanged();
+        }
+    }
+#endif
+
     while (!m_children.isEmpty()) {
         auto child = m_children.takeLast();
         child->m_parent = nullptr;
@@ -147,6 +193,7 @@ void SkiaCompositingLayer::removeFromParent()
     });
 }
 
+#if USE(COORDINATED_GRAPHICS)
 void SkiaCompositingLayer::setUseBackingStore(bool useBackingStore, CoordinatedAnimatedBackingStoreClient* animatedBackingStoreClient)
 {
     if (!useBackingStore) {
@@ -185,6 +232,42 @@ void SkiaCompositingLayer::setImageBackingStore(CoordinatedImageBackingStore* im
 {
     m_imageBackingStore = imageBackingStore;
 }
+
+#endif
+
+#if OS(SYMBIAN)
+SkiaBackingStore& SkiaCompositingLayer::nativeBackingStore()
+{
+    if (!m_backingStore)
+        m_backingStore = makeUnique<SkiaBackingStore>();
+    return *m_backingStore;
+}
+
+void SkiaCompositingLayer::clearNativeBackingStore()
+{
+    if (m_backingStore) {
+        m_backingStore = nullptr;
+        m_maskImage = nullptr;
+        damageWholeLayer();
+    }
+}
+
+void SkiaCompositingLayer::setNativeBackgroundColor(const Color& color)
+{
+    if (m_nativeBackgroundColor == color)
+        return;
+    m_nativeBackgroundColor = color;
+    damageWholeLayer();
+}
+
+void SkiaCompositingLayer::setNativeContentsLayer(TextureMapperPlatformLayer* contents)
+{
+    if (m_nativeContentsLayer == contents)
+        return;
+    m_nativeContentsLayer = contents;
+    damageWholeLayer();
+}
+#endif
 
 void SkiaCompositingLayer::setContentsBuffer(std::unique_ptr<CoordinatedPlatformLayerBuffer>&& contentsBuffer)
 {
@@ -296,6 +379,8 @@ Ref<SkiaCompositingLayer> SkiaCompositingLayer::backdropRoot()
 void SkiaCompositingLayer::addDamage(Damage&& damage)
 {
     // The damage is added not to override the damage that could be inferred from other set* operations.
+    if (!damage.isEmpty())
+        m_maskImage = nullptr;
     if (m_layerDamage)
         m_layerDamage->add(damage);
     else
@@ -447,8 +532,8 @@ std::optional<SkiaCompositingLayer::AnimationsState> SkiaCompositingLayer::syncA
         if (previous == current || (previous && current && *previous == *current))
             return;
 
-        // Only the layer itself is damaged here. The outsets are handled via paintWithFilterAndMask().
         damageWholeLayer();
+        groupPropertyChanged();
     };
 
     if (m_animations.isEmpty()) {
@@ -534,8 +619,10 @@ bool SkiaCompositingLayer::computeTransformsAndAnimations(const TransformationMa
 
         m_visible = m_backfaceVisibility || !m_transforms.combined.isBackFaceVisible();
 
+#if USE(COORDINATED_GRAPHICS)
         if (m_animatedBackingStoreClient)
             m_animatedBackingStoreClient->requestBackingStoreUpdateIfNeeded(m_transforms.futureCombined);
+#endif
     }
 
     if (m_mask) {
@@ -729,10 +816,16 @@ void SkiaCompositingLayer::paintContents(SkCanvas& canvas, PaintContext& context
         if (m_contentsBuffer)
             return m_contentsBuffer->flags().contains(TextureMapperFlags::ShouldBlend);
 
+#if USE(COORDINATED_GRAPHICS)
         if (m_imageBackingStore) {
             if (const auto* buffer = m_imageBackingStore->buffer())
                 return buffer->flags().contains(TextureMapperFlags::ShouldBlend);
         }
+#endif
+#if OS(SYMBIAN)
+        if (m_nativeContentsLayer)
+            return m_nativeContentsLayer->skiaFlags().contains(TextureMapperFlags::ShouldBlend);
+#endif
 
         return true;
     };
@@ -765,6 +858,16 @@ void SkiaCompositingLayer::paintContents(SkCanvas& canvas, PaintContext& context
         return paint;
     };
 
+#if OS(SYMBIAN)
+    if (m_nativeBackgroundColor.isValid() && m_nativeBackgroundColor.isVisible()) {
+        ScopedFlush autoFlush(canvas, context.imageSetBatch, ScopedFlush::Mode::FlushBefore);
+        canvas.concat(transform);
+        SkPaint paint = setupPaint();
+        paint.setColor(SkColor(m_nativeBackgroundColor.colorWithAlphaMultipliedBy(context.opacity)));
+        drawRectRestricted(canvas, context.damageRegionOrNull(), SkRect(m_rect), paint);
+    }
+#endif
+
     if (m_backingStore)
         context.imageSetBatch.addImageSet(canvas, *m_backingStore, transform, context.opacity, enableAntialias, context.damageRegionOrNull(), setupPaint());
 
@@ -774,7 +877,7 @@ void SkiaCompositingLayer::paintContents(SkCanvas& canvas, PaintContext& context
         SkPaint paint = setupPaint();
         paint.setColor(SkColor(m_contentsSolidColor.colorWithAlphaMultipliedBy(context.opacity)));
         drawRectRestricted(canvas, context.damageRegionOrNull(), SkRect(m_contentsRect), paint);
-    } else if (m_contentsBuffer || m_imageBackingStore) {
+    } else if (hasContentsImage()) {
         bool shouldPaintNow = [&] {
             if (m_contentsClippingRect.hasNonZeroRadii())
                 return true;
@@ -785,6 +888,10 @@ void SkiaCompositingLayer::paintContents(SkCanvas& canvas, PaintContext& context
 #if ENABLE(VIDEO)
             if (is<CoordinatedPlatformLayerBufferHolePunch>(m_contentsBuffer))
                 return true;
+#if OS(SYMBIAN)
+            if (m_nativeContentsLayer && m_nativeContentsLayer->isSkiaHolePunch())
+                return true;
+#endif
 #endif
 
             // FIXME: clip is not correctly applied with batched painting.
@@ -806,6 +913,25 @@ void SkiaCompositingLayer::paintContents(SkCanvas& canvas, PaintContext& context
         std::optional<SkMatrix> rotationMatrix;
         auto imageRect = m_contentsRect;
 
+#if OS(SYMBIAN)
+        if (m_nativeContentsLayer) {
+            if (m_nativeContentsLayer->isSkiaHolePunch()) {
+                SkPaint paint = setupPaint();
+                paint.setBlendMode(SkBlendMode::kClear);
+                drawRectRestricted(canvas, context.damageRegionOrNull(), SkRect(m_contentsRect), paint);
+                TransformationMatrix matrix = canvas.getLocalToDevice();
+                m_nativeContentsLayer->didPaintSkiaHole(enclosingIntRect(matrix.mapRect(m_contentsRect)));
+            } else
+                image = m_nativeContentsLayer->skiaImage();
+            auto nativeFlags = m_nativeContentsLayer->skiaFlags();
+            rotationMatrix = rotateContentsIfNeeded(nativeFlags, m_contentsRect);
+            if (nativeFlags.contains(TextureMapperFlags::ShouldFlipTexture)) {
+                auto flip = SkMatrix::Translate(0, 2 * m_contentsRect.y() + m_contentsRect.height());
+                flip.preScale(1, -1);
+                rotationMatrix = rotationMatrix ? SkMatrix::Concat(*rotationMatrix, flip) : flip;
+            }
+        } else
+#endif
         if (m_contentsBuffer) {
 #if ENABLE(VIDEO)
             if (is<CoordinatedPlatformLayerBufferHolePunch>(*m_contentsBuffer)) {
@@ -827,7 +953,9 @@ void SkiaCompositingLayer::paintContents(SkCanvas& canvas, PaintContext& context
                 if (flags.containsAny({ TextureMapperFlags::ShouldRotateTexture90, TextureMapperFlags::ShouldRotateTexture270 }))
                     imageRect.setSize(m_contentsRect.size().transposedSize());
             }
-        } else if (auto* buffer = m_imageBackingStore->buffer()) {
+        }
+#if USE(COORDINATED_GRAPHICS)
+        else if (auto* buffer = m_imageBackingStore->buffer()) {
             image = buffer->skiaImage();
             if (!m_contentsTiling.size.isEmpty()) {
                 sk_sp<SkImage> tileImage = std::exchange(image, nullptr);
@@ -849,6 +977,7 @@ void SkiaCompositingLayer::paintContents(SkCanvas& canvas, PaintContext& context
             }
         }
 
+#endif
         if (image) {
             if (shouldPaintNow) {
                 if (rotationMatrix)
@@ -879,6 +1008,10 @@ void SkiaCompositingLayer::collectFrameDamage(SkCanvas& canvas, PaintContext& co
         return;
 
     const auto transform = combinedTransform(context);
+#if OS(SYMBIAN)
+    if (m_nativeContentsLayer && m_nativeContentsLayer->isSkiaHolePunch())
+        m_nativeContentsLayer->didPaintSkiaHole(enclosingIntRect(transform.mapRect(m_contentsRect)));
+#endif
     const IntRect clipBounds = canvas.getDeviceClipBounds();
     auto layerRectInFrame = FloatRect(projectedBoundingBox(transform, paintedLayerRect(), clipBounds));
 
@@ -1085,7 +1218,7 @@ void SkiaCompositingLayer::paintSelfAndChildren(SkCanvas& canvas, PaintContext& 
         FloatRect childBounds;
         if (m_children[0]->m_backingStore)
             childBounds = m_children[0]->m_rect;
-        if (m_children[0]->m_contentsBuffer || m_children[0]->m_imageBackingStore || (m_children[0]->m_contentsSolidColor.isValid() && m_children[0]->m_contentsSolidColor.isVisible()))
+        if (m_children[0]->paintsContentsRect())
             childBounds.unite(m_children[0]->m_contentsRect);
 
         if (auto childFilter = m_children[0]->filter(); childFilter && !childFilter->outsets.isZero() && !m_children[0]->m_masksToBounds && !m_children[0]->m_mask)
@@ -1160,7 +1293,7 @@ sk_sp<SkImage> SkiaCompositingLayer::maskImage()
     rect.scale(scale);
 
     auto* grContext = PlatformDisplay::sharedDisplay().skiaGrContext();
-    auto imageInfo = SkImageInfo::Make(rect.width(), rect.height(), kRGBA_8888_SkColorType, kPremul_SkAlphaType, SkColorSpace::MakeSRGB());
+    auto imageInfo = SkImageInfo::Make(rect.width(), rect.height(), compositingSurfaceColorType(grContext), kPremul_SkAlphaType, SkColorSpace::MakeSRGB());
     auto surface = SkSurfaces::RenderTarget(grContext, skgpu::Budgeted::kNo, imageInfo, 0, kTopLeft_GrSurfaceOrigin, nullptr);
     if (!surface)
         return nullptr;
@@ -1196,7 +1329,7 @@ void SkiaCompositingLayer::paintWithIntermediateSurface(SkCanvas& canvas, PaintC
 #endif
 
     auto* grContext = PlatformDisplay::sharedDisplay().skiaGrContext();
-    auto imageInfo = SkImageInfo::Make(surfaceRect.width(), surfaceRect.height(), kRGBA_8888_SkColorType, kPremul_SkAlphaType, SkColorSpace::MakeSRGB());
+    auto imageInfo = SkImageInfo::Make(surfaceRect.width(), surfaceRect.height(), compositingSurfaceColorType(grContext), kPremul_SkAlphaType, SkColorSpace::MakeSRGB());
     auto surface = SkSurfaces::RenderTarget(grContext, skgpu::Budgeted::kNo, imageInfo, 0, kTopLeft_GrSurfaceOrigin, nullptr);
     if (!surface)
         return;
@@ -1426,7 +1559,7 @@ void SkiaCompositingLayer::paintWithFilter(SkCanvas& canvas, PaintContext& conte
         }
     }
 
-    auto imageInfo = SkImageInfo::Make(surfaceRect.width(), surfaceRect.height(), kRGBA_8888_SkColorType, kPremul_SkAlphaType, SkColorSpace::MakeSRGB());
+    auto imageInfo = SkImageInfo::Make(surfaceRect.width(), surfaceRect.height(), compositingSurfaceColorType(grContext), kPremul_SkAlphaType, SkColorSpace::MakeSRGB());
     auto surface = SkSurfaces::RenderTarget(grContext, skgpu::Budgeted::kNo, imageInfo, 0, kTopLeft_GrSurfaceOrigin, nullptr);
     if (!surface)
         return;
@@ -1648,7 +1781,11 @@ void SkiaCompositingLayer::computeOverlapRegions(ComputeOverlapRegionData& data,
     auto filter = this->filter();
 
     FloatRect localBoundingRect;
-    if (m_backingStore || m_masksToBounds || m_mask || filter || m_backdrop.filter)
+    if (m_backingStore || m_masksToBounds || m_mask || filter || m_backdrop.filter
+#if OS(SYMBIAN)
+        || (m_nativeBackgroundColor.isValid() && m_nativeBackgroundColor.isVisible())
+#endif
+        )
         localBoundingRect = m_rect;
     else if (paintsContentsRect())
         localBoundingRect = m_contentsRect;
@@ -1889,4 +2026,4 @@ void SkiaCompositingLayer::recursiveCleanUpAfterPaint()
 
 } // namespace WebCore
 
-#endif // USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#endif // (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)

@@ -52,14 +52,26 @@ completion and saves logs under `$SYMBIAN_WEBKIT_WORK/runs`.
 
 The [Skia raster probe](../tests/skia-probe/README.md) checks native BGRA drawing, clipping, alpha blending and paths.
 
-The default browser presents ordinary pages through ScreenPlay and composited
-pages through EGL, so one build runs compositing, WebGL and ScreenPlay:
+The [Ganesh GLES2 probe](../tests/ganesh-probe/README.md) checks GPU drawing,
+pixel readback and textures shared between native EGL contexts.
+
+The [native Skia compositor probe](../tests/skia-compositor-probe/README.md)
+checks GPU composition pixels, movement and removal damage, preserved regions,
+static frames, clipping, masks, filters, 3D ordering and target resizing.
+
+The default browser runs the compositing, WebGL, Ganesh Canvas/tile and Skia
+composition/damage suites:
 
 ```sh
 python3 Tools/Symbian/tests/run-browser-graphics-tests.py \
   "$SYMBIAN_WEBKIT_WORK/build/browser/e32/browser.exe" \
   --suite all --output /tmp/graphics-results
 ```
+
+Use `--suite screenplay` with a `BROWSER_PRESENTATION=screenplay` build to
+check software painting and native Surface Update presentation.
+Use `--suite skia` for layer composition and damage updates; the runner enables
+frame statistics and records native full, partial and empty damage frames.
 
 Add `frame-stats` before the URL on the browser command line, or create
 `C:\Data\WebKit\frame-stats`, to log `frame-stats:` lines with average/maximum
@@ -82,7 +94,7 @@ See [Benchmarks](../tests/benchmarks/README.md).
 
 Each output directory contains `result.json`, browser and emulator logs, and a
 PNG screenshot for each suite. Page checks cover layout, painting and animation;
-the runner checks native surface presentation. See
+the runner checks native raster, compositor and presentation evidence. See
 [Browser graphics](../tests/browser-graphics-runner.md) for individual suites
 and fixture screenshots.
 

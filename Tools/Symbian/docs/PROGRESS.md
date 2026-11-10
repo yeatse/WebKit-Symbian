@@ -22,12 +22,18 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 ## Rendering and graphics
 
 - [x] HTML, CSS and Canvas 2D rendering with Skia CPU rasterization.
+- [x] Ganesh GLES2 GPU rasterization for page tiles and Canvas 2D.
+- [x] Shared BGRA textures, GPU Canvas copies and context resource lifetime management.
 - [x] ARMv6 scalar raster pipeline with BGRA premultiplied surfaces.
 - [x] System fonts, FreeType, HarfBuzz and WOFF2 web fonts.
 - [x] Hardware composition through EGL and OpenGL ES 2.0.
+- [x] Upstream Skia layer composition, image-set batching, masks, blend modes and filters.
+- [x] Damage-aware composition with a persistent GPU frame.
 - [x] WebGL 1 through ANGLE.
 - [x] ScreenPlay presentation with mapped double buffers and dirty regions.
 - [x] Bitmap presentation.
+- [ ] Coordinated graphics and threaded tile painting.
+- [ ] WebKit image atlases and tile DDL replay.
 - [ ] Multitouch and pinch gestures.
 - [ ] Fullscreen API.
 
@@ -93,7 +99,6 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 - [x] UI-priority image decoding and configurable JIT compiler priority.
 - [ ] Measure Skia Canvas 2D and text rendering on Belle devices.
 - [ ] Tune composited filter and mask surfaces.
-- [ ] Add GPU-backed Skia surfaces.
 - [ ] Add video frames as EGL textures.
 - [ ] Add HTTP disk caching.
 - [ ] Add A3F DevSound output for Web Audio.
@@ -106,3 +111,5 @@ Use `C:/Data/WebKit/frame-stats` to enable frame timing, open
 
 - [x] Install the browser and shared data on C:.
 - [ ] Split large executable images into native DLLs.
+
+See [Version comparison](VersionComparison.md) for the 2.52.6 and 2.54.2 adaptation differences.

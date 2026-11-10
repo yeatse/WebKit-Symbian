@@ -25,7 +25,7 @@
 
 #pragma once
 
-#if USE(COORDINATED_GRAPHICS) && ENABLE(VIDEO)
+#if (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && ENABLE(VIDEO)
 #include "CoordinatedPlatformLayerBuffer.h"
 
 #if USE(GSTREAMER)

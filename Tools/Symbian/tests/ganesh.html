@@ -1,0 +1,104 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Symbian Ganesh GLES2 checks</title>
+<style>
+body { margin:8px; background:white; color:#111; font:14px sans-serif; }
+h1 { margin:0 0 6px; font-size:18px; }
+#stage { width:320px; padding:6px 0; border:2px solid #222; background:#ddd; transform:translateZ(0); }
+#source { display:block; width:256px; height:192px; margin:0 auto 6px; }
+#copies { display:flex; justify-content:space-evenly; font-size:12px; }
+#copies figure { margin:0; }
+#copies canvas { display:block; width:128px; height:96px; border:1px solid #333; image-rendering:pixelated; }
+figcaption { margin-top:2px; }
+#output { margin:8px 0 0; white-space:pre-wrap; font:12px/15px monospace; }
+</style>
+<h1>Ganesh GLES2 raster</h1>
+<div id="stage">
+  <canvas id="source" width="256" height="192"></canvas>
+  <div id="copies">
+    <figure><canvas id="gpuCopy" width="256" height="192"></canvas><figcaption>GPU copy</figcaption></figure>
+    <figure><canvas id="cpuCopy" width="64" height="48"></canvas><figcaption>CPU copy</figcaption></figure>
+  </div>
+</div>
+<pre id="output">RUNNING: ganesh-regression</pre>
+<script>
+(function () {
+    'use strict';
+    const output = document.getElementById('output');
+    const source = document.getElementById('source');
+    const gpu = source.getContext('2d');
+    const gpuCopy = document.getElementById('gpuCopy').getContext('2d');
+    const cpuCopy = document.getElementById('cpuCopy').getContext('2d');
+    let passed = 0, failed = 0;
+    function log(message) { output.textContent += '\n' + message; console.log(message); }
+    function check(condition, message) { if (!condition) throw new Error(message); }
+    function pixel(context, x, y, expected, tolerance = 1) {
+        const actual = context.getImageData(x, y, 1, 1).data;
+        check(expected.every((value, index) => Math.abs(actual[index] - value) <= tolerance),
+            'pixel ' + x + ',' + y + ': ' + Array.from(actual) + ' expected ' + expected);
+    }
+    function test(name, body) {
+        try { body(); ++passed; log('PASS: ' + name); }
+        catch (error) { ++failed; log('FAIL: ' + name + ' ' + error); }
+    }
+    test('asymmetric raster colors', () => {
+        gpu.fillStyle = '#f00'; gpu.fillRect(0, 0, 256, 96);
+        gpu.fillStyle = '#00f'; gpu.fillRect(0, 96, 256, 96);
+        gpu.fillStyle = '#0f0'; gpu.fillRect(0, 0, 12, 192);
+        pixel(gpu, 64, 16, [255, 0, 0, 255]);
+        pixel(gpu, 64, 160, [0, 0, 255, 255]);
+        pixel(gpu, 4, 80, [0, 255, 0, 255]);
+    });
+    test('rectangle drawing', () => {
+        gpu.fillStyle = '#f0f'; gpu.fillRect(32, 24, 40, 28);
+        pixel(gpu, 48, 40, [255, 0, 255, 255]);
+        pixel(gpu, 80, 40, [255, 0, 0, 255]);
+    });
+    test('alpha blending', () => {
+        gpu.fillStyle = 'rgba(0,255,0,0.5)'; gpu.fillRect(100, 24, 40, 28);
+        pixel(gpu, 116, 40, [128, 128, 0, 255]);
+    });
+    test('clip state', () => {
+        gpu.save(); gpu.beginPath(); gpu.rect(160, 24, 32, 32); gpu.clip();
+        gpu.fillStyle = '#0ff'; gpu.fillRect(144, 8, 64, 64); gpu.restore();
+        pixel(gpu, 176, 40, [0, 255, 255, 255]);
+        pixel(gpu, 152, 40, [255, 0, 0, 255]);
+    });
+    test('path drawing', () => {
+        gpu.beginPath(); gpu.moveTo(100, 120); gpu.lineTo(160, 120);
+        gpu.lineTo(130, 176); gpu.closePath(); gpu.fillStyle = '#ff0'; gpu.fill();
+        pixel(gpu, 130, 144, [255, 255, 0, 255]);
+        pixel(gpu, 170, 144, [0, 0, 255, 255]);
+    });
+    test('GPU to GPU canvas drawImage', () => {
+        gpuCopy.drawImage(source, 0, 0);
+        pixel(gpuCopy, 64, 16, [255, 0, 0, 255]);
+        pixel(gpuCopy, 64, 160, [0, 0, 255, 255]);
+        pixel(gpuCopy, 116, 40, [128, 128, 0, 255]);
+        pixel(gpuCopy, 130, 144, [255, 255, 0, 255]);
+    });
+    test('GPU to CPU canvas drawImage', () => {
+        cpuCopy.imageSmoothingEnabled = false;
+        cpuCopy.drawImage(source, 0, 0, 64, 48);
+        pixel(cpuCopy, 16, 4, [255, 0, 0, 255]);
+        pixel(cpuCopy, 16, 40, [0, 0, 255, 255]);
+        pixel(cpuCopy, 1, 20, [0, 255, 0, 255]);
+    });
+    test('ImageData roundtrip', () => {
+        const image = gpu.getImageData(32, 24, 8, 8);
+        check(image.data[0] === 255 && image.data[2] === 255, 'source image data');
+        for (let index = 0; index < image.data.length; index += 4) {
+            image.data[index] = 255; image.data[index + 1] = 128;
+            image.data[index + 2] = 0; image.data[index + 3] = 255;
+        }
+        gpu.putImageData(image, 208, 144);
+        pixel(gpu, 212, 148, [255, 128, 0, 255]);
+    });
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        log('RESULT: ganesh-regression passed=' + passed + ' failed=' + failed);
+        log((failed ? 'FAIL: ' : 'PASS: ') + 'ganesh-regression');
+        document.title = (failed ? 'FAIL' : 'PASS') + ' Ganesh GLES2';
+    }));
+}());
+</script>

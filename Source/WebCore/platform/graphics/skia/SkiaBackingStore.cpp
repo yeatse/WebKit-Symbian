@@ -26,13 +26,15 @@
 #include "config.h"
 #include "SkiaBackingStore.h"
 
-#if USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#if (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)
 #include "BitmapTexturePool.h"
+#if USE(COORDINATED_GRAPHICS)
 #include "CoordinatedTileBuffer.h"
+#include "SkiaPaintingEngine.h"
+#endif
 #include "FontRenderOptions.h"
 #include "PlatformDisplay.h"
 #include "SkiaDamageRegion.h"
-#include "SkiaPaintingEngine.h"
 #include "SkiaUtilities.h"
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
 #include <skia/core/SkColorSpace.h>
@@ -48,6 +50,7 @@ namespace WebCore {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(SkiaBackingStore);
 
+#if USE(COORDINATED_GRAPHICS)
 void SkiaBackingStore::update(const FloatSize& size, float scale, CoordinatedBackingStoreProxy::Update&& update)
 {
     m_size = size;
@@ -68,9 +71,27 @@ void SkiaBackingStore::update(const FloatSize& size, float scale, CoordinatedBac
         m_hasPendingTileUpdates = true;
     }
 }
+#endif
+
+#if OS(SYMBIAN)
+void SkiaBackingStore::setNativeTiles(const FloatSize& size, float scale, Vector<SkiaNativeTile>&& tiles)
+{
+    m_size = size;
+    m_scale = scale;
+    m_tiles.clear();
+    uint32_t identifier = 0;
+    for (auto& tile : tiles) {
+        if (tile.texture)
+            m_tiles.add(++identifier, Tile(tile.rect, WTF::move(tile.texture)));
+    }
+    m_hasPendingTileUpdates = false;
+    m_hasPaddedTiles = false;
+}
+#endif
 
 void SkiaBackingStore::processPendingTileUpdates()
 {
+#if USE(COORDINATED_GRAPHICS)
     if (!m_hasPendingTileUpdates)
         return;
 
@@ -81,6 +102,7 @@ void SkiaBackingStore::processPendingTileUpdates()
     }
 
     m_hasPendingTileUpdates = false;
+#endif
 }
 
 static inline bool allTileEdgesExposed(const FloatRect& totalRect, const FloatRect& tileRect)
@@ -220,6 +242,7 @@ void SkiaBackingStore::drawDebugBorders(SkCanvas& canvas, const SkPaint& paint)
         canvas.drawRect(SkRect(tile.rect()), paint);
 }
 
+#if USE(COORDINATED_GRAPHICS)
 void SkiaBackingStore::Tile::scheduleUpdate(const IntRect& dirtyRect, const IntRect& tileRect, CoordinatedTileBuffer& buffer)
 {
     m_pendingUpdates.append({ tileRect, dirtyRect, Ref { buffer } });
@@ -315,32 +338,40 @@ void SkiaBackingStore::Tile::update(const IntRect& dirtyRect, const IntRect& til
     WTFEndSignpost(this, SkiaBackingStoreTileUpdate);
 }
 
+#endif
+
+sk_sp<SkImage> SkiaBackingStore::imageForTexture(BitmapTexture& texture)
+{
+    auto* grContext = PlatformDisplay::sharedDisplay().skiaGrContext();
+    if (!grContext)
+        return nullptr;
+
+    auto colorType = texture.flags().contains(BitmapTexture::Flags::UseBGRALayout) ? kBGRA_8888_SkColorType : kRGBA_8888_SkColorType;
+    GrGLTextureInfo textureInfo;
+    textureInfo.fTarget = GL_TEXTURE_2D;
+    textureInfo.fID = texture.id();
+#if OS(SYMBIAN)
+    constexpr auto rgbaFormat = GL_RGBA8_OES;
+#else
+    constexpr auto rgbaFormat = GL_RGBA8;
+#endif
+    textureInfo.fFormat = texture.flags().contains(BitmapTexture::Flags::UseBGRALayout) ? GL_BGRA8_EXT : rgbaFormat;
+    auto size = texture.allocatedSize();
+    auto backendTexture = GrBackendTextures::MakeGL(size.width(), size.height(), skgpu::Mipmapped::kNo, textureInfo);
+    auto alphaType = texture.isOpaque() ? kOpaque_SkAlphaType : kPremul_SkAlphaType;
+    texture.ref();
+    return SkImages::BorrowTextureFrom(grContext, backendTexture, kTopLeft_GrSurfaceOrigin, colorType, alphaType,
+        SkColorSpace::MakeSRGB(), +[](void* owner) {
+            static_cast<BitmapTexture*>(owner)->deref();
+        }, &texture);
+}
+
 sk_sp<SkImage> SkiaBackingStore::Tile::image() const
 {
     if (m_surface)
         return m_surface->makeImageSnapshot();
-
-    if (!m_cachedImage && m_texture) {
-        auto* grContext = PlatformDisplay::sharedDisplay().skiaGrContext();
-        ASSERT(grContext);
-
-        auto colorType = m_texture->flags().contains(BitmapTexture::Flags::UseBGRALayout) ? kBGRA_8888_SkColorType : kRGBA_8888_SkColorType;
-        GrGLTextureInfo externalTexture;
-        externalTexture.fTarget = GL_TEXTURE_2D;
-        externalTexture.fID = m_texture->id();
-        externalTexture.fFormat = colorType == kBGRA_8888_SkColorType ? GL_BGRA8_EXT : GL_RGBA8;
-        // Use the physical allocatedSize(): super-tiled textures are padded past the logical
-        // size(), and sizing the image to size() would map u=1.0 to the padded edge, stretching
-        // content and bleeding in padding. imageSourceRect() then restricts sampling to the
-        // logical region, mirroring the uvMax clamp on the TextureMapper path.
-        auto allocatedSize = m_texture->allocatedSize();
-        auto backendTexture = GrBackendTextures::MakeGL(allocatedSize.width(), allocatedSize.height(), skgpu::Mipmapped::kNo, externalTexture);
-        auto alphaType = m_texture->isOpaque() ? kOpaque_SkAlphaType : kPremul_SkAlphaType;
-        m_texture->ref();
-        m_cachedImage = SkImages::BorrowTextureFrom(grContext, backendTexture, kTopLeft_GrSurfaceOrigin, colorType, alphaType, SkColorSpace::MakeSRGB(), +[](void* userData) {
-            static_cast<BitmapTexture*>(userData)->deref();
-        }, m_texture.get());
-    }
+    if (!m_cachedImage && m_texture)
+        m_cachedImage = SkiaBackingStore::imageForTexture(*m_texture);
     return m_cachedImage;
 }
 
@@ -370,4 +401,4 @@ bool SkiaBackingStore::Tile::isPadded() const
 
 } // namespace WebCore
 
-#endif // USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#endif // (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)

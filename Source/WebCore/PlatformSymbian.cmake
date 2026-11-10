@@ -27,11 +27,16 @@ list(APPEND WebCore_SOURCES
 list(APPEND WebCore_SYSTEM_INCLUDE_DIRECTORIES
     "${THIRDPARTY_DIR}/ANGLE/include")
 list(APPEND WebCore_PRIVATE_INCLUDE_DIRECTORIES
-    "${WEBCORE_DIR}/platform/graphics/egl")
+    "${WEBCORE_DIR}/platform/graphics/egl"
+    "${WEBCORE_DIR}/platform/graphics/texmap/coordinated")
 list(APPEND WebCore_PRIVATE_FRAMEWORK_HEADERS
     platform/image-decoders/ScalableImageDecoder.h
     platform/image-decoders/ScalableImageDecoderFrame.h
     platform/symbian/PlatformDisplaySymbian.h
+    platform/graphics/Damage.h
+    platform/graphics/skia/SkiaNativeTile.h
+    platform/graphics/texmap/coordinated/CoordinatedPlatformLayerBuffer.h
+    platform/graphics/texmap/coordinated/CoordinatedPlatformLayerBufferHolePunch.h
 )
 list(APPEND WebCore_LIBRARIES
     SymbianEGLBridge SymbianNative::EGL SymbianNative::GLES2)

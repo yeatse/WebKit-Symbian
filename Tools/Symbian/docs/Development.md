@@ -1,6 +1,8 @@
 # Development
 
-The port targets ARM11 devices running Symbian^3, Anna or Belle. It uses WebKit 2.54.2, C++23, ARMv6, VFPv2 and the softfp ABI. Skia paints into BGRA surfaces, with native EGL/GLES2 composition.
+The port targets ARM11 devices running Symbian^3, Anna or Belle. It uses WebKit 2.54.2, C++23, ARMv6, VFPv2 and the softfp ABI. Skia Ganesh paints page tiles and accelerated Canvas 2D into shared BGRA textures. The Skia layer compositor updates damaged regions of a persistent GPU frame and presents it through native EGL/GLES2. Skia CPU surfaces serve software painting and small canvases.
+
+[Version comparison](VersionComparison.md) describes the adaptation changes and optimization coverage.
 
 ## Requirements
 
@@ -52,7 +54,7 @@ SIS_VERSION=0.3.0 Tools/Symbian/scripts/package-sis.sh
 | Setting | Default | Purpose |
 | --- | --- | --- |
 | `SYMBIAN_JSC_MODE` | `dfg` | JavaScript execution mode: `dfg`, `baseline`, `llint` or `cloop`. Use a separate work directory for each mode. |
-| `BROWSER_PRESENTATION` | `auto` | Present pages through ScreenPlay and switch to EGL composition while a page has composited layers (CSS 3D, animations, WebGL), returning to ScreenPlay two seconds after they are removed. Bitmap presentation is the fallback. `screenplay` never uses EGL; `bitmap` selects bitmap presentation. |
+| `BROWSER_PRESENTATION` | `auto` | Native Skia/EGL composition with GPU page tiles and Canvas 2D; ScreenPlay and bitmap surfaces provide software presentation. `screenplay` selects ScreenPlay; `bitmap` selects bitmap presentation. |
 | `ICU_DATA` | `file` | Load ICU data from `C:/resource/icu`. `static` embeds it in the executable. |
 | `ICU_LOCALES` | Selected common locales | Space-separated locale list, or `all`. |
 | `OPTIMIZE` | `-Os` | Target compiler optimization flags. |

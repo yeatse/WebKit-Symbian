@@ -73,7 +73,8 @@ sk_sp<SkSurface> createSurface(GrDirectContext* grContext, const BitmapTexture& 
     RELEASE_ASSERT(grContext);
 
     auto backendTexture = createBackendTexture(texture);
-    return SkSurfaces::WrapBackendTexture(grContext, backendTexture, origin, sampleCount, kRGBA_8888_SkColorType, sRGBColorSpaceSingleton(), &properties);
+    auto colorType = texture.flags().contains(BitmapTexture::Flags::UseBGRALayout) ? kBGRA_8888_SkColorType : kRGBA_8888_SkColorType;
+    return SkSurfaces::WrapBackendTexture(grContext, backendTexture, origin, sampleCount, colorType, sRGBColorSpaceSingleton(), &properties);
 }
 
 sk_sp<SkImage> rewrapImageForContext(GrDirectContext* grContext, const SkImage& image)

@@ -7,6 +7,7 @@
 #include <WebCore/GraphicsLayerClient.h>
 #include "WebKitSymbianFrameStats.h"
 #include <WebCore/Timer.h>
+#include <cstdint>
 #include <memory>
 #include <wtf/MonotonicTime.h>
 #include <wtf/RefPtr.h>
@@ -15,6 +16,7 @@
 namespace WebCore {
 class GLContext;
 class GraphicsLayer;
+class SkiaCompositingLayer;
 class TextureMapper;
 }
 
@@ -55,13 +57,28 @@ private:
     bool glStageFailed(const char* stage);
     bool retryAfterGLError();
     void setCheckGLStages(bool);
+    bool initializeSkiaPresentation();
+    bool composeSkiaFrame(WebCore::SkiaCompositingLayer&, bool& hasRunningAnimations, bool& emptyDamage);
+    bool presentSkiaFrame();
+    void releaseSkiaFrame();
+
+    struct SkiaFrame;
+    std::unique_ptr<SkiaFrame> m_skiaFrame;
+    bool m_forceFullDamage { true };
+    bool m_needsPresentation { true };
+    bool m_logSkiaInitialization { true };
+    unsigned m_frameNumber { 0 };
+    unsigned m_lastDamageKind { 3 };
+    unsigned m_fullDamageFrames { 0 };
+    unsigned m_partialDamageFrames { 0 };
+    unsigned m_emptyDamageFrames { 0 };
+    uint64_t m_damagedPixels { 0 };
 
     // Set after a GL error: each stage and each GL step of drawing then
     // checks for errors, to name the one that fails if it happens again.
     bool m_checkGLStages { false };
     unsigned m_cleanCheckedFrames { 0 };
     unsigned m_glFailures { 0 };
-    unsigned m_drawStatsFrames { 0 };
     FrameStats m_stats;
     MonotonicTime m_lastFrame;
 

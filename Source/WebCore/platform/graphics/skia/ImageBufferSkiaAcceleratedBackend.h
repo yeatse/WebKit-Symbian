@@ -41,6 +41,9 @@ namespace WebCore {
 
 class GraphicsContextSkia;
 class SkiaSwitchableCanvas;
+#if OS(SYMBIAN)
+class SkiaCanvasLayer;
+#endif
 
 class ImageBufferSkiaAcceleratedBackend final : public ImageBufferSkiaSurfaceBackend {
     WTF_MAKE_TZONE_ALLOCATED(ImageBufferSkiaAcceleratedBackend);
@@ -69,10 +72,13 @@ private:
     void replayCanvasRecordingContextIfNeeded();
     void ensureCanvasRecordingContext();
 
-#if USE(COORDINATED_GRAPHICS)
+#if USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)
     RefPtr<GraphicsLayerContentsDisplayDelegate> layerContentsDisplayDelegate() const final;
 
     RefPtr<GraphicsLayerContentsDisplayDelegate> m_layerContentsDisplayDelegate;
+#endif
+#if OS(SYMBIAN)
+    std::unique_ptr<SkiaCanvasLayer> m_canvasLayer;
 #endif
 
     bool m_hasActiveRecording : 1 { false };

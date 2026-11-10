@@ -26,7 +26,7 @@
 #include "config.h"
 #include "SkiaCompositingLayerImageSetBatch.h"
 
-#if USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#if (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)
 #include "BitmapTexture.h"
 #include "CoordinatedTileBuffer.h"
 #include "FloatRect.h"
@@ -202,4 +202,4 @@ SkiaCompositingLayerImageSetBatch::ScopedFlush::~ScopedFlush()
 
 } // namespace WebCore
 
-#endif // USE(COORDINATED_GRAPHICS) && USE(SKIA)
+#endif // (USE(COORDINATED_GRAPHICS) || OS(SYMBIAN)) && USE(SKIA)

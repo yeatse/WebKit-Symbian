@@ -42,6 +42,9 @@ class TextureMapper;
 class TextureMapperFlattenedLayer;
 class TextureMapperPaintOptions;
 class TextureMapperPlatformLayer;
+#if OS(SYMBIAN) && USE(SKIA)
+class SkiaCompositingLayer;
+#endif
 
 class TextureMapperLayer : public CanMakeWeakPtr<TextureMapperLayer> {
     WTF_MAKE_TZONE_ALLOCATED(TextureMapperLayer);
@@ -65,8 +68,7 @@ public:
     WEBCORE_EXPORT void setReplicaLayer(TextureMapperLayer*);
     WEBCORE_EXPORT void setBackdropLayer(TextureMapperLayer*);
 #if OS(SYMBIAN)
-    // Off by default: a backdrop filter draws everything under the layer a
-    // second time into a surface, about 10 ms a frame on a Nokia 808.
+    // Controls backdrop filtering for the compositor.
     WEBCORE_EXPORT static void setBackdropFiltersEnabled(bool);
 #endif
     WEBCORE_EXPORT void setBackdropFiltersRect(const FloatRoundedRect&);
@@ -123,6 +125,15 @@ public:
 
     WEBCORE_EXPORT void prepareForPainting(TextureMapper&);
     WEBCORE_EXPORT void paint(TextureMapper&);
+
+#if OS(SYMBIAN) && USE(SKIA)
+    WEBCORE_EXPORT SkiaCompositingLayer& syncSkiaLayer(TextureMapper&);
+    WEBCORE_EXPORT SkiaCompositingLayer& skiaLayer();
+    void setSkiaNeedsDisplay() { m_skiaVisualDamage = true; }
+    WEBCORE_EXPORT void setSkiaNeedsDisplay(const FloatRect&);
+    void setSkiaBlendMode(BlendMode value) { if (m_skiaBlendMode != value) { m_skiaBlendMode = value; setSkiaNeedsDisplay(); } }
+    void setSkiaBackdropRoot(bool value) { if (m_skiaBackdropRoot != value) { m_skiaBackdropRoot = value; setSkiaNeedsDisplay(); } }
+#endif
 
     void addChild(TextureMapperLayer*);
 
@@ -231,6 +242,13 @@ private:
     WeakPtr<TextureMapperLayer> m_effectTarget;
     TextureMapperBackingStore* m_backingStore { nullptr };
     TextureMapperPlatformLayer* m_contentsLayer { nullptr };
+#if OS(SYMBIAN) && USE(SKIA)
+    RefPtr<SkiaCompositingLayer> m_skiaLayer;
+    RefPtr<SkiaCompositingLayer> m_skiaShapeMask;
+    BlendMode m_skiaBlendMode { BlendMode::Normal };
+    bool m_skiaBackdropRoot { false };
+    bool m_skiaVisualDamage { true };
+#endif
     std::unique_ptr<TextureMapperFlattenedLayer> m_flattenedLayer;
     float m_currentOpacity { 1.0 };
     FilterOperations m_currentFilters;

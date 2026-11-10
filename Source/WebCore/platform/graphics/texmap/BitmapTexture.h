@@ -35,6 +35,7 @@
 #include "TextureMapperGLHeaders.h"
 #if OS(SYMBIAN)
 #include "SymbianGLResourceState.h"
+#include <wtf/Function.h>
 #endif
 #include <wtf/OptionSet.h>
 #include <wtf/RefCounted.h>
@@ -51,6 +52,7 @@ WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 class GrDirectContext;
 class SkSurface;
+class SkPicture;
 enum GrSurfaceOrigin : int;
 #endif
 
@@ -59,6 +61,7 @@ typedef void *EGLImage;
 namespace WebCore {
 
 class GraphicsLayer;
+class GraphicsContext;
 class NativeImage;
 class TextureMapper;
 enum class TextureMapperFlags : uint16_t;
@@ -80,8 +83,15 @@ public:
 
     static Ref<BitmapTexture> create(const IntSize& size, OptionSet<Flags> flags = { })
     {
+#if OS(SYMBIAN) && USE(SKIA)
+        flags = flagsForContext(flags);
+#endif
         return adoptRef(*new BitmapTexture(size, flags));
     }
+
+#if OS(SYMBIAN) && USE(SKIA)
+    static OptionSet<Flags> flagsForContext(OptionSet<Flags>);
+#endif
 
 #if USE(GBM) || OS(ANDROID)
     static Ref<BitmapTexture> create(EGLImage image, const IntSize& size, OptionSet<Flags> flags = { })
@@ -107,6 +117,10 @@ public:
 
     void updateContents(NativeImage*, const IntRect&, const IntPoint& offset);
     bool updateContents(GraphicsLayer*, const IntRect& target, const IntPoint& offset, float scale = 1);
+#if OS(SYMBIAN) && USE(SKIA)
+    bool updateContents(SkPicture&, const IntRect& target, const IntPoint& offset);
+    bool canRasterizeWithSkia(const IntRect&) const;
+#endif
     void updateContents(const void* srcData, const IntRect& targetRect, const IntPoint& sourceOffset, int bytesPerLine, PixelFormat);
 
     void swapTexture(BitmapTexture&);
@@ -147,6 +161,10 @@ private:
     GLenum textureFormat() const;
     void createTexture();
     void allocateTexture();
+#if OS(SYMBIAN) && USE(SKIA)
+    bool paintWithSkia(const IntRect&, NOESCAPE const Function<void(GraphicsContext&)>&);
+    bool m_hasContents { false };
+#endif
 #if USE(GBM)
     bool allocateTextureFromMemoryMappedGPUBuffer();
 #endif

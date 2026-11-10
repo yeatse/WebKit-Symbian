@@ -1,0 +1,140 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skia composition and damage</title>
+<style>
+body { margin:8px; color:#111; background:white; font:14px sans-serif; }
+h1 { margin:0 0 8px; font-size:18px; }
+#stage { position:relative; width:320px; height:196px; overflow:hidden; background:#ddd; border:2px solid black; transform:translateZ(0); }
+#moving, #removed { position:absolute; top:12px; width:40px; height:32px; transform:translateZ(0); }
+#moving { left:12px; background:red; }
+#removed { left:92px; background:blue; opacity:.5; }
+#clip { position:absolute; left:152px; top:12px; width:56px; height:40px; overflow:hidden; transform:translateZ(0); }
+#clipped { position:absolute; left:28px; top:0; width:64px; height:40px; background:magenta; }
+#mask { position:absolute; left:232px; top:12px; width:72px; height:40px; background:green; mask-image:linear-gradient(to right,black 50%,transparent 50%); transform:translateZ(0); }
+#depth { position:absolute; left:12px; top:64px; width:72px; height:40px; transform-style:preserve-3d; }
+#depth div { position:absolute; width:48px; height:32px; }
+#back { background:teal; transform:translate3d(0,0,-10px); }
+#front { background:cyan; transform:translate3d(24px,0,10px); }
+#filter { position:absolute; left:96px; top:64px; width:40px; height:32px; filter:brightness(.5); transform:translateZ(0); }
+#filterContent { width:100%; height:100%; background:yellow; transform:translateZ(0); }
+#filter.animate { animation:shade 500ms linear forwards; }
+@keyframes shade { from { filter:brightness(.5); } to { filter:brightness(.75); } }
+canvas { position:absolute; top:64px; width:64px; height:48px; }
+#canvas2d { left:152px; } #webgl { left:232px; }
+#background { position:absolute; left:12px; top:132px; width:296px; height:48px; background:white; }
+#compositedImage { position:absolute; left:280px; top:150px; width:16px; height:16px; image-rendering:pixelated; transform:translateZ(0); }
+#output { width:324px; margin:8px 0 0; white-space:pre-wrap; font:12px/15px monospace; }
+</style>
+<h1>Skia composition and damage</h1>
+<div id="stage">
+  <div id="moving"></div><div id="removed"></div>
+  <div id="clip"><div id="clipped"></div></div><div id="mask"></div>
+  <div id="depth"><div id="back"></div><div id="front"></div></div>
+  <div id="filter"><div id="filterContent"></div></div>
+  <canvas id="canvas2d" width="256" height="192"></canvas>
+  <canvas id="webgl" width="16" height="12"></canvas>
+  <div id="background">Root backing content</div>
+  <img id="compositedImage" alt="Red above blue" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAGUlEQVR42mP4z8BAEmIY1UATDaPhNCg0AACR6v8BCilG7wAAAABJRU5ErkJggg==">
+</div>
+<pre id="output">RUNNING: skia-compositing-regression</pre>
+<script>
+(async function () {
+    'use strict';
+    const messages = [];
+    let passed = 0, failed = 0;
+    const element = id => document.getElementById(id);
+    const rect = id => element(id).getBoundingClientRect();
+    const near = (a, b) => Math.abs(a - b) < 1;
+    const frame = () => new Promise(resolve => requestAnimationFrame(resolve));
+    async function settle(count = 2) { while (count--) await frame(); }
+    function check(value, message) { if (!value) throw new Error(message); }
+    function log(message) { messages.push(message); console.log(message); }
+    async function test(name, body) {
+        try { await body(); ++passed; log('PASS: ' + name); }
+        catch (error) { ++failed; log('FAIL: ' + name + ' ' + error); }
+    }
+    await test('layer geometry and opacity', async () => {
+        await settle();
+        const stage = rect('stage'), moving = rect('moving');
+        check(near(moving.left - stage.left, 14) && near(moving.top - stage.top, 14), 'layer position');
+        check(getComputedStyle(element('removed')).opacity === '0.5', 'layer opacity');
+    });
+    await test('overflow clipping and mask', () => {
+        const clip = rect('clip');
+        check(document.elementFromPoint(clip.left + 40, clip.top + 16) === element('clipped'), 'clip interior');
+        check(document.elementFromPoint(clip.right + 4, clip.top + 16) !== element('clipped'), 'clip exterior');
+        check(getComputedStyle(element('mask')).maskImage.includes('gradient'), 'mask image');
+    });
+    await test('filter animation reaches target', async () => {
+        const filter = element('filter');
+        const ended = new Promise(resolve => filter.addEventListener('animationend', resolve, { once:true }));
+        filter.className = 'animate';
+        await ended;
+        await settle();
+        check(getComputedStyle(element('filter')).filter === 'brightness(0.75)', 'brightness filter');
+    });
+    await test('preserve 3D child ordering', () => {
+        const depth = rect('depth');
+        check(getComputedStyle(element('depth')).transformStyle === 'preserve-3d', '3D container');
+        check(document.elementFromPoint(depth.left + 30, depth.top + 16) === element('front'), 'front child');
+    });
+    await test('Ganesh canvas content', async () => {
+        const context = element('canvas2d').getContext('2d');
+        context.fillStyle = 'red'; context.fillRect(0, 0, 256, 96);
+        context.fillStyle = 'blue'; context.fillRect(0, 96, 256, 96);
+        const top = context.getImageData(64, 16, 1, 1).data;
+        const bottom = context.getImageData(64, 160, 1, 1).data;
+        check(top[0] === 255 && top[2] === 0 && bottom[0] === 0 && bottom[2] === 255, 'canvas orientation');
+        await settle();
+    });
+    await test('WebGL content', async () => {
+        const gl = element('webgl').getContext('webgl', { antialias:false, preserveDrawingBuffer:true });
+        check(gl, 'WebGL context');
+        gl.clearColor(0, 1, 1, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+        const pixel = new Uint8Array(4);
+        gl.readPixels(1, 1, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+        check(pixel[0] === 0 && pixel[1] === 255 && pixel[2] === 255 && pixel[3] === 255, 'WebGL pixels');
+        await settle();
+    });
+    await test('static scene remains stable', async () => {
+        const before = rect('moving');
+        await settle(6);
+        const after = rect('moving');
+        check(near(before.left, after.left) && near(before.top, after.top), 'static geometry');
+    });
+    await test('small layer move', async () => {
+        element('moving').style.transform = 'translate3d(52px,0,0)';
+        await settle();
+        check(near(rect('moving').left - rect('stage').left, 66), 'moved layer position');
+    });
+    await test('removed layer leaves scene', async () => {
+        const removed = element('removed'), before = removed.getBoundingClientRect();
+        removed.remove();
+        await settle();
+        check(!removed.isConnected && document.elementFromPoint(before.right - 4, before.top + 16) !== removed, 'removed layer');
+    });
+    await test('root backing content update', async () => {
+        element('background').style.backgroundColor = '#ff8000';
+        element('background').textContent = 'Updated root backing';
+        const image = element('compositedImage');
+        await image.decode();
+        await settle();
+        check(getComputedStyle(element('background')).backgroundColor === 'rgb(255, 128, 0)', 'root background');
+        const box = image.getBoundingClientRect(), stage = rect('stage');
+        check(image.complete && image.naturalWidth === 16 && image.naturalHeight === 16
+            && near(box.width, 16) && near(box.height, 16)
+            && near(box.left - stage.left, 282) && near(box.top - stage.top, 152), 'composited image');
+    });
+    await test('layer layout resize', async () => {
+        element('moving').style.width = '56px'; element('moving').style.height = '40px';
+        await settle();
+        check(near(rect('moving').width, 56) && near(rect('moving').height, 40), 'resized layer');
+    });
+    await settle();
+    log('RESULT: skia-compositing-regression passed=' + passed + ' failed=' + failed);
+    log((failed ? 'FAIL: ' : 'PASS: ') + 'skia-compositing-regression');
+    element('output').textContent = messages.join('\n');
+    document.title = (failed ? 'FAIL' : 'PASS') + ' Skia composition';
+}());
+</script>

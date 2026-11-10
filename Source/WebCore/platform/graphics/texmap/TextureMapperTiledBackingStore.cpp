@@ -29,8 +29,20 @@
 #include "NativeImage.h"
 #include "ImageObserver.h"
 #include "TextureMapper.h"
+#if OS(SYMBIAN) && USE(SKIA)
+#include "GLContext.h"
+#include "GraphicsContextSkia.h"
+#include "PlatformDisplay.h"
+#include "SkiaBackingStore.h"
+#include "SkiaNativeTile.h"
+WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
+#include <skia/core/SkPictureRecorder.h>
+#include <skia/core/SkPicture.h>
+WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
+#endif
 #include <wtf/MonotonicTime.h>
 #include <wtf/NeverDestroyed.h>
+#include <algorithm>
 
 namespace WebCore {
 
@@ -81,6 +93,15 @@ TextureMapperTiledBackingStore::~TextureMapperTiledBackingStore()
     clearCoverageTiles();
 }
 
+void TextureMapperTiledBackingStore::setContentsToImage(Image* image)
+{
+    m_image = image;
+#if OS(SYMBIAN) && USE(SKIA)
+    auto nativeImage = image ? image->currentNativeImage() : nullptr;
+    m_skiaContentsImage = nativeImage ? nativeImage->platformImage() : nullptr;
+#endif
+}
+
 size_t TextureMapperTiledBackingStore::coverageBytes()
 {
     return s_coverageBytes;
@@ -112,6 +133,56 @@ void TextureMapperTiledBackingStore::paintToTextureMapper(TextureMapper& texture
     for (auto& coverageTile : m_coverageTiles)
         coverageTile.tile.paint(textureMapper, adjustedTransform, opacity, allTileEdgesExposed(rect(), coverageTile.tile.rect()));
 }
+
+#if OS(SYMBIAN) && USE(SKIA)
+sk_sp<SkImage> TextureMapperTiledBackingStore::skiaImage()
+{
+    if (m_image) {
+        if (auto observer = m_image->imageObserver())
+            observer->didDraw(*m_image);
+    }
+    return m_skiaContentsImage;
+}
+
+bool TextureMapperTiledBackingStore::updateSkiaBackingStore(SkiaBackingStore& backingStore, TextureMapper& textureMapper)
+{
+    updateContentsFromImageIfNeeded(textureMapper);
+    Vector<SkiaNativeTile> tiles;
+    auto appendTile = [&](const TextureMapperTile& tile) {
+        auto texture = tile.texture();
+        if (!texture)
+            return;
+        auto rect = tile.rect();
+        rect.scale(1 / m_contentsScale);
+        tiles.append({ WTF::move(texture), rect });
+    };
+    auto tileSize = textureMapper.maxTextureSize();
+    for (auto& tile : m_tiles) {
+        auto tileRect = tile.rect();
+        if (tileRect.x() >= m_skiaTileGridSize.width() || tileRect.y() >= m_skiaTileGridSize.height())
+            continue;
+        FloatRect activeRect(tileRect.x(), tileRect.y(), tileSize.width(), tileSize.height());
+        activeRect.intersect(rect());
+        if (tileRect == activeRect)
+            appendTile(tile);
+    }
+    for (auto& tile : m_coverageTiles) {
+        if (tile.valid)
+            appendTile(tile.tile);
+    }
+    backingStore.setNativeTiles(m_size, m_contentsScale, WTF::move(tiles));
+    return true;
+}
+
+void TextureMapperTiledBackingStore::addSkiaDamage(const IntRect& scaledRect)
+{
+    if (scaledRect.isEmpty())
+        return;
+    FloatRect rect(scaledRect);
+    rect.scale(1 / m_contentsScale);
+    m_skiaDamage.append(enclosingIntRect(rect));
+}
+#endif
 
 void TextureMapperTiledBackingStore::drawBorder(TextureMapper& textureMapper, const Color& borderColor, float borderWidth, const FloatRect& targetRect, const TransformationMatrix& transform)
 {
@@ -151,6 +222,9 @@ void TextureMapperTiledBackingStore::createOrDestroyTilesIfNeeded(const FloatSiz
     FloatSize scaledSize(m_size);
     if (!m_image)
         scaledSize.scale(m_contentsScale);
+#if OS(SYMBIAN) && USE(SKIA)
+    m_skiaTileGridSize = scaledSize;
+#endif
 
     Vector<FloatRect> tileRectsToAdd;
     Vector<int> tileIndicesToRemove;
@@ -221,6 +295,9 @@ void TextureMapperTiledBackingStore::updateContents(TextureMapper& textureMapper
     createOrDestroyTilesIfNeeded(totalSize, textureMapper.maxTextureSize(), !image->currentFrameKnownToBeOpaque());
     for (auto& tile : m_tiles)
         tile.updateContents(image, dirtyRect);
+#if OS(SYMBIAN) && USE(SKIA)
+    addSkiaDamage(dirtyRect);
+#endif
 }
 
 bool TextureMapperTiledBackingStore::updateContents(TextureMapper& textureMapper, GraphicsLayer* sourceLayer, const FloatSize& totalSize, const IntRect& dirtyRect)
@@ -237,6 +314,9 @@ bool TextureMapperTiledBackingStore::updateContents(TextureMapper& textureMapper
         if (!tile.updateContents(sourceLayer, dirtyRect, m_contentsScale))
             return false;
     }
+#if OS(SYMBIAN) && USE(SKIA)
+    addSkiaDamage(dirtyRect);
+#endif
     return true;
 }
 
@@ -291,6 +371,57 @@ bool TextureMapperTiledBackingStore::paintCoverageTiles(const Vector<CoveragePai
         }
     }
 
+#if OS(SYMBIAN) && USE(SKIA)
+    bool canRasterize = std::ranges::all_of(paints, [&](auto& entry) {
+        auto& tile = m_coverageTiles[entry.index].tile;
+        auto target = entry.rect;
+        auto tileRect = enclosingIntRect(tile.rect());
+        target.move(-tileRect.x(), -tileRect.y());
+        return tile.texture()->canRasterizeWithSkia(target);
+    });
+    if (canRasterize) {
+        SkPictureRecorder recorder;
+        auto* skiaContext = PlatformDisplay::sharedDisplay().skiaGLContext();
+        sk_sp<SkPicture> picture;
+        {
+            GLContext::ScopedGLContextCurrent current(*skiaContext);
+            {
+                GraphicsContextSkia context(*recorder.beginRecording(area.width(), area.height()), RenderingMode::Accelerated, RenderingPurpose::DOM);
+                context.setTextDrawingMode(TextDrawingMode::Fill);
+                IntRect sourceRect(area);
+                sourceRect.scale(1 / m_contentsScale);
+                context.applyDeviceScaleFactor(m_contentsScale);
+                context.translate(-sourceRect.x(), -sourceRect.y());
+                sourceLayer->paintGraphicsLayerContents(context, sourceRect);
+            }
+            picture = recorder.finishRecordingAsPicture();
+        }
+        bool painted = true;
+        for (auto& entry : paints) {
+            auto& tile = m_coverageTiles[entry.index].tile;
+            auto target = entry.rect;
+            auto tileRect = enclosingIntRect(tile.rect());
+            target.move(-tileRect.x(), -tileRect.y());
+            if (!tile.texture()->updateContents(*picture, target, IntPoint(entry.rect.x() - area.x(), entry.rect.y() - area.y()))) {
+                painted = false;
+                break;
+            }
+        }
+        if (painted) {
+            for (auto& entry : paints) {
+                m_coverageTiles[entry.index].valid = true;
+                addSkiaDamage(entry.rect);
+            }
+            static bool logged;
+            if (!logged) {
+                WTFLogAlways("Symbian Skia: Ganesh GLES2 tile rasterization");
+                logged = true;
+            }
+            return true;
+        }
+    }
+#endif
+
     auto imageBuffer = ImageBuffer::create(area.size(), RenderingMode::Unaccelerated, RenderingPurpose::Unspecified, 1, DestinationColorSpace::SRGB(), PixelFormat::BGRA8);
     if (!imageBuffer)
         return false;
@@ -315,6 +446,9 @@ bool TextureMapperTiledBackingStore::paintCoverageTiles(const Vector<CoveragePai
             target.move(-tileRect.x(), -tileRect.y());
             coverageTile.tile.texture()->updateContents(image.get(), target, IntPoint(entry.rect.x() - area.x(), entry.rect.y() - area.y()));
             coverageTile.valid = true;
+#if OS(SYMBIAN) && USE(SKIA)
+            addSkiaDamage(entry.rect);
+#endif
         }
         return true;
     };

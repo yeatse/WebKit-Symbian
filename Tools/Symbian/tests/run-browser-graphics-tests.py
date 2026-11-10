@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the browser compositing, WebGL and ScreenPlay test pages."""
+"""Run browser compositing, WebGL, Ganesh raster and ScreenPlay pages."""
 import argparse
 import datetime
 import hashlib
@@ -43,10 +43,22 @@ EXPECTED = {
         "element hit testing", "canvas 2D drawing", "dirty region repaint",
         "animation final position", "resized element geometry",
     ),
+    "ganesh": (
+        "asymmetric raster colors", "rectangle drawing", "alpha blending", "clip state",
+        "path drawing", "GPU to GPU canvas drawImage", "GPU to CPU canvas drawImage",
+        "ImageData roundtrip",
+    ),
+    "skia": (
+        "layer geometry and opacity", "overflow clipping and mask", "filter animation reaches target",
+        "preserve 3D child ordering", "Ganesh canvas content", "WebGL content",
+        "static scene remains stable", "small layer move", "removed layer leaves scene",
+        "root backing content update", "layer layout resize",
+    ),
 }
-DEFAULT_SUITES = ("compositing", "webgl")
+DEFAULT_SUITES = ("compositing", "webgl", "ganesh", "skia")
 MARKERS = {"compositing": "PASS: compositing-regression", "webgl": "WEBGL DONE PASS 9/9 passed; 0 failed",
-           "screenplay": "PASS: screenplay-regression"}
+           "screenplay": "PASS: screenplay-regression", "ganesh": "PASS: ganesh-regression",
+           "skia": "PASS: skia-compositing-regression"}
 
 
 def sha256(path):
@@ -68,8 +80,8 @@ def validate_evidence(suite, url, guest, host, screenshot):
     messages = re.findall(r"^console: " + re.escape(url) + r":\d+: (.*)$", guest, re.M)
     prefix = "WEBGL PASS " if suite == "webgl" else "PASS: "
     names = [message[len(prefix):] for message in messages if message.startswith(prefix)]
-    if suite in ("compositing", "screenplay"):
-        label = suite + "-regression"
+    if suite in ("compositing", "screenplay", "ganesh", "skia"):
+        label = "skia-compositing-regression" if suite == "skia" else suite + "-regression"
         names = [name for name in names if name != label]
         terminal = [message for message in messages if message.startswith("RESULT: " + label)]
         pattern = r"RESULT: " + label + " passed=" + str(len(EXPECTED[suite])) + r" failed=0"
@@ -105,13 +117,35 @@ def validate_evidence(suite, url, guest, host, screenshot):
         if re.search(r"Symbian compositor:[^\r\n]*(?:failed|software painting)", evidence, re.I):
             raise RuntimeError("EGL presentation failed")
         renderer = initialized.group(1)
+    raster_evidence = {}
+    if suite == "ganesh":
+        canvas = "Symbian Skia: Ganesh GLES2 Canvas 2D raster enabled"
+        tiles = re.search(r"Symbian Skia: Ganesh GLES2 (?:tile|layer) rasterization", evidence)
+        if canvas not in evidence or not tiles:
+            raise RuntimeError("Missing Ganesh Canvas 2D and layer rasterization evidence")
+        raster_evidence = {"native_raster": "Skia Ganesh GLES2", "canvas_raster_marker": canvas,
+                           "layer_raster_marker": tiles[0]}
+    if suite == "skia":
+        initialized = "Symbian Skia compositor: initialized"
+        frames = re.findall(r"Symbian Skia compositor: frame=(\d+) damage=(full|partial|empty) "
+                            r"rects=(\d+) pixels=(\d+) total=(\d+)", evidence)
+        full = [item for item in frames if item[1] == "full"]
+        partial = [item for item in frames if item[1] == "partial" and 0 < int(item[3]) < int(item[4])]
+        empty = [item for item in frames if item[1] == "empty"]
+        if initialized not in evidence or not full or not partial:
+            raise RuntimeError("Missing Skia layer composition and partial-damage evidence")
+        raster_evidence = {"native_compositor": "Skia", "damage_full_frames": len(full),
+                           "damage_partial_frames": len(partial), "damage_empty_frames": len(empty),
+                           "damage_frames": [{"frame": int(item[0]), "damage": item[1],
+                                              "rects": int(item[2]), "pixels": int(item[3]),
+                                              "total": int(item[4])} for item in frames]}
     data = screenshot.read_bytes() if screenshot.is_file() else b""
     if len(data) < 33 or data[:8] != b"\x89PNG\r\n\x1a\n" or data[12:16] != b"IHDR":
         raise RuntimeError("Missing or invalid PNG screenshot")
     width, height = struct.unpack(">II", data[16:24])
     if not width or not height:
         raise RuntimeError("Empty screenshot dimensions")
-    return {"page_checks": len(names), "page_terminal": terminal[0],
+    return {"page_checks": len(names), "page_terminal": terminal[0], **raster_evidence,
             "native_renderer": renderer, "native_presentations": len(presents),
             "presented_sizes": [[int(item[1]), int(item[2])] for item in presents],
             "screenshot_size": [width, height]}
@@ -119,7 +153,9 @@ def validate_evidence(suite, url, guest, host, screenshot):
 
 def run_suite(args, suite, output, work, lock, evidence):
     token = uuid.uuid4().hex
-    url = "file:///C:/Data/WebKit/" + suite + ".html?" + urlencode({"autorun": 1, "run": token})
+    page = "skia-compositing" if suite == "skia" else suite
+    url = "file:///C:/Data/WebKit/" + page + ".html?" + urlencode({"autorun": 1, "run": token})
+    arguments = "frame-stats " + url if suite == "skia" else url
     previous = {path.resolve() for path in (work / "runs").glob("browser-*")}
     directory = output / suite
     directory.mkdir()
@@ -136,7 +172,7 @@ def run_suite(args, suite, output, work, lock, evidence):
     with SUPPORT.adopt_orphaned_children() as excluded:
         try:
             with launcher.open("w") as stream:
-                process = subprocess.Popen([str(BROWSER_RUNNER), str(args.browser), url],
+                process = subprocess.Popen([str(BROWSER_RUNNER), str(args.browser), arguments],
                                            stdout=stream, stderr=subprocess.STDOUT, env=environment,
                                            start_new_session=True, pass_fds=(lock.fileno(),))
                 deadline = time.monotonic() + args.timeout + DRIVER_GRACE

@@ -62,6 +62,7 @@
 #include <WebCore/UserGestureIndicator.h>
 #include <WebCore/EmptyClients.h>
 #include <WebCore/GraphicsContextSkia.h>
+#include <WebCore/PlatformDisplaySymbian.h>
 #include <WebCore/FontRenderOptions.h>
 #include <WebCore/ScalableImageDecoder.h>
 #include <WebCore/FrameTreeSyncData.h>
@@ -473,6 +474,11 @@ bool WebViewImpl::setNativeWindow(void* window)
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
     if (window) {
         m_nativeWindow = window;
+        if (!PlatformDisplay::sharedDisplayIfExists()) {
+            if (auto display = PlatformDisplaySymbian::create())
+                PlatformDisplay::setSharedDisplay(WTF::move(display));
+        }
+        m_page->settings().setCanvasUsesAcceleratedDrawing(!!PlatformDisplay::sharedDisplayIfExists());
         // The frame's content then lives in a layer whose tiles follow the
         // scroll position (SymbianCompositor).
         m_page->settings().setForceCompositingMode(s_tiledCompositingEnabled);
@@ -523,6 +529,7 @@ void WebViewImpl::disableCompositing()
 {
 #if USE(GRAPHICS_LAYER_TEXTURE_MAPPER)
     m_nativeWindow = nullptr;
+    m_page->settings().setCanvasUsesAcceleratedDrawing(false);
     m_compositorIdleTimer.stop();
     m_compositorIdle = false;
 #if ENABLE(VIDEO)
