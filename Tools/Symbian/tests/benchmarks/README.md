@@ -15,7 +15,7 @@ package installs them at `C:\Data\WebKit\bench`.
 
 ## Running on the phone
 
-1. Create an empty file `C:\Data\WebKit\frame-stats` and start the browser.
+1. Set `frame-stats = on` in `C:\Data\WebKit\webkit.ini` and start the browser.
    The log then shows `frame-stats: enabled`.
 2. Open `file:///C:/Data/WebKit/bench/index.html` and choose "Run all". Each
    page runs for 15 seconds and stops by itself; the run ends on the index.
@@ -37,8 +37,8 @@ prints the change per page and presentation, and `--json` the raw numbers.
 By default every page is composited with EGL and scrolls cached GPU tiles,
 so pages listed above as ScreenPlay show up as `egl`; "GPU tiles" is the most
 tile memory the page used (the budget is 32 MB). To measure the ScreenPlay
-path instead, also create an empty `C:\Data\WebKit\no-gpu-tiles` and restart
-the browser.
+path instead, also set `gpu-tiles = off` in `webkit.ini` and restart the
+browser.
 
 ## How the log is grouped
 

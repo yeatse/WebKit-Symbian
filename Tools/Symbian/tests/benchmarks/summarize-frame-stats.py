@@ -210,7 +210,7 @@ def report(groups):
 
 def print_report(result, out):
     if not result:
-        print('no frame-stats lines (create C:\\Data\\WebKit\\frame-stats and restart the browser)', file=out)
+        print('no frame-stats lines (set frame-stats = on in C:\\Data\\WebKit\\webkit.ini and restart the browser)', file=out)
         return
     for name, entry in result.items():
         print(name, file=out)

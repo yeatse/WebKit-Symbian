@@ -3,6 +3,7 @@
 #include "NativeDeclarations.h"
 #include "AuthenticationUI.h"
 #include "BrowserLog.h"
+#include "BrowserSettings.h"
 #include "DownloadFileNative.h"
 #include "DownloadUI.h"
 #include "browser_ui.rsg"
@@ -181,32 +182,15 @@ void CWebContainer::ConstructL(const TRect& aRect)
     WebView::setMediaPlayerFactory(CreateMediaPlayer, static_cast<MNativeVideoWindow*>(this));
 #endif
 #if SYMBIAN_BROWSER_COMPOSITING && SYMBIAN_BROWSER_TRY_EGL
-    // Every page is composited with EGL and scrolls cached GPU tiles. For
-    // comparison, C:\Data\WebKit\no-gpu-tiles keeps ordinary pages on the
-    // ScreenPlay/bitmap path.
-    TEntry entry;
-    if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\no-gpu-tiles"), entry) == KErrNone) {
+    // Every page is composited with EGL and scrolls cached GPU tiles; with
+    // gpu-tiles off, ordinary pages stay on the ScreenPlay/bitmap path.
+    if (!BrowserSetting("gpu-tiles"))
         WebView::setTiledCompositingEnabled(false);
-        BrowserLog("compositing: GPU tiles off (no-gpu-tiles)");
-    }
-    // backdrop-filter is not drawn unless C:\Data\WebKit\backdrop-filters
-    // exists: it costs about 10 ms a frame on a Nokia 808.
-    if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\backdrop-filters"), entry) == KErrNone) {
-        WebView::setBackdropFiltersEnabled(true);
-        BrowserLog("compositing: backdrop filters on (backdrop-filters)");
-    }
+    WebView::setBackdropFiltersEnabled(BrowserSetting("backdrop-filters"));
     iWebView->setNativeWindow(&Window());
 #endif
-    TEntry jitEntry;
-    if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\no-timer-deferral"), jitEntry) == KErrNone) {
-        WebView::setTimersDeferredDuringInput(false);
-        BrowserLog("timers: not deferred during input (no-timer-deferral)");
-    }
-    // For comparison: JIT compiler threads at the UI thread's priority.
-    if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\jit-priority"), jitEntry) == KErrNone) {
-        WebView::setCompilerThreadsShareUIPriority(true);
-        BrowserLog("jit: compiler threads at UI priority (jit-priority)");
-    }
+    WebView::setTimersDeferredDuringInput(BrowserSetting("timer-deferral"));
+    WebView::setCompilerThreadsShareUIPriority(BrowserSetting("jit-priority"));
 }
 
 CWebContainer::~CWebContainer()
@@ -473,13 +457,10 @@ private:
 
 void CWebContainer::CreateVideoWindow()
 {
-    // C:\Data\WebKit\no-composited-video keeps video in the page window,
-    // which then goes to software painting while a video is shown.
-    TEntry entry;
-    if (iCoeEnv->FsSession().Entry(_L("C:\\Data\\WebKit\\no-composited-video"), entry) == KErrNone) {
-        BrowserLog("video: composited video off (no-composited-video)");
+    // With composited-video off, video stays in the page window, which then
+    // goes to software painting while a video is shown.
+    if (!BrowserSetting("composited-video"))
         return;
-    }
     auto* underlay = new CVideoUnderlay;
     if (!underlay) {
         BrowserLog("video: video window unavailable (%d)", KErrNoMemory);

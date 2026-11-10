@@ -89,6 +89,7 @@ jobs:
       - name: Belle storage, native UI and callback regressions
         run: |
           tests/native-filesystem/run.sh
+          tests/browser-settings/run.sh
           tests/idb-quota/run-ledger.sh
           python3 tests/idb-quota/run-producer.py --work "$RUNNER_TEMP/idb-producer"
           python3 tests/idb-quota/test-contract.py

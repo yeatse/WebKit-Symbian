@@ -59,8 +59,24 @@ python3 Tools/Symbian/tests/run-browser-graphics-tests.py \
   --suite all --output /tmp/graphics-results
 ```
 
-Add `frame-stats` before the URL on the browser command line, or create
-`C:\Data\WebKit\frame-stats`, to log `frame-stats:` lines with average/maximum
+The browser's switches are in `C:\Data\WebKit\webkit.ini`, which it writes
+with every setting at its default when the file is missing; edit a value and
+restart the browser. The log's `settings:` line names the ones not at their
+default.
+
+| Setting | Default | |
+| --- | --- | --- |
+| `frame-stats` | off | frame timings, main-thread profile and decode times in `log.txt` |
+| `curl-verbose` | off | curl's own trace in `curl.txt` |
+| `gpu-tiles` | on | composite every page with EGL; off keeps ordinary pages on ScreenPlay |
+| `composited-video` | on | video in a window under the page, keeping EGL while it plays |
+| `backdrop-filters` | off | draw CSS `backdrop-filter` (about 10 ms a frame on a Nokia 808) |
+| `timer-deferral` | on | hold page timers while the user touches or scrolls |
+| `jit-priority` | off | JIT compiler threads at the UI thread's priority |
+| `js-tier` | dfg | `baseline` leaves out the DFG compiler, `llint` runs the interpreter only |
+
+Add `frame-stats` before the URL on the browser command line, or set
+`frame-stats = on`, to log `frame-stats:` lines with average/maximum
 milliseconds per stage about once a second: `update`, `backing`, `draw` and
 `swap` for EGL, `begin`, `paint` and `submit` for ScreenPlay, `paint` and
 `blit` for bitmaps. Compare them on a device; emulator GPU timings use the host.

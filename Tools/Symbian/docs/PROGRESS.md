@@ -88,7 +88,7 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 
 Measure each step on a Nokia 808 PureView: EKA2L1 maps GLES2 onto the host GPU,
 so emulator timings do not predict device performance. Turn on `frame-stats`
-(`C:\Data\WebKit\frame-stats`), run `file:///C:/Data/WebKit/bench/index.html`
+(in `C:\Data\WebKit\webkit.ini`), run `file:///C:/Data/WebKit/bench/index.html`
 "Run all" with the screen kept on and nothing running in the background, and
 summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
 
@@ -109,14 +109,14 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
 - [x] ICL decode latency: the ICL thread and the image decoding queues run at
   the UI thread's priority. On the 808 the whole decode fell from 2565 to
   326 ms/Mpx (251 in ICL, the rest waiting).
-- [x] `backdrop-filter` is not drawn (`C:\Data\WebKit\backdrop-filters`
-  turns it on): it drew everything under the element twice, about 10 ms a
+- [x] `backdrop-filter` is not drawn (`backdrop-filters = on` in
+  `webkit.ini` turns it on): it drew everything under the element twice, about 10 ms a
   frame on YouTube.
 - [x] Benchmark pages: scroll, images, animation, composited, canvas, webgl,
   and paint (ten full-repaint cases plus `paint-images`).
 - [x] GPU tiles for every page (default): the page is composited into
   full-width, 256-pixel-high tiles held in textures, capped at 32 MB
-  (`no-gpu-tiles` falls back to ScreenPlay). Tiles are prefetched one screen
+  (`gpu-tiles = off` falls back to ScreenPlay). Tiles are prefetched one screen
   ahead, at most two per frame across all layers, and skipped after a slow
   visible repaint. The damage in one update is painted once and uploaded
   straight from the paint buffer (the 808 has no `EXT_unpack_subimage`).
@@ -140,7 +140,7 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   `circle()`, `ellipse()` and box clip-paths use the rounded-clip shader.
 - [x] Video under the page: MMF plays in a window below the browser window and
   the composited page punches a transparent hole, so EGL composition keeps
-  running during playback (`no-composited-video` restores the old path).
+  running during playback (`composited-video = off` restores the old path).
 - [x] Volume keys for media and Web Audio, ten steps, default 4.
 
 Latest 808 numbers (CI #87 and #100):
@@ -167,11 +167,11 @@ Latest 808 numbers (CI #87 and #100):
 - [ ] P0: YouTube script time: 81 s running, 9 s parsing, 5 s generating
   bytecode in the #111 logs, so a bytecode cache would save little. JIT plans
   wait 2.5 s on average for a compiler thread (21 s at most);
-  `C:\Data\WebKit\jit-priority` ends the wait but the compiler then takes
+  `jit-priority = on` ends the wait but the compiler then takes
   the main thread's time, with no clear gain. Next: `bench/jsbench.html` with
-  `js-llint`, `js-baseline` and neither, to see what each tier is worth on
+  `js-tier` llint, baseline and dfg, to see what each tier is worth on
   the 808, and whether holding timers during input (now the default,
-  `no-timer-deferral` turns it off) makes scrolling smoother.
+  `timer-deferral = off` turns it off) makes scrolling smoother.
 - [ ] P0: YouTube compositor time, 32% of busy time (draw 21.8 ms and backing
   12.9 ms a frame). Check draw without backdrop filters, then the remaining
   filter and mask surfaces.
