@@ -130,6 +130,15 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
 - [x] Composited video verified on the 808: 87 s of playback in the #110 log.
 - [x] `Date.now()` has millisecond steps: the C library's wall clock counts
   whole seconds, so the time within a second comes from the steady clock.
+- [x] JIT compiler threads at the UI thread's priority (`jit-priority`,
+  default on). Below it, hot code in a long task was never compiled and ran
+  slower than in the interpreter alone, each loop asking for its compilation:
+  jsbench on the 808 took 28.3 s, 22.3 s with the interpreter only, and
+  11.1 s with the threads at UI priority (first round of `objects` 9.2 s to
+  0.5 s). Steady state per tier, `objects`: LLInt 1.94 s, baseline 0.65 s,
+  DFG 0.19 s.
+- [x] Video download no longer flushes every chunk: `media` fell from 19 s to
+  0.8 s of the main thread at a YouTube video's start, and playback starts.
 - [x] JPEG through the ICL decoder on its own thread for complete YCbCr or
   grey images up to 2.5 Mpx; libjpeg otherwise. The 808 has only the Nokia
   software plug-in 0x101FF555, but it decodes 2.5-3.4x faster than our
@@ -161,25 +170,12 @@ Latest 808 numbers (CI #87 and #100):
 
 ### Open, by priority
 
-- [ ] P0: Video download on the UI thread. In the #115 log `media` is 19 s
-  of the main thread while a YouTube video starts: every chunk was written
-  and flushed to flash, 25 ms at a time. Flushes now happen every 512 KB or
-  two seconds; verify on the 808 that `media` falls and that playback still
-  starts while downloading. If writing alone is still slow, move it to a
-  thread.
-- [ ] P0: Hot code in a long task is never compiled. In jsbench every first
-  round takes 3-10 s and later rounds under 1 s: compiler threads run below
-  the UI thread, so a loop that keeps it busy stays in the interpreter until
-  it ends. Compare jsbench with `jit-priority` on and off, then choose the
-  default (or compile baseline code on the main thread).
-- [ ] P0: YouTube script time: 81 s running, 9 s parsing, 5 s generating
-  bytecode in the #111 logs, so a bytecode cache would save little. JIT plans
-  wait 2.5 s on average for a compiler thread (21 s at most);
-  `jit-priority = on` ends the wait but the compiler then takes
-  the main thread's time, with no clear gain. Next: `bench/jsbench.html` with
-  `js-tier` llint, baseline and dfg, to see what each tier is worth on
-  the 808, and whether holding timers during input (now the default,
-  `timer-deferral = off` turns it off) makes scrolling smoother.
+- [ ] P0: YouTube script time on the list page: in the #115 log 70 s of
+  143 s (running 56 s, parsing 9 s, bytecode 4 s) in 123 long tasks from
+  timers, `message` events, rAF and script loads; a frame itself costs 47 ms.
+  JIT compiler threads now run at the UI thread's priority: collect a
+  YouTube log with it and compare the long tasks. Holding timers during
+  input defers few fires (YouTube schedules through `message` and rAF).
 - [ ] P0: YouTube compositor time, 32% of busy time (draw 21.8 ms and backing
   12.9 ms a frame). Check draw without backdrop filters, then the remaining
   filter and mask surfaces.

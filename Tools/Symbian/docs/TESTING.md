@@ -60,8 +60,8 @@ python3 Tools/Symbian/tests/run-browser-graphics-tests.py \
 ```
 
 The browser's switches are in `C:\Data\WebKit\webkit.ini`, which it writes
-with every setting at its default when the file is missing; edit a value and
-restart the browser. The log's `settings:` line names the ones not at their
+with every setting at its default, commented out, when the file is missing;
+remove the `#` before a name, edit the value and restart the browser. The log's `settings:` line names the ones not at their
 default.
 
 | Setting | Default | |
@@ -72,7 +72,7 @@ default.
 | `composited-video` | on | video in a window under the page, keeping EGL while it plays |
 | `backdrop-filters` | off | draw CSS `backdrop-filter` (about 10 ms a frame on a Nokia 808) |
 | `timer-deferral` | on | hold page timers while the user touches or scrolls |
-| `jit-priority` | off | JIT compiler threads at the UI thread's priority |
+| `jit-priority` | on | JIT compiler threads at the UI thread's priority; off puts them below it |
 | `js-tier` | dfg | `baseline` leaves out the DFG compiler, `llint` runs the interpreter only |
 
 Add `frame-stats` before the URL on the browser command line, or set

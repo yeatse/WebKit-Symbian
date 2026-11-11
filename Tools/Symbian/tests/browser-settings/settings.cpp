@@ -43,12 +43,13 @@ int main(int argc, char** argv)
     BrowserSettingsLoad(directory.c_str());
     assert(BrowserSetting("frame-stats") && !BrowserSetting("gpu-tiles"));
     assert(BrowserSetting("composited-video") && BrowserSetting("timer-deferral"));
-    assert(!BrowserSetting("backdrop-filters") && !BrowserSetting("jit-priority") && !BrowserSetting("curl-verbose"));
+    assert(!BrowserSetting("backdrop-filters") && BrowserSetting("jit-priority") && !BrowserSetting("curl-verbose"));
     assert(std::string(BrowserSettingText("js-tier")) == "dfg");
     std::string written = read(ini);
     assert(written.find("frame-stats = on\r\n") != std::string::npos);
     assert(written.find("gpu-tiles = off\r\n") != std::string::npos);
-    assert(written.find("js-tier = dfg\r\n") != std::string::npos);
+    assert(written.find("\r\n#js-tier = dfg\r\n") != std::string::npos);
+    assert(written.find("\r\n#jit-priority = on\r\n") != std::string::npos);
     BrowserSettingsDescribe(collect);
     assert(lines.size() == 1 && lines[0] == "settings: frame-stats=on gpu-tiles=off");
 
@@ -58,16 +59,16 @@ int main(int argc, char** argv)
     assert(BrowserSetting("frame-stats") && !BrowserSetting("gpu-tiles"));
 
     write(ini, "; comment\r\n[debug]\r\nFrame-Stats = OFF  # trailing\r\n  js-tier=LLInt\r\n"
-        "jit-priority = yes\ntimer-deferral=0\nbogus = 1\njs-tier = fast\nnovalue\n");
+        "jit-priority = no\ntimer-deferral=0\nbogus = 1\njs-tier = fast\nnovalue\n");
     lines.clear();
     BrowserSettingsLoad(directory.c_str());
-    assert(!BrowserSetting("frame-stats") && BrowserSetting("jit-priority") && !BrowserSetting("timer-deferral"));
+    assert(!BrowserSetting("frame-stats") && !BrowserSetting("jit-priority") && !BrowserSetting("timer-deferral"));
     assert(BrowserSetting("gpu-tiles"));
     assert(std::string(BrowserSettingText("js-tier")) == "llint");
     assert(!BrowserSetting("no-such-setting") && std::string(BrowserSettingText("no-such-setting")).empty());
     BrowserSettingsDescribe(collect);
     assert(lines.size() == 4);
-    assert(lines[0] == "settings: timer-deferral=off jit-priority=on js-tier=llint");
+    assert(lines[0] == "settings: timer-deferral=off jit-priority=off js-tier=llint");
     assert(lines[1] == "settings: unknown name 'bogus'");
     assert(lines[2] == "settings: bad value for 'js-tier'");
     assert(lines[3] == "settings: no value in 'novalue'");
@@ -91,11 +92,11 @@ int main(int argc, char** argv)
         BrowserSettingsDescribe(collect);
         assert(lines.size() == 1 && lines[0] == "settings: frame-stats=on js-tier=baseline");
     }
-    write(ini, "\xef\xbb\xbfjit-priority = on\n");
+    write(ini, "\xef\xbb\xbfjit-priority = off\n");
     lines.clear();
     BrowserSettingsLoad(directory.c_str());
     BrowserSettingsDescribe(collect);
-    assert(lines.size() == 1 && lines[0] == "settings: jit-priority=on");
+    assert(lines.size() == 1 && lines[0] == "settings: jit-priority=off");
 
     write(ini, "");
     lines.clear();

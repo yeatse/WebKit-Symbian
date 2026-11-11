@@ -193,7 +193,7 @@ public:
     // their scripts do not run between the frames of a scroll.
     static void setTimersDeferredDuringInput(bool);
     // Run JIT compiler threads at the UI thread's priority instead of below
-    // it (off by default). Set before the first page loads.
+    // it (on by default). Set before the first page loads.
     static void setCompilerThreadsShareUIPriority(bool);
     // Web Audio output, 0..1 of the device volume (default 1).
     static void setWebAudioVolume(double);
