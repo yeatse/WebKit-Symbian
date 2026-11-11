@@ -1724,6 +1724,12 @@ endif ()
 WEBKIT_COMPUTE_SOURCES(JavaScriptCore)
 WEBKIT_FRAMEWORK(JavaScriptCore)
 
+# The rest of the image is built for size; the parser, the runtime and the
+# compilers earn their speed.
+if (SYMBIAN AND SYMBIAN_JSC_OPTIMIZE)
+    target_compile_options(JavaScriptCore PRIVATE ${SYMBIAN_JSC_OPTIMIZE})
+endif ()
+
 target_precompile_headers(JavaScriptCore PRIVATE JavaScriptCorePrefix.h)
 
 if (NOT "${PORT}" STREQUAL "Mac")

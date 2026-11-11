@@ -11,7 +11,7 @@ sdk_lib=$SDK/lib/armv6
 build=$WEBCORE_BUILD
 export PKG_CONFIG_PATH=$D/lib/pkgconfig:$I/lib/pkgconfig PKG_CONFIG_LIBDIR=$D/lib/pkgconfig:$I/lib/pkgconfig
 cmake -S "$WEBKIT_SRC" -B "$build" -G Ninja -DPORT=Symbian \
-  -DCMAKE_BUILD_TYPE=Release "${release_flags[@]}" \
+  -DCMAKE_BUILD_TYPE=Release "${webkit_release_flags[@]}" \
   -DCMAKE_TOOLCHAIN_FILE="$REPO/toolchain/symbian-armv6.cmake" \
   -DCMAKE_FIND_ROOT_PATH="$D;$I" -DCMAKE_PREFIX_PATH="$D;$I" \
   -DDEVELOPER_MODE=OFF "${jit_flags[@]}" \

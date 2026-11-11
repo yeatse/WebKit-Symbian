@@ -30,7 +30,11 @@ ICU_LOCALES=${ICU_LOCALES:-"en zh ja ko es fr de ru pt it ar hi tr vi id th nl p
 # Optimization for the code in the images: -Os (default) or -O2/-O3.
 # CMake's Release default, -O3, made browser.exe's code 34 MB.
 OPTIMIZE=${OPTIMIZE:--Os}
+# JavaScriptCore and WTF alone are built for speed: JSC_OPTIMIZE, or empty to
+# build them like the rest.
+JSC_OPTIMIZE=${JSC_OPTIMIZE--O2}
 release_flags=(-DCMAKE_C_FLAGS_RELEASE="$OPTIMIZE -DNDEBUG" -DCMAKE_CXX_FLAGS_RELEASE="$OPTIMIZE -DNDEBUG")
+webkit_release_flags=("${release_flags[@]}" -DSYMBIAN_JSC_OPTIMIZE="$JSC_OPTIMIZE")
 
 # Keep an explicit interpreter fallback and allow each execution tier to be
 # built independently. Use separate build directories when switching modes.
