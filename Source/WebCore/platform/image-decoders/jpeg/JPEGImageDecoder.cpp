@@ -51,7 +51,7 @@
 #include <wtf/ThreadSafeRefCounted.h>
 #include <wtf/Threading.h>
 #include <wtf/MainThread.h>
-#include <wtf/ScopeExit.h>
+#include <wtf/Scope.h>
 #include <wtf/symbian/SymbianSystem.h>
 #endif
 
