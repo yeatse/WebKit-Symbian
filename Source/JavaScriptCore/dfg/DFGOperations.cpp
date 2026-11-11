@@ -4413,6 +4413,33 @@ JSC_DEFINE_NOEXCEPT_JIT_OPERATION(operationFModOnInts, double, (int32_t a, int32
     return fmod(a, b);
 }
 
+#if CPU(ARM_TRADITIONAL)
+// The remainder for ArithMod on integers where the CPU cannot divide. The
+// caller has excluded a zero divisor. A zero remainder of a negative
+// dividend is negative zero in JavaScript, which is not an integer: the
+// first function answers INT_MIN for it, which no remainder equals.
+static ALWAYS_INLINE int32_t arithModInt32(int32_t dividend, int32_t divisor, int32_t negativeZero)
+{
+    if (dividend >= 0 && divisor > 0) [[likely]]
+        return dividend % divisor;
+    // INT_MIN % -1 overflows in C++; any remainder by -1 or 0 is zero.
+    int32_t remainder = (divisor == -1 || !divisor) ? 0 : dividend % divisor;
+    if (!remainder && dividend < 0)
+        return negativeZero;
+    return remainder;
+}
+
+JSC_DEFINE_NOEXCEPT_JIT_OPERATION(operationArithModInt32, UCPUStrictInt32, (int32_t dividend, int32_t divisor))
+{
+    return toUCPUStrictInt32(arithModInt32(dividend, divisor, std::numeric_limits<int32_t>::min()));
+}
+
+JSC_DEFINE_NOEXCEPT_JIT_OPERATION(operationArithModInt32IgnoringNegativeZero, UCPUStrictInt32, (int32_t dividend, int32_t divisor))
+{
+    return toUCPUStrictInt32(arithModInt32(dividend, divisor, 0));
+}
+#endif
+
 #if USE(JSVALUE32_64)
 JSC_DEFINE_NOEXCEPT_JIT_OPERATION(operationRandom, double, (JSGlobalObject* globalObject))
 {

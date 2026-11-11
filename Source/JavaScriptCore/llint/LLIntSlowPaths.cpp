@@ -411,6 +411,14 @@ static inline bool jitCompileAndSetHeuristics(VM& vm, CodeBlock* codeBlock)
         return codeBlock->jitType() == JITType::BaselineJIT;
     }
 
+#if CPU(ARM_TRADITIONAL)
+    // The compilation is queued or running. The counter stays over its
+    // threshold, so every loop iteration and call would come back here and
+    // update every value profile again: with one core that made the
+    // interpreter 2 to 5 times slower than it is without a JIT. Ask again
+    // after a few more executions instead.
+    codeBlock->jitSoon();
+#endif
     return false;
 }
 

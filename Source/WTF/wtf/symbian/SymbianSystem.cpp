@@ -77,6 +77,12 @@ static RThread threadFromHandle(int handle)
     return thread;
 }
 
+void setThreadSharesUIPriority(int handle, bool share)
+{
+    if (handle)
+        threadFromHandle(handle).SetPriority(share ? EPriorityNormal : EPriorityLess);
+}
+
 void closeThread(int handle)
 {
     if (handle)

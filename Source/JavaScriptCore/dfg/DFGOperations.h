@@ -256,6 +256,10 @@ JSC_DECLARE_JIT_OPERATION(operationSetDelete, size_t, (JSGlobalObject*, JSCell*,
 JSC_DECLARE_JIT_OPERATION(operationWeakSetAdd, void, (JSGlobalObject*, JSCell*, JSCell*, int32_t));
 JSC_DECLARE_JIT_OPERATION(operationWeakMapSet, void, (JSGlobalObject*, JSCell*, JSCell*, EncodedJSValue, int32_t));
 JSC_DECLARE_NOEXCEPT_JIT_OPERATION(operationFModOnInts, double, (int32_t, int32_t));
+#if CPU(ARM_TRADITIONAL)
+JSC_DECLARE_NOEXCEPT_JIT_OPERATION(operationArithModInt32, UCPUStrictInt32, (int32_t, int32_t));
+JSC_DECLARE_NOEXCEPT_JIT_OPERATION(operationArithModInt32IgnoringNegativeZero, UCPUStrictInt32, (int32_t, int32_t));
+#endif
 JSC_DECLARE_JIT_OPERATION(operationTypeOfIsObject, size_t, (JSGlobalObject*, JSCell*));
 JSC_DECLARE_JIT_OPERATION(operationTypeOfIsFunction, size_t, (JSGlobalObject*, JSCell*));
 JSC_DECLARE_JIT_OPERATION(operationObjectIsCallable, size_t, (JSGlobalObject*, JSCell*));

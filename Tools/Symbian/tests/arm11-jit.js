@@ -121,6 +121,44 @@
     check(numberKernel("3", "4") === 41, "math IC int/double/string transition");
     finish("number-guards", 1610612737.75);
 
+    // ARM11 has no divide instruction: DFG calls a helper for int32 %, the
+    // lower tiers take an integer path inside fmod.
+    function referenceMod(a, b) {
+        if (Number.isNaN(a) || Number.isNaN(b) || !Number.isFinite(a) || b === 0) return NaN;
+        if (!Number.isFinite(b)) return a;
+        const result = a - Math.trunc(a / b) * b;
+        return result === 0 && (a < 0 || Object.is(a, -0)) ? -0 : result;
+    }
+    function modKernel(a, b) {
+        const answer = a % b;
+        if ($vm.dfgTrue()) seen["int-modulo"] = true;
+        return answer;
+    }
+    function modToIntKernel(a, b) { return (a % b) | 0; }
+    function modConstantKernel(a) { return [a % 8, a % 10, a % -3, a % 1, (a % 16) | 0, (a % 7) | 0]; }
+    noInline(modToIntKernel); noInline(modConstantKernel);
+    warmed("int-modulo", modKernel, i => [i * 7919 & 0x7fffffff, (i & 255) + 1]);
+    const modValues = [0, 1, 2, 3, 5, 7, 8, 10, 16, 1000, 65536, 2147483646, 2147483647,
+        -1, -2, -3, -7, -8, -10, -65536, -2147483647, -2147483648];
+    const modOddValues = [-0, 0.5, -2.5, 4294967296, NaN, Infinity, -Infinity];
+    let modDigest = 0;
+    for (let round = 0; round < 60; ++round) {
+        // The last rounds add values that are not int32, after the int32 code is hot.
+        const values = round < 55 ? modValues : modValues.concat(modOddValues);
+        for (const a of values) {
+            for (const b of values) {
+                const expected = referenceMod(a, b), actual = modKernel(a, b);
+                check(Object.is(actual, expected), "modulo " + a + " % " + b + " gave " + actual + " in round " + round);
+                check(modToIntKernel(a, b) === (expected | 0), "int modulo " + a + " % " + b + " in round " + round);
+                if (!round && Number.isFinite(expected)) modDigest += expected;
+            }
+            const constants = modConstantKernel(a);
+            [8, 10, -3, 1].forEach((b, index) => check(Object.is(constants[index], referenceMod(a, b)), "constant modulo " + a + " % " + b + " in round " + round));
+            check(constants[4] === (referenceMod(a, 16) | 0) && constants[5] === (referenceMod(a, 7) | 0), "constant int modulo of " + a + " in round " + round);
+        }
+    }
+    finish("int-modulo", modDigest);
+
     function bitwiseKernel(value, shift) {
         const answer = [value >> 0, value >>> 0, value >> shift, value >>> shift,
             value << shift, (value >>> 0) + 0.5];

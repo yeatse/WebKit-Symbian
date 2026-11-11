@@ -74,6 +74,7 @@ default.
 | `timer-deferral` | on | hold page timers while the user touches or scrolls |
 | `jit-priority` | on | JIT compiler threads at the UI thread's priority; off puts them below it |
 | `js-tier` | dfg | `baseline` leaves out the DFG compiler, `llint` runs the interpreter only |
+| `js-options` | | JavaScriptCore options, as `thresholdForOptimizeAfterWarmUp=2000 useDFGJIT=false`; logged on a line of its own |
 
 Add `frame-stats` before the URL on the browser command line, or set
 `frame-stats = on`, to log `frame-stats:` lines with average/maximum

@@ -81,7 +81,14 @@ private:
 
     void fixupArithDivInt32(Node* node, Edge& leftChild, Edge& rightChild)
     {
-        if (optimizeForX86() || optimizeForARM64() || optimizeForARMv7IDIVSupported()) {
+#if CPU(ARM_TRADITIONAL)
+        // ARM11 cannot divide, but a remainder of integers through a helper
+        // (or inline, by a power of two) beats one through doubles and fmod().
+        bool hasInt32Operation = node->op() == ArithMod;
+#else
+        bool hasInt32Operation = optimizeForX86() || optimizeForARM64() || optimizeForARMv7IDIVSupported();
+#endif
+        if (hasInt32Operation) {
             fixIntOrBooleanEdge(leftChild);
             fixIntOrBooleanEdge(rightChild);
             // We need to be careful about skipping overflow check because div / mod can generate non integer values

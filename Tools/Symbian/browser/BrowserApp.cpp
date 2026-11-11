@@ -563,6 +563,12 @@ void CBrowserAppUi::ConstructL()
         setenv("JSC_useJIT", "false", 1);
     else if (!strcmp(tier, "baseline"))
         setenv("JSC_useDFGJIT", "false", 1);
+    // js-options, for experiments with thresholds and the like.
+    BrowserSettingsForEachJSOption([](const char* aName, const char* aValue) {
+        char variable[96];
+        snprintf(variable, sizeof(variable), "JSC_%s", aName);
+        setenv(variable, aValue, 1);
+    });
     WebView::initializeProcess(KDataDirectory);
     BrowserLogOpen(KDataDirectory);
     BrowserLog("WebKit Browser starting");

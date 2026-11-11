@@ -50,6 +50,8 @@ int main(int argc, char** argv)
     assert(written.find("gpu-tiles = off\r\n") != std::string::npos);
     assert(written.find("\r\n#js-tier = dfg\r\n") != std::string::npos);
     assert(written.find("\r\n#jit-priority = on\r\n") != std::string::npos);
+    assert(written.find("\r\n#js-options = \r\n") != std::string::npos);
+    assert(std::string(BrowserSettingText("js-options")).empty());
     BrowserSettingsDescribe(collect);
     assert(lines.size() == 1 && lines[0] == "settings: frame-stats=on gpu-tiles=off");
 
@@ -97,6 +99,27 @@ int main(int argc, char** argv)
     BrowserSettingsLoad(directory.c_str());
     BrowserSettingsDescribe(collect);
     assert(lines.size() == 1 && lines[0] == "settings: jit-priority=off");
+
+    // js-options keeps its case and reaches the caller pair by pair.
+    write(ini, "JS-Options = thresholdForOptimizeAfterWarmUp=2000  useDFGJIT=false,bogus =x\n");
+    lines.clear();
+    BrowserSettingsLoad(directory.c_str());
+    assert(std::string(BrowserSettingText("js-options")) == "thresholdForOptimizeAfterWarmUp=2000  useDFGJIT=false,bogus =x");
+    static std::vector<std::string> options;
+    BrowserSettingsForEachJSOption([](const char* name, const char* value) {
+        options.push_back(std::string(name) + "|" + value);
+    });
+    assert(options.size() == 2 && options[0] == "thresholdForOptimizeAfterWarmUp|2000" && options[1] == "useDFGJIT|false");
+    BrowserSettingsDescribe(collect);
+    assert(lines.size() == 4);
+    assert(lines[0] == "settings:");
+    assert(lines[1] == "settings: js-options = thresholdForOptimizeAfterWarmUp=2000  useDFGJIT=false,bogus =x");
+    assert(lines[2] == "settings: js-options needs name=value, not 'bogus'");
+    assert(lines[3] == "settings: js-options needs name=value, not '=x'");
+    write(ini, ("js-options = " + std::string(200, 'a') + "\n").c_str());
+    lines.clear();
+    BrowserSettingsLoad(directory.c_str());
+    assert(std::string(BrowserSettingText("js-options")).empty());
 
     write(ini, "");
     lines.clear();

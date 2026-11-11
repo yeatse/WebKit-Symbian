@@ -9,13 +9,14 @@ namespace {
 struct Setting {
     const char* name;
     const char* defaultValue;
-    // Space-separated values accepted; null for on/off.
+    // Space-separated values accepted; null for on/off; "*" for any text,
+    // kept as written.
     const char* choices;
     // The marker file of earlier builds and the value it stood for.
     const char* legacyFile;
     const char* legacyValue;
     const char* comment;
-    char value[16];
+    char value[160];
 };
 
 Setting settings[] = {
@@ -35,7 +36,14 @@ Setting settings[] = {
         "Run JIT compiler threads at the UI thread's priority instead of below it.", "" },
     { "js-tier", "dfg", "dfg baseline llint", nullptr, nullptr,
         "JavaScript tiers: dfg (all), baseline (no DFG compiler) or llint (interpreter only).", "" },
+    { "js-options", "", "*", nullptr, nullptr,
+        "JavaScriptCore options for experiments, as name=value separated by spaces.", "" },
 };
+
+bool isText(const Setting& setting)
+{
+    return setting.choices && !strcmp(setting.choices, "*");
+}
 
 constexpr unsigned maximumProblems = 4;
 char problems[maximumProblems][64];
@@ -69,6 +77,8 @@ bool hasWord(const char* words, const char* word)
 // The setting's own spelling of a value, or null if it is not one.
 const char* canonical(const Setting& setting, const char* value)
 {
+    if (isText(setting))
+        return strlen(value) < sizeof(setting.value) ? value : nullptr;
     if (setting.choices)
         return *value && hasWord(setting.choices, value) ? value : nullptr;
     if (hasWord("on 1 true yes", value))
@@ -112,12 +122,14 @@ void parseLine(char* line)
     char* value = trim(equals + 1);
     for (char* at = name; *at; ++at)
         *at = static_cast<char>(tolower(static_cast<unsigned char>(*at)));
-    for (char* at = value; *at; ++at)
-        *at = static_cast<char>(tolower(static_cast<unsigned char>(*at)));
     Setting* setting = find(name);
     if (!setting) {
         note("settings: unknown name '%.32s'", name);
         return;
+    }
+    if (!isText(*setting)) {
+        for (char* at = value; *at; ++at)
+            *at = static_cast<char>(tolower(static_cast<unsigned char>(*at)));
     }
     const char* accepted = canonical(*setting, value);
     if (!accepted) {
@@ -153,6 +165,10 @@ void writeDefaults(const char* directory, const char* path)
     for (auto& setting : settings) {
         // A setting left at its default stays commented out, so that it
         // follows the default if a later build changes it.
+        if (isText(setting)) {
+            fprintf(file, "\r\n# %s\r\n# Default: none.\r\n#%s = \r\n", setting.comment, setting.name);
+            continue;
+        }
         fprintf(file, "\r\n# %s\r\n# %s; default %s.\r\n%s%s = %s\r\n", setting.comment,
             setting.choices ? setting.choices : "on or off", setting.defaultValue,
             strcmp(setting.value, setting.defaultValue) ? "" : "#", setting.name, setting.value);
@@ -217,13 +233,29 @@ const char* BrowserSettingText(const char* aName)
     return setting ? setting->value : "";
 }
 
+void BrowserSettingsForEachJSOption(void (*aSet)(const char* aName, const char* aValue))
+{
+    char options[sizeof(settings[0].value)];
+    snprintf(options, sizeof(options), "%s", BrowserSettingText("js-options"));
+    for (char* option = strtok(options, " ,\t"); option; option = strtok(nullptr, " ,\t")) {
+        char* equals = strchr(option, '=');
+        if (!equals || equals == option) {
+            note("settings: js-options needs name=value, not '%.32s'", option);
+            continue;
+        }
+        *equals = 0;
+        aSet(option, equals + 1);
+    }
+}
+
 void BrowserSettingsDescribe(void (*aLog)(const char* aLine))
 {
     char line[256] = "settings:";
     size_t used = strlen(line);
     bool any = false;
     for (const auto& setting : settings) {
-        if (!strcmp(setting.value, setting.defaultValue))
+        any |= isText(setting) && *setting.value;
+        if (!strcmp(setting.value, setting.defaultValue) || isText(setting))
             continue;
         int written = snprintf(line + used, sizeof(line) - used, " %s=%s", setting.name, setting.value);
         if (written > 0 && static_cast<size_t>(written) < sizeof(line) - used)
@@ -233,6 +265,13 @@ void BrowserSettingsDescribe(void (*aLog)(const char* aLine))
     if (!any)
         snprintf(line + used, sizeof(line) - used, " all at their defaults");
     aLog(line);
+    // Text can be long: a line of its own.
+    for (const auto& setting : settings) {
+        if (!isText(setting) || !*setting.value)
+            continue;
+        snprintf(line, sizeof(line), "settings: %s = %s", setting.name, setting.value);
+        aLog(line);
+    }
     for (unsigned i = 0; i < problemCount; ++i)
         aLog(problems[i]);
 }

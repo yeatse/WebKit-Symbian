@@ -459,7 +459,7 @@ JSC_DEFINE_NOEXCEPT_JIT_OPERATION(operationToInt32SensibleSlow, UCPUStrictInt32,
     return toUCPUStrictInt32(toIntImpl<int32_t, ToIntMode::Int32AfterSensibleConversionAttempt>(number));
 }
 
-#if HAVE(ARM_IDIV_INSTRUCTIONS)
+#if HAVE(ARM_IDIV_INSTRUCTIONS) || CPU(ARM_TRADITIONAL)
 static inline bool isStrictInt32(double value)
 {
     int32_t valueAsInt32 = truncateDoubleToInt32(value);
@@ -559,6 +559,16 @@ JSC_DEFINE_NOEXCEPT_JIT_OPERATION(fmodDouble, double, (double x, double y))
                     return remainder;
             }
         }
+    }
+#elif CPU(ARM_TRADITIONAL)
+    // ARM11 has no divide instruction and its fmod() is software floating
+    // point: a remainder of two integers, the usual case, took about 400
+    // cycles on a Nokia 808. The integer remainder is exact, as fmod() is.
+    if (isStrictInt32(x) && isStrictInt32(y)) {
+        int32_t xAsInt32 = static_cast<int32_t>(x);
+        int32_t yAsInt32 = static_cast<int32_t>(y);
+        if (xAsInt32 >= 0 && yAsInt32 > 0)
+            return xAsInt32 % yAsInt32;
     }
 #endif
     return fmod(x, y);

@@ -106,9 +106,9 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   further into `jsparse`, `bytecode` and `jit` (compiling on the main
   thread); `jit` lines count baseline and DFG compilations with how long
   plans waited for a compiler thread.
-- [x] ICL decode latency: the ICL thread and the image decoding queues run at
-  the UI thread's priority. On the 808 the whole decode fell from 2565 to
-  326 ms/Mpx (251 in ICL, the rest waiting).
+- [x] ICL decode latency: the ICL thread gets the UI thread's priority while
+  the UI thread waits for a decode. Decodes asked for by the image decoding
+  queues stay below the UI thread, so they wait while a page is busy.
 - [x] `backdrop-filter` is not drawn (`backdrop-filters = on` in
   `webkit.ini` turns it on): it drew everything under the element twice, about 10 ms a
   frame on YouTube.
@@ -137,6 +137,12 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   11.1 s with the threads at UI priority (first round of `objects` 9.2 s to
   0.5 s). Steady state per tier, `objects`: LLInt 1.94 s, baseline 0.65 s,
   DFG 0.19 s.
+- [x] ARM11 JIT, second pass: the interpreter waits a few executions
+  before asking again for a compilation that is queued; `%` on integers is an
+  integer remainder in every tier (it was a software `fmod()`, with the DFG
+  converting to doubles first); compile times in `jit` lines are the
+  compiler thread's own processor time. `js-options` in `webkit.ini` passes
+  JavaScriptCore options for experiments.
 - [x] Video download no longer flushes every chunk: `media` fell from 19 s to
   0.8 s of the main thread at a YouTube video's start, and playback starts.
 - [x] JPEG through the ICL decoder on its own thread for complete YCbCr or
