@@ -31,7 +31,7 @@ Setting settings[] = {
         "Draw CSS backdrop-filter (about 10 ms a frame on a Nokia 808).", "" },
     { "timer-deferral", "on", nullptr, "no-timer-deferral", "off",
         "Hold page timers while the user touches or scrolls.", "" },
-    { "jit-priority", "off", nullptr, "jit-priority", "on",
+    { "jit-priority", "on", nullptr, nullptr, nullptr,
         "Run JIT compiler threads at the UI thread's priority instead of below it.", "" },
     { "js-tier", "dfg", "dfg baseline llint", nullptr, nullptr,
         "JavaScript tiers: dfg (all), baseline (no DFG compiler) or llint (interpreter only).", "" },
@@ -147,11 +147,15 @@ void writeDefaults(const char* directory, const char* path)
     FILE* file = fopen(path, "wb");
     if (!file)
         return;
-    fputs("# WebKit browser settings. Edit a value and restart the browser.\r\n"
-        "# Delete this file to get every setting back at its default.\r\n", file);
+    fputs("# WebKit browser settings. To change one, remove the # before its name,\r\n"
+        "# edit the value and restart the browser. Delete this file to get every\r\n"
+        "# setting back at its default.\r\n", file);
     for (auto& setting : settings) {
-        fprintf(file, "\r\n# %s\r\n# %s; default %s.\r\n%s = %s\r\n", setting.comment,
-            setting.choices ? setting.choices : "on or off", setting.defaultValue, setting.name, setting.value);
+        // A setting left at its default stays commented out, so that it
+        // follows the default if a later build changes it.
+        fprintf(file, "\r\n# %s\r\n# %s; default %s.\r\n%s%s = %s\r\n", setting.comment,
+            setting.choices ? setting.choices : "on or off", setting.defaultValue,
+            strcmp(setting.value, setting.defaultValue) ? "" : "#", setting.name, setting.value);
     }
     fclose(file);
 }

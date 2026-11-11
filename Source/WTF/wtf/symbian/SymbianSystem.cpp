@@ -56,7 +56,9 @@ void raiseCurrentThreadPriorityToNormal()
     RThread().SetPriority(EPriorityNormal);
 }
 
-static bool s_compilerThreadsShareUIPriority;
+// On unless the embedder turns it off: with the threads below the UI thread,
+// jsbench took 28 s on a Nokia 808 and 11 s with them beside it.
+static bool s_compilerThreadsShareUIPriority = true;
 
 void setCompilerThreadsShareUIPriority(bool share)
 {
