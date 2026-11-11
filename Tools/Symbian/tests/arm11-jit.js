@@ -108,6 +108,29 @@
     check(Math.abs(softFloatKernel(0, 1, 0.5, 0, 4, 1, 0, 0.125) - 4.604425538604203) < 1e-12, "nonconstant libm result");
     finish("softfp-math", 4.125);
 
+    function truncKernel(value) {
+        const answer = Math.trunc(value);
+        if ($vm.dfgTrue()) seen["math-trunc"] = true;
+        return answer;
+    }
+    // Include non-int32 results before tiering so this call site retains the
+    // double result, including negative zero, rather than an int32-only use.
+    const truncWarmup = [0.75, 1.5, 4095.875, -0.25, 2147483648.5];
+    warmed("math-trunc", truncKernel, i => [truncWarmup[i % truncWarmup.length]]);
+    const truncCases = [[0.75, 0], [1.5, 1], [-1.5, -1], [-0.25, -0], [0, 0], [-0, -0],
+        [Number.MIN_VALUE, 0], [-Number.MIN_VALUE, -0],
+        [2147483647, 2147483647], [2147483647.75, 2147483647],
+        [-2147483648, -2147483648], [-2147483648.75, -2147483648],
+        [4294967296.5, 4294967296], [-4294967296.5, -4294967296],
+        [9007199254740992, 9007199254740992], [-9007199254740992, -9007199254740992],
+        [NaN, NaN], [Infinity, Infinity], [-Infinity, -Infinity]];
+    for (const [value, expected] of truncCases) {
+        seen["math-trunc"] = false;
+        check(Object.is(truncKernel(value), expected), "Math.trunc result for " + value);
+        if (mode === "dfg") check(seen["math-trunc"], "Math.trunc result did not execute in DFG");
+    }
+    finish("math-trunc", truncCases.length);
+
     function numberKernel(a, b) {
         const answer = (a + b) * 1.25 - a / 2;
         if ($vm.dfgTrue()) seen["number-guards"] = true;
@@ -177,6 +200,92 @@
     check(compareKernel(1, 1) === 41 && compareKernel(1, 2) === 14 && compareKernel(2, 1) === 50, "ordered floating-point conditions");
     check(compareKernel(-0, 0) === 41 && compareKernel(-Infinity, Infinity) === 14, "signed zero/infinity comparisons");
     finish("double-comparisons", 162);
+
+    function strictEqualityValue(a, b) {
+        const answer = a === b;
+        if ($vm.dfgTrue()) seen["strict-equality-value"] = true;
+        return answer;
+    }
+    function strictEqualityBranch(a, b) {
+        if (a === b) {
+            if ($vm.dfgTrue()) seen["strict-equality-branch"] = true;
+            return 7;
+        }
+        if ($vm.dfgTrue()) seen["strict-equality-branch"] = true;
+        return 11;
+    }
+    function strictInequalityValue(a, b) {
+        const answer = a !== b;
+        if ($vm.dfgTrue()) seen["strict-inequality-value"] = true;
+        return answer;
+    }
+    function strictInequalityBranch(a, b) {
+        if (a !== b) {
+            if ($vm.dfgTrue()) seen["strict-inequality-branch"] = true;
+            return 11;
+        }
+        if ($vm.dfgTrue()) seen["strict-inequality-branch"] = true;
+        return 7;
+    }
+    const equalityObject = {}, otherEqualityObject = {};
+    const equalityText = "ARM11 generic equality";
+    const equalityString1 = equalityText.split("").join("");
+    const equalityString2 = ("!" + equalityText).slice(1);
+    const equalityDouble17 = asDoubleNumber(17);
+    check(isInt32(17) && !isInt32(equalityDouble17), "strict equality number encodings");
+    const equalityBigInt1 = BigInt("9007199254740993"), equalityBigInt2 = BigInt("9007199254740993");
+    const equalityCases = [[17, 17, true], [17, 18, false], [true, true, true], [true, false, false],
+        [false, null, false], [true, 1, false], [undefined, null, false], [null, null, true],
+        [undefined, undefined, true], [equalityObject, equalityObject, true],
+        [equalityObject, otherEqualityObject, false], [equalityString1, equalityString2, true],
+        [equalityString1, equalityString2 + "!", false], [equalityObject, equalityString1, false],
+        [equalityString1, equalityObject, false], [NaN, NaN, false], [0, -0, true],
+        [17, equalityDouble17, true], [equalityDouble17, 17, true], [17, 17.5, false],
+        [2147483648, 2147483648, true],
+        [equalityBigInt1, equalityBigInt2, true], [equalityBigInt1, equalityBigInt2 + 1n, false],
+        [equalityBigInt1, 9007199254740992, false]];
+    for (const [name, kernel, branch, invert] of [["strict-equality-value", strictEqualityValue, false, false],
+        ["strict-equality-branch", strictEqualityBranch, true, false],
+        ["strict-inequality-value", strictInequalityValue, false, true],
+        ["strict-inequality-branch", strictInequalityBranch, true, true]]) {
+        // Both argument profiles include numbers, immediates and cells before
+        // compilation, so these are generic comparisons rather than Int32/Cell uses.
+        warmed(name, kernel, i => equalityCases[i % equalityCases.length].slice(0, 2));
+        let equalityDigest = 0;
+        for (const [a, b, equal] of equalityCases) {
+            seen[name] = false;
+            const answer = kernel(a, b);
+            check(answer === (branch ? (equal ? 7 : 11) : invert ? !equal : equal), name + " mixed-value result");
+            if (mode === "dfg") check(seen[name], name + " result did not execute in DFG");
+            equalityDigest += equal ? 7 : 11;
+        }
+        finish(name, equalityDigest);
+    }
+
+    function fastpathLiveKernel(a, b, value, integer, fraction, object) {
+        const liveInt = integer * 3 | 0, liveDouble = fraction + 0.125, liveCell = object.payload;
+        const equal = a === b;
+        const truncated = Math.trunc(value);
+        const answer = [equal, truncated, liveInt + object.delta, liveDouble + liveCell[0], liveCell[1]];
+        if ($vm.dfgTrue()) seen["fastpath-live-values"] = true;
+        return answer;
+    }
+    const fastpathLiveObject = {delta: 7, payload: new Float64Array([4.5, 9.5])};
+    warmed("fastpath-live-values", fastpathLiveKernel, i => [
+        ...equalityCases[i % equalityCases.length].slice(0, 2),
+        truncWarmup[i % truncWarmup.length], i & 31, (i & 7) + 0.5, fastpathLiveObject]);
+    // Equal strings/BigInts use the equality helper; large/negative-zero trunc
+    // results use its cold call. Keep live numeric and cell values across both.
+    for (const [a, b, input, equal, truncated] of [
+        [equalityString1, equalityString2, 4294967296.5, true, 4294967296],
+        [equalityBigInt1, equalityBigInt2 + 1n, -0.25, false, -0]]) {
+        seen["fastpath-live-values"] = false;
+        const answer = fastpathLiveKernel(a, b, input, 13, 2.5, fastpathLiveObject);
+        check(answer[0] === equal && Object.is(answer[1], truncated) && answer[2] === 46
+            && answer[3] === 7.125 && answer[4] === 9.5, "fastpath calls lost live int/double/cell values");
+        if (mode === "dfg") check(seen["fastpath-live-values"], "fastpath live values did not execute in DFG");
+    }
+    finish("fastpath-live-values", 62.625);
 
     function gcKernel(seed, collect) {
         const object = {value: seed + 1, payload: new Float64Array([seed + 0.5, seed + 1.5])};

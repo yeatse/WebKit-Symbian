@@ -53,6 +53,8 @@ by both branches; the separate WebKit `USE_MIMALLOC` option remains off.
   JavaScript regressions.
 - ARM RegExp JIT with Latin1/UTF-16 matching and DFG int32 remainder for
   positive constant powers of two.
+- Generic 32-bit DFG strict equality and inequality fast paths for values and
+  branches, plus guarded VFPv2 `Math.trunc` paths in the native thunk and DFG.
 - Current native MMF audio linking through the SDK controller framework.
 - Ganesh page and Canvas rasterization with native texture sharing, context
   synchronization and shared-resource cleanup. The GPU resource cache is
@@ -93,6 +95,8 @@ the platform integration is still required.
 | Quick DFG tier-up | Active | Shared compilation thresholds and profile coverage policy apply to ARM11 |
 | ARM RegExp JIT | Active | Native Latin1/UTF-16 matching and supported-pattern interpreter fallback |
 | Integer remainder by constant powers of two | Active | ARMv6 shifts and masks in DFG |
+| Generic 32-bit strict equality and inequality | Active | Tag/payload, cell identity and distinct-object fast paths in DFG value and branch forms |
+| `Math.trunc` | Active | Guarded VFPv2 conversion in the native thunk and DFG, preserving signed zero and numeric edge cases |
 | ARM11 JavaScript optimization | Partial | Baseline/DFG, OSR and concurrent compilation; architecture-specific 64-bit fast paths use generic ARM32 paths |
 | Dirty-region painting and texture uploads | Active | Viewport tile cache, incremental uploads and ScreenPlay updates |
 | Skia damage-aware composition | Active | Dirty regions repaint a retained GPU target; EGL presents the resulting frame |

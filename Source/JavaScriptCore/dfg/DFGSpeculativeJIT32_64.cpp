@@ -425,17 +425,33 @@ void SpeculativeJIT::nonSpeculativePeepholeStrictEq(Node* node, Node* branchNode
     arg1.use();
     arg2.use();
 
-    if (isKnownCell(node->child1().node()) && isKnownCell(node->child2().node())) {
-        // see if we get lucky: if the arguments are cells and they reference the same
-        // cell, then they must be strictly equal.
-        branchPtr(Equal, arg1PayloadGPR, arg2PayloadGPR, invert ? notTaken : taken);
-        callOperationWithSilentSpill(operationCompareStrictEqCell, resultPayloadGPR, LinkableConstant::globalObject(*this, node), arg1PayloadGPR, arg2PayloadGPR);
-        branchTest32(invert ? Zero : NonZero, resultPayloadGPR, taken);
-    } else {
-        // FIXME: Add fast paths for twoCells, number etc.
-        callOperationWithSilentSpill(operationCompareStrictEq, resultPayloadGPR, LinkableConstant::globalObject(*this, node), arg1Regs, arg2Regs);
-        branchTest32(invert ? Zero : NonZero, resultPayloadGPR, taken);
+    bool knownCells = isKnownCell(node->child1().node()) && isKnownCell(node->child2().node());
+    BasicBlock* equalTarget = invert ? notTaken : taken;
+    BasicBlock* notEqualTarget = invert ? taken : notTaken;
+    JumpList slowPathCases;
+
+    if (!knownCells) {
+        // Doubles need numeric comparison, including NaN and signed zero.
+        slowPathCases.append(branch32(Below, arg1Regs.tagGPR(), TrustedImm32(JSValue::LowestTag)));
+        slowPathCases.append(branch32(Below, arg2Regs.tagGPR(), TrustedImm32(JSValue::LowestTag)));
+        branch32(NotEqual, arg1Regs.tagGPR(), arg2Regs.tagGPR(), notEqualTarget);
     }
+
+    // Matching non-double tags and payloads also cover cell identity.
+    branch32(Equal, arg1PayloadGPR, arg2PayloadGPR, equalTarget);
+    if (!knownCells)
+        addBranch(branchIfNotCell(arg1Regs), notEqualTarget);
+
+    // Distinct objects cannot be equal; strings and BigInts need value comparison.
+    addBranch(branchIfObject(arg1PayloadGPR), notEqualTarget);
+    addBranch(branchIfObject(arg2PayloadGPR), notEqualTarget);
+
+    slowPathCases.link(this);
+    if (knownCells)
+        callOperationWithSilentSpill(operationCompareStrictEqCell, resultPayloadGPR, LinkableConstant::globalObject(*this, node), arg1PayloadGPR, arg2PayloadGPR);
+    else
+        callOperationWithSilentSpill(operationCompareStrictEq, resultPayloadGPR, LinkableConstant::globalObject(*this, node), arg1Regs, arg2Regs);
+    branchTest32(invert ? Zero : NonZero, resultPayloadGPR, taken);
 
     jump(notTaken);
 }
@@ -457,26 +473,46 @@ void SpeculativeJIT::genericJSValueNonPeepholeStrictEq(Node* node, bool invert)
     arg1.use();
     arg2.use();
     
-    if (isKnownCell(node->child1().node()) && isKnownCell(node->child2().node())) {
-        // see if we get lucky: if the arguments are cells and they reference the same
-        // cell, then they must be strictly equal.
-        // FIXME: this should flush registers instead of silent spill/fill.
-        Jump notEqualCase = branchPtr(NotEqual, arg1PayloadGPR, arg2PayloadGPR);
+    bool knownCells = isKnownCell(node->child1().node()) && isKnownCell(node->child2().node());
+    JumpList slowPathCases;
+    JumpList equalCases;
+    JumpList notEqualCases;
+    JumpList done;
 
-        move(TrustedImm32(!invert), resultPayloadGPR);
-        Jump done = jump();
-
-        notEqualCase.link(this);
-
-        callOperationWithSilentSpill(operationCompareStrictEqCell, resultPayloadGPR, LinkableConstant::globalObject(*this, node), arg1PayloadGPR, arg2PayloadGPR);
-        andPtr(TrustedImm32(1), resultPayloadGPR);
-
-        done.link(this);
-    } else {
-        // FIXME: Add fast paths.
-        callOperationWithSilentSpill(operationCompareStrictEq, resultPayloadGPR, LinkableConstant::globalObject(*this, node), arg1Regs, arg2Regs);
-        andPtr(TrustedImm32(1), resultPayloadGPR);
+    if (!knownCells) {
+        // Doubles need numeric comparison, including NaN and signed zero.
+        slowPathCases.append(branch32(Below, arg1Regs.tagGPR(), TrustedImm32(JSValue::LowestTag)));
+        slowPathCases.append(branch32(Below, arg2Regs.tagGPR(), TrustedImm32(JSValue::LowestTag)));
+        notEqualCases.append(branch32(NotEqual, arg1Regs.tagGPR(), arg2Regs.tagGPR()));
     }
+
+    // Matching non-double tags and payloads also cover cell identity.
+    equalCases.append(branch32(Equal, arg1PayloadGPR, arg2PayloadGPR));
+    if (!knownCells)
+        notEqualCases.append(branchIfNotCell(arg1Regs));
+
+    // Distinct objects cannot be equal; strings and BigInts need value comparison.
+    notEqualCases.append(branchIfObject(arg1PayloadGPR));
+    notEqualCases.append(branchIfObject(arg2PayloadGPR));
+
+    slowPathCases.link(this);
+    if (knownCells)
+        callOperationWithSilentSpill(operationCompareStrictEqCell, resultPayloadGPR, LinkableConstant::globalObject(*this, node), arg1PayloadGPR, arg2PayloadGPR);
+    else
+        callOperationWithSilentSpill(operationCompareStrictEq, resultPayloadGPR, LinkableConstant::globalObject(*this, node), arg1Regs, arg2Regs);
+    and32(TrustedImm32(1), resultPayloadGPR);
+    done.append(jump());
+
+    equalCases.link(this);
+    move(TrustedImm32(1), resultPayloadGPR);
+    done.append(jump());
+
+    notEqualCases.link(this);
+    move(TrustedImm32(0), resultPayloadGPR);
+
+    done.link(this);
+    if (invert)
+        xor32(TrustedImm32(1), resultPayloadGPR);
 
     booleanResult(resultPayloadGPR, node, UseChildrenCalledExplicitly);
 }

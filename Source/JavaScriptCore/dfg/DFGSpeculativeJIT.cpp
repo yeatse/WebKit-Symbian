@@ -6826,6 +6826,38 @@ void SpeculativeJIT::compileArithRounding(Node* node)
                 RELEASE_ASSERT_NOT_REACHED();
             }
         } else {
+#if CPU(ARM)
+            if (node->op() == ArithTrunc) {
+                FPRTemporary rounded(this);
+                FPRTemporary zero(this);
+                GPRTemporary truncated(this);
+                FPRReg resultFPR = rounded.fpr();
+                FPRReg zeroFPR = zero.fpr();
+                GPRReg truncatedGPR = truncated.gpr();
+
+                // VFPv2 truncation through int32 handles both signs without a call.
+                moveZeroToDouble(zeroFPR);
+                JumpList slowCases;
+                slowCases.append(branchDouble(DoubleEqualOrUnordered, valueFPR, zeroFPR));
+                slowCases.append(branchTruncateDoubleToInt32(valueFPR, truncatedGPR));
+                // Preserve signed zero for zero inputs and subunit fractions.
+                slowCases.append(branchTest32(Zero, truncatedGPR));
+                convertInt32ToDouble(truncatedGPR, resultFPR);
+
+                Vector<SilentRegisterSavePlan> savePlans;
+                silentSpillAllRegistersImpl(false, savePlans, resultFPR);
+                Label done = label();
+                addSlowPathGeneratorLambda([=, this, savePlans = WTF::move(savePlans), slowCases = WTF::move(slowCases)]() mutable {
+                    slowCases.link(this);
+                    silentSpill(savePlans);
+                    callOperationWithoutExceptionCheck(Math::truncDouble, resultFPR, valueFPR);
+                    silentFill(savePlans);
+                    jump().linkTo(done, this);
+                });
+                setResult(resultFPR);
+                return;
+            }
+#endif
             flushRegisters();
             FPRResult roundedResultAsDouble(this);
             FPRReg resultFPR = roundedResultAsDouble.fpr();

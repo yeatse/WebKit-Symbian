@@ -16,6 +16,8 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 - [x] Concurrent DFG compilation.
 - [x] ARM RegExp JIT for Latin1 and UTF-16 subjects.
 - [x] DFG integer remainder by constant powers of two.
+- [x] Generic 32-bit DFG strict equality and inequality fast paths for values and branches.
+- [x] Guarded VFPv2 `Math.trunc` paths in the native thunk and DFG.
 - [x] ICU 70.1 and JavaScript internationalization.
 - [x] Typed arrays, resizable buffers and garbage collection.
 - [x] Dedicated Web Workers.
@@ -99,8 +101,7 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 - [x] Main-thread script, layout, paint and JIT compilation profiling.
 - [x] Dirty-region tracking, incremental texture uploads and scrolling optimizations.
 - [x] UI-priority image decoding and configurable JIT compiler priority.
-- [ ] Add generic 32-bit strict-equality fast paths.
-- [ ] Add guarded VFP `Math.trunc` fast paths.
+- [ ] Measure JIT compiler queue wait, compilation time and UI frame cost when tuning worker priority, pool size and inlining budgets.
 - [ ] Measure Skia Canvas 2D and text rendering on Belle devices.
 - [ ] Tune composited filter and mask surfaces.
 - [ ] Add video frames as EGL textures.

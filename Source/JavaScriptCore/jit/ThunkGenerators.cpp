@@ -1203,12 +1203,25 @@ MacroAssemblerCodeRef<JITThunkPtrTag> truncThunkGenerator(VM& vm)
     jit.returnInt32(SpecializedThunkJIT::regT0);
     nonIntJump.link(&jit);
     jit.loadDoubleArgument(0, SpecializedThunkJIT::fpRegT0, SpecializedThunkJIT::regT0);
+    SpecializedThunkJIT::JumpList doubleResult;
     if (jit.supportsFloatingPointRounding())
         jit.roundTowardZeroDouble(SpecializedThunkJIT::fpRegT0, SpecializedThunkJIT::fpRegT0);
-    else
-        jit.callDoubleToDoublePreservingReturn(UnaryDoubleOpWrapper(trunc));
+    else {
+#if CPU(ARM)
+        // Preserve signed zero and NaN before the VFPv2 integer conversion.
+        jit.moveZeroToDouble(SpecializedThunkJIT::fpRegT1);
+        doubleResult.append(jit.branchDouble(MacroAssembler::DoubleEqualOrUnordered, SpecializedThunkJIT::fpRegT0, SpecializedThunkJIT::fpRegT1));
 
-    SpecializedThunkJIT::JumpList doubleResult;
+        SpecializedThunkJIT::JumpList slowPath;
+        slowPath.append(jit.branchTruncateDoubleToInt32(SpecializedThunkJIT::fpRegT0, SpecializedThunkJIT::regT0));
+        // Fractions that truncate to zero need to preserve the input's sign.
+        slowPath.append(jit.branchTest32(MacroAssembler::Zero, SpecializedThunkJIT::regT0));
+        jit.returnInt32(SpecializedThunkJIT::regT0);
+        slowPath.link(&jit);
+#endif
+        jit.callDoubleToDoublePreservingReturn(UnaryDoubleOpWrapper(trunc));
+    }
+
     jit.branchConvertDoubleToInt32(SpecializedThunkJIT::fpRegT0, SpecializedThunkJIT::regT0, doubleResult, SpecializedThunkJIT::fpRegT1);
     jit.returnInt32(SpecializedThunkJIT::regT0);
     doubleResult.link(&jit);
