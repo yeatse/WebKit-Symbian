@@ -1869,6 +1869,15 @@ endif ()
 
 WEBKIT_ADD_PREFIX_HEADER(JavaScriptCore JavaScriptCorePrefix.h PREFIX_LANGUAGES CXX)
 
+# The rest of the image is built for size; the parser, the runtime and the
+# compilers earn their speed.
+if (SYMBIAN AND SYMBIAN_JSC_OPTIMIZE)
+    target_compile_options(JavaScriptCore PRIVATE ${SYMBIAN_JSC_OPTIMIZE})
+    if (TARGET JavaScriptCoreJIT)
+        target_compile_options(JavaScriptCoreJIT PRIVATE ${SYMBIAN_JSC_OPTIMIZE})
+    endif ()
+endif ()
+
 if (NOT "${PORT}" STREQUAL "Mac")
     if (${JavaScriptCore_LIBRARY_TYPE} STREQUAL "SHARED")
         WEBKIT_POPULATE_LIBRARY_VERSION(JAVASCRIPTCORE)

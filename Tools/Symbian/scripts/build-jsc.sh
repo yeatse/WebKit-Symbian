@@ -5,7 +5,7 @@
 require_sdk
 I=$ICU_DIR/install
 cmake -S "$WEBKIT_SRC" -B "$WEBKIT_BUILD" -G Ninja -DPORT=JSCOnly \
-  -DCMAKE_BUILD_TYPE=Release "${release_flags[@]}" \
+  -DCMAKE_BUILD_TYPE=Release "${webkit_release_flags[@]}" \
   -DCMAKE_TOOLCHAIN_FILE="$REPO/toolchain/symbian-armv6.cmake" \
   -DENABLE_STATIC_JSC=ON -DUSE_SYSTEM_MALLOC=ON -DENABLE_API_TESTS=OFF \
   -DDEVELOPER_MODE=OFF "${jit_flags[@]}" -DENABLE_SAMPLING_PROFILER=OFF \
