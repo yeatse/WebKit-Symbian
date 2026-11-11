@@ -82,12 +82,24 @@
     if (typeof document === 'undefined')
         return;
 
+    // Date.now() counted whole seconds in builds before this page's second
+    // revision; performance.now() uses the steady clock.
+    var clock = global.performance && performance.now ? function () { return performance.now(); } : Date.now;
     var table = document.getElementById('results');
     var total = 0, caseIndex = 0, round = 0, row = null;
 
+    // The smallest step Date.now() takes, in milliseconds: a coarse wall
+    // clock shows here.
+    function dateStep() {
+        var first = Date.now(), next = first, spins = 0;
+        while (next === first && spins++ < 2000000)
+            next = Date.now();
+        return next - first;
+    }
+
     function step() {
         if (caseIndex === CASES.length) {
-            console.log('jsbench: done total=' + total);
+            console.log('jsbench: done total=' + total + ' date-step=' + dateStep());
             document.getElementById('done').style.display = 'block';
             return;
         }
@@ -96,9 +108,9 @@
             row = table.insertRow(-1);
             row.insertCell(-1).textContent = entry[0];
         }
-        var start = Date.now();
+        var start = clock();
         var sum = entry[1](entry[2]);
-        var elapsed = Date.now() - start;
+        var elapsed = Math.round(clock() - start);
         total += elapsed;
         row.insertCell(-1).textContent = elapsed;
         console.log('jsbench: ' + entry[0] + ' round=' + (round + 1) + ' ms=' + elapsed + ' sum=' + sum);

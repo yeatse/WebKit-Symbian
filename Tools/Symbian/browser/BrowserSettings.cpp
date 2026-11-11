@@ -170,10 +170,35 @@ void BrowserSettingsLoad(const char* aDirectory)
         writeDefaults(aDirectory, path);
         return;
     }
-    char line[160];
-    while (fgets(line, sizeof(line), file))
-        parseLine(line);
+    // Editors on the phone save UTF-16 with a byte order mark; a PC may add
+    // a UTF-8 one. Names and values are ASCII: keep those bytes only.
+    static char text[4096];
+    size_t length = fread(text, 1, sizeof(text) - 1, file);
     fclose(file);
+    const auto* bytes = reinterpret_cast<const unsigned char*>(text);
+    size_t count = 0;
+    auto keep = [&](unsigned character) {
+        // Other characters, in a comment say, must not look like syntax.
+        text[count++] = character && character < 0x80 ? static_cast<char>(character) : '?';
+    };
+    bool littleEndian = length >= 2 && bytes[0] == 0xff && bytes[1] == 0xfe;
+    bool bigEndian = length >= 2 && bytes[0] == 0xfe && bytes[1] == 0xff;
+    if (littleEndian || bigEndian) {
+        for (size_t i = 2; i + 1 < length; i += 2)
+            keep(littleEndian ? bytes[i] | (bytes[i + 1] << 8) : (bytes[i] << 8) | bytes[i + 1]);
+    } else {
+        bool mark = length >= 3 && bytes[0] == 0xef && bytes[1] == 0xbb && bytes[2] == 0xbf;
+        for (size_t i = mark ? 3 : 0; i < length; ++i)
+            keep(bytes[i]);
+    }
+    text[count] = 0;
+    for (char* line = text; line && *line;) {
+        char* end = strpbrk(line, "\r\n");
+        if (end)
+            *end++ = 0;
+        parseLine(line);
+        line = end;
+    }
 }
 
 bool BrowserSetting(const char* aName)

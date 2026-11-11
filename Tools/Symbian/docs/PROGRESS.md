@@ -128,6 +128,8 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   with nearest-neighbour edge stretching, and a 4 MB cache of decoded images
   scaled to their drawn size.
 - [x] Composited video verified on the 808: 87 s of playback in the #110 log.
+- [x] `Date.now()` has millisecond steps: the C library's wall clock counts
+  whole seconds, so the time within a second comes from the steady clock.
 - [x] JPEG through the ICL decoder on its own thread for complete YCbCr or
   grey images up to 2.5 Mpx; libjpeg otherwise. The 808 has only the Nokia
   software plug-in 0x101FF555, but it decodes 2.5-3.4x faster than our
@@ -159,11 +161,17 @@ Latest 808 numbers (CI #87 and #100):
 
 ### Open, by priority
 
-- [ ] P0: Main thread taken by unlabelled work before a YouTube video
-  starts: in the #111 logs "other" is all of the main thread for 40-90 s, in
-  30-50 tasks a second of about 25 ms, with one frame in five seconds. The
-  profile now splits it into `net`, `media` (writing the download to its
-  file) and `timers`: collect a log and move the culprit off the thread.
+- [ ] P0: Video download on the UI thread. In the #115 log `media` is 19 s
+  of the main thread while a YouTube video starts: every chunk was written
+  and flushed to flash, 25 ms at a time. Flushes now happen every 512 KB or
+  two seconds; verify on the 808 that `media` falls and that playback still
+  starts while downloading. If writing alone is still slow, move it to a
+  thread.
+- [ ] P0: Hot code in a long task is never compiled. In jsbench every first
+  round takes 3-10 s and later rounds under 1 s: compiler threads run below
+  the UI thread, so a loop that keeps it busy stays in the interpreter until
+  it ends. Compare jsbench with `jit-priority` on and off, then choose the
+  default (or compile baseline code on the main thread).
 - [ ] P0: YouTube script time: 81 s running, 9 s parsing, 5 s generating
   bytecode in the #111 logs, so a bytecode cache would save little. JIT plans
   wait 2.5 s on average for a compiler thread (21 s at most);

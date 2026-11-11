@@ -70,6 +70,7 @@
 #if OS(SYMBIAN)
 // SDK native NTickCount/TickCount bridge. Do not use the Open C wall clock
 // for elapsed time: its firmware implementation may have coarse resolution.
+#include <atomic>
 extern "C" int64_t SymbianRuntimeSteadyClockNanoseconds();
 #endif
 
@@ -216,6 +217,51 @@ Int128 currentTimeInNanoseconds()
 double currentTime()
 {
     return (double)real_time_clock_usecs() / 1'000'000.0;
+}
+
+#elif OS(SYMBIAN)
+
+// The C library's CLOCK_REALTIME counts whole seconds here, so Date.now()
+// stood still for a second at a time. Keep its seconds and take the time
+// within them from the steady clock: the offset between the two is moved
+// only as far as it takes for the result to lie in the second the system
+// reports, which also follows a change of the system's clock.
+static Int128 symbianWallNanoseconds()
+{
+    static constexpr int64_t second = 1'000'000'000;
+    static std::atomic_flag busy = ATOMIC_FLAG_INIT;
+    static int64_t offset;
+    static bool hasOffset;
+
+    struct timespec ts { };
+    clock_gettime(CLOCK_REALTIME, &ts);
+    int64_t reported = static_cast<int64_t>(ts.tv_sec) * second;
+    int64_t steady = static_cast<int64_t>(SymbianRuntimeSteadyClockNanoseconds());
+
+    // Held for a few instructions; a lock proper would ask for the time.
+    while (busy.test_and_set(std::memory_order_acquire)) { }
+    if (!hasOffset) {
+        hasOffset = true;
+        offset = reported - steady;
+    }
+    int64_t now = steady + offset;
+    if (now < reported)
+        now = reported;
+    else if (now >= reported + second)
+        now = reported + second - 1;
+    offset = now - steady;
+    busy.clear(std::memory_order_release);
+    return now;
+}
+
+Int128 currentTimeInNanoseconds()
+{
+    return symbianWallNanoseconds();
+}
+
+static inline double currentTime()
+{
+    return static_cast<double>(symbianWallNanoseconds()) / 1.0e9;
 }
 
 #else

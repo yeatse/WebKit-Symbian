@@ -155,10 +155,25 @@ public:
     {
         if (aLength > static_cast<unsigned>(KMaxTInt)) return KErrArgument;
         TInt error = iWriter.Write(TPtrC8(reinterpret_cast<const TUint8*>(aData), aLength));
-        return error ? error : Flush();
+        if (error)
+            return error;
+        // Flushing every chunk of a download kept the UI thread on the flash
+        // for 19 s of a YouTube video's start, 25 ms at a time. The player
+        // reads through the file server, which holds the unflushed data too;
+        // the caller flushes before it opens the file and at the end.
+        iUnflushed += aLength;
+        TUint32 now = User::NTickCount();
+        if (iUnflushed < KFlushBytes && now - iLastFlush < KFlushTicks)
+            return KErrNone;
+        return Flush();
     }
 
-    TInt Flush() { return iWriter.SubSessionHandle() ? iWriter.Flush() : KErrNone; }
+    TInt Flush()
+    {
+        iUnflushed = 0;
+        iLastFlush = User::NTickCount();
+        return iWriter.SubSessionHandle() ? iWriter.Flush() : KErrNone;
+    }
 
     void CloseWriter() { iWriter.Close(); }
 
@@ -182,9 +197,15 @@ private:
         return error;
     }
 
+    static const TUint KFlushBytes = 512 * 1024;
+    // In nanokernel ticks, a millisecond each on the phones: two seconds.
+    static const TUint32 KFlushTicks = 2000;
+
     RFs iFs;
     RFile iWriter;
     RFile iReader;
+    TUint iUnflushed { 0 };
+    TUint32 iLastFlush { 0 };
 };
 
 // These adapters use ordinary C++ ownership from WebCore. Do not inherit
