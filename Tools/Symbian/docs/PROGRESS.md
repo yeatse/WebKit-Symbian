@@ -142,7 +142,11 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   integer remainder in every tier (it was a software `fmod()`, with the DFG
   converting to doubles first); compile times in `jit` lines are the
   compiler thread's own processor time. `js-options` in `webkit.ini` passes
-  JavaScriptCore options for experiments.
+  JavaScriptCore options for experiments. JavaScriptCore and WTF are built
+  with `-O2` (jsc.exe 18.8 to 20.8 MB, the SIS 27.4 to 28.0 MB). In EKA2L1,
+  whose times only rank builds: jsbench in jsc.exe 7.1 s to 4.7 s,
+  `integers` 1641/250 ms to 484/70 ms (first round/later). Not yet measured
+  on the 808.
 - [x] Video download no longer flushes every chunk: `media` fell from 19 s to
   0.8 s of the main thread at a YouTube video's start, and playback starts.
 - [x] JPEG through the ICL decoder on its own thread for complete YCbCr or
