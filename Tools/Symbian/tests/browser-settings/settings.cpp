@@ -72,11 +72,36 @@ int main(int argc, char** argv)
     assert(lines[2] == "settings: bad value for 'js-tier'");
     assert(lines[3] == "settings: no value in 'novalue'");
 
+    // As the phone's editors save it: UTF-16 with a byte order mark.
+    for (bool littleEndian : { true, false }) {
+        std::string ascii = "# \xe9 note\r\nframe-stats = on\r\njs-tier = baseline\r\n";
+        std::string wide = littleEndian ? "\xff\xfe" : "\xfe\xff";
+        for (unsigned char character : ascii) {
+            // U+4E2D for the comment's letter: neither byte is syntax.
+            char low = character == 0xe9 ? 0x2d : character;
+            char high = character == 0xe9 ? 0x4e : 0;
+            wide += littleEndian ? low : high;
+            wide += littleEndian ? high : low;
+        }
+        FILE* file = fopen(ini.c_str(), "wb");
+        fwrite(wide.data(), 1, wide.size(), file);
+        fclose(file);
+        lines.clear();
+        BrowserSettingsLoad(directory.c_str());
+        BrowserSettingsDescribe(collect);
+        assert(lines.size() == 1 && lines[0] == "settings: frame-stats=on js-tier=baseline");
+    }
+    write(ini, "\xef\xbb\xbfjit-priority = on\n");
+    lines.clear();
+    BrowserSettingsLoad(directory.c_str());
+    BrowserSettingsDescribe(collect);
+    assert(lines.size() == 1 && lines[0] == "settings: jit-priority=on");
+
     write(ini, "");
     lines.clear();
     BrowserSettingsLoad(directory.c_str());
     BrowserSettingsDescribe(collect);
     assert(lines.size() == 1 && lines[0] == "settings: all at their defaults");
-    puts("PASS: webkit.ini defaults, marker files, parsing, problems");
+    puts("PASS: webkit.ini defaults, marker files, parsing, UTF-16 and UTF-8 marks, problems");
     return 0;
 }
