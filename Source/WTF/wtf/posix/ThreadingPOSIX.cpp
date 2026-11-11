@@ -495,11 +495,12 @@ void Thread::initializeCurrentThreadInternal(const char* threadName)
 #if OS(SYMBIAN)
     // Below the UI thread: EKA2 gives lower priorities no time while a higher
     // one is busy, and curl's thread is busy for long in a TLS handshake.
-    // Not the threads the UI thread waits for, though. A thread that lowered
-    // itself here and raised itself later got no time in between: the first
-    // JIT compilation waited 3.9 s behind a loop on a Nokia 808.
-    bool sharesUIPriority = threadName && (!strcmp(threadName, "ICL JPEG decoder") || !strcmp(threadName, "org.webkit.ImageDecoder")
-        || (SymbianSystem::compilerThreadsShareUIPriority() && (!strcmp(threadName, "JIT Worklist Helper Thread") || !strcmp(threadName, "JITWorker"))));
+    // Not the JIT compiler threads, though: the UI thread runs slower code
+    // until they finish. A thread that lowered itself here and raised itself
+    // later got no time in between: the first JIT compilation waited 3.9 s
+    // behind a loop on a Nokia 808.
+    bool sharesUIPriority = threadName && SymbianSystem::compilerThreadsShareUIPriority()
+        && (!strcmp(threadName, "JIT Worklist Helper Thread") || !strcmp(threadName, "JITWorker"));
     if (!sharesUIPriority)
         SymbianSystem::lowerCurrentThreadPriority();
 #endif

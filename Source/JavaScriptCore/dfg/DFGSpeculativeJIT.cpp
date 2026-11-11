@@ -6570,6 +6570,34 @@ void SpeculativeJIT::compileArithMod(Node* node)
         done.link(this);
 
         strictInt32Result(quotientThenRemainderGPR, node);
+#elif CPU(ARM_TRADITIONAL)
+        // No divide instruction: a helper computes the remainder.
+        GPRReg dividendGPR = op1.gpr();
+        GPRReg divisorGPR = op2.gpr();
+
+        flushRegisters();
+        GPRFlushedCallResult result(this);
+        GPRReg resultGPR = result.gpr();
+
+        JumpList done;
+        if (shouldCheckOverflow(node->arithMode()))
+            speculationCheck(ExitKind::Overflow, JSValueRegs(), nullptr, branchTest32(Zero, divisorGPR));
+        else {
+            Jump denominatorNotZero = branchTest32(NonZero, divisorGPR);
+            move(TrustedImm32(0), resultGPR);
+            done.append(jump());
+            denominatorNotZero.link(this);
+        }
+
+        if (shouldCheckNegativeZero(node->arithMode())) {
+            // The helper answers INT_MIN, never a remainder, for negative zero.
+            callOperationWithoutExceptionCheck(operationArithModInt32, resultGPR, dividendGPR, divisorGPR);
+            speculationCheck(NegativeZero, JSValueRegs(), nullptr, branch32(Equal, resultGPR, TrustedImm32(std::numeric_limits<int32_t>::min())));
+        } else
+            callOperationWithoutExceptionCheck(operationArithModInt32IgnoringNegativeZero, resultGPR, dividendGPR, divisorGPR);
+
+        done.link(this);
+        strictInt32Result(resultGPR, node);
 #else // not architecture that can do integer division
         RELEASE_ASSERT_NOT_REACHED();
 #endif

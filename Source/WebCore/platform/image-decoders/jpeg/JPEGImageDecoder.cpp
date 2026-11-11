@@ -50,6 +50,8 @@
 #include <wtf/NeverDestroyed.h>
 #include <wtf/ThreadSafeRefCounted.h>
 #include <wtf/Threading.h>
+#include <wtf/MainThread.h>
+#include <wtf/ScopeExit.h>
 #include <wtf/symbian/SymbianSystem.h>
 #endif
 
@@ -610,6 +612,19 @@ public:
         if (m_state != State::Ready)
             return false;
 
+        // The thread runs below the UI thread, like the queues that decode
+        // images. When it is the UI thread that waits, lend it the UI
+        // thread's priority: JIT compiler threads have that priority and
+        // would otherwise run ahead of the decode the UI thread waits for.
+        bool callerIsUIThread = isMainThread();
+        int threadHandle = m_threadHandle;
+        if (callerIsUIThread)
+            WTF::SymbianSystem::setThreadSharesUIPriority(threadHandle, true);
+        auto restorePriority = makeScopeExit([callerIsUIThread, threadHandle] {
+            if (callerIsUIThread)
+                WTF::SymbianSystem::setThreadSharesUIPriority(threadHandle, false);
+        });
+
         auto request = adoptRef(*new Request);
         request->data.append(data);
         request->size = size;
@@ -622,8 +637,17 @@ public:
         // UI thread, and ICL's own server may still be busy starting.
         Seconds timeout = m_decodedOnce ? 10_s : 6_s;
         deadline = MonotonicTime::now() + timeout;
+        // A caller below the UI thread gets no time while a page is busy,
+        // and neither does the decoder: the deadline may pass before either
+        // has run. Such a caller waits once more now that it runs again.
+        bool mayWaitAgain = !callerIsUIThread;
         while (!request->done) {
             if (!m_condition.waitUntil(m_lock, deadline)) {
+                if (mayWaitAgain) {
+                    mayWaitAgain = false;
+                    deadline = MonotonicTime::now() + timeout;
+                    continue;
+                }
                 // The thread keeps the request and never writes the pixels.
                 WTFLogAlways("image-decode: ICL took over %.0f s on %dx%d, using libjpeg", timeout.seconds(), size.width(), size.height());
                 request->abandoned = true;
@@ -663,13 +687,12 @@ private:
 
     void run()
     {
-        // The UI thread waits for each decode: share its priority, or a busy
-        // page leaves the decoder no time (2.6 s per megapixel on a Nokia 808).
-        WTF::SymbianSystem::raiseCurrentThreadPriorityToNormal();
+        int handle = WTF::SymbianSystem::openCurrentThread();
         int error = 0;
         void* session = SymbianJPEG::createSession(error);
         {
             Locker locker { m_lock };
+            m_threadHandle = handle;
             if (!session) {
                 WTFLogAlways("image-decode: ICL session failed with %d, using libjpeg", error);
                 m_state = State::Unavailable;
@@ -713,6 +736,7 @@ private:
     RefPtr<Request> m_request WTF_GUARDED_BY_LOCK(m_lock);
     bool m_loggedError WTF_GUARDED_BY_LOCK(m_lock) { false };
     bool m_decodedOnce WTF_GUARDED_BY_LOCK(m_lock) { false };
+    int m_threadHandle WTF_GUARDED_BY_LOCK(m_lock) { 0 };
 };
 
 // The bitmap ICL decodes into lives in the font and bitmap server's shared

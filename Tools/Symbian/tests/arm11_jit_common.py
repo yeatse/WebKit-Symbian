@@ -11,7 +11,7 @@ PROFILE_OPTIONS = {
     "dfg": COMMON_OPTIONS + ["--useJIT=true", "--useBaselineJIT=true", "--useDFGJIT=true"],
 }
 CASES = ("execution-tier", "osr-entry", "osr-exit", "inline-caches", "call-arity", "softfp-math", "math-trunc",
-         "number-guards", "power-of-two-modulo", "bitwise-unsigned", "double-comparisons",
+         "number-guards", "power-of-two-modulo", "int-modulo", "bitwise-unsigned", "double-comparisons",
          "strict-equality-value", "strict-equality-branch", "strict-inequality-value", "strict-inequality-branch",
          "fastpath-live-values", "gc-live-values", "rab-gsab", "exceptions")
 PANIC = re.compile(r"access violation|panicked|KERN-EXEC|USER-EXEC|segmentation fault|illegal instruction", re.I)

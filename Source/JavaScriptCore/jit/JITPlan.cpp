@@ -44,6 +44,7 @@
 
 #if OS(SYMBIAN)
 #include <wtf/symbian/MainThreadProfile.h>
+#include <wtf/symbian/SymbianSystem.h>
 #endif
 
 namespace JSC {
@@ -290,14 +291,22 @@ void JITPlan::compileInThread(JITWorklistThread* thread)
 
 #if OS(SYMBIAN)
     MonotonicTime profileStart = m_created ? MonotonicTime::now() : MonotonicTime();
+    int64_t profileCPUStart = profileStart ? WTF::SymbianSystem::currentThreadCPUTimeMicroseconds() : 0;
     CompilationPath path;
     {
         WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::JIT);
         path = compileInThreadImpl();
     }
     if (profileStart) {
+        // The compiler thread shares the core with the UI thread: the time
+        // on the clock includes the turns the UI thread took. Prefer the
+        // thread's own processor time where the kernel counts it.
+        double compileMilliseconds = (MonotonicTime::now() - profileStart).milliseconds();
+        int64_t profileCPUEnd = WTF::SymbianSystem::currentThreadCPUTimeMicroseconds();
+        if (profileCPUStart && profileCPUEnd >= profileCPUStart)
+            compileMilliseconds = (profileCPUEnd - profileCPUStart) / 1000.0;
         WTF::MainThreadProfile::recordCompile(mode() == JITCompilationMode::Baseline ? WTF::MainThreadProfile::CompileTier::Baseline : WTF::MainThreadProfile::CompileTier::DFG,
-            (profileStart - m_created).milliseconds(), (MonotonicTime::now() - profileStart).milliseconds(), !thread);
+            (profileStart - m_created).milliseconds(), compileMilliseconds, !thread);
     }
 #else
     CompilationPath path = compileInThreadImpl();

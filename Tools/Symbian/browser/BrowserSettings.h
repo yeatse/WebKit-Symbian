@@ -13,7 +13,11 @@ void BrowserSettingsLoad(const char* aDirectory);
 bool BrowserSetting(const char* aName);
 
 // js-tier: "dfg" (every tier, the default), "baseline" or "llint".
+// js-options: JavaScriptCore options as written, "name=value name=value".
 const char* BrowserSettingText(const char* aName);
+
+// Calls aSet for each name=value pair of js-options.
+void BrowserSettingsForEachJSOption(void (*aSet)(const char* aName, const char* aValue));
 
 // One line naming each setting that is not at its default, and one for each
 // line of the file that was not understood. For the log, once it is open.

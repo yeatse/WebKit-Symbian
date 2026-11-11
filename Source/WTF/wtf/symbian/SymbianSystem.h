@@ -45,8 +45,13 @@ void lowerCurrentThreadPriority();
 
 // Runs the calling thread at the UI thread's priority again. EKA2 shares
 // time among threads of equal priority, so work the UI thread waits for
-// (image decoding) still runs while the UI thread is busy.
+// still runs while the UI thread is busy.
 void raiseCurrentThreadPriorityToNormal();
+
+// Moves the thread of an openCurrentThread() handle to the UI thread's
+// priority, or back below it: for a thread the UI thread is about to wait
+// for, which threads of the UI thread's priority would otherwise hold back.
+void setThreadSharesUIPriority(int handle, bool);
 
 // Whether JIT compiler threads run at the UI thread's priority (default)
 // instead of below it. Below, a busy page gives them no time: its code stays
