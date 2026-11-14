@@ -24,7 +24,7 @@ enum Kind : uint32_t {
     Image = 0, // The program counter, in this executable.
     Jit = 1, // In JIT code, by 4 KB.
     Foreign = 2, // In a system library or the kernel's user-side stubs.
-    ForeignCaller = 3, // The link register of a Foreign sample, in this executable.
+    ForeignCaller = 3, // Who in this executable called the code of a Foreign sample.
 };
 
 struct Entry {
@@ -49,6 +49,8 @@ unsigned samplesFailed;
 unsigned kindCounts[4];
 uintptr_t imageBase;
 uintptr_t imageEnd;
+uintptr_t stackBound;
+uintptr_t stackOrigin;
 TThreadId uiThreadId;
 volatile bool stopRequested;
 volatile bool stopped;
@@ -72,6 +74,38 @@ void count(uint32_t key)
     ++samplesDropped;
 }
 
+bool isInImage(uintptr_t address)
+{
+    return address >= imageBase && address < imageEnd;
+}
+
+// The return address into this executable nearest the top of the stack: a
+// word that points behind a call instruction. System libraries call each
+// other before they reach the kernel, so the link register seldom is one.
+uintptr_t callerInImage(uintptr_t lr, uintptr_t sp)
+{
+    if (isInImage(lr))
+        return lr;
+    if (sp & 3 || sp < stackBound || sp >= stackOrigin)
+        return 0;
+    auto* words = reinterpret_cast<const uint32_t*>(sp);
+    unsigned count = (stackOrigin - sp) / sizeof(uint32_t);
+    if (count > 96)
+        count = 96;
+    for (unsigned i = 0; i < count; ++i) {
+        uintptr_t word = words[i];
+        if (word & 3 || !isInImage(word) || word - 4 < imageBase)
+            continue;
+        uint32_t instruction = *reinterpret_cast<const uint32_t*>(word - 4);
+        bool isCall = (instruction & 0x0f000000) == 0x0b000000 // bl
+            || (instruction & 0xfe000000) == 0xfa000000 // blx label
+            || (instruction & 0x0ffffff0) == 0x012fff30; // blx register
+        if (isCall)
+            return word;
+    }
+    return 0;
+}
+
 void sample(RThread& thread)
 {
     // TArmRegSet: r0-r15, then the flags.
@@ -87,7 +121,7 @@ void sample(RThread& thread)
     auto jitStart = reinterpret_cast<uintptr_t>(JSC::startOfFixedExecutableMemoryPoolImpl());
     auto jitEnd = reinterpret_cast<uintptr_t>(JSC::endOfFixedExecutableMemoryPoolImpl());
     ++samplesBusy;
-    if (pc >= imageBase && pc < imageEnd) {
+    if (isInImage(pc)) {
         ++kindCounts[Image];
         count(((pc - imageBase) >> KBucketShift << 2) | Image);
     } else if (pc >= jitStart && pc < jitEnd) {
@@ -96,9 +130,9 @@ void sample(RThread& thread)
     } else {
         ++kindCounts[Foreign];
         count((pc >> KBucketShift << 2) | Foreign);
-        if (lr >= imageBase && lr < imageEnd) {
+        if (uintptr_t caller = callerInImage(lr, registers[13])) {
             ++kindCounts[ForeignCaller];
-            count(((lr - imageBase) >> KBucketShift << 2) | ForeignCaller);
+            count(((caller - imageBase) >> KBucketShift << 2) | ForeignCaller);
         }
     }
 }
@@ -199,6 +233,11 @@ void BrowserProfilerStart()
         return;
     }
     uiThreadId = RThread().Id();
+    TThreadStackInfo stack;
+    if (RThread().StackInfo(stack) == KErrNone) {
+        stackBound = stack.iLimit;
+        stackOrigin = stack.iBase;
+    }
     BrowserLog("profile: sampling the UI thread every %d ms, image 0x%08x+0x%x",
         static_cast<int>(KPeriodMicroseconds / 1000), static_cast<unsigned>(imageBase), static_cast<unsigned>(info.iCodeSize));
 
