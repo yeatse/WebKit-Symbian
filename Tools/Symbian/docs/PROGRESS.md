@@ -173,13 +173,15 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   of a third. CI's compiler cache now hashes `sym-flags.sh` with the compiler
   wrappers. On the 808 jsbench fell from 5582 to 4740 ms, and the profile has
   0.5% of samples at the mutex calls and 1% in euser's copy loops.
-- [ ] `fastMalloc` through the SDK runtime's mimalloc. Open C's `malloc` is
-  the thread's RHeap, not mimalloc as assumed (only `operator new` was):
-  `malloc` + `free` takes 416 ns on the 808 (`tests/rom-probe`), and
-  `fastMalloc`'s way through libc and euser held 6% of the UI thread's samples
-  on YouTube. Blocks under 64 KB now come from mimalloc, the larger ones and
-  any it cannot serve from the RHeap, as mimalloc has 64 MiB of address
-  space. Not yet measured on the 808.
+- [ ] `fastMalloc` through the SDK runtime's mimalloc: tried and reverted.
+  Open C's `malloc` is the thread's RHeap, not mimalloc as assumed (only
+  `operator new` was): `malloc` + `free` takes 416 ns on the 808
+  (`tests/rom-probe`), and `fastMalloc`'s way through libc and euser held 6%
+  of the UI thread's samples on YouTube. Serving blocks under 64 KB from
+  mimalloc made jsbench's `parsing` 10x slower in EKA2L1: mimalloc has a fixed
+  address budget, a request it cannot serve takes 0.4 ms to fail before the
+  RHeap gets it, and freed blocks of one size do not make room for another
+  for a while. It needs a growing budget or a cheap failure first.
 - [x] Video download no longer flushes every chunk: `media` fell from 19 s to
   0.8 s of the main thread at a YouTube video's start, and playback starts.
 - [x] JPEG through the ICL decoder on its own thread for complete YCbCr or
