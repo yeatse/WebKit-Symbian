@@ -67,7 +67,7 @@ default.
 | Setting | Default | |
 | --- | --- | --- |
 | `frame-stats` | off | frame timings, main-thread profile and decode times in `log.txt` |
-| `profile` | off | samples the UI thread's program counter every 5 ms while it runs and writes `profile:` lines to `log.txt` after every 30 s of running and at exit (stops after ten minutes of samples). Name them with `python3 Tools/Symbian/tests/benchmarks/symbolize-profile.py log.txt browser.elf`, `browser.elf` being the `elf` artifact of the same CI run |
+| `profile` | off | samples the UI thread's program counter every 5 ms while it runs, for up to ten minutes of running, and writes `profile:` lines to `log.txt`: after every 60 s of running, with addresses seen once counted by 4 KB, and in full when the browser's own Exit command closes it. Name them with `python3 Tools/Symbian/tests/benchmarks/symbolize-profile.py log.txt browser.elf`, `browser.elf` being the `elf` artifact of the same CI run |
 | `curl-verbose` | off | curl's own trace in `curl.txt` |
 | `gpu-tiles` | on | composite every page with EGL; off keeps ordinary pages on ScreenPlay |
 | `composited-video` | on | video in a window under the page, keeping EGL while it plays |

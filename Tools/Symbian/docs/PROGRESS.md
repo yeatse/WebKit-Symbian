@@ -145,8 +145,25 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   JavaScriptCore options for experiments. JavaScriptCore and WTF are built
   with `-O2` (jsc.exe 18.8 to 20.8 MB, the SIS 27.4 to 28.0 MB). In EKA2L1,
   whose times only rank builds: jsbench in jsc.exe 7.1 s to 4.7 s,
-  `integers` 1641/250 ms to 484/70 ms (first round/later). Not yet measured
-  on the 808.
+  `integers` 1641/250 ms to 484/70 ms (first round/later). On the 808
+  jsbench.html takes 5.6 s (11.1 s before, 28.3 s before `jit-priority`).
+  A YouTube session there (search results, then a video, 209 s) is no
+  lighter for it: 76.5 s in script (37% of the time; 40% before), 8.7 s
+  parsing it, 5.7 s generating bytecode, 2.5 s collecting; 311 tasks over
+  100 ms, 16 over a second, the longest a 6.7 s timer. The compiler thread
+  used 17 s for 1743 baseline and 1072 DFG compilations, and a burst of 140
+  DFG plans at the page's start waits up to 4.5 s in its queue.
+- [x] `profile` in `webkit.ini`: a sampling profiler for the UI thread (its
+  program counter every 5 ms while it runs), named offline from
+  `browser.elf` by `symbolize-profile.py`. EKA2L1 has `RThread::Context`
+  for it.
+- [x] Thread-specific values without system calls on the main thread: Open
+  C's `pthread_getspecific` takes a kernel mutex (two system calls), and
+  `Thread::current()`, every `ThreadSpecific<T>` and `isMainThread()` went
+  through it or `pthread_self()`: for each atom string lookup, each regular
+  expression match, each `JSON.stringify`, each entry into script. The main
+  thread is now known by its stack and reads a copy of its values. Not yet
+  measured on the 808.
 - [x] Video download no longer flushes every chunk: `media` fell from 19 s to
   0.8 s of the main thread at a YouTube video's start, and playback starts.
 - [x] JPEG through the ICL decoder on its own thread for complete YCbCr or

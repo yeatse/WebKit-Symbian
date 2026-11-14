@@ -32,11 +32,12 @@ struct Entry {
     uint32_t count;
 };
 
-const unsigned KTableSize = 1 << 15;
+const unsigned KTableBits = 16;
+const unsigned KTableSize = 1 << KTableBits;
 const unsigned KBucketShift = 4;
 const TInt KPeriodMicroseconds = 5000;
 const unsigned KMaximumSamples = 10 * 60 * 200;
-const unsigned KSamplesPerWrite = 30 * 200;
+const unsigned KSamplesPerWrite = 60 * 200;
 
 Entry* table;
 Entry* sorted;
@@ -57,7 +58,7 @@ volatile bool stopped;
 
 void count(uint32_t key)
 {
-    uint32_t index = (key * 2654435761u) >> (32 - 15);
+    uint32_t index = (key * 2654435761u) >> (32 - KTableBits);
     for (unsigned probes = 0; probes < 64; ++probes, index = (index + 1) & (KTableSize - 1)) {
         Entry& entry = table[index];
         if (entry.key == key) {
@@ -144,8 +145,38 @@ int compareEntries(const void* a, const void* b)
     return left < right ? 1 : left > right ? -1 : 0;
 }
 
+int compareKeys(const void* a, const void* b)
+{
+    uint32_t left = static_cast<const Entry*>(a)->key;
+    uint32_t right = static_cast<const Entry*>(b)->key;
+    return left < right ? -1 : left > right ? 1 : 0;
+}
+
+struct LineWriter {
+    char line[480];
+    int used { 0 };
+    unsigned written { 0 };
+
+    void add(char kind, unsigned offset, unsigned count)
+    {
+        used += snprintf(line + used, sizeof(line) - used, " %c:%x:%u", kind, offset, count);
+        ++written;
+        if (used > 440)
+            flush();
+    }
+
+    void flush()
+    {
+        if (used)
+            BrowserLog("profile:%s", line);
+        used = 0;
+    }
+};
+
 // Writes every sample so far; a later profile in the log replaces this one.
-void write()
+// "kind:offset:count", most samples first. Unless complete, the many
+// addresses with one sample each are counted by 4 KB, in capitals.
+void write(bool complete)
 {
     samplesWritten = samplesBusy + samplesFailed;
     BrowserLog("profile: samples busy=%u idle=%u image=%u jit=%u foreign=%u foreign-caller=%u dropped=%u failed=%u buckets=%u",
@@ -153,25 +184,31 @@ void write()
         samplesDropped, samplesFailed, tableUsed);
     memcpy(sorted, table, KTableSize * sizeof(Entry));
     qsort(sorted, KTableSize, sizeof(Entry), compareEntries);
-    // "kind:offset:count", most samples first; the long tail of single
-    // samples is left out.
     static const char kinds[] = "ijfc";
-    char line[480];
-    int used = 0;
-    unsigned written = 0;
-    for (unsigned i = 0; i < KTableSize && sorted[i].count >= 2 && written < 6000; ++i, ++written) {
+    static const char pageKinds[] = "IJFC";
+    LineWriter writer;
+    unsigned i = 0;
+    for (; i < KTableSize && sorted[i].count >= (complete ? 1u : 2u); ++i) {
         uint32_t key = sorted[i].key;
         unsigned shift = (key & 3) == Jit ? 12 : KBucketShift;
-        used += snprintf(line + used, sizeof(line) - used, " %c:%x:%u", kinds[key & 3],
-            static_cast<unsigned>(key >> 2 << shift), sorted[i].count);
-        if (used > 440) {
-            BrowserLog("profile:%s", line);
-            used = 0;
-        }
+        writer.add(kinds[key & 3], key >> 2 << shift, sorted[i].count);
     }
-    if (used)
-        BrowserLog("profile:%s", line);
-    BrowserLog("profile: end, %u buckets written", written);
+    unsigned first = i;
+    for (; i < KTableSize && sorted[i].count; ++i) {
+        uint32_t key = sorted[i].key;
+        unsigned shift = (key & 3) == Jit ? 0 : 12 - KBucketShift;
+        sorted[i].key = (key >> 2 >> shift << 2) | (key & 3);
+    }
+    qsort(sorted + first, i - first, sizeof(Entry), compareKeys);
+    for (unsigned j = first; j < i;) {
+        unsigned count = 0;
+        uint32_t key = sorted[j].key;
+        for (; j < i && sorted[j].key == key; ++j)
+            count += sorted[j].count;
+        writer.add(pageKinds[key & 3], key >> 2 << 12, count);
+    }
+    writer.flush();
+    BrowserLog("profile: end, %u counts written", writer.written);
 }
 
 void* sampler(void*)
@@ -203,7 +240,7 @@ void* sampler(void*)
         // while.
         if (samplesBusy + samplesFailed - samplesWritten >= KSamplesPerWrite) {
             RThread().SetPriority(EPriorityNormal);
-            write();
+            write(false);
             RThread().SetPriority(EPriorityAbsoluteHigh);
             thread.GetCpuTime(lastCpu);
         }
@@ -261,8 +298,7 @@ void BrowserProfilerDump()
         User::AfterHighRes(KPeriodMicroseconds);
     if (!stopped)
         return;
-    if (samplesBusy + samplesFailed != samplesWritten)
-        write();
+    write(true);
     free(table);
     free(sorted);
     table = nullptr;
