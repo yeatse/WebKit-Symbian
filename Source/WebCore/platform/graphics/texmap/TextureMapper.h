@@ -127,6 +127,13 @@ public:
     void beginClip(const TransformationMatrix&, const ClipPath&);
     void beginClipWithoutApplying(const TransformationMatrix&, const FloatRect&);
     WEBCORE_EXPORT void beginPainting(FlipY = FlipY::No, BitmapTexture* = nullptr);
+#if OS(SYMBIAN)
+    // For a caller that bound the window's framebuffer and set its viewport.
+    WEBCORE_EXPORT void beginPaintingToWindow(const IntSize&);
+    // Off, the embedder draws the layers with paint() and no Skia scene is kept.
+    WEBCORE_EXPORT static void setSkiaCompositionEnabled(bool);
+    WEBCORE_EXPORT static bool skiaCompositionEnabled();
+#endif
     WEBCORE_EXPORT void endPainting();
     void endClip();
     void endClipWithoutApplying();

@@ -120,6 +120,8 @@ public:
 #if OS(SYMBIAN) && USE(SKIA)
     bool updateContents(SkPicture&, const IntRect& target, const IntPoint& offset);
     bool canRasterizeWithSkia(const IntRect&) const;
+    // Off, layers are painted on the CPU and uploaded; canvases keep the GPU.
+    WEBCORE_EXPORT static void setSkiaRasterizationEnabled(bool);
 #endif
     void updateContents(const void* srcData, const IntRect& targetRect, const IntPoint& sourceOffset, int bytesPerLine, PixelFormat);
 

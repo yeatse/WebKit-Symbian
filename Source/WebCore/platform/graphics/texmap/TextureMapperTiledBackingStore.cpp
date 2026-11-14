@@ -176,7 +176,7 @@ bool TextureMapperTiledBackingStore::updateSkiaBackingStore(SkiaBackingStore& ba
 
 void TextureMapperTiledBackingStore::addSkiaDamage(const IntRect& scaledRect)
 {
-    if (scaledRect.isEmpty())
+    if (scaledRect.isEmpty() || !TextureMapper::skiaCompositionEnabled())
         return;
     FloatRect rect(scaledRect);
     rect.scale(1 / m_contentsScale);

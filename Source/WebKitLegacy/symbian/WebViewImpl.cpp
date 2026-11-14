@@ -45,6 +45,7 @@
 #include <JavaScriptCore/VM.h>
 #include <WebCore/BackForwardCache.h>
 #include <WebCore/BackForwardController.h>
+#include <WebCore/BitmapTexture.h>
 #include <WebCore/CacheStorageProvider.h>
 #include <WebCore/CompositionHighlight.h>
 #include <WebCore/CompositionUnderline.h>
@@ -111,6 +112,7 @@
 #include <WebCore/SocketProvider.h>
 #include <WebCore/SubstituteData.h>
 #include <WebCore/TextIterator.h>
+#include <WebCore/TextureMapper.h>
 #include <WebCore/TextureMapperLayer.h>
 #include <WebCore/UserContentController.h>
 #include <WebCore/VisitedLinkStore.h>
@@ -343,6 +345,20 @@ void WebView::setWebAudioVolume(double volume)
 void WebView::setTiledCompositingEnabled(bool enabled)
 {
     s_tiledCompositingEnabled = enabled;
+}
+
+void WebView::setSkiaCompositionEnabled(bool enabled)
+{
+#if USE(SKIA)
+    WebCore::TextureMapper::setSkiaCompositionEnabled(enabled);
+#endif
+}
+
+void WebView::setGPURasterizationEnabled(bool enabled)
+{
+#if USE(SKIA)
+    WebCore::BitmapTexture::setSkiaRasterizationEnabled(enabled);
+#endif
 }
 
 void WebView::setBackdropFiltersEnabled(bool enabled)

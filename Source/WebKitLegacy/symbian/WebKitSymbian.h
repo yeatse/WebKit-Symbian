@@ -186,6 +186,13 @@ public:
     // page then keeps EGL while a video plays, leaving transparent holes
     // over it, instead of going to software painting.
     static void setCompositedVideoEnabled(bool);
+    // Compose layers with Skia into a retained frame and present that
+    // (default); off, layers are drawn straight into the window. Set before
+    // the first setNativeWindow().
+    static void setSkiaCompositionEnabled(bool);
+    // Paint page tiles on the GPU (default); off, they are painted on the
+    // CPU and uploaded.
+    static void setGPURasterizationEnabled(bool);
     // Draw backdrop-filter (off by default: it costs about 10 ms a frame on a
     // Nokia 808; without it the element shows the page under it unfiltered).
     static void setBackdropFiltersEnabled(bool);

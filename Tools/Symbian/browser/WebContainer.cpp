@@ -187,6 +187,8 @@ void CWebContainer::ConstructL(const TRect& aRect)
     if (!BrowserSetting("gpu-tiles"))
         WebView::setTiledCompositingEnabled(false);
     WebView::setBackdropFiltersEnabled(BrowserSetting("backdrop-filters"));
+    WebView::setSkiaCompositionEnabled(BrowserSetting("skia-compositor"));
+    WebView::setGPURasterizationEnabled(BrowserSetting("gpu-raster"));
     iWebView->setNativeWindow(&Window());
 #endif
     WebView::setTimersDeferredDuringInput(BrowserSetting("timer-deferral"));

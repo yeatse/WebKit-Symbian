@@ -52,10 +52,12 @@ private:
     RefPtr<WebCore::GraphicsLayer> m_content;
     RefPtr<WebCore::GraphicsLayer> m_overlay;
     WebCore::Timer m_flushTimer;
+    WebCore::Timer m_glCheckTimer;
     bool m_rendering { false };
     bool m_logNextPresentation { true };
     bool glStageFailed(const char* stage);
     bool retryAfterGLError();
+    void checkGLAfterFrames();
     void setCheckGLStages(bool);
     bool initializeSkiaPresentation();
     bool composeSkiaFrame(WebCore::SkiaCompositingLayer&, bool& hasRunningAnimations, bool& emptyDamage);
@@ -78,6 +80,7 @@ private:
     // checks for errors, to name the one that fails if it happens again.
     bool m_checkGLStages { false };
     unsigned m_cleanCheckedFrames { 0 };
+    unsigned m_framesSinceGLCheck { 0 };
     unsigned m_glFailures { 0 };
     FrameStats m_stats;
     MonotonicTime m_lastFrame;

@@ -292,8 +292,16 @@ void BitmapTexture::reset(const IntSize& size, OptionSet<Flags> flags)
     m_pixelFormat = flags.contains(Flags::UseBGRALayout) ? PixelFormat::BGRA8 : PixelFormat::RGBA8;
     m_filterOperation = nullptr;
 
+#if OS(SYMBIAN)
+    // A framebuffer with only this texture attached serves the next user as
+    // it is. Making one is a round trip to the graphics driver, and a pooled
+    // surface is reset on every frame it is used.
+    bool keepsFramebuffer = !m_depthBufferObject && !m_stencilBufferObject && m_size == size;
+#else
+    bool keepsFramebuffer = false;
+#endif
     if (!flags.contains(Flags::DepthBuffer)) {
-        if (m_fbo) {
+        if (m_fbo && !keepsFramebuffer) {
             glDeleteFramebuffers(1, &m_fbo);
             m_fbo = 0;
         }
@@ -475,9 +483,16 @@ void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRec
 }
 
 #if OS(SYMBIAN) && USE(SKIA)
+static bool s_skiaRasterizationEnabled = true;
+
+void BitmapTexture::setSkiaRasterizationEnabled(bool enabled)
+{
+    s_skiaRasterizationEnabled = enabled;
+}
+
 bool BitmapTexture::canRasterizeWithSkia(const IntRect& targetRect) const
 {
-    if (!ProcessCapabilities::canUseAcceleratedBuffers() || m_flags.contains(Flags::ExternalOESRenderTarget))
+    if (!s_skiaRasterizationEnabled || !ProcessCapabilities::canUseAcceleratedBuffers() || m_flags.contains(Flags::ExternalOESRenderTarget))
         return false;
     auto* display = PlatformDisplay::sharedDisplayIfExists();
     if (!display || !display->skiaGLContext())

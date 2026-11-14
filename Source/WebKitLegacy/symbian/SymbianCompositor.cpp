@@ -85,6 +85,7 @@ SymbianCompositor::SymbianCompositor(WebViewImpl& view, void* window)
     : m_view(view)
     , m_nativeWindow(window)
     , m_flushTimer([this] { m_view.requestCompositedDisplay(); })
+    , m_glCheckTimer([this] { checkGLAfterFrames(); })
     , m_stats("egl", { "render", "flush", "backing", "compose", "swap" }, 5)
 {
 }
@@ -134,7 +135,7 @@ bool SymbianCompositor::initialize()
         return false;
     }
     m_textureMapper = TextureMapper::create();
-    if (!initializeSkiaPresentation())
+    if (TextureMapper::skiaCompositionEnabled() && !initializeSkiaPresentation())
         return false;
     m_root = GraphicsLayer::create(nullptr, *this);
     m_root->setDrawsContent(true);
@@ -380,6 +381,7 @@ bool SymbianCompositor::presentSkiaFrame()
 void SymbianCompositor::prepareForDestruction()
 {
     m_flushTimer.stop();
+    m_glCheckTimer.stop();
     if (m_context && !m_context->makeContextCurrent())
         m_context->abandonResources();
 }
@@ -492,6 +494,20 @@ bool SymbianCompositor::glStageFailed(const char* stage)
 
 // A checked frame failed: drop it and draw again, up to a few times, before
 // leaving the page to software painting.
+// Runs once frames stop coming, so the last ones do not stay unchecked.
+void SymbianCompositor::checkGLAfterFrames()
+{
+    if (m_rendering || m_checkGLStages || !m_context || !m_context->makeContextCurrent())
+        return;
+    m_framesSinceGLCheck = 0;
+    char codes[48];
+    if (takeGLErrors(codes, sizeof(codes)) == GL_NO_ERROR)
+        return;
+    WTFLogAlways("Symbian compositor: GL error %s in the last frames, drawing again with checks", codes);
+    setCheckGLStages(true);
+    m_flushTimer.startOneShot(0_s);
+}
+
 bool SymbianCompositor::retryAfterGLError()
 {
     m_forceFullDamage = true;
@@ -579,31 +595,59 @@ bool SymbianCompositor::render()
     if (m_checkGLStages && glStageFailed("painting or uploading tiles"))
         return retryAfterGLError();
     MonotonicTime backed = timing ? MonotonicTime::now() : MonotonicTime();
-    auto& scene = root.layer().syncSkiaLayer(*m_textureMapper);
-#if ENABLE(VIDEO)
-    MediaPlayerPrivateSymbian::willComposite();
-#endif
     bool hasRunningAnimations = false;
-    bool emptyDamage = false;
-    if (!composeSkiaFrame(scene, hasRunningAnimations, emptyDamage)) {
-        WTFLogAlways("Symbian Skia compositor: frame composition failed");
-        return false;
-    }
+    if (TextureMapper::skiaCompositionEnabled()) {
+        auto& scene = root.layer().syncSkiaLayer(*m_textureMapper);
 #if ENABLE(VIDEO)
-    m_view.setVideoUnderlayVisible(MediaPlayerPrivateSymbian::didComposite(IntRect(IntPoint(), m_view.size())));
+        MediaPlayerPrivateSymbian::willComposite();
 #endif
-    if (emptyDamage && !m_needsPresentation) {
-        if (hasRunningAnimations)
-            m_flushTimer.startOneShot(16_ms);
-        else if (morePending)
-            m_flushTimer.startOneShot(0_s);
-        return true;
+        bool emptyDamage = false;
+        if (!composeSkiaFrame(scene, hasRunningAnimations, emptyDamage)) {
+            WTFLogAlways("Symbian Skia compositor: frame composition failed");
+            return false;
+        }
+#if ENABLE(VIDEO)
+        m_view.setVideoUnderlayVisible(MediaPlayerPrivateSymbian::didComposite(IntRect(IntPoint(), m_view.size())));
+#endif
+        if (emptyDamage && !m_needsPresentation) {
+            if (hasRunningAnimations)
+                m_flushTimer.startOneShot(16_ms);
+            else if (morePending)
+                m_flushTimer.startOneShot(0_s);
+            return true;
+        }
+        if (!presentSkiaFrame())
+            return false;
+    } else {
+        // Layers are drawn straight into the window: one render pass and no
+        // wait for the GPU.
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, m_view.size().width(), m_view.size().height());
+        glClearColor(1, 1, 1, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+#if ENABLE(VIDEO)
+        MediaPlayerPrivateSymbian::willComposite();
+#endif
+        m_textureMapper->beginPaintingToWindow(m_view.size());
+        root.layer().paint(*m_textureMapper);
+        m_textureMapper->endPainting();
+#if ENABLE(VIDEO)
+        m_view.setVideoUnderlayVisible(MediaPlayerPrivateSymbian::didComposite(IntRect(IntPoint(), m_view.size())));
+#endif
+        hasRunningAnimations = root.layer().descendantsOrSelfHaveRunningAnimations();
     }
-    if (!presentSkiaFrame())
-        return false;
     if (!m_checkGLStages) {
+        // Reading the error flag waits for the driver to take in the whole
+        // frame. The flag stays set until read, so a failed frame is still
+        // found, a few frames late.
+        constexpr unsigned framesBetweenGLChecks = 8;
         char codes[48];
-        if (takeGLErrors(codes, sizeof(codes)) != GL_NO_ERROR) {
+        bool checks = ++m_framesSinceGLCheck >= framesBetweenGLChecks;
+        if (checks)
+            m_framesSinceGLCheck = 0;
+        else
+            m_glCheckTimer.startOneShot(100_ms);
+        if (checks && takeGLErrors(codes, sizeof(codes)) != GL_NO_ERROR) {
             // The error may have come from any stage of the frame. Drop the
             // frame and draw again checking each, so a repeat names it.
             WTFLogAlways("Symbian compositor: GL error %s in a frame, drawing again with checks", codes);
@@ -650,9 +694,10 @@ bool SymbianCompositor::render()
                 backing.prefetchSkipped, backing.worstMs, backing.worstLayer.utf8().data());
             backing = { };
             unsigned compositionFrames = m_fullDamageFrames + m_partialDamageFrames + m_emptyDamageFrames;
-            WTFLogAlways("skia-composition: frames=%u full=%u partial=%u skipped=%u damage-kpx=%.1f",
-                compositionFrames, m_fullDamageFrames, m_partialDamageFrames, m_emptyDamageFrames,
-                static_cast<double>(m_damagedPixels) / std::max(1u, compositionFrames) / 1000);
+            if (compositionFrames)
+                WTFLogAlways("skia-composition: frames=%u full=%u partial=%u skipped=%u damage-kpx=%.1f",
+                    compositionFrames, m_fullDamageFrames, m_partialDamageFrames, m_emptyDamageFrames,
+                    static_cast<double>(m_damagedPixels) / compositionFrames / 1000);
             m_fullDamageFrames = m_partialDamageFrames = m_emptyDamageFrames = 0;
             m_damagedPixels = 0;
             logRenderSplit();
