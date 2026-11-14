@@ -33,7 +33,7 @@ struct Entry {
 };
 
 const unsigned KTableSize = 1 << 15;
-const unsigned KBucketShift = 5;
+const unsigned KBucketShift = 4;
 const TInt KPeriodMicroseconds = 5000;
 const unsigned KMaximumSamples = 10 * 60 * 200;
 const unsigned KSamplesPerWrite = 30 * 200;

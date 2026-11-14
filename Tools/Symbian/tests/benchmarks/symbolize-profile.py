@@ -105,7 +105,7 @@ def main():
 
     def name_at(offset):
         # A bucket is named by the function at its middle.
-        index = bisect.bisect_right(addresses, base + offset + 16) - 1
+        index = bisect.bisect_right(addresses, base + offset + 8) - 1
         return symbols[index][1] if index >= 0 else "?"
 
     functions = collections.Counter()
