@@ -494,7 +494,9 @@ std::unique_ptr<MIMETypeRegistryThreadGlobalData> MIMETypeRegistry::createMIMETy
 #elif USE(SKIA)
         "image/png"_s,
         "image/jpeg"_s,
+#if !OS(SYMBIAN)
         "image/webp"_s,
+#endif
 #endif
     };
 #endif

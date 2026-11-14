@@ -876,6 +876,17 @@ if (USE_SKIA_ENCODERS)
         src/encode/SkWebpEncoderImpl.cpp
     )
     target_link_libraries(Skia PRIVATE WebP::mux)
+elseif (PORT STREQUAL "Symbian")
+    # PNG and JPEG for canvas.toDataURL() and toBlob(); libwebp is built to decode only.
+    target_sources(Skia PRIVATE
+        src/encode/SkEncoder.cpp
+        src/encode/SkICC.cpp
+        src/encode/SkJPEGWriteUtility.cpp
+        src/encode/SkJpegEncoderImpl.cpp
+        src/encode/SkPngEncoderBase.cpp
+        src/encode/SkPngEncoderImpl.cpp
+        src/encode/SkWebpEncoder_none.cpp
+    )
 else ()
     target_sources(Skia PRIVATE
         src/encode/SkPngEncoder_none.cpp
