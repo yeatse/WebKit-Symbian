@@ -3,7 +3,7 @@
 // Tools/Symbian/tests/benchmarks/symbolize-profile.py names the addresses.
 #pragma once
 
-// Call on the UI thread. The samples so far go to the log after every 30 s
+// Call on the UI thread. The samples so far go to the log after every 60 s
 // of running, and sampling stops by itself after ten minutes of it.
 void BrowserProfilerStart();
 // Stops sampling and writes the samples to the log.

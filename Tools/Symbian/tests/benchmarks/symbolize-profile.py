@@ -94,7 +94,7 @@ def main():
             # Each profile in the log holds every sample so far.
             header = text.strip()
             samples.clear()
-        for kind, offset, count in re.findall(r" ([ijfc]):([0-9a-f]+):(\d+)", text):
+        for kind, offset, count in re.findall(r" ([ijfcIJFC]):([0-9a-f]+):(\d+)", text):
             samples[(kind, int(offset, 16))] += int(count)
     if not samples:
         sys.exit("no profile: samples in " + arguments.log)
@@ -114,15 +114,20 @@ def main():
     foreign = collections.Counter()
     total = 0
     for (kind, offset), count in samples.items():
-        if kind == "c":
-            callers[name_at(offset)] += count
+        if kind in "cC":
+            if kind == "c":
+                callers[name_at(offset)] += count
             continue
         total += count
-        if kind == "i":
+        if kind == "I":
+            # Addresses sampled once, by 4 KB: enough for the group.
+            functions["<addresses sampled once>"] += count
+            groups[group_of(name_at(offset + 2048 - 8))] += count
+        elif kind == "i":
             name = name_at(offset)
             functions[name] += count
             groups[group_of(name)] += count
-        elif kind == "j":
+        elif kind in "jJ":
             functions["<JIT code>"] += count
             groups["JIT code"] += count
         else:
@@ -131,7 +136,7 @@ def main():
 
     if header:
         print(header)
-    print("%d samples named (single-sample buckets are not logged)\n" % total)
+    print("%d samples named\n" % total)
     print("By group:")
     for name, count in groups.most_common():
         print("  %5.1f%%  %6d  %s" % (100.0 * count / total, count, name))
