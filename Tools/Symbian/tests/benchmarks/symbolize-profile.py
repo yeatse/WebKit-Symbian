@@ -91,7 +91,9 @@ def main():
             continue
         text = line[position + len("profile:"):]
         if " samples busy=" in text:
+            # Each profile in the log holds every sample so far.
             header = text.strip()
+            samples.clear()
         for kind, offset, count in re.findall(r" ([ijfc]):([0-9a-f]+):(\d+)", text):
             samples[(kind, int(offset, 16))] += int(count)
     if not samples:
