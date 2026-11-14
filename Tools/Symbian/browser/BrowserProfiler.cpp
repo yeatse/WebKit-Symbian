@@ -38,6 +38,9 @@ const unsigned KBucketShift = 4;
 const TInt KPeriodMicroseconds = 5000;
 const unsigned KMaximumSamples = 10 * 60 * 200;
 const unsigned KSamplesPerWrite = 60 * 200;
+// Where the ROM is mapped on Symbian^3 and Belle.
+const uint32_t KRomBase = 0x80000000;
+const uint32_t KRomEnd = 0x90000000;
 
 Entry* table;
 Entry* sorted;
@@ -173,6 +176,23 @@ struct LineWriter {
     }
 };
 
+// The instructions around the system addresses with most samples: in the ROM
+// they tell a system call's number or a copy loop, which no symbol does.
+void writeSystemCode()
+{
+    unsigned lines = 0;
+    for (unsigned i = 0; i < KTableSize && sorted[i].count && lines < 16; ++i) {
+        uint32_t key = sorted[i].key;
+        uint32_t address = key >> 2 << KBucketShift;
+        if ((key & 3) != Foreign || address < KRomBase || address >= KRomEnd)
+            continue;
+        const uint32_t* code = reinterpret_cast<const uint32_t*>(address - 16);
+        BrowserLog("profile: code %x: %08x %08x %08x %08x %08x %08x %08x %08x %08x %08x", address - 16,
+            code[0], code[1], code[2], code[3], code[4], code[5], code[6], code[7], code[8], code[9]);
+        ++lines;
+    }
+}
+
 // Writes every sample so far; a later profile in the log replaces this one.
 // "kind:offset:count", most samples first. Unless complete, the many
 // addresses with one sample each are counted by 4 KB, in capitals.
@@ -208,6 +228,8 @@ void write(bool complete)
         writer.add(pageKinds[key & 3], key >> 2 << 12, count);
     }
     writer.flush();
+    if (complete)
+        writeSystemCode();
     BrowserLog("profile: end, %u counts written", writer.written);
 }
 

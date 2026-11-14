@@ -76,6 +76,26 @@ def group_of(name):
     return "other in image"
 
 
+# Executive calls of Symbian^3 and Belle that a UI thread is found in.
+EXEC_NAMES = {
+    0x800000: "WaitForAnyRequest", 0x800001: "Heap", 0x0A: "RBusLogicalChannel::DoRequest",
+    0x0B: "RBusLogicalChannel::DoControl", 0x11: "RMutex::Wait", 0x12: "RMutex::Signal",
+    0x1F: "RSemaphore::Wait", 0x20: "RSemaphore::Signal", 0x25: "RSessionBase::Send",
+    0x4D: "RSessionBase::SendSync", 0x6A: "RHandleBase::Close",
+}
+
+
+def describe_code(words):
+    """The system calls whose return a sample in the 16 bytes can be at."""
+    if not words:
+        return ""
+    # words[0] is 16 bytes before the bucket; a call returns to the next word.
+    calls = [word & 0xFFFFFF for word in words[3:7] if word >> 24 == 0xEF]
+    if not calls:
+        return "no system call: " + " ".join("%08x" % word for word in words[4:8])
+    return "exec " + ", ".join("0x%x %s" % (call, EXEC_NAMES.get(call, "")) for call in calls)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("log")
@@ -84,6 +104,7 @@ def main():
     arguments = parser.parse_args()
 
     samples = collections.Counter()
+    code = {}
     header = None
     for line in open(arguments.log, errors="replace"):
         position = line.find("profile:")
@@ -94,6 +115,11 @@ def main():
             # Each profile in the log holds every sample so far.
             header = text.strip()
             samples.clear()
+            code.clear()
+        match = re.match(r" code ([0-9a-f]+):((?: [0-9a-f]{8})+)", text)
+        if match:
+            code[int(match.group(1), 16) + 16] = [int(word, 16) for word in match.group(2).split()]
+            continue
         for kind, offset, count in re.findall(r" ([ijfcIJFC]):([0-9a-f]+):(\d+)", text):
             samples[(kind, int(offset, 16))] += int(count)
     if not samples:
@@ -149,8 +175,8 @@ def main():
             print("  %5.1f%%  %6d  %s" % (100.0 * count / total, count, name[:140]))
     if foreign:
         print("\nSystem addresses:")
-        for offset, count in foreign.most_common(10):
-            print("  %5.1f%%  %6d  0x%08x" % (100.0 * count / total, count, offset))
+        for offset, count in foreign.most_common(16):
+            print("  %5.1f%%  %6d  0x%08x  %s" % (100.0 * count / total, count, offset, describe_code(code.get(offset))))
 
 
 if __name__ == "__main__":
