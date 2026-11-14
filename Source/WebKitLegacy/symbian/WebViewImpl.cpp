@@ -361,6 +361,11 @@ void WebView::setGPURasterizationEnabled(bool enabled)
 #endif
 }
 
+void WebView::setSharedGLContextEnabled(bool enabled)
+{
+    SymbianCompositor::setSharedGLContextEnabled(enabled);
+}
+
 void WebView::setBackdropFiltersEnabled(bool enabled)
 {
     WebCore::TextureMapperLayer::setBackdropFiltersEnabled(enabled);

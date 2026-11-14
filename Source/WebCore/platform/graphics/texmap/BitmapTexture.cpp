@@ -511,14 +511,20 @@ bool BitmapTexture::paintWithSkia(const IntRect& targetRect, NOESCAPE const Func
     auto* grContext = display.skiaGrContext();
     std::unique_ptr<GLFence> fence;
     bool painted = false;
+    // In the context that owns this texture, command order replaces the waits.
+    const bool sameContext = skiaContext->resourceState() == m_resourceState;
+    const bool hadContents = m_hasContents;
     return m_resourceState->paintAndUpload([&] {
-        // Shared-context writes must wait for the compositor's preceding reads.
-        auto& glDisplay = display.glDisplay();
-        auto readFence = GLFence::isSupported(glDisplay) ? GLFence::create(glDisplay) : nullptr;
-        if (readFence)
-            glFlush();
-        else
-            glFinish();
+        std::unique_ptr<GLFence> readFence;
+        if (!sameContext) {
+            // Shared-context writes must wait for the compositor's preceding reads.
+            auto& glDisplay = display.glDisplay();
+            readFence = GLFence::isSupported(glDisplay) ? GLFence::create(glDisplay) : nullptr;
+            if (readFence)
+                glFlush();
+            else
+                glFinish();
+        }
         GLContext::ScopedGLContextCurrent current(*skiaContext);
         if (!skiaContext->makeContextCurrent())
             return;
@@ -540,7 +546,10 @@ bool BitmapTexture::paintWithSkia(const IntRect& targetRect, NOESCAPE const Func
         }
         if (!skiaContext->makeContextCurrent())
             return;
-        fence = SkiaUtilities::flushAndSubmitSurfaceWithFence(grContext, surface.get());
+        if (sameContext)
+            grContext->flushAndSubmit(surface.get(), GrSyncCpu::kNo);
+        else
+            fence = SkiaUtilities::flushAndSubmitSurfaceWithFence(grContext, surface.get());
         painted = true;
     }, [&] {
         if (!painted)
@@ -548,15 +557,19 @@ bool BitmapTexture::paintWithSkia(const IntRect& targetRect, NOESCAPE const Func
         if (fence)
             fence->serverWait();
 
-        GLint boundTexture = 0;
-        glGetIntegerv(m_binding, &boundTexture);
-        glBindTexture(m_renderTarget, m_id);
-        auto filter = m_flags.contains(Flags::NearestFiltering) ? GL_NEAREST : GL_LINEAR;
-        glTexParameteri(m_renderTarget, GL_TEXTURE_MIN_FILTER, filter);
-        glTexParameteri(m_renderTarget, GL_TEXTURE_MAG_FILTER, filter);
-        glTexParameteri(m_renderTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(m_renderTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glBindTexture(m_renderTarget, boundTexture);
+        // Sampling parameters stay with the texture: a repaint in the same
+        // context has nothing to set again.
+        if (!sameContext || !hadContents) {
+            GLint boundTexture = 0;
+            glGetIntegerv(m_binding, &boundTexture);
+            glBindTexture(m_renderTarget, m_id);
+            auto filter = m_flags.contains(Flags::NearestFiltering) ? GL_NEAREST : GL_LINEAR;
+            glTexParameteri(m_renderTarget, GL_TEXTURE_MIN_FILTER, filter);
+            glTexParameteri(m_renderTarget, GL_TEXTURE_MAG_FILTER, filter);
+            glTexParameteri(m_renderTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(m_renderTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glBindTexture(m_renderTarget, boundTexture);
+        }
 
         m_pixelFormat = m_flags.contains(Flags::UseBGRALayout) ? PixelFormat::BGRA8 : PixelFormat::RGBA8;
         m_hasContents = true;

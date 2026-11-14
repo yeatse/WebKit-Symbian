@@ -234,6 +234,11 @@ std::unique_ptr<GLContext> GLContext::createPbufferContext(GLDisplay& display, E
 {
     EGLDisplay eglDisplay = display.eglDisplay();
     EGLConfig config;
+#if OS(SYMBIAN)
+    // A configuration that also draws into windows lets the compositor use
+    // this context for its window.
+    if (!getEGLConfig(eglDisplay, &config, EGL_PBUFFER_BIT | EGL_WINDOW_BIT))
+#endif
     if (!getEGLConfig(eglDisplay, &config, EGL_PBUFFER_BIT)) {
         RELEASE_LOG_INFO(Compositing, "Cannot obtain EGL Pbuffer configuration: %s\n", lastErrorString());
         return nullptr;
@@ -668,6 +673,48 @@ bool GLContext::resizeWindowSurface(GLNativeWindowType window)
     }
     m_surface = createSymbianWindowSurface(display->eglDisplay(), m_config, window);
     return m_surface != EGL_NO_SURFACE && makeContextCurrent();
+}
+
+bool GLContext::replaceSurface(EGLSurface surface)
+{
+    auto display = m_display.get();
+    if (!display || surface == EGL_NO_SURFACE)
+        return false;
+    EGLSurface previous = m_surface;
+    if (!unmakeContextCurrent()) {
+        eglDestroySurface(display->eglDisplay(), surface);
+        return false;
+    }
+    m_surface = surface;
+    if (!makeContextCurrent()) {
+        m_surface = previous;
+        eglDestroySurface(display->eglDisplay(), surface);
+        makeContextCurrent();
+        return false;
+    }
+    if (previous != EGL_NO_SURFACE)
+        eglDestroySurface(display->eglDisplay(), previous);
+    return true;
+}
+
+bool GLContext::attachWindowSurface(GLNativeWindowType window)
+{
+    auto display = m_display.get();
+    if (!display || !window)
+        return false;
+    EGLint surfaceType = 0;
+    if (!eglGetConfigAttrib(display->eglDisplay(), m_config, EGL_SURFACE_TYPE, &surfaceType) || !(surfaceType & EGL_WINDOW_BIT))
+        return false;
+    return replaceSurface(createSymbianWindowSurface(display->eglDisplay(), m_config, window));
+}
+
+bool GLContext::detachWindowSurface()
+{
+    auto display = m_display.get();
+    if (!display)
+        return false;
+    static const EGLint attributes[] = { EGL_WIDTH, 1, EGL_HEIGHT, 1, EGL_NONE };
+    return replaceSurface(eglCreatePbufferSurface(display->eglDisplay(), m_config, attributes));
 }
 #endif
 

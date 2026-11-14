@@ -14,6 +14,7 @@
 #include <wtf/symbian/MainThreadProfile.h>
 
 namespace WebCore {
+class Damage;
 class GLContext;
 class GraphicsLayer;
 class SkiaCompositingLayer;
@@ -34,6 +35,8 @@ public:
     bool resize();
     bool render();
     void prepareForDestruction();
+    // Off keeps a context of the compositor's own beside Skia's.
+    static void setSharedGLContextEnabled(bool);
 
 private:
     explicit SymbianCompositor(WebViewImpl&, void*);
@@ -46,7 +49,10 @@ private:
 
     WebViewImpl& m_view;
     void* m_nativeWindow;
-    std::unique_ptr<WebCore::GLContext> m_context;
+    // Skia's own context drawing into the window, or a context of the
+    // compositor's that shares textures with it.
+    WebCore::GLContext* m_context { nullptr };
+    std::unique_ptr<WebCore::GLContext> m_ownedContext;
     std::unique_ptr<WebCore::TextureMapper> m_textureMapper;
     RefPtr<WebCore::GraphicsLayer> m_root;
     RefPtr<WebCore::GraphicsLayer> m_content;
@@ -61,7 +67,10 @@ private:
     void setCheckGLStages(bool);
     bool initializeSkiaPresentation();
     bool composeSkiaFrame(WebCore::SkiaCompositingLayer&, bool& hasRunningAnimations, bool& emptyDamage);
+    bool composeSkiaFrameIntoWindow(WebCore::SkiaCompositingLayer&, bool& hasRunningAnimations, bool& emptyDamage);
     bool presentSkiaFrame();
+    bool wrapWindowForSkia();
+    void recordDamage(const WebCore::Damage&, bool fullDamage, bool emptyDamage);
     void releaseSkiaFrame();
 
     struct SkiaFrame;

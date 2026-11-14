@@ -99,6 +99,10 @@ public:
     WEBCORE_EXPORT void swapBuffers();
 #if OS(SYMBIAN)
     WEBCORE_EXPORT bool resizeWindowSurface(GLNativeWindowType);
+    // Lets an offscreen context draw into a window, and back. The context
+    // and its objects stay; only the surface changes.
+    WEBCORE_EXPORT bool attachWindowSurface(GLNativeWindowType);
+    WEBCORE_EXPORT bool detachWindowSurface();
     WEBCORE_EXPORT bool swapBuffersChecked();
     const std::shared_ptr<SymbianGLResourceState>& resourceState() const { return m_resourceState; }
     void abandonResources() { m_resourceState->abandon(); }
@@ -189,6 +193,9 @@ private:
 #endif
     ThreadSafeWeakPtr<GLDisplay> m_display;
     mutable unsigned m_version { 0 };
+#if OS(SYMBIAN)
+    bool replaceSurface(EGLSurface);
+#endif
     EGLContext m_context { nullptr };
     EGLSurface m_surface { nullptr };
     EGLConfig m_config { nullptr };

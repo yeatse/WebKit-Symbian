@@ -198,6 +198,7 @@ void WebView::setTiledCompositingEnabled(bool) { }
 void WebView::setBackdropFiltersEnabled(bool) { }
 void WebView::setSkiaCompositionEnabled(bool) { }
 void WebView::setGPURasterizationEnabled(bool) { }
+void WebView::setSharedGLContextEnabled(bool) { }
 void WebView::setTimersDeferredDuringInput(bool) { }
 void WebView::setCompilerThreadsShareUIPriority(bool) { }
 void WebView::setWebAudioVolume(double) { }

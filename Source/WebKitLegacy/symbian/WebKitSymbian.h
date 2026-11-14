@@ -193,6 +193,8 @@ public:
     // Paint page tiles on the GPU (default); off, they are painted on the
     // CPU and uploaded.
     static void setGPURasterizationEnabled(bool);
+    // Off gives the compositor a GL context of its own beside Skia's.
+    static void setSharedGLContextEnabled(bool);
     // Draw backdrop-filter (off by default: it costs about 10 ms a frame on a
     // Nokia 808; without it the element shows the page under it unfiltered).
     static void setBackdropFiltersEnabled(bool);

@@ -98,8 +98,28 @@ std::optional<unsigned> retrieveGLTextureID(const SkImage& image)
     return textureInfo.fID;
 }
 
+#if OS(SYMBIAN)
+static bool s_compositorSharesGLContext;
+
+void setCompositorSharesGLContext(bool shares)
+{
+    s_compositorSharesGLContext = shares;
+}
+
+bool compositorSharesGLContext()
+{
+    return s_compositorSharesGLContext;
+}
+#endif
+
 static std::unique_ptr<GLFence> createFenceAfterFlush(GrDirectContext* grContext)
 {
+#if OS(SYMBIAN)
+    if (s_compositorSharesGLContext) {
+        grContext->submit(GrSyncCpu::kNo);
+        return nullptr;
+    }
+#endif
     auto& glDisplay = PlatformDisplay::sharedDisplay().glDisplay();
     if (GLFence::isSupported(glDisplay)) {
         grContext->submit(GrSyncCpu::kNo);

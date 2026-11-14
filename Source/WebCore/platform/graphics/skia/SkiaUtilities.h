@@ -99,6 +99,13 @@ sk_sp<SkImage> rewrapImageForContext(GrDirectContext*, const SkImage&);
 // Extracts the GL texture ID from a GPU-backed SkImage, if available.
 std::optional<unsigned> retrieveGLTextureID(const SkImage&);
 
+#if OS(SYMBIAN)
+// With the compositor drawing in Skia's own GL context, command order is
+// enough: nothing waits for the GPU and the fences below are null.
+WEBCORE_EXPORT void setCompositorSharesGLContext(bool);
+WEBCORE_EXPORT bool compositorSharesGLContext();
+#endif
+
 // Flushes the surface, submits pending GPU commands, and creates a GLFence
 // for async synchronization. Falls back to synchronous submit if fences
 // are not supported or creation fails, and returns nullptr.

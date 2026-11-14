@@ -646,7 +646,7 @@ bool SkiaCompositingLayer::computeTransformsAndAnimations(const TransformationMa
     return hasRunningAnimations;
 }
 
-bool SkiaCompositingLayer::paint(SkCanvas& canvas, std::optional<Damage>& frameDamage, const std::optional<Damage>& priorTargetDamage, std::optional<SkColor> clearColor)
+bool SkiaCompositingLayer::paint(SkCanvas& canvas, std::optional<Damage>& frameDamage, const std::optional<Damage>& priorTargetDamage, std::optional<SkColor> clearColor, bool targetKeepsContents)
 {
     // Both walks below assume the animations have been applied and the transforms computed.
     bool hasRunningAnimations = computeTransformsAndAnimations({ }, { }, MonotonicTime::now());
@@ -700,6 +700,9 @@ bool SkiaCompositingLayer::paint(SkCanvas& canvas, std::optional<Damage>& frameD
 
     // An empty region means the target already holds the frame, so draw nothing and skip the clear.
     const bool skipDraw = damageRegion && damageRegion->isEmpty();
+    // A target that loses its contents when shown is drawn whole or not at all.
+    if (!targetKeepsContents && !skipDraw)
+        damageRegion = std::nullopt;
     if (!skipDraw) {
         // Clear what will be redrawn - only the damage rects when compositing from the damage, which keeps
         // undamaged content and composites translucent content once, or the whole target otherwise.

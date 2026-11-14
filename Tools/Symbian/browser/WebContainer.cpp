@@ -189,6 +189,7 @@ void CWebContainer::ConstructL(const TRect& aRect)
     WebView::setBackdropFiltersEnabled(BrowserSetting("backdrop-filters"));
     WebView::setSkiaCompositionEnabled(BrowserSetting("skia-compositor"));
     WebView::setGPURasterizationEnabled(BrowserSetting("gpu-raster"));
+    WebView::setSharedGLContextEnabled(BrowserSetting("shared-gl-context"));
     iWebView->setNativeWindow(&Window());
 #endif
     WebView::setTimersDeferredDuringInput(BrowserSetting("timer-deferral"));

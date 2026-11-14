@@ -10,6 +10,7 @@
 #endif
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 #include <cstdio>
 #include <WebCore/DocumentView.h>
 #include <WebCore/BitmapTexturePool.h>
@@ -34,7 +35,9 @@ WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
 #include <skia/core/SkSurface.h>
 #include <skia/gpu/ganesh/GrDirectContext.h>
 #include <skia/gpu/ganesh/SkSurfaceGanesh.h>
+#include <skia/gpu/ganesh/GrBackendSurface.h>
 #include <skia/gpu/ganesh/gl/GrGLBackendSurface.h>
+#include <skia/gpu/ganesh/gl/GrGLTypes.h>
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 #include <wtf/SetForScope.h>
 #include <wtf/TZoneMallocInlines.h>
@@ -56,6 +59,8 @@ public:
     GLint sampler { -1 };
     GLuint textureID { 0 };
 };
+
+static bool s_sharedContextEnabled = true;
 
 static GLuint compilePresentationShader(GLenum type, const char* source)
 {
@@ -129,14 +134,36 @@ bool SymbianCompositor::initialize()
         PlatformDisplay::setSharedDisplay(WTF::move(display));
     }
     auto& display = PlatformDisplay::sharedDisplay();
-    m_context = GLContext::create(display, m_nativeWindow);
+    if (TextureMapper::skiaCompositionEnabled() && s_sharedContextEnabled && !SkiaUtilities::compositorSharesGLContext()) {
+        auto* skiaContext = display.skiaGLContext();
+        if (skiaContext && skiaContext->attachWindowSurface(m_nativeWindow)) {
+            m_context = skiaContext;
+            m_skiaFrame = makeUnique<SkiaFrame>();
+            if (wrapWindowForSkia()) {
+                SkiaUtilities::setCompositorSharesGLContext(true);
+                WTFLogAlways("Symbian compositor: Skia draws into the window in one GL context");
+            } else {
+                WTFLogAlways("Symbian compositor: Skia cannot draw into the window, using a context of its own");
+                m_skiaFrame = nullptr;
+                m_context = nullptr;
+                skiaContext->detachWindowSurface();
+            }
+        }
+    }
+    if (!m_context) {
+        m_ownedContext = GLContext::create(display, m_nativeWindow);
+        m_context = m_ownedContext.get();
+    }
     if (!m_context || !m_context->makeContextCurrent()) {
         WTFLogAlways("Symbian compositor: EGL window context failed: %s", GLContext::lastErrorString());
         return false;
     }
     m_textureMapper = TextureMapper::create();
-    if (TextureMapper::skiaCompositionEnabled() && !initializeSkiaPresentation())
-        return false;
+    if (m_ownedContext && TextureMapper::skiaCompositionEnabled()) {
+        m_skiaFrame = makeUnique<SkiaFrame>();
+        if (!initializeSkiaPresentation())
+            return false;
+    }
     m_root = GraphicsLayer::create(nullptr, *this);
     m_root->setDrawsContent(true);
     m_root->setContentsOpaque(true);
@@ -171,11 +198,22 @@ SymbianCompositor::~SymbianCompositor()
     if (m_context)
         BitmapTexturePool::singleton().releaseTexturesForContext(m_context->resourceState());
     releaseSkiaFrame();
+    if (m_context && !m_ownedContext) {
+        // Skia keeps its context and what it holds; only the window goes.
+        if (auto* grContext = PlatformDisplay::sharedDisplay().skiaGrContext())
+            grContext->flushAndSubmit(GrSyncCpu::kNo);
+        m_context->detachWindowSurface();
+        SkiaUtilities::setCompositorSharesGLContext(false);
+    }
+}
+
+void SymbianCompositor::setSharedGLContextEnabled(bool enabled)
+{
+    s_sharedContextEnabled = enabled;
 }
 
 bool SymbianCompositor::initializeSkiaPresentation()
 {
-    m_skiaFrame = makeUnique<SkiaFrame>();
     constexpr auto* vertexSource =
         "attribute vec2 a_position; attribute vec2 a_texCoord; varying vec2 v_texCoord;"
         "void main() { gl_Position=vec4(a_position,0.0,1.0); v_texCoord=a_texCoord; }";
@@ -253,6 +291,85 @@ void SymbianCompositor::releaseSkiaFrame()
     m_skiaFrame = nullptr;
 }
 
+void SymbianCompositor::recordDamage(const Damage& frameDamage, bool fullDamage, bool emptyDamage)
+{
+    auto& frame = *m_skiaFrame;
+    uint64_t pixels = 0;
+    SkRegion damageRegion;
+    for (const auto& rect : frameDamage.rectsForPainting())
+        damageRegion.op(SkIRect(rect), SkRegion::kUnion_Op);
+    for (SkRegion::Iterator rects(damageRegion); !rects.done(); rects.next())
+        pixels += static_cast<uint64_t>(rects.rect().width()) * rects.rect().height();
+    const uint64_t totalPixels = static_cast<uint64_t>(frame.size.width()) * frame.size.height();
+    fullDamage |= damageRegion.contains(SkIRect::MakeWH(frame.size.width(), frame.size.height()));
+    unsigned damageKind = emptyDamage ? 2 : fullDamage ? 0 : 1;
+    ++m_frameNumber;
+    if (!damageKind)
+        ++m_fullDamageFrames;
+    else if (damageKind == 1)
+        ++m_partialDamageFrames;
+    else
+        ++m_emptyDamageFrames;
+    m_damagedPixels += pixels;
+    if (m_frameNumber <= 12 || (frameStatsEnabled() && damageKind != m_lastDamageKind)) {
+        WTFLogAlways("Symbian Skia compositor: frame=%u damage=%s rects=%zu pixels=%llu total=%llu", m_frameNumber,
+            emptyDamage ? "empty" : fullDamage ? "full" : "partial", frameDamage.rectsForPainting().size(),
+            static_cast<unsigned long long>(pixels), static_cast<unsigned long long>(totalPixels));
+        m_lastDamageKind = damageKind;
+    }
+}
+
+bool SymbianCompositor::wrapWindowForSkia()
+{
+    auto* grContext = PlatformDisplay::sharedDisplay().skiaGrContext();
+    if (!grContext || !m_context->makeContextCurrent())
+        return false;
+    auto& frame = *m_skiaFrame;
+    GrGLFramebufferInfo framebuffer;
+    framebuffer.fFBOID = 0;
+    framebuffer.fFormat = GL_RGBA8_OES;
+    // The view can still be empty when the compositor starts.
+    auto size = m_view.size().isEmpty() ? IntSize(1, 1) : m_view.size();
+    auto target = GrBackendRenderTargets::MakeGL(size.width(), size.height(), 0, 8, framebuffer);
+    auto properties = FontRenderOptions::singleton().createSurfaceProps();
+    frame.surface = SkSurfaces::WrapBackendRenderTarget(grContext, target, kBottomLeft_GrSurfaceOrigin, kRGBA_8888_SkColorType, SkColorSpace::MakeSRGB(), &properties);
+    frame.size = size;
+    return !!frame.surface;
+}
+
+// One render pass a frame: the layers are drawn into the window's back
+// buffer, which holds nothing from the frame before, so all of them are drawn
+// whenever anything changed.
+bool SymbianCompositor::composeSkiaFrameIntoWindow(SkiaCompositingLayer& scene, bool& hasRunningAnimations, bool& emptyDamage)
+{
+    auto* grContext = PlatformDisplay::sharedDisplay().skiaGrContext();
+    if (!grContext)
+        return false;
+    auto& frame = *m_skiaFrame;
+    grContext->resetContext();
+    if ((!frame.surface || frame.size != m_view.size()) && !wrapWindowForSkia())
+        return false;
+
+    // Without a frame to show, an unchanged scene is found and not drawn.
+    std::optional<Damage> frameDamage(std::in_place, frame.size, Damage::Mode::Rectangles);
+    std::optional<Damage> priorTargetDamage;
+    if (!m_forceFullDamage && !m_needsPresentation)
+        priorTargetDamage.emplace(frame.size);
+    hasRunningAnimations = scene.paint(*frame.surface->getCanvas(), frameDamage, priorTargetDamage, SK_ColorWHITE, false);
+    emptyDamage = priorTargetDamage && frameDamage->isEmpty();
+    recordDamage(*frameDamage, !emptyDamage, emptyDamage);
+    if (emptyDamage)
+        return true;
+    grContext->flushAndSubmit(frame.surface.get(), GrSyncCpu::kNo);
+    m_forceFullDamage = false;
+    m_needsPresentation = true;
+    if (m_logSkiaInitialization) {
+        WTFLogAlways("Symbian Skia compositor: initialized");
+        m_logSkiaInitialization = false;
+    }
+    return true;
+}
+
 bool SymbianCompositor::composeSkiaFrame(SkiaCompositingLayer& scene, bool& hasRunningAnimations, bool& emptyDamage)
 {
     auto& display = PlatformDisplay::sharedDisplay();
@@ -292,29 +409,7 @@ bool SymbianCompositor::composeSkiaFrame(SkiaCompositingLayer& scene, bool& hasR
     hasRunningAnimations = scene.paint(*frame.surface->getCanvas(), frameDamage, priorTargetDamage, SK_ColorWHITE);
     emptyDamage = !fullDamage && frameDamage->isEmpty();
 
-    uint64_t pixels = 0;
-    SkRegion damageRegion;
-    for (const auto& rect : frameDamage->rectsForPainting())
-        damageRegion.op(SkIRect(rect), SkRegion::kUnion_Op);
-    for (SkRegion::Iterator rects(damageRegion); !rects.done(); rects.next())
-        pixels += static_cast<uint64_t>(rects.rect().width()) * rects.rect().height();
-    const uint64_t totalPixels = static_cast<uint64_t>(frame.size.width()) * frame.size.height();
-    fullDamage |= damageRegion.contains(SkIRect::MakeWH(frame.size.width(), frame.size.height()));
-    unsigned damageKind = emptyDamage ? 2 : fullDamage ? 0 : 1;
-    ++m_frameNumber;
-    if (damageKind == 0)
-        ++m_fullDamageFrames;
-    else if (damageKind == 1)
-        ++m_partialDamageFrames;
-    else
-        ++m_emptyDamageFrames;
-    m_damagedPixels += pixels;
-    if (m_frameNumber <= 12 || (frameStatsEnabled() && damageKind != m_lastDamageKind)) {
-        WTFLogAlways("Symbian Skia compositor: frame=%u damage=%s rects=%zu pixels=%llu total=%llu", m_frameNumber,
-            emptyDamage ? "empty" : fullDamage ? "full" : "partial", frameDamage->rectsForPainting().size(),
-            static_cast<unsigned long long>(pixels), static_cast<unsigned long long>(totalPixels));
-        m_lastDamageKind = damageKind;
-    }
+    recordDamage(*frameDamage, fullDamage, emptyDamage);
 
     if (emptyDamage && !m_needsPresentation)
         return true;
@@ -382,8 +477,8 @@ void SymbianCompositor::prepareForDestruction()
 {
     m_flushTimer.stop();
     m_glCheckTimer.stop();
-    if (m_context && !m_context->makeContextCurrent())
-        m_context->abandonResources();
+    if (m_ownedContext && !m_ownedContext->makeContextCurrent())
+        m_ownedContext->abandonResources();
 }
 
 void SymbianCompositor::updateChildren()
@@ -602,7 +697,9 @@ bool SymbianCompositor::render()
         MediaPlayerPrivateSymbian::willComposite();
 #endif
         bool emptyDamage = false;
-        if (!composeSkiaFrame(scene, hasRunningAnimations, emptyDamage)) {
+        bool composed = m_ownedContext ? composeSkiaFrame(scene, hasRunningAnimations, emptyDamage)
+            : composeSkiaFrameIntoWindow(scene, hasRunningAnimations, emptyDamage);
+        if (!composed) {
             WTFLogAlways("Symbian Skia compositor: frame composition failed");
             return false;
         }
@@ -616,7 +713,7 @@ bool SymbianCompositor::render()
                 m_flushTimer.startOneShot(0_s);
             return true;
         }
-        if (!presentSkiaFrame())
+        if (m_ownedContext && !presentSkiaFrame())
             return false;
     } else {
         // Layers are drawn straight into the window: one render pass and no
