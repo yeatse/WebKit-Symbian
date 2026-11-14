@@ -30,8 +30,9 @@ env:
   SYMBIAN_SDK_PREFIX: ${{ github.workspace }}/WebKitBuild/Symbian/symbian-sdk
   CCACHE_DIR: ${{ github.workspace }}/WebKitBuild/Symbian/ccache
   CCACHE_BASEDIR: ${{ github.workspace }}
-  # The SDK is unpacked afresh each run: hash compilers, not their mtimes.
-  CCACHE_COMPILERCHECK: content
+  # The SDK is unpacked afresh each run: hash the compiler wrappers with their
+  # flags, not their mtimes. The SDK version is in the cache key.
+  CCACHE_COMPILERCHECK: ${{ github.workspace }}/Tools/Symbian/toolchain/ccache-compiler-check %compiler%
   CCACHE_SLOPPINESS: pch_defines,time_macros,include_file_mtime,include_file_ctime
   CCACHE_MAXSIZE: 3G
   CMAKE_C_COMPILER_LAUNCHER: ccache
