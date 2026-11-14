@@ -36,8 +36,11 @@ const unsigned KTableSize = 1 << 15;
 const unsigned KBucketShift = 5;
 const TInt KPeriodMicroseconds = 5000;
 const unsigned KMaximumSamples = 10 * 60 * 200;
+const unsigned KSamplesPerWrite = 30 * 200;
 
 Entry* table;
+Entry* sorted;
+unsigned samplesWritten;
 unsigned tableUsed;
 unsigned samplesBusy;
 unsigned samplesIdle;
@@ -100,6 +103,43 @@ void sample(RThread& thread)
     }
 }
 
+int compareEntries(const void* a, const void* b)
+{
+    uint32_t left = static_cast<const Entry*>(a)->count;
+    uint32_t right = static_cast<const Entry*>(b)->count;
+    return left < right ? 1 : left > right ? -1 : 0;
+}
+
+// Writes every sample so far; a later profile in the log replaces this one.
+void write()
+{
+    samplesWritten = samplesBusy + samplesFailed;
+    BrowserLog("profile: samples busy=%u idle=%u image=%u jit=%u foreign=%u foreign-caller=%u dropped=%u failed=%u buckets=%u",
+        samplesBusy, samplesIdle, kindCounts[Image], kindCounts[Jit], kindCounts[Foreign], kindCounts[ForeignCaller],
+        samplesDropped, samplesFailed, tableUsed);
+    memcpy(sorted, table, KTableSize * sizeof(Entry));
+    qsort(sorted, KTableSize, sizeof(Entry), compareEntries);
+    // "kind:offset:count", most samples first; the long tail of single
+    // samples is left out.
+    static const char kinds[] = "ijfc";
+    char line[480];
+    int used = 0;
+    unsigned written = 0;
+    for (unsigned i = 0; i < KTableSize && sorted[i].count >= 2 && written < 6000; ++i, ++written) {
+        uint32_t key = sorted[i].key;
+        unsigned shift = (key & 3) == Jit ? 12 : KBucketShift;
+        used += snprintf(line + used, sizeof(line) - used, " %c:%x:%u", kinds[key & 3],
+            static_cast<unsigned>(key >> 2 << shift), sorted[i].count);
+        if (used > 440) {
+            BrowserLog("profile:%s", line);
+            used = 0;
+        }
+    }
+    if (used)
+        BrowserLog("profile:%s", line);
+    BrowserLog("profile: end, %u buckets written", written);
+}
+
 void* sampler(void*)
 {
     RThread().SetPriority(EPriorityAbsoluteHigh);
@@ -110,7 +150,7 @@ void* sampler(void*)
     }
     TTimeIntervalMicroSeconds lastCpu(0);
     bool hasCpuTime = thread.GetCpuTime(lastCpu) == KErrNone;
-    while (!stopRequested && samplesBusy < KMaximumSamples) {
+    while (!stopRequested && samplesBusy + samplesFailed < KMaximumSamples) {
         User::AfterHighRes(KPeriodMicroseconds);
         if (hasCpuTime) {
             // A thread that did not run since the last sample is waiting.
@@ -124,17 +164,19 @@ void* sampler(void*)
             }
         }
         sample(thread);
+        // Also while running, as not every exit comes through
+        // BrowserProfilerDump. At the UI thread's priority, as it takes a
+        // while.
+        if (samplesBusy + samplesFailed - samplesWritten >= KSamplesPerWrite) {
+            RThread().SetPriority(EPriorityNormal);
+            write();
+            RThread().SetPriority(EPriorityAbsoluteHigh);
+            thread.GetCpuTime(lastCpu);
+        }
     }
     thread.Close();
     stopped = true;
     return nullptr;
-}
-
-int compareEntries(const void* a, const void* b)
-{
-    uint32_t left = static_cast<const Entry*>(a)->count;
-    uint32_t right = static_cast<const Entry*>(b)->count;
-    return left < right ? 1 : left > right ? -1 : 0;
 }
 
 } // namespace
@@ -149,8 +191,13 @@ void BrowserProfilerStart()
     imageBase = info.iCodeBase;
     imageEnd = imageBase + info.iCodeSize;
     table = static_cast<Entry*>(calloc(KTableSize, sizeof(Entry)));
-    if (!table)
+    sorted = static_cast<Entry*>(calloc(KTableSize, sizeof(Entry)));
+    if (!table || !sorted) {
+        free(table);
+        free(sorted);
+        table = nullptr;
         return;
+    }
     uiThreadId = RThread().Id();
     BrowserLog("profile: sampling the UI thread every %d ms, image 0x%08x+0x%x",
         static_cast<int>(KPeriodMicroseconds / 1000), static_cast<unsigned>(imageBase), static_cast<unsigned>(info.iCodeSize));
@@ -171,37 +218,13 @@ void BrowserProfilerDump()
     if (!table)
         return;
     stopRequested = true;
-    for (int waits = 0; !stopped && waits < 100; ++waits)
+    for (int waits = 0; !stopped && waits < 400; ++waits)
         User::AfterHighRes(KPeriodMicroseconds);
     if (!stopped)
         return;
-
-    BrowserLog("profile: samples busy=%u idle=%u image=%u jit=%u foreign=%u foreign-caller=%u dropped=%u failed=%u buckets=%u",
-        samplesBusy, samplesIdle, kindCounts[Image], kindCounts[Jit], kindCounts[Foreign], kindCounts[ForeignCaller],
-        samplesDropped, samplesFailed, tableUsed);
-    BrowserLog("profile: image 0x%08x jit 0x%08x bucket %u",
-        static_cast<unsigned>(imageBase),
-        static_cast<unsigned>(reinterpret_cast<uintptr_t>(JSC::startOfFixedExecutableMemoryPoolImpl())), 1u << KBucketShift);
-    qsort(table, KTableSize, sizeof(Entry), compareEntries);
-    // "kind:offset:count", most samples first; the long tail of single
-    // samples is left out.
-    static const char kinds[] = "ijfc";
-    char line[480];
-    int used = 0;
-    unsigned written = 0;
-    for (unsigned i = 0; i < KTableSize && table[i].count >= 2 && written < 6000; ++i, ++written) {
-        uint32_t key = table[i].key;
-        unsigned shift = (key & 3) == Jit ? 12 : KBucketShift;
-        used += snprintf(line + used, sizeof(line) - used, " %c:%x:%u", kinds[key & 3],
-            static_cast<unsigned>(key >> 2 << shift), table[i].count);
-        if (used > 440) {
-            BrowserLog("profile:%s", line);
-            used = 0;
-        }
-    }
-    if (used)
-        BrowserLog("profile:%s", line);
-    BrowserLog("profile: end, %u buckets written", written);
+    if (samplesBusy + samplesFailed != samplesWritten)
+        write();
     free(table);
+    free(sorted);
     table = nullptr;
 }
