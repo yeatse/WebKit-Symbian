@@ -79,8 +79,8 @@ check software painting and native Surface Update presentation.
 Use `--suite skia` for layer composition and damage updates; the runner enables
 frame statistics and records native full, partial and empty damage frames.
 
-Add `frame-stats` before the URL on the browser command line, or create
-`C:\Data\WebKit\frame-stats`, to log `frame-stats:` lines with average/maximum
+Add `frame-stats` before the URL on the browser command line, or set
+`frame-stats = on` in `C:\Data\WebKit\webkit.ini`, to log `frame-stats:` lines with average/maximum
 milliseconds per stage about once a second: `update`, `backing`, `draw` and
 `swap` for EGL, `begin`, `paint` and `submit` for ScreenPlay, `paint` and
 `blit` for bitmaps. Compare them on a device; emulator GPU timings use the host.

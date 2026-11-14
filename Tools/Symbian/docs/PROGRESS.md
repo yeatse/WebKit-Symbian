@@ -33,6 +33,7 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 - [x] Hardware composition through EGL and OpenGL ES 2.0.
 - [x] Upstream Skia layer composition, image-set batching, masks, blend modes and filters.
 - [x] Damage-aware composition with a persistent GPU frame.
+- [x] One GL context for Skia and the compositor: tiles and frames drawn without waiting for the GPU, composed straight into the window.
 - [x] WebGL 1 through ANGLE.
 - [x] ScreenPlay presentation with mapped double buffers and dirty regions.
 - [x] Bitmap presentation.
@@ -100,7 +101,12 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 - [x] Frame timing for rendering, uploads, ScreenPlay submission and image decoding.
 - [x] Main-thread script, layout, paint and JIT compilation profiling.
 - [x] Dirty-region tracking, incremental texture uploads and scrolling optimizations.
-- [x] UI-priority image decoding and configurable JIT compiler priority.
+- [x] JIT compiler threads at UI priority, calmer tier-up and an integer remainder helper.
+- [x] Timers held while a touch is handled.
+- [x] JavaScriptCore and WTF built with `-O2`; compiler builtins enabled.
+- [x] Main-thread thread-specific values without system calls.
+- [x] Sampling profiler with symbolized system code.
+- [x] Settings in `C:\Data\WebKit\webkit.ini`, including the graphics path switches.
 - [ ] Measure JIT compiler queue wait, compilation time and UI frame cost when tuning worker priority, pool size and inlining budgets.
 - [ ] Measure Skia Canvas 2D and text rendering on Belle devices.
 - [ ] Tune composited filter and mask surfaces.
@@ -108,9 +114,17 @@ Checked items are implemented. Unchecked items are ordered by priority within ea
 - [ ] Add HTTP disk caching.
 - [ ] Add A3F DevSound output for Web Audio.
 
-Use `C:/Data/WebKit/frame-stats` to enable frame timing, open
+Set `frame-stats = on` in `C:\Data\WebKit\webkit.ini` to enable frame timing, open
 `file:///C:/Data/WebKit/bench/index.html`, and summarize the browser log with
 `tests/benchmarks/summarize-frame-stats.py`.
+
+Three settings choose the graphics path, all on by default:
+
+| Setting | On | Off |
+| --- | --- | --- |
+| `skia-compositor` | Layers composed on the GPU by Skia | Layers drawn by TextureMapper |
+| `gpu-raster` | Page tiles painted on the GPU by Ganesh | Tiles painted on the CPU and uploaded |
+| `shared-gl-context` | Skia and the compositor share one GL context and never wait for the GPU | Two contexts, synchronized with fences or `glFinish` |
 
 ## Application packaging
 
