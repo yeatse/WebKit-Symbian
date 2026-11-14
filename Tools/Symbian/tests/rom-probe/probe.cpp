@@ -8,6 +8,7 @@
 #include <e32std.h>
 #include <e32atomics.h>
 #include <hal.h>
+#include <mimalloc.h>
 #include <pthread.h>
 #include <stdarg.h>
 #include <stdint.h>
@@ -155,6 +156,9 @@ void Timings()
     Time("RThread().Id()", n, [](unsigned) { gSink += RThread().Id().Id(); });
     Time("malloc 32 + free", n, [](unsigned) { void* p = malloc(32); gSink += reinterpret_cast<uint32_t>(p); free(p); });
     Time("malloc 1024 + free", n, [](unsigned) { void* p = malloc(1024); gSink += reinterpret_cast<uint32_t>(p); free(p); });
+    Time("mi_malloc 32 + mi_free", n, [](unsigned) { void* p = mi_malloc(32); gSink += reinterpret_cast<uint32_t>(p); mi_free(p); });
+    Time("mi_malloc 1024 + mi_free", n, [](unsigned) { void* p = mi_malloc(1024); gSink += reinterpret_cast<uint32_t>(p); mi_free(p); });
+    Time("mi_is_in_heap_region", n, [](unsigned) { gSink += mi_is_in_heap_region(gFrom); });
     Time("User::Alloc 32 + User::Free", n, [](unsigned) { TAny* p = User::Alloc(32); gSink += reinterpret_cast<uint32_t>(p); User::Free(p); });
 
     pthread_key_t key;
