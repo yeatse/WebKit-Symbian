@@ -2,6 +2,7 @@
 // separately loaded browser_ui resources for queries and popup softkeys.
 
 #include "BrowserLog.h"
+#include "BrowserProfiler.h"
 #include "BrowserSettings.h"
 #include "ClipboardNative.h"
 #include "NativeDeclarations.h"
@@ -617,6 +618,8 @@ void CBrowserAppUi::ConstructL()
     // precede the URL.
     if (BrowserSetting("frame-stats"))
         iWebContainer->EnableFrameStats();
+    if (BrowserSetting("profile"))
+        BrowserProfilerStart();
     TLex lex(commandLinePtr);
     for (TPtrC token = lex.NextToken(); token.Length(); token.Set(lex.NextToken())) {
         if (token == _L("fep-selftest"))
@@ -665,6 +668,7 @@ void CBrowserAppUi::PrepareToExit()
         return;
     iPreparedForExit = ETrue;
     BrowserLog("exit: prepare appui while native environment is alive");
+    BrowserProfilerDump();
     BeginTeardown();
     CAknAppUi::PrepareToExit();
 }

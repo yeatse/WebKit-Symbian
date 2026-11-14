@@ -22,6 +22,8 @@ struct Setting {
 Setting settings[] = {
     { "frame-stats", "off", nullptr, "frame-stats", "on",
         "Log frame timings, the main-thread profile and decode times to log.txt.", "" },
+    { "profile", "off", nullptr, nullptr, nullptr,
+        "Sample where the UI thread runs and write the profile to log.txt at exit.", "" },
     { "curl-verbose", "off", nullptr, "curl-verbose", "on",
         "Write curl's own trace to curl.txt.", "" },
     { "gpu-tiles", "on", nullptr, "no-gpu-tiles", "off",
