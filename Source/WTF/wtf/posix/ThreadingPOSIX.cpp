@@ -244,6 +244,24 @@ ThreadIdentifier Thread::currentID()
 }
 #endif
 
+#if OS(SYMBIAN)
+SymbianMainThreadSpecific symbianMainThreadSpecific;
+
+void initializeSymbianMainThreadSpecific()
+{
+    if (symbianMainThreadSpecific.stackSize)
+        return;
+    void* origin = nullptr;
+    void* bound = nullptr;
+    if (!SymbianSystem::currentThreadStack(origin, bound) || origin <= bound)
+        return;
+    for (unsigned key = 0; key < PTHREAD_KEYS_MAX; ++key)
+        symbianMainThreadSpecific.values[key] = pthread_getspecific(key);
+    symbianMainThreadSpecific.stackBound = reinterpret_cast<uintptr_t>(bound);
+    symbianMainThreadSpecific.stackSize = reinterpret_cast<uintptr_t>(origin) - reinterpret_cast<uintptr_t>(bound);
+}
+#endif
+
 void Thread::initializeCurrentThreadEvenIfNonWTFCreated()
 {
 #if !OS(DARWIN) && !OS(SYMBIAN)
