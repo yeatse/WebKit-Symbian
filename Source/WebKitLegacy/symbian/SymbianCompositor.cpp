@@ -327,12 +327,16 @@ bool SymbianCompositor::wrapWindowForSkia()
     auto& frame = *m_skiaFrame;
     GrGLFramebufferInfo framebuffer;
     framebuffer.fFBOID = 0;
-    framebuffer.fFormat = GL_RGBA8_OES;
+    // GLES2 without OES_rgb8_rgba8 renders to BGRA8 only, as Skia sees it.
+    // The name is bookkeeping: colors reach the window in GL's own order.
+    constexpr GLenum bgra8 = 0x93A1;
+    bool useBGRA = grContext->colorTypeSupportedAsSurface(kBGRA_8888_SkColorType);
+    framebuffer.fFormat = useBGRA ? bgra8 : GL_RGBA8_OES;
     // The view can still be empty when the compositor starts.
     auto size = m_view.size().isEmpty() ? IntSize(1, 1) : m_view.size();
     auto target = GrBackendRenderTargets::MakeGL(size.width(), size.height(), 0, 8, framebuffer);
     auto properties = FontRenderOptions::singleton().createSurfaceProps();
-    frame.surface = SkSurfaces::WrapBackendRenderTarget(grContext, target, kBottomLeft_GrSurfaceOrigin, kRGBA_8888_SkColorType, SkColorSpace::MakeSRGB(), &properties);
+    frame.surface = SkSurfaces::WrapBackendRenderTarget(grContext, target, kBottomLeft_GrSurfaceOrigin, useBGRA ? kBGRA_8888_SkColorType : kRGBA_8888_SkColorType, SkColorSpace::MakeSRGB(), &properties);
     frame.size = size;
     return !!frame.surface;
 }
