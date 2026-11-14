@@ -273,6 +273,27 @@ ClipStack& TextureMapper::clipStack()
     return data().currentSurface ? data().currentSurface->clipStack() : m_clipStack;
 }
 
+#if OS(SYMBIAN)
+void TextureMapper::beginPaintingToWindow(const IntSize& size)
+{
+    // Each state query is a round trip to the graphics driver, and the
+    // compositor knows what it left: the window's framebuffer and viewport,
+    // no program, scissor and depth tests off.
+    data().previousProgram = 0;
+    data().previousScissorState = false;
+    data().previousDepthState = false;
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_SCISSOR_TEST);
+    data().didModifyStencil = false;
+    data().viewport = { 0, 0, size.width(), size.height() };
+    data().previousScissor = data().viewport;
+    m_clipStack.reset(IntRect(IntPoint(), size), ClipStack::YAxisMode::Inverted);
+    data().targetFrameBuffer = 0;
+    data().flipY = FlipY::No;
+    bindSurface(nullptr);
+}
+#endif
+
 void TextureMapper::beginPainting(FlipY flipY, BitmapTexture* surface)
 {
     glGetIntegerv(GL_CURRENT_PROGRAM, &data().previousProgram);

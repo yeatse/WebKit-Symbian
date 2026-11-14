@@ -181,7 +181,18 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   mimalloc made jsbench's `parsing` 10x slower in EKA2L1: mimalloc has a fixed
   address budget, a request it cannot serve takes 0.4 ms to fail before the
   RHeap gets it, and freed blocks of one size do not make room for another
-  for a while. It needs a growing budget or a cheap failure first.
+  for a while. The 808 then showed there is nothing to gain: `mi_malloc` +
+  `mi_free` take 431 ns for 32 bytes and 730 ns for 1024, against 413 and
+  394 ns for `malloc` + `free`.
+- [ ] Fewer round trips to the graphics driver. On the 808 9.3% of the UI
+  thread's samples on YouTube were in driver requests, a call that returns
+  something waiting for the driver each time: the frame's `glGetError` (3.0%),
+  a new framebuffer for every pooled surface on every frame (2.6%, 12
+  surfaces a frame on the watch page for 3000 filtered pixels, 25 ms a frame
+  against 9), and six state queries in `beginPainting` (1.8%). Pooled
+  surfaces now keep their framebuffer, the compositor tells TextureMapper
+  the state it left, and the error flag is read every eighth frame and once
+  frames stop. Not yet measured on the 808.
 - [x] Video download no longer flushes every chunk: `media` fell from 19 s to
   0.8 s of the main thread at a YouTube video's start, and playback starts.
 - [x] JPEG through the ICL decoder on its own thread for complete YCbCr or

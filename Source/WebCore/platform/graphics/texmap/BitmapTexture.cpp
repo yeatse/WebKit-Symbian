@@ -226,8 +226,16 @@ void BitmapTexture::reset(const IntSize& size, OptionSet<Flags> flags)
     m_pixelFormat = PixelFormat::RGBA8;
     m_filterOperation = nullptr;
 
+#if OS(SYMBIAN)
+    // A framebuffer with only this texture attached serves the next user as
+    // it is. Making one is a round trip to the graphics driver, and a pooled
+    // surface is reset on every frame it is used.
+    bool keepsFramebuffer = !m_depthBufferObject && !m_stencilBufferObject && m_size == size;
+#else
+    bool keepsFramebuffer = false;
+#endif
     if (!flags.contains(Flags::DepthBuffer)) {
-        if (m_fbo) {
+        if (m_fbo && !keepsFramebuffer) {
             glDeleteFramebuffers(1, &m_fbo);
             m_fbo = 0;
         }
