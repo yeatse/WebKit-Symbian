@@ -33,6 +33,7 @@
 #include "config.h"
 #include <pthread.h>
 
+#include <wtf/ThreadingPrimitives.h>
 #include <wtf/RunLoop.h>
 
 namespace WTF {
@@ -51,6 +52,12 @@ void initializeMainThreadPlatform()
 
 bool isMainThread()
 {
+#if OS(SYMBIAN)
+    // Open C's pthread_self() is a system call; the main thread is known by
+    // its stack.
+    if (symbianMainThreadSpecific.stackSize)
+        return isOnSymbianMainThreadStack();
+#endif
     return pthread_equal(pthread_self(), s_mainThread);
 }
 

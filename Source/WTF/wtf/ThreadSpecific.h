@@ -119,15 +119,13 @@ private:
 template<typename T, CanBeGCThread canBeGCThread>
 inline ThreadSpecific<T, canBeGCThread>::ThreadSpecific()
 {
-    int error = pthread_key_create(&m_key, destroy);
-    if (error)
-        CRASH();
+    threadSpecificKeyCreate(&m_key, destroy);
 }
 
 template<typename T, CanBeGCThread canBeGCThread>
 inline T* ThreadSpecific<T, canBeGCThread>::get()
 {
-    Data* data = static_cast<Data*>(pthread_getspecific(m_key));
+    Data* data = static_cast<Data*>(threadSpecificGet(m_key));
     if (data)
         return data->storagePointer();
     return nullptr;
@@ -136,7 +134,7 @@ inline T* ThreadSpecific<T, canBeGCThread>::get()
 template<typename T, CanBeGCThread canBeGCThread>
 inline void ThreadSpecific<T, canBeGCThread>::setInTLS(Data* data)
 {
-    pthread_setspecific(m_key, data);
+    threadSpecificSet(m_key, data);
 }
 
 #elif OS(WINDOWS)
@@ -177,7 +175,7 @@ inline void ThreadSpecific<T, canBeGCThread>::destroy(void* ptr)
 #if USE(PTHREADS)
     // We want get() to keep working while data destructor works, because it can be called indirectly by the destructor.
     // Some pthreads implementations zero out the pointer before calling destroy(), so we temporarily reset it.
-    pthread_setspecific(data->owner->m_key, ptr);
+    threadSpecificSet(data->owner->m_key, ptr);
 #endif
 
     delete data;

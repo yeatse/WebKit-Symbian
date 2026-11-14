@@ -118,11 +118,42 @@ private:
 
 static constexpr ThreadSpecificKey InvalidThreadSpecificKey = PTHREAD_KEYS_MAX;
 
+#if OS(SYMBIAN)
+// Open C's pthread_getspecific takes a kernel mutex: two system calls for
+// each Thread::current() and each ThreadSpecific. The main thread, which
+// runs the page, keeps a copy of its values here and is known by its stack.
+// Other threads' values, and every thread's destructors, stay with pthreads.
+struct SymbianMainThreadSpecific {
+    uintptr_t stackBound;
+    uintptr_t stackSize; // 0 until initializeSymbianMainThreadSpecific().
+    void* values[PTHREAD_KEYS_MAX];
+};
+WTF_EXPORT_PRIVATE extern SymbianMainThreadSpecific symbianMainThreadSpecific;
+// Call on the main thread.
+WTF_EXPORT_PRIVATE void initializeSymbianMainThreadSpecific();
+
+ALWAYS_INLINE bool isOnSymbianMainThreadStack()
+{
+    uintptr_t stackPointer;
+    __asm__("mov %0, sp" : "=r"(stackPointer));
+    return stackPointer - symbianMainThreadSpecific.stackBound < symbianMainThreadSpecific.stackSize;
+}
+
+ALWAYS_INLINE bool isSymbianMainThreadSpecific(ThreadSpecificKey key)
+{
+    return isOnSymbianMainThreadStack() && static_cast<unsigned>(key) < PTHREAD_KEYS_MAX;
+}
+#endif
+
 inline void threadSpecificKeyCreate(ThreadSpecificKey* key, void (*destructor)(void *))
 {
     int error = pthread_key_create(key, destructor);
     if (error)
         CRASH();
+#if OS(SYMBIAN)
+    if (static_cast<unsigned>(*key) < PTHREAD_KEYS_MAX)
+        symbianMainThreadSpecific.values[*key] = nullptr;
+#endif
 }
 
 inline void threadSpecificKeyDelete(ThreadSpecificKey key)
@@ -134,11 +165,19 @@ inline void threadSpecificKeyDelete(ThreadSpecificKey key)
 
 inline void threadSpecificSet(ThreadSpecificKey key, void* value)
 {
+#if OS(SYMBIAN)
+    if (isSymbianMainThreadSpecific(key))
+        symbianMainThreadSpecific.values[key] = value;
+#endif
     pthread_setspecific(key, value);
 }
 
-inline void* threadSpecificGet(ThreadSpecificKey key)
+ALWAYS_INLINE void* threadSpecificGet(ThreadSpecificKey key)
 {
+#if OS(SYMBIAN)
+    if (isSymbianMainThreadSpecific(key))
+        return symbianMainThreadSpecific.values[key];
+#endif
     return pthread_getspecific(key);
 }
 

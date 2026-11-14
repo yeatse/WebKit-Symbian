@@ -42,6 +42,9 @@ void initializeMainThread()
     static std::once_flag initializeKey;
     std::call_once(initializeKey, [] {
         initialize();
+#if OS(SYMBIAN)
+        initializeSymbianMainThreadSpecific();
+#endif
         initializeMainThreadPlatform();
         RunLoop::initializeMain();
         RELEASE_ASSERT(!isMainThread() || Thread::currentSingleton().uid() == 1);
