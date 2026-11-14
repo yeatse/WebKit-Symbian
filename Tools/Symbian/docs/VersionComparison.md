@@ -18,7 +18,7 @@ or Belle through a single-process WebKitLegacy browser.
 | Allocation | Chunk-backed WTF/JSC storage and SDK runtime allocation | Same allocator design with current allocation interfaces and pointer ownership handling |
 | Media | Native MMF audio/video and Web Audio PCM output | Same media services with current seek promises, playback interfaces and native DLL dependencies |
 | Networking and storage | curl/mbedTLS, cookies, WebSocket, IndexedDB and browser storage | Current engine interfaces, wall-clock cookie expiry and Legacy WebSocket channel integration |
-| Dependencies | Cairo, pixman and SDK JPEG | Skia and libjpeg-turbo 3.1.2; Fontconfig 2.13 and FreeType 2.9 minimum versions |
+| Dependencies | Cairo, pixman and SDK JPEG | Skia with its PNG and JPEG encoders, libjpeg-turbo 3.1.2; Fontconfig 2.13 and FreeType 2.9 minimum versions |
 | Build and delivery | ARM SDK build, browser/ICU SIS and separate JSC shell | Skia-aware build and CI, packed static JIT objects and the same package layout |
 
 The viewport tile cache, dirty uploads, bounded prefetch, pooled textures,
@@ -30,8 +30,8 @@ graphics changes between these two Symbian branches.
 flowchart LR
     cairo["2.52 Cairo / pixman CPU"] --> mapper["TextureMapper EGL / GLES2"]
     mapper --> egl["EGL window surface"]
-    ganesh["2.54 Skia Ganesh GLES2"] --> textures["Shared BGRA textures"]
-    textures --> scene["Skia layer compositor"] --> retained["Persistent GPU frame / damage clips"] --> present["GLES2 presentation"] --> egl
+    ganesh["2.54 Skia Ganesh GLES2"] --> textures["Tile and canvas textures"]
+    textures --> scene["Skia layer compositor, same GL context"] --> egl
     cpu["2.54 Skia CPU"] --> software["ScreenPlay / bitmap"]
     cpu --> upload["Texture upload"] --> textures
 ```
@@ -56,13 +56,17 @@ by both branches; the separate WebKit `USE_MIMALLOC` option remains off.
 - Generic 32-bit DFG strict equality and inequality fast paths for values and
   branches, plus guarded VFPv2 `Math.trunc` paths in the native thunk and DFG.
 - Current native MMF audio linking through the SDK controller framework.
-- Ganesh page and Canvas rasterization with native texture sharing, context
-  synchronization and shared-resource cleanup. The GPU resource cache is
+- Ganesh page and Canvas rasterization in the GL context that also owns the
+  window, so painting and composition need no waits for the GPU. The GPU resource cache is
   limited to 8 MiB, glyph textures to 2 MiB, with synchronous shader work.
 - Upstream Skia scene composition, image-set batching, masks, blend modes,
   filters, backdrop filters and preserve-3D ordering through the native layer bridge.
 - Damage propagation for changed tiles, layer movement, removal and ordering;
-  retained GPU frames preserve pixels outside the composition damage.
+  a frame is composed into the window only when something changed.
+- `shared-gl-context = off` in `webkit.ini` returns to a compositor context
+  beside Skia's, with a retained GPU frame copied into the window;
+  `skia-compositor = off` and `gpu-raster = off` select TextureMapper and
+  CPU tiles, for comparison on a device.
 
 Shared engine defaults also enable Temporal, CSS `@function`, `if()` and
 typed `attr()`, scroll anchoring, `ReadableStream.from()`, stream transfer,
@@ -99,7 +103,7 @@ the platform integration is still required.
 | `Math.trunc` | Active | Guarded VFPv2 conversion in the native thunk and DFG, preserving signed zero and numeric edge cases |
 | ARM11 JavaScript optimization | Partial | Baseline/DFG, OSR and concurrent compilation; architecture-specific 64-bit fast paths use generic ARM32 paths |
 | Dirty-region painting and texture uploads | Active | Viewport tile cache, incremental uploads and ScreenPlay updates |
-| Skia damage-aware composition | Active | Dirty regions repaint a retained GPU target; EGL presents the resulting frame |
+| Skia damage-aware composition | Active | Changed frames are composed straight into the EGL window; unchanged ones are not drawn |
 | Skia layer compositor and batched image sets | Active | Upstream Skia scene and image-set helpers through the native layer bridge |
 | WebKit image GPU atlas and tile DDL replay | Pending | Requires the coordinated Skia painting engine |
 | Threaded tile painting | Pending | Layer rasterization runs on the browser's main thread |
