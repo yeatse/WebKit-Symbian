@@ -164,6 +164,14 @@ summarize `log.txt` with `tests/benchmarks/summarize-frame-stats.py`.
   expression match, each `JSON.stringify`, each entry into script. The main
   thread is now known by its stack and reads a copy of its values. Not yet
   measured on the 808.
+- [x] Built without `-fno-builtin`, which the SDK's flags had: every
+  `memcpy`, `memset`, `memcmp` and `strlen` was a call, the 8 bytes of a
+  `JSValue` in `putDirectOffset` and 23000 `strlen` of string literals among
+  them, and euser.dll copies small sizes a byte at a time. `strlen` call
+  sites fell to 196, the code is 0.7 MB smaller, and system libraries take
+  24% of the UI thread's samples on YouTube's search page in EKA2L1 instead
+  of a third. CI's compiler cache now hashes `sym-flags.sh` with the compiler
+  wrappers. Not yet measured on the 808.
 - [x] Video download no longer flushes every chunk: `media` fell from 19 s to
   0.8 s of the main thread at a YouTube video's start, and playback starts.
 - [x] JPEG through the ICL decoder on its own thread for complete YCbCr or
