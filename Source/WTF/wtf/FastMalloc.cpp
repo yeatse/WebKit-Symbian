@@ -204,7 +204,63 @@ void fastAlignedFree(void* p)
 // else goes to mimalloc. Page-aligned requests cannot fall back to mimalloc:
 // fastCommitAlignedMemory/fastDecommitAlignedMemory require a native reservation.
 extern "C" void* mi_malloc_aligned(size_t, size_t);
+extern "C" void* mi_malloc(size_t);
+extern "C" void* mi_calloc(size_t, size_t);
+extern "C" void* mi_realloc(void*, size_t);
 extern "C" void mi_free(void*);
+extern "C" size_t mi_usable_size(const void*);
+extern "C" bool mi_is_in_heap_region(const void*);
+
+// Open C's malloc is the thread's RHeap, several times slower than the
+// runtime's mimalloc, which only has 64 MiB of address space. Large blocks,
+// and any block mimalloc cannot serve, stay on the RHeap.
+static constexpr size_t systemHeapThreshold = 64 * 1024;
+
+static ALWAYS_INLINE void* systemMalloc(size_t size)
+{
+    if (size < systemHeapThreshold) [[likely]] {
+        if (void* result = mi_malloc(size)) [[likely]]
+            return result;
+    }
+    return malloc(size);
+}
+
+static ALWAYS_INLINE void* systemCalloc(size_t count, size_t elementSize)
+{
+    if (count < systemHeapThreshold && elementSize < systemHeapThreshold && count * elementSize < systemHeapThreshold) [[likely]] {
+        if (void* result = mi_calloc(count, elementSize)) [[likely]]
+            return result;
+    }
+    return calloc(count, elementSize);
+}
+
+static ALWAYS_INLINE void systemFree(void* pointer)
+{
+    if (!pointer)
+        return;
+    if (mi_is_in_heap_region(pointer)) [[likely]]
+        mi_free(pointer);
+    else
+        free(pointer);
+}
+
+static void* systemRealloc(void* pointer, size_t size)
+{
+    if (!pointer)
+        return systemMalloc(size);
+    if (!mi_is_in_heap_region(pointer))
+        return realloc(pointer, size);
+    if (size && size < systemHeapThreshold) {
+        if (void* result = mi_realloc(pointer, size)) [[likely]]
+            return result;
+    }
+    void* result = malloc(size);
+    if (!result)
+        return nullptr;
+    memcpy(result, pointer, std::min(size, mi_usable_size(pointer)));
+    mi_free(pointer);
+    return result;
+}
 
 namespace {
 
@@ -475,18 +531,25 @@ void fastAlignedFree(void* p)
 
 #endif // OS(WINDOWS)
 
+#if !OS(SYMBIAN)
+static ALWAYS_INLINE void* systemMalloc(size_t size) { return malloc(size); }
+static ALWAYS_INLINE void* systemCalloc(size_t count, size_t elementSize) { return calloc(count, elementSize); }
+static ALWAYS_INLINE void systemFree(void* pointer) { free(pointer); }
+static ALWAYS_INLINE void* systemRealloc(void* pointer, size_t size) { return realloc(pointer, size); }
+#endif
+
 TryMallocReturnValue tryFastMalloc(size_t n) 
 {
     FAIL_IF_EXCEEDS_LIMIT(n);
     assertMallocRestrictionForCurrentThreadScope();
-    return malloc(n);
+    return systemMalloc(n);
 }
 
 void* fastMalloc(size_t n) 
 {
     ASSERT_IS_WITHIN_LIMIT(n);
     assertMallocRestrictionForCurrentThreadScope();
-    void* result = malloc(n);
+    void* result = systemMalloc(n);
     if (!result)
         CRASH();
 
@@ -513,14 +576,14 @@ TryMallocReturnValue tryFastCalloc(size_t n_elements, size_t element_size)
 {
     FAIL_IF_EXCEEDS_LIMIT(n_elements * element_size);
     assertMallocRestrictionForCurrentThreadScope();
-    return calloc(n_elements, element_size);
+    return systemCalloc(n_elements, element_size);
 }
 
 void* fastCalloc(size_t n_elements, size_t element_size)
 {
     ASSERT_IS_WITHIN_LIMIT(n_elements * element_size);
     assertMallocRestrictionForCurrentThreadScope();
-    void* result = calloc(n_elements, element_size);
+    void* result = systemCalloc(n_elements, element_size);
     if (!result)
         CRASH();
 
@@ -529,14 +592,14 @@ void* fastCalloc(size_t n_elements, size_t element_size)
 
 void fastFree(void* p)
 {
-    free(p);
+    systemFree(p);
 }
 
 void* fastRealloc(void* p, size_t n)
 {
     ASSERT_IS_WITHIN_LIMIT(n);
     assertMallocRestrictionForCurrentThreadScope();
-    void* result = realloc(p, n);
+    void* result = systemRealloc(p, n);
     if (!result)
         CRASH();
     return result;
@@ -546,7 +609,7 @@ TryMallocReturnValue tryFastRealloc(void* p, size_t n)
 {
     FAIL_IF_EXCEEDS_LIMIT(n);
     assertMallocRestrictionForCurrentThreadScope();
-    return realloc(p, n);
+    return systemRealloc(p, n);
 }
 
 void releaseFastMallocFreeMemory() { }

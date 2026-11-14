@@ -76,12 +76,14 @@ def group_of(name):
     return "other in image"
 
 
-# Executive calls of Symbian^3 and Belle that a UI thread is found in.
+# Executive calls a UI thread is found in, as numbered by the 808's Belle
+# kernel (tests/rom-probe shows the stubs). It has two more calls from 0x11
+# than Symbian^3, where these are 0x11, 0x12, 0x1f, 0x20, 0x25, 0x4d, 0x6b, 0x6c.
 EXEC_NAMES = {
-    0x800000: "WaitForAnyRequest", 0x800001: "Heap", 0x0A: "RBusLogicalChannel::DoRequest",
-    0x0B: "RBusLogicalChannel::DoControl", 0x11: "RMutex::Wait", 0x12: "RMutex::Signal",
-    0x1F: "RSemaphore::Wait", 0x20: "RSemaphore::Signal", 0x25: "RSessionBase::Send",
-    0x4D: "RSessionBase::SendSync", 0x6A: "RHandleBase::Close",
+    0x800000: "WaitForAnyRequest", 0x800001: "Heap", 0x0A: "RBusLogicalChannel request (a device driver)",
+    0x13: "RMutex::Wait", 0x14: "RMutex::Signal", 0x21: "RSemaphore::Wait", 0x22: "RSemaphore::Signal",
+    0x27: "RSessionBase::Send", 0x4F: "RSessionBase::SendSync (a server request)",
+    0x6D: "RChunk::Create", 0x6E: "RChunk::Adjust",
 }
 
 
@@ -105,6 +107,7 @@ def main():
 
     samples = collections.Counter()
     code = {}
+    calls = collections.defaultdict(collections.Counter)
     header = None
     for line in open(arguments.log, errors="replace"):
         position = line.find("profile:")
@@ -116,10 +119,14 @@ def main():
             header = text.strip()
             samples.clear()
             code.clear()
+            calls.clear()
         match = re.match(r" code ([0-9a-f]+):((?: [0-9a-f]{8})+)", text)
         if match:
             code[int(match.group(1), 16) + 16] = [int(word, 16) for word in match.group(2).split()]
             continue
+        for call, offset, count in re.findall(r" x:([0-9a-f]+):([0-9a-f]+):(\d+)", text):
+            call = int(call, 16)
+            calls[0x800000 | (call & 0xFF) if call & 0x100 else call][int(offset, 16)] += int(count)
         for kind, offset, count in re.findall(r" ([ijfcIJFC]):([0-9a-f]+):(\d+)", text):
             samples[(kind, int(offset, 16))] += int(count)
     if not samples:
@@ -171,12 +178,22 @@ def main():
         print("  %5.1f%%  %6d  %s" % (100.0 * count / total, count, name[:140]))
     if callers:
         print("\nCallers into system libraries:")
-        for name, count in callers.most_common(20):
+        for name, count in callers.most_common(arguments.top):
             print("  %5.1f%%  %6d  %s" % (100.0 * count / total, count, name[:140]))
     if foreign:
         print("\nSystem addresses:")
         for offset, count in foreign.most_common(16):
             print("  %5.1f%%  %6d  0x%08x  %s" % (100.0 * count / total, count, offset, describe_code(code.get(offset))))
+    if calls:
+        print("\nSystem calls, by who made them:")
+        for call, by in sorted(calls.items(), key=lambda item: -sum(item[1].values())):
+            count = sum(by.values())
+            print("  %5.1f%%  %6d  exec 0x%x %s" % (100.0 * count / total, count, call, EXEC_NAMES.get(call, "")))
+            named = collections.Counter()
+            for offset, samples_at in by.items():
+                named["<no caller in the image>" if offset == 0xFFFFFFFF else name_at(offset)] += samples_at
+            for name, samples_at in named.most_common(12):
+                print("          %6d  %s" % (samples_at, name[:130]))
 
 
 if __name__ == "__main__":

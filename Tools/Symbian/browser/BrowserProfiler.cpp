@@ -42,8 +42,16 @@ const unsigned KSamplesPerWrite = 60 * 200;
 const uint32_t KRomBase = 0x80000000;
 const uint32_t KRomEnd = 0x90000000;
 
+// Who made each system call a sample waits in or returns from.
+const unsigned KCallTableSize = 4096;
+const unsigned KCallBits = 9;
+const unsigned KFastCall = 0x100;
+const uint32_t KNoCaller = 0x3fffff;
+
 Entry* table;
 Entry* sorted;
+Entry* callTable;
+unsigned callsDropped;
 unsigned samplesWritten;
 unsigned tableUsed;
 unsigned samplesBusy;
@@ -94,8 +102,8 @@ uintptr_t callerInImage(uintptr_t lr, uintptr_t sp)
         return 0;
     auto* words = reinterpret_cast<const uint32_t*>(sp);
     unsigned count = (stackOrigin - sp) / sizeof(uint32_t);
-    if (count > 96)
-        count = 96;
+    if (count > 256)
+        count = 256;
     for (unsigned i = 0; i < count; ++i) {
         uintptr_t word = words[i];
         if (word & 3 || !isInImage(word) || word - 4 < imageBase)
@@ -108,6 +116,33 @@ uintptr_t callerInImage(uintptr_t lr, uintptr_t sp)
             return word;
     }
     return 0;
+}
+
+void countCall(uint32_t key)
+{
+    uint32_t index = (key * 2654435761u) >> 20;
+    for (unsigned probes = 0; probes < 64; ++probes, index = (index + 1) & (KCallTableSize - 1)) {
+        Entry& entry = callTable[index];
+        if (entry.count && entry.key != key)
+            continue;
+        entry.key = key;
+        ++entry.count;
+        return;
+    }
+    ++callsDropped;
+}
+
+// The executive call a program counter in the ROM returns from, in
+// KCallBits bits, or -1.
+int systemCall(uintptr_t pc, uint32_t flags)
+{
+    const uint32_t thumbState = 0x20;
+    if (pc < KRomBase + 4 || pc >= KRomEnd || pc & 3 || flags & thumbState)
+        return -1;
+    uint32_t instruction = *reinterpret_cast<const uint32_t*>(pc - 4);
+    if (instruction >> 24 != 0xef)
+        return -1;
+    return instruction & 0x800000 ? KFastCall | (instruction & 0xff) : instruction & 0xff;
 }
 
 void sample(RThread& thread)
@@ -134,10 +169,15 @@ void sample(RThread& thread)
     } else {
         ++kindCounts[Foreign];
         count((pc >> KBucketShift << 2) | Foreign);
-        if (uintptr_t caller = callerInImage(lr, registers[13])) {
+        uintptr_t caller = callerInImage(lr, registers[13]);
+        if (caller) {
             ++kindCounts[ForeignCaller];
             count(((caller - imageBase) >> KBucketShift << 2) | ForeignCaller);
         }
+        bool hasFlags = context.Length() >= static_cast<TInt>(17 * sizeof(uint32_t));
+        int call = systemCall(pc, hasFlags ? registers[16] : 0);
+        if (call >= 0)
+            countCall((caller ? (caller - imageBase) >> KBucketShift : KNoCaller) << KCallBits | call);
     }
 }
 
@@ -193,6 +233,29 @@ void writeSystemCode()
     }
 }
 
+// "x:call:offset:count": the samples in executive call `call` (fast ones from
+// 0x100) made from the code at `offset` of this executable, or from none found.
+void writeSystemCalls()
+{
+    qsort(callTable, KCallTableSize, sizeof(Entry), compareEntries);
+    char line[480];
+    int used = 0;
+    for (unsigned i = 0; i < 240 && callTable[i].count; ++i) {
+        uint32_t key = callTable[i].key;
+        uint32_t caller = key >> KCallBits;
+        used += snprintf(line + used, sizeof(line) - used, " x:%x:%x:%u", key & ((1 << KCallBits) - 1),
+            caller == KNoCaller ? 0xffffffffu : caller << KBucketShift, callTable[i].count);
+        if (used > 440) {
+            BrowserLog("profile:%s", line);
+            used = 0;
+        }
+    }
+    if (used)
+        BrowserLog("profile:%s", line);
+    if (callsDropped)
+        BrowserLog("profile: %u system call samples dropped", callsDropped);
+}
+
 // Writes every sample so far; a later profile in the log replaces this one.
 // "kind:offset:count", most samples first. Unless complete, the many
 // addresses with one sample each are counted by 4 KB, in capitals.
@@ -228,8 +291,10 @@ void write(bool complete)
         writer.add(pageKinds[key & 3], key >> 2 << 12, count);
     }
     writer.flush();
-    if (complete)
+    if (complete) {
         writeSystemCode();
+        writeSystemCalls();
+    }
     BrowserLog("profile: end, %u counts written", writer.written);
 }
 
@@ -285,9 +350,11 @@ void BrowserProfilerStart()
     imageEnd = imageBase + info.iCodeSize;
     table = static_cast<Entry*>(calloc(KTableSize, sizeof(Entry)));
     sorted = static_cast<Entry*>(calloc(KTableSize, sizeof(Entry)));
-    if (!table || !sorted) {
+    callTable = static_cast<Entry*>(calloc(KCallTableSize, sizeof(Entry)));
+    if (!table || !sorted || !callTable) {
         free(table);
         free(sorted);
+        free(callTable);
         table = nullptr;
         return;
     }
@@ -323,5 +390,6 @@ void BrowserProfilerDump()
     write(true);
     free(table);
     free(sorted);
+    free(callTable);
     table = nullptr;
 }
