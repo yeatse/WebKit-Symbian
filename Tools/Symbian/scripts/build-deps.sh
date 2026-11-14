@@ -15,8 +15,8 @@ mkdir -p "$src" "$P/lib" "$P/include"
 # VFPv2 with the soft-float calling convention, as for JavaScriptCore. Current
 # Clang makes some old-C diagnostics errors by default; these libraries predate
 # that. Open C's libm macro aliases are off, as the SDK does for C++: they turn
-# the SDK's own ldexpl declaration into a conflicting scalbn. -fno-builtin (from
-# the SDK flags) would turn alloca into a call to a function Open C lacks.
+# the SDK's own ldexpl declaration into a conflicting scalbn. Open C declares no
+# alloca.
 cflags="-D__LIBM_ALIASES_H__ -Dalloca=__builtin_alloca $OPTIMIZE -mfloat-abi=softfp -mfpu=vfpv2 -Wno-error=incompatible-function-pointer-types -Wno-error=int-conversion -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=cast-function-type-strict"
 sdk_portable=$SDK/include/portable
 sdk_lib=$SDK/lib/armv6
