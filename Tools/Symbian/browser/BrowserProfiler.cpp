@@ -120,8 +120,7 @@ bool isCallOut(uintptr_t returnAddress)
 }
 
 // The return address into this executable nearest the top of the stack that
-// follows a call out of it. System libraries call each other before they
-// reach the kernel, so the link register seldom is one.
+// follows a call out of it. Driver requests sit under deep Skia frames.
 uintptr_t callerInImage(uintptr_t lr, uintptr_t sp)
 {
     if (isCallOut(lr))
@@ -130,8 +129,8 @@ uintptr_t callerInImage(uintptr_t lr, uintptr_t sp)
         return 0;
     auto* words = reinterpret_cast<const uint32_t*>(sp);
     unsigned count = (stackOrigin - sp) / sizeof(uint32_t);
-    if (count > 256)
-        count = 256;
+    if (count > 1024)
+        count = 1024;
     for (unsigned i = 0; i < count; ++i) {
         if (isCallOut(words[i]))
             return words[i];

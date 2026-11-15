@@ -1,9 +1,10 @@
 // EGLImages the phone can make without copying pixels through GL: RSgImages
-// (EGL_NOK_pixmap_type_rsgimage) and surface manager buffers acquired through
+// (EGL_NOK_pixmap_type_rsgimage), GL textures shared with an unshared context
+// (EGL_KHR_gl_texture_2D_image), and surface manager buffers acquired through
 // an EGL_NOK_image_endpoint2 consumer endpoint.
 #include "images.h"
 #include <e32base.h>
-#include <e32hal.h>
+#include <hal.h>
 #include <graphics/surface.h>
 #include <graphics/surfacemanager.h>
 #include <graphics/surfaceupdateclient.h>
@@ -11,6 +12,8 @@
 #include <pixelformats.h>
 #include <EGL/eglext.h>
 #include <GLES2/gl2.h>
+#include <cstdint>
+#include <cstdio>
 #include <cstring>
 
 namespace {
@@ -19,6 +22,7 @@ ProbeReport report;
 EGLDisplay display;
 
 using EGLImageTargetTexture2D = void (*)(GLenum, EGLImageKHR);
+EGLImageTargetTexture2D imageTargetRenderbuffer;
 using CreateImage = EGLImageKHR (*)(EGLDisplay, EGLContext, EGLenum, void*, const EGLint*);
 using DestroyImage = EGLBoolean (*)(EGLDisplay, EGLImageKHR);
 EGLImageTargetTexture2D imageTargetTexture;
@@ -28,11 +32,12 @@ DestroyImage destroyImage;
 const EGLint KImagePreserved[] { EGL_IMAGE_PRESERVED_KHR, EGL_TRUE, EGL_NONE };
 const TUint32 KQuadrants[4] { 0xffff0000, 0xff0000ff, 0xff00ff00, 0xffffffff }; // top-left, top-right, bottom-left, bottom-right
 
-unsigned ticksToMicroseconds(TUint32 ticks)
+unsigned microsecondsSince(TUint32 start)
 {
-    TTimeIntervalMicroSeconds32 period;
-    UserHal::TickPeriod(period);
-    return ticks * static_cast<unsigned>(period.Int());
+    TInt frequency = 0;
+    if (HAL::Get(HALData::EFastCounterFrequency, frequency) != KErrNone || frequency <= 0)
+        return 0;
+    return static_cast<unsigned>((static_cast<TUint64>(User::FastCounter() - start) * 1000000) / frequency);
 }
 
 void fillQuadrants(TUint32* pixels, int width, int height, int strideWords, TUint32 tint)
@@ -121,6 +126,7 @@ public:
             iDriverClose = iLibrary.Lookup(2);
             iImageCreate = iLibrary.Lookup(9);
             iDrawableClose = iLibrary.Lookup(5);
+            iPixelFormats = iLibrary.Lookup(13);
         } else if (iLibrary.Load(_L("graphicsresource.dll")) == KErrNone) {
             iVersion = 10;
             iDriverOpen = iLibrary.Lookup(21);
@@ -157,18 +163,36 @@ public:
         iLibrary.Close();
     }
 
-    // usage11 and usage10 are TSgUsageBits of the two versions.
-    TInt create(SgImage& image, int width, int height, TUint32 usage11, TUint32 usage10, const void* data, int stride)
+    bool isVersion11() const { return iVersion == 11; }
+
+    void reportPixelFormats(TUint32 usage)
+    {
+        if (iVersion != 11 || !iPixelFormats)
+            return;
+        RArray<TInt> formats;
+        TInt error = reinterpret_cast<TInt (*)(TUint32, RArray<TInt>&, const void*)>(iPixelFormats)(usage, formats, nullptr);
+        char line[200];
+        int used = std::snprintf(line, sizeof line, "images: pixel formats for usage 0x%x: %d,", static_cast<unsigned>(usage), error);
+        for (TInt i = 0; i < formats.Count() && used < static_cast<int>(sizeof line) - 12; ++i)
+            used += std::snprintf(line + used, sizeof line - used, " 0x%x", static_cast<unsigned>(formats[i]));
+        report("%s", line);
+        formats.Close();
+    }
+
+    // usage is a 1.1 TSgUsageBits value; 1.0 gets the matching TSgUsageFlags.
+    TInt create(SgImage& image, int width, int height, TInt format, TUint32 usage, const void* data, int stride)
     {
         if (iVersion == 11) {
-            struct { TSize size; TInt format; TUint32 usage; } info { TSize(width, height), EUidPixelFormatARGB_8888_PRE, usage11 };
+            struct { TSize size; TInt format; TUint32 usage; } info { TSize(width, height), format, usage };
             return reinterpret_cast<TInt (*)(void*, const void*, const void*, TInt, const void*)>(iImageCreate)(&image, &info, data, stride, nullptr);
         }
+        TUint32 usage10 = (usage & 0x1 ? 0x0080 : 0) | (usage & 0x2 ? 0x0020 : 0) | (usage & 0x4 ? 0x0400 : 0)
+            | (usage & 0x10 ? 0x0100 : 0) | (usage & 0x20 ? 0x0040 : 0) | (usage & 0x40 ? 0x0800 : 0);
         TUint32 info[16] { };
         reinterpret_cast<void (*)(void*)>(iInfoConstruct)(info);
         info[0] = width;
         info[1] = height;
-        info[2] = EUidPixelFormatARGB_8888_PRE;
+        info[2] = format;
         info[3] = usage10;
         reinterpret_cast<void (*)(void*)>(iImageConstruct)(&image);
         return reinterpret_cast<TInt (*)(void*, const void*, const void*, TInt)>(iImageCreate)(&image, info, data, stride);
@@ -186,23 +210,183 @@ private:
     int iVersion { 0 };
     bool iOpen { false };
     void* iDriver[2] { };
-    TLibraryFunction iDriverOpen { }, iDriverClose { }, iImageCreate { }, iDrawableClose { }, iInfoConstruct { }, iImageConstruct { };
+    TLibraryFunction iDriverOpen { }, iDriverClose { }, iImageCreate { }, iDrawableClose { }, iInfoConstruct { }, iImageConstruct { }, iPixelFormats { };
 };
 
 enum : TUint32 {
-    KUsage11Texture = 0x0004, // ESgUsageBitOpenGles2Texture2D
-    KUsage11Surface = 0x0040, // ESgUsageBitOpenGles2Surface
-    KUsage10Texture = 0x0400, // ESgUsageOpenGles2Texture2D
-    KUsage10Target = 0x0800, // ESgUsageOpenGles2Target
+    KUsageVgImage = 0x0001, // ESgUsageBitOpenVgImage
+    KUsageGles1Texture = 0x0002, // ESgUsageBitOpenGlesTexture2D
+    KUsageGles2Texture = 0x0004, // ESgUsageBitOpenGles2Texture2D
+    KUsageGles2Surface = 0x0040, // ESgUsageBitOpenGles2Surface
 };
 
-GLuint textureFromImage(EGLImageKHR image)
+void clearErrors()
 {
+    for (int i = 0; i < 8 && glGetError() != GL_NO_ERROR; ++i) { }
+}
+
+GLuint textureFromImage(EGLImageKHR image, GLenum* error = nullptr)
+{
+    clearErrors();
     GLuint texture = 0;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
     imageTargetTexture(GL_TEXTURE_2D, image);
+    GLenum result = glGetError();
+    if (error)
+        *error = result;
     return texture;
+}
+
+struct Pixels {
+    TInt format;
+    const char* name;
+    int bytes;
+};
+
+const Pixels KFormats[] {
+    { EUidPixelFormatARGB_8888_PRE, "ARGB_8888_PRE", 4 },
+    { EUidPixelFormatARGB_8888, "ARGB_8888", 4 },
+    { EUidPixelFormatXRGB_8888, "XRGB_8888", 4 },
+    { EUidPixelFormatRGB_565, "RGB_565", 2 },
+};
+
+void fillQuadrants565(TUint16* pixels, int width, int height)
+{
+    const TUint16 colours[4] { 0xf800, 0x001f, 0x07e0, 0xffff };
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x)
+            pixels[y * width + x] = colours[(y >= height / 2) * 2 + (x >= width / 2)];
+    }
+}
+
+// Each pixel format and usage, with and without EGL_IMAGE_PRESERVED: does the
+// RSgImage become an EGLImage, and does GLES2 take that as a texture?
+bool probeSgImageMatrix(GraphicsResource& resource, const Pixels*& working, TUint32& workingUsage, const EGLint*& workingAttributes)
+{
+    static TUint32 data[64 * 64];
+    const TUint32 usages[] { KUsageGles2Texture, KUsageGles2Texture | KUsageVgImage, KUsageGles2Texture | KUsageGles1Texture,
+        KUsageGles2Texture | KUsageGles2Surface };
+    const EGLint* attributeLists[] { KImagePreserved, nullptr };
+    bool found = false;
+    for (const Pixels& pixels : KFormats) {
+        if (pixels.bytes == 4)
+            fillQuadrants(data, 64, 64, 64, 0);
+        else
+            fillQuadrants565(reinterpret_cast<TUint16*>(data), 64, 64);
+        for (TUint32 usage : usages) {
+            SgImage source;
+            TInt created = resource.create(source, 64, 64, pixels.format, usage, data, 64 * pixels.bytes);
+            if (created != KErrNone) {
+                report("images: %s usage 0x%x: create %d", pixels.name, static_cast<unsigned>(usage), created);
+                continue;
+            }
+            for (const EGLint* attributes : attributeLists) {
+                EGLImageKHR image = createImage(display, EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR, &source, attributes);
+                EGLint eglError = eglGetError();
+                GLenum glError = GL_NO_ERROR;
+                GLuint texture = image != EGL_NO_IMAGE_KHR ? textureFromImage(image, &glError) : 0;
+                GLenum renderbufferError = GL_INVALID_ENUM;
+                if (image != EGL_NO_IMAGE_KHR && imageTargetRenderbuffer) {
+                    GLuint renderbuffer = 0;
+                    glGenRenderbuffers(1, &renderbuffer);
+                    glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+                    imageTargetRenderbuffer(GL_RENDERBUFFER, image);
+                    renderbufferError = glGetError();
+                    glDeleteRenderbuffers(1, &renderbuffer);
+                }
+                report("images: %s usage 0x%x %s: image 0x%x (EGL 0x%x), texture GL 0x%x, renderbuffer GL 0x%x", pixels.name,
+                    static_cast<unsigned>(usage), attributes ? "preserved" : "no attributes", image, eglError, glError, renderbufferError);
+                if (image != EGL_NO_IMAGE_KHR && glError == GL_NO_ERROR) {
+                    drawAndRead(texture, "images:   read back (expect red, blue top; green, white bottom)");
+                    if (!found) {
+                        found = true;
+                        working = &pixels;
+                        workingUsage = usage;
+                        workingAttributes = attributes;
+                    }
+                }
+                if (texture)
+                    glDeleteTextures(1, &texture);
+                if (image != EGL_NO_IMAGE_KHR)
+                    destroyImage(display, image);
+            }
+            resource.destroy(source);
+        }
+    }
+    return found;
+}
+
+// Reads target, which context drew magenta into, from a second unshared context.
+void readInOtherContext(EGLConfig config, EGLContext context, EGLSurface pbuffer, EGLenum target, void* buffer, const char* label)
+{
+    const EGLint contextAttributes[] { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
+    EGLContext other = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
+    if (other == EGL_NO_CONTEXT || !eglMakeCurrent(display, pbuffer, pbuffer, other)) {
+        report("%s: second context: EGL error 0x%x", label, eglGetError());
+        if (other != EGL_NO_CONTEXT)
+            eglDestroyContext(display, other);
+        eglMakeCurrent(display, pbuffer, pbuffer, context);
+        return;
+    }
+    GLuint ownProgram = program;
+    GLint ownPosition = positionLocation;
+    if (buildProgram()) {
+        EGLImageKHR image = createImage(display, target == EGL_NATIVE_PIXMAP_KHR ? EGL_NO_CONTEXT : context, target, buffer, KImagePreserved);
+        EGLint eglError = eglGetError();
+        GLenum glError = GL_NO_ERROR;
+        GLuint texture = image != EGL_NO_IMAGE_KHR ? textureFromImage(image, &glError) : 0;
+        report("%s: image in the second context 0x%x (EGL 0x%x), texture GL 0x%x", label, image, eglError, glError);
+        if (texture && glError == GL_NO_ERROR)
+            drawAndRead(texture, label);
+        if (texture)
+            glDeleteTextures(1, &texture);
+        if (image != EGL_NO_IMAGE_KHR)
+            destroyImage(display, image);
+    }
+    program = ownProgram;
+    positionLocation = ownPosition;
+    eglMakeCurrent(display, pbuffer, pbuffer, context);
+    eglDestroyContext(display, other);
+}
+
+// Clears texture to magenta through a framebuffer; returns the framebuffer status.
+GLenum clearToMagenta(GLuint texture)
+{
+    GLuint framebuffer = 0;
+    glGenFramebuffers(1, &framebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if (status == GL_FRAMEBUFFER_COMPLETE) {
+        glViewport(0, 0, 64, 64);
+        glClearColor(1, 0, 1, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glFinish();
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glDeleteFramebuffers(1, &framebuffer);
+    return status;
+}
+
+// EGL_KHR_gl_texture_2D_image: a texture of this context shown by another,
+// unshared one, after this context draws into it.
+void probeTextureImages(EGLConfig config, EGLContext context, EGLSurface pbuffer)
+{
+    static TUint32 data[64 * 64];
+    fillQuadrants(data, 64, 64, 64, 0);
+    GLuint texture = 0;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 64, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glFinish();
+    void* buffer = reinterpret_cast<void*>(static_cast<uintptr_t>(texture));
+    readInOtherContext(config, context, pbuffer, EGL_GL_TEXTURE_2D_KHR, buffer,
+        "images: GL texture in another context (expect blue, red top; green, white bottom as RGBA bytes)");
+    report("images: framebuffer on that texture: status 0x%x", clearToMagenta(texture));
+    readInOtherContext(config, context, pbuffer, EGL_GL_TEXTURE_2D_KHR, buffer, "images: GL texture after drawing (expect magenta)");
+    glDeleteTextures(1, &texture);
 }
 
 void probeSgImages(EGLConfig config, EGLContext context, EGLSurface pbuffer)
@@ -212,130 +396,92 @@ void probeSgImages(EGLConfig config, EGLContext context, EGLSurface pbuffer)
         resource.close();
         return;
     }
-    TUint32* pixels = new TUint32[512 * 512];
-    fillQuadrants(pixels, 64, 64, 64, 0);
-
-    SgImage source;
-    TInt error = resource.create(source, 64, 64, KUsage11Texture, KUsage10Texture, pixels, 64 * 4);
-    report("images: RSgImage 64x64 with pixels: %d", error);
-    if (error == KErrNone) {
-        EGLImageKHR image = createImage(display, EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR, &source, KImagePreserved);
-        report("images: EGLImage from RSgImage: 0x%x (EGL error 0x%x)", image, eglGetError());
-        if (image != EGL_NO_IMAGE_KHR) {
-            GLuint texture = textureFromImage(image);
-            report("images: texture from that EGLImage: GL error 0x%x", glGetError());
-            drawAndRead(texture, "images: RSgImage texture (expect red, blue top; green, white bottom)");
-            glDeleteTextures(1, &texture);
-            destroyImage(display, image);
-        }
-        resource.destroy(source);
-    }
-
-    // A GPU target shared with a second, unshared context: the zero-copy hand-off
-    // a decoding or painting thread needs.
-    SgImage target;
-    error = resource.create(target, 64, 64, KUsage11Texture | KUsage11Surface, KUsage10Texture | KUsage10Target, nullptr, 0);
-    report("images: RSgImage 64x64 texture and target: %d", error);
-    if (error == KErrNone) {
-        EGLImageKHR image = createImage(display, EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR, &target, KImagePreserved);
-        report("images: EGLImage from target RSgImage: 0x%x (EGL error 0x%x)", image, eglGetError());
-        if (image != EGL_NO_IMAGE_KHR) {
-            GLuint texture = textureFromImage(image);
-            GLuint framebuffer = 0;
-            glGenFramebuffers(1, &framebuffer);
-            glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
-            GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-            report("images: framebuffer on the EGLImage texture: status 0x%x", status);
-            if (status == GL_FRAMEBUFFER_COMPLETE) {
-                glViewport(0, 0, 64, 64);
-                glClearColor(1, 0, 1, 1);
-                glClear(GL_COLOR_BUFFER_BIT);
-                glFinish();
+    resource.reportPixelFormats(KUsageGles2Texture);
+    resource.reportPixelFormats(KUsageGles2Surface);
+    resource.reportPixelFormats(KUsageGles2Texture | KUsageGles2Surface);
+    const Pixels* pixels = nullptr;
+    TUint32 usage = 0;
+    const EGLint* attributes = nullptr;
+    if (!probeSgImageMatrix(resource, pixels, usage, attributes)) {
+        report("images: no RSgImage became a GLES2 texture");
+    } else {
+        report("images: using %s usage 0x%x", pixels->name, static_cast<unsigned>(usage));
+        SgImage target;
+        TInt error = resource.create(target, 64, 64, pixels->format, usage | KUsageGles2Surface, nullptr, 0);
+        report("images: RSgImage 64x64 texture and target: %d", error);
+        if (error == KErrNone) {
+            EGLImageKHR image = createImage(display, EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR, &target, attributes);
+            if (image != EGL_NO_IMAGE_KHR) {
+                GLuint texture = textureFromImage(image);
+                report("images: framebuffer on the RSgImage texture: status 0x%x", clearToMagenta(texture));
+                glDeleteTextures(1, &texture);
+                destroyImage(display, image);
+                readInOtherContext(config, context, pbuffer, EGL_NATIVE_PIXMAP_KHR, &target,
+                    "images: RSgImage target in another context (expect magenta)");
             }
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            glDeleteFramebuffers(1, &framebuffer);
-            glDeleteTextures(1, &texture);
-
-            const EGLint contextAttributes[] { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
-            EGLContext other = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
-            if (other != EGL_NO_CONTEXT && eglMakeCurrent(display, pbuffer, pbuffer, other)) {
-                GLuint ownProgram = program;
-                GLint ownPosition = positionLocation;
-                if (buildProgram()) {
-                    EGLImageKHR again = createImage(display, EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR, &target, KImagePreserved);
-                    GLuint shared = textureFromImage(again);
-                    drawAndRead(shared, "images: target read in another context (expect magenta)");
-                    glDeleteTextures(1, &shared);
-                    if (again != EGL_NO_IMAGE_KHR)
-                        destroyImage(display, again);
-                }
-                program = ownProgram;
-                positionLocation = ownPosition;
-                eglMakeCurrent(display, pbuffer, pbuffer, context);
-            } else
-                report("images: second context: EGL error 0x%x", eglGetError());
-            if (other != EGL_NO_CONTEXT)
-                eglDestroyContext(display, other);
-            destroyImage(display, image);
+            resource.destroy(target);
         }
-        resource.destroy(target);
+
+        // Upload cost of 512x512: glTexSubImage2D against creating an RSgImage
+        // with the pixels and binding its EGLImage, each drawn once.
+        TUint32* data = new TUint32[512 * 512];
+        fillQuadrants(data, 512, 512, 512, 0);
+        const int rounds = 10;
+        GLuint uploadTexture = 0;
+        glGenTextures(1, &uploadTexture);
+        glBindTexture(GL_TEXTURE_2D, uploadTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+        glFinish();
+        TUint32 start = User::FastCounter();
+        for (int i = 0; i < rounds; ++i) {
+            glBindTexture(GL_TEXTURE_2D, uploadTexture);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 512, 512, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            drawAndRead(uploadTexture, nullptr);
+            glFinish();
+        }
+        report("images: glTexSubImage2D 512x512, draw and finish: %u us each", microsecondsSince(start) / rounds);
+        glDeleteTextures(1, &uploadTexture);
+
+        int made = 0;
+        start = User::FastCounter();
+        for (int i = 0; i < rounds; ++i) {
+            SgImage upload;
+            if (resource.create(upload, 512, 512, pixels->format, usage, data, 512 * 4) != KErrNone)
+                break;
+            EGLImageKHR image = createImage(display, EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR, &upload, attributes);
+            if (image != EGL_NO_IMAGE_KHR) {
+                GLuint uploaded = textureFromImage(image);
+                drawAndRead(uploaded, nullptr);
+                glFinish();
+                glDeleteTextures(1, &uploaded);
+                destroyImage(display, image);
+                ++made;
+            }
+            resource.destroy(upload);
+        }
+        if (made && pixels->bytes == 4)
+            report("images: RSgImage 512x512 create, EGLImage, draw and finish: %u us each (%d of %d)", microsecondsSince(start) / made, made, rounds);
+        delete[] data;
     }
 
-    SgImage pixmap;
-    if (resource.create(pixmap, 64, 64, KUsage11Surface, KUsage10Target, nullptr, 0) == KErrNone) {
+    for (const Pixels& format : KFormats) {
+        SgImage pixmap;
+        TInt created = resource.create(pixmap, 64, 64, format.format, KUsageGles2Surface, nullptr, 0);
+        if (created != KErrNone) {
+            report("images: pixmap RSgImage %s: create %d", format.name, created);
+            continue;
+        }
         const EGLint attributes[] { EGL_MATCH_NATIVE_PIXMAP, reinterpret_cast<EGLint>(&pixmap), EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
             EGL_SURFACE_TYPE, EGL_PIXMAP_BIT, EGL_NONE };
         EGLConfig pixmapConfig;
         EGLint count = 0;
         eglChooseConfig(display, attributes, &pixmapConfig, 1, &count);
         EGLSurface surface = count ? eglCreatePixmapSurface(display, pixmapConfig, &pixmap, nullptr) : EGL_NO_SURFACE;
-        report("images: pixmap surface on RSgImage: %d configurations, surface %p (EGL error 0x%x)", count, surface, eglGetError());
+        report("images: pixmap surface on RSgImage %s: %d configurations, surface %p (EGL error 0x%x)", format.name, count, surface, eglGetError());
         if (surface != EGL_NO_SURFACE)
             eglDestroySurface(display, surface);
         resource.destroy(pixmap);
     }
-
-    // Upload cost of 512x512 ARGB: glTexSubImage2D against creating an RSgImage
-    // with the pixels and binding its EGLImage, each drawn once.
-    fillQuadrants(pixels, 512, 512, 512, 0);
-    const int rounds = 10;
-    GLuint texture = 0;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-    glFinish();
-    TUint32 start = User::NTickCount();
-    for (int i = 0; i < rounds; ++i) {
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 512, 512, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-        drawAndRead(texture, i ? nullptr : "images: glTexSubImage2D 512x512");
-    }
-    glFinish();
-    report("images: glTexSubImage2D 512x512 and draw: %u us each", ticksToMicroseconds(User::NTickCount() - start) / rounds);
-    glDeleteTextures(1, &texture);
-
-    start = User::NTickCount();
-    int made = 0;
-    for (int i = 0; i < rounds; ++i) {
-        SgImage upload;
-        if (resource.create(upload, 512, 512, KUsage11Texture, KUsage10Texture, pixels, 512 * 4) != KErrNone)
-            break;
-        EGLImageKHR image = createImage(display, EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR, &upload, KImagePreserved);
-        if (image != EGL_NO_IMAGE_KHR) {
-            GLuint uploaded = textureFromImage(image);
-            drawAndRead(uploaded, i ? nullptr : "images: RSgImage 512x512");
-            glDeleteTextures(1, &uploaded);
-            destroyImage(display, image);
-            ++made;
-        }
-        resource.destroy(upload);
-    }
-    glFinish();
-    if (made)
-        report("images: RSgImage 512x512 create, EGLImage and draw: %u us each (%d of %d)",
-            ticksToMicroseconds(User::NTickCount() - start) / made, made, rounds);
-    delete[] pixels;
     resource.close();
 }
 
@@ -354,10 +500,10 @@ void probeEndpoint()
     auto endpointAttribute = reinterpret_cast<EndpointAttribute>(eglGetProcAddress("eglGetEndpointAttribNOK"));
     auto acquireImage = reinterpret_cast<AcquireImage>(eglGetProcAddress("eglAcquireImageNOK"));
     auto releaseImage = reinterpret_cast<ReleaseImage>(eglGetProcAddress("eglReleaseImageNOK"));
-    if (!createEndpoint || !destroyEndpoint || !beginStreaming || !endStreaming || !endpointAttribute || !acquireImage || !releaseImage) {
-        report("endpoint: functions missing");
+    report("endpoint: create %p destroy %p begin %p end %p attribute %p acquire %p release %p", createEndpoint, destroyEndpoint,
+        beginStreaming, endStreaming, endpointAttribute, acquireImage, releaseImage);
+    if (!createEndpoint || !destroyEndpoint || !beginStreaming || !endStreaming || !endpointAttribute || !acquireImage || !releaseImage)
         return;
-    }
     RSurfaceManager manager;
     TInt error = manager.Open();
     if (error != KErrNone) {
@@ -402,10 +548,10 @@ void probeEndpoint()
                 "endpoint: buffer 1 (expect cyan, yellow top; magenta, black bottom)" };
             const int frames = 30;
             int acquired = 0;
-            TUint32 start = User::NTickCount();
+            TUint32 start = User::FastCounter();
             for (int frame = 0; frame < frames + 2; ++frame) {
                 if (frame == 2)
-                    start = User::NTickCount();
+                    start = User::FastCounter();
                 int buffer = frame & 1;
                 error = updates.SubmitUpdate(KAllScreens, surface, buffer, nullptr);
                 int waited = 0;
@@ -430,7 +576,7 @@ void probeEndpoint()
             }
             if (acquired)
                 report("endpoint: submit, acquire, draw and release 640x360: %u us each (%d of %d)",
-                    ticksToMicroseconds(User::NTickCount() - start) / acquired, acquired, frames);
+                    microsecondsSince(start) / acquired, acquired, frames);
             endStreaming(display, endpoint);
         }
         if (connected == KErrNone)
@@ -458,6 +604,7 @@ void probeImages(EGLDisplay eglDisplay, EGLConfig config, ProbeReport reporter)
     imageTargetTexture = reinterpret_cast<EGLImageTargetTexture2D>(eglGetProcAddress("glEGLImageTargetTexture2DOES"));
     createImage = reinterpret_cast<CreateImage>(eglGetProcAddress("eglCreateImageKHR"));
     destroyImage = reinterpret_cast<DestroyImage>(eglGetProcAddress("eglDestroyImageKHR"));
+    imageTargetRenderbuffer = reinterpret_cast<EGLImageTargetTexture2D>(eglGetProcAddress("glEGLImageTargetRenderbufferStorageOES"));
     if (!imageTargetTexture || !createImage || !destroyImage) {
         report("images: EGLImage functions missing");
         return;
@@ -472,6 +619,7 @@ void probeImages(EGLDisplay eglDisplay, EGLConfig config, ProbeReport reporter)
         report("images: no program");
     else {
         probeSgImages(config, context, pbuffer);
+        probeTextureImages(config, context, pbuffer);
         probeEndpoint();
     }
     eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);

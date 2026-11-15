@@ -5,8 +5,10 @@ Skia, in one run: the EGL configurations and the ones WebKit chooses, the GL
 functions Skia finds, the requirement of `GrGLInterface::validate()` that fails
 if one does, Ganesh on a pbuffer context and on a window context, and one
 context drawing into both its pbuffer and the window. It then makes EGLImages
-from RSgImages (pixels in, a GL render target shared with a second context, a
-pixmap surface) and from the buffers of a surface manager surface through an
+from RSgImages over each pixel format and usage (reporting which GLES2 accepts
+as a texture or renderbuffer, then sharing a render target with a second
+context and trying pixmap surfaces), from a GL texture shown by an unshared
+context, and from the buffers of a surface manager surface through an
 `EGL_NOK_image_endpoint2` consumer endpoint, reads each back, and times a
 512x512 upload by `glTexSubImage2D` against an RSgImage and a 640x360 endpoint
 frame.

@@ -48,7 +48,8 @@ target_link_libraries(glprobe PRIVATE --start-group
     "${SYMBIAN_SDK_PREFIX}/proxies/libegl/libegl.dso"
     "${SYMBIAN_SDK_PREFIX}/proxies/libglesv2/libglesv2.dso"
     "${SYMBIAN_SDK_PREFIX}/proxies/surfacemanager/surfacemanager.dso"
-    "${SYMBIAN_SDK_PREFIX}/proxies/surfaceupdateclient/surfaceupdateclient.dso")
+    "${SYMBIAN_SDK_PREFIX}/proxies/surfaceupdateclient/surfaceupdateclient.dso"
+    "${SYMBIAN_SDK_PREFIX}/proxies/hal/hal.dso")
 symbian_publish_executable(glprobe UID3 0xE1A5C0F1 CAPABILITIES 0)
 
 set(rpp "${CMAKE_CURRENT_BINARY_DIR}/glprobe_reg.rpp")
