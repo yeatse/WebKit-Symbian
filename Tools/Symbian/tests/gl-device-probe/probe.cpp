@@ -175,7 +175,7 @@ static void reportDriver()
 
 static void reportLookups()
 {
-    static const char* const names[] { "glGetString", "glMapBufferOES", "glEGLImageTargetTexture2DOES",
+    static const char* const names[] { "glGetString", "glGetFloatv", "glMapBufferOES", "glEGLImageTargetTexture2DOES",
         "eglCreateImageKHR", "eglDestroyImageKHR", "eglCreateSyncKHR", "eglClientWaitSyncKHR", "eglDestroySyncKHR",
         "eglQueryString", "eglGetCurrentDisplay", "glDiscardFramebufferEXT", "glNoSuchFunction" };
     std::string line;

@@ -66,6 +66,7 @@
     M(glGenerateMipmap) \
     M(glGetBufferParameteriv) \
     M(glGetError) \
+    M(glGetFloatv) \
     M(glGetFramebufferAttachmentParameteriv) \
     M(glGetIntegerv) \
     M(glGetProgramInfoLog) \
