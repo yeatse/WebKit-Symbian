@@ -1464,6 +1464,31 @@ void GrGLCaps::setColorTypeFormat(GrColorType colorType, GrGLFormat format) {
     fColorTypeToFormatTable[idx] = format;
 }
 
+#if defined(__SYMBIAN32__)
+// Some ES2 drivers (VideoCore IV) advertise formats whose textures cannot be framebuffer attachments.
+static bool texture_attaches(const GrGLInterface* gli, GrGLenum format) {
+    GrGLint oldTexture = 0, oldFramebuffer = 0;
+    GR_GL_GetIntegerv(gli, GR_GL_TEXTURE_BINDING_2D, &oldTexture);
+    GR_GL_GetIntegerv(gli, GR_GL_FRAMEBUFFER_BINDING, &oldFramebuffer);
+    GrGLuint texture = 0, framebuffer = 0;
+    GR_GL_CALL(gli, GenTextures(1, &texture));
+    GR_GL_CALL(gli, BindTexture(GR_GL_TEXTURE_2D, texture));
+    GR_GL_CALL(gli, TexImage2D(GR_GL_TEXTURE_2D, 0, format, 4, 4, 0, format, GR_GL_UNSIGNED_BYTE, nullptr));
+    GR_GL_CALL(gli, GenFramebuffers(1, &framebuffer));
+    GR_GL_CALL(gli, BindFramebuffer(GR_GL_FRAMEBUFFER, framebuffer));
+    GR_GL_CALL(gli, FramebufferTexture2D(GR_GL_FRAMEBUFFER, GR_GL_COLOR_ATTACHMENT0, GR_GL_TEXTURE_2D, texture, 0));
+    GrGLenum status = 0;
+    GR_GL_CALL_RET(gli, status, CheckFramebufferStatus(GR_GL_FRAMEBUFFER));
+    GR_GL_CALL(gli, BindFramebuffer(GR_GL_FRAMEBUFFER, oldFramebuffer));
+    GR_GL_CALL(gli, DeleteFramebuffers(1, &framebuffer));
+    GR_GL_CALL(gli, BindTexture(GR_GL_TEXTURE_2D, oldTexture));
+    GR_GL_CALL(gli, DeleteTextures(1, &texture));
+    for (GrGLenum error = GR_GL_INVALID_ENUM; error != GR_GL_NO_ERROR;)
+        GR_GL_CALL_RET_NOERRCHECK(gli, error, GetError());
+    return status == GR_GL_FRAMEBUFFER_COMPLETE;
+}
+#endif
+
 void GrGLCaps::initFormatTable(const GrGLContextInfo& ctxInfo, const GrGLInterface* gli,
                                const FormatWorkarounds& formatWorkarounds) {
     GrGLStandard standard = ctxInfo.standard();
@@ -1533,6 +1558,11 @@ void GrGLCaps::initFormatTable(const GrGLContextInfo& ctxInfo, const GrGLInterfa
                 ctxInfo.hasExtension("GL_ARM_rgba8")) {
                 info.fFlags |= msaaRenderFlags;
             }
+#if defined(__SYMBIAN32__)
+            else if (texture_attaches(gli, GR_GL_RGBA)) {
+                info.fFlags |= nonMSAARenderFlags;
+            }
+#endif
         } else if (GR_IS_GR_WEBGL(standard)) {
             info.fFlags |= msaaRenderFlags;
         }
@@ -2101,6 +2131,9 @@ void GrGLCaps::initFormatTable(const GrGLContextInfo& ctxInfo, const GrGLInterfa
                     // everything to use BGRA since its the only explicitly defined value. Until we
                     // enable MSAA for non-angle this is a moot point.
                     info.fInternalFormatForRenderbuffer = GR_GL_BGRA;
+#if defined(__SYMBIAN32__)
+                    if (texture_attaches(gli, GR_GL_BGRA))
+#endif
                     info.fFlags |= nonMSAARenderFlags;
                 }
                 // GL_EXT_texture storage has defined interactions with

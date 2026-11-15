@@ -147,7 +147,7 @@ sk_sp<SkImage> SkiaGPUAtlas::atlasImageForCurrentThread() const
 {
     if (m_threadSafeGrContext) {
         ref();
-        auto backendFormat = m_threadSafeGrContext->defaultBackendFormat(kBGRA_8888_SkColorType, GrRenderable::kYes);
+        auto backendFormat = m_threadSafeGrContext->defaultBackendFormat(kBGRA_8888_SkColorType, GrRenderable::kNo);
         ASSERT(backendFormat.isValid());
         return SkImages::PromiseTextureFrom(m_threadSafeGrContext, backendFormat, SkISize::Make(m_atlasTexture->size().width(), m_atlasTexture->size().height()), skgpu::Mipmapped::kNo,
             kTopLeft_GrSurfaceOrigin, kBGRA_8888_SkColorType, kPremul_SkAlphaType, SkColorSpace::MakeSRGB(),
