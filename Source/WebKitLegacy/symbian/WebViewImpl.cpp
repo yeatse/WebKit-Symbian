@@ -1091,6 +1091,8 @@ void WebViewImpl::cancelTouches()
 bool WebViewImpl::handleTouch(const TouchPoint* points, unsigned count, unsigned modifiers)
 {
     DOMTimer::noteUserInteraction();
+    if (m_compositor)
+        m_compositor->noteInput();
 #if ENABLE(TOUCH_EVENTS)
     if (!m_touchCapacity || !points || !count || count > m_touchCapacity)
         return false;
@@ -1190,6 +1192,8 @@ bool WebViewImpl::handleTouch(const TouchPoint* points, unsigned count, unsigned
 
 void WebViewImpl::handlePointer(PointerEvent event, int x, int y)
 {
+    if (m_compositor)
+        m_compositor->noteInput();
     PlatformKeyboardEvent::setCurrentModifierState({ });
     IntPoint point(x, y);
     switch (event) {
@@ -1320,6 +1324,8 @@ void WebViewImpl::scrollBy(int dx, int dy)
 
 bool WebViewImpl::handleKey(bool isDown, int keyCode, Text text, unsigned modifiers)
 {
+    if (m_compositor)
+        m_compositor->noteInput();
     OptionSet<PlatformEvent::Modifier> eventModifiers;
     if (modifiers & ShiftKey)
         eventModifiers.add(PlatformEvent::Modifier::ShiftKey);

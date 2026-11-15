@@ -32,6 +32,8 @@ public:
     void setOverlayLayer(WebCore::GraphicsLayer*);
     void invalidate(const WebCore::IntRect&);
     void scheduleRenderingUpdate();
+    // The next frame starts at once, even while idle frames are slowed down.
+    void noteInput();
     bool resize();
     bool render();
     void prepareForDestruction();
@@ -95,6 +97,13 @@ private:
     MonotonicTime m_lastFrame;
     MonotonicTime m_frameStart;
     void scheduleAnimationFrame();
+    Seconds idleFrameDelay() const;
+    // Frames in a row that changed nothing on screen: an animation out of
+    // sight, or a script redrawing what is already there.
+    unsigned m_idleFrames { 0 };
+    bool m_inputPending { false };
+    bool m_flushTimerSlowed { false };
+    unsigned m_slowedFrames { 0 };
 
     // The render stage's main-thread time by kind, summed since the last log.
     void logRenderSplit();

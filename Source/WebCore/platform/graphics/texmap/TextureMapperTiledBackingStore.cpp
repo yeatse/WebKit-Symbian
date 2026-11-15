@@ -38,6 +38,8 @@
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
 #include <skia/core/SkPictureRecorder.h>
 #include <skia/core/SkPicture.h>
+#include <skia/core/SkCanvas.h>
+#include <skia/core/SkImage.h>
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 #endif
 #include <wtf/MonotonicTime.h>
@@ -67,6 +69,17 @@ static bool s_frameSkippedPrefetch;
 // frame still gets them, after a short wait.
 static unsigned s_skippedFrameRun;
 static constexpr unsigned coveragePrefetchMaxSkippedFrames = 2;
+#if OS(SYMBIAN) && USE(SKIA)
+// Textures replaced while frames still in the GPU may read them: held back
+// from the pool until those frames are done.
+static constexpr unsigned retiredTextureFrames = 3;
+static unsigned s_coverageFrame;
+static Vector<std::pair<unsigned, Ref<BitmapTexture>>>& retiredTextures()
+{
+    static NeverDestroyed<Vector<std::pair<unsigned, Ref<BitmapTexture>>>> textures;
+    return textures;
+}
+#endif
 
 TextureMapperTiledBackingStore::CoverageStats& TextureMapperTiledBackingStore::coverageStats()
 {
@@ -81,6 +94,12 @@ void TextureMapperTiledBackingStore::beginCoverageFrame()
     s_skippedFrameRun = s_frameSkippedPrefetch ? s_skippedFrameRun + 1 : 0;
     s_frameVisibleTime = { };
     s_frameSkippedPrefetch = false;
+#if OS(SYMBIAN) && USE(SKIA)
+    ++s_coverageFrame;
+    retiredTextures().removeAllMatching([](auto& entry) {
+        return s_coverageFrame - entry.first > retiredTextureFrames;
+    });
+#endif
 }
 
 static size_t coverageTextureBytes(const IntSize& size)
@@ -380,6 +399,30 @@ bool TextureMapperTiledBackingStore::paintCoverageTiles(const Vector<CoveragePai
         return tile.texture()->canRasterizeWithSkia(target);
     });
     if (canRasterize) {
+        // Drawing into a texture that a queued frame samples waits for that
+        // frame on a tile-based GPU: an on-screen tile gets a new texture,
+        // with the old contents copied for a partial repaint.
+        for (auto& entry : paints) {
+            auto& coverageTile = m_coverageTiles[entry.index];
+            auto old = coverageTile.tile.texture();
+            if (!coverageTile.valid || !old)
+                continue;
+            IntRect tileRect = enclosingIntRect(coverageTile.tile.rect());
+            auto fresh = BitmapTexturePool::singleton().acquireTexture(tileRect.size(), { BitmapTexture::Flags::SupportsAlpha });
+            if (entry.rect != tileRect) {
+                auto image = SkiaBackingStore::imageForTexture(*old);
+                if (!image)
+                    continue;
+                SkPictureRecorder copyRecorder;
+                copyRecorder.beginRecording(tileRect.width(), tileRect.height())->drawImage(image, 0, 0);
+                auto copy = copyRecorder.finishRecordingAsPicture();
+                if (!fresh->updateContents(*copy, IntRect(IntPoint(), tileRect.size()), IntPoint()))
+                    continue;
+            }
+            coverageTile.tile.setTexture(fresh.ptr());
+            retiredTextures().append({ s_coverageFrame, old.releaseNonNull() });
+            ++coverageStats().renamedTiles;
+        }
         SkPictureRecorder recorder;
         auto* skiaContext = PlatformDisplay::sharedDisplay().skiaGLContext();
         sk_sp<SkPicture> picture;

@@ -73,6 +73,7 @@ public:
         unsigned damagedTiles { 0 }; // On screen, part repainted.
         unsigned prefetchTiles { 0 };
         unsigned prefetchSkipped { 0 }; // Frames that left margins for later.
+        unsigned renamedTiles { 0 }; // Repainted into a new texture while the last frames read the old one.
         uint64_t newPixels { 0 };
         uint64_t damagedPixels { 0 };
         uint64_t prefetchPixels { 0 };

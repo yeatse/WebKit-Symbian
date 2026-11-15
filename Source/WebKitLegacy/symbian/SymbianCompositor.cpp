@@ -534,10 +534,33 @@ void SymbianCompositor::invalidate(const IntRect& rect)
     scheduleRenderingUpdate();
 }
 
+Seconds SymbianCompositor::idleFrameDelay() const
+{
+    constexpr unsigned idleFramesBeforeDelay = 4;
+    constexpr Seconds maximumDelay = 250_ms;
+    if (m_inputPending || m_idleFrames < idleFramesBeforeDelay)
+        return 0_s;
+    unsigned doublings = std::min(m_idleFrames - idleFramesBeforeDelay, 4u);
+    return std::min(maximumDelay, 32_ms * (1u << doublings));
+}
+
 void SymbianCompositor::scheduleRenderingUpdate()
 {
-    if (!m_rendering && !m_flushTimer.isActive())
-        m_flushTimer.startOneShot(0_s);
+    if (m_rendering)
+        return;
+    Seconds delay = idleFrameDelay();
+    // Otherwise a pending frame keeps its time, as animation frames are paced.
+    if (m_flushTimer.isActive() && (!m_flushTimerSlowed || m_flushTimer.nextFireInterval() <= delay))
+        return;
+    m_flushTimerSlowed = !!delay;
+    m_flushTimer.startOneShot(delay ? std::max(0_s, m_frameStart + delay - MonotonicTime::now()) : 0_s);
+}
+
+void SymbianCompositor::noteInput()
+{
+    m_inputPending = true;
+    if (m_flushTimer.isActive())
+        scheduleRenderingUpdate();
 }
 
 void SymbianCompositor::notifyFlushRequired(const GraphicsLayer*) { scheduleRenderingUpdate(); }
@@ -634,7 +657,11 @@ bool SymbianCompositor::render()
         return true;
     SetForScope rendering(m_rendering, true);
     m_flushTimer.stop();
+    m_flushTimerSlowed = false;
     m_frameStart = MonotonicTime::now();
+    if (idleFrameDelay())
+        ++m_slowedFrames;
+    m_inputPending = false;
     const bool timing = frameStatsEnabled();
     // Work in the frame outside every finer scope is the compositor's own.
     WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Frame);
@@ -721,6 +748,8 @@ bool SymbianCompositor::render()
         m_view.setVideoUnderlayVisible(MediaPlayerPrivateSymbian::didComposite(IntRect(IntPoint(), m_view.size())));
 #endif
         if (emptyDamage && !m_needsPresentation) {
+            if (!morePending)
+                ++m_idleFrames;
             if (hasRunningAnimations)
                 scheduleAnimationFrame();
             else if (morePending)
@@ -783,6 +812,7 @@ bool SymbianCompositor::render()
         return false;
     }
     m_needsPresentation = false;
+    m_idleFrames = 0;
     if (timing) {
         MonotonicTime swapped = MonotonicTime::now();
         double since = m_lastFrame ? (swapped - m_lastFrame).milliseconds() : 0;
@@ -798,18 +828,18 @@ bool SymbianCompositor::render()
             auto& backing = TextureMapperTiledBackingStore::coverageStats();
             double backingFrames = std::max(1u, backing.frames);
             // New tiles came into view; damaged ones were repainted in part.
-            WTFLogAlways("egl-backing: per frame new=%.1f/%.0fkpx damaged=%.1f/%.0fkpx visible-ms=%.1f prefetch=%.1f/%.0fkpx/%.1fms skipped=%u worst=%.0fms '%s'",
+            WTFLogAlways("egl-backing: per frame new=%.1f/%.0fkpx damaged=%.1f/%.0fkpx visible-ms=%.1f prefetch=%.1f/%.0fkpx/%.1fms skipped=%u renamed=%u worst=%.0fms '%s'",
                 backing.newTiles / backingFrames, backing.newPixels / backingFrames / 1000,
                 backing.damagedTiles / backingFrames, backing.damagedPixels / backingFrames / 1000, backing.visibleMs / backingFrames,
                 backing.prefetchTiles / backingFrames, backing.prefetchPixels / backingFrames / 1000, backing.prefetchMs / backingFrames,
-                backing.prefetchSkipped, backing.worstMs, backing.worstLayer.utf8().data());
+                backing.prefetchSkipped, backing.renamedTiles, backing.worstMs, backing.worstLayer.utf8().data());
             backing = { };
             unsigned compositionFrames = m_fullDamageFrames + m_partialDamageFrames + m_emptyDamageFrames;
             if (compositionFrames)
-                WTFLogAlways("skia-composition: frames=%u full=%u partial=%u skipped=%u damage-kpx=%.1f",
-                    compositionFrames, m_fullDamageFrames, m_partialDamageFrames, m_emptyDamageFrames,
+                WTFLogAlways("skia-composition: frames=%u full=%u partial=%u skipped=%u slowed=%u damage-kpx=%.1f",
+                    compositionFrames, m_fullDamageFrames, m_partialDamageFrames, m_emptyDamageFrames, m_slowedFrames,
                     static_cast<double>(m_damagedPixels) / compositionFrames / 1000);
-            m_fullDamageFrames = m_partialDamageFrames = m_emptyDamageFrames = 0;
+            m_fullDamageFrames = m_partialDamageFrames = m_emptyDamageFrames = m_slowedFrames = 0;
             m_damagedPixels = 0;
             logRenderSplit();
         }
@@ -831,7 +861,10 @@ void SymbianCompositor::scheduleAnimationFrame()
 {
     // Animation frames start a display refresh apart, however long the last one took.
     constexpr Seconds refreshInterval = 1_s / 60;
-    m_flushTimer.startOneShot(std::max(0_s, m_frameStart + refreshInterval - MonotonicTime::now()));
+    Seconds delay = idleFrameDelay();
+    Seconds interval = std::max(refreshInterval, delay);
+    m_flushTimerSlowed = !!delay;
+    m_flushTimer.startOneShot(std::max(0_s, m_frameStart + interval - MonotonicTime::now()));
 }
 
 void SymbianCompositor::logRenderSplit()
