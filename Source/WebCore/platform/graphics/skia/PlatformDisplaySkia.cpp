@@ -379,7 +379,11 @@ private:
         // lookup which is a slow-path in certain tiled GPUs (such as Vivante/etnaviv). Since we
         // don't use any mipmapping, it's safe to disable that, and avoid performance hits.
         options.fSharpenMipmappedTextures = false;
-#if !OS(SYMBIAN)
+#if OS(SYMBIAN)
+        // GL runs on the VideoCore coprocessor: glGetError and glCheckFramebufferStatus each wait for it,
+        // and Skia would issue them on every submit and every new render target.
+        options.fSkipGLErrorChecks = GrContextOptions::Enable::kYes;
+#else
         thread_local std::unique_ptr<SkExecutor> executor = SkExecutor::MakeFIFOThreadPool(2);
         options.fExecutor = executor.get();
 #endif
