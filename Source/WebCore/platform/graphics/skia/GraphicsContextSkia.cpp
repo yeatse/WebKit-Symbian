@@ -574,7 +574,7 @@ bool GraphicsContextSkia::drawShadowWithMaskFilter(const SkPaint& paint, const F
     if (paint.getShader() || paint.getColorFilter() || paint.getMaskFilter())
         return false;
 
-    const auto& shadow = *dropShadow();
+    auto shadow = *dropShadow();
     if (state().shadowsIgnoreTransforms() && !getCTM(GraphicsContext::IncludeDeviceScale::PossiblyIncludeDeviceScale).isIdentity())
         return false;
 
