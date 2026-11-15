@@ -21,7 +21,7 @@ string(SUBSTRING "${autogen}" ${validate_begin} ${validate_length} validate)
 string(REPLACE "GrGLInterface::validate" "ProbeInterface::probeValidate" validate "${validate}")
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/validate.inc" "${validate}")
 
-symbian_add_executable(glprobe probe.cpp window.cpp)
+symbian_add_executable(glprobe probe.cpp window.cpp images.cpp)
 target_compile_features(glprobe PRIVATE cxx_std_23)
 target_compile_options(glprobe PRIVATE -marm -mfpu=vfpv2 -mfloat-abi=softfp
     -fdeclspec -Wno-ignored-attributes)
@@ -30,6 +30,9 @@ target_compile_definitions(glprobe PRIVATE SK_GANESH SK_GL
     SK_ENABLE_PRECOMPILE SK_ASSUME_GL=0 SK_ASSUME_GL_ES=1 SK_ASSUME_WEBGL=0
     SK_TRIVIAL_ABI=[[clang::trivial_abi]])
 target_include_directories(glprobe PRIVATE "${skia}" "${CMAKE_CURRENT_BINARY_DIR}")
+# The surface manager headers; after the platform headers, which they duplicate in part.
+set_source_files_properties(images.cpp PROPERTIES COMPILE_OPTIONS
+    "-idirafter;${SYMBIAN_SDK_PREFIX}/include/native")
 target_include_directories(glprobe SYSTEM PRIVATE
     "${SYMBIAN_SDK_PREFIX}/include/graphics" "${DEPS_DIR}/include")
 set(sdk_libraries "${SYMBIAN_SDK_PREFIX}/lib/armv6")
@@ -43,7 +46,9 @@ target_link_libraries(glprobe PRIVATE --start-group
     --end-group Symbian::Streams Symbian::WindowServer Symbian::Gdi Symbian::EUser
     "${SYMBIAN_SDK_PREFIX}/proxies/fbscli/fbscli.dso"
     "${SYMBIAN_SDK_PREFIX}/proxies/libegl/libegl.dso"
-    "${SYMBIAN_SDK_PREFIX}/proxies/libglesv2/libglesv2.dso")
+    "${SYMBIAN_SDK_PREFIX}/proxies/libglesv2/libglesv2.dso"
+    "${SYMBIAN_SDK_PREFIX}/proxies/surfacemanager/surfacemanager.dso"
+    "${SYMBIAN_SDK_PREFIX}/proxies/surfaceupdateclient/surfaceupdateclient.dso")
 symbian_publish_executable(glprobe UID3 0xE1A5C0F1 CAPABILITIES 0)
 
 set(rpp "${CMAKE_CURRENT_BINARY_DIR}/glprobe_reg.rpp")

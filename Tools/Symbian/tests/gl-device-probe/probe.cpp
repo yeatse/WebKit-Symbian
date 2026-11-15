@@ -1,6 +1,7 @@
 // Reports what the phone's EGL and GLES2 driver gives Skia: configurations,
 // the GL interface Ganesh assembles, Ganesh on offscreen and window contexts,
 // and one context drawing into both a pbuffer and the window.
+#include "images.h"
 #include "window.h"
 #include "include/core/SkCanvas.h"
 #include "include/core/SkColorSpace.h"
@@ -571,6 +572,7 @@ int main()
         runOffscreen("pbuffer context", pbufferConfig, windowConfig, nativeWindow, width, height, true);
         runOffscreen("pbuffer and window context", bothConfig, bothConfig, nativeWindow, width, height, false);
         runWindow(windowConfig, nativeWindow, width, height);
+        probeImages(display, pbufferConfig, report);
         eglTerminate(display);
     }
     probeCloseWindow();
