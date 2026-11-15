@@ -381,6 +381,28 @@ jobs:
           path: WebKitBuild/Symbian/build/browser/browser.elf
           retention-days: 30
           if-no-files-found: warn
+      # A small installer answering EGL and Skia questions on a phone.
+      - name: GL device probe
+        id: probe
+        continue-on-error: true
+        env:
+          SIS_CERTIFICATE_PEM: ${{ secrets.SIS_CERTIFICATE }}
+          SIS_KEY_PEM: ${{ secrets.SIS_KEY }}
+        run: |
+          if [ -n "$SIS_CERTIFICATE_PEM" ] && [ -n "$SIS_KEY_PEM" ]; then
+            printf '%s\n' "$SIS_CERTIFICATE_PEM" > "$RUNNER_TEMP/sis.pem"
+            printf '%s\n' "$SIS_KEY_PEM" > "$RUNNER_TEMP/sis.key"
+            export SIS_CERTIFICATE=$RUNNER_TEMP/sis.pem SIS_KEY=$RUNNER_TEMP/sis.key
+          fi
+          scripts/build-gl-probe.sh
+          rm -f "$RUNNER_TEMP/sis.key"
+      - uses: actions/upload-artifact@v4
+        if: steps.probe.outcome == 'success'
+        with:
+          name: probe
+          path: WebKitBuild/Symbian/sis/glprobe.sis
+          compression-level: 0
+          if-no-files-found: warn
       - name: Package download summary
         env:
           SIS_ARTIFACT_URL: ${{ steps.sis.outputs.artifact-url }}

@@ -1,0 +1,9 @@
+// AppArc registration, so the probe starts from the phone's menu.
+CHARACTER_SET UTF8
+#include <AppInfo.rh>
+UID2 KUidAppRegistrationResourceFile
+UID3 0xE1A5C0F1
+RESOURCE APP_REGISTRATION_INFO
+{
+  app_file = "glprobe";
+}
