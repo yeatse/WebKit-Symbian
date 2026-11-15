@@ -1937,7 +1937,7 @@ void LocalFrameView::setBaseLayoutViewportOrigin(LayoutPoint origin, TriggerLayo
 
     m_layoutViewportOrigin = origin;
     if (layoutTriggering == TriggerLayoutOrNot::Yes)
-        setViewportConstrainedObjectsNeedLayout();
+        setViewportConstrainedObjectsNeedLayout(ViewportChange::OriginOnly);
     
     if (TiledBacking* tiledBacking = this->tiledBacking()) {
         FloatRect layoutViewport = layoutViewportRect();
@@ -3742,13 +3742,18 @@ void LocalFrameView::delegatedScrollingModeDidChange()
     }
 }
 
-void LocalFrameView::setViewportConstrainedObjectsNeedLayout()
+void LocalFrameView::setViewportConstrainedObjectsNeedLayout(ViewportChange change)
 {
     if (!hasViewportConstrainedObjects())
         return;
 
     for (CheckedRef renderer : *m_viewportConstrainedObjects) {
-        renderer->setNeedsLayout();
+        // A moved viewport of the same size only moves fixed boxes. A full layout of
+        // the box would also repaint it, though a composited one only needs recompositing.
+        if (change == ViewportChange::OriginOnly && renderer->isOutOfFlowPositioned())
+            renderer->setNeedsOutOfFlowMovementLayout(nullptr);
+        else
+            renderer->setNeedsLayout();
         if (renderer->hasLayer()) {
             auto* layer = downcast<RenderBoxModelObject>(renderer).layer();
             layer->setNeedsCompositingGeometryUpdate();

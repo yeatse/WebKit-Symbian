@@ -141,7 +141,8 @@ public:
     void setNeedsCompositingGeometryUpdate();
     void setDescendantsNeedUpdateBackingAndHierarchyTraversal();
 
-    WEBCORE_EXPORT void setViewportConstrainedObjectsNeedLayout();
+    enum class ViewportChange : bool { Any, OriginOnly };
+    WEBCORE_EXPORT void setViewportConstrainedObjectsNeedLayout(ViewportChange = ViewportChange::Any);
 
     WEBCORE_EXPORT bool renderedCharactersExceed(unsigned threshold);
 
