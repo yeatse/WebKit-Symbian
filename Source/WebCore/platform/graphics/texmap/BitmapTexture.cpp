@@ -546,8 +546,9 @@ bool BitmapTexture::paintWithSkia(const IntRect& targetRect, NOESCAPE const Func
         }
         if (!skiaContext->makeContextCurrent())
             return;
+        // In the same context the frame's composition submits the tile's commands with its own.
         if (sameContext)
-            grContext->flushAndSubmit(surface.get(), GrSyncCpu::kNo);
+            grContext->flush(surface.get());
         else
             fence = SkiaUtilities::flushAndSubmitSurfaceWithFence(grContext, surface.get());
         painted = true;
