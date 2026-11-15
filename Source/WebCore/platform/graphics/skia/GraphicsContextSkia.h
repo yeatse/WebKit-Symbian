@@ -144,7 +144,7 @@ private:
 
     enum class ShadowStyle : uint8_t { Outset, Inset };
     sk_sp<SkImageFilter> createDropShadowFilterIfNeeded(ShadowStyle) const;
-    enum class ShadowShape : uint8_t { Any, RectOrRoundedRect };
+    enum class ShadowShape : uint8_t { Any, MaskFilterable };
     bool drawOutsetShadow(SkPaint&, Function<void(const SkPaint&)>&&, ShadowShape = ShadowShape::Any);
     bool drawShadowWithMaskFilter(const SkPaint&, const Function<void(const SkPaint&)>&);
 

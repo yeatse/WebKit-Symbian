@@ -590,13 +590,13 @@ bool GraphicsContextSkia::drawShadowWithMaskFilter(const SkPaint& paint, const F
 
 bool GraphicsContextSkia::drawOutsetShadow(SkPaint& paint, Function<void(const SkPaint&)>&& drawFunction, ShadowShape shape)
 {
-    // A blurred rect or rounded rect is one analytic draw in Ganesh. The image filter
-    // renders every shadow into a layer of its own and blurs that in several passes.
+    // Ganesh draws a blurred rect or rounded rect analytically and caches blurred glyphs in
+    // its atlas. The image filter renders every shadow into a layer and blurs it in passes.
     auto shadow = createDropShadowFilterIfNeeded(ShadowStyle::Outset);
     if (!shadow)
         return false;
 
-    if (shape != ShadowShape::RectOrRoundedRect || !drawShadowWithMaskFilter(paint, drawFunction)) {
+    if (shape != ShadowShape::MaskFilterable || !drawShadowWithMaskFilter(paint, drawFunction)) {
         paint.setImageFilter(shadow);
         drawFunction(paint);
         paint.setImageFilter(nullptr);
@@ -665,7 +665,7 @@ void GraphicsContextSkia::drawSkiaRect(const SkRect& boundaries, SkPaint& paint)
     if (hasDropShadow()) {
         inExtraTransparencyLayer = drawOutsetShadow(paint, [&](const SkPaint& paint) {
             m_canvas.drawRect(boundaries, paint);
-        }, ShadowShape::RectOrRoundedRect);
+        }, ShadowShape::MaskFilterable);
     }
     m_canvas.drawRect(boundaries, paint);
     if (inExtraTransparencyLayer)
@@ -1109,7 +1109,7 @@ void GraphicsContextSkia::fillRoundedRectImpl(const FloatRoundedRect& rect, cons
     if (hasDropShadow()) {
         inExtraTransparencyLayer = drawOutsetShadow(paint, [&](const SkPaint& paint) {
             m_canvas.drawRRect(rect, paint);
-        }, ShadowShape::RectOrRoundedRect);
+        }, ShadowShape::MaskFilterable);
     }
     m_canvas.drawRRect(rect, paint);
     if (inExtraTransparencyLayer)
@@ -1351,7 +1351,7 @@ void GraphicsContextSkia::drawSkiaText(const sk_sp<SkTextBlob>& blob, SkScalar x
         if (hasDropShadow()) {
             inExtraTransparencyLayer = drawOutsetShadow(paint, [&](const SkPaint& paint) {
                 m_canvas.drawTextBlob(blob, x, y, paint);
-            });
+            }, ShadowShape::MaskFilterable);
         }
         m_canvas.drawTextBlob(blob, x, y, paint);
         if (inExtraTransparencyLayer)
