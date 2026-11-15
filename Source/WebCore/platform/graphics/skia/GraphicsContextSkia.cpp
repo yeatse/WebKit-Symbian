@@ -49,6 +49,7 @@
 WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_BEGIN
 #include <skia/core/SkColorFilter.h>
 #include <skia/core/SkImage.h>
+#include <skia/core/SkMaskFilter.h>
 #include <skia/core/SkPathBuilder.h>
 #include <skia/core/SkPathEffect.h>
 #include <skia/core/SkPathTypes.h>
@@ -444,6 +445,40 @@ bool GraphicsContextSkia::drawPathAsSingleElement(const Path& path, SkPaint& pai
     return handled;
 }
 
+static std::optional<SkRRect> closedRoundedRect(const PathSegment& segment)
+{
+    return WTF::switchOn(segment.data(),
+        [](const PathRoundedRect& roundedRect) -> std::optional<SkRRect> {
+            return static_cast<SkRRect>(roundedRect.roundedRect);
+        },
+        [](const PathRect& rect) -> std::optional<SkRRect> {
+            return SkRRect::MakeRect(rect.rect);
+        },
+        [](const auto&) -> std::optional<SkRRect> {
+            return std::nullopt;
+        });
+}
+
+// Rounded borders fill an even-odd path of two rounded rects. Ganesh draws that ring
+// analytically as a DRRect, but as a path it is triangulated or masked on the CPU.
+bool GraphicsContextSkia::fillRingOfRoundedRects(const Path& path, const SkPaint& paint)
+{
+    if (hasDropShadow() || state().fillRule() != WindRule::EvenOdd)
+        return false;
+
+    auto* segments = path.segmentsIfExists();
+    if (!segments || segments->size() != 2)
+        return false;
+
+    auto outer = closedRoundedRect((*segments)[0]);
+    auto inner = closedRoundedRect((*segments)[1]);
+    if (!outer || !inner || outer->isEmpty() || inner->isEmpty() || !outer->contains(inner->rect()))
+        return false;
+
+    m_canvas.drawDRRect(*outer, *inner, paint);
+    return true;
+}
+
 void GraphicsContextSkia::fillPath(const Path& path)
 {
     if (path.isEmpty())
@@ -456,6 +491,9 @@ void GraphicsContextSkia::fillPath(const Path& path)
     setupFillSource(paint);
 
     if (drawPathAsSingleElement(path, paint))
+        return;
+
+    if (fillRingOfRoundedRects(path, paint))
         return;
 
     auto fillRule = toSkiaFillType(state().fillRule());
@@ -530,15 +568,39 @@ sk_sp<SkImageFilter> GraphicsContextSkia::createDropShadowFilterIfNeeded(ShadowS
     return nullptr;
 }
 
-bool GraphicsContextSkia::drawOutsetShadow(SkPaint& paint, Function<void(const SkPaint&)>&& drawFunction)
+bool GraphicsContextSkia::drawShadowWithMaskFilter(const SkPaint& paint, const Function<void(const SkPaint&)>& drawFunction)
 {
+    if (paint.getShader() || paint.getColorFilter() || paint.getMaskFilter())
+        return false;
+
+    const auto& shadow = *dropShadow();
+    if (state().shadowsIgnoreTransforms() && !getCTM(GraphicsContext::IncludeDeviceScale::PossiblyIncludeDeviceScale).isIdentity())
+        return false;
+
+    SkPaint shadowPaint(paint);
+    shadowPaint.setColor(SkColor(shadow.color.colorWithAlphaMultipliedBy(paint.getAlphaf())));
+    if (shadow.radius > 0)
+        shadowPaint.setMaskFilter(SkMaskFilter::MakeBlur(kNormal_SkBlurStyle, shadow.radius / 2.0));
+    m_canvas.save();
+    m_canvas.translate(shadow.offset.width(), shadow.offset.height());
+    drawFunction(shadowPaint);
+    m_canvas.restore();
+    return true;
+}
+
+bool GraphicsContextSkia::drawOutsetShadow(SkPaint& paint, Function<void(const SkPaint&)>&& drawFunction, ShadowShape shape)
+{
+    // A blurred rect or rounded rect is one analytic draw in Ganesh. The image filter
+    // renders every shadow into a layer of its own and blurs that in several passes.
     auto shadow = createDropShadowFilterIfNeeded(ShadowStyle::Outset);
     if (!shadow)
         return false;
 
-    paint.setImageFilter(shadow);
-    drawFunction(paint);
-    paint.setImageFilter(nullptr);
+    if (shape != ShadowShape::RectOrRoundedRect || !drawShadowWithMaskFilter(paint, drawFunction)) {
+        paint.setImageFilter(shadow);
+        drawFunction(paint);
+        paint.setImageFilter(nullptr);
+    }
 
     auto reversed = m_skiaStateStack | std::views::reverse;
     auto it = std::ranges::find(reversed, true, &SkiaState::isLayer);
@@ -603,7 +665,7 @@ void GraphicsContextSkia::drawSkiaRect(const SkRect& boundaries, SkPaint& paint)
     if (hasDropShadow()) {
         inExtraTransparencyLayer = drawOutsetShadow(paint, [&](const SkPaint& paint) {
             m_canvas.drawRect(boundaries, paint);
-        });
+        }, ShadowShape::RectOrRoundedRect);
     }
     m_canvas.drawRect(boundaries, paint);
     if (inExtraTransparencyLayer)
@@ -1047,7 +1109,7 @@ void GraphicsContextSkia::fillRoundedRectImpl(const FloatRoundedRect& rect, cons
     if (hasDropShadow()) {
         inExtraTransparencyLayer = drawOutsetShadow(paint, [&](const SkPaint& paint) {
             m_canvas.drawRRect(rect, paint);
-        });
+        }, ShadowShape::RectOrRoundedRect);
     }
     m_canvas.drawRRect(rect, paint);
     if (inExtraTransparencyLayer)

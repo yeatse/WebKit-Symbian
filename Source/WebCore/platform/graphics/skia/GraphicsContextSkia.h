@@ -144,7 +144,9 @@ private:
 
     enum class ShadowStyle : uint8_t { Outset, Inset };
     sk_sp<SkImageFilter> createDropShadowFilterIfNeeded(ShadowStyle) const;
-    bool drawOutsetShadow(SkPaint&, Function<void(const SkPaint&)>&&);
+    enum class ShadowShape : uint8_t { Any, RectOrRoundedRect };
+    bool drawOutsetShadow(SkPaint&, Function<void(const SkPaint&)>&&, ShadowShape = ShadowShape::Any);
+    bool drawShadowWithMaskFilter(const SkPaint&, const Function<void(const SkPaint&)>&);
 
     void pushSkiaState();
     void popSkiaState();
@@ -152,6 +154,7 @@ private:
     void drawSkiaRect(const SkRect&, SkPaint&);
     void drawSkiaPath(const SkPath&, SkPaint&);
     bool drawPathAsSingleElement(const Path&, SkPaint&);
+    bool fillRingOfRoundedRects(const Path&, const SkPaint&);
 
     struct ClipRecord {
         enum class Type : uint8_t {
