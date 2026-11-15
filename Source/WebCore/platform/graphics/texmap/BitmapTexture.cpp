@@ -252,6 +252,7 @@ void BitmapTexture::swapTexture(BitmapTexture& other)
 {
 #if OS(SYMBIAN) && USE(SKIA)
     std::swap(m_hasContents, other.m_hasContents);
+    std::swap(m_skiaSurface, other.m_skiaSurface);
 #endif
     RELEASE_ASSERT(m_size == other.m_size);
 #if OS(SYMBIAN)
@@ -323,6 +324,9 @@ void BitmapTexture::reset(const IntSize& size, OptionSet<Flags> flags)
     if (m_size == size && !layoutChanged)
         return;
     m_size = size;
+#if OS(SYMBIAN) && USE(SKIA)
+    releaseSkiaSurface();
+#endif
 
     determineRenderTargetAndBinding();
 
@@ -501,6 +505,25 @@ bool BitmapTexture::canRasterizeWithSkia(const IntRect& targetRect) const
     return !m_hasContents || m_pixelFormat == layout || targetRect == IntRect(IntPoint(), m_size);
 }
 
+void BitmapTexture::releaseSkiaSurface()
+{
+    if (!m_skiaSurface)
+        return;
+    // Its framebuffer belongs to the Skia context. Without one Skia has abandoned GL.
+    auto* skiaContext = PlatformDisplay::sharedDisplay().skiaGLContext();
+    if (!skiaContext) {
+        m_skiaSurface = nullptr;
+        return;
+    }
+    GLContext::ScopedGLContextCurrent current(*skiaContext);
+    if (!skiaContext->makeContextCurrent()) {
+        // Leak it: deleting its framebuffer name in another context could delete someone else's.
+        (void)m_skiaSurface.release();
+        return;
+    }
+    m_skiaSurface = nullptr;
+}
+
 bool BitmapTexture::paintWithSkia(const IntRect& targetRect, NOESCAPE const Function<void(GraphicsContext&)>& paint)
 {
     if (!canRasterizeWithSkia(targetRect))
@@ -531,7 +554,14 @@ bool BitmapTexture::paintWithSkia(const IntRect& targetRect, NOESCAPE const Func
         if (readFence)
             readFence->serverWait();
         grContext->resetContext();
-        auto surface = createSkiaSurface(grContext, kTopLeft_GrSurfaceOrigin);
+        sk_sp<SkSurface> surface;
+        if (sameContext) {
+            // Wrapping the texture makes and checks a framebuffer, a driver round trip per tile.
+            if (!m_skiaSurface || m_skiaSurface->props() != FontRenderOptions::singleton().createSurfaceProps())
+                m_skiaSurface = createSkiaSurface(grContext, kTopLeft_GrSurfaceOrigin);
+            surface = m_skiaSurface;
+        } else
+            surface = createSkiaSurface(grContext, kTopLeft_GrSurfaceOrigin);
         if (!surface)
             return;
         auto* canvas = surface->getCanvas();
@@ -783,6 +813,9 @@ void BitmapTexture::bindAsSurface()
 BitmapTexture::~BitmapTexture()
 {
 #if OS(SYMBIAN)
+#if USE(SKIA)
+    releaseSkiaSurface();
+#endif
     m_resourceState->release(SymbianGLResourceState::Type::Texture, m_id);
     m_resourceState->release(SymbianGLResourceState::Type::Framebuffer, m_fbo);
     m_resourceState->release(SymbianGLResourceState::Type::Renderbuffer, m_depthBufferObject);

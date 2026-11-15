@@ -165,7 +165,10 @@ private:
     void allocateTexture();
 #if OS(SYMBIAN) && USE(SKIA)
     bool paintWithSkia(const IntRect&, NOESCAPE const Function<void(GraphicsContext&)>&);
+    void releaseSkiaSurface();
     bool m_hasContents { false };
+    // Only for repaints in the context that owns the texture.
+    sk_sp<SkSurface> m_skiaSurface;
 #endif
 #if USE(GBM)
     bool allocateTextureFromMemoryMappedGPUBuffer();
