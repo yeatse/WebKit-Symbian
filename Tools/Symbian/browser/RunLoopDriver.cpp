@@ -77,8 +77,13 @@ void CRunLoopDriver::RunWork()
     int64_t delay = WebView::microsecondsUntilNextTimer();
     if (delay < 0)
         return;
-    // CTimer::After takes 32-bit microseconds; a later timer is rearmed then.
-    iTimer->After(TTimeIntervalMicroSeconds32(delay > KMaxTInt ? KMaxTInt : static_cast<TInt>(delay)));
+    // After() rounds up to the 1/64 s system tick, which turns a 16 ms frame
+    // timer into 31 ms. HighRes() has the nanokernel's 1 ms tick.
+    constexpr int64_t highResolutionLimit = 1000000;
+    if (delay < highResolutionLimit)
+        iTimer->HighRes(TTimeIntervalMicroSeconds32(static_cast<TInt>(delay)));
+    else
+        iTimer->After(TTimeIntervalMicroSeconds32(delay > KMaxTInt ? KMaxTInt : static_cast<TInt>(delay)));
 }
 
 CRunLoopDriver::CWorkTimer::CWorkTimer(CRunLoopDriver& aDriver)

@@ -634,6 +634,7 @@ bool SymbianCompositor::render()
         return true;
     SetForScope rendering(m_rendering, true);
     m_flushTimer.stop();
+    m_frameStart = MonotonicTime::now();
     const bool timing = frameStatsEnabled();
     // Work in the frame outside every finer scope is the compositor's own.
     WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Frame);
@@ -721,7 +722,7 @@ bool SymbianCompositor::render()
 #endif
         if (emptyDamage && !m_needsPresentation) {
             if (hasRunningAnimations)
-                m_flushTimer.startOneShot(16_ms);
+                scheduleAnimationFrame();
             else if (morePending)
                 m_flushTimer.startOneShot(0_s);
             return true;
@@ -818,12 +819,19 @@ bool SymbianCompositor::render()
         m_logNextPresentation = false;
     }
     if (hasRunningAnimations)
-        m_flushTimer.startOneShot(16_ms);
+        scheduleAnimationFrame();
     else if (morePending) {
         // Paint the next tiles ahead after pending input and timers.
         m_flushTimer.startOneShot(0_s);
     }
     return true;
+}
+
+void SymbianCompositor::scheduleAnimationFrame()
+{
+    // Animation frames start a display refresh apart, however long the last one took.
+    constexpr Seconds refreshInterval = 1_s / 60;
+    m_flushTimer.startOneShot(std::max(0_s, m_frameStart + refreshInterval - MonotonicTime::now()));
 }
 
 void SymbianCompositor::logRenderSplit()

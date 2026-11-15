@@ -93,6 +93,8 @@ private:
     unsigned m_glFailures { 0 };
     FrameStats m_stats;
     MonotonicTime m_lastFrame;
+    MonotonicTime m_frameStart;
+    void scheduleAnimationFrame();
 
     // The render stage's main-thread time by kind, summed since the last log.
     void logRenderSplit();
