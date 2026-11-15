@@ -521,12 +521,6 @@ void GrGLCaps::init(const GrContextOptions& contextOptions,
              ctxInfo.vendor() == GrGLVendor::kQualcomm)) {
             fPreferClientSideDynamicBuffers = true;
         }
-#if defined(__SYMBIAN32__)
-        // VideoCore IV is tiled too, and each buffer update is a request to its kernel driver.
-        if (clientArraysEnabled && GR_IS_GR_GL_ES(standard)) {
-            fPreferClientSideDynamicBuffers = true;
-        }
-#endif
     } // No client side arrays in WebGL https://www.khronos.org/registry/webgl/specs/1.0/#6.2
 
     if (!contextOptions.fAvoidStencilBuffers && !fSupportsProtectedContent) {
