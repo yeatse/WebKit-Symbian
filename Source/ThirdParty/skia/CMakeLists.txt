@@ -1029,7 +1029,7 @@ file(CREATE_LINK
 )
 
 if (PORT STREQUAL "Symbian")
-    target_compile_definitions(Skia PUBLIC SK_BUILD_FOR_UNIX SK_ENABLE_OPTIMIZE_SIZE SK_R32_SHIFT=16)
+    target_compile_definitions(Skia PUBLIC SK_BUILD_FOR_UNIX SK_R32_SHIFT=16)
     target_include_directories(Skia SYSTEM PRIVATE "${THIRDPARTY_DIR}/ANGLE/include")
 endif ()
 
