@@ -393,8 +393,13 @@ private:
             m_maxResourceCacheBytes = initializeMaxResourceCacheBytes(m_skiaGrContext.get());
         }
 #if OS(SYMBIAN)
-        else
-            WTFLogAlways("Symbian Skia: Ganesh does not start on this GL context");
+        else {
+            auto interface = skiaGLInterface();
+            const char* version = interface && interface->fFunctions.fGetString ? reinterpret_cast<const char*>(interface->fFunctions.fGetString(0x1F02)) : nullptr;
+            WTFLogAlways("Symbian Skia: Ganesh does not start on this GL context (interface %s, GL_VERSION %s, GL error 0x%x)",
+                !interface ? "missing" : interface->validate() ? "valid" : "invalid", version ? version : "null",
+                interface && interface->fFunctions.fGetError ? interface->fFunctions.fGetError() : 0);
+        }
 #endif
     }
 

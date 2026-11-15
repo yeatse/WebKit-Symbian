@@ -234,26 +234,6 @@ std::unique_ptr<GLContext> GLContext::createPbufferContext(GLDisplay& display, E
 {
     EGLDisplay eglDisplay = display.eglDisplay();
     EGLConfig config;
-#if OS(SYMBIAN)
-    // A configuration that also draws into windows lets the compositor use
-    // this context for its window. Drivers may list one and still refuse it.
-    static bool windowConfigFailed;
-    if (!windowConfigFailed && getEGLConfig(eglDisplay, &config, EGL_PBUFFER_BIT | EGL_WINDOW_BIT)) {
-        const char* step = "context";
-        auto context = createEGLContext(display, config, sharingContext);
-        if (context != EGL_NO_CONTEXT) {
-            static const int attributes[] = { EGL_WIDTH, 1, EGL_HEIGHT, 1, EGL_NONE };
-            EGLSurface surface = eglCreatePbufferSurface(eglDisplay, config, attributes);
-            if (surface != EGL_NO_SURFACE)
-                return makeUnique<GLContext>(display, context, surface, config);
-            step = "pbuffer";
-        }
-        WTFLogAlways("Symbian EGL: no %s for a window and pbuffer configuration (%s)", step, lastErrorString());
-        if (context != EGL_NO_CONTEXT)
-            eglDestroyContext(eglDisplay, context);
-        windowConfigFailed = true;
-    }
-#endif
     if (!getEGLConfig(eglDisplay, &config, EGL_PBUFFER_BIT)) {
 #if OS(SYMBIAN)
         WTFLogAlways("Symbian EGL: no pbuffer configuration (%s)", lastErrorString());
@@ -738,6 +718,10 @@ bool GLContext::attachWindowSurface(GLNativeWindowType window)
             WTFLogAlways("Symbian EGL: no window configuration (%s)", lastErrorString());
             return false;
         }
+        EGLint offscreenID = 0, windowID = 0;
+        eglGetConfigAttrib(eglDisplay, m_config, EGL_CONFIG_ID, &offscreenID);
+        eglGetConfigAttrib(eglDisplay, m_windowConfig, EGL_CONFIG_ID, &windowID);
+        WTFLogAlways("Symbian EGL: offscreen configuration %d (surface types 0x%x), window configuration %d", offscreenID, surfaceType, windowID);
     }
     EGLSurface surface = createSymbianWindowSurface(eglDisplay, m_windowConfig ? m_windowConfig : m_config, window);
     if (surface == EGL_NO_SURFACE) {
