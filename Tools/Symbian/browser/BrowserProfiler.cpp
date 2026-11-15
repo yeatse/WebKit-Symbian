@@ -91,12 +91,40 @@ bool isInImage(uintptr_t address)
     return address >= imageBase && address < imageEnd;
 }
 
-// The return address into this executable nearest the top of the stack: a
-// word that points behind a call instruction. System libraries call each
-// other before they reach the kernel, so the link register seldom is one.
+// An import stub: add ip, pc, #a; add ip, ip, #b; ldr pc, [ip, #c]!
+bool isImportStub(uintptr_t address)
+{
+    if (address & 3 || !isInImage(address) || address + 12 > imageEnd)
+        return false;
+    auto* code = reinterpret_cast<const uint32_t*>(address);
+    return (code[0] & 0xfffff000) == 0xe28fc000
+        && (code[1] & 0xfffff000) == 0xe28cc000
+        && (code[2] & 0xfffff000) == 0xe5bcf000;
+}
+
+// Whether returnAddress follows a call that leaves this executable: bl to an
+// import stub or blx through a register (Skia reaches GL by pointer). Stale
+// returns from calls between our own functions don't qualify.
+bool isCallOut(uintptr_t returnAddress)
+{
+    if (returnAddress & 3 || !isInImage(returnAddress) || returnAddress - 4 < imageBase)
+        return false;
+    uintptr_t site = returnAddress - 4;
+    uint32_t instruction = *reinterpret_cast<const uint32_t*>(site);
+    if ((instruction & 0x0ffffff0) == 0x012fff30)
+        return true;
+    if ((instruction & 0x0f000000) != 0x0b000000 || (instruction >> 28) == 0xf)
+        return false;
+    int32_t offset = static_cast<int32_t>(instruction << 8) >> 6;
+    return isImportStub(site + 8 + offset);
+}
+
+// The return address into this executable nearest the top of the stack that
+// follows a call out of it. System libraries call each other before they
+// reach the kernel, so the link register seldom is one.
 uintptr_t callerInImage(uintptr_t lr, uintptr_t sp)
 {
-    if (isInImage(lr))
+    if (isCallOut(lr))
         return lr;
     if (sp & 3 || sp < stackBound || sp >= stackOrigin)
         return 0;
@@ -105,15 +133,8 @@ uintptr_t callerInImage(uintptr_t lr, uintptr_t sp)
     if (count > 256)
         count = 256;
     for (unsigned i = 0; i < count; ++i) {
-        uintptr_t word = words[i];
-        if (word & 3 || !isInImage(word) || word - 4 < imageBase)
-            continue;
-        uint32_t instruction = *reinterpret_cast<const uint32_t*>(word - 4);
-        bool isCall = (instruction & 0x0f000000) == 0x0b000000 // bl
-            || (instruction & 0xfe000000) == 0xfa000000 // blx label
-            || (instruction & 0x0ffffff0) == 0x012fff30; // blx register
-        if (isCall)
-            return word;
+        if (isCallOut(words[i]))
+            return words[i];
     }
     return 0;
 }
