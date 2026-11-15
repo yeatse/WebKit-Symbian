@@ -4,8 +4,10 @@
 #include "window.h"
 #include "include/core/SkCanvas.h"
 #include "include/core/SkColorSpace.h"
+#include "include/core/SkImage.h"
 #include "include/core/SkImageInfo.h"
 #include "include/core/SkPaint.h"
+#include "include/core/SkPath.h"
 #include "include/core/SkSurface.h"
 #include "include/gpu/ganesh/GrBackendSurface.h"
 #include "include/gpu/ganesh/GrDirectContext.h"
@@ -192,6 +194,98 @@ static void reportLookups()
         report("eglGetProcAddress: %s", line.c_str());
 }
 
+// Which textures and renderbuffers the driver takes as framebuffer attachments, without Skia.
+static void reportFramebuffers()
+{
+    struct Format { const char* name; GLenum internal; GLenum format; GLenum type; };
+    static const Format textures[] {
+        { "RGBA8888", GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE }, { "BGRA8888", 0x80E1, 0x80E1, GL_UNSIGNED_BYTE },
+        { "RGB888", GL_RGB, GL_RGB, GL_UNSIGNED_BYTE }, { "RGB565", GL_RGB, GL_RGB, GL_UNSIGNED_SHORT_5_6_5 },
+        { "RGBA4444", GL_RGBA, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4 } };
+    while (glGetError()) { }
+    for (auto& format : textures) {
+        GLuint texture = 0;
+        GLuint framebuffer = 0;
+        GLuint renderbuffer = 0;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexImage2D(GL_TEXTURE_2D, 0, format.internal, 64, 64, 0, format.format, format.type, nullptr);
+        GLenum textureError = glGetError();
+        glGenFramebuffers(1, &framebuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        GLint readFormat = 0;
+        GLint readType = 0;
+        uint8_t pixel[4] {};
+        uint8_t bgra[4] {};
+        GLenum bgraError = 0;
+        if (status == GL_FRAMEBUFFER_COMPLETE) {
+            glViewport(0, 0, 64, 64);
+            glDisable(GL_SCISSOR_TEST);
+            glClearColor(1, 0, 0, 1);
+            glClear(GL_COLOR_BUFFER_BIT);
+            glGetIntegerv(0x8B9B, &readFormat);
+            glGetIntegerv(0x8B9A, &readType);
+            glReadPixels(1, 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
+            while (glGetError()) { }
+            glReadPixels(1, 1, 1, 1, 0x80E1, GL_UNSIGNED_BYTE, bgra);
+            bgraError = glGetError();
+        }
+        glGenRenderbuffers(1, &renderbuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, 64, 64);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
+        GLenum stencilStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, 0);
+        glRenderbufferStorage(GL_RENDERBUFFER, 0x88F0, 64, 64);
+        GLenum packedError = glGetError();
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
+        GLenum packedStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        report("texture %s: error=0x%x framebuffer=0x%x (complete is 0x8cd5) red-as-rgba=%02x%02x%02x%02x read-format=0x%x read-type=0x%x "
+            "red-as-bgra=%02x%02x%02x%02x bgra-read-error=0x%x with-stencil8=0x%x with-depth24-stencil8=0x%x storage-error=0x%x GL-error=0x%x",
+            format.name, textureError, status, pixel[0], pixel[1], pixel[2], pixel[3], readFormat, readType,
+            bgra[0], bgra[1], bgra[2], bgra[3], bgraError, stencilStatus, packedStatus, packedError, glGetError());
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDeleteFramebuffers(1, &framebuffer);
+        glDeleteRenderbuffers(1, &renderbuffer);
+        glDeleteTextures(1, &texture);
+    }
+    struct Storage { const char* name; GLenum format; };
+    static const Storage storages[] { { "RGBA4", GL_RGBA4 }, { "RGB5_A1", GL_RGB5_A1 }, { "RGB565", GL_RGB565 },
+        { "RGBA8", 0x8058 }, { "RGB8", 0x8051 }, { "BGRA", 0x80E1 }, { "BGRA8", 0x93A1 } };
+    for (auto& storage : storages) {
+        GLuint framebuffer = 0;
+        GLuint renderbuffer = 0;
+        glGenRenderbuffers(1, &renderbuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, storage.format, 64, 64);
+        GLenum storageError = glGetError();
+        glGenFramebuffers(1, &framebuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer);
+        report("renderbuffer %s: storage-error=0x%x framebuffer=0x%x GL-error=0x%x", storage.name, storageError,
+            glCheckFramebufferStatus(GL_FRAMEBUFFER), glGetError());
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        glDeleteFramebuffers(1, &framebuffer);
+        glDeleteRenderbuffers(1, &renderbuffer);
+    }
+    GLint value = 0;
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glGetIntegerv(0x8B9B, &value);
+    GLint type = 0;
+    glGetIntegerv(0x8B9A, &type);
+    report("default framebuffer: read-format=0x%x read-type=0x%x GL-error=0x%x", value, type, glGetError());
+}
+
 static sk_sp<GrDirectContext> startGanesh(const char* label)
 {
     missingNames.clear();
@@ -278,9 +372,44 @@ static void drawWindow(GrDirectContext* context, const char* label, EGLSurface s
         paint.setColor(SK_ColorBLUE);
         paint.setAntiAlias(true);
         canvas->drawCircle(width / 2, height / 2, 60, paint);
+        if (!frame) {
+            // An offscreen render target and a stencil clip, checked through the window's pixels.
+            canvas->save();
+            canvas->clipPath(SkPath::Circle(280, 500, 40), SkClipOp::kIntersect, false);
+            canvas->drawColor(SK_ColorGREEN);
+            canvas->restore();
+            for (auto colorType : { kBGRA_8888_SkColorType, kRGBA_8888_SkColorType, kRGB_565_SkColorType }) {
+                bool isBGRA = colorType == kBGRA_8888_SkColorType;
+                int x = isBGRA ? 20 : colorType == kRGBA_8888_SkColorType ? 100 : 180;
+                auto info = SkImageInfo::Make(64, 64, colorType, colorType == kRGB_565_SkColorType ? kOpaque_SkAlphaType : kPremul_SkAlphaType, SkColorSpace::MakeSRGB());
+                auto offscreen = SkSurfaces::RenderTarget(context, skgpu::Budgeted::kYes, info, 0, kTopLeft_GrSurfaceOrigin, nullptr);
+                if (!offscreen) {
+                    report("%s: no offscreen surface of colour type %d", label, static_cast<int>(colorType));
+                    continue;
+                }
+                auto* inner = offscreen->getCanvas();
+                inner->clear(SK_ColorRED);
+                inner->save();
+                inner->clipPath(SkPath::Circle(32, 32, 20), SkClipOp::kIntersect, false);
+                inner->drawColor(SK_ColorGREEN);
+                inner->restore();
+                auto image = offscreen->makeImageSnapshot();
+                canvas->drawImage(image, x, 400);
+                context->flushAndSubmit(window.get(), GrSyncCpu::kNo);
+                uint8_t corner[4] {};
+                uint8_t centre[4] {};
+                glReadPixels(x + 2, height - 1 - 402, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, corner);
+                glReadPixels(x + 32, height - 1 - 432, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, centre);
+                report("%s: offscreen colour type %d through the window image=%d corner=%02x%02x%02x%02x centre=%02x%02x%02x%02x (expect ff0000ff 00ff00ff) GL-error=0x%x",
+                    label, static_cast<int>(colorType), !!image, corner[0], corner[1], corner[2], corner[3], centre[0], centre[1], centre[2], centre[3], glGetError());
+            }
+        }
         context->flushAndSubmit(window.get(), GrSyncCpu::kNo);
         uint8_t pixel[4] {};
         if (!frame) {
+            uint8_t clip[4] {};
+            glReadPixels(280, height - 1 - 500, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, clip);
+            report("%s: window stencil clip rgba=%02x%02x%02x%02x (green is 00ff00ff)", label, clip[0], clip[1], clip[2], clip[3]);
             glReadPixels(30, height - 60, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
             report("%s: window pixel in the rectangle rgba=%02x%02x%02x%02x (red is ff0000ff) GL-error=0x%x",
                 label, pixel[0], pixel[1], pixel[2], pixel[3], glGetError());
@@ -331,6 +460,7 @@ static void runOffscreen(const char* label, EGLConfig config, EGLConfig windowCo
         if (describe) {
             reportDriver();
             reportLookups();
+            reportFramebuffers();
         }
         auto context = startGanesh(label);
         if (context) {
