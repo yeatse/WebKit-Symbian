@@ -91,7 +91,7 @@ static GrGLFuncPtr lookUp(void*, const char name[])
 #define M(X) if (!std::strcmp(#X, name)) return reinterpret_cast<GrGLFuncPtr>(X);
     GR_GL_CORE_FUNCTIONS_EACH(M)
 #undef M
-    auto function = eglGetProcAddress(name);
+    auto function = reinterpret_cast<GrGLFuncPtr>(eglGetProcAddress(name));
     auto& names = function ? foundNames : missingNames;
     names.append(name);
     names.push_back(' ');
@@ -116,7 +116,7 @@ static EGLConfig choose(EGLint surfaceType, const char* label)
     EGLint count = 0;
     if (!eglChooseConfig(display, attributes, configs, 64, &count) || !count) {
         report("choose %s: none (EGL error 0x%x)", label, eglGetError());
-        return nullptr;
+        return { };
     }
     for (EGLint i = 0; i < count; ++i) {
         if (attribute(configs[i], EGL_RED_SIZE) == 8 && attribute(configs[i], EGL_GREEN_SIZE) == 8
@@ -126,7 +126,7 @@ static EGLConfig choose(EGLint surfaceType, const char* label)
         }
     }
     report("choose %s: %d candidates, none RGBA8888", label, count);
-    return nullptr;
+    return { };
 }
 
 static void listConfigurations()
