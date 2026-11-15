@@ -1004,10 +1004,12 @@ void GenerateCaps(const FunctionsGL *functions,
         caps->fragmentLowpInt    = QueryTypePrecision(functions, GL_FRAGMENT_SHADER, GL_LOW_INT);
 
         // highp support is required.
+#if !defined(__SYMBIAN32__)
         if (!PrecisionMeetsSpecForHighpFloat(caps->fragmentHighpFloat))
         {
             LimitVersion(maxSupportedESVersion, gl::Version(0, 0));
         }
+#endif
     }
     else
     {

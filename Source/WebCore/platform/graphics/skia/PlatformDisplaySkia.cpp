@@ -357,11 +357,15 @@ private:
     explicit SkiaGLContext(std::unique_ptr<GLContext>&& glContext)
     {
 #if OS(SYMBIAN)
-        if (!glContext)
+        if (!glContext) {
+            WTFLogAlways("Symbian Skia: no offscreen GL context");
             return;
+        }
         GLContext::ScopedGLContextCurrent scopedCurrent(*glContext);
-        if (GLContext::current() != glContext.get())
+        if (GLContext::current() != glContext.get()) {
+            WTFLogAlways("Symbian Skia: the offscreen GL context is not current (%s)", GLContext::lastErrorString());
             return;
+        }
 #else
         if (!glContext || !glContext->makeContextCurrent())
             return;
@@ -388,6 +392,10 @@ private:
             m_sampleCount = initializeMSAASampleCount(m_skiaGrContext.get());
             m_maxResourceCacheBytes = initializeMaxResourceCacheBytes(m_skiaGrContext.get());
         }
+#if OS(SYMBIAN)
+        else
+            WTFLogAlways("Symbian Skia: Ganesh does not start on this GL context");
+#endif
     }
 
     std::unique_ptr<GLContext> m_skiaGLContext WTF_GUARDED_BY_LOCK(m_lock);

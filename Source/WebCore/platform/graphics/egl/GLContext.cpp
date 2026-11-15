@@ -236,16 +236,37 @@ std::unique_ptr<GLContext> GLContext::createPbufferContext(GLDisplay& display, E
     EGLConfig config;
 #if OS(SYMBIAN)
     // A configuration that also draws into windows lets the compositor use
-    // this context for its window.
-    if (!getEGLConfig(eglDisplay, &config, EGL_PBUFFER_BIT | EGL_WINDOW_BIT))
+    // this context for its window. Drivers may list one and still refuse it.
+    static bool windowConfigFailed;
+    if (!windowConfigFailed && getEGLConfig(eglDisplay, &config, EGL_PBUFFER_BIT | EGL_WINDOW_BIT)) {
+        const char* step = "context";
+        auto context = createEGLContext(display, config, sharingContext);
+        if (context != EGL_NO_CONTEXT) {
+            static const int attributes[] = { EGL_WIDTH, 1, EGL_HEIGHT, 1, EGL_NONE };
+            EGLSurface surface = eglCreatePbufferSurface(eglDisplay, config, attributes);
+            if (surface != EGL_NO_SURFACE)
+                return makeUnique<GLContext>(display, context, surface, config);
+            step = "pbuffer";
+        }
+        WTFLogAlways("Symbian EGL: no %s for a window and pbuffer configuration (%s)", step, lastErrorString());
+        if (context != EGL_NO_CONTEXT)
+            eglDestroyContext(eglDisplay, context);
+        windowConfigFailed = true;
+    }
 #endif
     if (!getEGLConfig(eglDisplay, &config, EGL_PBUFFER_BIT)) {
+#if OS(SYMBIAN)
+        WTFLogAlways("Symbian EGL: no pbuffer configuration (%s)", lastErrorString());
+#endif
         RELEASE_LOG_INFO(Compositing, "Cannot obtain EGL Pbuffer configuration: %s\n", lastErrorString());
         return nullptr;
     }
 
     auto context = createEGLContext(display, config, sharingContext);
     if (context == EGL_NO_CONTEXT) {
+#if OS(SYMBIAN)
+        WTFLogAlways("Symbian EGL: no pbuffer context (%s)", lastErrorString());
+#endif
         RELEASE_LOG_INFO(Compositing, "Cannot create EGL Pbuffer context: %s\n", lastErrorString());
         return nullptr;
     }
@@ -253,6 +274,9 @@ std::unique_ptr<GLContext> GLContext::createPbufferContext(GLDisplay& display, E
     static const int pbufferAttributes[] = { EGL_WIDTH, 1, EGL_HEIGHT, 1, EGL_NONE };
     EGLSurface surface = eglCreatePbufferSurface(eglDisplay, config, pbufferAttributes);
     if (surface == EGL_NO_SURFACE) {
+#if OS(SYMBIAN)
+        WTFLogAlways("Symbian EGL: no pbuffer surface (%s)", lastErrorString());
+#endif
         RELEASE_LOG_INFO(Compositing, "Cannot create EGL Pbuffer surface: %s\n", lastErrorString());
         eglDestroyContext(eglDisplay, context);
         return nullptr;
@@ -671,7 +695,7 @@ bool GLContext::resizeWindowSurface(GLNativeWindowType window)
             return false;
         m_surface = EGL_NO_SURFACE;
     }
-    m_surface = createSymbianWindowSurface(display->eglDisplay(), m_config, window);
+    m_surface = createSymbianWindowSurface(display->eglDisplay(), m_windowConfig ? m_windowConfig : m_config, window);
     return m_surface != EGL_NO_SURFACE && makeContextCurrent();
 }
 
@@ -687,6 +711,7 @@ bool GLContext::replaceSurface(EGLSurface surface)
     }
     m_surface = surface;
     if (!makeContextCurrent()) {
+        WTFLogAlways("Symbian EGL: the context does not take the new surface (%s)", lastErrorString());
         m_surface = previous;
         eglDestroySurface(display->eglDisplay(), surface);
         makeContextCurrent();
@@ -702,10 +727,24 @@ bool GLContext::attachWindowSurface(GLNativeWindowType window)
     auto display = m_display.get();
     if (!display || !window)
         return false;
+    EGLDisplay eglDisplay = display->eglDisplay();
     EGLint surfaceType = 0;
-    if (!eglGetConfigAttrib(display->eglDisplay(), m_config, EGL_SURFACE_TYPE, &surfaceType) || !(surfaceType & EGL_WINDOW_BIT))
+    eglGetConfigAttrib(eglDisplay, m_config, EGL_SURFACE_TYPE, &surfaceType);
+    if (!(surfaceType & EGL_WINDOW_BIT) && !m_windowConfig) {
+        // A window configuration of the same pixel layout may still be
+        // accepted with this context; making it current tells.
+        if (!getEGLConfig(eglDisplay, &m_windowConfig, EGL_WINDOW_BIT)) {
+            m_windowConfig = nullptr;
+            WTFLogAlways("Symbian EGL: no window configuration (%s)", lastErrorString());
+            return false;
+        }
+    }
+    EGLSurface surface = createSymbianWindowSurface(eglDisplay, m_windowConfig ? m_windowConfig : m_config, window);
+    if (surface == EGL_NO_SURFACE) {
+        WTFLogAlways("Symbian EGL: no window surface for the offscreen context (%s)", lastErrorString());
         return false;
-    return replaceSurface(createSymbianWindowSurface(display->eglDisplay(), m_config, window));
+    }
+    return replaceSurface(surface);
 }
 
 bool GLContext::detachWindowSurface()

@@ -148,7 +148,8 @@ bool SymbianCompositor::initialize()
                 m_context = nullptr;
                 skiaContext->detachWindowSurface();
             }
-        }
+        } else
+            WTFLogAlways("Symbian compositor: %s, using a context of its own", skiaContext ? "Skia's GL context does not take the window" : "no GL context for Skia");
     }
     if (!m_context) {
         m_ownedContext = GLContext::create(display, m_nativeWindow);
@@ -378,14 +379,20 @@ bool SymbianCompositor::composeSkiaFrame(SkiaCompositingLayer& scene, bool& hasR
 {
     auto& display = PlatformDisplay::sharedDisplay();
     auto* context = display.skiaGLContext();
-    if (!context)
+    if (!context) {
+        WTFLogAlways("Symbian Skia compositor: no GL context for Skia");
         return false;
+    }
     GLContext::ScopedGLContextCurrent current(*context);
-    if (GLContext::current() != context)
+    if (GLContext::current() != context) {
+        WTFLogAlways("Symbian Skia compositor: Skia's GL context is not current (%s)", GLContext::lastErrorString());
         return false;
+    }
     auto* grContext = display.skiaGrContext();
-    if (!grContext)
+    if (!grContext) {
+        WTFLogAlways("Symbian Skia compositor: Ganesh is not running");
         return false;
+    }
     auto& frame = *m_skiaFrame;
     if (frame.consumerFence)
         frame.consumerFence->serverWait();
@@ -399,8 +406,10 @@ bool SymbianCompositor::composeSkiaFrame(SkiaCompositingLayer& scene, bool& hasR
         auto info = SkImageInfo::Make(m_view.size().width(), m_view.size().height(), colorType, kPremul_SkAlphaType, SkColorSpace::MakeSRGB());
         auto properties = FontRenderOptions::singleton().createSurfaceProps();
         frame.surface = SkSurfaces::RenderTarget(grContext, skgpu::Budgeted::kYes, info, 0, kTopLeft_GrSurfaceOrigin, &properties);
-        if (!frame.surface)
+        if (!frame.surface) {
+            WTFLogAlways("Symbian Skia compositor: no GPU surface of %dx%d", m_view.size().width(), m_view.size().height());
             return false;
+        }
         frame.size = m_view.size();
         m_forceFullDamage = true;
     }
@@ -418,11 +427,11 @@ bool SymbianCompositor::composeSkiaFrame(SkiaCompositingLayer& scene, bool& hasR
     if (emptyDamage && !m_needsPresentation)
         return true;
     frame.texture = SkSurfaces::GetBackendTexture(frame.surface.get(), SkSurfaces::BackendHandleAccess::kFlushRead);
-    if (!frame.texture.isValid())
-        return false;
     GrGLTextureInfo texture;
-    if (!GrBackendTextures::GetGLTextureInfo(frame.texture, &texture))
+    if (!frame.texture.isValid() || !GrBackendTextures::GetGLTextureInfo(frame.texture, &texture)) {
+        WTFLogAlways("Symbian Skia compositor: the frame has no GL texture");
         return false;
+    }
     frame.textureID = texture.fID;
     frame.producerFence = SkiaUtilities::flushAndSubmitSurfaceWithFence(grContext, frame.surface.get());
     m_forceFullDamage = false;

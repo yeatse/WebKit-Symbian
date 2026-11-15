@@ -199,6 +199,9 @@ private:
     EGLContext m_context { nullptr };
     EGLSurface m_surface { nullptr };
     EGLConfig m_config { nullptr };
+#if OS(SYMBIAN)
+    EGLConfig m_windowConfig { nullptr };
+#endif
 #if USE(WPE_RENDERER)
     struct wpe_renderer_backend_egl_offscreen_target* m_wpeTarget { nullptr };
 #endif
