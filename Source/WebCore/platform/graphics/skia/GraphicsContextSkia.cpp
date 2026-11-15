@@ -411,7 +411,8 @@ bool GraphicsContextSkia::drawPathAsSingleElement(const Path& path, SkPaint& pai
             return false;
 
         SkRect oval = { arc.center.x() - arc.radius, arc.center.y() - arc.radius, arc.center.x() + arc.radius, arc.center.y() + arc.radius };
-        if (isClosedArc)
+        // Ganesh draws only partial arcs analytically, and fills a full one like the oval it covers.
+        if (isClosedArc || (isClosedOval && paint.getStyle() == SkPaint::kFill_Style))
             m_canvas.drawOval(oval, paint);
         else
             m_canvas.drawArc(oval, startDegrees, sweepDegrees, false, paint);
