@@ -75,6 +75,9 @@ bool currentThreadStack(void*& origin, void*& bound);
 // RThread::GetCpuTime of the calling thread.
 int64_t currentThreadCPUTimeMicroseconds();
 
+// RThread::Id of the calling thread, as cpu-top prints it after '#'.
+unsigned currentThreadIdentifier();
+
 // The threads of the whole system that used the most CPU time since the
 // previous call, as "name=ms ..."; returns the length written.
 size_t threadCPUTop(char* out, size_t capacity);

@@ -18,6 +18,7 @@ list(APPEND WTF_SOURCES
     symbian/MemoryPressureMonitorSymbianNative.cpp
     symbian/OSAllocatorSymbian.cpp
     symbian/SymbianSystem.cpp
+    symbian/ThreadCPUTopSymbian.cpp
 
     text/unix/TextBreakIteratorInternalICUUnix.cpp
 

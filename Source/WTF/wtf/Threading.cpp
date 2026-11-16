@@ -268,6 +268,9 @@ void Thread::entryPoint(NewThreadContext* newThreadContext)
 #endif
 
         Thread::initializeCurrentThreadInternal(context->name);
+#if OS(SYMBIAN)
+        WTFLogAlways("thread: #%u %s", SymbianSystem::currentThreadIdentifier(), context->name.characters());
+#endif
         function = WTF::move(context->entryPoint);
 
         Ref thread = WTF::move(context->thread);
