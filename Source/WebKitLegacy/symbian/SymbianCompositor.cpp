@@ -838,6 +838,9 @@ bool SymbianCompositor::render()
             WTFLogAlways("%s", summary);
             WTFLogAlways("frame-cpu: wall=%.0fms cpu=%.0fms gpu-finish-max=%.0fms", m_frameWallMs, m_frameCpuMs, m_gpuFinishMs);
             m_frameWallMs = m_frameCpuMs = m_gpuFinishMs = 0;
+            char threads[512];
+            if (WTF::SymbianSystem::threadCPUTop(threads, sizeof(threads)))
+                WTFLogAlways("cpu-top: %s", threads);
             WTFLogAlways("egl-tiles: %zu KB of %zu KB", TextureMapperTiledBackingStore::coverageBytes() / 1024,
                 TextureMapperTiledBackingStore::coverageBudgetBytes / 1024);
             auto& backing = TextureMapperTiledBackingStore::coverageStats();
