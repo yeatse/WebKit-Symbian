@@ -127,11 +127,11 @@ int64_t currentThreadCPUTimeMicroseconds()
 size_t threadCPUTop(char* out, size_t capacity)
 {
     struct Sample {
-        TUint64 id;
-        TInt64 time;
+        unsigned long long id;
+        long long time;
     };
     struct Top {
-        TInt64 delta;
+        long long delta;
         char name[56];
     };
     static const int maximumThreads = 768;
@@ -156,14 +156,14 @@ size_t threadCPUTop(char* out, size_t capacity)
         if (thread.Open(find) != KErrNone)
             continue;
         TTimeIntervalMicroSeconds time(0);
-        TUint64 id = thread.Id().Id();
+        unsigned long long id = thread.Id().Id();
         TInt error = thread.GetCpuTime(time);
         thread.Close();
         if (error != KErrNone)
             continue;
         current[count].id = id;
         current[count].time = time.Int64();
-        TInt64 delta = -1;
+        long long delta = -1;
         for (int i = 0; i < previousCount; ++i) {
             if (previous[i].id == id) {
                 delta = time.Int64() - previous[i].time;
