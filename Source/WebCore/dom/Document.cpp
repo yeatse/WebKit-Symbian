@@ -2917,7 +2917,22 @@ void Document::resolveStyle(ResolveStyleType type)
 
         {
             Style::TreeResolver resolver(*this, WTF::move(m_pendingRenderTreeUpdate));
+#if OS(SYMBIAN)
+            MonotonicTime symbianResolveStart = MonotonicTime::now();
+#endif
             auto styleUpdate = resolver.resolve();
+#if OS(SYMBIAN)
+            Seconds symbianResolveTime = MonotonicTime::now() - symbianResolveStart;
+            unsigned symbianUpdateSize = styleUpdate ? styleUpdate->size() : 0;
+            unsigned symbianRootCount = styleUpdate ? styleUpdate->roots().size() : 0;
+            CString symbianRoot;
+            if (styleUpdate && !styleUpdate->roots().isEmpty()) {
+                if (RefPtr root = dynamicDowncast<Element>(styleUpdate->roots().first().get()))
+                    symbianRoot = makeString(root->localName(), '#', root->getIdAttribute(), '.', root->getAttribute(HTMLNames::classAttr)).utf8();
+                else
+                    symbianRoot = "document";
+            }
+#endif
 
             while (resolver.needsInterleavedLayout()) {
                 if (styleUpdate) {
@@ -2943,10 +2958,20 @@ void Document::resolveStyle(ResolveStyleType type)
             if (RefPtr fontLoader = m_fontLoader.get())
                 fontLoader->loadPendingFonts();
 
+#if OS(SYMBIAN)
+            MonotonicTime symbianTreeStart = MonotonicTime::now();
+#endif
             if (styleUpdate) {
                 updateRenderTree(WTF::move(styleUpdate));
                 frameView->styleAndRenderTreeDidChange();
             }
+#if OS(SYMBIAN)
+            Seconds symbianTreeTime = MonotonicTime::now() - symbianTreeStart;
+            if (symbianResolveTime + symbianTreeTime > 80_ms) {
+                WTFLogAlways("style-recalc: resolve=%.0fms tree=%.0fms rebuild=%d elements=%u roots=%u first='%.80s'", symbianResolveTime.milliseconds(),
+                    symbianTreeTime.milliseconds(), type == ResolveStyleType::Rebuild, symbianUpdateSize, symbianRootCount, symbianRoot.data() ? symbianRoot.data() : "");
+            }
+#endif
         }
 
         updatedCompositingLayers = frameView->layoutContext().updateCompositingLayersAfterStyleChange();
