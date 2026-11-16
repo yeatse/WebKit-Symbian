@@ -37,6 +37,7 @@
 #include "TextureMapperShaderProgram.h"
 #include <cstdio>
 #include <wtf/HashMap.h>
+#include <wtf/MonotonicTime.h>
 #include <wtf/NeverDestroyed.h>
 #include <wtf/RefCounted.h>
 #include <wtf/RefPtr.h>
@@ -489,6 +490,12 @@ void BitmapTexture::updateContents(const void* srcData, const IntRect& targetRec
 #if OS(SYMBIAN) && USE(SKIA)
 static bool s_skiaRasterizationEnabled = true;
 
+Seconds& BitmapTexture::skiaFlushTime()
+{
+    static Seconds time;
+    return time;
+}
+
 void BitmapTexture::setSkiaRasterizationEnabled(bool enabled)
 {
     s_skiaRasterizationEnabled = enabled;
@@ -577,10 +584,12 @@ bool BitmapTexture::paintWithSkia(const IntRect& targetRect, NOESCAPE const Func
         if (!skiaContext->makeContextCurrent())
             return;
         // In the same context the frame's composition submits the tile's commands with its own.
+        MonotonicTime flushStart = MonotonicTime::now();
         if (sameContext)
             grContext->flush(surface.get());
         else
             fence = SkiaUtilities::flushAndSubmitSurfaceWithFence(grContext, surface.get());
+        skiaFlushTime() += MonotonicTime::now() - flushStart;
         painted = true;
     }, [&] {
         if (!painted)

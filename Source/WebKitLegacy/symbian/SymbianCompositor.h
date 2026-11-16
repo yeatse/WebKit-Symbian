@@ -104,6 +104,11 @@ private:
     bool m_inputPending { false };
     bool m_flushTimerSlowed { false };
     unsigned m_slowedFrames { 0 };
+    // Presented frames' wall and CPU time since the last stats line.
+    double m_frameWallMs { 0 };
+    double m_frameCpuMs { 0 };
+    double m_gpuFinishMs { 0 };
+    unsigned m_gpuSampleCountdown { 0 };
 
     // The render stage's main-thread time by kind, summed since the last log.
     void logRenderSplit();

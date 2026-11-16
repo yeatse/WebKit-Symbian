@@ -80,6 +80,13 @@ public:
         double visibleMs { 0 };
         double prefetchMs { 0 };
         double worstMs { 0 };
+        // The worst layer's time copying renamed tiles, recording, painting
+        // tiles (Skia's flush within it), and the thread's CPU time.
+        double worstCopyMs { 0 };
+        double worstRecordMs { 0 };
+        double worstRasterMs { 0 };
+        double worstFlushMs { 0 };
+        double worstCpuMs { 0 };
         String worstLayer;
     };
     WEBCORE_EXPORT static CoverageStats& coverageStats();

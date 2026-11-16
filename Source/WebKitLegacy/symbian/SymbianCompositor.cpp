@@ -42,6 +42,7 @@ WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 #include <wtf/SetForScope.h>
 #include <wtf/TZoneMallocInlines.h>
 #include <wtf/symbian/MainThreadProfile.h>
+#include <wtf/symbian/SymbianSystem.h>
 
 namespace WebKitSymbian {
 using namespace WebCore;
@@ -663,6 +664,7 @@ bool SymbianCompositor::render()
         ++m_slowedFrames;
     m_inputPending = false;
     const bool timing = frameStatsEnabled();
+    int64_t cpuStart = timing ? WTF::SymbianSystem::currentThreadCPUTimeMicroseconds() : 0;
     // Work in the frame outside every finer scope is the compositor's own.
     WTF::MainThreadProfile::Scope profileScope(WTF::MainThreadProfile::Category::Frame);
     auto beforeRendering = WTF::MainThreadProfile::totals();
@@ -815,6 +817,17 @@ bool SymbianCompositor::render()
     m_idleFrames = 0;
     if (timing) {
         MonotonicTime swapped = MonotonicTime::now();
+        m_frameCpuMs += (WTF::SymbianSystem::currentThreadCPUTimeMicroseconds() - cpuStart) / 1000.0;
+        m_frameWallMs += (swapped - m_frameStart).milliseconds();
+        // Now and then, how long the GPU takes to finish a frame once it is
+        // submitted: the next frame's first GL work waits for as long.
+        constexpr unsigned framesBetweenGPUSamples = 16;
+        if (!(++m_gpuSampleCountdown %= framesBetweenGPUSamples)) {
+            glFinish();
+            double gpu = (MonotonicTime::now() - swapped).milliseconds();
+            m_gpuFinishMs = std::max(m_gpuFinishMs, gpu);
+            swapped = MonotonicTime::now();
+        }
         double since = m_lastFrame ? (swapped - m_lastFrame).milliseconds() : 0;
         m_lastFrame = swapped;
         const double durations[FrameStats::maximumStages] { (rendered - start).milliseconds(),
@@ -823,16 +836,19 @@ bool SymbianCompositor::render()
             char summary[256];
             m_stats.format(summary, sizeof(summary));
             WTFLogAlways("%s", summary);
+            WTFLogAlways("frame-cpu: wall=%.0fms cpu=%.0fms gpu-finish-max=%.0fms", m_frameWallMs, m_frameCpuMs, m_gpuFinishMs);
+            m_frameWallMs = m_frameCpuMs = m_gpuFinishMs = 0;
             WTFLogAlways("egl-tiles: %zu KB of %zu KB", TextureMapperTiledBackingStore::coverageBytes() / 1024,
                 TextureMapperTiledBackingStore::coverageBudgetBytes / 1024);
             auto& backing = TextureMapperTiledBackingStore::coverageStats();
             double backingFrames = std::max(1u, backing.frames);
             // New tiles came into view; damaged ones were repainted in part.
-            WTFLogAlways("egl-backing: per frame new=%.1f/%.0fkpx damaged=%.1f/%.0fkpx visible-ms=%.1f prefetch=%.1f/%.0fkpx/%.1fms skipped=%u renamed=%u worst=%.0fms '%s'",
+            WTFLogAlways("egl-backing: per frame new=%.1f/%.0fkpx damaged=%.1f/%.0fkpx visible-ms=%.1f prefetch=%.1f/%.0fkpx/%.1fms skipped=%u renamed=%u worst=%.0fms(copy=%.0f record=%.0f raster=%.0f flush=%.0f cpu=%.0f) '%s'",
                 backing.newTiles / backingFrames, backing.newPixels / backingFrames / 1000,
                 backing.damagedTiles / backingFrames, backing.damagedPixels / backingFrames / 1000, backing.visibleMs / backingFrames,
                 backing.prefetchTiles / backingFrames, backing.prefetchPixels / backingFrames / 1000, backing.prefetchMs / backingFrames,
-                backing.prefetchSkipped, backing.renamedTiles, backing.worstMs, backing.worstLayer.utf8().data());
+                backing.prefetchSkipped, backing.renamedTiles, backing.worstMs, backing.worstCopyMs, backing.worstRecordMs,
+                backing.worstRasterMs, backing.worstFlushMs, backing.worstCpuMs, backing.worstLayer.utf8().data());
             backing = { };
             unsigned compositionFrames = m_fullDamageFrames + m_partialDamageFrames + m_emptyDamageFrames;
             if (compositionFrames)

@@ -122,6 +122,8 @@ public:
     bool canRasterizeWithSkia(const IntRect&) const;
     // Off, layers are painted on the CPU and uploaded; canvases keep the GPU.
     WEBCORE_EXPORT static void setSkiaRasterizationEnabled(bool);
+    // Wall time in Skia's flush of painted tiles, summed for the frame stats.
+    static Seconds& skiaFlushTime();
 #endif
     void updateContents(const void* srcData, const IntRect& targetRect, const IntPoint& sourceOffset, int bytesPerLine, PixelFormat);
 

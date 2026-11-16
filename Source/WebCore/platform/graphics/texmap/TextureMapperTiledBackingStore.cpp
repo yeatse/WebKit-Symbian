@@ -44,6 +44,9 @@ WTF_IGNORE_WARNINGS_IN_THIRD_PARTY_CODE_END
 #endif
 #include <wtf/MonotonicTime.h>
 #include <wtf/NeverDestroyed.h>
+#if OS(SYMBIAN)
+#include <wtf/symbian/SymbianSystem.h>
+#endif
 #include <algorithm>
 
 namespace WebCore {
@@ -74,6 +77,12 @@ static constexpr unsigned coveragePrefetchMaxSkippedFrames = 2;
 // from the pool until those frames are done.
 static constexpr unsigned retiredTextureFrames = 3;
 static unsigned s_coverageFrame;
+struct PaintSplit {
+    Seconds copy;
+    Seconds record;
+    Seconds raster;
+};
+static PaintSplit s_paintSplit;
 static Vector<std::pair<unsigned, Ref<BitmapTexture>>>& retiredTextures()
 {
     static NeverDestroyed<Vector<std::pair<unsigned, Ref<BitmapTexture>>>> textures;
@@ -399,6 +408,7 @@ bool TextureMapperTiledBackingStore::paintCoverageTiles(const Vector<CoveragePai
         return tile.texture()->canRasterizeWithSkia(target);
     });
     if (canRasterize) {
+        MonotonicTime copyStart = MonotonicTime::now();
         // Drawing into a texture that a queued frame samples waits for that
         // frame on a tile-based GPU: an on-screen tile gets a new texture,
         // with the old contents copied for a partial repaint.
@@ -423,6 +433,8 @@ bool TextureMapperTiledBackingStore::paintCoverageTiles(const Vector<CoveragePai
             retiredTextures().append({ s_coverageFrame, old.releaseNonNull() });
             ++coverageStats().renamedTiles;
         }
+        MonotonicTime recordStart = MonotonicTime::now();
+        s_paintSplit.copy += recordStart - copyStart;
         SkPictureRecorder recorder;
         auto* skiaContext = PlatformDisplay::sharedDisplay().skiaGLContext();
         sk_sp<SkPicture> picture;
@@ -439,6 +451,8 @@ bool TextureMapperTiledBackingStore::paintCoverageTiles(const Vector<CoveragePai
             }
             picture = recorder.finishRecordingAsPicture();
         }
+        MonotonicTime rasterStart = MonotonicTime::now();
+        s_paintSplit.record += rasterStart - recordStart;
         bool painted = true;
         for (auto& entry : paints) {
             auto& tile = m_coverageTiles[entry.index].tile;
@@ -450,6 +464,7 @@ bool TextureMapperTiledBackingStore::paintCoverageTiles(const Vector<CoveragePai
                 break;
             }
         }
+        s_paintSplit.raster += MonotonicTime::now() - rasterStart;
         if (painted) {
             for (auto& entry : paints) {
                 m_coverageTiles[entry.index].valid = true;
@@ -605,6 +620,11 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper& t
     }
     if (!paints.isEmpty()) {
         MonotonicTime start = MonotonicTime::now();
+#if OS(SYMBIAN) && USE(SKIA)
+        s_paintSplit = { };
+        Seconds flushBefore = BitmapTexture::skiaFlushTime();
+        int64_t cpuBefore = WTF::SymbianSystem::currentThreadCPUTimeMicroseconds();
+#endif
         if (!paintCoverageTiles(paints, sourceLayer))
             return false;
         Seconds took = MonotonicTime::now() - start;
@@ -613,6 +633,13 @@ bool TextureMapperTiledBackingStore::updateContentsWithCoverage(TextureMapper& t
         if (took.milliseconds() > stats.worstMs) {
             stats.worstMs = took.milliseconds();
             stats.worstLayer = sourceLayer->name();
+#if OS(SYMBIAN) && USE(SKIA)
+            stats.worstCopyMs = s_paintSplit.copy.milliseconds();
+            stats.worstRecordMs = s_paintSplit.record.milliseconds();
+            stats.worstRasterMs = s_paintSplit.raster.milliseconds();
+            stats.worstFlushMs = (BitmapTexture::skiaFlushTime() - flushBefore).milliseconds();
+            stats.worstCpuMs = (WTF::SymbianSystem::currentThreadCPUTimeMicroseconds() - cpuBefore) / 1000.0;
+#endif
         }
     }
     static bool loggedOverBudget;
