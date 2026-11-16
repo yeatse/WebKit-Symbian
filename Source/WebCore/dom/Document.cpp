@@ -689,6 +689,13 @@ Document::Document(LocalFrame* frame, const Settings& settings, const URL& url, 
     , m_domTreeVersion(++s_globalTreeVersion)
     , m_styleScope(makeUniqueRef<Style::DocumentScope>(*this))
     , m_styleRecalcTimer([this] { Ref { *this }->updateStyleIfNeeded(); })
+#if OS(SYMBIAN)
+    , m_fontInvalidationTimer([this] {
+        Ref protectedThis { *this };
+        m_fullStyleRebuildIsForFonts = true;
+        invalidateMatchedPropertiesCacheAndForceStyleRecalc();
+    })
+#endif
 #if !LOG_DISABLED
     , m_documentCreationTime(MonotonicTime::now())
 #endif
@@ -1041,6 +1048,9 @@ void Document::commonTeardown()
     m_timeline = nullptr;
     m_associatedFormControls.clear();
     m_didAssociateFormControlsTimer.stop();
+#if OS(SYMBIAN)
+    m_fontInvalidationTimer.stop();
+#endif
 
 #if ENABLE(MEDIA_STREAM)
     auto captureSources = std::exchange(m_captureSources, { });
@@ -2968,9 +2978,10 @@ void Document::resolveStyle(ResolveStyleType type)
 #if OS(SYMBIAN)
             Seconds symbianTreeTime = MonotonicTime::now() - symbianTreeStart;
             if (symbianResolveTime + symbianTreeTime > 80_ms) {
-                WTFLogAlways("style-recalc: resolve=%.0fms tree=%.0fms rebuild=%d elements=%u roots=%u first='%.80s'", symbianResolveTime.milliseconds(),
-                    symbianTreeTime.milliseconds(), type == ResolveStyleType::Rebuild, symbianUpdateSize, symbianRootCount, symbianRoot.data() ? symbianRoot.data() : "");
+                WTFLogAlways("style-recalc: resolve=%.0fms tree=%.0fms rebuild=%d fonts=%d elements=%u roots=%u first='%.80s'", symbianResolveTime.milliseconds(),
+                    symbianTreeTime.milliseconds(), type == ResolveStyleType::Rebuild, m_fullStyleRebuildIsForFonts, symbianUpdateSize, symbianRootCount, symbianRoot.data() ? symbianRoot.data() : "");
             }
+            m_fullStyleRebuildIsForFonts = false;
 #endif
         }
 
@@ -3504,7 +3515,13 @@ void Document::pageSizeAndMarginsInPixels(int pageIndex, IntSize& pageSize, int&
 void Document::fontsNeedUpdate(FontSelector&)
 {
     ASSERT(!deletionHasBegun());
+#if OS(SYMBIAN)
+    // Each web font that arrives restyles and lays out the whole document, so take the ones that land together in one pass.
+    if (!m_fontInvalidationTimer.isActive())
+        m_fontInvalidationTimer.startOneShot(1_s);
+#else
     invalidateMatchedPropertiesCacheAndForceStyleRecalc();
+#endif
 }
 
 void Document::invalidateMatchedPropertiesCacheAndForceStyleRecalc()

@@ -2384,6 +2384,10 @@ private:
     const std::unique_ptr<DocumentMarkerController> m_markers;
     
     Timer m_styleRecalcTimer;
+#if OS(SYMBIAN)
+    Timer m_fontInvalidationTimer;
+    bool m_fullStyleRebuildIsForFonts { false };
+#endif
 
     std::unique_ptr<Style::Update> m_pendingRenderTreeUpdate;
 

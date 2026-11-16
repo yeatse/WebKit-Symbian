@@ -41,6 +41,7 @@ const unsigned KSamplesPerWrite = 60 * 200;
 // Where the ROM is mapped on Symbian^3 and Belle.
 const uint32_t KRomBase = 0x80000000;
 const uint32_t KRomEnd = 0x90000000;
+const uint32_t KRamCodeBase = 0x70000000;
 
 // Who made each system call a sample waits in or returns from.
 const unsigned KCallTableSize = 4096;
@@ -178,8 +179,10 @@ void countWaitChain(int call, uintptr_t lr, uintptr_t sp)
     unsigned count = (stackOrigin - sp) / sizeof(uint32_t);
     if (count > 256)
         count = 256;
+    // Above the link register only callers outside the ROM are kept: they name who took the lock.
+    depth = 1;
     for (unsigned i = 0; i < count && depth < KWaitDepths; ++i) {
-        if (words[i] >= KRomBase && words[i] < KRomEnd)
+        if ((words[i] >= KRamCodeBase && words[i] < KRomBase) || isInImage(words[i]))
             countWait(kind, depth++, words[i]);
     }
 }
