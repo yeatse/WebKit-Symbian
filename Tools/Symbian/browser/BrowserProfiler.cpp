@@ -138,6 +138,52 @@ uintptr_t callerInImage(uintptr_t lr, uintptr_t sp)
     return 0;
 }
 
+// Which system code a blocking call was made from: the link register, then
+// the nearest words of the stack that point into the ROM.
+const unsigned KWaitTableSize = 2048;
+const unsigned KWaitDepths = 4;
+Entry* waitTable;
+
+void countWait(unsigned kind, unsigned depth, uint32_t address)
+{
+    uint32_t key = address >> KBucketShift << 4 | depth << 2 | kind;
+    uint32_t index = (key * 2654435761u) >> 21;
+    for (unsigned probes = 0; probes < 64; ++probes, index = (index + 1) & (KWaitTableSize - 1)) {
+        Entry& entry = waitTable[index];
+        if (entry.count && entry.key != key)
+            continue;
+        entry.key = key;
+        ++entry.count;
+        return;
+    }
+}
+
+void countWaitChain(int call, uintptr_t lr, uintptr_t sp)
+{
+    unsigned kind;
+    if (call == 0x13 || call == 0x14)
+        kind = 0;
+    else if (call == 0x21 || call == 0x22)
+        kind = 1;
+    else if (call == 0x4f)
+        kind = 2;
+    else
+        return;
+    unsigned depth = 0;
+    if (lr >= KRomBase && lr < KRomEnd)
+        countWait(kind, depth++, lr);
+    if (sp & 3 || sp < stackBound || sp >= stackOrigin)
+        return;
+    auto* words = reinterpret_cast<const uint32_t*>(sp);
+    unsigned count = (stackOrigin - sp) / sizeof(uint32_t);
+    if (count > 256)
+        count = 256;
+    for (unsigned i = 0; i < count && depth < KWaitDepths; ++i) {
+        if (words[i] >= KRomBase && words[i] < KRomEnd)
+            countWait(kind, depth++, words[i]);
+    }
+}
+
 void countCall(uint32_t key)
 {
     uint32_t index = (key * 2654435761u) >> 20;
@@ -197,6 +243,8 @@ void sample(RThread& thread)
         bool hasFlags = context.Length() >= static_cast<TInt>(17 * sizeof(uint32_t));
         int call = systemCall(pc, hasFlags ? registers[16] : 0);
         if (call >= 0)
+            countWaitChain(call, lr, registers[13]);
+        if (call >= 0)
             countCall((caller ? (caller - imageBase) >> KBucketShift : KNoCaller) << KCallBits | call);
     }
 }
@@ -251,6 +299,46 @@ void writeSystemCode()
             code[0], code[1], code[2], code[3], code[4], code[5], code[6], code[7], code[8], code[9]);
         ++lines;
     }
+}
+
+// "kind:depth:address:count" for mutex (0), semaphore (1) and server request
+// (2) samples, then where the libraries that could hold those addresses are.
+void writeWaits()
+{
+    qsort(waitTable, KWaitTableSize, sizeof(Entry), compareEntries);
+    char line[480];
+    int used = 0;
+    for (unsigned i = 0; i < 120 && waitTable[i].count; ++i) {
+        uint32_t key = waitTable[i].key;
+        used += snprintf(line + used, sizeof(line) - used, " %u:%u:%x:%u", key & 3, key >> 2 & 3, key >> 4 << KBucketShift, waitTable[i].count);
+        if (used > 440) {
+            BrowserLog("profile-wait:%s", line);
+            used = 0;
+        }
+    }
+    if (used)
+        BrowserLog("profile-wait:%s", line);
+    _LIT(KNames, "euser libc libm libpthread libdl backend libstdcpp libGLESv2 libEGL efsrv estor ws32 fbscli gdi bitgdi hal esock insock charconv sgresource surfaceupdateclient drtaeabi dfpaeabi");
+    TLex names(KNames);
+    used = 0;
+    while (!names.Eos()) {
+        TPtrC name = names.NextToken();
+        if (!name.Length())
+            break;
+        RLibrary library;
+        if (library.Load(name) != KErrNone)
+            continue;
+        TBuf8<32> narrow;
+        narrow.Copy(name);
+        used += snprintf(line + used, sizeof(line) - used, " %.*s=%x", narrow.Length(), narrow.Ptr(), reinterpret_cast<unsigned>(library.Lookup(1)));
+        library.Close();
+        if (used > 440) {
+            BrowserLog("profile-dll:%s", line);
+            used = 0;
+        }
+    }
+    if (used)
+        BrowserLog("profile-dll:%s", line);
 }
 
 // "x:call:offset:count": the samples in executive call `call` (fast ones from
@@ -314,6 +402,7 @@ void write(bool complete)
     if (complete) {
         writeSystemCode();
         writeSystemCalls();
+        writeWaits();
     }
     BrowserLog("profile: end, %u counts written", writer.written);
 }
@@ -371,7 +460,9 @@ void BrowserProfilerStart()
     table = static_cast<Entry*>(calloc(KTableSize, sizeof(Entry)));
     sorted = static_cast<Entry*>(calloc(KTableSize, sizeof(Entry)));
     callTable = static_cast<Entry*>(calloc(KCallTableSize, sizeof(Entry)));
-    if (!table || !sorted || !callTable) {
+    waitTable = static_cast<Entry*>(calloc(KWaitTableSize, sizeof(Entry)));
+    if (!table || !sorted || !callTable || !waitTable) {
+        free(waitTable);
         free(table);
         free(sorted);
         free(callTable);
@@ -410,6 +501,7 @@ void BrowserProfilerDump()
     write(true);
     free(table);
     free(sorted);
+    free(waitTable);
     free(callTable);
     table = nullptr;
 }
